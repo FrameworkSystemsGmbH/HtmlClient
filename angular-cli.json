@@ -1,0 +1,47 @@
+{
+  "project": {
+    "version": "v1.0.0",
+    "name": "htmlclient"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist/web",
+      "assets": [
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "tsconfig": "tsconfig.json",
+      "prefix": "hc",
+      "mobile": false,
+      "styles": [
+        "styles.css"
+      ],
+      "scripts": [
+        "scripts.js"
+      ],
+      "environmentSource": "env/env.dev.ts",
+      "environments": {
+        "dev": "env/env.dev.ts",
+        "prod": "env/env.prod.ts"
+      }
+    }
+  ],
+  "defaults": {
+    "styleExt": "css",
+    "prefixInterfaces": false,
+    "inline": {
+      "style": false,
+      "template": false
+    },
+    "spec": {
+      "class": false,
+      "component": false,
+      "directive": false,
+      "module": false,
+      "pipe": false,
+      "service": false
+    }
+  }
+}
