@@ -2,7 +2,10 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "es6",
+    "lib": [
+      "es2016",
+      "dom"
+    ],
     "moduleResolution": "node",
     "outDir": "dist/web/",
     "removeComments": true,
