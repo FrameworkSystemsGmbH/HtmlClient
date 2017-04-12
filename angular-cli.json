@@ -16,9 +16,15 @@
       "prefix": "hc",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "../node_modules/font-awesome/css/font-awesome.css",
+        "../node_modules/jqwidgets-framework/jqwidgets/styles/jqx.base.css",
+        "styles.scss"
       ],
       "scripts": [
+        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/jqwidgets-framework/jqwidgets/jqxcore.js",
+        "../node_modules/jqwidgets-framework/jqwidgets/jqxtooltip.js",
+        "../node_modules/bootstrap-sass/assets/javascripts/bootstrap.js",
         "scripts.js"
       ],
       "environmentSource": "env/env.dev.ts",
@@ -28,8 +34,11 @@
       }
     }
   ],
+  "addons": [
+    "../node_modules/font-awesome/fonts/*.+(otf|eot|svg|ttf|woff|woff2)"
+  ],
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "prefixInterfaces": false,
     "inline": {
       "style": false,

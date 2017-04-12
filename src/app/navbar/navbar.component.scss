@@ -1,0 +1,54 @@
+@import '../../scss/variables.scss';
+
+.hc-navbar {
+  color: $navbar-color;
+  background-color: $navbar-background;
+  border-bottom: 1px solid $navbar-border-color;
+}
+
+.hc-navbar > .hc-navbar-container {
+  display: flex;
+}
+
+.hc-navbar > .hc-navbar-container > .hc-navbar-center {
+  flex: 1;
+}
+
+.hc-navbar > .hc-navbar-container > .hc-navbar-left > .hc-navbar-title {
+  padding: calc((#{$navbar-height} - #{$navbar-brand-fontsize}) / 2) 15px;
+  font-size: $navbar-brand-fontsize;
+  font-weight: bold;
+  display: block;
+  line-height: $navbar-brand-fontsize;
+}
+
+.hc-navbar > .hc-navbar-container > .hc-navbar-left,
+.hc-navbar > .hc-navbar-container > .hc-navbar-right {
+  flex: 0 1 auto;
+}
+
+.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs,
+.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools, {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools {
+  margin-left: calc(#{$navbar-height} / 4);
+}
+
+.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs > li,
+.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools > li {
+  padding: calc((#{$navbar-height} - #{$navbar-brand-fontsize}) / 2);
+  line-height: $navbar-brand-fontsize;
+  cursor: pointer;
+}
+
+.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs > li.active,
+.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs > li:hover,
+.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools > li.active,
+.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools > li:hover {
+  background-color: $navbar-highlight;
+}

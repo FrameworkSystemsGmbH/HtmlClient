@@ -1,0 +1,9 @@
+// Global
+@import './scss/variables.scss';
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap.scss";
+
+// Custom
+@import './scss/bootstrap.scss';
+@import './scss/layout.scss';

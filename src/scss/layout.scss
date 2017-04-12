@@ -1,0 +1,12 @@
+html, body {
+    height: 100%;
+    min-width: 480px;
+}
+
+#wrapper {
+    height: 100%;
+}
+
+#content {
+  padding: calc(#{$navbar-height} + 2px + 15px) 15px 15px 15px;
+}

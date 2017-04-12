@@ -1,0 +1,43 @@
+@import '../../scss/variables.scss';
+
+.centered {
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .centered {
+    width: 600px;
+  }
+}
+
+.table {
+  white-space: nowrap;
+}
+
+.table > thead > tr > th.fit,
+.table > thead > tr > td.fit,
+.table > tbody > tr > th.fit,
+.table > tbody > tr > td.fit,
+.table > tfoot > tr > th.fit,
+.table > tfoot > tr > td.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.table > thead > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > th,
+.table > tbody > tr > td,
+.table > tfoot > tr > th,
+.table > tfoot > tr > td {
+    vertical-align: middle;
+    border: none;
+}
+
+.table-hover > tbody > tr > td {
+  cursor: pointer;
+}
+
+ul.errorlist {
+  color: $error;
+}
