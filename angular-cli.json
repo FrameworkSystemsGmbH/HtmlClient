@@ -21,6 +21,7 @@
         "styles.scss"
       ],
       "scripts": [
+        "../node_modules/hammerjs/hammer.js",
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/jqwidgets-framework/jqwidgets/jqxcore.js",
         "../node_modules/jqwidgets-framework/jqwidgets/jqxtooltip.js",

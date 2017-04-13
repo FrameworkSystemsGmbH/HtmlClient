@@ -15,12 +15,15 @@ import { AppRouting } from './app.routing';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrokerComponent } from './broker/broker.component';
 
+import { MouseWheelDirective } from './directives/mousewheel.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     BrokerComponent,
-    jqxTooltipComponent
+    jqxTooltipComponent,
+    MouseWheelDirective
   ],
   imports: [
     AppRouting,
