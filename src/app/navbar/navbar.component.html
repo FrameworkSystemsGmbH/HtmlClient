@@ -1,28 +1,40 @@
-<nav class="hc-navbar">
-  <div class="hc-navbar-container">
-    <div class="hc-navbar-left">
-      <span class="hc-navbar-title">HTML Client</span>
+<nav class="hc-navbar" hcMediaQuery [mediaQuery]="'(min-width: 768px)'" (onMediaQueryChanged)="mediaQueryChanged($event)">
+  <div class="hc-navbar-left">
+    <span class="hc-navbar-title">HTML Client</span>
+  </div>
+  <div class="hc-navbar-center">
+    <div class="hc-navbar-tabs-left" [style.visibility]="leftScrollerVisible ? 'visible' : 'hidden'">
+      <span class="fa fa-fw fa-angle-left fa-lg" (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft($event)" (mouseleave)="stopScrollingLeft($event)"></span>
     </div>
-    <div class="hc-navbar-center">
-      <div class="hc-navbar-tabs-left" [style.visibility]="leftScrollerVisible ? 'visible' : 'hidden'">
-        <span class="fa fa-fw fa-angle-left fa-lg" (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft($event)" (mouseleave)="stopScrollingLeft($event)"></span>
-      </div>
-      <div #center class="hc-navbar-tabs-center">
-        <ul #tabs class="hc-navbar-tabs-list" [style.margin-left.px]="tabScrollPosition" hcMouseWheel (mouseWheelUp)="onMouseWheel($event)" (mouseWheelDown)="onMouseWheel($event)" (panstart)="panTabsStart($event)"
-          (pan)="panTabs($event)">
-          <li>Auftrag</li>
-          <li>Bestellung</li>
-          <li>Project</li>
-        </ul>
-      </div>
-      <div class="hc-navbar-tabs-right" [style.visibility]="rightScrollerVisible ? 'visible' : 'hidden'">
-        <span class="fa fa-fw fa-angle-right fa-lg" (mousedown)="startScrollingRight($event)" (mouseup)="stopScrollingRight($event)" (mouseleave)="stopScrollingRight($event)"></span>
-      </div>
-    </div>
-    <div class="hc-navbar-right">
-      <ul class="hc-navbar-tools">
-        <li><span class="fa fa-fw fa-sign-out"></span></li>
+    <div #center class="hc-navbar-tabs-center">
+      <ul #tabs class="hc-navbar-tabs-list" [style.margin-left.px]="tabScrollPosition" hcMouseWheel (mouseWheelUp)="onMouseWheel($event)" (mouseWheelDown)="onMouseWheel($event)" (panstart)="panTabsStart($event)"
+        (pan)="panTabsStep($event)">
+        <li *ngFor="let form of forms; let i = index;">{{ form }}</li>
       </ul>
     </div>
+    <div class="hc-navbar-tabs-right" [style.visibility]="rightScrollerVisible ? 'visible' : 'hidden'">
+      <span class="fa fa-fw fa-angle-right fa-lg" (mousedown)="startScrollingRight($event)" (mouseup)="stopScrollingRight($event)" (mouseleave)="stopScrollingRight($event)"></span>
+    </div>
+  </div>
+  <div class="hc-navbar-right">
+    <ul class="hc-navbar-menu-toggle">
+      <li (click)="toggleSidebar()"><span class="fa fa-fw fa-bars"></span> Menu</li>
+    </ul>
+    <ul class="hc-navbar-tools-list">
+      <li><span class="fa fa-fw fa-sign-out"></span></li>
+    </ul>
+  </div>
+</nav>
+
+<nav class="hc-navbar-side" [@sidebar] *ngIf="sidebarEnabled && sidebarVisible">
+  <div #tabs class="hc-navbar-side-middle">
+    <ul class="hc-navbar-side-tabs-list">
+      <li *ngFor="let form of forms; let i = index;">{{ form }}</li>
+    </ul>
+  </div>
+  <div class="hc-navbar-side-bottom">
+    <ul class="hc-navbar-side-tools-list">
+      <li><span class="fa fa-fw fa-sign-out"></span> Switch Broker</li>
+    </ul>
   </div>
 </nav>

@@ -1,86 +1,165 @@
 @import '../../scss/variables.scss';
 
-.hc-navbar {
-  color: $navbar-color;
-  background-color: $navbar-background;
-  border-bottom: 1px solid $navbar-border-color;
-}
-
-.hc-navbar > .hc-navbar-container {
-  display: flex;
-}
-
-.hc-navbar > .hc-navbar-container > .hc-navbar-center {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
-
-.hc-navbar > .hc-navbar-container > .hc-navbar-left,
-.hc-navbar > .hc-navbar-container > .hc-navbar-right {
-  flex: 0 1 auto;
-}
-
-.hc-navbar > .hc-navbar-container > .hc-navbar-left > .hc-navbar-title {
-  display: block;
-  padding: calc((#{$navbar-height} - #{$navbar-brand-fontsize}) / 2) 15px;
-  font-size: $navbar-brand-fontsize;
-  font-weight: bold;
-  line-height: $navbar-brand-fontsize;
-}
-
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-left,
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-right {
-  flex: 0 1 auto;
-}
-
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-center {
-  flex: 1;
-  overflow: hidden;
-}
-
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-left > span,
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-right > span {
-  padding: calc((#{$navbar-height} - #{$navbar-brand-fontsize}) / 2) 0px;
-  line-height: $navbar-brand-fontsize;
-  cursor: pointer;
-}
-
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-left > span:hover,
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-right > span:hover {
-  color: skyblue;
-}
-
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-center > .hc-navbar-tabs-list {
-  display: inline-flex;
-}
-
-.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools {
-  display: flex;
-}
-
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-center > .hc-navbar-tabs-list,
-.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools {
+@mixin navbar-list {
   list-style: none;
   padding: 0;
   margin: 0;
+
+  li {
+    padding: ($navbar-height - $navbar-brand-fontsize) / 2;
+    line-height: $navbar-brand-fontsize;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      color: $navbar-color-highlight;
+      background-color: $navbar-background-highlight;
+    }
+  }
+}
+
+@mixin navbar-side-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: ($navbar-height - $navbar-brand-fontsize) / 2 15px;
+    line-height: $navbar-brand-fontsize;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      color: $navbar-color-highlight;
+      background-color: $navbar-background-highlight;
+    }
+  }
+}
+
+.hc-navbar {
+  display: flex;
+  color: $navbar-color;
+  background-color: $navbar-background;
+  border-bottom: 1px solid $navbar-border-color;
+  user-select: none;
   cursor: default;
+
+  .hc-navbar-left {
+    flex: 0 1 auto;
+
+    .hc-navbar-title {
+      display: block;
+      line-height: $navbar-brand-fontsize;
+      padding: ($navbar-height - $navbar-brand-fontsize) / 2 15px;
+      font-size: $navbar-brand-fontsize;
+      font-weight: bold;
+    }
+  }
+
+  .hc-navbar-center {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+
+    .hc-navbar-tabs-center {
+      flex: 1;
+      overflow: hidden;
+      display: none;
+
+      .hc-navbar-tabs-list {
+        display: inline-flex;
+        @include navbar-list();
+      }
+
+      @media (min-width: $breakpoint) {
+        display: inherit;
+      }
+    }
+
+    .hc-navbar-tabs-left,
+    .hc-navbar-tabs-right {
+      flex: 0 1 auto;
+      display: none;
+
+      @media (min-width: $breakpoint) {
+        display: inherit;
+      }
+
+      span {
+        line-height: $navbar-brand-fontsize;
+        padding: ($navbar-height - $navbar-brand-fontsize) / 2 0px;
+        cursor: pointer;
+
+        &:hover {
+          color: $navbar-color-highlight;
+        }
+      }
+    }
+  }
+
+  .hc-navbar-right {
+    flex: 0 1 auto;
+
+    .hc-navbar-tools-list {
+      display: none;
+      margin-left: $navbar-height / 4;
+      @include navbar-list();
+
+      @media (min-width: $breakpoint) {
+        display: inline-flex;
+      }
+    }
+
+    .hc-navbar-menu-toggle {
+      display: inline-flex;
+      margin-left: $navbar-height / 4;
+      @include navbar-list();
+
+      @media (min-width: $breakpoint) {
+        display: none;
+      }
+    }
+  }
 }
 
-.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools {
-  margin-left: calc(#{$navbar-height} / 4);
-}
+.hc-navbar-side {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: $navbar-height + 1px;
+  bottom: 0;
+  width: 300px;
+  color: $navbar-color;
+  background-color: $navbar-background;
+  user-select: none;
+  cursor: default;
+  z-index: 1000;
 
-.hc-navbar > .hc-navbar-container > .hc-navbar-center> .hc-navbar-tabs-center > .hc-navbar-tabs-list > li,
-.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools > li {
-  padding: calc((#{$navbar-height} - #{$navbar-brand-fontsize}) / 2);
-  line-height: $navbar-brand-fontsize;
-  cursor: pointer;
-}
+  &:after {
+    box-shadow: 10px 0 10px -10px inset;
+    content: " ";
+    height: 100%;
+    position: absolute;
+    right: -10px;
+    width: 10px;
+  }
 
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-center > .hc-navbar-tabs-list > li.active,
-.hc-navbar > .hc-navbar-container > .hc-navbar-center > .hc-navbar-tabs-center > .hc-navbar-tabs-list > li:hover,
-.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools > li.active,
-.hc-navbar > .hc-navbar-container > .hc-navbar-right > .hc-navbar-tools > li:hover {
-  background-color: $navbar-highlight;
+  .hc-navbar-side-middle {
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .hc-navbar-side-tabs-list {
+      @include navbar-side-list();
+    }
+  }
+
+  .hc-navbar-side-bottom {
+    flex: 0 1 auto;
+    border-top: 1px solid $navbar-border-color;
+
+    .hc-navbar-side-tools-list {
+      @include navbar-side-list();
+    }
+  }
 }

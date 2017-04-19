@@ -1,11 +1,30 @@
+import { animate, transition, trigger, state, style } from '@angular/animations';
 import { Component, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 
-declare var $: any;
+import { WindowRefService } from '../services/windowref.service';
 
 @Component({
-  selector: 'hc-nav',
+  selector: 'hc-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
+  animations: [
+    trigger('sidebar', [
+      transition('void => *', [
+        style({
+          transform: 'translateX(-300px)'
+        }),
+        animate(200, style({
+          transform: 'translateX(0px)'
+        }))]),
+      transition('* => void', [
+        style({
+          transform: 'translateX(0px)'
+        }),
+        animate(200, style({
+          transform: 'translateX(-300px)'
+        }))])
+    ])
+  ]
 })
 export class NavbarComponent implements AfterViewInit {
 
@@ -15,14 +34,26 @@ export class NavbarComponent implements AfterViewInit {
   public tabScrollPosition: number = 0;
   public leftScrollerVisible: boolean = false;
   public rightScrollerVisible: boolean = false;
+  public sidebarEnabled: boolean = false;
+  public sidebarVisible: boolean = false;
 
   private _clickScrollDelta: number = 100;
-  private _panDelta: number = 0;
+  private _panStartX: number;
   private _leftInterval: number;
   private _rightInterval: number;
 
+  public forms: Array<string> = ['Auftrag', 'Bestellung', 'Projekt', 'Leistungserfassung', 'Call'];
+
   public ngAfterViewInit(): void {
     setTimeout(() => { this.refreshScroller(); }, 0);
+  }
+
+  public mediaQueryChanged(mq: MediaQueryList) {
+    this.sidebarEnabled = !mq.matches;
+
+    if (!this.sidebarEnabled && this.sidebarVisible) {
+      this.toggleSidebar();
+    }
   }
 
   public startScrollingLeft(event: any): void {
@@ -45,49 +76,47 @@ export class NavbarComponent implements AfterViewInit {
 
   public onMouseWheel(event: any): void {
     // Firefox has a special implementation via event.detail
-    let scrollDelta: number = (-event.wheelDelta || (event.detail * 40));
-    this.scrollTabs(scrollDelta);
+    let deltaX: number = -(event.wheelDelta || (event.detail * 40));
+    this.scrollTabs(deltaX);
   }
 
-  public panTabsStart(event: any): void {
-    this.scrollTabs(event.deltaX);
-    this._panDelta = event.deltaX;
+  public panTabsStart(event: any) {
+    this._panStartX = this.tabScrollPosition;
+    this.scrollTabs(this._panStartX + event.deltaX, true);
   }
 
-  public panTabs(event: any): void {
-    this.scrollTabs(event.deltaX - this._panDelta);
-    this._panDelta = event.deltaX;
+  public panTabsStep(event: any): void {
+    this.scrollTabs(this._panStartX + event.deltaX, true);
   }
 
-  private scrollTabs(scrollDelta: number): void {
-    if ((scrollDelta < 0 && !this.rightScrollerVisible)
-      || scrollDelta >= 0 && !this.leftScrollerVisible) {
-      return;
-    }
-
+  private scrollTabs(deltaX: number, absolute: boolean = false): void {
     let divWidth: number = $(this.center.nativeElement).width();
     let ulWidth: number = this.tabs.nativeElement.scrollWidth;
-    let ulDelta: number = Math.max(0, ulWidth - divWidth);
-    this.tabScrollPosition = Math.min(Math.max(-ulDelta, this.tabScrollPosition + scrollDelta), 0);
+    let maxScroll: number = Math.max(0, ulWidth - divWidth);
+    this.tabScrollPosition = Math.min(Math.max(-maxScroll, (absolute ? 0 : this.tabScrollPosition) + deltaX), 0);
     this.refreshScroller();
+  }
+
+  public toggleSidebar(): void {
+    this.sidebarVisible = !this.sidebarVisible;
   }
 
   @HostListener('window:resize')
   private refreshScroller(): void {
     let divWidth: number = $(this.center.nativeElement).width();
     let ulWidth: number = this.tabs.nativeElement.scrollWidth;
-    let ulDelta: number = Math.max(0, ulWidth - divWidth);
+    let maxScroll: number = Math.max(0, ulWidth - divWidth);
 
-    this.tabScrollPosition = Math.min(Math.max(-ulDelta, this.tabScrollPosition), 0);
+    this.tabScrollPosition = Math.min(Math.max(-maxScroll, this.tabScrollPosition), 0);
 
-    if (ulDelta) {
+    if (maxScroll) {
       if (this.tabScrollPosition === 0) {
         this.leftScrollerVisible = false;
       } else {
         this.leftScrollerVisible = true;
       }
 
-      if (this.tabScrollPosition <= -ulDelta) {
+      if (this.tabScrollPosition <= -maxScroll) {
         this.rightScrollerVisible = false;
       } else {
         this.rightScrollerVisible = true;
@@ -95,6 +124,21 @@ export class NavbarComponent implements AfterViewInit {
     } else {
       this.leftScrollerVisible = false;
       this.rightScrollerVisible = false;
+    }
+  }
+
+  @HostListener('body:swipeleft')
+  private swipeLeft(): void {
+    if (this.sidebarVisible) {
+      this.toggleSidebar();
+    }
+  }
+
+  @HostListener('body:swiperight', ['$event'])
+  private swipeRight(event: any): void {
+    let startX: number = event.center.x - event.deltaX;
+    if (startX < 20 && this.sidebarEnabled && !this.sidebarVisible) {
+      this.toggleSidebar();
     }
   }
 }

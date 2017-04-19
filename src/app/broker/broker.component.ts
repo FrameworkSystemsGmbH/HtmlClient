@@ -64,7 +64,6 @@ export class BrokerComponent implements OnInit, OnDestroy {
 
   private createBrokerValidator(bs: BrokerService): any {
     return (c: FormControl) => {
-      console.log(this.addForm);
       return new Observable<any>(
         (observer) => {
           bs.getBrokers().subscribe(brokers => {

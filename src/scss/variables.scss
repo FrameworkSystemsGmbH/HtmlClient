@@ -5,9 +5,13 @@ $icon-font-path: "~/node_modules/bootstrap-sass/assets/fonts/bootstrap/";
 $navbar-height: 40px;
 $navbar-brand-fontsize: 20px;
 $navbar-color: #555;
+$navbar-color-highlight: #337ab7;
 $navbar-background: #f8f8f8;
-$navbar-highlight: #e7e7e7;
+$navbar-background-highlight: #e7e7e7;
 $navbar-border-color: #e7e7e7;
 
 // Colors
 $error: #d9534f;
+
+// Layout
+$breakpoint: 768px;

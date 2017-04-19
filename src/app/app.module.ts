@@ -1,5 +1,6 @@
 import { NgModule, forwardRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, NG_VALIDATORS } from '@angular/forms';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { RouterModule, } from '@angular/router';
@@ -15,6 +16,7 @@ import { AppRouting } from './app.routing';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrokerComponent } from './broker/broker.component';
 
+import { MediaQueryDirective } from './directives/mediaquery.directive';
 import { MouseWheelDirective } from './directives/mousewheel.directive';
 
 @NgModule({
@@ -23,10 +25,12 @@ import { MouseWheelDirective } from './directives/mousewheel.directive';
     NavbarComponent,
     BrokerComponent,
     jqxTooltipComponent,
+    MediaQueryDirective,
     MouseWheelDirective
   ],
   imports: [
     AppRouting,
+    BrowserAnimationsModule,
     BrowserModule,
     RouterModule,
     ReactiveFormsModule
