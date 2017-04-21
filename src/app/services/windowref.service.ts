@@ -10,5 +10,4 @@ export class WindowRefService {
   public get nativeWindow(): Window {
     return getWindow();
   }
-
 }

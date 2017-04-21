@@ -1,6 +1,6 @@
 import { Directive, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
-import { WindowRefService } from '../services/windowref.service';
+import { WindowRefService } from '../services';
 
 @Directive({ selector: '[hcMediaQuery]' })
 export class MediaQueryDirective implements OnInit, OnDestroy {

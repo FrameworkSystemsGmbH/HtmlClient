@@ -20,5 +20,4 @@ export class StorageService {
     if (!key || !this._window.localStorage) { return undefined; }
     return this._window.localStorage.getItem(key);
   }
-
 }

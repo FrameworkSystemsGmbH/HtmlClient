@@ -1,7 +1,7 @@
 import { animate, transition, trigger, state, style } from '@angular/animations';
 import { Component, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 
-import { WindowRefService } from '../services/windowref.service';
+import { WindowRefService } from '../../services';
 
 @Component({
   selector: 'hc-navbar',

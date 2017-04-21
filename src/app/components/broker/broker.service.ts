@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { Broker } from './broker';
-import { StorageService } from '../services/storage.service';
+import { StorageService } from '../../services';
 
 const BROKER_STORAGE_KEY: string = 'brokerList';
 
@@ -23,6 +23,11 @@ export class BrokerService {
 
   public addBroker(broker: Broker): void {
     let brokers: Array<Broker> = this._brokers.getValue();
+
+    if (!brokers) {
+      brokers = new Array<Broker>();
+    }
+
     brokers.push(broker);
     this.saveBrokers(brokers);
     this._brokers.next(brokers);

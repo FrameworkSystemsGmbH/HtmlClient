@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="com.fs.htmlclient" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+	<name>
+		Html Client
+	</name>
+
+	<description>
+		HTML Client for Framework Studio Applications
+	</description>
+
+	<author email="info@framework-systems.de" href="http://www.framework-systems.de">
+		Framework Systems GmbH
+	</author>
+
+	<content src="index.html" />
+
+	<platform name="android">
+		<plugin name="cordova-plugin-crosswalk-webview" spec="../../node_modules/cordova-plugin-crosswalk-webview" />
+	</platform>
+
+	<platform name="ios">
+		<hook type="after_platform_add" src="hooks/ios/after_platform_add.js" />
+	</platform>
+
+	<access origin="*" />
+
+	<allow-intent href="http://*/*" />
+	<allow-intent href="https://*/*" />
+	<allow-intent href="tel:*" />
+	<allow-intent href="sms:*" />
+	<allow-intent href="mailto:*" />
+	<allow-intent href="geo:*" />
+
+	<platform name="android">
+		<allow-intent href="market:*" />
+	</platform>
+
+	<platform name="ios">
+		<allow-intent href="itms:*" />
+		<allow-intent href="itms-apps:*" />
+	</platform>
+
+	<preference name="DisallowOverscroll" value="true" />
+	<preference name="android-minSdkVersion" value="19" />
+	<preference name="android-targetSdkVersion" value="25" />
+	<preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
+	<preference name="xwalkMode" value="embedded" />
+
+	<platform name="windows">
+		<preference name="windows-target-version" value="10.0" />
+	</platform>
+
+	<platform name="ios">
+		<preference name="Orientation" value="all" />
+	</platform>
+</widget>

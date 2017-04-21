@@ -7,17 +7,15 @@ import { RouterModule, } from '@angular/router';
 
 import { jqxTooltipComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxtooltip';
 
-import { BrokerService } from './broker/broker.service';
-import { StorageService } from './services/storage.service';
-import { WindowRefService } from './services/windowref.service';
+import { BrokerService } from './components/broker/broker.service';
+import { StorageService, WindowRefService } from './services';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
-import { NavbarComponent } from './navbar/navbar.component';
-import { BrokerComponent } from './broker/broker.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { BrokerComponent } from './components/broker/broker.component';
 
-import { MediaQueryDirective } from './directives/mediaquery.directive';
-import { MouseWheelDirective } from './directives/mousewheel.directive';
+import { MediaQueryDirective, MouseWheelDirective } from './directives';
 
 @NgModule({
   declarations: [
