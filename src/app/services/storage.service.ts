@@ -1,23 +1,13 @@
-import { Injectable } from '@angular/core';
+export interface IStorageService {
 
-import { WindowRefService } from './windowref.service';
+  saveData(key: string, value: string): void;
+  loadData(key: string): string;
 
-@Injectable()
-export class StorageService {
+}
 
-  private _window: Window;
+export abstract class StorageService {
 
-  constructor(private _windowRef: WindowRefService) {
-    this._window = this._windowRef.nativeWindow;
-  }
+  public abstract saveData(key: string, value: string): void;
+  public abstract loadData(key: string): string;
 
-  public saveData(key: string, value: string): void {
-    if (!key || !this._window.localStorage) { return; }
-    this._window.localStorage.setItem(key, value);
-  }
-
-  public loadData(key: string): string {
-    if (!key || !this._window.localStorage) { return undefined; }
-    return this._window.localStorage.getItem(key);
-  }
 }

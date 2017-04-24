@@ -8,7 +8,7 @@ import { RouterModule, } from '@angular/router';
 import { jqxTooltipComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxtooltip';
 
 import { BrokerService } from './components/broker/broker.service';
-import { StorageService, WindowRefService } from './services';
+import { StorageService, LocalStorageService, WindowRefService } from './services';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
@@ -35,8 +35,8 @@ import { MediaQueryDirective, MouseWheelDirective } from './directives';
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: StorageService, useClass: LocalStorageService },
     BrokerService,
-    StorageService,
     WindowRefService
   ],
   bootstrap: [AppComponent]
