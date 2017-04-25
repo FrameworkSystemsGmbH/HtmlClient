@@ -16,15 +16,15 @@
     "emulateCordovaIos": "gulp cordova.emulate.ios"
   },
   "dependencies": {
-    "@angular/animations": "4.0.2",
-    "@angular/common": "4.0.2",
-    "@angular/compiler": "4.0.2",
-    "@angular/core": "4.0.2",
-    "@angular/forms": "4.0.2",
-    "@angular/http": "4.0.2",
-    "@angular/platform-browser": "4.0.2",
-    "@angular/platform-browser-dynamic": "4.0.2",
-    "@angular/router": "4.0.2",
+    "@angular/animations": "4.0.3",
+    "@angular/common": "4.0.3",
+    "@angular/compiler": "4.0.3",
+    "@angular/core": "4.0.3",
+    "@angular/forms": "4.0.3",
+    "@angular/http": "4.0.3",
+    "@angular/platform-browser": "4.0.3",
+    "@angular/platform-browser-dynamic": "4.0.3",
+    "@angular/router": "4.0.3",
     "bootstrap-sass": "3.3.7",
     "core-js": "2.4.1",
     "font-awesome": "4.7.0",
@@ -36,11 +36,11 @@
     "zone.js": "0.8.5"
   },
   "devDependencies": {
-    "@angular/cli": "1.0.0",
-    "@angular/compiler-cli": "4.0.2",
+    "@angular/cli": "1.0.1",
+    "@angular/compiler-cli": "4.0.3",
     "@types/jasmine": "2.5.47",
     "@types/node": "6.0.68",
-    "codelyzer": "2.1.1",
+    "codelyzer": "3.0.0",
     "cordova": "6.5.0",
     "cordova-plugin-crosswalk-webview": "2.3.0",
     "del": "2.2.2",
@@ -50,7 +50,7 @@
     "run-sequence": "1.2.2",
     "shelljs": "0.7.7",
     "ts-node": "2.1.2",
-    "tslint": "4.5.1",
+    "tslint": "5.1.0",
     "typescript": "2.2.2"
   }
 }
