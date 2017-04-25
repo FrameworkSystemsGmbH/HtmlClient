@@ -11,10 +11,8 @@
     "lint": "tslint \"src/**/*.ts\" --project \"src/tsconfig.json\" --type-check",
     "buildElectron": "gulp electron",
     "buildCordovaAndroid": "gulp cordova.build.android",
-    "buildCordovaWindows": "gulp cordova.build.windows",
     "buildCordovaIos": "gulp cordova.build.ios",
     "emulateCordovaAndroid": "gulp cordova.emulate.android",
-    "emulateCordovaWindows": "gulp cordova.emulate.windows",
     "emulateCordovaIos": "gulp cordova.emulate.ios"
   },
   "dependencies": {

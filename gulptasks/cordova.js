@@ -48,16 +48,6 @@
       done();
     });
 
-    gulp.task('cordova.windows', function (done) {
-      var currentDir = sh.pwd();
-      sh.cd(config.target.root);
-      sh.exec('"../../node_modules/.bin/cordova" platform add windows');
-      sh.exec('"../../node_modules/.bin/cordova" prepare windows');
-      sh.exec('"../../node_modules/.bin/cordova" build windows');
-      sh.cd(currentDir);
-      done();
-    });
-
     gulp.task('cordova.ios', function (done) {
       var currentDir = sh.pwd();
       sh.cd(config.target.root);
@@ -80,18 +70,6 @@
       );
     });
 
-    gulp.task('cordova.build.windows', function (done) {
-      runSequence(
-        'cordova.clean',
-        'cordova.copy.config',
-        'cordova.copy.hooks',
-        'cordova.copy.web',
-        'cordova.copy.resources',
-        'cordova.windows',
-        done
-      );
-    });
-
     gulp.task('cordova.build.ios', function (done) {
       runSequence(
         'cordova.clean',
@@ -108,14 +86,6 @@
       var currentDir = sh.pwd();
       sh.cd(config.target.root);
       sh.exec('"../../node_modules/.bin/cordova" emulate --target="Nexus_6_API_25" android');
-      sh.cd(currentDir);
-      done();
-    });
-
-    gulp.task('cordova.emulate.windows', function (done) {
-      var currentDir = sh.pwd();
-      sh.cd(config.target.root);
-      sh.exec('"../../node_modules/.bin/cordova" emulate windows');
       sh.cd(currentDir);
       done();
     });
