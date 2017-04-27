@@ -4,31 +4,31 @@ import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/f
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { Broker } from './broker';
-import { BrokerService } from './broker.service';
+import { LoginBroker } from './login-broker';
+import { LoginService } from './login.service';
 
 @Component({
-  selector: 'hc-broker',
-  templateUrl: './broker.component.html',
-  styleUrls: ['./broker.component.scss'],
+  selector: 'hc-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
-export class BrokerComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy {
 
-  public brokers: Array<Broker>;
+  public brokers: Array<LoginBroker>;
   public addForm: FormGroup;
   public nameControl: FormControl;
   public urlControl: FormControl;
 
-  private _brokersSub: ISubscription;
+  private brokersSub: ISubscription;
 
-  constructor(private _brokerService: BrokerService) { }
+  constructor(private brokerService: LoginService) { }
 
   public ngOnInit(): void {
-    this._brokersSub = this._brokerService.getBrokers().subscribe(brokers => {
+    this.brokersSub = this.brokerService.getBrokers().subscribe(brokers => {
       this.brokers = brokers;
     });
 
-    this.nameControl = new FormControl(null, Validators.required, this.createBrokerValidator(this._brokerService));
+    this.nameControl = new FormControl(null, Validators.required, this.createBrokerValidator(this.brokerService));
     this.urlControl = new FormControl(null, Validators.required);
 
     this.addForm = new FormGroup({
@@ -38,7 +38,7 @@ export class BrokerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this._brokersSub.unsubscribe();
+    this.brokersSub.unsubscribe();
   }
 
   public nameHasErrors(): boolean {
@@ -46,23 +46,23 @@ export class BrokerComponent implements OnInit, OnDestroy {
   }
 
   public urlHasErrors(): boolean {
-  return !this.urlControl.valid && !this.urlControl.pristine;
+    return !this.urlControl.valid && !this.urlControl.pristine;
   }
 
   public addBroker(): void {
-    let newBroker: Broker = new Broker();
+    let newBroker: LoginBroker = new LoginBroker();
     newBroker.name = this.nameControl.value;
     newBroker.url = this.urlControl.value;
 
-    this._brokerService.addBroker(newBroker);
+    this.brokerService.addBroker(newBroker);
     this.addForm.reset();
   }
 
   public deleteBroker(index: number): void {
-    this._brokerService.deleteBroker(index);
+    this.brokerService.deleteBroker(index);
   }
 
-  private createBrokerValidator(bs: BrokerService): any {
+  private createBrokerValidator(bs: LoginService): any {
     return (c: FormControl) => {
       return new Observable<any>(
         (observer) => {

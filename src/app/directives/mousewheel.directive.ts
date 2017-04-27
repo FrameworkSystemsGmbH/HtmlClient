@@ -7,17 +7,17 @@ export class MouseWheelDirective {
   @Output() mouseWheelDown = new EventEmitter();
 
   @HostListener('mousewheel', ['$event'])
-  public onMouseWheelChrome(event: any) {
+  public onMouseWheelChrome(event: any): void {
     this.mouseWheelFunc(event);
   }
 
   @HostListener('DOMMouseScroll', ['$event'])
-  public onMouseWheelFirefox(event: any) {
+  public onMouseWheelFirefox(event: any): void {
     this.mouseWheelFunc(event);
   }
 
   @HostListener('onmousewheel', ['$event'])
-  public onMouseWheelIE(event: any) {
+  public onMouseWheelIe(event: any): void {
     this.mouseWheelFunc(event);
   }
 

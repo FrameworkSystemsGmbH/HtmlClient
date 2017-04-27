@@ -1,9 +1,9 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { BrokerComponent } from './components/broker/broker.component';
+import { LoginComponent } from './components/login/login.component';
 
 const APP_ROUTES: Routes = [
-  { path: 'login', component: BrokerComponent },
+  { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

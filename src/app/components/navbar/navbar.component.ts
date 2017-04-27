@@ -3,6 +3,8 @@ import { Component, ViewChild, ElementRef, AfterViewInit, HostListener } from '@
 
 import { WindowRefService } from '../../services';
 
+declare var $;
+
 @Component({
   selector: 'hc-navbar',
   templateUrl: './navbar.component.html',
@@ -37,10 +39,10 @@ export class NavbarComponent implements AfterViewInit {
   public sidebarEnabled: boolean = false;
   public sidebarVisible: boolean = false;
 
-  private _clickScrollDelta: number = 100;
-  private _panStartX: number;
-  private _leftInterval: number;
-  private _rightInterval: number;
+  private clickScrollDelta: number = 100;
+  private panStartX: number;
+  private leftInterval: number;
+  private rightInterval: number;
 
   public forms: Array<string> = ['Auftrag', 'Bestellung', 'Projekt', 'Leistungserfassung', 'Call'];
 
@@ -57,21 +59,21 @@ export class NavbarComponent implements AfterViewInit {
   }
 
   public startScrollingLeft(event: any): void {
-    this.scrollTabs(this._clickScrollDelta);
-    this._leftInterval = setInterval(() => { this.scrollTabs(this._clickScrollDelta); }, 100);
+    this.scrollTabs(this.clickScrollDelta);
+    this.leftInterval = setInterval(() => { this.scrollTabs(this.clickScrollDelta); }, 100);
   }
 
   public stopScrollingLeft(event: any): void {
-    clearInterval(this._leftInterval);
+    clearInterval(this.leftInterval);
   }
 
   public startScrollingRight(event: any): void {
-    this.scrollTabs(-this._clickScrollDelta);
-    this._rightInterval = setInterval(() => { this.scrollTabs(-this._clickScrollDelta); }, 100);
+    this.scrollTabs(-this.clickScrollDelta);
+    this.rightInterval = setInterval(() => { this.scrollTabs(-this.clickScrollDelta); }, 100);
   }
 
   public stopScrollingRight(event: any): void {
-    clearInterval(this._rightInterval);
+    clearInterval(this.rightInterval);
   }
 
   public onMouseWheel(event: any): void {
@@ -81,12 +83,12 @@ export class NavbarComponent implements AfterViewInit {
   }
 
   public panTabsStart(event: any) {
-    this._panStartX = this.tabScrollPosition;
-    this.scrollTabs(this._panStartX + event.deltaX, true);
+    this.panStartX = this.tabScrollPosition;
+    this.scrollTabs(this.panStartX + event.deltaX, true);
   }
 
   public panTabsStep(event: any): void {
-    this.scrollTabs(this._panStartX + event.deltaX, true);
+    this.scrollTabs(this.panStartX + event.deltaX, true);
   }
 
   private scrollTabs(deltaX: number, absolute: boolean = false): void {

@@ -1,3 +1,3 @@
-export * from './jsonutil';
-export * from './linkedlist';
+export * from './json-util';
+export * from './linked-list';
 export * from './queue';

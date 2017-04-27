@@ -17,3 +17,4 @@ import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';
 
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';

@@ -1,23 +1,23 @@
 export class Queue<T> {
 
-    private _queue: Array<T> = new Array<T>();
-    private _offset: number = 0;
+    private queue: Array<T> = new Array<T>();
+    private offset: number = 0;
 
     public initialize(items: Array<T>) {
-        this._queue = items;
-        this._offset = 0;
+        this.queue = items;
+        this.offset = 0;
     }
 
     public getLength(): number {
-        return (this._queue.length - this._offset);
+        return (this.queue.length - this.offset);
     }
 
     public isEmpty(): boolean {
-        return !this._queue.length;
+        return !this.queue.length;
     }
 
     public enqueue(item: T): void {
-        this._queue.push(item);
+        this.queue.push(item);
     }
 
     public dequeue(): T {
@@ -26,22 +26,22 @@ export class Queue<T> {
             return undefined;
         }
 
-        let item: T = this._queue[this._offset];
+        let item: T = this.queue[this.offset];
 
-        if (++this._offset * 2 >= this._queue.length) {
-            this._queue = this._queue.slice(this._offset);
-            this._offset = 0;
+        if (++this.offset * 2 >= this.queue.length) {
+            this.queue = this.queue.slice(this.offset);
+            this.offset = 0;
         }
 
         return item;
     }
 
     public peek(): T {
-        return !this.isEmpty() ? this._queue[this._offset] : undefined;
+        return !this.isEmpty() ? this.queue[this.offset] : undefined;
     }
 
     public toArray(): Array<T> {
-        return this._queue.slice(this._offset);
+        return this.queue.slice(this.offset);
     }
 
 }
