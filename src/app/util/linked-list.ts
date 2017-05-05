@@ -1,8 +1,8 @@
 class LinkedListNode<T> {
 
-  private data: T;
-  private next: LinkedListNode<T>;
-  private prev: LinkedListNode<T>;
+  public data: T;
+  public next: LinkedListNode<T>;
+  public prev: LinkedListNode<T>;
 
   constructor(data: T) {
     this.data = data;
@@ -10,25 +10,6 @@ class LinkedListNode<T> {
     this.prev = null;
   }
 
-  public getData(): T {
-    return this.data;
-  }
-
-  public getNext(): LinkedListNode<T> {
-    return this.next;
-  }
-
-  public setNext(node: LinkedListNode<T>): void {
-    this.next = node;
-  }
-
-  public getPrev(): LinkedListNode<T> {
-    return this.prev;
-  }
-
-  public setPrev(node: LinkedListNode<T>): void {
-    this.prev = node;
-  }
 }
 
 export class SinglyLinkedList<T> {
@@ -57,11 +38,11 @@ export class SinglyLinkedList<T> {
     } else {
       let node = this.head;
 
-      while (node.getNext()) {
-        node = node.getNext();
+      while (node.next) {
+        node = node.next;
       }
 
-      node.setNext(currentNode);
+      node.next = currentNode;
     }
 
     this.length++;
@@ -79,15 +60,15 @@ export class SinglyLinkedList<T> {
     }
 
     if (index === 0) {
-      this.head = this.head.getNext();
+      this.head = this.head.next;
     } else {
       let node = this.head;
 
       for (let i = 1; i < index; i++) {
-        node = node.getNext();
+        node = node.next;
       }
 
-      node.setNext(node.getNext().getNext());
+      node.next = node.next.next;
     }
 
     this.length--;
@@ -96,7 +77,7 @@ export class SinglyLinkedList<T> {
   }
 
   public peek(): T {
-    return this.length ? this.head.getData() : undefined;
+    return this.length ? this.head.data : undefined;
   }
 
   public poll(): T {
@@ -113,8 +94,8 @@ export class SinglyLinkedList<T> {
     let node = this.head;
 
     for (let i = 0; i < this.length; i++) {
-      fn.call(node.getData());
-      node = node.getNext();
+      fn.call(node.data);
+      node = node.next;
     }
   }
 
@@ -126,11 +107,11 @@ export class SinglyLinkedList<T> {
     let node = this.head;
 
     for (let i = 0; i < this.length; i++) {
-      if (node.getData() === data) {
+      if (node.data === data) {
         return i;
       }
 
-      node = node.getNext();
+      node = node.next;
     }
 
     return -1;
@@ -144,10 +125,10 @@ export class SinglyLinkedList<T> {
     let node = this.head;
 
     for (let i = 0; i < this.length; i++) {
-      if (node.getData() === data) {
+      if (node.data === data) {
         return true;
       }
-      node = node.getNext();
+      node = node.next;
     }
 
     return false;
@@ -159,8 +140,8 @@ export class SinglyLinkedList<T> {
     let node = this.head;
 
     for (let i = 0; i < this.length; i++) {
-      result.push(node.getData());
-      node = node.getNext();
+      result.push(node.data);
+      node = node.next;
     }
 
     return result;
@@ -190,8 +171,8 @@ export class DoublyLinkedList<T> {
       this.head = currentNode;
       this.tail = currentNode;
     } else {
-      this.tail.setNext(currentNode);
-      currentNode.setPrev(this.tail);
+      this.tail.next = currentNode;
+      currentNode.prev = this.tail;
     }
 
     this.tail = currentNode;
@@ -210,18 +191,18 @@ export class DoublyLinkedList<T> {
     }
 
     if (index === 0) {
-      this.head = this.head.getNext();
-      this.head.setPrev(null);
+      this.head = this.head.next;
+      this.head.prev = null;
     } else {
       let node = this.head;
 
       for (let i = 1; i < index; i++) {
-        node = node.getNext();
+        node = node.next;
       }
 
-      let deleteNode = node.getNext();
-      node.setNext(deleteNode.getNext());
-      deleteNode.getNext().setPrev(node);
+      let deleteNode = node.next;
+      node.next = deleteNode.next;
+      deleteNode.next.prev = node;
 
       if (index === this.length - 1) {
         this.tail = node;
@@ -234,7 +215,7 @@ export class DoublyLinkedList<T> {
   }
 
   public peek(): T {
-    return this.length ? this.head.getData() : undefined;
+    return this.length ? this.head.data : undefined;
   }
 
   public poll(): T {
@@ -251,8 +232,8 @@ export class DoublyLinkedList<T> {
     let node = this.head;
 
     while (node !== this.tail) {
-      fn.call(this, node.getData());
-      node = node.getNext();
+      fn.call(this, node.data);
+      node = node.next;
     }
   }
 
@@ -264,11 +245,11 @@ export class DoublyLinkedList<T> {
     let node = this.head;
 
     for (let i = 0; i < this.length; i++) {
-      if (node.getData() === data) {
+      if (node.data === data) {
         return i;
       }
 
-      node = node.getNext();
+      node = node.next;
     }
 
     return -1;
@@ -282,11 +263,11 @@ export class DoublyLinkedList<T> {
     let node = this.head;
 
     while (node !== this.tail) {
-      if (node.getData() === data) {
+      if (node.data === data) {
         return true;
       }
 
-      node = node.getNext();
+      node = node.next;
     }
 
     return false;
@@ -298,8 +279,8 @@ export class DoublyLinkedList<T> {
     let node = this.head;
 
     for (let i = 0; i < this.length; i++) {
-      result.push(node.getData());
-      node = node.getNext();
+      result.push(node.data);
+      node = node.next;
     }
 
     return result;
