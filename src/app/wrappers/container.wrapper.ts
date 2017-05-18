@@ -4,6 +4,8 @@ import { JsonUtil } from '../util/json-util';
 import { BaseWrapper, FormWrapper } from '.';
 import { BaseComponent, ContainerComponent } from '../controls';
 import { ControlsService, EventsService } from '../services';
+import { VchContainer } from '../models/vch/index';
+import { LayoutableControl } from '../layouts/index';
 
 export abstract class ContainerWrapper extends BaseWrapper {
 
@@ -27,6 +29,22 @@ export abstract class ContainerWrapper extends BaseWrapper {
 
   protected getComponent(): ContainerComponent {
     return this.getComponentRef().instance;
+  }
+
+  public getInvertFlowDirection(): boolean {
+    return false;
+  }
+
+  public getVchContainer(): VchContainer {
+    return <VchContainer>this.getVchControl();
+  }
+
+  public getLayoutableControls(): LayoutableControl[] {
+    return this.getVchContainer().getChildrenInFlowDirection();
+  }
+
+  public resumeVch(): void {
+    // Noop
   }
 
   protected initialize(controlJson: any): void {

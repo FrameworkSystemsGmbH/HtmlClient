@@ -2,7 +2,6 @@ import { NgModule, forwardRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule, NG_VALIDATORS } from '@angular/forms';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { RouterModule, } from '@angular/router';
 
 import { LoginService } from './components/login/login.service';
@@ -17,7 +16,8 @@ import {
   ButtonComponent,
   FormComponent,
   LabelComponent,
-  TextBoxComponent
+  TextBoxComponent,
+  WrapPanelComponent
 } from './controls';
 
 import { MediaQueryDirective, MouseWheelDirective } from './directives';
@@ -32,6 +32,7 @@ import { MediaQueryDirective, MouseWheelDirective } from './directives';
     FormComponent,
     LabelComponent,
     TextBoxComponent,
+    WrapPanelComponent,
     MediaQueryDirective,
     MouseWheelDirective
   ],
@@ -44,7 +45,6 @@ import { MediaQueryDirective, MouseWheelDirective } from './directives';
     ReactiveFormsModule
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: StorageService, useClass: LocalStorageService },
     LoginService,
     WindowRefService

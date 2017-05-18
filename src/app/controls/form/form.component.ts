@@ -13,17 +13,7 @@ import { ContainerComponent } from '../container.component';
 })
 export class FormComponent extends ContainerComponent {
 
-  public title: string;
-
   @ViewChild('anchor', { read: ViewContainerRef }) anchor: ViewContainerRef;
-
-  public getTitle(): string {
-    return this.title;
-  }
-
-  public setTitle(title: string): void {
-    this.title = title;
-  }
 
   public getViewContainerRef(): ViewContainerRef {
     return this.anchor;

@@ -1,3 +1,10 @@
+// Colors
+$white: #fff;
+$grey1: #e7e7e7;
+$grey2: #bbb;
+$grey3: #333;
+$error: #d9534f;
+
 // Icons
 $icon-font-path: "~/node_modules/bootstrap-sass/assets/fonts/bootstrap/";
 
@@ -10,8 +17,23 @@ $navbar-background: #f8f8f8;
 $navbar-background-highlight: #e7e7e7;
 $navbar-border-color: #e7e7e7;
 
-// Colors
-$error: #d9534f;
-
 // Layout
 $breakpoint: 768px;
+
+// Mixins
+@mixin gradient-silver {
+  /* Old browsers */
+  background: rgb(240, 240, 240);
+  /* FF3.6+ */
+  background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 240, 1) 100%);
+  /* Chrome, Safari4+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 1)), color-stop(100%, rgba(240, 240, 240, 1)));
+  /* Chrome10+, Safari5.1+ */
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 240, 1) 100%);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 240, 1) 100%);
+  /* IE10+ */
+  background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 240, 1) 100%);
+  /* W3C */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 240, 1) 100%);
+}

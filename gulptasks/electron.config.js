@@ -9,7 +9,7 @@ module.exports = {
     root: 'dist/electron',
     cache: 'dist/electron/cache',
     web: 'dist/electron/web',
-    version: 'v1.6.5'
+    version: 'v1.6.6'
   },
   resources: {
     iconWin: 'resources/icon.ico',

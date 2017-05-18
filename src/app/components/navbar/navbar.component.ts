@@ -1,5 +1,6 @@
 import { animate, transition, trigger, state, style } from '@angular/animations';
 import { Component, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { WindowRefService } from '../../services';
 
@@ -45,6 +46,8 @@ export class NavbarComponent implements AfterViewInit {
   private rightInterval: number;
 
   public forms: Array<string> = ['Auftrag', 'Bestellung', 'Projekt', 'Leistungserfassung', 'Call'];
+
+  constructor(private router: Router) { }
 
   public ngAfterViewInit(): void {
     setTimeout(() => { this.refreshScroller(); }, 0);
@@ -101,6 +104,10 @@ export class NavbarComponent implements AfterViewInit {
 
   public toggleSidebar(): void {
     this.sidebarVisible = !this.sidebarVisible;
+  }
+
+  public switchBroker(): void {
+    this.router.navigate(['/']);
   }
 
   @HostListener('window:resize')

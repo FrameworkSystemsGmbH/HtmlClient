@@ -26,7 +26,6 @@ export class FormWrapper extends ContainerWrapper {
 
   public setJson(controlJson: any, delta: boolean): void {
     super.setJson(controlJson, delta);
-
     this.setTitle(controlJson.meta.title);
   }
 

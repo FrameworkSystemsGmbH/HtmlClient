@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
@@ -21,7 +22,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private brokersSub: ISubscription;
 
-  constructor(private brokerService: LoginService) { }
+  constructor(
+    private router: Router,
+    private brokerService: LoginService) { }
 
   public ngOnInit(): void {
     this.brokersSub = this.brokerService.getBrokers().subscribe(brokers => {
@@ -62,6 +65,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.brokerService.deleteBroker(index);
   }
 
+  public loadBroker(broker: LoginBroker): void {
+    this.router.navigate(['/viewer']);
+  }
+
   private createBrokerValidator(bs: LoginService): any {
     return (c: FormControl) => {
       return new Observable<any>(
@@ -77,4 +84,5 @@ export class LoginComponent implements OnInit, OnDestroy {
         });
     };
   }
+
 }

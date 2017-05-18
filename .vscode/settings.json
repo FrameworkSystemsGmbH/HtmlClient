@@ -21,7 +21,5 @@
   "html.format.wrapLineLength": 180,
   "html.format.maxPreserveNewLines": 1,
   "html.suggest.angular1": false,
-  "html.suggest.ionic": false,
-
-  "vsicons.presets.angular": true
+  "html.suggest.ionic": false
 }

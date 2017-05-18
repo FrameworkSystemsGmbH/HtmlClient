@@ -1,41 +1,71 @@
 @import '../../../scss/variables.scss';
 
-.centered {
-  margin: 0 auto;
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
-@media (min-width: 768px) {
-  .centered {
+.wrapper {
+  margin: 0px 20px;
+  padding: 20px;
+  border: 1px solid $grey2;
+  border-radius: 5px;
+  @include gradient-silver();
+}
+
+@media (min-width: $breakpoint) {
+  .wrapper {
     width: 600px;
   }
+}
+
+h3 {
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid $grey3;
 }
 
 .table {
   white-space: nowrap;
 }
 
-.table > thead > tr > th.fit,
-.table > thead > tr > td.fit,
-.table > tbody > tr > th.fit,
-.table > tbody > tr > td.fit,
-.table > tfoot > tr > th.fit,
-.table > tfoot > tr > td.fit {
-    white-space: nowrap;
-    width: 1%;
+.table > thead,
+.table > tbody,
+.table > tfoot {
+  tr {
+    th.fit, td.fit {
+      white-space: nowrap;
+      width: 1%;
+    }
+  }
 }
 
-.table > thead > tr > th,
-.table > thead > tr > td,
-.table > tbody > tr > th,
-.table > tbody > tr > td,
-.table > tfoot > tr > th,
-.table > tfoot > tr > td {
-    vertical-align: middle;
-    border: none;
+.table > thead,
+.table > tbody,
+.table > tfoot {
+  tr {
+    th, td {
+      vertical-align: middle;
+      border: none;
+    }
+  }
 }
 
-.table-hover > tbody > tr > td {
-  cursor: pointer;
+.table-hover > tbody > tr {
+  border: 1px solid transparent;
+
+  &:hover {
+    border: 1px solid $grey1;
+    background-color: $white;
+  }
+
+  td {
+    cursor: pointer;
+  }
 }
 
 ul.errorlist {
