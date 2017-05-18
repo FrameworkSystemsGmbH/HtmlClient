@@ -24,7 +24,7 @@ export class LayoutableWrapper {
   constructor(private control: LayoutableControl) {
     this.name = control.getName();
     this.layoutableProperties = control.getLayoutableProperties();
-    this.isVisible = control.getVisibility() !== ControlVisibility.COLLAPSED;
+    this.isVisible = control.getVisibility() !== ControlVisibility.Collapsed;
     this.minLayoutWidth = control.getLayoutableProperties().getMinLayoutWidth();
     this.maxLayoutWidth = control.getLayoutableProperties().getMaxLayoutWidth();
     this.maxLayoutHeight = control.getLayoutableProperties().getMaxLayoutHeight();

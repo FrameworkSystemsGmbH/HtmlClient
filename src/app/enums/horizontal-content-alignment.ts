@@ -1,6 +1,6 @@
 export enum HorizontalContentAlignment {
-  LEFT,
-  CENTER,
-  RIGHT,
-  FILL
+  Left,
+  Center,
+  Right,
+  Fill
 }

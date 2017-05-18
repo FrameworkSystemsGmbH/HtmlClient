@@ -1,5 +1,5 @@
 export enum ControlVisibility {
-  COLLAPSED,
-  HIDDEN,
-  VISIBLE
+  Collapsed,
+  Hidden,
+  Visible
 }

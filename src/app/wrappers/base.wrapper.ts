@@ -49,7 +49,7 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getVisibility(): ControlVisibility {
-    return ControlVisibility.VISIBLE;
+    return ControlVisibility.Visible;
   }
 
   public getLayoutableProperties(): LayoutableProperties {
@@ -113,11 +113,11 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getAlignmentHorizontal(): HorizontalAlignment {
-    return HorizontalAlignment.STRETCH;
+    return HorizontalAlignment.Stretch;
   }
 
   public getAlignmentVertical(): VerticalAlignment {
-    return VerticalAlignment.STRETCH;
+    return VerticalAlignment.Stretch;
   }
 
   public getForm(): FormWrapper {

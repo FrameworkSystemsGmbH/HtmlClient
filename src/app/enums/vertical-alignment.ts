@@ -1,6 +1,6 @@
 export enum VerticalAlignment {
-  TOP,
-  MIDDLE,
-  BOTTOM,
-  STRETCH
+  Top,
+  Middle,
+  Bottom,
+  Stretch
 }
