@@ -1,10 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from '..';
 
 @Component({
   selector: 'hc-lbl',

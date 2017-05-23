@@ -1,6 +1,6 @@
 import { ViewContainerRef } from '@angular/core';
 
-import { BaseComponent } from './base.component';
+import { BaseComponent } from '.';
 
 export abstract class ContainerComponent extends BaseComponent {
 

@@ -1,4 +1,4 @@
-import { LinkedListNode } from './index';
+import { LinkedListNode } from '.';
 
 export class DoublyLinkedList<T> {
 

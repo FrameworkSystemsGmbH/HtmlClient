@@ -1,6 +1,6 @@
-import { Layout, LayoutableWrapper, LayoutableControl, LayoutableProperties } from '../index';
-import { DockContainer, DockOrientation } from './index';
-import { HorizontalAlignment, VerticalAlignment } from '../../enums/index';
+import { DockContainer, DockOrientation } from '.';
+import { Layout, LayoutableWrapper, LayoutableControl, LayoutableProperties } from '..';
+import { HorizontalAlignment, VerticalAlignment } from '../../enums';
 
 export class DockLayout extends Layout {
 

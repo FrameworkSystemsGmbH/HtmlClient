@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { StorageService } from './storage.service';
-import { WindowRefService } from './windowref.service';
+import { StorageService, WindowRefService } from '.';
 
 @Injectable()
 export class LocalStorageService extends StorageService {

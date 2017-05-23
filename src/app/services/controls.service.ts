@@ -1,17 +1,9 @@
-import {
-  ComponentFactoryResolver,
-  ComponentRef,
-  EventEmitter,
-  Injectable,
-  Injector,
-  ViewContainerRef
-} from '@angular/core';
-
+import { ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, Injector, ViewContainerRef } from '@angular/core';
 import { ISubscription } from 'rxjs/subscription';
 
-import { JsonUtil } from '../util';
+import { EventsService } from '.';
 import { ControlType } from '../enums';
-import { EventsService } from './events.service';
+import { JsonUtil } from '../util';
 
 import {
   BaseWrapper,

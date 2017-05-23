@@ -1,4 +1,4 @@
-import { LayoutableControl } from './index';
+import { LayoutableControl } from '.';
 
 export interface LayoutableContainer extends LayoutableControl {
 

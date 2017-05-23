@@ -1,10 +1,6 @@
-import {
-  Component,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
-import { ContainerComponent } from '../container.component';
+import { ContainerComponent } from '..';
 
 @Component({
   selector: 'hc-form',

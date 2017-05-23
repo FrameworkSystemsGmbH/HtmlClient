@@ -4,9 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule, NG_VALIDATORS } from '@angular/forms';
 import { RouterModule, } from '@angular/router';
 
-import { LoginService } from './components/login/login.service';
-import { StorageService, LocalStorageService, WindowRefService } from './services';
-
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 import { LoginComponent } from './components/login/login.component';
@@ -21,6 +18,8 @@ import {
 } from './controls';
 
 import { MediaQueryDirective, MouseWheelDirective } from './directives';
+import { StorageService, LocalStorageService, WindowRefService } from './services';
+import { LoginService } from './components/login/login.service';
 
 @NgModule({
   declarations: [

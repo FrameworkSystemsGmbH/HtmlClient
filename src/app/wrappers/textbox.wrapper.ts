@@ -1,8 +1,8 @@
 import { ComponentRef } from '@angular/core';
 
-import { ControlEvent } from '../enums';
 import { BaseWrapper } from '.';
 import { TextBoxComponent } from '../controls';
+import { ControlEvent } from '../enums';
 
 
 export class TextBoxWrapper extends BaseWrapper {

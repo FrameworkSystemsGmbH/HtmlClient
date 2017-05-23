@@ -1,5 +1,5 @@
-import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums/index';
-import { LayoutableProperties } from './index';
+import { LayoutableProperties, LayoutableControlLabelTemplate, LayoutableControlLabel } from '.';
+import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
 
 export interface LayoutableControl {
 
@@ -32,5 +32,9 @@ export interface LayoutableControl {
   getAlignmentHorizontal(): HorizontalAlignment;
 
   getAlignmentVertical(): VerticalAlignment;
+
+  getControlLabel(): LayoutableControlLabel;
+
+  getLabelTemplate(): LayoutableControlLabelTemplate;
 
 }

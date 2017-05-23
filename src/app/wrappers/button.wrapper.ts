@@ -1,7 +1,7 @@
 import { ComponentRef } from '@angular/core';
 
-import { ControlEvent } from '../enums';
 import { BaseWrapper } from '.';
+import { ControlEvent } from '../enums';
 import { ButtonComponent } from '../controls';
 
 

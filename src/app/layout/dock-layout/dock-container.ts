@@ -1,5 +1,5 @@
-import { LayoutableContainer } from '../index';
-import { DockOrientation } from './index';
+import { DockOrientation } from '.';
+import { LayoutableContainer } from '..';
 
 export interface DockContainer extends LayoutableContainer {
 

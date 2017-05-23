@@ -1,5 +1,5 @@
-import { LayoutableControl, LayoutableProperties } from './index';
-import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums/index';
+import { LayoutableControl, LayoutableProperties, LayoutableControlLabelTemplate, LayoutableControlLabel } from '.';
+import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
 
 export class LayoutableWrapper {
 
@@ -17,6 +17,8 @@ export class LayoutableWrapper {
   private vAlign: VerticalAlignment;
 
   private layoutableProperties: LayoutableProperties;
+  private controlLabel: LayoutableControlLabel;
+  private labelTemplate: LayoutableControlLabelTemplate;
 
   private resultWdith: number;
   private resultHeight: number;
@@ -32,6 +34,8 @@ export class LayoutableWrapper {
     this.fieldRowSize = control.getFieldRowSize();
     this.hAlign = control.getAlignmentHorizontal();
     this.vAlign = control.getAlignmentVertical();
+    this.controlLabel = control.getControlLabel();
+    this.labelTemplate = control.getLabelTemplate();
   }
 
   public getName(): string {
@@ -81,6 +85,14 @@ export class LayoutableWrapper {
 
   public getAlignmentVertical(): VerticalAlignment {
     return this.vAlign;
+  }
+
+  public getControlLabel(): LayoutableControlLabel {
+    return this.controlLabel;
+  }
+
+  public getLabelTemplate(): LayoutableControlLabelTemplate {
+    return this.labelTemplate;
   }
 
   public getResultWidth(): number {

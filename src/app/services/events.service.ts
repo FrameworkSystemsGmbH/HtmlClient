@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable, } from '@angular/core';
 
-import { ClientEventArgs } from '../models/eventargs/client.eventargs';
+import { ClientEventArgs } from '../models/eventargs';
 import { BaseWrapper } from '../wrappers';
 
 @Injectable()

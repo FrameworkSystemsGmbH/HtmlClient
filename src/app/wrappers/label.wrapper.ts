@@ -1,8 +1,8 @@
 import { ComponentRef } from '@angular/core';
 
-import { ControlType } from '../enums';
 import { BaseWrapper } from '.';
 import { LabelComponent } from '../controls';
+import { ControlType } from '../enums';
 
 export class LabelWrapper extends BaseWrapper {
 

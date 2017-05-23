@@ -1,12 +1,9 @@
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { ISubscription } from 'rxjs/subscription';
 
-import { ClientEventArgs } from '../models/eventargs/client.eventargs';
-import { JsonUtil } from '../util/json-util';
-import { ActionsService } from './actions.service';
-import { HttpService } from './http.service';
-import { EventsService } from './events.service';
-import { FormsService } from './forms.service';
+import { ActionsService, EventsService, FormsService, HttpService } from '.';
+import { ClientEventArgs } from '../models/eventargs';
+import { JsonUtil } from '../util';
 
 @Injectable()
 export class BrokerService {

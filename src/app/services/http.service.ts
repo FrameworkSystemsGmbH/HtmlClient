@@ -1,12 +1,7 @@
-import {
-  Injectable,
-  EventEmitter
-} from '@angular/core';
-
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { ErrorService } from './error.service';
-import { LogService } from './log.service';
+import { ErrorService, LogService } from '.';
 
 @Injectable()
 export class HttpService {

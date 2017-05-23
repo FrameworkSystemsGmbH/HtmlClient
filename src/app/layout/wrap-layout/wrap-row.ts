@@ -1,4 +1,4 @@
-import { LayoutableWrapper } from '../index';
+import { LayoutableWrapper } from '..';
 
 export class WrapRow {
 

@@ -1,8 +1,8 @@
 import { ComponentRef } from '@angular/core';
 
+import { BaseWrapper, ContainerWrapper } from '.';
 import { ControlType } from '../enums';
 import { FormComponent } from '../controls';
-import { BaseWrapper, ContainerWrapper } from '.';
 
 export class FormWrapper extends ContainerWrapper {
 

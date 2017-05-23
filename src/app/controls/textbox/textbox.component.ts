@@ -1,12 +1,6 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from '..';
 
 @Component({
   selector: 'hc-txt',

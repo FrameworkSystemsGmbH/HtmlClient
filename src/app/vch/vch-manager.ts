@@ -1,4 +1,4 @@
-import { ContainerWrapper, FormWrapper } from '../../wrappers/index';
+import { ContainerWrapper, FormWrapper } from '../wrappers';
 
 export class VchManager {
 

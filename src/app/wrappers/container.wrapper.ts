@@ -1,13 +1,13 @@
 import { ComponentRef, ViewContainerRef } from '@angular/core';
 
-import { JsonUtil } from '../util/json-util';
 import { BaseWrapper, FormWrapper } from '.';
 import { BaseComponent, ContainerComponent } from '../controls';
+import { LayoutableControl, LayoutableContainer } from '../layout';
 import { ControlsService, EventsService } from '../services';
-import { VchContainer } from '../models/vch/index';
-import { LayoutableControl } from '../layouts/index';
+import { JsonUtil } from '../util';
+import { VchContainer } from '../vch';
 
-export abstract class ContainerWrapper extends BaseWrapper {
+export abstract class ContainerWrapper extends BaseWrapper implements LayoutableContainer {
 
   protected controls: Array<BaseWrapper>;
   protected controlsService: ControlsService;

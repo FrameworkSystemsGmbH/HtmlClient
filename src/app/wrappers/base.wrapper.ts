@@ -1,11 +1,11 @@
 import { ComponentRef } from '@angular/core';
 
+import { ContainerWrapper, FormWrapper } from '.';
 import { BaseComponent } from '../controls';
-import { ContainerWrapper, FormWrapper } from '../wrappers';
+import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
+import { LayoutableControl, LayoutableProperties, LayoutableControlLabel, LayoutableControlLabelTemplate } from '../layout';
 import { EventsService } from '../services';
-import { VchControl } from '../models/vch/index';
-import { LayoutableControl, LayoutableProperties } from '../layouts/index';
-import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums/index';
+import { VchControl } from '../vch';
 
 export abstract class BaseWrapper implements LayoutableControl {
 
@@ -53,6 +53,14 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getLayoutableProperties(): LayoutableProperties {
+    return null;
+  }
+
+  public getControlLabel(): LayoutableControlLabel {
+    return null;
+  }
+
+  public getLabelTemplate(): LayoutableControlLabelTemplate {
     return null;
   }
 

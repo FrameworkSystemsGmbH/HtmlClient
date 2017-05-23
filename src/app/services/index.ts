@@ -1,3 +1,5 @@
+export * from './windowref.service';
+export * from './title.service';
 export * from './actions.service';
 export * from './broker.service';
 export * from './controls.service';
@@ -5,8 +7,6 @@ export * from './error.service';
 export * from './events.service';
 export * from './forms.service';
 export * from './http.service';
+export * from './storage.service';
 export * from './local-storage.service';
 export * from './log.service';
-export * from './storage.service';
-export * from './title.service';
-export * from './windowref.service';
