@@ -1,8 +1,23 @@
-import { ContainerWrapper } from '.';
-import { FieldContainer } from '../layout/field-layout';
-import { LayoutableControlLabelTemplate } from '../layout';
+import { ContainerWrapperSpaceable } from '.';
+import { FieldContainer, FieldRowControl } from '../layout/field-layout';
+import { LayoutableControlLabelTemplate, LayoutableControlLabel } from '../layout';
+import { ControlLabelWrapper } from '.';
 
-export class FieldPanelWrapper extends ContainerWrapper implements FieldContainer {
+export class FieldPanelWrapper extends ContainerWrapperSpaceable implements FieldContainer {
+
+  public getLayoutableControls(): Array<FieldRowControl> {
+    return super.getLayoutableControls() as Array<FieldRowControl>;
+  }
+
+  public getLayoutableControlLabels(): Array<LayoutableControlLabel> {
+    let controlLabels = new Array<LayoutableControlLabel>();
+    for (let wrapper of this.getLayoutableControls()) {
+      if (wrapper instanceof ControlLabelWrapper) {
+        controlLabels.push(wrapper);
+      }
+    }
+    return controlLabels;
+  }
 
   public getSynchronizeColumns(): boolean {
     return false;

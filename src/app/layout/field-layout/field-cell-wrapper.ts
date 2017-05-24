@@ -1,6 +1,6 @@
 import { FieldColumnWrapper } from '.';
 import { LayoutableWrapper, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableProperties } from '..';
-import { HorizontalAlignment, VerticalAlignment } from '../../enums';
+import { HorizontalAlignment, VerticalAlignment, ControlVisibility } from '../../enums';
 
 /**
  * Die Klasse wrappt eine Zelle in einem FieldPanel.
@@ -33,7 +33,7 @@ export class FieldCellWrapper {
     if (this.wrapper) {
       return this.wrapper.getIsVisible();
     } else if (this.controlLabel) {
-      return this.controlLabel.getIsVisible();
+      return this.controlLabel.getVisibility() !== ControlVisibility.Collapsed;
     } else {
       return true;
     }
@@ -45,7 +45,7 @@ export class FieldCellWrapper {
     if (this.wrapper) {
       minWidth = Math.max(minWidth, this.wrapper.getMinLayoutWidth());
     } else if (this.controlLabel) {
-      minWidth = Math.max(minWidth, this.controlLabel.getLayoutableControl().getLayoutableProperties().getMinLayoutWidth());
+      minWidth = Math.max(minWidth, this.controlLabel.getLayoutableProperties().getMinLayoutWidth());
     }
 
     if (this.labelTemplate != null) {
@@ -71,7 +71,7 @@ export class FieldCellWrapper {
         return this.wrapper.getMinLayoutWidth();
       }
     } else if (this.controlLabel) {
-      return this.controlLabel.getLayoutableControl().getLayoutableProperties().getMinLayoutWidth();
+      return this.controlLabel.getLayoutableProperties().getMinLayoutWidth();
     } else if (this.labelTemplate) {
       return this.labelTemplate.getMaxWidth();
     } else {
@@ -83,7 +83,7 @@ export class FieldCellWrapper {
     if (this.wrapper) {
       return this.wrapper.getMinLayoutHeight(this.resultWidth);
     } else if (this.controlLabel != null) {
-      return this.controlLabel.getLayoutableControl().getLayoutableProperties().getMinLayoutHeight(this.resultWidth);
+      return this.controlLabel.getLayoutableProperties().getMinLayoutHeight(this.resultWidth);
     } else {
       return 0;
     }
@@ -139,7 +139,7 @@ export class FieldCellWrapper {
       layoutableProperties.setWidth(width);
       layoutableProperties.setHeight(height);
     } else if (this.controlLabel) {
-      let layoutableProperties: LayoutableProperties = this.controlLabel.getLayoutableControl().getLayoutableProperties();
+      let layoutableProperties: LayoutableProperties = this.controlLabel.getLayoutableProperties();
       layoutableProperties.setX(x);
       layoutableProperties.setY(y);
       layoutableProperties.setWidth(width);

@@ -1,6 +1,7 @@
 export * from './height-buffer';
 export * from './layout';
 export * from './layoutable-container';
+export * from './layoutable-container-spaceable';
 export * from './layoutable-control';
 export * from './layoutable-control-label-template';
 export * from './layoutable-control-label';

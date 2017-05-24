@@ -39,8 +39,12 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
     return <VchContainer>this.getVchControl();
   }
 
-  public getLayoutableControls(): LayoutableControl[] {
+  public getLayoutableControls(): Array<LayoutableControl> {
     return this.getVchContainer().getChildrenInFlowDirection();
+  }
+
+  public removeChild(child: LayoutableControl): void {
+
   }
 
   public resumeVch(): void {
@@ -50,7 +54,6 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
   protected initialize(controlJson: any): void {
     super.initialize(controlJson);
     this.controls = new Array<BaseWrapper>();
-
   }
 
   public getJson(): any {

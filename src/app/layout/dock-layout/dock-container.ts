@@ -1,11 +1,7 @@
 import { DockOrientation } from '.';
-import { LayoutableContainer } from '..';
+import { LayoutableContainerSpaceable } from '..';
 
-export interface DockContainer extends LayoutableContainer {
-
-  getSpacingHorizontal(): number;
-
-  getSpacingVertical(): number;
+export interface DockContainer extends LayoutableContainerSpaceable {
 
   getDockOrientation(): DockOrientation;
 

@@ -24,7 +24,7 @@ export class FieldRowWrapper {
    * @param fieldRow
    * @param controlLabelsToDelete
    */
-  public FieldRowWrapper(fieldRow: FieldRowControl, controlLabelsToDelete: Array<LayoutableControlLabel>) {
+  constructor(fieldRow: FieldRowControl, controlLabelsToDelete: Array<LayoutableControlLabel>) {
     let fieldContainer: FieldContainer = fieldRow.getLayoutParent();
 
     this.cells = new Array<FieldCellWrapper>();
@@ -35,7 +35,7 @@ export class FieldRowWrapper {
     let includeInvisibleControls: boolean = fieldContainer.getSynchronizeColumns();
     let controlWrappers: Array<LayoutableWrapper> = new Array<LayoutableWrapper>();
 
-    for (let wrapper of fieldRow.getLayoutChildren()) {
+    for (let wrapper of fieldRow.getLayoutableControls()) {
       if (wrapper.getVisibility() !== ControlVisibility.Collapsed || includeInvisibleControls) {
         controlWrappers.push(new LayoutableWrapper(wrapper));
       }

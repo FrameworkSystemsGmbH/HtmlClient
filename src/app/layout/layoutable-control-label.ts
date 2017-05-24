@@ -1,26 +1,24 @@
 import { LayoutableControl, LayoutableContainer } from '.';
 
-export interface LayoutableControlLabel {
+export interface LayoutableControlLabel extends LayoutableControl {
 
-  getLayoutableControl(): LayoutableControl;
+  todo(): void;
 
   // UIItem getUIItem ();
+
   // Component getComponent();
 
   // void setCaption(String caption);
 
   // Border getBorder();
-  // void setBorder(Border border);
 
-  getIsVisible(): boolean;
+  // void setBorder(Border border);
 
   // void applyToolTip();
 
   // void applyDragHandler();
 
   // void addMouseListener(MouseListener mouseListener);
-
-  setParent(container: LayoutableContainer): void;
 
   // void dispose();
 }

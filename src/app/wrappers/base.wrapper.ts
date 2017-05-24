@@ -3,7 +3,7 @@ import { ComponentRef } from '@angular/core';
 import { ContainerWrapper, FormWrapper } from '.';
 import { BaseComponent } from '../controls';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
-import { LayoutableControl, LayoutableProperties, LayoutableControlLabel, LayoutableControlLabelTemplate } from '../layout';
+import { LayoutableControl, LayoutableProperties, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer } from '../layout';
 import { EventsService } from '../services';
 import { VchControl } from '../vch';
 
@@ -112,6 +112,22 @@ export abstract class BaseWrapper implements LayoutableControl {
     return 0;
   }
 
+  public getMarginLeft(): number {
+    return 0;
+  }
+
+  public getMarginRight(): number {
+    return 0;
+  }
+
+  public getMarginTop(): number {
+    return 0;
+  }
+
+  public getMarginBottom(): number {
+    return 0;
+  }
+
   public getDockItemSize(): number {
     return 0;
   }
@@ -134,6 +150,10 @@ export abstract class BaseWrapper implements LayoutableControl {
 
   public getParent(): ContainerWrapper {
     return this.parent;
+  }
+
+  public setParent(container: LayoutableContainer) {
+    this.parent = container as ContainerWrapper;
   }
 
   public getVchControl(): VchControl {
