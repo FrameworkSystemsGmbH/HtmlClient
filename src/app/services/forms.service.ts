@@ -60,7 +60,6 @@ export class FormsService {
         }
       } else {
         let formWrp: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType(ControlType.Form, null, null, formJson);
-        // formWrp.addViewToViewContainer(vc);
         this.forms.push(formWrp);
       }
     });

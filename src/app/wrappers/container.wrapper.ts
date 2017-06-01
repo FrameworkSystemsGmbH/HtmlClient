@@ -2,12 +2,12 @@ import { ComponentRef, ViewContainerRef } from '@angular/core';
 
 import { BaseWrapper, FormWrapper } from '.';
 import { BaseComponent, ContainerComponent } from '../controls';
-import { LayoutableControl, LayoutableContainer } from '../layout';
+import { LayoutControl, LayoutContainer } from '../layout';
 import { ControlsService, EventsService } from '../services';
 import { JsonUtil } from '../util';
 import { VchContainer } from '../vch';
 
-export abstract class ContainerWrapper extends BaseWrapper implements LayoutableContainer {
+export abstract class ContainerWrapper extends BaseWrapper implements LayoutContainer {
 
   protected controls: Array<BaseWrapper>;
   protected controlsService: ControlsService;
@@ -39,11 +39,11 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
     return <VchContainer>this.getVchControl();
   }
 
-  public getLayoutableControls(): Array<LayoutableControl> {
+  public getLayoutableControls(): Array<LayoutControl> {
     return this.getVchContainer().getChildrenInFlowDirection();
   }
 
-  public removeChild(child: LayoutableControl): void {
+  public removeChild(child: LayoutControl): void {
 
   }
 

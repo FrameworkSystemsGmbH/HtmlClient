@@ -8,6 +8,7 @@
       "root": "src",
       "outDir": "dist/web",
       "assets": [
+        "static/response.json",
         "favicon.ico"
       ],
       "index": "index.html",

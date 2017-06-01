@@ -1,7 +1,7 @@
 import { FieldRowLabelMode, FieldContainer } from '.';
-import { LayoutableContainer } from '..';
+import { LayoutContainer } from '..';
 
-export interface FieldRowControl extends LayoutableContainer {
+export interface FieldRowControl extends LayoutContainer {
 
   getFieldRowSize(): number;
 

@@ -3,11 +3,11 @@ import { ComponentRef } from '@angular/core';
 import { ContainerWrapper, FormWrapper } from '.';
 import { BaseComponent } from '../controls';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
-import { LayoutableControl, LayoutableProperties, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer } from '../layout';
+import { LayoutControl, LayoutProperties, LayoutControlLabel, LayoutControlLabelTemplate, LayoutContainer } from '../layout';
 import { EventsService } from '../services';
 import { VchControl } from '../vch';
 
-export abstract class BaseWrapper implements LayoutableControl {
+export abstract class BaseWrapper implements LayoutControl {
 
   protected eventsService: EventsService;
 
@@ -52,32 +52,16 @@ export abstract class BaseWrapper implements LayoutableControl {
     return ControlVisibility.Visible;
   }
 
-  public getLayoutableProperties(): LayoutableProperties {
+  public getLayoutableProperties(): LayoutProperties {
     return null;
   }
 
-  public getControlLabel(): LayoutableControlLabel {
+  public getControlLabel(): LayoutControlLabel {
     return null;
   }
 
-  public getLabelTemplate(): LayoutableControlLabelTemplate {
+  public getLabelTemplate(): LayoutControlLabelTemplate {
     return null;
-  }
-
-  public getOuterWidth(): number {
-    return 0;
-  }
-
-  public setOuterWidth(width: number): void {
-
-  }
-
-  public getOuterHeight(): number {
-    return 0;
-  }
-
-  public setOuterHeight(height: number): void {
-
   }
 
   public getMinWidth(): number {
@@ -152,7 +136,7 @@ export abstract class BaseWrapper implements LayoutableControl {
     return this.parent;
   }
 
-  public setParent(container: LayoutableContainer) {
+  public setParent(container: LayoutContainer) {
     this.parent = container as ContainerWrapper;
   }
 

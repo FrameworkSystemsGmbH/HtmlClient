@@ -1,5 +1,5 @@
 import { FieldColumnWrapper } from '.';
-import { LayoutableWrapper, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableProperties } from '..';
+import { LayoutControlWrapper, LayoutControlLabel, LayoutControlLabelTemplate, LayoutProperties } from '..';
 import { HorizontalAlignment, VerticalAlignment, ControlVisibility } from '../../enums';
 
 /**
@@ -25,9 +25,9 @@ export class FieldCellWrapper {
    * @param labelTemplate
    */
   constructor(
-    private wrapper: LayoutableWrapper,
-    private controlLabel: LayoutableControlLabel,
-    private labelTemplate: LayoutableControlLabelTemplate) { }
+    private wrapper: LayoutControlWrapper,
+    private controlLabel: LayoutControlLabel,
+    private labelTemplate: LayoutControlLabelTemplate) { }
 
   public isVisible(): boolean {
     if (this.wrapper) {
@@ -133,13 +133,13 @@ export class FieldCellWrapper {
 
   public arrange(x: number, y: number, width: number, height: number): void {
     if (this.wrapper) {
-      let layoutableProperties: LayoutableProperties = this.wrapper.getLayoutableProperties();
+      let layoutableProperties: LayoutProperties = this.wrapper.getLayoutableProperties();
       layoutableProperties.setX(x);
       layoutableProperties.setY(y);
       layoutableProperties.setWidth(width);
       layoutableProperties.setHeight(height);
     } else if (this.controlLabel) {
-      let layoutableProperties: LayoutableProperties = this.controlLabel.getLayoutableProperties();
+      let layoutableProperties: LayoutProperties = this.controlLabel.getLayoutableProperties();
       layoutableProperties.setX(x);
       layoutableProperties.setY(y);
       layoutableProperties.setWidth(width);

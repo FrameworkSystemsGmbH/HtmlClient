@@ -1,15 +1,15 @@
-import { LayoutableWrapper } from '..';
+import { LayoutControlWrapper } from '..';
 
 export class WrapRow {
 
   private resultRowHeight: number;
 
   constructor(
-    private wrappers: Array<LayoutableWrapper>,
+    private wrappers: Array<LayoutControlWrapper>,
     private minRowHeight: number,
     private maxRowHeight: number) { }
 
-  public getWrappers(): Array<LayoutableWrapper> {
+  public getWrappers(): Array<LayoutControlWrapper> {
     return this.wrappers;
   }
 

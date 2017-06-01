@@ -1,12 +1,12 @@
 import { WrapRow, WrapColumn, WrapContainer, WrapArrangement } from '.';
-import { Layout, LayoutableWrapper, LayoutableControl, LayoutableProperties } from '..';
+import { Layout, LayoutControlWrapper, LayoutControl, LayoutProperties } from '..';
 import { HorizontalContentAlignment, HorizontalAlignment, VerticalAlignment, VerticalContentAlignment } from '../../enums';
 import { Queue, LinkedListOneWay } from '../../util';
 
 export class WrapLayout extends Layout {
 
   private width: number = -1;
-  private wrappers: LayoutableWrapper[] = null;
+  private wrappers: LayoutControlWrapper[] = null;
   private wrapRows: WrapRow[] = null;
   private wrapColumns: WrapColumn[] = null;
 
@@ -22,13 +22,13 @@ export class WrapLayout extends Layout {
     this.wrapRows = null;
     this.wrapColumns = null;
 
-    let controls: Array<LayoutableControl> = container.getLayoutableControls();
+    let controls: Array<LayoutControl> = container.getLayoutableControls();
     let controlCount: number = controls.length;
 
-    this.wrappers = new LayoutableWrapper[controlCount];
+    this.wrappers = new LayoutControlWrapper[controlCount];
 
     for (let i = 0; i < controlCount; i++) {
-      this.wrappers[i] = new LayoutableWrapper(controls[i]);
+      this.wrappers[i] = new LayoutControlWrapper(controls[i]);
     }
   }
 
@@ -89,7 +89,7 @@ export class WrapLayout extends Layout {
     let availableWidth: number = width - insetsLeft - insetsRight;
 
     // build list of not "arranged" wrappers
-    let pendingWrappers: LinkedListOneWay<LayoutableWrapper> = new LinkedListOneWay<LayoutableWrapper>();
+    let pendingWrappers: LinkedListOneWay<LayoutControlWrapper> = new LinkedListOneWay<LayoutControlWrapper>();
 
     for (let wrapper of this.wrappers) {
       if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
@@ -137,7 +137,7 @@ export class WrapLayout extends Layout {
    * WrapRow ermittelt und alle aufgenommenen Wrapper kennen ihre endgültige Breite. Die in die WrapRow aufgenommenen Wrapper werden aus
    * den pendingWrappers entfernt.
    */
-  private createWrapRow(pendingWrappers: LinkedListOneWay<LayoutableWrapper>, availableWidth: number, hSpacing: number, container: WrapContainer): WrapRow {
+  private createWrapRow(pendingWrappers: LinkedListOneWay<LayoutControlWrapper>, availableWidth: number, hSpacing: number, container: WrapContainer): WrapRow {
     let horizontalContentAlignment: HorizontalContentAlignment = container.getContentAlignmentHorizontal();
 
     // as long as there are still wrappers to deal with and there is space left in this row,
@@ -145,12 +145,12 @@ export class WrapLayout extends Layout {
     // and sum all min widths
     let neededWidth: number = 0;
     let widthExceeded: boolean = false;
-    let rowWrappers: Array<LayoutableWrapper> = new Array<LayoutableWrapper>();
+    let rowWrappers: Array<LayoutControlWrapper> = new Array<LayoutControlWrapper>();
     let sumMinWidths: number = 0;
     let addSpacing: boolean = false;
 
     while (!widthExceeded && !pendingWrappers.isEmpty()) {
-      let wrapper: LayoutableWrapper = pendingWrappers.peek();
+      let wrapper: LayoutControlWrapper = pendingWrappers.peek();
 
       // add spacing if needed
       if (addSpacing) {
@@ -198,7 +198,7 @@ export class WrapLayout extends Layout {
 
       // calculate desired width an care about alignment and max width
       let stretchFactor: number = availableWidth / sumMinWidths;
-      let todo: LinkedListOneWay<LayoutableWrapper> = new LinkedListOneWay<LayoutableWrapper>();
+      let todo: LinkedListOneWay<LayoutControlWrapper> = new LinkedListOneWay<LayoutControlWrapper>();
       let allProblemsSolved: boolean = false;
 
       for (let wrapper of rowWrappers) {
@@ -208,7 +208,7 @@ export class WrapLayout extends Layout {
       while (!todo.isEmpty() && !allProblemsSolved) {
         allProblemsSolved = true;
 
-        let currentTodo: Array<LayoutableWrapper> = todo.toArray();
+        let currentTodo: Array<LayoutControlWrapper> = todo.toArray();
 
         for (let wrapper of currentTodo) {
           let wrapperMinOuterWidth: number = wrapper.getMinLayoutWidth();
@@ -240,7 +240,7 @@ export class WrapLayout extends Layout {
       // if there are still controls not stretched, stretch them
       // they will not have any problems
       while (!todo.isEmpty()) {
-        let wrapper: LayoutableWrapper = todo.poll();
+        let wrapper: LayoutControlWrapper = todo.poll();
         wrapper.setResultWidth(Math.round(stretchFactor * wrapper.getMinLayoutWidth()));
 
         // recalculate stretch factor to aviod rounding errors
@@ -290,11 +290,11 @@ export class WrapLayout extends Layout {
     let availableWidth: number = width - insetsLeft - insetsRight;
 
     // collect all visible wrappers having a min width (in desired order)
-    let targetWrappers: Array<LayoutableWrapper> = new Array<LayoutableWrapper>();
+    let targetWrappers: Array<LayoutControlWrapper> = new Array<LayoutControlWrapper>();
 
     if (container.getInvertFlowDirection()) {
       for (let i = this.wrappers.length - 1; i >= 0; i--) {
-        let wrapper: LayoutableWrapper = this.wrappers[i];
+        let wrapper: LayoutControlWrapper = this.wrappers[i];
         if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
           targetWrappers.push(wrapper);
         }
@@ -338,7 +338,7 @@ export class WrapLayout extends Layout {
 
     while (lowerHeightLimit < upperHeightLimit) {
       let currentHeight: number = lowerHeightLimit + (upperHeightLimit - lowerHeightLimit) / 2;
-      let pendingWrappers: LinkedListOneWay<LayoutableWrapper> = new LinkedListOneWay<LayoutableWrapper>();
+      let pendingWrappers: LinkedListOneWay<LayoutControlWrapper> = new LinkedListOneWay<LayoutControlWrapper>();
       let currentWrapColumns: Array<WrapColumn> = new Array<WrapColumn>();
       let arrangementFailed: boolean = false;
 
@@ -499,13 +499,13 @@ export class WrapLayout extends Layout {
    * @param vSpacing
    * @return
    */
-  private createWrapColumn(pendingWrappers: LinkedListOneWay<LayoutableWrapper>, availableHeight: number, vSpacing: number): WrapColumn {
+  private createWrapColumn(pendingWrappers: LinkedListOneWay<LayoutControlWrapper>, availableHeight: number, vSpacing: number): WrapColumn {
 
     // as long as there are still wrappers to deal with and there is space left in this column,
     // try to add the next wrapper and sum all min heights
     let neededHeight: number = 0;
     let heightExceeded: boolean = false;
-    let columnWrappers: Array<LayoutableWrapper> = new Array<LayoutableWrapper>();
+    let columnWrappers: Array<LayoutControlWrapper> = new Array<LayoutControlWrapper>();
     let minWidth: number = 0;
     let maxWidth: number = 0;
     let horizontalStretchable: boolean = false;
@@ -513,7 +513,7 @@ export class WrapLayout extends Layout {
     let addSpacing: boolean = false;
 
     while (!heightExceeded && !pendingWrappers.isEmpty()) {
-      let wrapper: LayoutableWrapper = pendingWrappers.peek();
+      let wrapper: LayoutControlWrapper = pendingWrappers.peek();
 
       if (wrapper.getMinLayoutHeightBuffered() > 0) {
         // add spacing if needed
@@ -694,7 +694,7 @@ export class WrapLayout extends Layout {
           yOffset = (resultRowHeight - resultHeight) / 2;
         }
 
-        let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
+        let layoutableProperties: LayoutProperties = wrapper.getLayoutableProperties();
         layoutableProperties.setX(xPos);
         layoutableProperties.setY(yPos + yOffset);
         layoutableProperties.setWidth(wrapper.getResultWidth());
@@ -760,7 +760,7 @@ export class WrapLayout extends Layout {
       // 1. calculate result heights for all wrappers
       if (fillContentVertically) {
         let sumMinHeights: number = 0;
-        let todo: LinkedListOneWay<LayoutableWrapper> = new LinkedListOneWay<LayoutableWrapper>();
+        let todo: LinkedListOneWay<LayoutControlWrapper> = new LinkedListOneWay<LayoutControlWrapper>();
 
         for (let wrapper of wrapColumn.getWrappers()) {
           if (wrapper.getAlignmentVertical() !== VerticalAlignment.Stretch) {
@@ -793,7 +793,7 @@ export class WrapLayout extends Layout {
         }
 
         while (!todo.isEmpty()) {
-          let wrapper: LayoutableWrapper = todo.poll();
+          let wrapper: LayoutControlWrapper = todo.poll();
           wrapper.setResultHeight(Math.round(verticalStretchFactor * wrapper.getMinLayoutHeightBuffered()));
           sumMinHeights -= wrapper.getMinLayoutHeightBuffered();
           availableHeight -= wrapper.getResultHeight();
@@ -841,7 +841,7 @@ export class WrapLayout extends Layout {
           xOffset = (wrapColumn.getResultColumnWidth() - wrapper.getResultWidth()) / 2;
         }
 
-        let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
+        let layoutableProperties: LayoutProperties = wrapper.getLayoutableProperties();
         layoutableProperties.setX(columnXPos + xOffset);
         layoutableProperties.setY(yPos);
         layoutableProperties.setWidth(wrapper.getResultWidth());

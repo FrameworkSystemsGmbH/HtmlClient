@@ -2,7 +2,7 @@
 
 import { FsFont, FsInsets } from '../models';
 
-export interface LayoutableControlLabelTemplate {
+export interface LayoutControlLabelTemplate {
 
   getIsVisible(): boolean;
 

@@ -1,5 +1,5 @@
 export enum DockOrientation {
-  Horizontal,
-  Vertical,
-  HorizontalOrVertical
+  Horizontal = 0,
+  Vertical = 1,
+  HorizontalOrVertical = 2
 }

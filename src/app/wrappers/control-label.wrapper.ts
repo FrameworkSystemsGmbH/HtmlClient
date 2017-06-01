@@ -1,7 +1,7 @@
 import { BaseWrapper } from '.';
-import { LayoutableControlLabel } from '../layout';
+import { LayoutControlLabel } from '../layout';
 
-export class ControlLabelWrapper extends BaseWrapper implements LayoutableControlLabel {
+export class ControlLabelWrapper extends BaseWrapper implements LayoutControlLabel {
 
   public todo(): void {
 

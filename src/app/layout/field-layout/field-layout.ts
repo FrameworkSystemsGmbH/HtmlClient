@@ -1,5 +1,5 @@
 import { FieldContainer, FieldRowWrapper, FieldColumnWrapper, FieldCellWrapper, FieldRowLabelMode } from '.';
-import { Layout, LayoutableContainer, LayoutableControlLabel, LayoutableControl } from '..';
+import { Layout, LayoutContainer, LayoutControlLabel, LayoutControl } from '..';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../../enums';
 import { LinkedListOneWay } from '../../util';
 
@@ -22,7 +22,7 @@ export class FieldLayout extends Layout {
 
     // remember all IControlLabel children
     // those control labels, which will not be added again, have to be removed
-    let controlLabels: Array<LayoutableControlLabel> = new Array<LayoutableControlLabel>();
+    let controlLabels: Array<LayoutControlLabel> = new Array<LayoutControlLabel>();
     for (let child of container.getLayoutableControlLabels()) {
       controlLabels.push(child);
     }

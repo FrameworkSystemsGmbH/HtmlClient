@@ -9,6 +9,7 @@ import { AppRouting } from './app.routing';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ViewerComponent } from './components/viewer/viewer.component';
+import { FrameComponent } from './components/frame/frame.component';
 import {
   ButtonComponent,
   FormComponent,
@@ -26,6 +27,7 @@ import { LoginService } from './components/login/login.service';
     AppComponent,
     NavbarComponent,
     ViewerComponent,
+    FrameComponent,
     LoginComponent,
     ButtonComponent,
     FormComponent,

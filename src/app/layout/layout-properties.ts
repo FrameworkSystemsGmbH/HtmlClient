@@ -1,6 +1,6 @@
-import { LayoutableControl } from '.';
+import { LayoutControl } from '.';
 
-export interface LayoutableProperties {
+export interface LayoutProperties {
 
   getWidth(): number;
 

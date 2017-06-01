@@ -1,10 +1,10 @@
-import { LayoutableContainer } from '.';
+import { LayoutContainer } from '.';
 
 export abstract class Layout {
 
-  constructor(private container: LayoutableContainer) { }
+  constructor(private container: LayoutContainer) { }
 
-  public getContainer(): LayoutableContainer {
+  public getContainer(): LayoutContainer {
     return this.container;
   }
 
