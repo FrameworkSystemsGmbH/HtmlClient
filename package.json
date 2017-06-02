@@ -26,7 +26,6 @@
     "@angular/platform-browser-dynamic": "4.1.3",
     "@angular/router": "4.1.3",
     "bootstrap-sass": "3.3.7",
-    "color": "1.0.3",
     "core-js": "2.4.1",
     "font-awesome": "4.7.0",
     "hammer-timejs": "1.1.0",
@@ -39,7 +38,6 @@
   "devDependencies": {
     "@angular/cli": "1.0.4",
     "@angular/compiler-cli": "4.1.3",
-    "@types/color": "1.0.4",
     "@types/jasmine": "2.5.47",
     "@types/node": "7.0.22",
     "codelyzer": "3.0.1",

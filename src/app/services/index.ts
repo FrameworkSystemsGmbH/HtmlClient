@@ -5,6 +5,7 @@ export * from './broker.service';
 export * from './controls.service';
 export * from './error.service';
 export * from './events.service';
+export * from './font.service';
 export * from './forms.service';
 export * from './http.service';
 export * from './storage.service';

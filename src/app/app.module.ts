@@ -19,7 +19,7 @@ import {
 } from './controls';
 
 import { MediaQueryDirective, MouseWheelDirective } from './directives';
-import { StorageService, LocalStorageService, WindowRefService } from './services';
+import { FontService, StorageService, LocalStorageService, WindowRefService } from './services';
 import { LoginService } from './components/login/login.service';
 
 @NgModule({
@@ -47,6 +47,7 @@ import { LoginService } from './components/login/login.service';
   ],
   providers: [
     { provide: StorageService, useClass: LocalStorageService },
+    FontService,
     LoginService,
     WindowRefService
   ],

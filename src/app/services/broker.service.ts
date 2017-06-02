@@ -2,7 +2,7 @@ import { Injectable, ViewContainerRef } from '@angular/core';
 import { ISubscription } from 'rxjs/subscription';
 
 import { ActionsService, EventsService, FormsService, HttpService } from '.';
-import { ClientEventArgs } from '../models/eventargs';
+import { ClientEventArgs } from '../common/eventargs';
 import { JsonUtil } from '../util';
 
 @Injectable()

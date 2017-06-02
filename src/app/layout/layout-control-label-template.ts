@@ -1,6 +1,4 @@
-/// <reference path="../../../node_modules/@types/color/index.d.ts" />
-
-import { FsFont, FsInsets } from '../models';
+import { FsFont, FsInsets } from '../common';
 
 export interface LayoutControlLabelTemplate {
 
@@ -8,13 +6,13 @@ export interface LayoutControlLabelTemplate {
 
   setIsVisible(value: boolean): void;
 
-  getBackColor(): Color.Color;
+  getBackColor(): string;
 
-  setBackColor(value: Color.Color): void;
+  setBackColor(value: string): void;
 
-  getForeColor(): Color.Color;
+  getForeColor(): string;
 
-  setForeColor(value: Color.Color): void;
+  setForeColor(value: string): void;
 
   getFontFamily(): string;
 

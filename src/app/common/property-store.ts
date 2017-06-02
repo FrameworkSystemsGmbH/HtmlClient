@@ -1,33 +1,33 @@
+import { PropertyData } from './property-data';
 import { PropertyLayer } from './property-layer';
-import { PropertyLayerId } from './property-layer-id';
 import { ControlVisibility } from '../enums';
 import { DockOrientation } from '../layout/dock-layout';
 
 export class PropertyStore {
 
-  private store: Map<PropertyLayerId, PropertyLayer>;
+  private store: Map<PropertyLayer, PropertyData>;
 
   constructor() {
-    this.store = new Map<PropertyLayerId, PropertyLayer>();
-    this.store.set(PropertyLayerId.ControlStyle, new PropertyLayer());
-    this.store.set(PropertyLayerId.Control, new PropertyLayer());
-    this.store.set(PropertyLayerId.Action, new PropertyLayer());
-    this.store.set(PropertyLayerId.CSC, new PropertyLayer());
+    this.store = new Map<PropertyLayer, PropertyData>();
+    this.store.set(PropertyLayer.ControlStyle, new PropertyData());
+    this.store.set(PropertyLayer.Control, new PropertyData());
+    this.store.set(PropertyLayer.Action, new PropertyData());
+    this.store.set(PropertyLayer.CSC, new PropertyData());
   }
 
-  public setLayer(layerId: PropertyLayerId, layer: PropertyLayer) {
-    this.store.set(layerId, layer);
+  public setLayer(layer: PropertyLayer, data: PropertyData) {
+    this.store.set(layer, data);
   }
 
-  private getValue<T>(getValueFunc: (layer: PropertyLayer) => T): T {
-    let value: T = getValueFunc(this.store.get(PropertyLayerId.CSC));
+  private getValue<T>(getValueFunc: (data: PropertyData) => T): T {
+    let value: T = getValueFunc(this.store.get(PropertyLayer.CSC));
 
     if (value == null) {
-      value = getValueFunc(this.store.get(PropertyLayerId.Action));
+      value = getValueFunc(this.store.get(PropertyLayer.Action));
       if (value == null) {
-        value = getValueFunc(this.store.get(PropertyLayerId.Control));
+        value = getValueFunc(this.store.get(PropertyLayer.Control));
         if (value == null) {
-          value = getValueFunc(this.store.get(PropertyLayerId.ControlStyle));
+          value = getValueFunc(this.store.get(PropertyLayer.ControlStyle));
         }
       }
     }
@@ -35,324 +35,324 @@ export class PropertyStore {
     return value;
   }
 
-  private getValueForLayer<T>(layerId: PropertyLayerId, getValueFunc: (layer: PropertyLayer) => T): T {
-    return getValueFunc(this.store.get(layerId));
+  private getValueForLayer<T>(layer: PropertyLayer, getValueFunc: (data: PropertyData) => T): T {
+    return getValueFunc(this.store.get(layer));
   }
 
-  public setValue<T>(layerId: PropertyLayerId, setValueFunc: (layer: PropertyLayer) => void): void {
-    setValueFunc(this.store.get(layerId));
+  public setValue<T>(layer: PropertyLayer, setValueFunc: (data: PropertyData) => void): void {
+    setValueFunc(this.store.get(layer));
   }
 
   // Id
   public getId(): string {
-    return this.getValue<string>((layer: PropertyLayer) => { return layer.id });
+    return this.getValue<string>((data: PropertyData) => { return data.id });
   }
 
-  public getIdForLayer(layerId: PropertyLayerId): string {
-    return this.getValueForLayer<string>(layerId, (layer: PropertyLayer) => { return layer.id });
+  public getIdForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.id });
   }
 
-  public setId(layerId: PropertyLayerId, value: string): void {
-    this.setValue<string>(layerId, (layer: PropertyLayer) => { layer.id = value });
+  public setId(layer: PropertyLayer, value: string): void {
+    this.setValue<string>(layer, (data: PropertyData) => { data.id = value });
   }
 
   // Name
   public getName(): string {
-    return this.getValue<string>((layer: PropertyLayer) => { return layer.name });
+    return this.getValue<string>((data: PropertyData) => { return data.name });
   }
 
-  public getNameForLayer(layerId: PropertyLayerId): string {
-    return this.getValueForLayer<string>(layerId, (layer: PropertyLayer) => { return layer.name });
+  public getNameForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.name });
   }
 
-  public setName(layerId: PropertyLayerId, value: string): void {
-    this.setValue<string>(layerId, (layer: PropertyLayer) => { layer.name = value });
+  public setName(layer: PropertyLayer, value: string): void {
+    this.setValue<string>(layer, (data: PropertyData) => { data.name = value });
   }
 
   // Name
   public getTitle(): string {
-    return this.getValue<string>((layer: PropertyLayer) => { return layer.title });
+    return this.getValue<string>((data: PropertyData) => { return data.title });
   }
 
-  public getTitleForLayer(layerId: PropertyLayerId): string {
-    return this.getValueForLayer<string>(layerId, (layer: PropertyLayer) => { return layer.title });
+  public getTitleForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.title });
   }
 
-  public setTitle(layerId: PropertyLayerId, value: string): void {
-    this.setValue<string>(layerId, (layer: PropertyLayer) => { layer.title = value });
+  public setTitle(layer: PropertyLayer, value: string): void {
+    this.setValue<string>(layer, (data: PropertyData) => { data.title = value });
   }
 
   // Visibility
   public getVisibility(): ControlVisibility {
-    return this.getValue<ControlVisibility>((layer: PropertyLayer) => { return layer.visibility });
+    return this.getValue<ControlVisibility>((data: PropertyData) => { return data.visibility });
   }
 
-  public getVisibilityForLayer(layerId: PropertyLayerId): ControlVisibility {
-    return this.getValueForLayer<ControlVisibility>(layerId, (layer: PropertyLayer) => { return layer.visibility });
+  public getVisibilityForLayer(layer: PropertyLayer): ControlVisibility {
+    return this.getValueForLayer<ControlVisibility>(layer, (data: PropertyData) => { return data.visibility });
   }
 
-  public setVisibility(layerId: PropertyLayerId, value: ControlVisibility): void {
-    this.setValue<ControlVisibility>(layerId, (layer: PropertyLayer) => { layer.visibility = value });
+  public setVisibility(layer: PropertyLayer, value: ControlVisibility): void {
+    this.setValue<ControlVisibility>(layer, (data: PropertyData) => { data.visibility = value });
   }
 
   // BackgroundColor
   public getBackgroundColor(): string {
-    return this.getValue<string>((layer: PropertyLayer) => { return layer.backgroundColor });
+    return this.getValue<string>((data: PropertyData) => { return data.backgroundColor });
   }
 
-  publicgetBackgroundColorForLayer(layerId: PropertyLayerId): string {
-    return this.getValueForLayer<string>(layerId, (layer: PropertyLayer) => { return layer.backgroundColor });
+  publicgetBackgroundColorForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.backgroundColor });
   }
 
-  public setBackgroundColor(layerId: PropertyLayerId, value: string): void {
-    this.setValue<string>(layerId, (layer: PropertyLayer) => { layer.backgroundColor = value });
+  public setBackgroundColor(layer: PropertyLayer, value: string): void {
+    this.setValue<string>(layer, (data: PropertyData) => { data.backgroundColor = value });
   }
 
   // MinWidth
   public getMinWidth(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.minWidth });
+    return this.getValue<number>((data: PropertyData) => { return data.minWidth });
   }
 
-  public getMinWidthForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.minWidth });
+  public getMinWidthForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.minWidth });
   }
 
-  public setMinWidth(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.minWidth = value });
+  public setMinWidth(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.minWidth = value });
   }
 
   // MinHeight
   public getMinHeight(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.minHeight });
+    return this.getValue<number>((data: PropertyData) => { return data.minHeight });
   }
 
-  public getMinHeightForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.minHeight });
+  public getMinHeightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.minHeight });
   }
 
-  public setMinHeight(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.minHeight = value });
+  public setMinHeight(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.minHeight = value });
   }
 
   // MaxWidth
   public getMaxWidth(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.maxWidth });
+    return this.getValue<number>((data: PropertyData) => { return data.maxWidth });
   }
 
-  public getMaxWidthForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.maxWidth });
+  public getMaxWidthForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.maxWidth });
   }
 
-  public setMaxWidth(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.maxWidth = value });
+  public setMaxWidth(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.maxWidth = value });
   }
 
   // MaxHeight
   public getMaxHeight(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.maxHeight });
+    return this.getValue<number>((data: PropertyData) => { return data.maxHeight });
   }
 
-  public getMaxHeightForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.maxHeight });
+  public getMaxHeightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.maxHeight });
   }
 
-  public setMaxHeight(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.maxHeight = value });
+  public setMaxHeight(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.maxHeight = value });
   }
 
   // MarginLeft
   public getMarginLeft(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.marginLeft });
+    return this.getValue<number>((data: PropertyData) => { return data.marginLeft });
   }
 
-  public getMarginLeftForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.marginLeft });
+  public getMarginLeftForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.marginLeft });
   }
 
-  public setMarginLeft(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.marginLeft = value });
+  public setMarginLeft(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.marginLeft = value });
   }
 
   // MarginRight
   public getMarginRight(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.marginRight });
+    return this.getValue<number>((data: PropertyData) => { return data.marginRight });
   }
 
-  public getMarginRightForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.marginRight });
+  public getMarginRightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.marginRight });
   }
 
-  public setMarginRight(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.marginRight = value });
+  public setMarginRight(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.marginRight = value });
   }
 
   // MarginTop
   public getMarginTop(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.marginTop });
+    return this.getValue<number>((data: PropertyData) => { return data.marginTop });
   }
 
-  public getMarginTopForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.marginTop });
+  public getMarginTopForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.marginTop });
   }
 
-  public setMarginTop(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.marginTop = value });
+  public setMarginTop(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.marginTop = value });
   }
 
   // MarginBottom
   public getMarginBottom(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.marginBottom });
+    return this.getValue<number>((data: PropertyData) => { return data.marginBottom });
   }
 
-  public getMarginBottomForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.marginBottom });
+  public getMarginBottomForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.marginBottom });
   }
 
-  public setMarginBottom(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.marginBottom = value });
+  public setMarginBottom(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.marginBottom = value });
   }
 
   // PaddingLeft
   public getPaddingLeft(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.paddingLeft });
+    return this.getValue<number>((data: PropertyData) => { return data.paddingLeft });
   }
 
-  public getPaddingLeftForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.paddingLeft });
+  public getPaddingLeftForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.paddingLeft });
   }
 
-  public setPaddingLeft(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.paddingLeft = value });
+  public setPaddingLeft(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.paddingLeft = value });
   }
 
   // PaddingRight
   public getPaddingRight(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.paddingRight });
+    return this.getValue<number>((data: PropertyData) => { return data.paddingRight });
   }
 
-  public getPaddingRightForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.paddingRight });
+  public getPaddingRightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.paddingRight });
   }
 
-  public setPaddingRight(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.paddingRight = value });
+  public setPaddingRight(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.paddingRight = value });
   }
 
   // PaddingTop
   public getPaddingTop(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.paddingTop });
+    return this.getValue<number>((data: PropertyData) => { return data.paddingTop });
   }
 
-  public getPaddingTopForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.paddingTop });
+  public getPaddingTopForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.paddingTop });
   }
 
-  public setPaddingTop(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.paddingTop = value });
+  public setPaddingTop(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.paddingTop = value });
   }
 
   // PaddingBottom
   public getPaddingBottom(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.paddingBottom });
+    return this.getValue<number>((data: PropertyData) => { return data.paddingBottom });
   }
 
-  public getPaddingBottomForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.paddingBottom });
+  public getPaddingBottomForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.paddingBottom });
   }
 
-  public setPaddingBottom(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.paddingBottom = value });
+  public setPaddingBottom(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.paddingBottom = value });
   }
 
   // BorderColor
   public getBorderColor(): string {
-    return this.getValue<string>((layer: PropertyLayer) => { return layer.borderColor });
+    return this.getValue<string>((data: PropertyData) => { return data.borderColor });
   }
 
-  public getBorderColorForLayer(layerId: PropertyLayerId): string {
-    return this.getValueForLayer<string>(layerId, (layer: PropertyLayer) => { return layer.borderColor });
+  public getBorderColorForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.borderColor });
   }
 
-  public setBorderColor(layerId: PropertyLayerId, value: string): void {
-    this.setValue<string>(layerId, (layer: PropertyLayer) => { layer.borderColor = value });
+  public setBorderColor(layer: PropertyLayer, value: string): void {
+    this.setValue<string>(layer, (data: PropertyData) => { data.borderColor = value });
   }
 
   // BorderThicknessLeft
   public getBorderThicknessLeft(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.borderThicknessLeft });
+    return this.getValue<number>((data: PropertyData) => { return data.borderThicknessLeft });
   }
 
-  public getBorderThicknessLeftForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.borderThicknessLeft });
+  public getBorderThicknessLeftForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.borderThicknessLeft });
   }
 
-  public setBorderThicknessLeft(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.borderThicknessLeft = value });
+  public setBorderThicknessLeft(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.borderThicknessLeft = value });
   }
 
   // BorderThicknessRight
   public geBorderThicknessRight(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.borderThicknessRight });
+    return this.getValue<number>((data: PropertyData) => { return data.borderThicknessRight });
   }
 
-  public getBorderThicknessRightForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.borderThicknessRight });
+  public getBorderThicknessRightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.borderThicknessRight });
   }
 
-  public setBorderThicknessRight(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.borderThicknessRight = value });
+  public setBorderThicknessRight(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.borderThicknessRight = value });
   }
 
   // BorderThicknessTop
   public getBorderThicknessTop(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.borderThicknessTop });
+    return this.getValue<number>((data: PropertyData) => { return data.borderThicknessTop });
   }
 
-  public getBorderThicknessTopForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.borderThicknessTop });
+  public getBorderThicknessTopForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.borderThicknessTop });
   }
 
-  public setBorderThicknessTop(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.borderThicknessTop = value });
+  public setBorderThicknessTop(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.borderThicknessTop = value });
   }
 
   // BorderThicknessBottom
   public getBorderThicknessBottom(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.borderThicknessBottom });
+    return this.getValue<number>((data: PropertyData) => { return data.borderThicknessBottom });
   }
 
-  public getBorderThicknessBottomForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.borderThicknessBottom });
+  public getBorderThicknessBottomForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.borderThicknessBottom });
   }
 
-  public setBorderThicknessBottom(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.borderThicknessBottom = value });
+  public setBorderThicknessBottom(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.borderThicknessBottom = value });
   }
 
   // DockItemSize
   public getDockItemSize(): number {
-    return this.getValue<number>((layer: PropertyLayer) => { return layer.dockItemSize });
+    return this.getValue<number>((data: PropertyData) => { return data.dockItemSize });
   }
 
-  public getDockItemSizeForLayer(layerId: PropertyLayerId): number {
-    return this.getValueForLayer<number>(layerId, (layer: PropertyLayer) => { return layer.dockItemSize });
+  public getDockItemSizeForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.dockItemSize });
   }
 
-  public setDockItemSize(layerId: PropertyLayerId, value: number): void {
-    this.setValue<number>(layerId, (layer: PropertyLayer) => { layer.dockItemSize = value });
+  public setDockItemSize(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.dockItemSize = value });
   }
 
   // DockOrientation
   public getDockOrientation(): DockOrientation {
-    return this.getValue<DockOrientation>((layer: PropertyLayer) => { return layer.dockOrientation });
+    return this.getValue<DockOrientation>((data: PropertyData) => { return data.dockOrientation });
   }
 
-  public getDockOrientationForLayer(layerId: PropertyLayerId): DockOrientation {
-    return this.getValueForLayer<DockOrientation>(layerId, (layer: PropertyLayer) => { return layer.dockOrientation });
+  public getDockOrientationForLayer(layer: PropertyLayer): DockOrientation {
+    return this.getValueForLayer<DockOrientation>(layer, (data: PropertyData) => { return data.dockOrientation });
   }
 
-  public setDockOrientation(layerId: PropertyLayerId, value: DockOrientation): void {
-    this.setValue<DockOrientation>(layerId, (layer: PropertyLayer) => { layer.dockOrientation = value });
+  public setDockOrientation(layer: PropertyLayer, value: DockOrientation): void {
+    this.setValue<DockOrientation>(layer, (data: PropertyData) => { data.dockOrientation = value });
   }
 
 }

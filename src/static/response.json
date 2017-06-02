@@ -1,4 +1,17 @@
 {
+  "controlStyles": [
+    {
+      "name": "style1",
+      "properties": {
+        "borderThicknessLeft": 1,
+        "borderThicknessRight": 1,
+        "borderThicknessTop": 1,
+        "borderThicknessBottom": 1,
+        "borderColor": "#3281FF",
+        "backgroundColor": "#DDEAFF"
+      }
+    }
+  ],
   "forms": [
     {
       "id": "8bca8507-39e0-42a7-8e43-76dd699e423e",
@@ -6,23 +19,20 @@
       "title": "Test",
       "controls": [
         {
-          "id": "b7cb7286-0ee7-4ff0-aa4b-0384b1260394",
-          "name": "dpnContent",
-          "dockOrientation": 1,
-          "marginLeft": 20,
-          "marginRight": 20,
-          "marginTop": 20,
-          "marginBottom": 20,
-          "paddingLeft": 20,
-          "paddingRight": 20,
-          "paddingTop": 20,
-          "paddingBottom": 20,
-          "borderThicknessLeft": 1,
-          "borderThicknessRight": 1,
-          "borderThicknessTop": 1,
-          "borderThicknessBottom": 1,
-          "borderColor": "#3281FF",
-          "backgroundColor": "#DDEAFF"
+          "properties": {
+            "id": "b7cb7286-0ee7-4ff0-aa4b-0384b1260394",
+            "name": "dpnContent",
+            "controlStyle": "style1",
+            "dockOrientation": 1,
+            "marginLeft": 20,
+            "marginRight": 20,
+            "marginTop": 20,
+            "marginBottom": 20,
+            "paddingLeft": 20,
+            "paddingRight": 20,
+            "paddingTop": 20,
+            "paddingBottom": 20
+          }
         }
       ]
     }

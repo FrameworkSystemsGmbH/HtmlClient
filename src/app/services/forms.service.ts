@@ -3,7 +3,7 @@ import { ISubscription } from 'rxjs/subscription';
 
 import { ControlsService } from '.';
 import { ControlType } from '../enums';
-import { ClientEventArgs } from '../models/eventargs';
+import { ClientEventArgs } from '../common/eventargs';
 import { JsonUtil } from '../util';
 
 import {
