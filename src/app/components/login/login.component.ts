@@ -16,21 +16,23 @@ import { BrokerService } from '../../services/broker.service';
 export class LoginComponent implements OnInit, OnDestroy {
 
   public brokers: Array<LoginBroker>;
+  public activeBroker: LoginBroker;
   public addForm: FormGroup;
   public nameControl: FormControl;
   public urlControl: FormControl;
 
   private brokersSub: ISubscription;
+  private activeBrokerSub: ISubscription;
 
   constructor(
     private loginService: LoginService,
     private brokerService: BrokerService) { }
 
   public ngOnInit(): void {
-    this.brokersSub = this.loginService.getBrokers().subscribe(brokers => {
-      this.brokers = brokers;
-    });
+    this.brokersSub = this.loginService.getBrokers().subscribe(brokers => { this.brokers = brokers; });
+    this.brokerService.activeBrokerChanged.subscribe(broker => { this.activeBroker = broker });
 
+    this.activeBroker = this.brokerService.getActiveBroker();
     this.nameControl = new FormControl(null, Validators.required, this.createBrokerValidator(this.loginService));
     this.urlControl = new FormControl(null, Validators.required);
 

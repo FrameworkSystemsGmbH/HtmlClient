@@ -9,7 +9,7 @@
     </tbody>
     <tbody *ngIf="brokers && brokers.length">
       <tr *ngFor="let broker of brokers; let i = index" (click)="loadBroker(broker)">
-        <td style="width: 30%;">{{ broker.name }}</td>
+        <td style="width: 30%;"><i *ngIf="broker.name === activeBroker?.name" class="fa fa-fw fa-cog fa-spin"></i> {{ broker.name }}</td>
         <td>{{ broker.url }}</td>
         <td class="text-right fit">
           <button type="button" class="btn btn-danger" (click)="deleteBroker(i)"><span class="fa fw fa-trash"></span></button>

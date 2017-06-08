@@ -72,7 +72,7 @@ export class PropertyStore {
     this.setValue<string>(layer, (data: PropertyData) => { data.name = value });
   }
 
-  // Name
+  // Title
   public getTitle(): string {
     return this.getValue<string>((data: PropertyData) => { return data.title });
   }

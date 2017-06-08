@@ -21,10 +21,6 @@ export class LoginService {
     return this.logins.asObservable();
   }
 
-  public getBroker(index: number): LoginBroker {
-    return this.logins[index];
-  }
-
   public addBroker(broker: LoginBroker): void {
     let logins: Array<LoginBroker> = this.logins.getValue();
 

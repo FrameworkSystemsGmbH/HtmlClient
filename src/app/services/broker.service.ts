@@ -1,4 +1,4 @@
-import { Injectable, ViewContainerRef } from '@angular/core';
+import { Injectable, ViewContainerRef, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ISubscription } from 'rxjs/subscription';
 
@@ -16,6 +16,9 @@ import { LoginBroker } from '../common';
 @Injectable()
 export class BrokerService {
 
+  public activeBrokerChanged: EventEmitter<LoginBroker>;
+
+  private activeBroker: LoginBroker;
   private onEventFiredSub: ISubscription;
   private onResponseReceivedSub: ISubscription;
 
@@ -35,9 +38,17 @@ export class BrokerService {
     this.onResponseReceivedSub = this.httpService.onResponseReceived.subscribe((responseJson: any) => {
       this.processResponse(responseJson);
     });
+
+    this.activeBrokerChanged = new EventEmitter<LoginBroker>();
+  }
+
+  public getActiveBroker(): LoginBroker {
+    return this.activeBroker;
   }
 
   public login(broker: LoginBroker): void {
+    this.activeBroker = broker;
+    this.activeBrokerChanged.emit(broker);
     this.sendInitRequest();
   }
 
