@@ -16,10 +16,6 @@ export abstract class BaseComponent {
     return this.wrapper.getName();
   }
 
-  public setName(name: string): void {
-    this.wrapper.setName(name);
-  }
-
   public setFocus(): void {
     // Has to be overridden in subclasses to take effect
   }

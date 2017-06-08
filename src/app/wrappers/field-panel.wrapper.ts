@@ -2,6 +2,8 @@ import { ContainerWrapperSpaceable } from '.';
 import { FieldContainer, FieldRowControl } from '../layout/field-layout';
 import { LayoutControlLabelTemplate, LayoutControlLabel } from '../layout';
 import { ControlLabelWrapper } from '.';
+import { ViewContainerRef, ComponentRef } from '@angular/core';
+import { LabelComponent } from '../controls';
 
 export class FieldPanelWrapper extends ContainerWrapperSpaceable implements FieldContainer {
 
@@ -25,6 +27,18 @@ export class FieldPanelWrapper extends ContainerWrapperSpaceable implements Fiel
 
   public getRowLabelTemplate(): LayoutControlLabelTemplate {
     return null;
+  }
+
+  public createComponent(): ComponentRef<LabelComponent> {
+    return null;
+  }
+
+  protected getViewContainerRef(): ViewContainerRef {
+    return null;
+  }
+
+  public updateComponent(): void {
+
   }
 
 }

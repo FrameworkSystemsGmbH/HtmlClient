@@ -1,4 +1,4 @@
-import { ComponentRef } from '@angular/core';
+import { ComponentRef, ViewContainerRef } from '@angular/core';
 
 import { BaseWrapper } from '.';
 import { TextBoxComponent } from '../controls';
@@ -72,6 +72,14 @@ export class TextBoxWrapper extends BaseWrapper {
     if (eventsJson.leave) {
       this.events &= ControlEvent.Leave;
     }
+  }
+
+  public createComponent(): ComponentRef<TextBoxComponent> {
+    return null;
+  }
+
+  public updateComponent(): void {
+
   }
 
 }

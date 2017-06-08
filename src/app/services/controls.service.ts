@@ -1,10 +1,8 @@
-import { ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, Injector, ViewContainerRef } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, Injector, ViewContainerRef, ApplicationRef } from '@angular/core';
 import { ISubscription } from 'rxjs/subscription';
 
-import { EventsService } from '.';
 import { ControlType } from '../enums';
 import { JsonUtil } from '../util';
-
 import {
   BaseWrapper,
   ContainerWrapper,
@@ -13,29 +11,30 @@ import {
   LabelWrapper,
   TextBoxWrapper
 } from '../wrappers';
+import { EventsService } from './events.service';
+import { ControlStyleService } from './control-style.service';
 
 @Injectable()
 export class ControlsService {
 
   constructor(
-    private eventsService: EventsService,
-    private cfr: ComponentFactoryResolver
+    private appInjector: Injector
   ) { }
 
-  public createWrapperFromString(controlTypeStr: string, form: FormWrapper, parent: ContainerWrapper, controlJson: any): BaseWrapper {
-    return this.createWrapperFromType(ControlType[controlTypeStr], form, parent, controlJson);
+  public createWrapperFromString(controlTypeStr: string, json: any, form: FormWrapper, parent: ContainerWrapper): BaseWrapper {
+    return this.createWrapperFromType(ControlType[controlTypeStr], json, form, parent);
   }
 
-  public createWrapperFromType(controlType: ControlType, form: FormWrapper, parent: ContainerWrapper, controlJson: any): BaseWrapper {
+  public createWrapperFromType(controlType: ControlType, json: any, form: FormWrapper, parent: ContainerWrapper): BaseWrapper {
     switch (controlType) {
       case ControlType.Button:
-        return new ButtonWrapper(form, parent, controlJson, this.eventsService);
+        return new ButtonWrapper(json, form, parent, this.appInjector);
       case ControlType.Form:
-        return new FormWrapper(form, parent, controlJson, this.eventsService, this);
+        return new FormWrapper(json, form, parent, this.appInjector);
       case ControlType.Label:
-        return new LabelWrapper(form, parent, controlJson, this.eventsService);
+        return new LabelWrapper(json, form, parent, this.appInjector);
       case ControlType.TextBox:
-        return new TextBoxWrapper(form, parent, controlJson, this.eventsService);
+        return new TextBoxWrapper(json, form, parent, this.appInjector);
       default:
         throw new Error('ControlType \'' + controlType + '\' not supported!');
     }

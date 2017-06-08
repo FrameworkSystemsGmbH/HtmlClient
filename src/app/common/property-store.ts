@@ -9,10 +9,6 @@ export class PropertyStore {
 
   constructor() {
     this.store = new Map<PropertyLayer, PropertyData>();
-    this.store.set(PropertyLayer.ControlStyle, new PropertyData());
-    this.store.set(PropertyLayer.Control, new PropertyData());
-    this.store.set(PropertyLayer.Action, new PropertyData());
-    this.store.set(PropertyLayer.CSC, new PropertyData());
   }
 
   public setLayer(layer: PropertyLayer, data: PropertyData) {
@@ -40,7 +36,14 @@ export class PropertyStore {
   }
 
   public setValue<T>(layer: PropertyLayer, setValueFunc: (data: PropertyData) => void): void {
-    setValueFunc(this.store.get(layer));
+    let data: PropertyData = this.store.get(layer);
+
+    if (!data) {
+      data = new PropertyData();
+      this.store.set(layer, data);
+    }
+
+    setValueFunc(data);
   }
 
   // Id

@@ -1,7 +1,7 @@
 import { ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, Injector, ViewContainerRef } from '@angular/core';
-import { ISubscription } from 'rxjs/subscription';
+import { Observable } from 'rxjs/Observable';
+import { ISubscription } from 'rxjs/Subscription';
 
-import { ControlsService } from '.';
 import { ControlType } from '../enums';
 import { ClientEventArgs } from '../common/eventargs';
 import { JsonUtil } from '../util';
@@ -14,44 +14,59 @@ import {
   TextBoxWrapper
 } from '../wrappers';
 
+import { ResponseFormDto } from '../communication/response';
+import { ControlsService } from './controls.service';
+
 @Injectable()
 export class FormsService {
 
+  public formSelected: EventEmitter<FormWrapper>;
+
   private forms: Array<FormWrapper> = new Array<FormWrapper>();
 
-  constructor(private controlsService: ControlsService) { }
-
-  public getFormsJson(eventArgs?: ClientEventArgs): any {
-    let formsJson: any = [];
-
-    this.forms.forEach((formWrp: FormWrapper) => {
-      let formJson: any = formWrp.getJson();
-
-      if (formJson && eventArgs) {
-        formJson.event = eventArgs.getJson();
-      } else if (eventArgs) {
-        formJson = {
-          meta: {
-            name: formWrp.getName()
-          },
-          event: eventArgs.getJson()
-        };
-      }
-
-      if (formJson) {
-        formsJson.push(formJson);
-      }
-    });
-
-    return formsJson;
+  constructor(private controlsService: ControlsService) {
+    this.formSelected = new EventEmitter<FormWrapper>();
   }
 
-  public setFormsJson(vc: ViewContainerRef, formsJson: any) {
-    formsJson.forEach((formJson: any) => {
-      let delta: boolean = formJson.meta.delta;
+  public getForms(): Observable<Array<FormWrapper>> {
+    return Observable.of(this.forms);
+  }
+
+  public selectForm(form: FormWrapper): void {
+    this.formSelected.emit(form);
+  }
+
+  // public getFormsJson(eventArgs?: ClientEventArgs): any {
+  //   let formsJson: any = [];
+
+  //   this.forms.forEach((formWrp: FormWrapper) => {
+  //     let formJson: any = formWrp.getJson();
+
+  //     if (formJson && eventArgs) {
+  //       formJson.event = eventArgs.getJson();
+  //     } else if (eventArgs) {
+  //       formJson = {
+  //         meta: {
+  //           name: formWrp.getName()
+  //         },
+  //         event: eventArgs.getJson()
+  //       };
+  //     }
+
+  //     if (formJson) {
+  //       formsJson.push(formJson);
+  //     }
+  //   });
+
+  //   return formsJson;
+  // }
+
+  public setJson(fromsJson: any) {
+    for (let formJson of fromsJson) {
+      let delta: boolean = formJson.delta;
 
       if (delta) {
-        let formName: string = formJson.meta.name;
+        let formName: string = formJson.name;
         let formWrps: Array<FormWrapper> = this.forms.filter((formWrp: FormWrapper) => formWrp.getName() === formName);
 
         if (formWrps && formWrps.length) {
@@ -59,10 +74,10 @@ export class FormsService {
           form.setJson(formJson, true);
         }
       } else {
-        let formWrp: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType(ControlType.Form, null, null, formJson);
+        let formWrp: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType(ControlType.Form, formJson, null, null);
         this.forms.push(formWrp);
       }
-    });
+    }
   }
 
   public findForm(formName: string): FormWrapper {

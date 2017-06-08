@@ -15,26 +15,23 @@
   "forms": [
     {
       "id": "8bca8507-39e0-42a7-8e43-76dd699e423e",
-      "name": "frmTest",
-      "title": "Test",
-      "controls": [
-        {
-          "properties": {
-            "id": "b7cb7286-0ee7-4ff0-aa4b-0384b1260394",
-            "name": "dpnContent",
-            "controlStyle": "style1",
-            "dockOrientation": 1,
-            "marginLeft": 20,
-            "marginRight": 20,
-            "marginTop": 20,
-            "marginBottom": 20,
-            "paddingLeft": 20,
-            "paddingRight": 20,
-            "paddingTop": 20,
-            "paddingBottom": 20
-          }
-        }
-      ]
+      "name": "frm1",
+      "title": "Form 1",
+      "properties": {
+        "visibility": 0,
+        "backgroundColor": "#E2EBFF"
+      },
+      "controls": []
+    },
+    {
+      "id": "cdcf075f-274d-41e5-8ac1-76c9bd8223ed",
+      "name": "frm2",
+      "title": "Form 2",
+      "properties": {
+        "visibility": 0,
+        "backgroundColor": "#D6FFF0"
+      },
+      "controls": []
     }
   ]
 }

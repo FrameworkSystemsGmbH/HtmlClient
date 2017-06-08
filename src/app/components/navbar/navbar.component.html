@@ -7,9 +7,8 @@
       <span class="fa fa-fw fa-angle-left fa-lg" (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft($event)" (mouseleave)="stopScrollingLeft($event)"></span>
     </div>
     <div #center class="hc-navbar-tabs-center">
-      <ul #tabs class="hc-navbar-tabs-list" [style.margin-left.px]="tabScrollPosition" hcMouseWheel (mouseWheelUp)="onMouseWheel($event)" (mouseWheelDown)="onMouseWheel($event)" (panstart)="panTabsStart($event)"
-        (pan)="panTabsStep($event)">
-        <li *ngFor="let form of forms; let i = index;">{{ form }}</li>
+      <ul #tabs class="hc-navbar-tabs-list" [style.margin-left.px]="tabScrollPosition" hcMouseWheel (mouseWheelUp)="onMouseWheel($event)" (mouseWheelDown)="onMouseWheel($event)" (panstart)="panTabsStart($event)" (pan)="panTabsStep($event)">
+        <li *ngFor="let form of forms; let i = index;" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (tap)="selectForm(form)">{{ form.getTitle() }}</li>
       </ul>
     </div>
     <div class="hc-navbar-tabs-right" [style.visibility]="rightScrollerVisible ? 'visible' : 'hidden'">
@@ -29,7 +28,7 @@
 <nav class="hc-navbar-side" [@sidebar] *ngIf="sidebarEnabled && sidebarVisible">
   <div #tabs class="hc-navbar-side-middle">
     <ul class="hc-navbar-side-tabs-list">
-      <li *ngFor="let form of forms; let i = index;">{{ form }}</li>
+      <li *ngFor="let form of forms; let i = index;" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (tap)="selectForm(form)">{{ form.getTitle() }}</li>
     </ul>
   </div>
   <div class="hc-navbar-side-bottom">

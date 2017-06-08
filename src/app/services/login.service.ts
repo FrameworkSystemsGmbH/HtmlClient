@@ -3,8 +3,8 @@ import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { LoginBroker } from './login-broker';
-import { StorageService } from '../../services';
+import { LoginBroker } from '../common';
+import { StorageService } from './storage.service';
 
 const BROKER_STORAGE_KEY: string = 'brokerList';
 
@@ -19,6 +19,10 @@ export class LoginService {
 
   public getBrokers(): Observable<Array<LoginBroker>> {
     return this.logins.asObservable();
+  }
+
+  public getBroker(index: number): LoginBroker {
+    return this.logins[index];
   }
 
   public addBroker(broker: LoginBroker): void {

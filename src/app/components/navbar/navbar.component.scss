@@ -10,6 +10,10 @@
     line-height: $navbar-brand-fontsize;
     cursor: pointer;
 
+    &.active {
+      font-weight: bold;
+    }
+
     &.active,
     &:hover {
       color: $navbar-color-highlight;
@@ -27,6 +31,10 @@
     padding: ($navbar-height - $navbar-brand-fontsize) / 2 15px;
     line-height: $navbar-brand-fontsize;
     cursor: pointer;
+
+    &.active {
+      font-weight: bold;
+    }
 
     &.active,
     &:hover {

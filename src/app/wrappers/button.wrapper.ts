@@ -1,4 +1,4 @@
-import { ComponentRef } from '@angular/core';
+import { ComponentRef, ViewContainerRef } from '@angular/core';
 
 import { BaseWrapper } from '.';
 import { ControlEvent } from '../enums';
@@ -49,6 +49,14 @@ export class ButtonWrapper extends BaseWrapper {
     if (eventsJson.click) {
       this.events &= ControlEvent.Click;
     }
+  }
+
+  public createComponent(): ComponentRef<ButtonComponent> {
+    return null;
+  }
+
+  public updateComponent(): void {
+
   }
 
 }

@@ -1,11 +1,14 @@
-import { ComponentRef, ViewContainerRef } from '@angular/core';
+import { ComponentRef, ViewContainerRef, Injector } from '@angular/core';
 
 import { BaseWrapper, FormWrapper } from '.';
 import { BaseComponent, ContainerComponent } from '../controls';
 import { LayoutControl, LayoutContainer } from '../layout';
-import { ControlsService, EventsService } from '../services';
 import { JsonUtil } from '../util';
 import { VchContainer } from '../vch';
+import { ResponseControlDto } from '../communication/response';
+import { EventsService } from '../services/events.service';
+import { ControlStyleService } from '../services/control-style.service';
+import { ControlsService } from '../services/controls.service';
 
 export abstract class ContainerWrapper extends BaseWrapper implements LayoutContainer {
 
@@ -13,15 +16,17 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
   protected controlsService: ControlsService;
 
   constructor(
+    json: any,
     form: FormWrapper,
     parent: ContainerWrapper,
-    controlJson: any,
-    eventsService: EventsService,
-    controlsService: ControlsService
+    appInjector: Injector
   ) {
-    super(form, parent, eventsService, controlJson);
-    this.controlsService = controlsService;
+    super(json, form, parent, appInjector);
+    this.controlsService = appInjector.get(ControlsService);
+    this.controls = new Array<BaseWrapper>();
   }
+
+  protected abstract getViewContainerRef(): ViewContainerRef;
 
   protected getComponentRef(): ComponentRef<ContainerComponent> {
     return <ComponentRef<ContainerComponent>>super.getComponentRef();
@@ -51,41 +56,36 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
     // Noop
   }
 
-  protected initialize(controlJson: any): void {
-    super.initialize(controlJson);
-    this.controls = new Array<BaseWrapper>();
-  }
+  // public getDto(): any {
+  //   let controlsJson: any = [];
 
-  public getJson(): any {
-    let controlsJson: any = [];
+  //   this.controls.forEach((controlWrp: BaseWrapper) => {
+  //     let controlJson: any = controlWrp.getJson();
 
-    this.controls.forEach((controlWrp: BaseWrapper) => {
-      let controlJson: any = controlWrp.getJson();
+  //     if (controlJson && !JsonUtil.isEmptyObject(controlJson)) {
+  //       controlsJson.push(controlJson);
+  //     }
+  //   });
 
-      if (controlJson && !JsonUtil.isEmptyObject(controlJson)) {
-        controlsJson.push(controlJson);
-      }
-    });
+  //   if (!JsonUtil.isEmptyObject(controlsJson)) {
+  //     let containerJson: any = {
+  //       meta: {
+  //         name: this.getName()
+  //       },
+  //       controls: controlsJson
+  //     };
 
-    if (!JsonUtil.isEmptyObject(controlsJson)) {
-      let containerJson: any = {
-        meta: {
-          name: this.getName()
-        },
-        controls: controlsJson
-      };
+  //     return containerJson;
+  //   }
 
-      return containerJson;
-    }
+  //   return null;
+  // }
 
-    return null;
-  }
+  public setJson(json: any, delta: boolean): void {
+    super.setJson(json, delta);
 
-  public setJson(controlJson: any, delta: boolean): void {
-    super.setJson(controlJson, delta);
-
-    if (controlJson.controls && controlJson.controls.length) {
-      this.setControlsJson(controlJson.controls, delta);
+    if (json.controls && json.controls.length) {
+      this.setControlsJson(json.controls, delta);
     }
   }
 
@@ -96,7 +96,7 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
 
     controlsJson.forEach((controlJson: any) => {
       if (delta) {
-        let controlName: string = controlJson.meta.name;
+        let controlName: string = controlJson.name;
         let controlWrps: Array<BaseWrapper> = this.controls.filter((controlWrp: BaseWrapper) => controlWrp.getName() === controlName);
 
         if (controlWrps && controlWrps.length) {
@@ -104,24 +104,28 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
           control.setJson(controlJson, true);
         }
       } else {
-        let control: BaseWrapper = this.controlsService.createWrapperFromString(controlJson.meta.type, this.getForm(), this, controlJson);
+        let control: BaseWrapper = this.controlsService.createWrapperFromString(controlJson.type, controlJson, this.getForm(), this);
         this.controls.push(control);
       }
     });
   }
 
-  public addComponentToView(): void {
-    super.addComponentToView();
+  public addComponentToView(vc: ViewContainerRef): void {
+    super.addComponentToView(vc);
 
     this.controls.forEach((wrapper: BaseWrapper) => {
-      wrapper.addComponentToView();
+      wrapper.addComponentToView(this.getViewContainerRef());
     });
   }
 
-  public findControl(name: string): BaseWrapper {
+  public updateComponent(): void {
+
+  }
+
+  public findControl(id: string): BaseWrapper {
     for (let i: number = 0; i < this.controls.length; i++) {
       let control: BaseWrapper = this.controls[i];
-      if (control.getName() === name) {
+      if (control.getId() === id) {
         return control;
       }
     }
@@ -129,15 +133,14 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
     return null;
   }
 
-  public findControlRecursive(name: string): BaseWrapper {
-    let control: BaseWrapper = this.findControl(name);
+  public findControlRecursive(id: string): BaseWrapper {
+    let control: BaseWrapper = this.findControl(id);
 
     if (!control) {
       for (let i: number = 0; i < this.controls.length; i++) {
         let subControl: BaseWrapper = this.controls[i];
         if (subControl instanceof ContainerWrapper) {
-          control = (<ContainerWrapper>subControl).findControlRecursive(name);
-
+          control = (<ContainerWrapper>subControl).findControlRecursive(id);
           if (control) {
             return control;
           }

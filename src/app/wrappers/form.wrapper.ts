@@ -1,8 +1,9 @@
-import { ComponentRef } from '@angular/core';
+import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
 import { BaseWrapper, ContainerWrapper } from '.';
 import { ControlType } from '../enums';
 import { FormComponent } from '../controls';
+import { ResponseFormDto } from '../communication/response';
 
 export class FormWrapper extends ContainerWrapper {
 
@@ -10,10 +11,6 @@ export class FormWrapper extends ContainerWrapper {
 
   public getTitle(): string {
     return this.title;
-  }
-
-  public setTitle(title: string): void {
-    this.title = title;
   }
 
   protected getComponentRef(): ComponentRef<FormComponent> {
@@ -24,9 +21,13 @@ export class FormWrapper extends ContainerWrapper {
     return this.getComponentRef().instance;
   }
 
-  public setJson(controlJson: any, delta: boolean): void {
-    super.setJson(controlJson, delta);
-    this.setTitle(controlJson.meta.title);
+  protected getViewContainerRef(): ViewContainerRef {
+    return this.getComponent().anchor;
+  }
+
+  protected setMetaJson(json: any): void {
+    super.setMetaJson(json);
+    this.title = json.title;
   }
 
   public setFocusControl(name: string): void {
@@ -35,6 +36,20 @@ export class FormWrapper extends ContainerWrapper {
     if (control) {
       control.setFocus();
     }
+  }
+
+  public createComponent(): ComponentRef<FormComponent> {
+    let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
+    let factory: ComponentFactory<FormComponent> = cfr.resolveComponentFactory(FormComponent);
+    let comp: ComponentRef<FormComponent> = factory.create(this.appInjector);
+
+    comp.instance.setWrapper(this);
+
+    return comp;
+  }
+
+  public updateComponent(): void {
+
   }
 
 }

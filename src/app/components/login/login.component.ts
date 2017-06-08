@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
-
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { LoginBroker } from './login-broker';
-import { LoginService } from './login.service';
+import { LoginBroker } from '../../common';
+import { LoginService } from '../../services/login.service';
+import { BrokerService } from '../../services/broker.service';
 
 @Component({
   selector: 'hc-login',
@@ -23,15 +23,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   private brokersSub: ISubscription;
 
   constructor(
-    private router: Router,
-    private brokerService: LoginService) { }
+    private loginService: LoginService,
+    private brokerService: BrokerService) { }
 
   public ngOnInit(): void {
-    this.brokersSub = this.brokerService.getBrokers().subscribe(brokers => {
+    this.brokersSub = this.loginService.getBrokers().subscribe(brokers => {
       this.brokers = brokers;
     });
 
-    this.nameControl = new FormControl(null, Validators.required, this.createBrokerValidator(this.brokerService));
+    this.nameControl = new FormControl(null, Validators.required, this.createBrokerValidator(this.loginService));
     this.urlControl = new FormControl(null, Validators.required);
 
     this.addForm = new FormGroup({
@@ -57,16 +57,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     newBroker.name = this.nameControl.value;
     newBroker.url = this.urlControl.value;
 
-    this.brokerService.addBroker(newBroker);
+    this.loginService.addBroker(newBroker);
     this.addForm.reset();
   }
 
   public deleteBroker(index: number): void {
-    this.brokerService.deleteBroker(index);
+    this.loginService.deleteBroker(index);
   }
 
   public loadBroker(broker: LoginBroker): void {
-    this.router.navigate(['/viewer']);
+    this.brokerService.login(broker);
   }
 
   private createBrokerValidator(bs: LoginService): any {

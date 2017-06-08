@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { FormsService } from '.';
 import { ControlAction } from '../enums';
 import { FormWrapper } from '../wrappers';
+import { FormsService } from './forms.service';
 
 @Injectable()
 export class ActionsService {

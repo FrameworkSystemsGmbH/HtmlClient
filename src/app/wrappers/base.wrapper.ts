@@ -1,15 +1,21 @@
-import { ComponentRef } from '@angular/core';
+import { ComponentRef, Injector, ViewContainerRef } from '@angular/core';
 
 import { ContainerWrapper, FormWrapper } from '.';
 import { BaseComponent } from '../controls';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
 import { LayoutControl, LayoutProperties, LayoutControlLabel, LayoutControlLabelTemplate, LayoutContainer } from '../layout';
-import { EventsService } from '../services';
 import { VchControl } from '../vch';
+import { ResponseControlDto } from '../communication/response';
+import { PropertyStore, PropertyData, PropertyLayer } from '../common';
+import { EventsService } from '../services/events.service';
+import { ControlStyleService } from '../services/control-style.service';
 
 export abstract class BaseWrapper implements LayoutControl {
 
+  protected appInjector: Injector;
+  protected propertyStore: PropertyStore;
   protected eventsService: EventsService;
+  protected controlStyleService: ControlStyleService;
 
   private componentRef: ComponentRef<BaseComponent>;
   private form: FormWrapper;
@@ -20,36 +26,39 @@ export abstract class BaseWrapper implements LayoutControl {
   private name: string;
 
   constructor(
+    json: any,
     form: FormWrapper,
     parent: ContainerWrapper,
-    controlJson: any,
-    eventsService: EventsService
+    appInjector: Injector
   ) {
     this.vchControl = new VchControl();
+    this.propertyStore = new PropertyStore();
     this.form = form;
     this.parent = parent;
-    this.eventsService = eventsService;
-    this.initialize(controlJson);
+    this.appInjector = appInjector;
+    this.eventsService = appInjector.get(EventsService);
+    this.controlStyleService = appInjector.get(ControlStyleService);
+    this.initialize(json);
   }
+
+  public abstract createComponent(): ComponentRef<BaseComponent>;
+
+  public abstract updateComponent(): void;
 
   public getId(): string {
     return this.id;
-  }
-
-  public setId(id: string): void {
-    this.id = id;
   }
 
   public getName(): string {
     return this.name;
   }
 
-  public setName(name: string): void {
-    this.name = name;
+  public getVisibility(): ControlVisibility {
+    return this.propertyStore.getVisibility();
   }
 
-  public getVisibility(): ControlVisibility {
-    return ControlVisibility.Visible;
+  public getBackgroundColor(): string {
+    return this.propertyStore.getBackgroundColor();
   }
 
   public getLayoutableProperties(): LayoutProperties {
@@ -148,52 +157,65 @@ export abstract class BaseWrapper implements LayoutControl {
     return this.componentRef;
   }
 
+  protected setComponentRef(componentRef: ComponentRef<BaseComponent>): void {
+    this.componentRef = componentRef;
+  }
+
   protected getComponent(): BaseComponent {
-    return this.componentRef.instance;
+    return this.getComponentRef().instance;
   }
 
-  protected initialize(controlJson: any): void {
-    this.setJson(controlJson, false);
+  protected initialize(json: any): void {
+    this.setJson(json, false);
   }
 
-  public getJson(): any {
-    return null;
+  // public getDto(): ResponseControlDto {
+  //   return null;
+  // }
+
+  public setJson(json: any, delta: boolean): void {
+    if (delta) {
+
+    } else {
+      this.setMetaJson(json);
+      this.setPropertiesJson(json.properties);
+    }
   }
 
-  public setJson(controlJson: any, delta: boolean): void {
-    this.setMetaJson(controlJson.meta);
-    this.setPropertiesJson(controlJson.properties);
-    this.setDataJson(controlJson.data);
-    this.setEventsJson(controlJson.events);
+  protected setMetaJson(json: any): void {
+    this.id = json.id;
+    this.name = json.name;
+    this.setControlStyle(json.controlStyle);
   }
 
-  protected setMetaJson(metaJson: any): void {
-    this.setId(metaJson.id);
-    this.setName(metaJson.name);
+  protected setControlStyle(controlStyle: string) {
+    if (controlStyle) {
+      let style: PropertyData = this.controlStyleService.getControlStyle(controlStyle);
+      if (style) {
+        this.propertyStore.setLayer(PropertyLayer.ControlStyle, style);
+      }
+    }
   }
 
   protected setPropertiesJson(propertiesJson: any): void {
-    // BaseWrapper does not have shared properties
+    this.propertyStore.setLayer(PropertyLayer.Control, propertiesJson as PropertyData);
   }
 
-  protected setDataJson(dataJson: any): void {
-    // BaseWrapper does not have shared data
+  protected setDataJson(dataJson: any) {
+    // BaseWrapper does not have data
   }
 
-  protected setEventsJson(eventsJson: any): void {
-    // BaseWrapper does not have shared events
-  }
-
-  public addComponentToView(): void {
-
-  }
-
-  public updateComponent(): void {
-
+  protected setEventsJson(dataJson: any) {
+    // BaseWrapper does not have events
   }
 
   public setFocus(): void {
     this.getComponent().setFocus();
+  }
+
+
+  public addComponentToView(vc: ViewContainerRef): void {
+    vc.insert(this.createComponent().hostView);
   }
 
 }

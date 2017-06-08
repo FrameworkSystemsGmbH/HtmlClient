@@ -1,12 +1,14 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { ErrorService, LogService } from '.';
+import { ErrorService } from './error.service';
+import { LogService } from './log.service';
+
 
 @Injectable()
 export class HttpService {
 
-  public static readonly BROKERURL: string = 'http://nv286:4000/';
+  public static readonly BROKERURL: string = 'http://localhost:4200/static/response.json';
 
   public readonly onResponseReceived: EventEmitter<any> = new EventEmitter<any>();
 
@@ -17,7 +19,7 @@ export class HttpService {
 
   public doRequest(requestJson: any): void {
     try {
-      this.http.post(HttpService.BROKERURL + 'api/process', requestJson)
+      this.http.get(HttpService.BROKERURL)
         .map(response => response.json())
         .subscribe(responseJson => {
           this.onResponseReceived.emit(responseJson);

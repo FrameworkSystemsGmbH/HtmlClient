@@ -1,8 +1,11 @@
 import { animate, transition, trigger, state, style } from '@angular/animations';
-import { Component, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { ISubscription } from 'rxjs/Subscription';
 
-import { WindowRefService } from '../../services';
+import { FormWrapper } from '../../wrappers';
+import { FormsService } from '../../services/forms.service';
 
 declare var $;
 
@@ -29,11 +32,13 @@ declare var $;
     ])
   ]
 })
-export class NavbarComponent implements AfterViewInit {
+export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('center') center: ElementRef;
   @ViewChild('tabs') tabs: ElementRef;
 
+  public forms: Array<FormWrapper>;
+  public selectedForm: FormWrapper;
   public tabScrollPosition: number = 0;
   public leftScrollerVisible: boolean = false;
   public rightScrollerVisible: boolean = false;
@@ -45,12 +50,25 @@ export class NavbarComponent implements AfterViewInit {
   private leftInterval: number;
   private rightInterval: number;
 
-  public forms: Array<string> = ['Auftrag', 'Bestellung', 'Projekt', 'Leistungserfassung', 'Call'];
+  private formsSub: ISubscription;
+  private selectedFormSub: ISubscription;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private formsService: FormsService) { }
+
+  public ngOnInit(): void {
+    this.formsSub = this.formsService.getForms().subscribe(forms => { this.forms = forms; });
+    this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.selectedForm = form });
+  }
 
   public ngAfterViewInit(): void {
     setTimeout(() => { this.refreshScroller(); }, 0);
+  }
+
+  public ngOnDestroy(): void {
+    this.formsSub.unsubscribe();
+    this.selectedFormSub.unsubscribe();
   }
 
   public mediaQueryChanged(mq: MediaQueryList) {
@@ -108,6 +126,10 @@ export class NavbarComponent implements AfterViewInit {
 
   public switchBroker(): void {
     this.router.navigate(['/']);
+  }
+
+  public selectForm(form: FormWrapper): void {
+    this.formsService.selectForm(form);
   }
 
   @HostListener('window:resize')

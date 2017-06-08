@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { LogService } from '.';
+import { LogService } from './log.service';
 
 @Injectable()
 export class ErrorService {

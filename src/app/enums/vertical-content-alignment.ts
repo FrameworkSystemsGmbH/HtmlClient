@@ -1,6 +1,6 @@
 export enum VerticalContentAlignment {
-  Top,
-  Middle,
-  Bottom,
-  Fill
+  Top = 0,
+  Middle = 1,
+  Bottom = 2,
+  Fill = 3
 }

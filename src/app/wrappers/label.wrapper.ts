@@ -1,4 +1,4 @@
-import { ComponentRef } from '@angular/core';
+import { ComponentRef, ViewContainerRef } from '@angular/core';
 
 import { BaseWrapper } from '.';
 import { LabelComponent } from '../controls';
@@ -34,6 +34,14 @@ export class LabelWrapper extends BaseWrapper {
     if (dataJson.label) {
       this.label = dataJson.label;
     }
+  }
+
+  public createComponent(): ComponentRef<LabelComponent> {
+    return null;
+  }
+
+  public updateComponent(): void {
+
   }
 
 }
