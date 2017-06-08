@@ -4,7 +4,7 @@ import { ContainerWrapper, FormWrapper } from '.';
 import { BaseComponent } from '../controls';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
 import { LayoutControl, LayoutProperties, LayoutControlLabel, LayoutControlLabelTemplate, LayoutContainer } from '../layout';
-import { VchControl } from '../vch';
+import { VchControl, VchContainer } from '../vch';
 import { ResponseControlDto } from '../communication/response';
 import { PropertyStore, PropertyData, PropertyLayer } from '../common';
 import { EventsService } from '../services/events.service';
@@ -13,6 +13,7 @@ import { ControlStyleService } from '../services/control-style.service';
 export abstract class BaseWrapper implements LayoutControl {
 
   protected appInjector: Injector;
+  protected vchControl: VchControl;
   protected propertyStore: PropertyStore;
   protected eventsService: EventsService;
   protected controlStyleService: ControlStyleService;
@@ -20,7 +21,6 @@ export abstract class BaseWrapper implements LayoutControl {
   private componentRef: ComponentRef<BaseComponent>;
   private form: FormWrapper;
   private parent: ContainerWrapper;
-  private vchControl: VchControl;
 
   private id: string;
   private name: string;
@@ -40,8 +40,6 @@ export abstract class BaseWrapper implements LayoutControl {
     this.controlStyleService = appInjector.get(ControlStyleService);
     this.initialize(json);
   }
-
-  public abstract createComponent(): ComponentRef<BaseComponent>;
 
   public abstract updateComponent(): void;
 
@@ -213,9 +211,8 @@ export abstract class BaseWrapper implements LayoutControl {
     this.getComponent().setFocus();
   }
 
-
-  public addComponentToView(vc: ViewContainerRef): void {
-    vc.insert(this.createComponent().hostView);
+  public attachComponent(container: ContainerWrapper): void {
+    container.getVchContainer().addChild(this);
   }
 
 }

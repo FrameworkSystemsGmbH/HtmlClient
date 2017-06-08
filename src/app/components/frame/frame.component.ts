@@ -22,7 +22,7 @@ export class FrameComponent implements OnInit {
 
   private showForm(form: FormWrapper): void {
     this.anchor.clear();
-    form.addComponentToView(this.anchor);
+    form.attachComponentToFrame(this.anchor);
   }
 
 }

@@ -4,7 +4,7 @@ import { BaseWrapper, FormWrapper } from '.';
 import { BaseComponent, ContainerComponent } from '../controls';
 import { LayoutControl, LayoutContainer } from '../layout';
 import { JsonUtil } from '../util';
-import { VchContainer } from '../vch';
+import { VchContainer, VchManager } from '../vch';
 import { ResponseControlDto } from '../communication/response';
 import { EventsService } from '../services/events.service';
 import { ControlStyleService } from '../services/control-style.service';
@@ -23,10 +23,11 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
   ) {
     super(json, form, parent, appInjector);
     this.controlsService = appInjector.get(ControlsService);
+    this.vchControl = new VchContainer(this);
     this.controls = new Array<BaseWrapper>();
   }
 
-  protected abstract getViewContainerRef(): ViewContainerRef;
+  public abstract getViewContainerRef(): ViewContainerRef;
 
   protected getComponentRef(): ComponentRef<ContainerComponent> {
     return <ComponentRef<ContainerComponent>>super.getComponentRef();
@@ -110,12 +111,9 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
     });
   }
 
-  public addComponentToView(vc: ViewContainerRef): void {
-    super.addComponentToView(vc);
-
-    this.controls.forEach((wrapper: BaseWrapper) => {
-      wrapper.addComponentToView(this.getViewContainerRef());
-    });
+  public attachComponent(container: ContainerWrapper): void {
+    super.attachComponent(container);
+    VchManager.add(this);
   }
 
   public updateComponent(): void {

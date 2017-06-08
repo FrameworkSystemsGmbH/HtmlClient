@@ -21,7 +21,7 @@ export class FormWrapper extends ContainerWrapper {
     return this.getComponentRef().instance;
   }
 
-  protected getViewContainerRef(): ViewContainerRef {
+  public getViewContainerRef(): ViewContainerRef {
     return this.getComponent().anchor;
   }
 
@@ -38,14 +38,16 @@ export class FormWrapper extends ContainerWrapper {
     }
   }
 
-  public createComponent(): ComponentRef<FormComponent> {
+  public attachComponentToFrame(vc: ViewContainerRef): void {
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<FormComponent> = cfr.resolveComponentFactory(FormComponent);
-    let comp: ComponentRef<FormComponent> = factory.create(this.appInjector);
+    let comp: ComponentRef<FormComponent> = vc.createComponent(factory);
 
     comp.instance.setWrapper(this);
+  }
 
-    return comp;
+  public attachComponent(container: ContainerWrapper): void {
+    // A forms is directly attached to a FrameComponent by calling 'attachComponentToFrame()'
   }
 
   public updateComponent(): void {

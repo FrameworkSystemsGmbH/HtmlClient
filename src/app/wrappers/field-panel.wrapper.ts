@@ -33,7 +33,7 @@ export class FieldPanelWrapper extends ContainerWrapperSpaceable implements Fiel
     return null;
   }
 
-  protected getViewContainerRef(): ViewContainerRef {
+  public getViewContainerRef(): ViewContainerRef {
     return null;
   }
 
