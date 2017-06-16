@@ -4,13 +4,12 @@ import { BaseWrapper, ContainerWrapper } from '.';
 import { ControlType } from '../enums';
 import { FormComponent } from '../controls';
 import { ResponseFormDto } from '../communication/response';
+import { PropertyLayer } from '../common';
 
 export class FormWrapper extends ContainerWrapper {
 
-  private title: string;
-
   public getTitle(): string {
-    return this.title;
+    return this.propertyStore.getTitle();
   }
 
   protected getComponentRef(): ComponentRef<FormComponent> {
@@ -25,11 +24,6 @@ export class FormWrapper extends ContainerWrapper {
     return this.getComponent().anchor;
   }
 
-  protected setMetaJson(json: any): void {
-    super.setMetaJson(json);
-    this.title = json.title;
-  }
-
   public setFocusControl(name: string): void {
     let control: BaseWrapper = this.findControlRecursive(name);
 
@@ -42,8 +36,12 @@ export class FormWrapper extends ContainerWrapper {
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<FormComponent> = cfr.resolveComponentFactory(FormComponent);
     let comp: ComponentRef<FormComponent> = vc.createComponent(factory);
-
+    this.setComponentRef(comp);
     comp.instance.setWrapper(this);
+
+    for (let child of this.controls) {
+      child.attachComponent(this);
+    }
   }
 
   public attachComponent(container: ContainerWrapper): void {

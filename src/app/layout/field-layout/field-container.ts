@@ -3,9 +3,9 @@ import { FieldRowControl } from '.';
 
 export interface FieldContainer extends LayoutContainerSpaceable {
 
-  getLayoutableControls(): Array<FieldRowControl>;
+  getLayoutControls(): Array<FieldRowControl>;
 
-  getLayoutableControlLabels(): Array<LayoutControlLabel>;
+  getLayoutControlLabels(): Array<LayoutControlLabel>;
 
   getSynchronizeColumns(): boolean;
 

@@ -35,7 +35,7 @@ export class FieldRowWrapper {
     let includeInvisibleControls: boolean = fieldContainer.getSynchronizeColumns();
     let controlWrappers: Array<LayoutControlWrapper> = new Array<LayoutControlWrapper>();
 
-    for (let wrapper of fieldRow.getLayoutableControls()) {
+    for (let wrapper of fieldRow.getLayoutControls()) {
       if (wrapper.getVisibility() !== ControlVisibility.Collapsed || includeInvisibleControls) {
         controlWrappers.push(new LayoutControlWrapper(wrapper));
       }

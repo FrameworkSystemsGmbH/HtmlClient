@@ -23,15 +23,15 @@ export class FieldLayout extends Layout {
     // remember all IControlLabel children
     // those control labels, which will not be added again, have to be removed
     let controlLabels: Array<LayoutControlLabel> = new Array<LayoutControlLabel>();
-    for (let child of container.getLayoutableControlLabels()) {
+    for (let child of container.getLayoutControlLabels()) {
       controlLabels.push(child);
     }
 
     // iterate children and fill wrapper array
-    for (let row of container.getLayoutableControls()) {
+    for (let row of container.getLayoutControls()) {
       // check, if at least one control of this row is visible
       let isRowVisible: boolean = false;
-      for (let rowChild of row.getLayoutableControls()) {
+      for (let rowChild of row.getLayoutControls()) {
 
         if (rowChild.getVisibility() !== ControlVisibility.Collapsed) {
           isRowVisible = true;
@@ -330,8 +330,8 @@ export class FieldLayout extends Layout {
   public arrange(): void {
     let container: FieldContainer = this.getContainer();
 
-    let containerWidth: number = container.getLayoutableProperties().getWidth();
-    let containerHeight: number = container.getLayoutableProperties().getHeight();
+    let containerWidth: number = container.getLayoutProperties().getWidth();
+    let containerHeight: number = container.getLayoutProperties().getHeight();
 
     // consistency check
     if (containerWidth !== this.width) {

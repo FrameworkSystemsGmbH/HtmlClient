@@ -13,7 +13,7 @@ export class VchContainer extends VchControl {
 
   public setOrderedChildren(orderedChildren: BaseWrapper[]): void {
     this.orderedChildren = orderedChildren;
-    VchManager.add(this.container);
+    // #warning VchManager.add(this.container);
   }
 
   public getOrderedChildren(): BaseWrapper[] {
@@ -117,7 +117,7 @@ export class VchContainer extends VchControl {
 
     wrapper.getVchControl().setParent(this.container);
 
-    VchManager.add(this.container);
+    // #warning VchManager.add(this.container);
   }
 
   public removeChild(wrapper: BaseWrapper): void {
@@ -128,6 +128,6 @@ export class VchContainer extends VchControl {
       this.modifiedChildren.splice(i, 1);
     }
 
-    VchManager.add(this.container);
+    // #warning VchManager.add(this.container);
   }
 }

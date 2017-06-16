@@ -1,7 +1,8 @@
 import { PropertyData } from './property-data';
 import { PropertyLayer } from './property-layer';
-import { ControlVisibility } from '../enums';
+import { ControlVisibility, HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment } from '../enums';
 import { DockOrientation } from '../layout/dock-layout';
+import { WrapArrangement } from '../layout/wrap-layout';
 
 export class PropertyStore {
 
@@ -9,6 +10,10 @@ export class PropertyStore {
 
   constructor() {
     this.store = new Map<PropertyLayer, PropertyData>();
+    this.store.set(PropertyLayer.ControlStyle, new PropertyData());
+    this.store.set(PropertyLayer.Control, new PropertyData());
+    this.store.set(PropertyLayer.Action, new PropertyData());
+    this.store.set(PropertyLayer.CSC, new PropertyData());
   }
 
   public setLayer(layer: PropertyLayer, data: PropertyData) {
@@ -36,14 +41,7 @@ export class PropertyStore {
   }
 
   public setValue<T>(layer: PropertyLayer, setValueFunc: (data: PropertyData) => void): void {
-    let data: PropertyData = this.store.get(layer);
-
-    if (!data) {
-      data = new PropertyData();
-      this.store.set(layer, data);
-    }
-
-    setValueFunc(data);
+    setValueFunc(this.store.get(layer));
   }
 
   // Id
@@ -85,6 +83,19 @@ export class PropertyStore {
     this.setValue<string>(layer, (data: PropertyData) => { data.title = value });
   }
 
+  // Label
+  public getLabel(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.label });
+  }
+
+  public getLabelForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.label });
+  }
+
+  public setLabel(layer: PropertyLayer, value: string): void {
+    this.setValue<string>(layer, (data: PropertyData) => { data.label = value });
+  }
+
   // Visibility
   public getVisibility(): ControlVisibility {
     return this.getValue<ControlVisibility>((data: PropertyData) => { return data.visibility });
@@ -103,7 +114,7 @@ export class PropertyStore {
     return this.getValue<string>((data: PropertyData) => { return data.backgroundColor });
   }
 
-  publicgetBackgroundColorForLayer(layer: PropertyLayer): string {
+  public getBackgroundColorForLayer(layer: PropertyLayer): string {
     return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.backgroundColor });
   }
 
@@ -294,7 +305,7 @@ export class PropertyStore {
   }
 
   // BorderThicknessRight
-  public geBorderThicknessRight(): number {
+  public getBorderThicknessRight(): number {
     return this.getValue<number>((data: PropertyData) => { return data.borderThicknessRight });
   }
 
@@ -332,6 +343,84 @@ export class PropertyStore {
     this.setValue<number>(layer, (data: PropertyData) => { data.borderThicknessBottom = value });
   }
 
+  // HorizontalAlignment
+  public getHorizontalAlignment(): HorizontalAlignment {
+    return this.getValue<HorizontalAlignment>((data: PropertyData) => { return data.horizontalAlignment });
+  }
+
+  public getHorizontalAlignmentForLayer(layer: PropertyLayer): HorizontalAlignment {
+    return this.getValueForLayer<HorizontalAlignment>(layer, (data: PropertyData) => { return data.horizontalAlignment });
+  }
+
+  public setHorizontalAlignment(layer: PropertyLayer, value: HorizontalAlignment): void {
+    this.setValue<HorizontalAlignment>(layer, (data: PropertyData) => { data.horizontalAlignment = value });
+  }
+
+  // VerticalAlignment
+  public getVerticalAlignment(): VerticalAlignment {
+    return this.getValue<VerticalAlignment>((data: PropertyData) => { return data.verticalAlignment });
+  }
+
+  public getVerticalAlignmentForLayer(layer: PropertyLayer): VerticalAlignment {
+    return this.getValueForLayer<VerticalAlignment>(layer, (data: PropertyData) => { return data.verticalAlignment });
+  }
+
+  public setVerticalAlignment(layer: PropertyLayer, value: VerticalAlignment): void {
+    this.setValue<VerticalAlignment>(layer, (data: PropertyData) => { data.verticalAlignment = value });
+  }
+
+  // HorizontalContentAlignment
+  public getHorizontalContentAlignment(): HorizontalContentAlignment {
+    return this.getValue<HorizontalContentAlignment>((data: PropertyData) => { return data.horizontalContentAlignment });
+  }
+
+  public getHorizontalContentAlignmentForLayer(layer: PropertyLayer): HorizontalContentAlignment {
+    return this.getValueForLayer<HorizontalContentAlignment>(layer, (data: PropertyData) => { return data.horizontalContentAlignment });
+  }
+
+  public setHorizontalContentAlignment(layer: PropertyLayer, value: HorizontalContentAlignment): void {
+    this.setValue<HorizontalContentAlignment>(layer, (data: PropertyData) => { data.horizontalContentAlignment = value });
+  }
+
+  // VerticalContentAlignment
+  public getVerticalContentAlignment(): VerticalContentAlignment {
+    return this.getValue<VerticalContentAlignment>((data: PropertyData) => { return data.verticalContentAlignment });
+  }
+
+  public getVerticalContentAlignmentForLayer(layer: PropertyLayer): VerticalContentAlignment {
+    return this.getValueForLayer<VerticalContentAlignment>(layer, (data: PropertyData) => { return data.verticalContentAlignment });
+  }
+
+  public setVerticalContentAlignment(layer: PropertyLayer, value: VerticalContentAlignment): void {
+    this.setValue<VerticalContentAlignment>(layer, (data: PropertyData) => { data.verticalContentAlignment = value });
+  }
+
+  // HorizontalSpacing
+  public getHorizontalSpacing(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.horizontalSpacing });
+  }
+
+  public getHorizontalSpacingForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.horizontalSpacing });
+  }
+
+  public setHorizontalSpacing(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.horizontalSpacing = value });
+  }
+
+  // VerticalSpacing
+  public getVerticalSpacing(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.verticalSpacing });
+  }
+
+  public getVerticalSpacingForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.verticalSpacing });
+  }
+
+  public setVerticalSpacing(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.verticalSpacing = value });
+  }
+
   // DockItemSize
   public getDockItemSize(): number {
     return this.getValue<number>((data: PropertyData) => { return data.dockItemSize });
@@ -356,6 +445,32 @@ export class PropertyStore {
 
   public setDockOrientation(layer: PropertyLayer, value: DockOrientation): void {
     this.setValue<DockOrientation>(layer, (data: PropertyData) => { data.dockOrientation = value });
+  }
+
+  // WrapArrangement
+  public getWrapArrangement(): WrapArrangement {
+    return this.getValue<WrapArrangement>((data: PropertyData) => { return data.wrapArrangement });
+  }
+
+  public getWrapArrangementForLayer(layer: PropertyLayer): WrapArrangement {
+    return this.getValueForLayer<WrapArrangement>(layer, (data: PropertyData) => { return data.wrapArrangement });
+  }
+
+  public setWrapArrangement(layer: PropertyLayer, value: WrapArrangement): void {
+    this.setValue<WrapArrangement>(layer, (data: PropertyData) => { data.wrapArrangement = value });
+  }
+
+  // FieldRowSize
+  public getFieldRowSize(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.fieldRowSize });
+  }
+
+  public getFieldRowSizeForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.fieldRowSize });
+  }
+
+  public setFieldRowSize(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.fieldRowSize = value });
   }
 
 }

@@ -1,22 +1,17 @@
 import { ComponentRef, ViewContainerRef } from '@angular/core';
 
-import { BaseWrapper } from '.';
+import { BaseWrapper, ContainerWrapper } from '.';
 import { ControlEvent } from '../enums';
 import { ButtonComponent } from '../controls';
+import { PropertyLayer } from '../common';
 
 
 export class ButtonWrapper extends BaseWrapper {
 
-  private label: string;
-
   private events: ControlEvent;
 
   public getLabel(): string {
-    return this.label;
-  }
-
-  public setLabel(label: string): void {
-    this.label = label;
+    return this.propertyStore.getLabel();
   }
 
   public getComponentRef(): ComponentRef<ButtonComponent> {
@@ -35,7 +30,7 @@ export class ButtonWrapper extends BaseWrapper {
     }
 
     if (dataJson.label) {
-      this.label = dataJson.label;
+      this.propertyStore.setLabel(PropertyLayer.Control, dataJson.label);
     }
   }
 
@@ -51,8 +46,10 @@ export class ButtonWrapper extends BaseWrapper {
     }
   }
 
-  public createComponent(): ComponentRef<ButtonComponent> {
-    return null;
+  public attachComponent(container: ContainerWrapper): void {
+    super.attachComponent(container);
+
+
   }
 
   public updateComponent(): void {

@@ -11,6 +11,7 @@ import { ControlStyleService } from './control-style.service';
 import { EventsService } from './events.service';
 import { FormsService } from './forms.service';
 import { ErrorService } from './error.service';
+import { RoutingService } from './routing.service';
 import { LoginBroker } from '../common';
 
 @Injectable()
@@ -23,13 +24,13 @@ export class BrokerService {
   private onResponseReceivedSub: ISubscription;
 
   constructor(
-    private router: Router,
     private httpService: HttpService,
     private actionsService: ActionsService,
     private controlStyleSerivce: ControlStyleService,
     private eventsService: EventsService,
     private formsService: FormsService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private routingService: RoutingService
   ) {
     // this.onEventFiredSub = this.eventsService.onEventFired.subscribe((eventArgs: ClientEventArgs) => {
     //   this.performRequest(this.createRequest(eventArgs));
@@ -47,9 +48,16 @@ export class BrokerService {
   }
 
   public login(broker: LoginBroker): void {
-    this.activeBroker = broker;
-    this.activeBrokerChanged.emit(broker);
-    this.sendInitRequest();
+    if (this.activeBroker === broker) {
+      this.routingService.showViewer();
+    } else {
+      if (this.activeBroker) {
+        this.formsService.resetViews();
+      }
+      this.activeBroker = broker;
+      this.activeBrokerChanged.emit(broker);
+      this.sendInitRequest();
+    }
   }
 
   public sendInitRequest(): void {
@@ -98,6 +106,6 @@ export class BrokerService {
       this.actionsService.processActions(responseJson.actions);
     }
 
-    this.router.navigate(['/viewer'], { skipLocationChange: true });
+    this.routingService.showViewer();
   }
 }

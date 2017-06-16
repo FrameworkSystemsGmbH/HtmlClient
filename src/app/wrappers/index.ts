@@ -6,3 +6,4 @@ export * from './control-label.wrapper';
 export * from './form.wrapper';
 export * from './label.wrapper';
 export * from './textbox.wrapper';
+export * from './wrap-panel.wrapper';

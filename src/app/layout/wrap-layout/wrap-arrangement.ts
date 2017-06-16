@@ -1,4 +1,4 @@
 export enum WrapArrangement {
-  Horizontal,
-  Vertical
+  Horizontal = 0,
+  Vertical = 1
 }

@@ -18,6 +18,7 @@ export class FrameComponent implements OnInit {
 
   public ngOnInit(): void {
     this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.showForm(form); });
+    this.formsService.fireSelectCurrentForm();
   }
 
   private showForm(form: FormWrapper): void {

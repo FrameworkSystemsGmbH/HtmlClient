@@ -3,17 +3,12 @@ import { ComponentRef, ViewContainerRef } from '@angular/core';
 import { BaseWrapper } from '.';
 import { LabelComponent } from '../controls';
 import { ControlType } from '../enums';
+import { PropertyLayer } from '../common';
 
 export class LabelWrapper extends BaseWrapper {
 
-  private label: string;
-
   public getLabel(): string {
-    return this.label;
-  }
-
-  public setLabel(label: string): void {
-    this.label = label;
+    return this.propertyStore.getLabel();
   }
 
   public getComponentRef(): ComponentRef<LabelComponent> {
@@ -32,7 +27,7 @@ export class LabelWrapper extends BaseWrapper {
     }
 
     if (dataJson.label) {
-      this.label = dataJson.label;
+      this.propertyStore.setLabel(PropertyLayer.Control, dataJson.label);
     }
   }
 

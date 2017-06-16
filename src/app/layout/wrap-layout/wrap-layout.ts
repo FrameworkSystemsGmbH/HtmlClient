@@ -22,7 +22,7 @@ export class WrapLayout extends Layout {
     this.wrapRows = null;
     this.wrapColumns = null;
 
-    let controls: Array<LayoutControl> = container.getLayoutableControls();
+    let controls: Array<LayoutControl> = container.getLayoutControls();
     let controlCount: number = controls.length;
 
     this.wrappers = new LayoutControlWrapper[controlCount];
@@ -558,8 +558,8 @@ export class WrapLayout extends Layout {
   private arrangeHorizontally(): void {
     let container: WrapContainer = this.getContainer();
 
-    let containerWidth: number = container.getLayoutableProperties().getWidth();
-    let containerHeight: number = container.getLayoutableProperties().getHeight();
+    let containerWidth: number = container.getLayoutProperties().getWidth();
+    let containerHeight: number = container.getLayoutProperties().getHeight();
 
     // consistency check
     if (containerWidth !== this.width) {
@@ -694,11 +694,11 @@ export class WrapLayout extends Layout {
           yOffset = (resultRowHeight - resultHeight) / 2;
         }
 
-        let layoutableProperties: LayoutProperties = wrapper.getLayoutableProperties();
-        layoutableProperties.setX(xPos);
-        layoutableProperties.setY(yPos + yOffset);
-        layoutableProperties.setWidth(wrapper.getResultWidth());
-        layoutableProperties.setHeight(resultHeight);
+        let layoutProperties: LayoutProperties = wrapper.getLayoutProperties();
+        layoutProperties.setX(xPos);
+        layoutProperties.setY(yPos + yOffset);
+        layoutProperties.setWidth(wrapper.getResultWidth());
+        layoutProperties.setHeight(resultHeight);
 
         xPos += wrapper.getResultWidth();
       }
@@ -710,8 +710,8 @@ export class WrapLayout extends Layout {
   private arrangeVertically(): void {
     let container: WrapContainer = this.getContainer();
 
-    let containerWidth: number = container.getLayoutableProperties().getWidth();
-    let containerHeight: number = container.getLayoutableProperties().getHeight();
+    let containerWidth: number = container.getLayoutProperties().getWidth();
+    let containerHeight: number = container.getLayoutProperties().getHeight();
 
     // consistency check
     if (containerWidth !== this.width) {
@@ -841,11 +841,11 @@ export class WrapLayout extends Layout {
           xOffset = (wrapColumn.getResultColumnWidth() - wrapper.getResultWidth()) / 2;
         }
 
-        let layoutableProperties: LayoutProperties = wrapper.getLayoutableProperties();
-        layoutableProperties.setX(columnXPos + xOffset);
-        layoutableProperties.setY(yPos);
-        layoutableProperties.setWidth(wrapper.getResultWidth());
-        layoutableProperties.setHeight(wrapper.getResultHeight());
+        let layoutProperties: LayoutProperties = wrapper.getLayoutProperties();
+        layoutProperties.setX(columnXPos + xOffset);
+        layoutProperties.setY(yPos);
+        layoutProperties.setWidth(wrapper.getResultWidth());
+        layoutProperties.setHeight(wrapper.getResultHeight());
 
         yPos += wrapper.getResultHeight();
       }

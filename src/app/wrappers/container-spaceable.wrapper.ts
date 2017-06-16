@@ -4,11 +4,11 @@ import { LayoutContainerSpaceable } from '../layout';
 export abstract class ContainerWrapperSpaceable extends ContainerWrapper implements LayoutContainerSpaceable {
 
   public getSpacingHorizontal(): number {
-    return 0;
+    return this.propertyStore.getHorizontalSpacing();
   }
 
   public getSpacingVertical(): number {
-    return 0;
+    return this.propertyStore.getVerticalSpacing();
   }
 
 }

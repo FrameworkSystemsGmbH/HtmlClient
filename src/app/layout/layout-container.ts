@@ -2,7 +2,7 @@ import { LayoutControl } from '.';
 
 export interface LayoutContainer extends LayoutControl {
 
-  getLayoutableControls(): Array<LayoutControl>;
+  getLayoutControls(): Array<LayoutControl>;
 
   removeChild(child: LayoutControl);
 

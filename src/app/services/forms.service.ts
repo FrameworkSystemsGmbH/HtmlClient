@@ -23,6 +23,7 @@ export class FormsService {
   public formSelected: EventEmitter<FormWrapper>;
 
   private forms: Array<FormWrapper> = new Array<FormWrapper>();
+  private selectedForm: FormWrapper;
 
   constructor(private controlsService: ControlsService) {
     this.formSelected = new EventEmitter<FormWrapper>();
@@ -32,8 +33,24 @@ export class FormsService {
     return Observable.of(this.forms);
   }
 
+  public getSelectedForm(): FormWrapper {
+    return this.selectedForm;
+  }
+
   public selectForm(form: FormWrapper): void {
+    this.selectedForm = form;
     this.formSelected.emit(form);
+  }
+
+  public resetViews(): void {
+    this.forms = new Array<FormWrapper>();
+    this.selectedForm = null;
+  }
+
+  public fireSelectCurrentForm(): void {
+    if (this.selectedForm) {
+      this.selectForm(this.selectedForm);
+    }
   }
 
   // public getFormsJson(eventArgs?: ClientEventArgs): any {
@@ -74,8 +91,12 @@ export class FormsService {
           form.setJson(formJson, true);
         }
       } else {
-        let formWrp: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType(ControlType.Form, formJson, null, null);
+        let formWrp: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType(ControlType.Form, null, null);
+        formWrp.setJson(formJson, false);
         this.forms.push(formWrp);
+        if (!this.selectedForm) {
+          this.selectedForm = formWrp;
+        }
       }
     }
   }

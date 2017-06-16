@@ -7,7 +7,7 @@ export interface LayoutControl {
 
   getVisibility(): ControlVisibility;
 
-  getLayoutableProperties(): LayoutProperties;
+  getLayoutProperties(): LayoutProperties;
 
   getMinWidth(): number;
 

@@ -1,11 +1,13 @@
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment } from '../enums';
 import { DockOrientation } from '../layout/dock-layout';
+import { WrapArrangement } from '../layout/wrap-layout';
 
 export class PropertyData {
 
   public id: string;
   public name: string;
   public title: string;
+  public label: string;
 
   public visibility: ControlVisibility;
 
@@ -37,7 +39,14 @@ export class PropertyData {
   public horizontalContentAlignment: HorizontalContentAlignment;
   public verticalContentAlignment: VerticalContentAlignment;
 
+  public horizontalSpacing: number;
+  public verticalSpacing: number;
+
   public dockItemSize: number;
   public dockOrientation: DockOrientation;
+
+  public wrapArrangement: WrapArrangement;
+
+  public fieldRowSize: number;
 
 }

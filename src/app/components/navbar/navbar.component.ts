@@ -6,6 +6,7 @@ import { ISubscription } from 'rxjs/Subscription';
 
 import { FormWrapper } from '../../wrappers';
 import { FormsService } from '../../services/forms.service';
+import { RoutingService } from '../../services/routing.service';
 
 declare var $;
 
@@ -54,7 +55,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   private selectedFormSub: ISubscription;
 
   constructor(
-    private router: Router,
+    private routingService: RoutingService,
     private formsService: FormsService) { }
 
   public ngOnInit(): void {
@@ -125,7 +126,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public switchBroker(): void {
-    this.router.navigate(['/']);
+    this.routingService.showLogin();
   }
 
   public selectForm(form: FormWrapper): void {

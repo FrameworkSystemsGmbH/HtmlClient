@@ -17,9 +17,9 @@ export class FieldCellWrapper {
   private resultWidth: number;
 
   /**
-   * Erzeugt einen CellWrapper für das angegebene reale Control (repräsentiert durch den LayoutableWrapper)
-   * oder das angegebene controlLabel (repräsentiert durch das LayoutableControlLabel)
-   * und berücksichtigt zusätzlich das angegebene LayoutableControlLabelTemplate.
+   * Erzeugt einen CellWrapper für das angegebene reale Control (repräsentiert durch den LayoutWrapper)
+   * oder das angegebene controlLabel (repräsentiert durch das LayoutControlLabel)
+   * und berücksichtigt zusätzlich das angegebene LayoutControlLabelTemplate.
    * @param layoutControlWrapper
    * @param controlLabel
    * @param labelTemplate
@@ -45,7 +45,7 @@ export class FieldCellWrapper {
     if (this.wrapper) {
       minWidth = Math.max(minWidth, this.wrapper.getMinLayoutWidth());
     } else if (this.controlLabel) {
-      minWidth = Math.max(minWidth, this.controlLabel.getLayoutableProperties().getMinLayoutWidth());
+      minWidth = Math.max(minWidth, this.controlLabel.getLayoutProperties().getMinLayoutWidth());
     }
 
     if (this.labelTemplate != null) {
@@ -71,7 +71,7 @@ export class FieldCellWrapper {
         return this.wrapper.getMinLayoutWidth();
       }
     } else if (this.controlLabel) {
-      return this.controlLabel.getLayoutableProperties().getMinLayoutWidth();
+      return this.controlLabel.getLayoutProperties().getMinLayoutWidth();
     } else if (this.labelTemplate) {
       return this.labelTemplate.getMaxWidth();
     } else {
@@ -83,7 +83,7 @@ export class FieldCellWrapper {
     if (this.wrapper) {
       return this.wrapper.getMinLayoutHeight(this.resultWidth);
     } else if (this.controlLabel != null) {
-      return this.controlLabel.getLayoutableProperties().getMinLayoutHeight(this.resultWidth);
+      return this.controlLabel.getLayoutProperties().getMinLayoutHeight(this.resultWidth);
     } else {
       return 0;
     }
@@ -133,17 +133,17 @@ export class FieldCellWrapper {
 
   public arrange(x: number, y: number, width: number, height: number): void {
     if (this.wrapper) {
-      let layoutableProperties: LayoutProperties = this.wrapper.getLayoutableProperties();
-      layoutableProperties.setX(x);
-      layoutableProperties.setY(y);
-      layoutableProperties.setWidth(width);
-      layoutableProperties.setHeight(height);
+      let layoutProperties: LayoutProperties = this.wrapper.getLayoutProperties();
+      layoutProperties.setX(x);
+      layoutProperties.setY(y);
+      layoutProperties.setWidth(width);
+      layoutProperties.setHeight(height);
     } else if (this.controlLabel) {
-      let layoutableProperties: LayoutProperties = this.controlLabel.getLayoutableProperties();
-      layoutableProperties.setX(x);
-      layoutableProperties.setY(y);
-      layoutableProperties.setWidth(width);
-      layoutableProperties.setHeight(height);
+      let layoutProperties: LayoutProperties = this.controlLabel.getLayoutProperties();
+      layoutProperties.setX(x);
+      layoutProperties.setY(y);
+      layoutProperties.setWidth(width);
+      layoutProperties.setHeight(height);
     }
   }
 }

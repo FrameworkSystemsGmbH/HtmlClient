@@ -1,8 +1,13 @@
 import { BaseWrapper } from '../wrappers';
+import { OnDestroy } from '@angular/core';
 
-export abstract class BaseComponent {
+export abstract class BaseComponent implements OnDestroy {
 
   private wrapper: BaseWrapper;
+
+  public ngOnDestroy(): void {
+    this.wrapper.onComponentRefDestroyed();
+  }
 
   public getWrapper(): BaseWrapper {
     return this.wrapper;

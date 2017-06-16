@@ -18,7 +18,7 @@ export class DockLayout extends Layout {
 
   private initWrappers(container: DockContainer): void {
     // iterate children and fill wrapper array
-    let controls: Array<LayoutControl> = container.getLayoutableControls();
+    let controls: Array<LayoutControl> = container.getLayoutControls();
     let controlCount: number = controls.length;
 
     this.wrappers = new LayoutControlWrapper[controlCount];
@@ -280,8 +280,8 @@ export class DockLayout extends Layout {
   public arrange(): void {
     let container: DockContainer = this.getContainer();
 
-    let containerWidth: number = container.getLayoutableProperties().getWidth();
-    let containerHeight: number = container.getLayoutableProperties().getHeight();
+    let containerWidth: number = container.getLayoutProperties().getWidth();
+    let containerHeight: number = container.getLayoutProperties().getHeight();
 
     // consistency check
     if (containerWidth !== this.width) {
@@ -422,11 +422,11 @@ export class DockLayout extends Layout {
             xOffset = (contentWidth - resultWidth) / 2;
           }
 
-          let layoutableProperties: LayoutProperties = wrapper.getLayoutableProperties();
-          layoutableProperties.setX(insetsLeft + xOffset);
-          layoutableProperties.setY(yPos);
-          layoutableProperties.setWidth(resultWidth);
-          layoutableProperties.setHeight(wrapper.getResultHeight());
+          let layoutProperties: LayoutProperties = wrapper.getLayoutProperties();
+          layoutProperties.setX(insetsLeft + xOffset);
+          layoutProperties.setY(yPos);
+          layoutProperties.setWidth(resultWidth);
+          layoutProperties.setHeight(wrapper.getResultHeight());
 
           yPos += wrapper.getResultHeight();
         }
@@ -461,11 +461,11 @@ export class DockLayout extends Layout {
             yOffset = (contentHeight - resultHeight) / 2;
           }
 
-          let layoutableProperties: LayoutProperties = wrapper.getLayoutableProperties();
-          layoutableProperties.setX(xPos);
-          layoutableProperties.setY(insetsTop + yOffset);
-          layoutableProperties.setWidth(wrapper.getResultWidth());
-          layoutableProperties.setHeight(resultHeight);
+          let layoutProperties: LayoutProperties = wrapper.getLayoutProperties();
+          layoutProperties.setX(xPos);
+          layoutProperties.setY(insetsTop + yOffset);
+          layoutProperties.setWidth(wrapper.getResultWidth());
+          layoutProperties.setHeight(resultHeight);
 
           xPos += wrapper.getResultWidth();
         }

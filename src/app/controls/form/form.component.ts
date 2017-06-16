@@ -19,4 +19,14 @@ export class FormComponent extends ContainerComponent {
   public getViewContainerRef(): ViewContainerRef {
     return this.anchor;
   }
+
+  public getStyles(): any {
+    let wrapper: FormWrapper = this.getWrapper();
+
+    let styles: any = {
+      'backgroundColor': wrapper.getBackgroundColor()
+    }
+
+    return styles;
+  }
 }

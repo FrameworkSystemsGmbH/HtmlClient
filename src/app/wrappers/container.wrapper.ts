@@ -16,12 +16,11 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
   protected controlsService: ControlsService;
 
   constructor(
-    json: any,
     form: FormWrapper,
     parent: ContainerWrapper,
     appInjector: Injector
   ) {
-    super(json, form, parent, appInjector);
+    super(form, parent, appInjector);
     this.controlsService = appInjector.get(ControlsService);
     this.vchControl = new VchContainer(this);
     this.controls = new Array<BaseWrapper>();
@@ -45,7 +44,7 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
     return <VchContainer>this.getVchControl();
   }
 
-  public getLayoutableControls(): Array<LayoutControl> {
+  public getLayoutControls(): Array<LayoutControl> {
     return this.getVchContainer().getChildrenInFlowDirection();
   }
 
@@ -105,7 +104,8 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
           control.setJson(controlJson, true);
         }
       } else {
-        let control: BaseWrapper = this.controlsService.createWrapperFromString(controlJson.type, controlJson, this.getForm(), this);
+        let control: BaseWrapper = this.controlsService.createWrapperFromType(controlJson.type, this.getForm(), this);
+        control.setJson(controlJson, false);
         this.controls.push(control);
       }
     });
@@ -113,7 +113,11 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
 
   public attachComponent(container: ContainerWrapper): void {
     super.attachComponent(container);
-    VchManager.add(this);
+    // #warning VchManager.add(this.container);
+
+    for (let child of this.controls) {
+      child.attachComponent(this);
+    }
   }
 
   public updateComponent(): void {

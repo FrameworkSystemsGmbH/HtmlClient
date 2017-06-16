@@ -7,13 +7,13 @@ import { LabelComponent } from '../controls';
 
 export class FieldPanelWrapper extends ContainerWrapperSpaceable implements FieldContainer {
 
-  public getLayoutableControls(): Array<FieldRowControl> {
-    return super.getLayoutableControls() as Array<FieldRowControl>;
+  public getLayoutControls(): Array<FieldRowControl> {
+    return super.getLayoutControls() as Array<FieldRowControl>;
   }
 
-  public getLayoutableControlLabels(): Array<LayoutControlLabel> {
+  public getLayoutControlLabels(): Array<LayoutControlLabel> {
     let controlLabels = new Array<LayoutControlLabel>();
-    for (let wrapper of this.getLayoutableControls()) {
+    for (let wrapper of this.getLayoutControls()) {
       if (wrapper instanceof ControlLabelWrapper) {
         controlLabels.push(wrapper);
       }

@@ -16,7 +16,7 @@ export class LayoutControlWrapper {
   private hAlign: HorizontalAlignment;
   private vAlign: VerticalAlignment;
 
-  private layoutableProperties: LayoutProperties;
+  private layoutProperties: LayoutProperties;
   private controlLabel: LayoutControlLabel;
   private labelTemplate: LayoutControlLabelTemplate;
 
@@ -25,11 +25,11 @@ export class LayoutControlWrapper {
 
   constructor(private control: LayoutControl) {
     this.name = control.getName();
-    this.layoutableProperties = control.getLayoutableProperties();
+    this.layoutProperties = control.getLayoutProperties();
     this.isVisible = control.getVisibility() !== ControlVisibility.Collapsed;
-    this.minLayoutWidth = control.getLayoutableProperties().getMinLayoutWidth();
-    this.maxLayoutWidth = control.getLayoutableProperties().getMaxLayoutWidth();
-    this.maxLayoutHeight = control.getLayoutableProperties().getMaxLayoutHeight();
+    this.minLayoutWidth = control.getLayoutProperties().getMinLayoutWidth();
+    this.maxLayoutWidth = control.getLayoutProperties().getMaxLayoutWidth();
+    this.maxLayoutHeight = control.getLayoutProperties().getMaxLayoutHeight();
     this.dockItemSize = control.getDockItemSize();
     this.fieldRowSize = control.getFieldRowSize();
     this.hAlign = control.getAlignmentHorizontal();
@@ -42,8 +42,8 @@ export class LayoutControlWrapper {
     return this.name;
   }
 
-  public getLayoutableProperties(): LayoutProperties {
-    return this.layoutableProperties;
+  public getLayoutProperties(): LayoutProperties {
+    return this.layoutProperties;
   }
 
   public getIsVisible(): boolean {
@@ -55,7 +55,7 @@ export class LayoutControlWrapper {
   }
 
   public getMinLayoutHeight(width: number): number {
-    this.minLayoutHeight = this.control.getLayoutableProperties().getMinLayoutHeight(width);
+    this.minLayoutHeight = this.control.getLayoutProperties().getMinLayoutHeight(width);
     return this.minLayoutHeight;
   }
 

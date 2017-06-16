@@ -28,12 +28,14 @@ import { FormsService } from './services/forms.service';
 import { HttpService } from './services/http.service';
 import { LogService } from './services/log.service';
 import { LoginService } from './services/login.service';
+import { RoutingService } from './services/routing.service';
 import { TitleService } from './services/title.service';
 import { WindowRefService } from './services/windowref.service';
 
 @NgModule({
   entryComponents: [
-    FormComponent
+    FormComponent,
+    WrapPanelComponent
   ],
   declarations: [
     AppComponent,
@@ -71,6 +73,7 @@ import { WindowRefService } from './services/windowref.service';
     HttpService,
     LoginService,
     LogService,
+    RoutingService,
     TitleService,
     WindowRefService,
   ],

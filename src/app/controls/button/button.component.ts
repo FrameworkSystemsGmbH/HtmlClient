@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 
 import { BaseComponent } from '..';
+import { ButtonWrapper } from '../../wrappers';
 
 @Component({
   selector: 'hc-btn',
@@ -10,18 +11,16 @@ import { BaseComponent } from '..';
 })
 export class ButtonComponent extends BaseComponent {
 
-  public label: string;
-
   @Output() onClick: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('focus') focus: ElementRef;
 
-  public getLabel(): string {
-    return this.label;
+  public getWrapper(): ButtonWrapper {
+    return super.getWrapper() as ButtonWrapper;
   }
 
-  public setLabel(label: string): void {
-    this.label = label;
+  public getLabel(): string {
+    return this.getWrapper().getLabel();
   }
 
   public callOnClick(event: any): void {

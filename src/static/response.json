@@ -7,6 +7,8 @@
         "borderThicknessRight": 1,
         "borderThicknessTop": 1,
         "borderThicknessBottom": 1,
+        "horizontalSpacing": 10,
+        "verticalSpacing": 10,
         "borderColor": "#3281FF",
         "backgroundColor": "#DDEAFF"
       }
@@ -16,18 +18,36 @@
     {
       "id": "8bca8507-39e0-42a7-8e43-76dd699e423e",
       "name": "frm1",
-      "title": "Form 1",
       "properties": {
+        "title": "Form 1",
         "visibility": 0,
         "backgroundColor": "#E2EBFF"
       },
-      "controls": []
+      "controls": [
+        {
+          "id": "b7cb7286-0ee7-4ff0-aa4b-0384b1260394",
+          "name": "wrpContent",
+          "type": 5,
+          "controlStyle": "style1",
+          "properties": {
+            "wrapArrangement": 0,
+            "marginLeft": 20,
+            "marginRight": 20,
+            "marginTop": 20,
+            "marginBottom": 20,
+            "paddingLeft": 20,
+            "paddingRight": 20,
+            "paddingTop": 20,
+            "paddingBottom": 20
+          }
+        }
+      ]
     },
     {
       "id": "cdcf075f-274d-41e5-8ac1-76c9bd8223ed",
       "name": "frm2",
-      "title": "Form 2",
       "properties": {
+        "title": "Form 2",
         "visibility": 0,
         "backgroundColor": "#D6FFF0"
       },

@@ -3,12 +3,13 @@ import { ComponentRef, Injector, ViewContainerRef } from '@angular/core';
 import { ContainerWrapper, FormWrapper } from '.';
 import { BaseComponent } from '../controls';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
-import { LayoutControl, LayoutProperties, LayoutControlLabel, LayoutControlLabelTemplate, LayoutContainer } from '../layout';
+import { LayoutControl, LayoutControlLabel, LayoutControlLabelTemplate, LayoutContainer, LayoutProperties } from '../layout';
 import { VchControl, VchContainer } from '../vch';
 import { ResponseControlDto } from '../communication/response';
 import { PropertyStore, PropertyData, PropertyLayer } from '../common';
 import { EventsService } from '../services/events.service';
 import { ControlStyleService } from '../services/control-style.service';
+import { DefaultLayoutProperties } from '../common';
 
 export abstract class BaseWrapper implements LayoutControl {
 
@@ -24,9 +25,9 @@ export abstract class BaseWrapper implements LayoutControl {
 
   private id: string;
   private name: string;
+  private layoutProperties: DefaultLayoutProperties;
 
   constructor(
-    json: any,
     form: FormWrapper,
     parent: ContainerWrapper,
     appInjector: Injector
@@ -38,7 +39,6 @@ export abstract class BaseWrapper implements LayoutControl {
     this.appInjector = appInjector;
     this.eventsService = appInjector.get(EventsService);
     this.controlStyleService = appInjector.get(ControlStyleService);
-    this.initialize(json);
   }
 
   public abstract updateComponent(): void;
@@ -59,8 +59,12 @@ export abstract class BaseWrapper implements LayoutControl {
     return this.propertyStore.getBackgroundColor();
   }
 
-  public getLayoutableProperties(): LayoutProperties {
-    return null;
+  public getLayoutProperties(): LayoutProperties {
+    if (!this.layoutProperties) {
+      this.layoutProperties = new DefaultLayoutProperties(this);
+    }
+
+    return this.layoutProperties;
   }
 
   public getControlLabel(): LayoutControlLabel {
@@ -72,67 +76,103 @@ export abstract class BaseWrapper implements LayoutControl {
   }
 
   public getMinWidth(): number {
-    return 0;
+    return this.propertyStore.getMinWidth();
   }
 
   public getMinHeight(): number {
-    return 0;
+    return this.propertyStore.getMinHeight();
   }
 
   public getMaxWidth(): number {
-    return 0;
+    return this.propertyStore.getMaxWidth();
   }
 
   public getMaxHeight(): number {
-    return 0;
-  }
-
-  public getInsetsLeft(): number {
-    return 0;
-  }
-
-  public getInsetsRight(): number {
-    return 0;
-  }
-
-  public getInsetsTop(): number {
-    return 0;
-  }
-
-  public getInsetsBottom(): number {
-    return 0;
+    return this.propertyStore.getMaxHeight();
   }
 
   public getMarginLeft(): number {
-    return 0;
+    return this.propertyStore.getMarginLeft();
   }
 
   public getMarginRight(): number {
-    return 0;
+    return this.propertyStore.getMarginRight();
   }
 
   public getMarginTop(): number {
-    return 0;
+    return this.propertyStore.getMarginTop();
   }
 
   public getMarginBottom(): number {
-    return 0;
+    return this.propertyStore.getMarginBottom();
+  }
+
+  public getPaddingLeft(): number {
+    return this.propertyStore.getPaddingLeft();
+  }
+
+  public getPaddingRight(): number {
+    return this.propertyStore.getPaddingRight();
+  }
+
+  public getPaddingTop(): number {
+    return this.propertyStore.getPaddingTop();
+  }
+
+  public getPaddingBottom(): number {
+    return this.propertyStore.getPaddingBottom();
+  }
+
+  public getBorderColor(): string {
+    return this.propertyStore.getBorderColor();
+  }
+
+  public getBorderThicknessLeft(): number {
+    return this.propertyStore.getBorderThicknessLeft();
+  }
+
+  public getBorderThicknessRight(): number {
+    return this.propertyStore.getBorderThicknessRight();
+  }
+
+  public getBorderThicknessTop(): number {
+    return this.propertyStore.getBorderThicknessTop();
+  }
+
+  public getBorderThicknessBottom(): number {
+    return this.propertyStore.getBorderThicknessBottom();
+  }
+
+  public getInsetsLeft(): number {
+    return this.getPaddingLeft() + this.getBorderThicknessLeft();
+  }
+
+  public getInsetsRight(): number {
+    return this.getPaddingRight() + this.getBorderThicknessRight();
+  }
+
+  public getInsetsTop(): number {
+    return this.getPaddingTop() + this.getBorderThicknessTop();
+  }
+
+  public getInsetsBottom(): number {
+    return this.getPaddingBottom() + this.getBorderThicknessBottom();
   }
 
   public getDockItemSize(): number {
-    return 0;
+    return this.propertyStore.getDockItemSize();
   }
 
   public getFieldRowSize(): number {
-    return 0;
+    return this.propertyStore.getFieldRowSize();
   }
 
   public getAlignmentHorizontal(): HorizontalAlignment {
-    return HorizontalAlignment.Stretch;
+    return this.propertyStore.getHorizontalAlignment();
   }
 
   public getAlignmentVertical(): VerticalAlignment {
-    return VerticalAlignment.Stretch;
+    return this.propertyStore.getVerticalAlignment();
   }
 
   public getForm(): FormWrapper {
@@ -163,13 +203,9 @@ export abstract class BaseWrapper implements LayoutControl {
     return this.getComponentRef().instance;
   }
 
-  protected initialize(json: any): void {
-    this.setJson(json, false);
+  public onComponentRefDestroyed(): void {
+    this.componentRef = null;
   }
-
-  // public getDto(): ResponseControlDto {
-  //   return null;
-  // }
 
   public setJson(json: any, delta: boolean): void {
     if (delta) {
