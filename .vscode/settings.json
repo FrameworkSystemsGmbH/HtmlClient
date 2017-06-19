@@ -4,12 +4,6 @@
   "editor.wordWrapColumn": 180,
   "editor.wrappingIndent": "indent",
 
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.DS_Store": true
-  },
-
   "search.exclude": {
     "**/dist": true,
     "**/node_modules": true
