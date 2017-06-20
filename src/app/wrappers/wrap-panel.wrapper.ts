@@ -30,8 +30,7 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapC
     return this.propertyStore.getVerticalContentAlignment();
   }
 
-  public attachComponent(container: ContainerWrapper): void {
-    super.attachComponent(container);
+  public createComponent(container: ContainerWrapper): void {
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<WrapPanelComponent> = cfr.resolveComponentFactory(WrapPanelComponent);
     let comp: ComponentRef<WrapPanelComponent> = container.getViewContainerRef().createComponent(factory);

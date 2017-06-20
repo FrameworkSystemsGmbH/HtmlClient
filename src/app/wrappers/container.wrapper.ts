@@ -48,6 +48,10 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
     return this.getVchContainer().getChildrenInFlowDirection();
   }
 
+  public addControl(control: BaseWrapper): void {
+    this.controls.push(control);
+  }
+
   public removeChild(child: LayoutControl): void {
 
   }
@@ -81,36 +85,6 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
   //   return null;
   // }
 
-  public setJson(json: any, delta: boolean): void {
-    super.setJson(json, delta);
-
-    if (json.controls && json.controls.length) {
-      this.setControlsJson(json.controls, delta);
-    }
-  }
-
-  protected setControlsJson(controlsJson: any, delta: boolean): void {
-    if (!controlsJson || !controlsJson.length) {
-      return;
-    }
-
-    controlsJson.forEach((controlJson: any) => {
-      if (delta) {
-        let controlName: string = controlJson.name;
-        let controlWrps: Array<BaseWrapper> = this.controls.filter((controlWrp: BaseWrapper) => controlWrp.getName() === controlName);
-
-        if (controlWrps && controlWrps.length) {
-          let control: BaseWrapper = controlWrps[0];
-          control.setJson(controlJson, true);
-        }
-      } else {
-        let control: BaseWrapper = this.controlsService.createWrapperFromType(controlJson.type, this.getForm(), this);
-        control.setJson(controlJson, false);
-        this.controls.push(control);
-      }
-    });
-  }
-
   public attachComponent(container: ContainerWrapper): void {
     super.attachComponent(container);
     // #warning VchManager.add(this.container);
@@ -124,10 +98,10 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
 
   }
 
-  public findControl(id: string): BaseWrapper {
+  public findControl(name: string): BaseWrapper {
     for (let i: number = 0; i < this.controls.length; i++) {
       let control: BaseWrapper = this.controls[i];
-      if (control.getId() === id) {
+      if (control.getName() === name) {
         return control;
       }
     }
@@ -135,14 +109,13 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
     return null;
   }
 
-  public findControlRecursive(id: string): BaseWrapper {
-    let control: BaseWrapper = this.findControl(id);
-
+  public findControlRecursive(name: string): BaseWrapper {
+    let control: BaseWrapper = this.findControl(name);
     if (!control) {
       for (let i: number = 0; i < this.controls.length; i++) {
         let subControl: BaseWrapper = this.controls[i];
         if (subControl instanceof ContainerWrapper) {
-          control = (<ContainerWrapper>subControl).findControlRecursive(id);
+          control = (<ContainerWrapper>subControl).findControlRecursive(name);
           if (control) {
             return control;
           }

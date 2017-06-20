@@ -1,4 +1,4 @@
-import { ComponentRef, ViewContainerRef } from '@angular/core';
+import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
 import { BaseWrapper, ContainerWrapper } from '.';
 import { ControlEvent } from '../enums';
@@ -10,8 +10,8 @@ export class ButtonWrapper extends BaseWrapper {
 
   private events: ControlEvent;
 
-  public getLabel(): string {
-    return this.propertyStore.getLabel();
+  public getCaption(): string {
+    return this.propertyStore.getCaption();
   }
 
   public getComponentRef(): ComponentRef<ButtonComponent> {
@@ -29,8 +29,8 @@ export class ButtonWrapper extends BaseWrapper {
       return;
     }
 
-    if (dataJson.label) {
-      this.propertyStore.setLabel(PropertyLayer.Control, dataJson.label);
+    if (dataJson.caption) {
+      this.propertyStore.setCaption(PropertyLayer.Control, dataJson.caption);
     }
   }
 
@@ -46,10 +46,12 @@ export class ButtonWrapper extends BaseWrapper {
     }
   }
 
-  public attachComponent(container: ContainerWrapper): void {
-    super.attachComponent(container);
-
-
+  public createComponent(container: ContainerWrapper): void {
+    let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
+    let factory: ComponentFactory<ButtonComponent> = cfr.resolveComponentFactory(ButtonComponent);
+    let comp: ComponentRef<ButtonComponent> = container.getViewContainerRef().createComponent(factory);
+    this.setComponentRef(comp);
+    comp.instance.setWrapper(this);
   }
 
   public updateComponent(): void {

@@ -80,22 +80,19 @@ export class FormsService {
 
   public setJson(fromsJson: any) {
     for (let formJson of fromsJson) {
-      let delta: boolean = formJson.delta;
-
-      if (delta) {
-        let formName: string = formJson.name;
-        let formWrps: Array<FormWrapper> = this.forms.filter((formWrp: FormWrapper) => formWrp.getName() === formName);
-
-        if (formWrps && formWrps.length) {
-          let form: FormWrapper = formWrps[0];
-          form.setJson(formJson, true);
-        }
-      } else {
+      if (formJson.meta.new) {
         let formWrp: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType(ControlType.Form, null, null);
-        formWrp.setJson(formJson, false);
+        formWrp.setJson(formJson, true);
         this.forms.push(formWrp);
         if (!this.selectedForm) {
           this.selectedForm = formWrp;
+        }
+      } else {
+        let formId: number = formJson.meta.id;
+        let formWrps: Array<FormWrapper> = this.forms.filter((formWrp: FormWrapper) => formWrp.getId() === formId);
+        if (formWrps && formWrps.length) {
+          let form: FormWrapper = formWrps[0];
+          form.setJson(formJson, false);
         }
       }
     }

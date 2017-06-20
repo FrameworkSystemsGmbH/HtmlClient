@@ -1,5 +1,5 @@
 export enum ControlVisibility {
   Visible = 0,
-  Collapsed = 1,
-  Hidden = 2
+  Hidden = 1,
+  Collapsed = 2
 }

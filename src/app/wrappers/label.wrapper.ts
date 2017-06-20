@@ -1,14 +1,14 @@
 import { ComponentRef, ViewContainerRef } from '@angular/core';
 
-import { BaseWrapper } from '.';
+import { BaseWrapper, ContainerWrapper } from '.';
 import { LabelComponent } from '../controls';
 import { ControlType } from '../enums';
 import { PropertyLayer } from '../common';
 
 export class LabelWrapper extends BaseWrapper {
 
-  public getLabel(): string {
-    return this.propertyStore.getLabel();
+  public getCaption(): string {
+    return this.propertyStore.getCaption();
   }
 
   public getComponentRef(): ComponentRef<LabelComponent> {
@@ -26,13 +26,13 @@ export class LabelWrapper extends BaseWrapper {
       return;
     }
 
-    if (dataJson.label) {
-      this.propertyStore.setLabel(PropertyLayer.Control, dataJson.label);
+    if (dataJson.caption) {
+      this.propertyStore.setCaption(PropertyLayer.Control, dataJson.caption);
     }
   }
 
-  public createComponent(): ComponentRef<LabelComponent> {
-    return null;
+  public createComponent(container: ContainerWrapper): void {
+
   }
 
   public updateComponent(): void {

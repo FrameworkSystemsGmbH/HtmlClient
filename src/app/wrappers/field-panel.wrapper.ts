@@ -37,8 +37,4 @@ export class FieldPanelWrapper extends ContainerWrapperSpaceable implements Fiel
     return null;
   }
 
-  public updateComponent(): void {
-
-  }
-
 }

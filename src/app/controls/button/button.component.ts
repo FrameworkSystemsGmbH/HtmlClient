@@ -19,8 +19,8 @@ export class ButtonComponent extends BaseComponent {
     return super.getWrapper() as ButtonWrapper;
   }
 
-  public getLabel(): string {
-    return this.getWrapper().getLabel();
+  public getCaption(): string {
+    return this.getWrapper().getCaption();
   }
 
   public callOnClick(event: any): void {

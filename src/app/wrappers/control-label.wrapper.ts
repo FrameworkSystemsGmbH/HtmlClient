@@ -1,6 +1,6 @@
-import { ViewContainerRef, ComponentRef } from '@angular/core';
+import { ViewContainerRef, ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
-import { BaseWrapper } from '.';
+import { BaseWrapper, ContainerWrapper } from '.';
 import { LayoutControlLabel } from '../layout';
 import { LabelComponent } from '../controls';
 
@@ -10,8 +10,8 @@ export class ControlLabelWrapper extends BaseWrapper implements LayoutControlLab
 
   }
 
-  public createComponent(): ComponentRef<LabelComponent> {
-    return null;
+  public createComponent(container: ContainerWrapper): void {
+
   }
 
   public updateComponent(): void {

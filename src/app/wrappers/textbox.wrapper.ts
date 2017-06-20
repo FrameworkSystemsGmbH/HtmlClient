@@ -1,6 +1,6 @@
 import { ComponentRef, ViewContainerRef } from '@angular/core';
 
-import { BaseWrapper } from '.';
+import { BaseWrapper, ContainerWrapper } from '.';
 import { TextBoxComponent } from '../controls';
 import { ControlEvent } from '../enums';
 
@@ -74,8 +74,8 @@ export class TextBoxWrapper extends BaseWrapper {
     }
   }
 
-  public createComponent(): ComponentRef<TextBoxComponent> {
-    return null;
+  public createComponent(container: ContainerWrapper): void {
+
   }
 
   public updateComponent(): void {

@@ -23,7 +23,6 @@ export abstract class BaseWrapper implements LayoutControl {
   private form: FormWrapper;
   private parent: ContainerWrapper;
 
-  private id: string;
   private name: string;
   private layoutProperties: DefaultLayoutProperties;
 
@@ -39,12 +38,13 @@ export abstract class BaseWrapper implements LayoutControl {
     this.appInjector = appInjector;
     this.eventsService = appInjector.get(EventsService);
     this.controlStyleService = appInjector.get(ControlStyleService);
+    this.addToParent();
   }
 
-  public abstract updateComponent(): void;
-
-  public getId(): string {
-    return this.id;
+  public addToParent(): void {
+    if (this.parent) {
+      this.parent.addControl(this);
+    }
   }
 
   public getName(): string {
@@ -56,7 +56,7 @@ export abstract class BaseWrapper implements LayoutControl {
   }
 
   public getBackgroundColor(): string {
-    return this.propertyStore.getBackgroundColor();
+    return this.propertyStore.getBackColor();
   }
 
   public getLayoutProperties(): LayoutProperties {
@@ -207,19 +207,40 @@ export abstract class BaseWrapper implements LayoutControl {
     this.componentRef = null;
   }
 
-  public setJson(json: any, delta: boolean): void {
-    if (delta) {
-
+  public setJson(json: any, isNew: boolean): void {
+    if (isNew) {
+      if (json.meta) {
+        this.setMetaJson(json.meta);
+      }
+      if (json.properties) {
+        this.setPropertiesJson(json.properties);
+      }
+      if (json.events) {
+        this.setEventsJson(json.events);
+      }
+      if (json.data) {
+        this.setDataJson(json.data);
+      }
     } else {
-      this.setMetaJson(json);
-      this.setPropertiesJson(json.properties);
+
     }
   }
 
-  protected setMetaJson(json: any): void {
-    this.id = json.id;
-    this.name = json.name;
-    this.setControlStyle(json.controlStyle);
+  protected setMetaJson(metaJson: any): void {
+    this.name = metaJson.name;
+    this.setControlStyle(metaJson.style);
+  }
+
+  protected setPropertiesJson(propertiesJson: any): void {
+    this.propertyStore.setLayer(PropertyLayer.Control, propertiesJson as PropertyData);
+  }
+
+  protected setEventsJson(dataJson: any) {
+    // BaseWrapper does not have events
+  }
+
+  protected setDataJson(dataJson: any) {
+    // BaseWrapper does not have data
   }
 
   protected setControlStyle(controlStyle: string) {
@@ -231,24 +252,17 @@ export abstract class BaseWrapper implements LayoutControl {
     }
   }
 
-  protected setPropertiesJson(propertiesJson: any): void {
-    this.propertyStore.setLayer(PropertyLayer.Control, propertiesJson as PropertyData);
-  }
-
-  protected setDataJson(dataJson: any) {
-    // BaseWrapper does not have data
-  }
-
-  protected setEventsJson(dataJson: any) {
-    // BaseWrapper does not have events
-  }
-
   public setFocus(): void {
     this.getComponent().setFocus();
   }
 
   public attachComponent(container: ContainerWrapper): void {
+    this.createComponent(container);
     container.getVchContainer().addChild(this);
   }
+
+  public abstract createComponent(container: ContainerWrapper): void;
+
+  public abstract updateComponent(): void;
 
 }

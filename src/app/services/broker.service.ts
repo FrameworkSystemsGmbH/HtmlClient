@@ -12,6 +12,7 @@ import { EventsService } from './events.service';
 import { FormsService } from './forms.service';
 import { ErrorService } from './error.service';
 import { RoutingService } from './routing.service';
+import { TitleService } from './title.service';
 import { LoginBroker } from '../common';
 
 @Injectable()
@@ -19,6 +20,7 @@ export class BrokerService {
 
   public activeBrokerChanged: EventEmitter<LoginBroker>;
 
+  private activeToken: string;
   private activeBroker: LoginBroker;
   private onEventFiredSub: ISubscription;
   private onResponseReceivedSub: ISubscription;
@@ -30,14 +32,15 @@ export class BrokerService {
     private eventsService: EventsService,
     private formsService: FormsService,
     private errorService: ErrorService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private titleService: TitleService
   ) {
     // this.onEventFiredSub = this.eventsService.onEventFired.subscribe((eventArgs: ClientEventArgs) => {
     //   this.performRequest(this.createRequest(eventArgs));
     // });
 
-    this.onResponseReceivedSub = this.httpService.onResponseReceived.subscribe((responseJson: any) => {
-      this.processResponse(responseJson);
+    this.onResponseReceivedSub = this.httpService.onResponseReceived.subscribe((json: any) => {
+      this.processResponse(json);
     });
 
     this.activeBrokerChanged = new EventEmitter<LoginBroker>();
@@ -62,7 +65,8 @@ export class BrokerService {
 
   public sendInitRequest(): void {
     let requestJson: any = {
-      init: true
+      token: '',
+      requCounter: 1
     };
 
     this.httpService.doRequest(requestJson);
@@ -87,25 +91,53 @@ export class BrokerService {
     this.httpService.doRequest(requestJson);
   }
 
-  public processResponse(responseJson: any) {
-    if (!responseJson) {
+  public processResponse(json: any) {
+    if (!json) {
       throw new Error('Response JSON is null or empty!');
     }
 
-    if (responseJson.controlStyles && responseJson.controlStyles.length) {
-      for (let controlStyle of responseJson.controlStyles) {
-        this.controlStyleSerivce.addControlStyle(controlStyle.name, controlStyle.properties);
-      }
+    if (!json.start) {
+      throw new Error('Could not find property \'start\' in response JSON!');
     }
 
-    if (responseJson.forms && responseJson.forms.length) {
-      this.formsService.setJson(responseJson.forms);
+    this.processMeta(json.meta);
+    this.processApplication(json.start.application);
+    this.processControlStyles(json.start.controlStyles);
+
+    if (json.forms && json.forms.length) {
+      this.formsService.setJson(json.forms);
     }
 
-    if (responseJson.actions && responseJson.actions.length) {
-      this.actionsService.processActions(responseJson.actions);
+    if (json.actions && json.actions.length) {
+      this.actionsService.processActions(json.actions);
     }
 
     this.routingService.showViewer();
+  }
+
+  private processMeta(metaJson: any): void {
+    if (!metaJson) {
+      throw new Error('Could not find property \'meta\' in response JSON!');
+    }
+
+    this.activeToken = metaJson.token;
+  }
+
+  private processApplication(applicationJson: any): void {
+    if (!applicationJson) {
+      throw new Error('Could not find property \'application\' in start JSON!');
+    }
+
+    if (applicationJson.title) {
+      this.titleService.setTitle(applicationJson.title);
+    }
+  }
+
+  private processControlStyles(controlStylesJson: any): void {
+    if (controlStylesJson && controlStylesJson.length) {
+      for (let controlStyleJson of controlStylesJson) {
+        this.controlStyleSerivce.addControlStyle(controlStyleJson.name, controlStyleJson.properties);
+      }
+    }
   }
 }

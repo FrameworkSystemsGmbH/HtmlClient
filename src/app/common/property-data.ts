@@ -1,17 +1,25 @@
-import { ControlVisibility, HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment } from '../enums';
+import {
+  ControlVisibility,
+  HorizontalAlignment,
+  VerticalAlignment,
+  HorizontalContentAlignment,
+  VerticalContentAlignment,
+  TextAlign,
+  ContentAlignment,
+  PictureScaleMode,
+  ScrollBars
+} from '../enums';
+
+import { FsSize } from '.';
 import { DockOrientation } from '../layout/dock-layout';
 import { WrapArrangement } from '../layout/wrap-layout';
 
 export class PropertyData {
 
-  public id: string;
-  public name: string;
-  public title: string;
-  public label: string;
-
-  public visibility: ControlVisibility;
-
-  public backgroundColor: string;
+  public foreColor: string
+  public backColor: string;
+  public disabledBackColor: string;
+  public borderColor: string;
 
   public minWidth: number;
   public minHeight: number;
@@ -23,30 +31,80 @@ export class PropertyData {
   public marginTop: number;
   public marginBottom: number;
 
-  public paddingLeft: number;
-  public paddingRight: number;
-  public paddingTop: number;
-  public paddingBottom: number;
-
-  public borderColor: string;
   public borderThicknessLeft: number;
   public borderThicknessRight: number;
   public borderThicknessTop: number;
   public borderThicknessBottom: number;
 
-  public horizontalAlignment: HorizontalAlignment;
-  public verticalAlignment: VerticalAlignment;
+  public paddingLeft: number;
+  public paddingRight: number;
+  public paddingTop: number;
+  public paddingBottom: number;
+
+  public alignmentHorizontal: HorizontalAlignment;
+  public alignmentVertical: VerticalAlignment;
   public horizontalContentAlignment: HorizontalContentAlignment;
   public verticalContentAlignment: VerticalContentAlignment;
 
-  public horizontalSpacing: number;
-  public verticalSpacing: number;
+  public spacingHorizontal: number;
+  public spacingVertical: number;
 
-  public dockItemSize: number;
-  public dockOrientation: DockOrientation;
+  public fontBold: boolean;
+  public fontFamily: string;
+  public fontItalic: boolean;
+  public fontSize: number
+  public fontUnderline: boolean;
 
-  public wrapArrangement: WrapArrangement;
+  public labelTemplate: PropertyData;
+  public rowLabelTemplate: PropertyData;
 
+  public image: string;
+  public imageBack: string;
+  public imageForward: string;
+  public inactiveImage: string;
+  public activeImage: string;
+  public disabledImage: string;
+  public highlightImage: string;
+  public mouseOverImage: string;
+  public pressedImage: string;
+  public backgroundImage: string;
+
+  public openIcon: string;
+  public closedIcon: string;
+  public backwardButtonIcon: string;
+  public cancelButtonIcon: string;
+  public forwardButtonIcon: string;
+  public loadPageButtonIcon: string;
+  public reloadButtonIcon: string;
+  public zoomInButtonIcon: string;
+  public zoomOutButtonIcon: string;
+  public zoomResetButtonIcon: string;
+  public newRowIcon: string;
+  public rowChangedIcon: string;
+  public rowDeletedIcon: string;
+  public dockWindowIcon: string;
+
+  public caption: string;
+  public captionAlign: ContentAlignment;
+  public dockPanel_ItemSize: number;
+  public dockPanelOrientation: DockOrientation;
+  public editorStyle: number;
   public fieldRowSize: number;
-
+  public format: number;
+  public invertFlowDirection: boolean;
+  public isVisible: boolean;
+  public mapEnterToTab: boolean;
+  public maxDropDownSize: FsSize;
+  public multiline: boolean;
+  public passwordChar: string;
+  public scaleMode: PictureScaleMode;
+  public scrollBars: ScrollBars;
+  public shortcut: string;
+  public showCaption: boolean;
+  public tabStop: boolean;
+  public textAlign: TextAlign;
+  public visibility: ControlVisibility;
+  public width: number;
+  public wordWrap: boolean;
+  public wrapArrangement: WrapArrangement;
 }

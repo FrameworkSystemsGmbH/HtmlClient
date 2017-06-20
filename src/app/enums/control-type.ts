@@ -1,9 +1,10 @@
 export enum ControlType {
-  Label = 0,
+  Form = 0,
   Button = 1,
-  TextBox = 2,
-  Form = 3,
+  Label = 2,
+  TextBox = 3,
   DockPanel = 4,
-  WrapPanel = 5,
-  FieldPanel = 6
+  FieldPanel = 6,
+  WrapPanel = 28,
+  Variant = 101
 }

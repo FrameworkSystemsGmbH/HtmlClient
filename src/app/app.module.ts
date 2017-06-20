@@ -11,7 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ViewerComponent } from './components/viewer/viewer.component';
 import { FrameComponent } from './components/frame/frame.component';
-import { ButtonComponent, FormComponent, LabelComponent, TextBoxComponent, WrapPanelComponent } from './controls';
+import { ButtonComponent, FormComponent, LabelComponent, TextBoxComponent, WrapPanelComponent, VariantComponent } from './controls';
 import { MediaQueryDirective, MouseWheelDirective } from './directives';
 import { ResponseFormDto } from './communication/response';
 import { FormWrapper } from './wrappers';
@@ -34,7 +34,9 @@ import { WindowRefService } from './services/windowref.service';
 
 @NgModule({
   entryComponents: [
+    ButtonComponent,
     FormComponent,
+    VariantComponent,
     WrapPanelComponent
   ],
   declarations: [
@@ -42,11 +44,12 @@ import { WindowRefService } from './services/windowref.service';
     NavbarComponent,
     ViewerComponent,
     FrameComponent,
-    LoginComponent,
     ButtonComponent,
     FormComponent,
     LabelComponent,
+    LoginComponent,
     TextBoxComponent,
+    VariantComponent,
     WrapPanelComponent,
     MediaQueryDirective,
     MouseWheelDirective
