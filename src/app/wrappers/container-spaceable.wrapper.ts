@@ -1,7 +1,7 @@
 import { ContainerWrapper } from '.';
-import { LayoutContainerSpaceable } from '../layout';
+import { LayoutableContainerSpaceable } from '../layout';
 
-export abstract class ContainerWrapperSpaceable extends ContainerWrapper implements LayoutContainerSpaceable {
+export abstract class ContainerWrapperSpaceable extends ContainerWrapper implements LayoutableContainerSpaceable {
 
   public getSpacingHorizontal(): number {
     return this.propertyStore.getHorizontalSpacing();

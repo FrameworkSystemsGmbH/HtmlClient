@@ -128,7 +128,7 @@ export class LinkedListOneWay<T> {
     let node = this.head;
 
     for (let i = 0; i < this.length; i++) {
-      result.push(node.data);
+      result[i] = node.data;
       node = node.next;
     }
 

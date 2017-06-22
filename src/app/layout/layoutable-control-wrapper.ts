@@ -1,7 +1,7 @@
-import { LayoutControl, LayoutProperties, LayoutControlLabelTemplate, LayoutControlLabel } from '.';
+import { LayoutableControl, LayoutableProperties, LayoutableControlLabelTemplate, LayoutableControlLabel } from '.';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
 
-export class LayoutControlWrapper {
+export class LayoutableControlWrapper {
 
   private name: string;
 
@@ -16,38 +16,34 @@ export class LayoutControlWrapper {
   private hAlign: HorizontalAlignment;
   private vAlign: VerticalAlignment;
 
-  private layoutProperties: LayoutProperties;
-  private controlLabel: LayoutControlLabel;
-  private labelTemplate: LayoutControlLabelTemplate;
+  private layoutableProperties: LayoutableProperties;
+  private controlLabel: LayoutableControlLabel;
+  private labelTemplate: LayoutableControlLabelTemplate;
 
   private resultWdith: number;
   private resultHeight: number;
 
-  constructor(private control: LayoutControl) {
+  constructor(private control: LayoutableControl) {
     this.name = control.getName();
-    this.layoutProperties = control.getLayoutProperties();
-    this.isVisible = control.getVisibility() !== ControlVisibility.Collapsed;
-    this.minLayoutWidth = control.getLayoutProperties().getMinLayoutWidth();
-    this.maxLayoutWidth = control.getLayoutProperties().getMaxLayoutWidth();
-    this.maxLayoutHeight = control.getLayoutProperties().getMaxLayoutHeight();
+    this.layoutableProperties = control.getLayoutableProperties();
+    this.minLayoutWidth = control.getMinLayoutWidth();
+    this.maxLayoutWidth = control.getMaxLayoutWidth();
+    this.maxLayoutHeight = control.getMaxLayoutHeight();
     this.dockItemSize = control.getDockItemSize();
     this.fieldRowSize = control.getFieldRowSize();
     this.hAlign = control.getAlignmentHorizontal();
     this.vAlign = control.getAlignmentVertical();
     this.controlLabel = control.getControlLabel();
     this.labelTemplate = control.getLabelTemplate();
+    this.isVisible = control.getVisibility() !== ControlVisibility.Collapsed;
   }
 
   public getName(): string {
     return this.name;
   }
 
-  public getLayoutProperties(): LayoutProperties {
-    return this.layoutProperties;
-  }
-
-  public getIsVisible(): boolean {
-    return this.isVisible;
+  public getLayoutableProperties(): LayoutableProperties {
+    return this.layoutableProperties;
   }
 
   public getMinLayoutWidth(): number {
@@ -55,7 +51,7 @@ export class LayoutControlWrapper {
   }
 
   public getMinLayoutHeight(width: number): number {
-    this.minLayoutHeight = this.control.getLayoutProperties().getMinLayoutHeight(width);
+    this.minLayoutHeight = this.control.getMinLayoutHeight(width);
     return this.minLayoutHeight;
   }
 
@@ -87,12 +83,16 @@ export class LayoutControlWrapper {
     return this.vAlign;
   }
 
-  public getControlLabel(): LayoutControlLabel {
+  public getControlLabel(): LayoutableControlLabel {
     return this.controlLabel;
   }
 
-  public getLabelTemplate(): LayoutControlLabelTemplate {
+  public getLabelTemplate(): LayoutableControlLabelTemplate {
     return this.labelTemplate;
+  }
+
+  public getIsVisible(): boolean {
+    return this.isVisible;
   }
 
   public getResultWidth(): number {

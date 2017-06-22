@@ -1,9 +1,9 @@
 import { FieldContainer, FieldRowWrapper, FieldColumnWrapper, FieldCellWrapper, FieldRowLabelMode } from '.';
-import { Layout, LayoutContainer, LayoutControlLabel, LayoutControl } from '..';
+import { LayoutContainerBase, LayoutableContainer, LayoutableControlLabel } from '..';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../../enums';
 import { LinkedListOneWay } from '../../util';
 
-export class FieldLayout extends Layout {
+export class FieldLayout extends LayoutContainerBase {
 
   private width: number = -1;
   private rows: Array<FieldRowWrapper> = null;
@@ -13,8 +13,8 @@ export class FieldLayout extends Layout {
     super(container);
   }
 
-  public getContainer(): FieldContainer {
-    return <FieldContainer>super.getContainer();
+  public getControl(): FieldContainer {
+    return super.getControl() as FieldContainer;
   }
 
   private initRows(container: FieldContainer): void {
@@ -22,16 +22,16 @@ export class FieldLayout extends Layout {
 
     // remember all IControlLabel children
     // those control labels, which will not be added again, have to be removed
-    let controlLabels: Array<LayoutControlLabel> = new Array<LayoutControlLabel>();
-    for (let child of container.getLayoutControlLabels()) {
+    let controlLabels: Array<LayoutableControlLabel> = new Array<LayoutableControlLabel>();
+    for (let child of container.getLayoutableControlLabels()) {
       controlLabels.push(child);
     }
 
     // iterate children and fill wrapper array
-    for (let row of container.getLayoutControls()) {
+    for (let row of container.getLayoutableControls()) {
       // check, if at least one control of this row is visible
       let isRowVisible: boolean = false;
-      for (let rowChild of row.getLayoutControls()) {
+      for (let rowChild of row.getLayoutableControls()) {
 
         if (rowChild.getVisibility() !== ControlVisibility.Collapsed) {
           isRowVisible = true;
@@ -50,7 +50,7 @@ export class FieldLayout extends Layout {
   }
 
   public measureMinWidth(): number {
-    let container: FieldContainer = this.getContainer();
+    let container: FieldContainer = this.getControl();
 
     // init rows
     this.initRows(container);
@@ -118,7 +118,7 @@ export class FieldLayout extends Layout {
   public measureMinHeight(width: number): number {
     this.width = width;
 
-    let container: FieldContainer = this.getContainer();
+    let container: FieldContainer = this.getControl();
 
     // insets (padding and border) of the container
     let insetsLeft: number = container.getInsetsLeft();
@@ -328,10 +328,10 @@ export class FieldLayout extends Layout {
   }
 
   public arrange(): void {
-    let container: FieldContainer = this.getContainer();
+    let container: FieldContainer = this.getControl();
 
-    let containerWidth: number = container.getLayoutProperties().getWidth();
-    let containerHeight: number = container.getLayoutProperties().getHeight();
+    let containerWidth: number = container.getLayoutableProperties().getWidth();
+    let containerHeight: number = container.getLayoutableProperties().getHeight();
 
     // consistency check
     if (containerWidth !== this.width) {

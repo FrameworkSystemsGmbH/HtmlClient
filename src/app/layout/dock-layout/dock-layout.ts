@@ -1,30 +1,30 @@
 import { DockContainer, DockOrientation } from '.';
-import { Layout, LayoutControlWrapper, LayoutControl, LayoutProperties } from '..';
+import { LayoutContainerBase, LayoutableControlWrapper, LayoutableControl, LayoutableProperties } from '..';
 import { HorizontalAlignment, VerticalAlignment } from '../../enums';
 
-export class DockLayout extends Layout {
+export class DockLayout extends LayoutContainerBase {
 
   private width: number = -1;
   private isVertical: boolean = false;
-  private wrappers: Array<LayoutControlWrapper> = null;
+  private wrappers: Array<LayoutableControlWrapper> = null;
 
   constructor(container: DockContainer) {
     super(container);
   }
 
-  public getContainer(): DockContainer {
-    return <DockContainer>super.getContainer();
+  public getControl(): DockContainer {
+    return super.getControl() as DockContainer;
   }
 
   private initWrappers(container: DockContainer): void {
     // iterate children and fill wrapper array
-    let controls: Array<LayoutControl> = container.getLayoutControls();
+    let controls: Array<LayoutableControl> = container.getLayoutableControls();
     let controlCount: number = controls.length;
 
-    this.wrappers = new LayoutControlWrapper[controlCount];
+    this.wrappers = new LayoutableControlWrapper[controlCount];
 
     for (let i = 0; i < controlCount; i++) {
-      this.wrappers[i] = new LayoutControlWrapper(controls[i]);
+      this.wrappers[i] = new LayoutableControlWrapper(controls[i]);
     }
   }
 
@@ -34,7 +34,7 @@ export class DockLayout extends Layout {
    * da die Berechnung der minimalen Höhe über die Methode measureMinHeight(width) erfolgen muss.
    */
   public measureMinWidth(): number {
-    let container: DockContainer = this.getContainer();
+    let container: DockContainer = this.getControl();
 
     this.initWrappers(container);
 
@@ -81,7 +81,7 @@ export class DockLayout extends Layout {
    * bereits die beim Arrangieren zu verwendenden entgültigen Breiten der Controls gespeichert.
    */
   public measureMinHeight(width: number): number {
-    let container: DockContainer = this.getContainer();
+    let container: DockContainer = this.getControl();
     let orientation: DockOrientation = container.getDockOrientation();
 
     let insetsLeft: number = container.getInsetsLeft();
@@ -172,7 +172,7 @@ export class DockLayout extends Layout {
 
       // calculate result width for auto sized items
       // and remember all dynamic items to be processed later
-      let todo: Array<LayoutControlWrapper> = new Array<LayoutControlWrapper>();
+      let todo: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
       let availableWidth: number = width - insetsLeft - insetsRight - Math.max(0, countVisibleControls - 1) * hSpacing;
 
       for (let wrapper of this.wrappers) {
@@ -198,8 +198,8 @@ export class DockLayout extends Layout {
         let maxMinFail: number = 0;
         let sumMaxFails: number = 0;
         let maxMaxFail: number = 0;
-        let maxMinFailWrapper: LayoutControlWrapper = null;
-        let maxMaxFailWrapper: LayoutControlWrapper = null;
+        let maxMinFailWrapper: LayoutableControlWrapper = null;
+        let maxMaxFailWrapper: LayoutableControlWrapper = null;
 
         for (let wrapper of todo) {
           let dockItemSizeRatio: number = wrapper.getDockItemSize() / sumDockItemSizes;
@@ -244,7 +244,7 @@ export class DockLayout extends Layout {
 
       // calculate result width for dynamic items without problems concerning min and max width
       while (!todo.isEmpty()) {
-        let wrapper: LayoutControlWrapper = todo.shift();
+        let wrapper: LayoutableControlWrapper = todo.shift();
         let dockItemSizeRatio: number = wrapper.getDockItemSize() / sumDockItemSizes;
         let desiredWidth: number = Math.round(dockItemSizeRatio * availableWidth);
         wrapper.setResultWidth(desiredWidth);
@@ -278,10 +278,10 @@ export class DockLayout extends Layout {
    * bereits die entgültigen Controlbreiten berechnet hat. Lediglich die Position und die Höhe muss noch gesetzt werden.
    */
   public arrange(): void {
-    let container: DockContainer = this.getContainer();
+    let container: DockContainer = this.getControl();
 
-    let containerWidth: number = container.getLayoutProperties().getWidth();
-    let containerHeight: number = container.getLayoutProperties().getHeight();
+    let containerWidth: number = container.getLayoutableProperties().getWidth();
+    let containerHeight: number = container.getLayoutableProperties().getHeight();
 
     // consistency check
     if (containerWidth !== this.width) {
@@ -315,7 +315,7 @@ export class DockLayout extends Layout {
 
       // calculate result height for auto sized items
       // and remember all dynamic items to be processed later
-      let todo: Array<LayoutControlWrapper> = new Array<LayoutControlWrapper>();
+      let todo: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
       let availableHeight: number = containerHeight - insetsTop - insetsBottom - Math.max(0, countVisibleControls - 1) * vSpacing;
 
       for (let wrapper of this.wrappers) {
@@ -342,8 +342,8 @@ export class DockLayout extends Layout {
         let maxMinFail: number = 0;
         let sumMaxFails: number = 0;
         let maxMaxFail: number = 0;
-        let maxMinFailWrapper: LayoutControlWrapper = null;
-        let maxMaxFailWrapper: LayoutControlWrapper = null;
+        let maxMinFailWrapper: LayoutableControlWrapper = null;
+        let maxMaxFailWrapper: LayoutableControlWrapper = null;
 
         for (let wrapper of todo) {
           let dockItemSizeRatio: number = wrapper.getDockItemSize() / sumDockItemSizes;
@@ -387,7 +387,7 @@ export class DockLayout extends Layout {
 
       // calculate result height for dynamic items without problems concerning min and max height
       while (!todo.isEmpty()) {
-        let wrapper: LayoutControlWrapper = todo.shift();
+        let wrapper: LayoutableControlWrapper = todo.shift();
         let dockItemSizeRatio: number = wrapper.getDockItemSize() / sumDockItemSizes;
         let desiredHeight: number = Math.round(dockItemSizeRatio * availableHeight);
         wrapper.setResultHeight(desiredHeight);
@@ -422,11 +422,11 @@ export class DockLayout extends Layout {
             xOffset = (contentWidth - resultWidth) / 2;
           }
 
-          let layoutProperties: LayoutProperties = wrapper.getLayoutProperties();
-          layoutProperties.setX(insetsLeft + xOffset);
-          layoutProperties.setY(yPos);
-          layoutProperties.setWidth(resultWidth);
-          layoutProperties.setHeight(wrapper.getResultHeight());
+          let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
+          layoutableProperties.setX(insetsLeft + xOffset);
+          layoutableProperties.setY(yPos);
+          layoutableProperties.setWidth(resultWidth);
+          layoutableProperties.setHeight(wrapper.getResultHeight());
 
           yPos += wrapper.getResultHeight();
         }
@@ -461,11 +461,11 @@ export class DockLayout extends Layout {
             yOffset = (contentHeight - resultHeight) / 2;
           }
 
-          let layoutProperties: LayoutProperties = wrapper.getLayoutProperties();
-          layoutProperties.setX(xPos);
-          layoutProperties.setY(insetsTop + yOffset);
-          layoutProperties.setWidth(wrapper.getResultWidth());
-          layoutProperties.setHeight(resultHeight);
+          let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
+          layoutableProperties.setX(xPos);
+          layoutableProperties.setY(insetsTop + yOffset);
+          layoutableProperties.setWidth(wrapper.getResultWidth());
+          layoutableProperties.setHeight(resultHeight);
 
           xPos += wrapper.getResultWidth();
         }

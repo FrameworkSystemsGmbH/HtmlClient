@@ -1,7 +1,7 @@
-import { LayoutProperties } from '../layout';
+import { LayoutableProperties } from '../layout';
 import { BaseWrapper } from '../wrappers';
 
-export class DefaultLayoutProperties implements LayoutProperties {
+export class DefaultLayoutProperties implements LayoutableProperties {
 
   private width: number;
   private height: number;
@@ -9,14 +9,14 @@ export class DefaultLayoutProperties implements LayoutProperties {
   private x: number;
   private y: number;
 
-  constructor(private wrapper: BaseWrapper) { }
+  constructor(private wrapper: BaseWrapper) {}
 
   public getWidth(): number {
     return this.width;
   }
 
   public setWidth(width: number): void {
-    this.width = width;
+    this.width = Math.max(0, width - Number.zeroIfNull(this.wrapper.getMarginLeft()) - Number.zeroIfNull(this.wrapper.getMarginRight()));
   }
 
   public getHeight(): number {
@@ -24,23 +24,7 @@ export class DefaultLayoutProperties implements LayoutProperties {
   }
 
   public setHeight(height: number): void {
-    this.height = height;
-  }
-
-  public getMinLayoutWidth(): number {
-    return 0;
-  }
-
-  public getMinLayoutHeight(width: number): number {
-    return 0;
-  }
-
-  public getMaxLayoutWidth(): number {
-    return 0;
-  }
-
-  public getMaxLayoutHeight(): number {
-    return 0;
+    this.height = Math.max(0, height - Number.zeroIfNull(this.wrapper.getMarginTop()) - Number.zeroIfNull(this.wrapper.getMarginBottom()));
   }
 
   public getX(): number {

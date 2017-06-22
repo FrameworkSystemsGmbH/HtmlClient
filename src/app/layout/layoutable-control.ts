@@ -1,13 +1,21 @@
-import { LayoutProperties, LayoutControlLabelTemplate, LayoutControlLabel, LayoutContainer } from '.';
+import { LayoutableProperties, LayoutableControlLabelTemplate, LayoutableControlLabel, LayoutableContainer } from '.';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
 
-export interface LayoutControl {
+export interface LayoutableControl {
+
+  getMinLayoutWidth(): number;
+
+  getMinLayoutHeight(width: number): number;
+
+  getMaxLayoutWidth(): number;
+
+  getMaxLayoutHeight(): number;
 
   getName(): string;
 
   getVisibility(): ControlVisibility;
 
-  getLayoutProperties(): LayoutProperties;
+  getLayoutableProperties(): LayoutableProperties;
 
   getMinWidth(): number;
 
@@ -41,10 +49,10 @@ export interface LayoutControl {
 
   getAlignmentVertical(): VerticalAlignment;
 
-  getControlLabel(): LayoutControlLabel;
+  getControlLabel(): LayoutableControlLabel;
 
-  getLabelTemplate(): LayoutControlLabelTemplate;
+  getLabelTemplate(): LayoutableControlLabelTemplate;
 
-  setParent(container: LayoutContainer): void;
+  setParent(container: LayoutableContainer): void;
 
 }

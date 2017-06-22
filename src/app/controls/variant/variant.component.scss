@@ -1,12 +1,9 @@
 @import '../../../scss/variables.scss';
 
-:host {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+:host, .hc-variant {
+  position: absolute;
 }
 
 .hc-variant {
-  flex: 1;
-  overflow: auto;
+  overflow: hidden;
 }

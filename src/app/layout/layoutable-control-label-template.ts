@@ -1,6 +1,6 @@
 import { FsFont, FsInsets } from '../common';
 
-export interface LayoutControlLabelTemplate {
+export interface LayoutableControlLabelTemplate {
 
   getIsVisible(): boolean;
 

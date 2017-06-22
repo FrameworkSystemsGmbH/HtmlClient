@@ -3,9 +3,9 @@ export class HeightBuffer {
   public static defaultSize: number = 3;
 
   protected size = HeightBuffer.defaultSize;
-  protected widths: number[];
-  protected heights: number[];
-  protected generations: number[];
+  protected widths: Array<number>;
+  protected heights: Array<number>;
+  protected generations: Array<number>;
   protected generationCounter: number = 0;
 
   public setSize(size: number): void {

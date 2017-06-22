@@ -1,10 +1,10 @@
 import { ViewContainerRef, ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
 import { BaseWrapper, ContainerWrapper } from '.';
-import { LayoutControlLabel } from '../layout';
+import { LayoutableControlLabel } from '../layout';
 import { LabelComponent } from '../controls';
 
-export class ControlLabelWrapper extends BaseWrapper implements LayoutControlLabel {
+export class ControlLabelWrapper extends BaseWrapper implements LayoutableControlLabel {
 
   public todo(): void {
 

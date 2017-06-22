@@ -1,5 +1,5 @@
 import { FieldColumnWrapper } from '.';
-import { LayoutControlWrapper, LayoutControlLabel, LayoutControlLabelTemplate, LayoutProperties } from '..';
+import { LayoutableControlWrapper, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableProperties } from '..';
 import { HorizontalAlignment, VerticalAlignment, ControlVisibility } from '../../enums';
 
 /**
@@ -25,9 +25,9 @@ export class FieldCellWrapper {
    * @param labelTemplate
    */
   constructor(
-    private wrapper: LayoutControlWrapper,
-    private controlLabel: LayoutControlLabel,
-    private labelTemplate: LayoutControlLabelTemplate) { }
+    private wrapper: LayoutableControlWrapper,
+    private controlLabel: LayoutableControlLabel,
+    private labelTemplate: LayoutableControlLabelTemplate) { }
 
   public isVisible(): boolean {
     if (this.wrapper) {
@@ -45,7 +45,7 @@ export class FieldCellWrapper {
     if (this.wrapper) {
       minWidth = Math.max(minWidth, this.wrapper.getMinLayoutWidth());
     } else if (this.controlLabel) {
-      minWidth = Math.max(minWidth, this.controlLabel.getLayoutProperties().getMinLayoutWidth());
+      minWidth = Math.max(minWidth, this.controlLabel.getMinLayoutWidth());
     }
 
     if (this.labelTemplate != null) {
@@ -71,7 +71,7 @@ export class FieldCellWrapper {
         return this.wrapper.getMinLayoutWidth();
       }
     } else if (this.controlLabel) {
-      return this.controlLabel.getLayoutProperties().getMinLayoutWidth();
+      return this.controlLabel.getMinLayoutWidth();
     } else if (this.labelTemplate) {
       return this.labelTemplate.getMaxWidth();
     } else {
@@ -83,7 +83,7 @@ export class FieldCellWrapper {
     if (this.wrapper) {
       return this.wrapper.getMinLayoutHeight(this.resultWidth);
     } else if (this.controlLabel != null) {
-      return this.controlLabel.getLayoutProperties().getMinLayoutHeight(this.resultWidth);
+      return this.controlLabel.getMinLayoutHeight(this.resultWidth);
     } else {
       return 0;
     }
@@ -133,13 +133,13 @@ export class FieldCellWrapper {
 
   public arrange(x: number, y: number, width: number, height: number): void {
     if (this.wrapper) {
-      let layoutProperties: LayoutProperties = this.wrapper.getLayoutProperties();
+      let layoutProperties: LayoutableProperties = this.wrapper.getLayoutableProperties();
       layoutProperties.setX(x);
       layoutProperties.setY(y);
       layoutProperties.setWidth(width);
       layoutProperties.setHeight(height);
     } else if (this.controlLabel) {
-      let layoutProperties: LayoutProperties = this.controlLabel.getLayoutProperties();
+      let layoutProperties: LayoutableProperties = this.controlLabel.getLayoutableProperties();
       layoutProperties.setX(x);
       layoutProperties.setY(y);
       layoutProperties.setWidth(width);

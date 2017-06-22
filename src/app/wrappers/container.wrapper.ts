@@ -2,15 +2,16 @@ import { ComponentRef, ViewContainerRef, Injector } from '@angular/core';
 
 import { BaseWrapper, FormWrapper } from '.';
 import { BaseComponent, ContainerComponent } from '../controls';
-import { LayoutControl, LayoutContainer } from '../layout';
+import { LayoutableControl, LayoutableContainer, LayoutContainerBase, LayoutBase } from '../layout';
 import { JsonUtil } from '../util';
-import { VchContainer, VchManager } from '../vch';
+import { VchContainer } from '../vch';
 import { ResponseControlDto } from '../communication/response';
 import { EventsService } from '../services/events.service';
 import { ControlStyleService } from '../services/control-style.service';
 import { ControlsService } from '../services/controls.service';
+import { ContainerLayout } from '../layout/container-layout';
 
-export abstract class ContainerWrapper extends BaseWrapper implements LayoutContainer {
+export abstract class ContainerWrapper extends BaseWrapper implements LayoutableContainer {
 
   protected controls: Array<BaseWrapper>;
   protected controlsService: ControlsService;
@@ -26,10 +27,18 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
     this.controls = new Array<BaseWrapper>();
   }
 
+  protected getLayout(): LayoutContainerBase {
+    return super.getLayout() as LayoutContainerBase;
+  }
+
+  protected createLayout(): LayoutBase {
+    return new ContainerLayout(this);
+  }
+
   public abstract getViewContainerRef(): ViewContainerRef;
 
   protected getComponentRef(): ComponentRef<ContainerComponent> {
-    return <ComponentRef<ContainerComponent>>super.getComponentRef();
+    return super.getComponentRef() as ComponentRef<ContainerComponent>;
   }
 
   protected getComponent(): ContainerComponent {
@@ -44,7 +53,7 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
     return <VchContainer>this.getVchControl();
   }
 
-  public getLayoutControls(): Array<LayoutControl> {
+  public getLayoutableControls(): Array<LayoutableControl> {
     return this.getVchContainer().getChildrenInFlowDirection();
   }
 
@@ -52,7 +61,7 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
     this.controls.push(control);
   }
 
-  public removeChild(child: LayoutControl): void {
+  public removeChild(child: LayoutableControl): void {
 
   }
 
@@ -87,7 +96,6 @@ export abstract class ContainerWrapper extends BaseWrapper implements LayoutCont
 
   public attachComponent(container: ContainerWrapper): void {
     super.attachComponent(container);
-    // #warning VchManager.add(this.container);
 
     for (let child of this.controls) {
       child.attachComponent(this);

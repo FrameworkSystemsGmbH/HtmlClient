@@ -1,14 +1,14 @@
-import { LayoutControlLabelTemplate, LayoutControlLabel, LayoutContainerSpaceable } from '..';
+import { LayoutableControlLabelTemplate, LayoutableControlLabel, LayoutableContainerSpaceable } from '..';
 import { FieldRowControl } from '.';
 
-export interface FieldContainer extends LayoutContainerSpaceable {
+export interface FieldContainer extends LayoutableContainerSpaceable {
 
-  getLayoutControls(): Array<FieldRowControl>;
+  getLayoutableControls(): Array<FieldRowControl>;
 
-  getLayoutControlLabels(): Array<LayoutControlLabel>;
+  getLayoutableControlLabels(): Array<LayoutableControlLabel>;
 
   getSynchronizeColumns(): boolean;
 
-  getRowLabelTemplate(): LayoutControlLabelTemplate;
+  getRowLabelTemplate(): LayoutableControlLabelTemplate;
 
 }

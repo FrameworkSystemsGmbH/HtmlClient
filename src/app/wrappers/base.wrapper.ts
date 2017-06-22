@@ -3,15 +3,16 @@ import { ComponentRef, Injector, ViewContainerRef } from '@angular/core';
 import { ContainerWrapper, FormWrapper } from '.';
 import { BaseComponent } from '../controls';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
-import { LayoutControl, LayoutControlLabel, LayoutControlLabelTemplate, LayoutContainer, LayoutProperties } from '../layout';
+import { LayoutableControl, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer, LayoutableProperties, LayoutBase } from '../layout';
 import { VchControl, VchContainer } from '../vch';
 import { ResponseControlDto } from '../communication/response';
 import { PropertyStore, PropertyData, PropertyLayer } from '../common';
 import { EventsService } from '../services/events.service';
 import { ControlStyleService } from '../services/control-style.service';
 import { DefaultLayoutProperties } from '../common';
+import { ControlLayout } from '../layout/control-layout';
 
-export abstract class BaseWrapper implements LayoutControl {
+export abstract class BaseWrapper implements LayoutableControl {
 
   protected appInjector: Injector;
   protected vchControl: VchControl;
@@ -24,6 +25,7 @@ export abstract class BaseWrapper implements LayoutControl {
   private parent: ContainerWrapper;
 
   private name: string;
+  private layout: LayoutBase;
   private layoutProperties: DefaultLayoutProperties;
 
   constructor(
@@ -41,14 +43,41 @@ export abstract class BaseWrapper implements LayoutControl {
     this.addToParent();
   }
 
-  public addToParent(): void {
-    if (this.parent) {
-      this.parent.addControl(this);
+  protected getLayout(): LayoutBase {
+    if (!this.layout) {
+      this.layout = this.createLayout();
     }
+    return this.layout;
+  }
+
+  protected createLayout(): LayoutBase {
+    return new ControlLayout(this);
+  }
+
+  public getMinLayoutWidth(): number {
+    return this.getLayout().measureMinWidth();
+  }
+
+  public getMinLayoutHeight(width: number): number {
+    return this.getLayout().measureMinHeight(width);
+  }
+
+  public getMaxLayoutWidth(): number {
+    return Number.maxIfNull(this.getMaxWidth());
+  }
+
+  public getMaxLayoutHeight(): number {
+    return Number.maxIfNull(this.getMaxHeight());
   }
 
   public getName(): string {
     return this.name;
+  }
+
+  public addToParent(): void {
+    if (this.parent) {
+      this.parent.addControl(this);
+    }
   }
 
   public getVisibility(): ControlVisibility {
@@ -59,19 +88,18 @@ export abstract class BaseWrapper implements LayoutControl {
     return this.propertyStore.getBackColor();
   }
 
-  public getLayoutProperties(): LayoutProperties {
+  public getLayoutableProperties(): LayoutableProperties {
     if (!this.layoutProperties) {
       this.layoutProperties = new DefaultLayoutProperties(this);
     }
-
     return this.layoutProperties;
   }
 
-  public getControlLabel(): LayoutControlLabel {
+  public getControlLabel(): LayoutableControlLabel {
     return null;
   }
 
-  public getLabelTemplate(): LayoutControlLabelTemplate {
+  public getLabelTemplate(): LayoutableControlLabelTemplate {
     return null;
   }
 
@@ -144,19 +172,19 @@ export abstract class BaseWrapper implements LayoutControl {
   }
 
   public getInsetsLeft(): number {
-    return this.getPaddingLeft() + this.getBorderThicknessLeft();
+    return this.getPaddingLeft() + this.getBorderThicknessLeft() + this.getMarginLeft();
   }
 
   public getInsetsRight(): number {
-    return this.getPaddingRight() + this.getBorderThicknessRight();
+    return this.getPaddingRight() + this.getBorderThicknessRight() + this.getMarginRight();
   }
 
   public getInsetsTop(): number {
-    return this.getPaddingTop() + this.getBorderThicknessTop();
+    return this.getPaddingTop() + this.getBorderThicknessTop() + this.getMarginTop();
   }
 
   public getInsetsBottom(): number {
-    return this.getPaddingBottom() + this.getBorderThicknessBottom();
+    return this.getPaddingBottom() + this.getBorderThicknessBottom() + this.getMarginBottom();
   }
 
   public getDockItemSize(): number {
@@ -183,7 +211,7 @@ export abstract class BaseWrapper implements LayoutControl {
     return this.parent;
   }
 
-  public setParent(container: LayoutContainer) {
+  public setParent(container: LayoutableContainer) {
     this.parent = container as ContainerWrapper;
   }
 

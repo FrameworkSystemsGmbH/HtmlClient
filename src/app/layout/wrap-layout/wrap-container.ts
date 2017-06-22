@@ -1,9 +1,8 @@
-import { WrapArrangement } from '.';
-import { LayoutContainer } from '..';
+import { LayoutableContainerSpaceable } from '..';
 import { HorizontalContentAlignment, VerticalContentAlignment } from '../../enums';
-import { LayoutContainerSpaceable } from '..';
+import { WrapArrangement } from '.';
 
-export interface WrapContainer extends LayoutContainerSpaceable {
+export interface WrapContainer extends LayoutableContainerSpaceable {
 
   getContentAlignmentHorizontal(): HorizontalContentAlignment;
 

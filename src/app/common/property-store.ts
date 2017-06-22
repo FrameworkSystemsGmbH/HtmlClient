@@ -23,11 +23,11 @@ export class PropertyStore {
   private getValue<T>(getValueFunc: (data: PropertyData) => T): T {
     let value: T = getValueFunc(this.store.get(PropertyLayer.CSC));
 
-    if (value == null) {
+    if (value === undefined) {
       value = getValueFunc(this.store.get(PropertyLayer.Action));
-      if (value == null) {
+      if (value === undefined) {
         value = getValueFunc(this.store.get(PropertyLayer.Control));
-        if (value == null) {
+        if (value === undefined) {
           value = getValueFunc(this.store.get(PropertyLayer.ControlStyle));
         }
       }

@@ -1,4 +1,4 @@
-import { LayoutControlWrapper } from '..';
+import { LayoutableControlWrapper } from '..';
 
 export class WrapColumn {
 
@@ -6,11 +6,11 @@ export class WrapColumn {
   private resultColumnWidth: number;
 
   constructor(
-    private wrappers: Array<LayoutControlWrapper>,
+    private wrappers: Array<LayoutableControlWrapper>,
     private minColumnWidth: number,
     private maxColumnWidth: number) { }
 
-  public getWrappers(): Array<LayoutControlWrapper> {
+  public getWrappers(): Array<LayoutableControlWrapper> {
     return this.wrappers;
   }
 

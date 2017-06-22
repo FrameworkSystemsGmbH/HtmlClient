@@ -1,5 +1,5 @@
 import { FieldCellWrapper, FieldRowLabelMode, FieldContainer, FieldRowControl } from '.';
-import { LayoutControlLabel, LayoutControl, LayoutControlWrapper, LayoutControlLabelTemplate } from '..';
+import { LayoutableControlLabel, LayoutableControl, LayoutableControlWrapper, LayoutableControlLabelTemplate } from '..';
 import { ControlVisibility, VerticalAlignment } from '../../enums';
 
 /**
@@ -24,7 +24,7 @@ export class FieldRowWrapper {
    * @param fieldRow
    * @param controlLabelsToDelete
    */
-  constructor(fieldRow: FieldRowControl, controlLabelsToDelete: Array<LayoutControlLabel>) {
+  constructor(fieldRow: FieldRowControl, controlLabelsToDelete: Array<LayoutableControlLabel>) {
     let fieldContainer: FieldContainer = fieldRow.getLayoutParent();
 
     this.cells = new Array<FieldCellWrapper>();
@@ -33,20 +33,20 @@ export class FieldRowWrapper {
 
     // 1. create layout control wrapper
     let includeInvisibleControls: boolean = fieldContainer.getSynchronizeColumns();
-    let controlWrappers: Array<LayoutControlWrapper> = new Array<LayoutControlWrapper>();
+    let controlWrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
 
-    for (let wrapper of fieldRow.getLayoutControls()) {
-      if (wrapper.getVisibility() !== ControlVisibility.Collapsed || includeInvisibleControls) {
-        controlWrappers.push(new LayoutControlWrapper(wrapper));
+    for (let control of fieldRow.getLayoutableControls()) {
+      if (control.getVisibility() !== ControlVisibility.Collapsed || includeInvisibleControls) {
+        controlWrappers.push(new LayoutableControlWrapper(control));
       }
     }
 
     // 2. create first column cell
-    let rowLabelTemplate: LayoutControlLabelTemplate = fieldContainer.getRowLabelTemplate();
+    let rowLabelTemplate: LayoutableControlLabelTemplate = fieldContainer.getRowLabelTemplate();
 
     switch (this.labelMode) {
       case FieldRowLabelMode.GeneratedMerged:
-        let mergedLabel: LayoutControlLabel = fieldRow.getControlLabel();
+        let mergedLabel: LayoutableControlLabel = fieldRow.getControlLabel();
         if (mergedLabel != null) {
           mergedLabel.setParent(fieldContainer);
           controlLabelsToDelete.remove(mergedLabel);
@@ -55,7 +55,7 @@ export class FieldRowWrapper {
         break;
 
       case FieldRowLabelMode.Generated:
-        let generatedLabel: LayoutControlLabel = null;
+        let generatedLabel: LayoutableControlLabel = null;
         for (let wrapper of controlWrappers) {
           if (wrapper.getIsVisible()) {
             if (wrapper.getLabelTemplate().getIsVisible()) {
@@ -103,7 +103,7 @@ export class FieldRowWrapper {
         isFirst = false;
       } else {
         if (generateLabels) {
-          let controlLabel: LayoutControlLabel = wrapper.getControlLabel();
+          let controlLabel: LayoutableControlLabel = wrapper.getControlLabel();
           if (controlLabel != null) {
             // ignore invisible generated labels
             if (wrapper.getLabelTemplate().getIsVisible()) {

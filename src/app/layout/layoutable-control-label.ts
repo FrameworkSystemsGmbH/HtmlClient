@@ -1,6 +1,6 @@
-import { LayoutControl, LayoutContainer } from '.';
+import { LayoutableControl } from '.';
 
-export interface LayoutControlLabel extends LayoutControl {
+export interface LayoutableControlLabel extends LayoutableControl {
 
   todo(): void;
 

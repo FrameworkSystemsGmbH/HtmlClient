@@ -24,6 +24,7 @@ export class FrameComponent implements OnInit {
   private showForm(form: FormWrapper): void {
     this.anchor.clear();
     form.attachComponentToFrame(this.anchor);
+    form.doLayout();
   }
 
 }

@@ -1,19 +1,19 @@
 import { ContainerWrapperSpaceable } from '.';
 import { FieldContainer, FieldRowControl } from '../layout/field-layout';
-import { LayoutControlLabelTemplate, LayoutControlLabel } from '../layout';
+import { LayoutableControlLabelTemplate, LayoutableControlLabel } from '../layout';
 import { ControlLabelWrapper } from '.';
 import { ViewContainerRef, ComponentRef } from '@angular/core';
 import { LabelComponent } from '../controls';
 
 export class FieldPanelWrapper extends ContainerWrapperSpaceable implements FieldContainer {
 
-  public getLayoutControls(): Array<FieldRowControl> {
-    return super.getLayoutControls() as Array<FieldRowControl>;
+  public getLayoutableControls(): Array<FieldRowControl> {
+    return super.getLayoutableControls() as Array<FieldRowControl>;
   }
 
-  public getLayoutControlLabels(): Array<LayoutControlLabel> {
-    let controlLabels = new Array<LayoutControlLabel>();
-    for (let wrapper of this.getLayoutControls()) {
+  public getLayoutableControlLabels(): Array<LayoutableControlLabel> {
+    let controlLabels = new Array<LayoutableControlLabel>();
+    for (let wrapper of this.getLayoutableControls()) {
       if (wrapper instanceof ControlLabelWrapper) {
         controlLabels.push(wrapper);
       }
@@ -25,7 +25,7 @@ export class FieldPanelWrapper extends ContainerWrapperSpaceable implements Fiel
     return false;
   }
 
-  public getRowLabelTemplate(): LayoutControlLabelTemplate {
+  public getRowLabelTemplate(): LayoutableControlLabelTemplate {
     return null;
   }
 
