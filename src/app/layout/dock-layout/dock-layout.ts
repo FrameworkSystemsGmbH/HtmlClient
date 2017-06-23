@@ -16,9 +16,9 @@ export class DockLayout extends LayoutContainerBase {
     return super.getControl() as DockContainer;
   }
 
-  private initWrappers(container: DockContainer): void {
+  private initWrappers(): void {
     // iterate children and fill wrapper array
-    let controls: Array<LayoutableControl> = container.getLayoutableControls();
+    let controls: Array<LayoutableControl> = this.getControl().getLayoutableControls();
     let controlCount: number = controls.length;
 
     this.wrappers = new LayoutableControlWrapper[controlCount];
@@ -36,7 +36,7 @@ export class DockLayout extends LayoutContainerBase {
   public measureMinWidth(): number {
     let container: DockContainer = this.getControl();
 
-    this.initWrappers(container);
+    this.initWrappers();
 
     let orientation: DockOrientation = container.getDockOrientation();
     let hSpacing: number = container.getSpacingHorizontal();

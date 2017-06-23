@@ -1,10 +1,19 @@
 import { ContainerWrapperSpaceable, ContainerWrapper } from '.';
-import { WrapContainer, WrapArrangement } from '../layout/wrap-layout';
+import { WrapContainer, WrapArrangement, WrapLayout } from '../layout/wrap-layout';
 import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 import { WrapPanelComponent } from '../controls';
 import { HorizontalContentAlignment, VerticalContentAlignment } from '../enums';
+import { LayoutBase } from '../layout';
 
 export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapContainer {
+
+  public getLayout(): WrapLayout {
+    return super.getLayout() as WrapLayout;
+  }
+
+  protected createLayout(): LayoutBase {
+    return new WrapLayout(this);
+  }
 
   protected getComponentRef(): ComponentRef<WrapPanelComponent> {
     return <ComponentRef<WrapPanelComponent>>super.getComponentRef();

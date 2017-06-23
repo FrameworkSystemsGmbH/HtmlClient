@@ -56,7 +56,7 @@ export class LayoutableControlWrapper {
   }
 
   public getMinLayoutHeightBuffered() {
-    return this.minLayoutHeight;
+    return Number.zeroIfNull(this.minLayoutHeight);
   }
 
   public getMaxLayoutWidth(): number {

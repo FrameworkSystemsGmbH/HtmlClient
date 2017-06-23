@@ -212,7 +212,7 @@
           "marginTop": 0,
           "maxHeight": null,
           "maxWidth": 200,
-          "minHeight": null,
+          "minHeight": 20,
           "minWidth": 75,
           "tabStop": true,
           "visibility": 0,
@@ -1551,12 +1551,12 @@
           "properties": {
             "alignmentHorizontal": 3,
             "alignmentVertical": 3,
-            "backColor": "#DDDDDD",
-            "borderColor": "#000000",
-            "borderThicknessBottom": 1,
-            "borderThicknessLeft": 1,
-            "borderThicknessRight": 1,
-            "borderThicknessTop": 1,
+            "backColor": "#E7E7E7",
+            "borderColor": "#808080",
+            "borderThicknessBottom": 0,
+            "borderThicknessLeft": 0,
+            "borderThicknessRight": 0,
+            "borderThicknessTop": 0,
             "dockPanel_ItemSize": null,
             "fontBold": false,
             "fontItalic": false,
@@ -1564,18 +1564,18 @@
             "fontFamily": "Arial",
             "fontSize": 14,
             "foreColor": "#000000",
-            "paddingBottom": 10,
-            "paddingLeft": 10,
-            "paddingRight": 10,
-            "paddingTop": 10,
-            "marginBottom": 10,
-            "marginLeft": 10,
-            "marginRight": 10,
-            "marginTop": 10,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+            "marginBottom": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
             "maxHeight": null,
             "maxWidth": null,
-            "minHeight": 200,
-            "minWidth": 300,
+            "minHeight": null,
+            "minWidth": null,
             "visibility": 0,
             "dockWindowIcon": "",
             "isCloseIconVisible": true,
@@ -1585,6 +1585,110 @@
             "OnDrop",
             "OnDispose"
           ]
+        },
+        {
+          "meta": {
+            "name": "wpnContainer",
+            "parentName": "DefaultVariant",
+            "typeId": 28,
+            "style": "WrapPanel"
+          },
+          "properties": {
+            "backColor": "#878787",
+            "borderColor": "#000000",
+            "borderThicknessBottom": 1,
+            "borderThicknessLeft": 1,
+            "borderThicknessRight": 1,
+            "borderThicknessTop": 1,
+            "paddingBottom": 10,
+            "paddingLeft": 10,
+            "paddingRight": 10,
+            "paddingTop": 10,
+            "marginBottom": 10,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "marginTop": 10,
+            "invertFlowDirection": false,
+            "spacingHorizontal": 5,
+            "spacingVertical": 5
+          }
+        },
+        {
+          "meta": {
+            "name": "btnOne",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "One"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnTwo",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Two"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnThree",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Three"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnFour",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Four"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnFive",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Five"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnSix",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Six"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnSeven",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Seven"
+          }
         }
       ]
     }

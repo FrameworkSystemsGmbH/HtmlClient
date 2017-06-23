@@ -1,1 +1,1 @@
-<button #focus (click)="callOnClick($event)">{{ getCaption() }}</button>
+<button #focus [ngStyle]="getStyles()" (click)="callOnClick($event)">{{ getCaption() }}</button>

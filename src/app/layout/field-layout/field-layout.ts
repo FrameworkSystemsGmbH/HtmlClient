@@ -17,7 +17,8 @@ export class FieldLayout extends LayoutContainerBase {
     return super.getControl() as FieldContainer;
   }
 
-  private initRows(container: FieldContainer): void {
+  private initRows(): void {
+    let container: FieldContainer = this.getControl();
     this.rows = new Array<FieldRowWrapper>();
 
     // remember all IControlLabel children
@@ -53,7 +54,7 @@ export class FieldLayout extends LayoutContainerBase {
     let container: FieldContainer = this.getControl();
 
     // init rows
-    this.initRows(container);
+    this.initRows();
 
     // init columns in grid mode
     let isGridMode: boolean = container.getSynchronizeColumns();

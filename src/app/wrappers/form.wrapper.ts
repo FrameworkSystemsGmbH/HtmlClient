@@ -28,12 +28,12 @@ export class FormWrapper extends ContainerWrapper {
     let availableHeight: number = this.windowRefService.nativeWindow.innerHeight - 41;
 
     let minWidth: number = this.getMinLayoutWidth();
-    let minHeight: number = this.getMinLayoutHeight(Math.max(minWidth, availableWidth));
+    let minHeight: number = this.getMinLayoutHeight(minWidth);
 
     this.getLayoutableProperties().setWidth(availableWidth);
     this.getLayoutableProperties().setHeight(availableHeight);
 
-    this.getLayout().arrange();
+    this.getLayout().doLayout();
   }
 
   public getId(): number {

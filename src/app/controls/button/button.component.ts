@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 
 import { BaseComponent } from '..';
 import { ButtonWrapper } from '../../wrappers';
@@ -6,8 +6,7 @@ import { ButtonWrapper } from '../../wrappers';
 @Component({
   selector: 'hc-btn',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent extends BaseComponent {
 
@@ -21,6 +20,32 @@ export class ButtonComponent extends BaseComponent {
 
   public getCaption(): string {
     return this.getWrapper().getCaption();
+  }
+
+  public getStyles(): any {
+    let wrapper: ButtonWrapper = this.getWrapper();
+
+    let styles: any = {
+      'left.px': wrapper.getLayoutableProperties().getX(),
+      'top.px': wrapper.getLayoutableProperties().getY(),
+      'width.px': wrapper.getLayoutableProperties().getWidth(),
+      'height.px': wrapper.getLayoutableProperties().getHeight(),
+      'background-color': wrapper.getBackgroundColor(),
+      'border-left': wrapper.getBorderThicknessLeft() + 'px solid',
+      'border-right': wrapper.getBorderThicknessRight() + 'px solid',
+      'border-top': wrapper.getBorderThicknessTop() + 'px solid',
+      'border-bottom': wrapper.getBorderThicknessBottom() + 'px solid',
+      'margin-left.px': wrapper.getMarginLeft(),
+      'margin-right.px': wrapper.getMarginRight(),
+      'margin-top.px': wrapper.getMarginTop(),
+      'margin-bottom.px': wrapper.getMarginBottom(),
+      'padding-left.px': wrapper.getPaddingLeft(),
+      'padding-right.px': wrapper.getPaddingRight(),
+      'padding-top.px': wrapper.getPaddingTop(),
+      'padding-bottom.px': wrapper.getPaddingBottom()
+    }
+
+    return styles;
   }
 
   public callOnClick(event: any): void {

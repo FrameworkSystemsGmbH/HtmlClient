@@ -13,12 +13,11 @@ export class AppComponent {
 
   constructor(
     private formsService: FormsService,
-    private windowRefService: WindowRefService) {}
+    private windowRefService: WindowRefService) { }
 
   @HostListener('window:resize')
   public layout(): void {
     let form: FormWrapper = this.formsService.getSelectedForm();
-
     if (form) {
       form.doLayout();
     }

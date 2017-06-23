@@ -499,6 +499,19 @@ export class PropertyStore {
     this.setValue<number>(layer, (data: PropertyData) => { data.fieldRowSize = value });
   }
 
+  // InvertFlowDirection
+  public getInvertFlowDirection(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => { return data.invertFlowDirection });
+  }
+
+  public getInvertFlowDirectionForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => { return data.invertFlowDirection });
+  }
+
+  public setInvertFlowDirection(layer: PropertyLayer, value: boolean): void {
+    this.setValue<boolean>(layer, (data: PropertyData) => { data.invertFlowDirection = value });
+  }
+
   // Visibility
   public getVisibility(): ControlVisibility {
     return this.getValue<ControlVisibility>((data: PropertyData) => { return data.visibility });

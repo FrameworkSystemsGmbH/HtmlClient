@@ -27,7 +27,7 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
     this.controls = new Array<BaseWrapper>();
   }
 
-  protected getLayout(): LayoutContainerBase {
+  public getLayout(): LayoutContainerBase {
     return super.getLayout() as LayoutContainerBase;
   }
 
@@ -46,7 +46,7 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
   }
 
   public getInvertFlowDirection(): boolean {
-    return false;
+    return this.propertyStore.getInvertFlowDirection();
   }
 
   public getVchContainer(): VchContainer {

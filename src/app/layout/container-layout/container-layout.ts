@@ -15,8 +15,8 @@ export class ContainerLayout extends LayoutContainerBase {
     return super.getControl() as LayoutableContainer;
   }
 
-  private initWrappers(container: LayoutableContainer): void {
-    let controls: Array<LayoutableControl> = container.getLayoutableControls();
+  private initWrappers(): void {
+    let controls: Array<LayoutableControl> = this.getControl().getLayoutableControls();
     let controlCount: number = controls.length;
 
     this.wrappers = new Array<LayoutableControlWrapper>(controlCount);
@@ -29,7 +29,7 @@ export class ContainerLayout extends LayoutContainerBase {
   public measureMinWidth(): number {
     let container: LayoutableContainer = this.getControl();
 
-    this.initWrappers(container);
+    this.initWrappers();
 
     // Iterate wrappers to calculate total content min width (maximum of all min widths)
     let minWidth: number = 0;
