@@ -16,10 +16,6 @@ export class PropertyStore {
     this.store.set(PropertyLayer.CSC, new PropertyData());
   }
 
-  public setLayer(layer: PropertyLayer, data: PropertyData) {
-    this.store.set(layer, data);
-  }
-
   private getValue<T>(getValueFunc: (data: PropertyData) => T): T {
     let value: T = getValueFunc(this.store.get(PropertyLayer.CSC));
 
@@ -42,6 +38,10 @@ export class PropertyStore {
 
   public setValue<T>(layer: PropertyLayer, setValueFunc: (data: PropertyData) => void): void {
     setValueFunc(this.store.get(layer));
+  }
+
+  public setLayer(layer: PropertyLayer, data: PropertyData) {
+    this.store.set(layer, data);
   }
 
   // ForeColor
