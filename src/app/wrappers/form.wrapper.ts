@@ -1,4 +1,4 @@
-import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
+import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, Injector, ElementRef } from '@angular/core';
 
 import { BaseWrapper, ContainerWrapper } from '.';
 import { ControlType } from '../enums';
@@ -12,26 +12,18 @@ export class FormWrapper extends ContainerWrapper {
   private id: number;
   private title: string;
   private fullName: string;
-  private windowRefService: WindowRefService;
-
-  constructor(
-    form: FormWrapper,
-    parent: ContainerWrapper,
-    appInjector: Injector
-  ) {
-    super(form, parent, appInjector);
-    this.windowRefService = appInjector.get(WindowRefService);
-  }
 
   public doLayout(): void {
-    let availableWidth: number = this.windowRefService.nativeWindow.innerWidth;
-    let availableHeight: number = this.windowRefService.nativeWindow.innerHeight - 41;
+    let container: ElementRef = this.getComponent().getContainter();
+
+    let availableWidth: number = container.nativeElement.clientWidth;
+    let availableHeight: number = container.nativeElement.clientHeight;
 
     let minWidth: number = this.getMinLayoutWidth();
     let minHeight: number = this.getMinLayoutHeight(minWidth);
 
-    this.getLayoutableProperties().setWidth(availableWidth);
-    this.getLayoutableProperties().setHeight(availableHeight);
+    this.getLayoutableProperties().setLayoutWidth(availableWidth);
+    this.getLayoutableProperties().setLayoutHeight(availableHeight);
 
     this.getLayout().doLayout();
   }
@@ -42,6 +34,22 @@ export class FormWrapper extends ContainerWrapper {
 
   public getTitle(): string {
     return this.title;
+  }
+
+  public getMinWidth(): number {
+    return 0;
+  }
+
+  public getMaxWidth(): number {
+    return Number.MAX_VALUE;
+  }
+
+  public getMinHeight(): number {
+    return 0;
+  }
+
+  public getMaxHeight(): number {
+    return Number.MAX_VALUE;
   }
 
   public getMarginLeft(): number {

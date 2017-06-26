@@ -46,10 +46,10 @@ export class ContainerLayout extends LayoutContainerBase {
       minWidth += container.getInsetsLeft() + container.getInsetsRight();
     }
 
-    // Determine at the container defined minimum size
-    let containerMinWidth: number = container.getMinWidth();
+    // Determine the container minimum size and add horizontal margins
+    let containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
 
-    // The greater value wins: calculated minimum size for all children or defined container minimum size
+    // The greater value wins: calculated minimum width for all children or defined container minimum width
     return Math.max(minWidth, Number.zeroIfNull(containerMinWidth));
   }
 
@@ -73,13 +73,13 @@ export class ContainerLayout extends LayoutContainerBase {
       }
     }
 
-    // Vertical insets
+    // Add vertical insets
     if (minHeight > 0) {
       minHeight += insetsTop + insetsBottom;
     }
 
-    // Determine at the container defined minimum height
-    let containerMinHeight: number = container.getMinHeight();
+    // Determine the container minimum height and add vertical margins
+    let containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
 
     // The greater value wins: calculated minimum height or defined container minimum height
     return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));
@@ -88,8 +88,8 @@ export class ContainerLayout extends LayoutContainerBase {
   public arrange(): void {
     let container: LayoutableContainer = this.getControl();
 
-    let containerWidth: number = container.getLayoutableProperties().getWidth();
-    let containerHeight: number = container.getLayoutableProperties().getHeight();
+    let containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
+    let containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
     // Consistency check
     if (containerWidth !== this.width) {
@@ -156,8 +156,8 @@ export class ContainerLayout extends LayoutContainerBase {
     }
 
     // Do alignment
-    let xPos: number = insetsLeft;
-    let yPos: number = insetsTop;
+    let xPos: number = 0;
+    let yPos: number = 0;
 
     for (let wrapper of this.wrappers) {
       let xOffset: number = 0;
@@ -172,8 +172,8 @@ export class ContainerLayout extends LayoutContainerBase {
       let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
       layoutableProperties.setX(xPos + xOffset);
       layoutableProperties.setY(yPos);
-      layoutableProperties.setWidth(wrapper.getResultWidth());
-      layoutableProperties.setHeight(wrapper.getResultHeight());
+      layoutableProperties.setLayoutWidth(wrapper.getResultWidth());
+      layoutableProperties.setLayoutHeight(wrapper.getResultHeight());
 
       yPos += wrapper.getResultHeight();
     }

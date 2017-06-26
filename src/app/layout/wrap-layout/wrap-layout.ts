@@ -57,8 +57,8 @@ export class WrapLayout extends LayoutContainerBase {
       minWidth += container.getInsetsLeft() + container.getInsetsRight();
     }
 
-    // determine at the container defined minimum size
-    let containerMinWidth: number = container.getMinWidth();
+    // Determine the container minimum size and add horizontal margins
+    let containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
 
     // the greater value wins: calculated minimum size for all children or defined container minimum size
     return Math.max(minWidth, Number.zeroIfNull(containerMinWidth));
@@ -77,7 +77,7 @@ export class WrapLayout extends LayoutContainerBase {
 
     this.width = width;
 
-    // include insets (padding + border) of the container
+    // include insets (padding + border + margin) of the container
     let insetsLeft: number = container.getInsetsLeft();
     let insetsRight: number = container.getInsetsRight();
     let insetsTop: number = container.getInsetsTop();
@@ -126,8 +126,9 @@ export class WrapLayout extends LayoutContainerBase {
       minHeight += insetsTop + insetsBottom;
     }
 
-    // determine at the container defined minimum height
-    let containerMinHeight: number = container.getMinHeight();
+    // Determine the container minimum height and add vertical margins
+    let containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
+
     // the greater value wins: calculated minimum height or defined container minimum height
     return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));
   }
@@ -484,8 +485,9 @@ export class WrapLayout extends LayoutContainerBase {
       minHeight += insetsTop + insetsBottom;
     }
 
-    // determine at the container defined minimum height
-    let containerMinHeight: number = container.getMinHeight();
+    // Determine the container minimum height and add vertical margins
+    let containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
+
     // the greater value wins: calculated minimum height or defined container minimum height
     return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));
   }
@@ -558,8 +560,8 @@ export class WrapLayout extends LayoutContainerBase {
   private arrangeHorizontally(): void {
     let container: WrapContainer = this.getControl();
 
-    let containerWidth: number = container.getLayoutableProperties().getWidth();
-    let containerHeight: number = container.getLayoutableProperties().getHeight();
+    let containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
+    let containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
     // consistency check
     if (containerWidth !== this.width) {
@@ -697,8 +699,8 @@ export class WrapLayout extends LayoutContainerBase {
         let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
         layoutableProperties.setX(xPos);
         layoutableProperties.setY(yPos + yOffset);
-        layoutableProperties.setWidth(wrapper.getResultWidth());
-        layoutableProperties.setHeight(resultHeight);
+        layoutableProperties.setLayoutWidth(wrapper.getResultWidth());
+        layoutableProperties.setLayoutHeight(resultHeight);
 
         xPos += wrapper.getResultWidth();
       }
@@ -710,8 +712,8 @@ export class WrapLayout extends LayoutContainerBase {
   private arrangeVertically(): void {
     let container: WrapContainer = this.getControl();
 
-    let containerWidth: number = container.getLayoutableProperties().getWidth();
-    let containerHeight: number = container.getLayoutableProperties().getHeight();
+    let containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
+    let containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
     // consistency check
     if (containerWidth !== this.width) {
@@ -844,8 +846,8 @@ export class WrapLayout extends LayoutContainerBase {
         let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
         layoutableProperties.setX(columnXPos + xOffset);
         layoutableProperties.setY(yPos);
-        layoutableProperties.setWidth(wrapper.getResultWidth());
-        layoutableProperties.setHeight(wrapper.getResultHeight());
+        layoutableProperties.setLayoutWidth(wrapper.getResultWidth());
+        layoutableProperties.setLayoutHeight(wrapper.getResultHeight());
 
         yPos += wrapper.getResultHeight();
       }

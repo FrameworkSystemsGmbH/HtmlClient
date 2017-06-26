@@ -10,6 +10,10 @@ export class LayoutableControlWrapper {
   private minLayoutHeight: number;
   private maxLayoutWidth: number;
   private maxLayoutHeight: number;
+  private marginLeft: number;
+  private marginRight: number;
+  private marginTop: number;
+  private marginBottom: number;
   private dockItemSize: number;
   private fieldRowSize: number;
 
@@ -29,6 +33,10 @@ export class LayoutableControlWrapper {
     this.minLayoutWidth = control.getMinLayoutWidth();
     this.maxLayoutWidth = control.getMaxLayoutWidth();
     this.maxLayoutHeight = control.getMaxLayoutHeight();
+    this.marginLeft = control.getMarginLeft();
+    this.marginRight = control.getMarginRight();
+    this.marginTop = control.getMarginTop();
+    this.marginBottom = control.getMarginBottom();
     this.dockItemSize = control.getDockItemSize();
     this.fieldRowSize = control.getFieldRowSize();
     this.hAlign = control.getAlignmentHorizontal();
@@ -67,6 +75,22 @@ export class LayoutableControlWrapper {
     return this.maxLayoutHeight;
   }
 
+  public getMarginLeft(): number {
+    return this.marginLeft;
+  }
+
+  public getMarginRight(): number {
+    return this.marginRight;
+  }
+
+  public getMarginTop(): number {
+    return this.marginTop;
+  }
+
+  public getMarginBottom(): number {
+    return this.marginBottom;
+  }
+
   public getDockItemSize(): number {
     return this.dockItemSize;
   }
@@ -100,7 +124,7 @@ export class LayoutableControlWrapper {
   }
 
   public setResultWidth(measuredWidth: number): void {
-    this.resultWdith = measuredWidth ? measuredWidth : 0;
+    this.resultWdith = Number.zeroIfNull(measuredWidth);
   }
 
   public getResultHeight(): number {
@@ -108,7 +132,7 @@ export class LayoutableControlWrapper {
   }
 
   public setResultHeight(measuredHeight: number): void {
-    this.resultHeight = measuredHeight ? measuredHeight : 0;
+    this.resultHeight = Number.zeroIfNull(measuredHeight);
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, AfterViewInit } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 import { FormsService } from '../../services/forms.service';
 import { FormWrapper } from '../../wrappers';
@@ -8,10 +8,11 @@ import { FormWrapper } from '../../wrappers';
   templateUrl: './frame.component.html',
   styleUrls: ['./frame.component.scss']
 })
-export class FrameComponent implements OnInit {
+export class FrameComponent implements OnInit, AfterViewInit {
 
   @ViewChild('anchor', { read: ViewContainerRef }) anchor: ViewContainerRef;
 
+  private selectedForm: FormWrapper;
   private selectedFormSub: ISubscription;
 
   constructor(private formsService: FormsService) {}
@@ -21,10 +22,14 @@ export class FrameComponent implements OnInit {
     this.formsService.fireSelectCurrentForm();
   }
 
+  public ngAfterViewInit(): void {
+    this.selectedForm.doLayout();
+  }
+
   private showForm(form: FormWrapper): void {
     this.anchor.clear();
+    this.selectedForm = form;
     form.attachComponentToFrame(this.anchor);
-    form.doLayout();
   }
 
 }

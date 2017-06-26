@@ -136,14 +136,14 @@ export class FieldCellWrapper {
       let layoutProperties: LayoutableProperties = this.wrapper.getLayoutableProperties();
       layoutProperties.setX(x);
       layoutProperties.setY(y);
-      layoutProperties.setWidth(width);
-      layoutProperties.setHeight(height);
+      layoutProperties.setLayoutWidth(width);
+      layoutProperties.setLayoutHeight(height);
     } else if (this.controlLabel) {
       let layoutProperties: LayoutableProperties = this.controlLabel.getLayoutableProperties();
       layoutProperties.setX(x);
       layoutProperties.setY(y);
-      layoutProperties.setWidth(width);
-      layoutProperties.setHeight(height);
+      layoutProperties.setLayoutWidth(width);
+      layoutProperties.setLayoutHeight(height);
     }
   }
 }

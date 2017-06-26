@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, ElementRef } from '@angular/core';
 
 import { ContainerComponent } from '..';
 import { FormWrapper } from '../../wrappers';
@@ -10,10 +10,15 @@ import { FormWrapper } from '../../wrappers';
 })
 export class FormComponent extends ContainerComponent {
 
+  @ViewChild('container', { read: ElementRef }) container: ElementRef;
   @ViewChild('anchor', { read: ViewContainerRef }) anchor: ViewContainerRef;
 
   public getWrapper(): FormWrapper {
     return super.getWrapper() as FormWrapper;
+  }
+
+  public getContainter(): ElementRef {
+    return this.container;
   }
 
   public getViewContainerRef(): ViewContainerRef {

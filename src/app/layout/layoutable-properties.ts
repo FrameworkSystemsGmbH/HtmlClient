@@ -2,11 +2,15 @@ export interface LayoutableProperties {
 
   getWidth(): number;
 
-  setWidth(width: number): void;
+  getLayoutWidth(): number;
+
+  setLayoutWidth(width: number): void;
 
   getHeight(): number;
 
-  setHeight(height: number): void;
+  getLayoutHeight(): number;
+
+  setLayoutHeight(height: number): void;
 
   getX(): number;
 

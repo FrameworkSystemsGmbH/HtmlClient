@@ -3,13 +3,12 @@ import { ComponentRef, Injector, ViewContainerRef } from '@angular/core';
 import { ContainerWrapper, FormWrapper } from '.';
 import { BaseComponent } from '../controls';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
-import { LayoutableControl, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer, LayoutableProperties, LayoutBase } from '../layout';
+import { LayoutableControl, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer, LayoutableProperties, LayoutBase, LayoutablePropertiesDefault } from '../layout';
 import { VchControl, VchContainer } from '../vch';
 import { ResponseControlDto } from '../communication/response';
 import { PropertyStore, PropertyData, PropertyLayer } from '../common';
 import { EventsService } from '../services/events.service';
 import { ControlStyleService } from '../services/control-style.service';
-import { DefaultLayoutProperties } from '../common';
 import { ControlLayout } from '../layout/control-layout';
 
 export abstract class BaseWrapper implements LayoutableControl {
@@ -26,7 +25,7 @@ export abstract class BaseWrapper implements LayoutableControl {
 
   private name: string;
   private layout: LayoutBase;
-  private layoutProperties: DefaultLayoutProperties;
+  private layoutableProperties: LayoutablePropertiesDefault;
 
   constructor(
     form: FormWrapper,
@@ -89,10 +88,10 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getLayoutableProperties(): LayoutableProperties {
-    if (!this.layoutProperties) {
-      this.layoutProperties = new DefaultLayoutProperties(this);
+    if (!this.layoutableProperties) {
+      this.layoutableProperties = new LayoutablePropertiesDefault(this);
     }
-    return this.layoutProperties;
+    return this.layoutableProperties;
   }
 
   public getControlLabel(): LayoutableControlLabel {

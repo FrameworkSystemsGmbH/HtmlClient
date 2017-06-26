@@ -1,4 +1,3 @@
-export * from './default-layout-properties';
 export * from './fs-font';
 export * from './fs-insets';
 export * from './fs-size';

@@ -425,8 +425,8 @@ export class DockLayout extends LayoutContainerBase {
           let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
           layoutableProperties.setX(insetsLeft + xOffset);
           layoutableProperties.setY(yPos);
-          layoutableProperties.setWidth(resultWidth);
-          layoutableProperties.setHeight(wrapper.getResultHeight());
+          layoutableProperties.setLayoutWidth(resultWidth);
+          layoutableProperties.setLayoutHeight(wrapper.getResultHeight());
 
           yPos += wrapper.getResultHeight();
         }
@@ -464,8 +464,8 @@ export class DockLayout extends LayoutContainerBase {
           let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
           layoutableProperties.setX(xPos);
           layoutableProperties.setY(insetsTop + yOffset);
-          layoutableProperties.setWidth(wrapper.getResultWidth());
-          layoutableProperties.setHeight(resultHeight);
+          layoutableProperties.setLayoutWidth(wrapper.getResultWidth());
+          layoutableProperties.setLayoutHeight(resultHeight);
 
           xPos += wrapper.getResultWidth();
         }

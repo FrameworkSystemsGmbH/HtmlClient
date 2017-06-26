@@ -7,4 +7,5 @@ export * from './layoutable-control-label-template';
 export * from './layoutable-control-label';
 export * from './layoutable-control-wrapper';
 export * from './layoutable-control';
+export * from './layoutable-properties-default';
 export * from './layoutable-properties';
