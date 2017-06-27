@@ -45,9 +45,9 @@ export interface LayoutableControl {
 
   getFieldRowSize(): number;
 
-  getAlignmentHorizontal(): HorizontalAlignment;
+  getHorizontalAlignment(): HorizontalAlignment;
 
-  getAlignmentVertical(): VerticalAlignment;
+  getVerticalAlignment(): VerticalAlignment;
 
   getControlLabel(): LayoutableControlLabel;
 

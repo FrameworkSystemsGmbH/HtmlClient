@@ -215,7 +215,7 @@ export class WrapLayout extends LayoutContainerBase {
           let wrapperMinOuterWidth: number = wrapper.getMinLayoutWidth();
           let wrapperMaxOuterWidth: number = wrapper.getMaxLayoutWidth();
 
-          if (wrapper.getAlignmentHorizontal() !== HorizontalAlignment.Stretch) {
+          if (wrapper.getHorizontalAlignment() !== HorizontalAlignment.Stretch) {
             // alignment !== stretch => align using min width
             wrapper.setResultWidth(wrapperMinOuterWidth);
             sumMinWidths -= wrapperMinOuterWidth;
@@ -264,7 +264,7 @@ export class WrapLayout extends LayoutContainerBase {
     for (let wrapper of rowWrappers) {
       minRowHeight = Math.max(minRowHeight, wrapper.getMinLayoutHeight(wrapper.getResultWidth()));
 
-      if (wrapper.getAlignmentVertical() === VerticalAlignment.Stretch) {
+      if (wrapper.getVerticalAlignment() === VerticalAlignment.Stretch) {
         maxRowHeight = Math.max(maxRowHeight, wrapper.getMaxLayoutHeight());
       } else {
         maxRowHeight = Math.max(maxRowHeight, wrapper.getMinLayoutHeightBuffered());
@@ -460,7 +460,7 @@ export class WrapLayout extends LayoutContainerBase {
           addVSpacing = true;
         }
 
-        let desiredWidth: number = wrapper.getAlignmentHorizontal() === HorizontalAlignment.Stretch ? wrapColumn.getResultColumnWidth() : wrapper.getMinLayoutWidth();
+        let desiredWidth: number = wrapper.getHorizontalAlignment() === HorizontalAlignment.Stretch ? wrapColumn.getResultColumnWidth() : wrapper.getMinLayoutWidth();
         wrapper.setResultWidth(Math.min(wrapper.getMaxLayoutWidth(), desiredWidth));
         minColumnHeight += wrapper.getMinLayoutHeight(wrapper.getResultWidth());
       }
@@ -532,7 +532,7 @@ export class WrapLayout extends LayoutContainerBase {
           minWidth = Math.max(minWidth, wrapper.getMinLayoutWidth());
           maxWidth = Math.max(maxWidth, wrapper.getMaxLayoutWidth());
           sumMinHeight = neededHeight;
-          horizontalStretchable = horizontalStretchable || wrapper.getAlignmentHorizontal() === HorizontalAlignment.Stretch;
+          horizontalStretchable = horizontalStretchable || wrapper.getHorizontalAlignment() === HorizontalAlignment.Stretch;
           columnWrappers.push(pendingWrappers.poll());
         }
       } else {
@@ -683,7 +683,7 @@ export class WrapLayout extends LayoutContainerBase {
           addHSpacing = true;
         }
 
-        let alignmentVertical: VerticalAlignment = wrapper.getAlignmentVertical();
+        let alignmentVertical: VerticalAlignment = wrapper.getVerticalAlignment();
         let desiredHeight: number = alignmentVertical === VerticalAlignment.Stretch ? resultRowHeight : wrapper.getMinLayoutHeightBuffered();
         let resultHeight: number = Math.min(desiredHeight, wrapper.getMaxLayoutHeight());
 
@@ -765,7 +765,7 @@ export class WrapLayout extends LayoutContainerBase {
         let todo: LinkedListOneWay<LayoutableControlWrapper> = new LinkedListOneWay<LayoutableControlWrapper>();
 
         for (let wrapper of wrapColumn.getWrappers()) {
-          if (wrapper.getAlignmentVertical() !== VerticalAlignment.Stretch) {
+          if (wrapper.getVerticalAlignment() !== VerticalAlignment.Stretch) {
             wrapper.setResultHeight(wrapper.getMinLayoutHeightBuffered());
             availableHeight -= wrapper.getResultHeight();
           } else {
@@ -836,7 +836,7 @@ export class WrapLayout extends LayoutContainerBase {
         }
 
         let xOffset: number = 0;
-        let hAlignment: HorizontalAlignment = wrapper.getAlignmentHorizontal();
+        let hAlignment: HorizontalAlignment = wrapper.getHorizontalAlignment();
         if (hAlignment === HorizontalAlignment.Right) {
           xOffset = wrapColumn.getResultColumnWidth() - wrapper.getResultWidth();
         } else if (hAlignment === HorizontalAlignment.Center) {

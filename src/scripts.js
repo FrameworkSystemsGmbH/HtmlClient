@@ -1,3 +1,7 @@
+String.empty = function() {
+  return '';
+};
+
 String.equals = function (x, y, ignoreCase) {
   if (x && y) {
     if (ignoreCase) {

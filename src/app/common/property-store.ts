@@ -512,6 +512,19 @@ export class PropertyStore {
     this.setValue<boolean>(layer, (data: PropertyData) => { data.invertFlowDirection = value });
   }
 
+  // ShowCaption
+  public getShowCaption(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => { return data.showCaption });
+  }
+
+  public getShowCaptionForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => { return data.showCaption });
+  }
+
+  public setShowCaption(layer: PropertyLayer, value: boolean): void {
+    this.setValue<boolean>(layer, (data: PropertyData) => { data.showCaption = value });
+  }
+
   // Visibility
   public getVisibility(): ControlVisibility {
     return this.getValue<ControlVisibility>((data: PropertyData) => { return data.visibility });

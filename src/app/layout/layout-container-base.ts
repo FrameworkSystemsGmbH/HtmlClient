@@ -2,7 +2,7 @@ import { LayoutBase, LayoutableContainer, LayoutableControlWrapper, LayoutableCo
 
 export abstract class LayoutContainerBase extends LayoutBase {
 
-  constructor(private container: LayoutableContainer) {
+  constructor(container: LayoutableContainer) {
     super(container);
   }
 

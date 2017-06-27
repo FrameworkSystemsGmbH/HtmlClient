@@ -7,10 +7,6 @@ import { LayoutBase } from '../layout';
 
 export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapContainer {
 
-  public getLayout(): WrapLayout {
-    return super.getLayout() as WrapLayout;
-  }
-
   protected createLayout(): LayoutBase {
     return new WrapLayout(this);
   }

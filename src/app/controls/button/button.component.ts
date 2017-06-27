@@ -42,8 +42,14 @@ export class ButtonComponent extends BaseComponent {
       'padding-left.px': wrapper.getPaddingLeft(),
       'padding-right.px': wrapper.getPaddingRight(),
       'padding-top.px': wrapper.getPaddingTop(),
-      'padding-bottom.px': wrapper.getPaddingBottom()
-    }
+      'padding-bottom.px': wrapper.getPaddingBottom(),
+      'font-family': wrapper.getFontFamily(),
+      'font-size.px': wrapper.getFontSize(),
+      'line-height.px': wrapper.getFontSize(),
+      'font-weight': wrapper.getFontBold() ? 'bold' : 'normal',
+      'font-style': wrapper.getFontItalic() ? 'italic' : 'unset',
+      'text-decoration': wrapper.getFontUnderline() ? 'underline' : 'unset'
+    };
 
     return styles;
   }

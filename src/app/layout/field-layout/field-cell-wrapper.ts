@@ -65,7 +65,7 @@ export class FieldCellWrapper {
 
   public getMaxWidth(): number {
     if (this.wrapper) {
-      if (this.wrapper.getAlignmentHorizontal() === HorizontalAlignment.Stretch) {
+      if (this.wrapper.getHorizontalAlignment() === HorizontalAlignment.Stretch) {
         return this.wrapper.getMaxLayoutWidth();
       } else {
         return this.wrapper.getMinLayoutWidth();
@@ -99,7 +99,7 @@ export class FieldCellWrapper {
 
   public getAlignmentHorizontal(): HorizontalAlignment {
     if (this.wrapper) {
-      return this.wrapper.getAlignmentHorizontal();
+      return this.wrapper.getHorizontalAlignment();
     } else {
       return HorizontalAlignment.Left;
     }
@@ -107,7 +107,7 @@ export class FieldCellWrapper {
 
   public getAlignmentVertical(): VerticalAlignment {
     if (this.wrapper) {
-      return this.wrapper.getAlignmentVertical();
+      return this.wrapper.getVerticalAlignment();
     } else {
       return VerticalAlignment.Top;
     }

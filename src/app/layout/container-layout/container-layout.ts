@@ -114,13 +114,13 @@ export class ContainerLayout extends LayoutContainerBase {
     let todo: LinkedListOneWay<LayoutableControlWrapper> = new LinkedListOneWay<LayoutableControlWrapper>();
 
     for (let wrapper of this.wrappers) {
-      if (wrapper.getAlignmentHorizontal() !== HorizontalAlignment.Stretch) {
+      if (wrapper.getHorizontalAlignment() !== HorizontalAlignment.Stretch) {
         wrapper.setResultWidth(wrapper.getMinLayoutWidth());
       } else {
         wrapper.setResultWidth(Math.min(availableWidth, wrapper.getMaxLayoutWidth()));
       }
 
-      if (wrapper.getAlignmentVertical() !== VerticalAlignment.Stretch) {
+      if (wrapper.getVerticalAlignment() !== VerticalAlignment.Stretch) {
         wrapper.setResultHeight(wrapper.getMinLayoutHeightBuffered());
         availableHeight -= wrapper.getResultHeight();
       } else {
@@ -161,7 +161,7 @@ export class ContainerLayout extends LayoutContainerBase {
 
     for (let wrapper of this.wrappers) {
       let xOffset: number = 0;
-      let hAlignment: HorizontalAlignment = wrapper.getAlignmentHorizontal();
+      let hAlignment: HorizontalAlignment = wrapper.getHorizontalAlignment();
 
       if (hAlignment === HorizontalAlignment.Right) {
         xOffset = availableWidth - wrapper.getResultWidth();

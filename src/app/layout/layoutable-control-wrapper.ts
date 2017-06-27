@@ -39,8 +39,8 @@ export class LayoutableControlWrapper {
     this.marginBottom = control.getMarginBottom();
     this.dockItemSize = control.getDockItemSize();
     this.fieldRowSize = control.getFieldRowSize();
-    this.hAlign = control.getAlignmentHorizontal();
-    this.vAlign = control.getAlignmentVertical();
+    this.hAlign = control.getHorizontalAlignment();
+    this.vAlign = control.getVerticalAlignment();
     this.controlLabel = control.getControlLabel();
     this.labelTemplate = control.getLabelTemplate();
     this.isVisible = control.getVisibility() !== ControlVisibility.Collapsed;
@@ -99,11 +99,11 @@ export class LayoutableControlWrapper {
     return this.fieldRowSize;
   }
 
-  public getAlignmentHorizontal(): HorizontalAlignment {
+  public getHorizontalAlignment(): HorizontalAlignment {
     return this.hAlign;
   }
 
-  public getAlignmentVertical(): VerticalAlignment {
+  public getVerticalAlignment(): VerticalAlignment {
     return this.vAlign;
   }
 

@@ -194,12 +194,32 @@ export abstract class BaseWrapper implements LayoutableControl {
     return this.propertyStore.getFieldRowSize();
   }
 
-  public getAlignmentHorizontal(): HorizontalAlignment {
+  public getHorizontalAlignment(): HorizontalAlignment {
     return this.propertyStore.getHorizontalAlignment();
   }
 
-  public getAlignmentVertical(): VerticalAlignment {
+  public getVerticalAlignment(): VerticalAlignment {
     return this.propertyStore.getVerticalAlignment();
+  }
+
+  public getFontBold(): boolean {
+    return this.propertyStore.getFontBold();
+  }
+
+  public getFontFamily(): string {
+    return this.propertyStore.getFontFamily();
+  }
+
+  public getFontItalic(): boolean {
+    return this.propertyStore.getFontItalic();
+  }
+
+  public getFontSize(): number {
+    return this.propertyStore.getFontSize();
+  }
+
+  public getFontUnderline(): boolean {
+    return this.propertyStore.getFontUnderline();
   }
 
   public getForm(): FormWrapper {

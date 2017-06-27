@@ -407,7 +407,7 @@ export class DockLayout extends LayoutContainerBase {
             addSpacing = true;
           }
 
-          let hAlignment: HorizontalAlignment = wrapper.getAlignmentHorizontal();
+          let hAlignment: HorizontalAlignment = wrapper.getHorizontalAlignment();
           let resultWidth: number = Math.min(contentWidth, Number.maxIfNull(wrapper.getMaxLayoutWidth()));
 
           if (hAlignment !== HorizontalAlignment.Stretch) {
@@ -446,7 +446,7 @@ export class DockLayout extends LayoutContainerBase {
             addSpacing = true;
           }
 
-          let vAlignment: VerticalAlignment = wrapper.getAlignmentVertical();
+          let vAlignment: VerticalAlignment = wrapper.getVerticalAlignment();
           let resultHeight: number = Math.min(contentHeight, Number.maxIfNull(wrapper.getMaxLayoutHeight()));
 
           if (vAlignment !== VerticalAlignment.Stretch) {
