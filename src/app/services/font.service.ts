@@ -12,8 +12,7 @@ export class FontService {
   }
 
   public measureWidth(text: string, font: string, size: number, isBold: boolean, isItalic: boolean): number {
-    this.context.font = (isBold ? 'bold' : String.empty()) + (isItalic ? ' italic' : String.empty()) + ' ' + size + 'px' + font;
-    this.context.font = '14px Arial';
+    this.context.font = (isBold ? 'bold' : String.empty()) + (isItalic ? ' italic' : String.empty()) + ' ' + size + 'px' + ' ' + font;
     return this.context.measureText(text).width;
   }
 
