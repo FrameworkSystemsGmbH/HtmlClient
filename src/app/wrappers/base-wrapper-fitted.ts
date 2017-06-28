@@ -31,8 +31,12 @@ export abstract class BaseWrapperFitted extends BaseWrapper {
     this.updateFittedHeight();
   }
 
-  public hasFittedWidth(): boolean {
-    return this.fittedWidth != null;
+  public isMinWidthSet(): boolean {
+    return this.getMinWidth() != null;
+  }
+
+  public isMinHeightSet(): boolean {
+    return this.getMinHeight() != null;
   }
 
   public getFittedWidth(): number {
@@ -41,10 +45,6 @@ export abstract class BaseWrapperFitted extends BaseWrapper {
 
   public setFittedWidth(fittedWidth): void {
     this.fittedWidth = fittedWidth;
-  }
-
-  public hasFittedHeight(): boolean {
-    return this.fittedHeight != null;
   }
 
   public getFittedHeight(): number {

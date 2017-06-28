@@ -486,6 +486,19 @@ export class PropertyStore {
     this.setValue<number>(layer, (data: PropertyData) => { data.dockPanel_ItemSize = value });
   }
 
+   // DockOrientation
+  public getDockOrientation(): DockOrientation {
+    return this.getValue<DockOrientation>((data: PropertyData) => { return data.dockPanelOrientation });
+  }
+
+  public getDockOrientationForLayer(layer: PropertyLayer): DockOrientation {
+    return this.getValueForLayer<DockOrientation>(layer, (data: PropertyData) => { return data.dockPanelOrientation });
+  }
+
+  public setDockOrientation(layer: PropertyLayer, value: DockOrientation): void {
+    this.setValue<DockOrientation>(layer, (data: PropertyData) => { data.dockPanelOrientation = value });
+  }
+
   // FieldRowSize
   public getFieldRowSize(): number {
     return this.getValue<number>((data: PropertyData) => { return data.fieldRowSize });

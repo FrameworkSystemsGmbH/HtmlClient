@@ -3,8 +3,8 @@ export enum ControlType {
   Button = 1,
   Label = 2,
   TextBox = 3,
-  DockPanel = 4,
   FieldPanel = 6,
   WrapPanel = 28,
+  DockPanel = 29,
   Variant = 101
 }

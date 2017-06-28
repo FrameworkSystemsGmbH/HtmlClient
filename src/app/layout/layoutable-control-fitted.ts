@@ -2,11 +2,11 @@ import { LayoutableControl } from '.';
 
 export interface LayoutableControlFitted extends LayoutableControl {
 
-  hasFittedWidth(): boolean;
+  isMinWidthSet(): boolean;
+
+  isMinHeightSet(): boolean;
 
   getFittedWidth(): number;
-
-  hasFittedHeight(): boolean;
 
   getFittedHeight(): number;
 

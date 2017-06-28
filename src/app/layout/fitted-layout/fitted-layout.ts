@@ -13,19 +13,19 @@ export class FittedLayout extends ControlLayout {
 
   public measureMinWidth(): number {
     let control: LayoutableControlFitted = this.getControl();
-    if (control.hasFittedWidth()) {
-      return Number.zeroIfNull(control.getFittedWidth()) + Number.zeroIfNull(control.getMarginLeft()) + Number.zeroIfNull(control.getMarginRight());
-    } else {
+    if (control.isMinWidthSet()) {
       return Number.zeroIfNull(control.getMinWidth()) + Number.zeroIfNull(control.getMarginLeft()) + Number.zeroIfNull(control.getMarginRight());
+    } else {
+      return Number.zeroIfNull(control.getFittedWidth()) + Number.zeroIfNull(control.getMarginLeft()) + Number.zeroIfNull(control.getMarginRight());
     }
   }
 
   public measureMinHeight(width: number): number {
     let control: LayoutableControlFitted = this.getControl();
-    if (control.hasFittedHeight()) {
-      return Number.zeroIfNull(control.getFittedHeight()) + Number.zeroIfNull(control.getMarginTop()) + Number.zeroIfNull(control.getMarginBottom());
-    } else {
+    if (control.isMinHeightSet()) {
       return Number.zeroIfNull(control.getMinHeight()) + Number.zeroIfNull(control.getMarginTop()) + Number.zeroIfNull(control.getMarginBottom());
+    } else {
+      return Number.zeroIfNull(control.getFittedHeight()) + Number.zeroIfNull(control.getMarginTop()) + Number.zeroIfNull(control.getMarginBottom());
     }
   }
 

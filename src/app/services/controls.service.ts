@@ -5,6 +5,7 @@ import {
   BaseWrapper,
   ContainerWrapper,
   ButtonWrapper,
+  DockPanelWrapper,
   FormWrapper,
   LabelWrapper,
   TextBoxWrapper,
@@ -25,6 +26,8 @@ export class ControlsService {
     switch (controlType) {
       case ControlType.Button:
         return new ButtonWrapper(form, parent, this.appInjector);
+      case ControlType.DockPanel:
+        return new DockPanelWrapper(form, parent, this.appInjector);
       case ControlType.Label:
         return new LabelWrapper(form, parent, this.appInjector);
       case ControlType.TextBox:

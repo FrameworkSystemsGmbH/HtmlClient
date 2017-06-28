@@ -5,7 +5,7 @@ import { LinkedListOneWay } from '../../util';
 export class ContainerLayout extends LayoutContainerBase {
 
   private width: number = -1;
-  private wrappers: Array<LayoutableControlWrapper> = null;
+  private wrappers: Array<LayoutableControlWrapper>;
 
   constructor(container: LayoutableContainer) {
     super(container);
@@ -46,10 +46,10 @@ export class ContainerLayout extends LayoutContainerBase {
       minWidth += container.getInsetsLeft() + container.getInsetsRight();
     }
 
-    // Determine the container minimum size and add horizontal margins
+    // Determine the container minimum width and add horizontal margins
     let containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
 
-    // The greater value wins: calculated minimum width for all children or defined container minimum width
+    // The greater value wins: The calculated minimum width for all children or defined container minimum width
     return Math.max(minWidth, Number.zeroIfNull(containerMinWidth));
   }
 

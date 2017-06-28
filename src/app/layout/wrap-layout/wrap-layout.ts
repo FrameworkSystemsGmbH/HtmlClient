@@ -6,9 +6,9 @@ import { Queue, LinkedListOneWay } from '../../util';
 export class WrapLayout extends LayoutContainerBase {
 
   private width: number = -1;
-  private wrappers: Array<LayoutableControlWrapper> = null;
-  private wrapRows: Array<WrapRow> = null;
-  private wrapColumns: Array<WrapColumn> = null;
+  private wrappers: Array<LayoutableControlWrapper>;
+  private wrapRows: Array<WrapRow>;
+  private wrapColumns: Array<WrapColumn>;
 
   constructor(container: WrapContainer) {
     super(container);
@@ -53,14 +53,14 @@ export class WrapLayout extends LayoutContainerBase {
     }
 
     if (minWidth > 0) {
-      // Include horizontal insets (padding + border) of the container
+      // Include horizontal insets (padding + border + margin) of the container
       minWidth += container.getInsetsLeft() + container.getInsetsRight();
     }
 
-    // Determine the container minimum size and add horizontal margins
+    // Determine the container minimum width and add horizontal margins
     let containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
 
-    // the greater value wins: calculated minimum size for all children or defined container minimum size
+    // The greater value wins: The calculated minimum width for all children or defined container minimum width
     return Math.max(minWidth, Number.zeroIfNull(containerMinWidth));
   }
 

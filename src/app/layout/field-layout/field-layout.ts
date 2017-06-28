@@ -6,8 +6,8 @@ import { LinkedListOneWay } from '../../util';
 export class FieldLayout extends LayoutContainerBase {
 
   private width: number = -1;
-  private rows: Array<FieldRowWrapper> = null;
-  private columns: Array<FieldColumnWrapper> = null;
+  private rows: Array<FieldRowWrapper>;
+  private columns: Array<FieldColumnWrapper>;
 
   constructor(container: FieldContainer) {
     super(container);

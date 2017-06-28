@@ -1,6 +1,6 @@
 {
   "meta": {
-    "token": "5e7854bcd6474373b918b20c4e2f2ee1",
+    "token": "90274419539c4460a7df1d6aca2456b8",
     "requCounter": 1
   },
   "start": {
@@ -189,7 +189,7 @@
         "properties": {
           "alignmentHorizontal": 3,
           "alignmentVertical": 3,
-          "backColor": "#F0F0F0",
+          "backColor": "#EBFEFF",
           "borderColor": "#808080",
           "borderThicknessBottom": 1,
           "borderThicknessLeft": 1,
@@ -202,10 +202,10 @@
           "fontFamily": "Arial",
           "fontSize": 14,
           "foreColor": "#000000",
-          "paddingBottom": 3,
-          "paddingLeft": 3,
-          "paddingRight": 3,
-          "paddingTop": 3,
+          "paddingBottom": 10,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+          "paddingTop": 10,
           "marginBottom": 0,
           "marginLeft": 0,
           "marginRight": 0,
@@ -1531,7 +1531,7 @@
   "forms": [
     {
       "meta": {
-        "id": "26",
+        "id": "72",
         "dockKey": "\\App.wflStart:frmTest:App.frmTest[]",
         "fullName": "App.frmTest",
         "new": true,
@@ -1540,7 +1540,7 @@
         "orgFrameId": 2
       },
       "data": {
-        "title": "HTML Test"
+        "title": "Test"
       },
       "controls": [
         {
@@ -1551,7 +1551,7 @@
           "properties": {
             "alignmentHorizontal": 3,
             "alignmentVertical": 3,
-            "backColor": "#E7E7E7",
+            "backColor": "#FFFFFF",
             "borderColor": "#808080",
             "borderThicknessBottom": 0,
             "borderThicknessLeft": 0,
@@ -1588,18 +1588,132 @@
         },
         {
           "meta": {
-            "name": "wpnContainer",
+            "name": "dpnForm",
             "parentName": "DefaultVariant",
+            "typeId": 29,
+            "style": "DockPanel"
+          },
+          "properties": {
+            "backColor": "rgba(255, 255, 255, 0.000)"
+          }
+        },
+        {
+          "meta": {
+            "name": "dpnHeader",
+            "parentName": "dpnForm",
+            "typeId": 29,
+            "style": "DockPanel"
+          },
+          "properties": {
+            "borderColor": "#000000",
+            "borderThicknessBottom": 3,
+            "dockPanelOrientation": 1
+          }
+        },
+        {
+          "meta": {
+            "name": "btnHeaderTitle",
+            "parentName": "dpnHeader",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "backColor": "#F9FFA4",
+            "borderThicknessBottom": 0,
+            "borderThicknessLeft": 0,
+            "borderThicknessRight": 0,
+            "borderThicknessTop": 0,
+            "fontBold": true,
+            "fontSize": 24,
+            "foreColor": "#1E90FF",
+            "paddingLeft": 20,
+            "paddingRight": 20,
+            "caption": "Header"
+          }
+        },
+        {
+          "meta": {
+            "name": "wpnHeaderButtons",
+            "parentName": "dpnHeader",
             "typeId": 28,
             "style": "WrapPanel"
           },
           "properties": {
-            "backColor": "#878787",
+            "backColor": "#D8E9FF",
+            "dockPanel_ItemSize": 100,
+            "paddingBottom": 10,
+            "paddingLeft": 10,
+            "paddingRight": 10,
+            "paddingTop": 10,
+            "horizontalContentAlignment": 2,
+            "verticalContentAlignment": 0,
+            "spacingHorizontal": 5,
+            "spacingVertical": 5
+          }
+        },
+        {
+          "meta": {
+            "name": "btnNext",
+            "parentName": "wpnHeaderButtons",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "minWidth": 80,
+            "caption": "Next"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnPrev",
+            "parentName": "wpnHeaderButtons",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "minWidth": 80,
+            "caption": "Previous"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnSave",
+            "parentName": "wpnHeaderButtons",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "minWidth": 80,
+            "caption": "Save"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnClose",
+            "parentName": "wpnHeaderButtons",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "minWidth": 80,
+            "caption": "Close"
+          }
+        },
+        {
+          "meta": {
+            "name": "wpnContainer",
+            "parentName": "dpnForm",
+            "typeId": 28,
+            "style": "WrapPanel"
+          },
+          "properties": {
+            "backColor": "#D3D3D3",
             "borderColor": "#000000",
-            "borderThicknessBottom": 10,
-            "borderThicknessLeft": 10,
-            "borderThicknessRight": 10,
-            "borderThicknessTop": 10,
+            "borderThicknessBottom": 1,
+            "borderThicknessLeft": 1,
+            "borderThicknessRight": 1,
+            "borderThicknessTop": 1,
+            "dockPanel_ItemSize": 100,
             "paddingBottom": 10,
             "paddingLeft": 10,
             "paddingRight": 10,
@@ -1688,6 +1802,108 @@
           },
           "properties": {
             "caption": "Seven"
+          }
+        },
+        {
+          "meta": {
+            "name": "dpnFooter",
+            "parentName": "dpnForm",
+            "typeId": 29,
+            "style": "DockPanel"
+          },
+          "properties": {
+            "borderColor": "#000000",
+            "borderThicknessTop": 3,
+            "dockPanelOrientation": 1
+          }
+        },
+        {
+          "meta": {
+            "name": "btnFooterTitle",
+            "parentName": "dpnFooter",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "backColor": "#F9FFA4",
+            "borderThicknessBottom": 0,
+            "borderThicknessLeft": 0,
+            "borderThicknessRight": 0,
+            "borderThicknessTop": 0,
+            "fontBold": true,
+            "fontSize": 24,
+            "foreColor": "#1E90FF",
+            "paddingLeft": 20,
+            "paddingRight": 20,
+            "caption": "Footer"
+          }
+        },
+        {
+          "meta": {
+            "name": "wpnFooterButtons",
+            "parentName": "dpnFooter",
+            "typeId": 28,
+            "style": "WrapPanel"
+          },
+          "properties": {
+            "backColor": "#D8E9FF",
+            "dockPanel_ItemSize": 100,
+            "paddingBottom": 10,
+            "paddingLeft": 10,
+            "paddingRight": 10,
+            "paddingTop": 10,
+            "horizontalContentAlignment": 1,
+            "verticalContentAlignment": 0,
+            "spacingHorizontal": 5,
+            "spacingVertical": 5
+          }
+        },
+        {
+          "meta": {
+            "name": "btnAbout",
+            "parentName": "wpnFooterButtons",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "minWidth": 80,
+            "caption": "About"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnContact",
+            "parentName": "wpnFooterButtons",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "minWidth": 80,
+            "caption": "Contact"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnSupport",
+            "parentName": "wpnFooterButtons",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "minWidth": 80,
+            "caption": "Support"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnSitemap",
+            "parentName": "wpnFooterButtons",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "minWidth": 80,
+            "caption": "Sitemap"
           }
         }
       ]
