@@ -1,1 +1,1 @@
-<span (click)="callOnClick($event)">{{ label }}</span>
+<span #focus [ngStyle]="getStyles()" (click)="callOnClick($event)" [attr.tabindex]="getTabStop() ? null : -1">{{ getCaption() }}</span>

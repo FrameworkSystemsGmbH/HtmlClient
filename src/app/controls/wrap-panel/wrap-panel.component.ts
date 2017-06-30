@@ -28,7 +28,7 @@ export class WrapPanelComponent extends ContainerComponent {
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight(),
-      'background-color': wrapper.getBackgroundColor(),
+      'background-color': wrapper.getBackColor(),
       'border-left': wrapper.getBorderThicknessLeft() + 'px solid',
       'border-right': wrapper.getBorderThicknessRight() + 'px solid',
       'border-top': wrapper.getBorderThicknessTop() + 'px solid',

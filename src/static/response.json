@@ -1,6 +1,6 @@
 {
   "meta": {
-    "token": "90274419539c4460a7df1d6aca2456b8",
+    "token": "9fe2f5d1fff34b8785d751ed8b142942",
     "requCounter": 1
   },
   "start": {
@@ -638,7 +638,7 @@
             "isVisible": true,
             "textAlign": 2
           },
-          "hAlignment": 0,
+          "hAlignment": 0.0,
           "vAlignment": 0.5,
           "orientation": 0,
           "spacing": 3,
@@ -1531,7 +1531,7 @@
   "forms": [
     {
       "meta": {
-        "id": "72",
+        "id": "26",
         "dockKey": "\\App.wflStart:frmTest:App.frmTest[]",
         "fullName": "App.frmTest",
         "new": true,
@@ -1646,7 +1646,7 @@
             "paddingRight": 10,
             "paddingTop": 10,
             "horizontalContentAlignment": 2,
-            "verticalContentAlignment": 0,
+            "verticalContentAlignment": 1,
             "spacingHorizontal": 5,
             "spacingVertical": 5
           }
@@ -1724,7 +1724,27 @@
             "marginTop": 10,
             "invertFlowDirection": false,
             "spacingHorizontal": 5,
-            "spacingVertical": 5
+            "spacingVertical": 5,
+            "wrapArrangement": 1,
+            "horizontalContentAlignment": 0,
+            "verticalContentAlignment": 0
+          }
+        },
+        {
+          "meta": {
+            "name": "lblOne",
+            "parentName": "wpnContainer",
+            "typeId": 5,
+            "style": "Label"
+          },
+          "properties": {
+            "alignmentVertical": 1,
+            "backColor": "#FAF0E6",
+            "paddingBottom": 3,
+            "paddingLeft": 3,
+            "paddingRight": 3,
+            "paddingTop": 3,
+            "caption": "One"
           }
         },
         {
@@ -1740,6 +1760,23 @@
         },
         {
           "meta": {
+            "name": "lblTwo",
+            "parentName": "wpnContainer",
+            "typeId": 5,
+            "style": "Label"
+          },
+          "properties": {
+            "alignmentVertical": 2,
+            "backColor": "#FAF0E6",
+            "paddingBottom": 3,
+            "paddingLeft": 3,
+            "paddingRight": 3,
+            "paddingTop": 3,
+            "caption": "Two"
+          }
+        },
+        {
+          "meta": {
             "name": "btnTwo",
             "parentName": "wpnContainer",
             "typeId": 1,
@@ -1747,6 +1784,23 @@
           },
           "properties": {
             "caption": "Two"
+          }
+        },
+        {
+          "meta": {
+            "name": "lblThree",
+            "parentName": "wpnContainer",
+            "typeId": 5,
+            "style": "Label"
+          },
+          "properties": {
+            "alignmentVertical": 0,
+            "backColor": "#FAF0E6",
+            "paddingBottom": 3,
+            "paddingLeft": 3,
+            "paddingRight": 3,
+            "paddingTop": 3,
+            "caption": "Three"
           }
         },
         {
@@ -1762,6 +1816,25 @@
         },
         {
           "meta": {
+            "name": "lblFour",
+            "parentName": "wpnContainer",
+            "typeId": 5,
+            "style": "Label"
+          },
+          "properties": {
+            "alignmentVertical": 3,
+            "backColor": "#FAF0E6",
+            "paddingBottom": 3,
+            "paddingLeft": 3,
+            "paddingRight": 3,
+            "paddingTop": 3,
+            "minWidth": 60,
+            "caption": "Four",
+            "textAlign": 0
+          }
+        },
+        {
+          "meta": {
             "name": "btnFour",
             "parentName": "wpnContainer",
             "typeId": 1,
@@ -1769,6 +1842,25 @@
           },
           "properties": {
             "caption": "Four"
+          }
+        },
+        {
+          "meta": {
+            "name": "lblFive",
+            "parentName": "wpnContainer",
+            "typeId": 5,
+            "style": "Label"
+          },
+          "properties": {
+            "alignmentVertical": 3,
+            "backColor": "#FAF0E6",
+            "paddingBottom": 3,
+            "paddingLeft": 3,
+            "paddingRight": 3,
+            "paddingTop": 3,
+            "minWidth": 60,
+            "caption": "Five",
+            "textAlign": 1
           }
         },
         {
@@ -1784,6 +1876,24 @@
         },
         {
           "meta": {
+            "name": "lblSix",
+            "parentName": "wpnContainer",
+            "typeId": 5,
+            "style": "Label"
+          },
+          "properties": {
+            "alignmentVertical": 3,
+            "backColor": "#FAF0E6",
+            "paddingBottom": 3,
+            "paddingLeft": 3,
+            "paddingRight": 3,
+            "paddingTop": 3,
+            "minWidth": 60,
+            "caption": "Six"
+          }
+        },
+        {
+          "meta": {
             "name": "btnSix",
             "parentName": "wpnContainer",
             "typeId": 1,
@@ -1791,6 +1901,25 @@
           },
           "properties": {
             "caption": "Six"
+          }
+        },
+        {
+          "meta": {
+            "name": "lblSeven",
+            "parentName": "wpnContainer",
+            "typeId": 5,
+            "style": "Label"
+          },
+          "properties": {
+            "alignmentVertical": 1,
+            "backColor": "#FAF0E6",
+            "paddingBottom": 3,
+            "paddingLeft": 3,
+            "paddingRight": 3,
+            "paddingTop": 3,
+            "minWidth": 100,
+            "caption": "Seven",
+            "textAlign": 1
           }
         },
         {
@@ -1853,7 +1982,7 @@
             "paddingRight": 10,
             "paddingTop": 10,
             "horizontalContentAlignment": 1,
-            "verticalContentAlignment": 0,
+            "verticalContentAlignment": 1,
             "spacingHorizontal": 5,
             "spacingVertical": 5
           }

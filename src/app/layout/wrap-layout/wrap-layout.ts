@@ -572,7 +572,7 @@ export class WrapLayout extends LayoutContainerBase {
       return;
     }
 
-    // include insets (padding) of the container
+    // include insets (padding + border + margin) of the container
     let insetsLeft: number = container.getInsetsLeft();
     let insetsRight: number = container.getInsetsRight();
     let insetsTop: number = container.getInsetsTop();
@@ -581,8 +581,8 @@ export class WrapLayout extends LayoutContainerBase {
     let hSpacing: number = container.getSpacingHorizontal();
     let vSpacing: number = container.getSpacingVertical();
 
-    // calculate height for all rows
-    let availableHeight: number = containerHeight - insetsLeft - insetsRight - Math.max(0, this.wrapRows.length - 1) * vSpacing;
+    let availableWidth: number = containerWidth - insetsLeft - insetsRight;
+    let availableHeight: number = containerHeight - insetsTop - insetsBottom;
 
     if (container.getContentAlignmentVertical() === VerticalContentAlignment.Fill) {
       let sumMinHeights: number = 0;
@@ -633,13 +633,21 @@ export class WrapLayout extends LayoutContainerBase {
       }
     }
 
+    // Calculate total height of all rows including vertical spacing
+    let totalRowheights: number = 0;
+    for (let row of this.wrapRows) {
+      totalRowheights += row.getResultRowHeight();
+    }
+
+    totalRowheights += Math.max(0, this.wrapRows.length - 1) * vSpacing;
+
     // vertical start position
     let yPos: number = 0;
     let verticalContentAlignment: VerticalContentAlignment = container.getContentAlignmentVertical();
     if (verticalContentAlignment === VerticalContentAlignment.Bottom) {
-      yPos += availableHeight;
+      yPos = availableHeight - totalRowheights;
     } else if (verticalContentAlignment === VerticalContentAlignment.Middle) {
-      yPos += availableHeight / 2;
+      yPos = (availableHeight - totalRowheights) / 2;
     }
 
     // iterate all wrap rows
@@ -655,22 +663,22 @@ export class WrapLayout extends LayoutContainerBase {
       let resultRowHeight: number = wrapRow.getResultRowHeight();
 
       // calculate neededWidth to care about horizontal content alignment offset
-      let neededWidth: number = 0;
+      let totalWrapperWidths: number = 0;
 
       for (let wrapper of wrapRow.getWrappers()) {
-        neededWidth += wrapper.getResultWidth();
+        totalWrapperWidths += wrapper.getResultWidth();
       }
 
-      let unusedWidth: number = this.width - insetsLeft - insetsRight - Math.max(0, wrapRow.getWrapperCount() - 1) * hSpacing - neededWidth;
+      totalWrapperWidths += Math.max(0, wrapRow.getWrapperCount() - 1) * hSpacing;
 
       // horizontal start position
       let xPos: number = 0;
       let horizontalContentAlignment: HorizontalContentAlignment = container.getContentAlignmentHorizontal();
 
       if (horizontalContentAlignment === HorizontalContentAlignment.Right) {
-        xPos += unusedWidth;
+        xPos += availableWidth - totalWrapperWidths;
       } else if (horizontalContentAlignment === HorizontalContentAlignment.Center) {
-        xPos += unusedWidth / 2;
+        xPos += (availableWidth - totalWrapperWidths) / 2;
       }
 
       // iterate all wrappers of the wrap row
@@ -724,7 +732,7 @@ export class WrapLayout extends LayoutContainerBase {
       return;
     }
 
-    // include insets (padding) of the container
+    // include insets (padding + border + margin) of the container
     let insetsLeft: number = container.getInsetsLeft();
     let insetsRight: number = container.getInsetsRight();
     let insetsTop: number = container.getInsetsTop();
@@ -733,23 +741,23 @@ export class WrapLayout extends LayoutContainerBase {
     let hSpacing: number = container.getSpacingHorizontal();
     let vSpacing: number = container.getSpacingVertical();
 
-    let neededWidth: number = 0;
+    let availableWidth: number = containerWidth - insetsLeft - insetsRight;
+
+    let totalColumnWidths: number = 0;
 
     for (let wrapColumn of this.wrapColumns) {
-      neededWidth += wrapColumn.getResultColumnWidth();
+      totalColumnWidths += wrapColumn.getResultColumnWidth();
     }
 
-    neededWidth += Math.max(0, this.wrapColumns.length - 1) * hSpacing;
+    totalColumnWidths += Math.max(0, this.wrapColumns.length - 1) * hSpacing;
 
-    let columnXPos: number = insetsLeft;
+    let columnXPos: number = 0;
     let horizontalContentAlignment: HorizontalContentAlignment = container.getContentAlignmentHorizontal();
 
     if (horizontalContentAlignment === HorizontalContentAlignment.Right) {
-      // add difference between neededWidth and available width
-      columnXPos += this.width - insetsLeft - insetsRight - neededWidth;
+      columnXPos = availableWidth - totalColumnWidths;
     } else if (horizontalContentAlignment === HorizontalContentAlignment.Center) {
-      // add half of the difference between neededWidth and available width
-      columnXPos += (this.width - insetsLeft - insetsRight - neededWidth) / 2;
+      columnXPos = (availableWidth - totalColumnWidths) / 2;
     }
 
     // for all columns ...
@@ -757,7 +765,7 @@ export class WrapLayout extends LayoutContainerBase {
     let addHSpacing: boolean = false;
 
     for (let wrapColumn of this.wrapColumns) {
-      let availableHeight: number = containerHeight - insetsTop - insetsBottom - Math.max(0, wrapColumn.getWrapperCount() - 1) * vSpacing;
+      let availableHeight: number = containerHeight - insetsTop - insetsBottom;
 
       // 1. calculate result heights for all wrappers
       if (fillContentVertically) {
@@ -815,15 +823,22 @@ export class WrapLayout extends LayoutContainerBase {
         addHSpacing = true;
       }
 
-      let yPos: number = insetsTop;
-      let verticalContentAlignment: VerticalContentAlignment = container.getContentAlignmentVertical();
+      let totalWrapperHeights: number = 0;
 
+      for (let wrapper of wrapColumn.getWrappers()) {
+        totalWrapperHeights += wrapper.getResultHeight();
+      }
+
+      totalWrapperHeights += Math.max(0, wrapColumn.getWrapperCount() - 1) * vSpacing;
+
+      let yPos: number = 0;
+      let verticalContentAlignment: VerticalContentAlignment = container.getContentAlignmentVertical();
       if (verticalContentAlignment === VerticalContentAlignment.Bottom) {
         // add unused vertical space
-        yPos += availableHeight;
+        yPos = availableHeight - totalWrapperHeights;
       } else if (verticalContentAlignment === VerticalContentAlignment.Middle) {
         // add half of the unused vertical space
-        yPos += availableHeight / 2;
+        yPos = (availableHeight - totalWrapperHeights) / 2;
       }
 
       let addVSpacing: boolean = false;

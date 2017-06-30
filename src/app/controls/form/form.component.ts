@@ -29,7 +29,7 @@ export class FormComponent extends ContainerComponent {
     let wrapper: FormWrapper = this.getWrapper();
 
     let styles: any = {
-      'backgroundColor': wrapper.getBackgroundColor()
+      'backgroundColor': wrapper.getBackColor()
     }
 
     return styles;

@@ -33,7 +33,7 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   public getTitle(): string {
-    return this.title;
+    return this.title ? this.title : this.fullName;
   }
 
   public getMinWidth(): number {

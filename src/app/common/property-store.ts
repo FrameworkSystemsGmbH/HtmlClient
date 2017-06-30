@@ -1,6 +1,6 @@
 import { PropertyData } from './property-data';
 import { PropertyLayer } from './property-layer';
-import { ControlVisibility, HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment, ContentAlignment } from '../enums';
+import { ControlVisibility, HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment, ContentAlignment, TextAlign } from '../enums';
 import { DockOrientation } from '../layout/dock-layout';
 import { WrapArrangement } from '../layout/wrap-layout';
 
@@ -536,6 +536,32 @@ export class PropertyStore {
 
   public setShowCaption(layer: PropertyLayer, value: boolean): void {
     this.setValue<boolean>(layer, (data: PropertyData) => { data.showCaption = value });
+  }
+
+  // TabStop
+  public getTabStop(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => { return data.tabStop });
+  }
+
+  public getTabStopForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => { return data.tabStop });
+  }
+
+  public setTabStop(layer: PropertyLayer, value: boolean): void {
+    this.setValue<boolean>(layer, (data: PropertyData) => { data.tabStop = value });
+  }
+
+  // TextAlign
+  public getTextAlign(): TextAlign {
+    return this.getValue<TextAlign>((data: PropertyData) => { return data.textAlign });
+  }
+
+  public getTextAlignForLayer(layer: PropertyLayer): TextAlign {
+    return this.getValueForLayer<TextAlign>(layer, (data: PropertyData) => { return data.textAlign });
+  }
+
+  public setTextAlign(layer: PropertyLayer, value: TextAlign): void {
+    this.setValue<TextAlign>(layer, (data: PropertyData) => { data.textAlign = value });
   }
 
   // Visibility

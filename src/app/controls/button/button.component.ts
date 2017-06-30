@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 
 import { BaseComponent } from '..';
 import { ButtonWrapper } from '../../wrappers';
+import { StyleUtil } from '../../util';
 
 @Component({
   selector: 'hc-btn',
@@ -19,7 +20,12 @@ export class ButtonComponent extends BaseComponent {
   }
 
   public getCaption(): string {
-    return this.getWrapper().getCaption();
+    let wrapper: ButtonWrapper = this.getWrapper();
+    return wrapper.showCaption() ? wrapper.getCaption() : null;
+  }
+
+  public getTabStop(): boolean {
+    return this.getWrapper().getTabStop();
   }
 
   public getStyles(): any {
@@ -30,11 +36,13 @@ export class ButtonComponent extends BaseComponent {
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight(),
-      'background-color': wrapper.getBackgroundColor(),
-      'border-left': wrapper.getBorderThicknessLeft() + 'px solid',
-      'border-right': wrapper.getBorderThicknessRight() + 'px solid',
-      'border-top': wrapper.getBorderThicknessTop() + 'px solid',
-      'border-bottom': wrapper.getBorderThicknessBottom() + 'px solid',
+      'color': wrapper.getForeColor(),
+      'background-color': wrapper.getBackColor(),
+      'border-style': 'solid',
+      'border-left-width.px': wrapper.getBorderThicknessLeft(),
+      'border-right-width.px': wrapper.getBorderThicknessRight(),
+      'border-top-width.px': wrapper.getBorderThicknessTop(),
+      'border-bottom-width.px': wrapper.getBorderThicknessBottom(),
       'margin-left.px': wrapper.getMarginLeft(),
       'margin-right.px': wrapper.getMarginRight(),
       'margin-top.px': wrapper.getMarginTop(),
@@ -46,9 +54,10 @@ export class ButtonComponent extends BaseComponent {
       'font-family': wrapper.getFontFamily(),
       'font-size.px': wrapper.getFontSize(),
       'line-height.px': wrapper.getFontSize(),
-      'font-weight': wrapper.getFontBold() ? 'bold' : 'normal',
-      'font-style': wrapper.getFontItalic() ? 'italic' : 'unset',
-      'text-decoration': wrapper.getFontUnderline() ? 'underline' : 'unset'
+      'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
+      'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
+      'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
+      'text-align': 'center'
     };
 
     return styles;

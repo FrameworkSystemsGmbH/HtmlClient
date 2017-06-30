@@ -79,11 +79,19 @@ export abstract class BaseWrapper implements LayoutableControl {
     }
   }
 
+  public getTabStop(): boolean {
+    return this.propertyStore.getTabStop();
+  }
+
   public getVisibility(): ControlVisibility {
     return this.propertyStore.getVisibility();
   }
 
-  public getBackgroundColor(): string {
+  public getForeColor(): string {
+    return this.propertyStore.getForeColor();
+  }
+
+  public getBackColor(): string {
     return this.propertyStore.getBackColor();
   }
 

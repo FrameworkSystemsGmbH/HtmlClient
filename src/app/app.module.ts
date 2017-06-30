@@ -34,6 +34,7 @@ import { WindowRefService } from './services/windowref.service';
 
 @NgModule({
   entryComponents: [
+    LabelComponent,
     ButtonComponent,
     DockPanelComponent,
     FormComponent,
