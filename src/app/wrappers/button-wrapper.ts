@@ -11,11 +11,12 @@ export class ButtonWrapper extends BaseWrapperFitted {
   private events: ControlEvent;
 
   public getCaption(): string {
-    return this.propertyStore.getCaption();
+    let caption: string = this.propertyStore.getCaption();
+    return caption != null ? caption : null;
   }
 
   public showCaption(): boolean {
-    return this.propertyStore.getShowCaption();
+    return Boolean.trueIfNull(this.propertyStore.getShowCaption());
   }
 
   public getComponentRef(): ComponentRef<ButtonComponent> {
@@ -58,15 +59,11 @@ export class ButtonWrapper extends BaseWrapperFitted {
     comp.instance.setWrapper(this);
   }
 
-  public updateComponent(): void {
-
-  }
-
   public updateFittedWidth(): void {
     if (this.showCaption()) {
-      this.setFittedWidth(this.getBorderThicknessLeft() + this.getPaddingLeft() + this.fontService.measureWidth(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()) + this.getPaddingRight() + this.getBorderThicknessRight());
+      this.setFittedContentWidth(this.fontService.measureWidth(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
     } else {
-      this.setFittedWidth(null);
+      this.setFittedContentWidth(null);
     }
   }
 

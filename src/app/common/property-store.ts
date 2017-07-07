@@ -1,6 +1,6 @@
 import { PropertyData } from './property-data';
 import { PropertyLayer } from './property-layer';
-import { ControlVisibility, HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment, ContentAlignment, TextAlign } from '../enums';
+import { ControlVisibility, HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment, ContentAlignment, TextAlign, TextFormat } from '../enums';
 import { DockOrientation } from '../layout/dock-layout';
 import { WrapArrangement } from '../layout/wrap-layout';
 
@@ -146,6 +146,58 @@ export class PropertyStore {
 
   public setMaxHeight(layer: PropertyLayer, value: number): void {
     this.setValue<number>(layer, (data: PropertyData) => { data.maxHeight = value });
+  }
+
+  // DisplayMinLines
+  public getDisplayMinLines(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.displayMinLines });
+  }
+
+  public getDisplayMinLinesForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.displayMinLines });
+  }
+
+  public setDisplayMinLines(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.displayMinLines = value });
+  }
+
+  // DisplayMaxLines
+  public getDisplayMaxLines(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.displayMaxLines });
+  }
+
+  public getDisplayMaxLinesForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.displayMaxLines });
+  }
+
+  public setDisplayMaxLines(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.displayMaxLines = value });
+  }
+
+  // DisplayMinLength
+  public getDisplayMinLength(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.displayMinLength });
+  }
+
+  public getDisplayMinLengthForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.displayMinLength });
+  }
+
+  public setDisplayMinLength(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.displayMinLength = value });
+  }
+
+  // DisplayMaxLength
+  public getDisplayMaxLength(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.displayMaxLength });
+  }
+
+  public getDisplayMaxLengthForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.displayMaxLength });
+  }
+
+  public setDisplayMaxLength(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.displayMaxLength = value });
   }
 
   // MarginLeft
@@ -512,6 +564,32 @@ export class PropertyStore {
     this.setValue<number>(layer, (data: PropertyData) => { data.fieldRowSize = value });
   }
 
+  // Format
+  public getFormat(): TextFormat {
+    return this.getValue<TextFormat>((data: PropertyData) => { return data.format });
+  }
+
+  public getFormatForLayer(layer: PropertyLayer): TextFormat {
+    return this.getValueForLayer<TextFormat>(layer, (data: PropertyData) => { return data.format });
+  }
+
+  public setFormat(layer: PropertyLayer, value: TextFormat): void {
+    this.setValue<TextFormat>(layer, (data: PropertyData) => { data.format = value });
+  }
+
+  // FormatPattern
+  public getFormatPattern(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.formatPattern });
+  }
+
+  public getFormatPatternForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.formatPattern });
+  }
+
+  public setFormatPattern(layer: PropertyLayer, value: string): void {
+    this.setValue<string>(layer, (data: PropertyData) => { data.formatPattern = value });
+  }
+
   // InvertFlowDirection
   public getInvertFlowDirection(): boolean {
     return this.getValue<boolean>((data: PropertyData) => { return data.invertFlowDirection });
@@ -523,6 +601,45 @@ export class PropertyStore {
 
   public setInvertFlowDirection(layer: PropertyLayer, value: boolean): void {
     this.setValue<boolean>(layer, (data: PropertyData) => { data.invertFlowDirection = value });
+  }
+
+  // MaxSize
+  public getMaxSize(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.maxSize });
+  }
+
+  public getMaxSizeForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.maxSize });
+  }
+
+  public setMaxSize(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.maxSize = value });
+  }
+
+  // MaxScale
+  public getMaxScale(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.maxScale });
+  }
+
+  public getMaxScaleForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.maxScale });
+  }
+
+  public setMaxScale(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.maxScale = value });
+  }
+
+  // MaxPrec
+  public getMaxPrec(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.maxPrec });
+  }
+
+  public getMaxPrecForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.maxPrec });
+  }
+
+  public setMaxPrec(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.maxPrec = value });
   }
 
   // ShowCaption

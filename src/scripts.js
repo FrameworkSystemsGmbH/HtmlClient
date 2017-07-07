@@ -57,5 +57,13 @@ Number.zeroIfNull = function (value) {
 }
 
 Number.maxIfNull = function (value) {
-  return value == null ? Number.MAX_VALUE : value;
+  return value == null ? Number.MAX_SAFE_INTEGER : value;
+}
+
+Boolean.falseIfNull = function (value) {
+  return value == null ? false : value;
+}
+
+Boolean.trueIfNull = function (value) {
+  return value == null ? true : value;
 }

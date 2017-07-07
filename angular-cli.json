@@ -25,7 +25,11 @@
         "../node_modules/hammerjs/hammer.js",
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/jqwidgets-framework/jqwidgets/jqxcore.js",
-        "../node_modules/jqwidgets-framework/jqwidgets/jqxtooltip.js",
+        "../node_modules/jqwidgets-framework/jqwidgets/jqxcalendar.js",
+        "../node_modules/jqwidgets-framework/jqwidgets/jqxinput.js",
+        "../node_modules/jqwidgets-framework/jqwidgets/jqxnumberinput.js",
+        "../node_modules/jqwidgets-framework/jqwidgets/jqxdatetimeinput.js",
+        "../node_modules/jqwidgets-framework/jqwidgets/globalization/globalize.js",
         "../node_modules/bootstrap-sass/assets/javascripts/bootstrap.js",
         "scripts.js"
       ],

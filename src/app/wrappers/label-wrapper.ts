@@ -8,11 +8,13 @@ import { PropertyLayer } from '../common';
 export class LabelWrapper extends BaseWrapperFitted {
 
   public getCaption(): string {
-    return this.propertyStore.getCaption();
+    let caption: string = this.propertyStore.getCaption();
+    return caption != null ? caption : null;
   }
 
   public getTextAlign(): TextAlign {
-    return this.propertyStore.getTextAlign();
+    let textAlign: TextAlign = this.propertyStore.getTextAlign();
+    return textAlign != null ? textAlign : TextAlign.Center;
   }
 
   public getComponentRef(): ComponentRef<LabelComponent> {
@@ -31,12 +33,7 @@ export class LabelWrapper extends BaseWrapperFitted {
     comp.instance.setWrapper(this);
   }
 
-  public updateComponent(): void {
-
-  }
-
   public updateFittedWidth(): void {
-    this.setFittedWidth(this.getBorderThicknessLeft() + this.getPaddingLeft() + this.fontService.measureWidth(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()) + this.getPaddingRight() + this.getBorderThicknessRight());
+    this.setFittedContentWidth(this.fontService.measureWidth(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
   }
-
 }

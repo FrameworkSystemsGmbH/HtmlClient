@@ -38,6 +38,7 @@ export class LabelComponent extends BaseComponent {
       'color': wrapper.getForeColor(),
       'background-color': wrapper.getBackColor(),
       'border-style': 'solid',
+      'border-color': wrapper.getBorderColor(),
       'border-left-width.px': wrapper.getBorderThicknessLeft(),
       'border-right-width.px': wrapper.getBorderThicknessRight(),
       'border-top-width.px': wrapper.getBorderThicknessTop(),

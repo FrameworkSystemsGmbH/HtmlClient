@@ -7,7 +7,8 @@ import {
   TextAlign,
   ContentAlignment,
   PictureScaleMode,
-  ScrollBars
+  ScrollBars,
+  TextFormat
 } from '../enums';
 
 import { FsSize } from '.';
@@ -25,6 +26,11 @@ export class PropertyData {
   public minHeight: number;
   public maxWidth: number;
   public maxHeight: number;
+
+  public displayMinLines: number;
+  public displayMaxLines: number;
+  public displayMinLength: number;
+  public displayMaxLength: number;
 
   public marginLeft: number;
   public marginRight: number;
@@ -90,11 +96,15 @@ export class PropertyData {
   public dockPanelOrientation: DockOrientation;
   public editorStyle: number;
   public fieldRowSize: number;
-  public format: number;
+  public format: TextFormat;
+  public formatPattern: string;
   public invertFlowDirection: boolean;
   public isVisible: boolean;
   public mapEnterToTab: boolean;
   public maxDropDownSize: FsSize;
+  public maxSize: number;
+  public maxPrec: number;
+  public maxScale: number;
   public multiline: boolean;
   public passwordChar: string;
   public scaleMode: PictureScaleMode;

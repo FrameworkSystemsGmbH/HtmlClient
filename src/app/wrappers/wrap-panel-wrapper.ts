@@ -24,15 +24,18 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapC
   }
 
   public getWrapArrangement(): WrapArrangement {
-    return this.propertyStore.getWrapArrangement();
+    let wrapArrangement: WrapArrangement = this.propertyStore.getWrapArrangement();
+    return wrapArrangement != null ? wrapArrangement : WrapArrangement.Horizontal;
   }
 
-  public getContentAlignmentHorizontal(): HorizontalContentAlignment {
-    return this.propertyStore.getHorizontalContentAlignment();
+  public getHorizontalContentAlignment(): HorizontalContentAlignment {
+    let horizontalContentAlignment: HorizontalContentAlignment = this.propertyStore.getHorizontalContentAlignment();
+    return horizontalContentAlignment != null ? horizontalContentAlignment : HorizontalContentAlignment.Left;
   }
 
-  public getContentAlignmentVertical(): VerticalContentAlignment {
-    return this.propertyStore.getVerticalContentAlignment();
+  public getVerticalContentAlignment(): VerticalContentAlignment {
+    let verticalContentAlignment: VerticalContentAlignment = this.propertyStore.getVerticalContentAlignment();
+    return verticalContentAlignment != null ? verticalContentAlignment : VerticalContentAlignment.Top;
   }
 
   public createComponent(container: ContainerWrapper): void {

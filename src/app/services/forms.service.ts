@@ -11,7 +11,7 @@ import {
   ButtonWrapper,
   FormWrapper,
   LabelWrapper,
-  TextBoxWrapper
+  TextBoxPlainWrapper
 } from '../wrappers';
 
 import { ResponseFormDto } from '../communication/response';
@@ -81,7 +81,7 @@ export class FormsService {
   public setJson(fromsJson: any) {
     for (let formJson of fromsJson) {
       if (formJson.meta.new) {
-        let formWrp: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType(ControlType.Form, null, null);
+        let formWrp: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType({ meta: { typeId: ControlType.Form } }, null, null);
         formWrp.setJson(formJson, true);
         this.forms.push(formWrp);
         if (!this.selectedForm) {

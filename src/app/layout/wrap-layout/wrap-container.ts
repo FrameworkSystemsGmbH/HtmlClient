@@ -4,9 +4,9 @@ import { WrapArrangement } from '.';
 
 export interface WrapContainer extends LayoutableContainerSpaceable {
 
-  getContentAlignmentHorizontal(): HorizontalContentAlignment;
+  getHorizontalContentAlignment(): HorizontalContentAlignment;
 
-  getContentAlignmentVertical(): VerticalContentAlignment;
+  getVerticalContentAlignment(): VerticalContentAlignment;
 
   getWrapArrangement(): WrapArrangement;
 

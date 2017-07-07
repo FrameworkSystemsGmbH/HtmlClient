@@ -80,19 +80,22 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getTabStop(): boolean {
-    return this.propertyStore.getTabStop();
+    return Boolean.falseIfNull(this.propertyStore.getTabStop());
   }
 
   public getVisibility(): ControlVisibility {
-    return this.propertyStore.getVisibility();
+    let visibility: ControlVisibility = this.propertyStore.getVisibility();
+    return visibility != null ? visibility : ControlVisibility.Collapsed;
   }
 
   public getForeColor(): string {
-    return this.propertyStore.getForeColor();
+    let foreColor: string = this.propertyStore.getForeColor();
+    return foreColor != null ? foreColor : '#000000';
   }
 
   public getBackColor(): string {
-    return this.propertyStore.getBackColor();
+    let backColor: string = this.propertyStore.getBackColor();
+    return backColor != null ? backColor : '#FFFFFF';
   }
 
   public getLayoutableProperties(): LayoutableProperties {
@@ -111,71 +114,88 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getMinWidth(): number {
-    return this.propertyStore.getMinWidth();
+    return Number.zeroIfNull(this.propertyStore.getMinWidth());
+  }
+
+  public isMinWidthSet(): boolean {
+    return this.propertyStore.getMinWidth() != null;
   }
 
   public getMinHeight(): number {
-    return this.propertyStore.getMinHeight();
+    return Number.zeroIfNull(this.propertyStore.getMinHeight());
+  }
+
+  public isMinHeightSet(): boolean {
+    return this.propertyStore.getMinHeight() != null;
   }
 
   public getMaxWidth(): number {
-    return this.propertyStore.getMaxWidth();
+    return Number.maxIfNull(this.propertyStore.getMaxWidth());
+  }
+
+  public isMaxWidthSet(): boolean {
+    return this.propertyStore.getMaxWidth() != null;
   }
 
   public getMaxHeight(): number {
-    return this.propertyStore.getMaxHeight();
+    return Number.maxIfNull(this.propertyStore.getMaxHeight());
+  }
+
+  public isMaxHeightSet(): boolean {
+    return this.propertyStore.getMaxHeight() != null;
   }
 
   public getMarginLeft(): number {
-    return this.propertyStore.getMarginLeft();
+    return Number.zeroIfNull(this.propertyStore.getMarginLeft());
   }
 
   public getMarginRight(): number {
-    return this.propertyStore.getMarginRight();
+    return Number.zeroIfNull(this.propertyStore.getMarginRight());
   }
 
   public getMarginTop(): number {
-    return this.propertyStore.getMarginTop();
+    return Number.zeroIfNull(this.propertyStore.getMarginTop());
   }
 
   public getMarginBottom(): number {
-    return this.propertyStore.getMarginBottom();
+    return Number.zeroIfNull(this.propertyStore.getMarginBottom());
   }
 
   public getPaddingLeft(): number {
-    return this.propertyStore.getPaddingLeft();
+    return Number.zeroIfNull(this.propertyStore.getPaddingLeft());
   }
 
   public getPaddingRight(): number {
-    return this.propertyStore.getPaddingRight();
+    return Number.zeroIfNull(this.propertyStore.getPaddingRight());
   }
 
   public getPaddingTop(): number {
-    return this.propertyStore.getPaddingTop();
+    return Number.zeroIfNull(this.propertyStore.getPaddingTop());
   }
 
   public getPaddingBottom(): number {
-    return this.propertyStore.getPaddingBottom();
+    return Number.zeroIfNull(this.propertyStore.getPaddingBottom());
   }
 
   public getBorderColor(): string {
-    return this.propertyStore.getBorderColor();
+    let borderColor: string = this.propertyStore.getBorderColor();
+    return borderColor != null ? borderColor : '#808080';
   }
 
   public getBorderThicknessLeft(): number {
-    return this.propertyStore.getBorderThicknessLeft();
+    return Number.zeroIfNull(this.propertyStore.getBorderThicknessLeft());
   }
 
   public getBorderThicknessRight(): number {
-    return this.propertyStore.getBorderThicknessRight();
+    return Number.zeroIfNull(this.propertyStore.getBorderThicknessRight());
   }
 
   public getBorderThicknessTop(): number {
-    return this.propertyStore.getBorderThicknessTop();
+    return Number.zeroIfNull(this.propertyStore.getBorderThicknessTop());
   }
 
   public getBorderThicknessBottom(): number {
-    return this.propertyStore.getBorderThicknessBottom();
+    return Number.zeroIfNull(this.propertyStore.getBorderThicknessBottom());
   }
 
   public getInsetsLeft(): number {
@@ -195,39 +215,45 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getDockItemSize(): number {
-    return this.propertyStore.getDockItemSize();
+    let dockItemSize: number = this.propertyStore.getDockItemSize();
+    return dockItemSize != null ? dockItemSize : null;
   }
 
   public getFieldRowSize(): number {
-    return this.propertyStore.getFieldRowSize();
+    let fieldRowSize: number = this.propertyStore.getFieldRowSize();
+    return fieldRowSize != null ? fieldRowSize : null;
   }
 
   public getHorizontalAlignment(): HorizontalAlignment {
-    return this.propertyStore.getHorizontalAlignment();
+    let hAlign: HorizontalAlignment = this.propertyStore.getHorizontalAlignment();
+    return hAlign != null ? hAlign : HorizontalAlignment.Stretch;
   }
 
   public getVerticalAlignment(): VerticalAlignment {
-    return this.propertyStore.getVerticalAlignment();
+    let vAlign: VerticalAlignment = this.propertyStore.getVerticalAlignment();
+    return vAlign != null ? vAlign : VerticalAlignment.Stretch;
   }
 
   public getFontBold(): boolean {
-    return this.propertyStore.getFontBold();
+    return Boolean.falseIfNull(this.propertyStore.getFontBold());
   }
 
   public getFontFamily(): string {
-    return this.propertyStore.getFontFamily();
+    let fontFamily: string = this.propertyStore.getFontFamily();
+    return fontFamily != null ? fontFamily : 'Arial';
   }
 
   public getFontItalic(): boolean {
-    return this.propertyStore.getFontItalic();
+    return Boolean.falseIfNull(this.propertyStore.getFontItalic());
   }
 
   public getFontSize(): number {
-    return this.propertyStore.getFontSize();
+    let fontSize: number = this.propertyStore.getFontSize();
+    return fontSize != null ? fontSize : 14;
   }
 
   public getFontUnderline(): boolean {
-    return this.propertyStore.getFontUnderline();
+    return Boolean.falseIfNull(this.propertyStore.getFontUnderline());
   }
 
   public getForm(): FormWrapper {
@@ -317,7 +343,5 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public abstract createComponent(container: ContainerWrapper): void;
-
-  public abstract updateComponent(): void;
 
 }

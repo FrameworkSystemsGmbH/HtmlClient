@@ -3,7 +3,6 @@ export * from './layout-base';
 export * from './layout-container-base';
 export * from './layoutable-container-spaceable';
 export * from './layoutable-container';
-export * from './layoutable-control-fitted';
 export * from './layoutable-control-label-template';
 export * from './layoutable-control-label';
 export * from './layoutable-control-wrapper';

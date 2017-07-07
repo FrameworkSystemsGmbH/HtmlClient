@@ -102,10 +102,6 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
     }
   }
 
-  public updateComponent(): void {
-
-  }
-
   public findControl(name: string): BaseWrapper {
     for (let i: number = 0; i < this.controls.length; i++) {
       let control: BaseWrapper = this.controls[i];

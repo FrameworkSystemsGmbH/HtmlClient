@@ -1,7 +1,7 @@
 export enum ControlType {
   Form = 0,
   Button = 1,
-  TextBox = 3,
+  TextBox = 2,
   Label = 5,
   FieldPanel = 6,
   WrapPanel = 28,

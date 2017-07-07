@@ -139,7 +139,7 @@ export class WrapLayout extends LayoutContainerBase {
    * den pendingWrappers entfernt.
    */
   private createWrapRow(pendingWrappers: LinkedListOneWay<LayoutableControlWrapper>, availableWidth: number, hSpacing: number, container: WrapContainer): WrapRow {
-    let horizontalContentAlignment: HorizontalContentAlignment = container.getContentAlignmentHorizontal();
+    let horizontalContentAlignment: HorizontalContentAlignment = container.getHorizontalContentAlignment();
 
     // as long as there are still wrappers to deal with and there is space left in this row,
     // try to add the next wrapper
@@ -387,7 +387,7 @@ export class WrapLayout extends LayoutContainerBase {
     }
 
     // stretch columns on horizontal content alignment fill
-    if (container.getContentAlignmentHorizontal() === HorizontalContentAlignment.Fill) {
+    if (container.getHorizontalContentAlignment() === HorizontalContentAlignment.Fill) {
 
       availableWidth = this.width - insetsLeft - insetsRight - Math.max(0, this.wrapColumns.length - 1) * hSpacing;
 
@@ -584,14 +584,16 @@ export class WrapLayout extends LayoutContainerBase {
     let availableWidth: number = containerWidth - insetsLeft - insetsRight;
     let availableHeight: number = containerHeight - insetsTop - insetsBottom;
 
-    if (container.getContentAlignmentVertical() === VerticalContentAlignment.Fill) {
+    let spaceForRows: number = availableHeight - (Math.max(0, this.wrapRows.length - 1) * vSpacing);
+
+    if (container.getVerticalContentAlignment() === VerticalContentAlignment.Fill) {
       let sumMinHeights: number = 0;
 
       for (let wrapRow of this.wrapRows) {
         sumMinHeights += wrapRow.getMinRowHeight();
       }
 
-      let verticalStretchFactor: number = availableHeight / sumMinHeights;
+      let verticalStretchFactor: number = spaceForRows / sumMinHeights;
 
       let todo: LinkedListOneWay<WrapRow> = new LinkedListOneWay<WrapRow>();
 
@@ -608,9 +610,9 @@ export class WrapLayout extends LayoutContainerBase {
           let desiredRowHeight: number = Math.round(verticalStretchFactor * wrapRow.getMinRowHeight());
           if (desiredRowHeight > wrapRow.getMaxRowHeight()) {
             wrapRow.setResultRowHeight(wrapRow.getMaxRowHeight());
-            availableHeight -= wrapRow.getResultRowHeight();
+            spaceForRows -= wrapRow.getResultRowHeight();
             sumMinHeights -= wrapRow.getMinRowHeight();
-            verticalStretchFactor = availableHeight / sumMinHeights;
+            verticalStretchFactor = spaceForRows / sumMinHeights;
             allProblemsSolved = false;
             todo.remove(wrapRow);
           }
@@ -621,33 +623,26 @@ export class WrapLayout extends LayoutContainerBase {
         let wrapRow: WrapRow = todo.poll();
         let desiredRowHeight: number = Math.round(verticalStretchFactor * wrapRow.getMinRowHeight());
         wrapRow.setResultRowHeight(desiredRowHeight);
-        availableHeight -= desiredRowHeight;
+        spaceForRows -= desiredRowHeight;
         sumMinHeights -= wrapRow.getMinRowHeight();
-        verticalStretchFactor = availableHeight / sumMinHeights;
+        verticalStretchFactor = spaceForRows / sumMinHeights;
       }
 
     } else {
       // no stretch mode => result height = min height
       for (let row of this.wrapRows) {
         row.setResultRowHeight(row.getMinRowHeight());
+        spaceForRows -= row.getMinRowHeight();
       }
     }
 
-    // Calculate total height of all rows including vertical spacing
-    let totalRowheights: number = 0;
-    for (let row of this.wrapRows) {
-      totalRowheights += row.getResultRowHeight();
-    }
-
-    totalRowheights += Math.max(0, this.wrapRows.length - 1) * vSpacing;
-
     // vertical start position
     let yPos: number = 0;
-    let verticalContentAlignment: VerticalContentAlignment = container.getContentAlignmentVertical();
+    let verticalContentAlignment: VerticalContentAlignment = container.getVerticalContentAlignment();
     if (verticalContentAlignment === VerticalContentAlignment.Bottom) {
-      yPos = availableHeight - totalRowheights;
+      yPos = spaceForRows;
     } else if (verticalContentAlignment === VerticalContentAlignment.Middle) {
-      yPos = (availableHeight - totalRowheights) / 2;
+      yPos = spaceForRows / 2;
     }
 
     // iterate all wrap rows
@@ -673,7 +668,7 @@ export class WrapLayout extends LayoutContainerBase {
 
       // horizontal start position
       let xPos: number = 0;
-      let horizontalContentAlignment: HorizontalContentAlignment = container.getContentAlignmentHorizontal();
+      let horizontalContentAlignment: HorizontalContentAlignment = container.getHorizontalContentAlignment();
 
       if (horizontalContentAlignment === HorizontalContentAlignment.Right) {
         xPos += availableWidth - totalWrapperWidths;
@@ -752,7 +747,7 @@ export class WrapLayout extends LayoutContainerBase {
     totalColumnWidths += Math.max(0, this.wrapColumns.length - 1) * hSpacing;
 
     let columnXPos: number = 0;
-    let horizontalContentAlignment: HorizontalContentAlignment = container.getContentAlignmentHorizontal();
+    let horizontalContentAlignment: HorizontalContentAlignment = container.getHorizontalContentAlignment();
 
     if (horizontalContentAlignment === HorizontalContentAlignment.Right) {
       columnXPos = availableWidth - totalColumnWidths;
@@ -761,11 +756,11 @@ export class WrapLayout extends LayoutContainerBase {
     }
 
     // for all columns ...
-    let fillContentVertically: boolean = container.getContentAlignmentVertical() === VerticalContentAlignment.Fill;
+    let fillContentVertically: boolean = container.getVerticalContentAlignment() === VerticalContentAlignment.Fill;
     let addHSpacing: boolean = false;
 
     for (let wrapColumn of this.wrapColumns) {
-      let availableHeight: number = containerHeight - insetsTop - insetsBottom;
+      let verticalSpaceForColumn: number = containerHeight - insetsTop - insetsBottom - (Math.max(0, wrapColumn.getWrapperCount() - 1) * vSpacing);
 
       // 1. calculate result heights for all wrappers
       if (fillContentVertically) {
@@ -775,14 +770,14 @@ export class WrapLayout extends LayoutContainerBase {
         for (let wrapper of wrapColumn.getWrappers()) {
           if (wrapper.getVerticalAlignment() !== VerticalAlignment.Stretch) {
             wrapper.setResultHeight(wrapper.getMinLayoutHeightBuffered());
-            availableHeight -= wrapper.getResultHeight();
+            verticalSpaceForColumn -= wrapper.getResultHeight();
           } else {
             sumMinHeights += wrapper.getMinLayoutHeightBuffered();
             todo.add(wrapper);
           }
         }
 
-        let verticalStretchFactor: number = availableHeight / sumMinHeights;
+        let verticalStretchFactor: number = verticalSpaceForColumn / sumMinHeights;
 
         let allProblemsSolved: boolean = false;
 
@@ -794,8 +789,8 @@ export class WrapLayout extends LayoutContainerBase {
             if (desiredHeight > wrapper.getMaxLayoutHeight()) {
               wrapper.setResultHeight(wrapper.getMaxLayoutHeight());
               sumMinHeights -= wrapper.getMinLayoutHeightBuffered();
-              availableHeight -= wrapper.getResultHeight();
-              verticalStretchFactor = availableHeight / sumMinHeights;
+              verticalSpaceForColumn -= wrapper.getResultHeight();
+              verticalStretchFactor = verticalSpaceForColumn / sumMinHeights;
               allProblemsSolved = false;
               todo.remove(wrapper);
             }
@@ -806,13 +801,14 @@ export class WrapLayout extends LayoutContainerBase {
           let wrapper: LayoutableControlWrapper = todo.poll();
           wrapper.setResultHeight(Math.round(verticalStretchFactor * wrapper.getMinLayoutHeightBuffered()));
           sumMinHeights -= wrapper.getMinLayoutHeightBuffered();
-          availableHeight -= wrapper.getResultHeight();
-          verticalStretchFactor = availableHeight / sumMinHeights;
+          verticalSpaceForColumn -= wrapper.getResultHeight();
+          verticalStretchFactor = verticalSpaceForColumn / sumMinHeights;
         }
       } else {
         // do not fill content vertically
         for (let wrapper of wrapColumn.getWrappers()) {
           wrapper.setResultHeight(wrapper.getMinLayoutHeightBuffered());
+          verticalSpaceForColumn -= wrapper.getMinLayoutHeightBuffered();
         }
       }
 
@@ -823,22 +819,14 @@ export class WrapLayout extends LayoutContainerBase {
         addHSpacing = true;
       }
 
-      let totalWrapperHeights: number = 0;
-
-      for (let wrapper of wrapColumn.getWrappers()) {
-        totalWrapperHeights += wrapper.getResultHeight();
-      }
-
-      totalWrapperHeights += Math.max(0, wrapColumn.getWrapperCount() - 1) * vSpacing;
-
       let yPos: number = 0;
-      let verticalContentAlignment: VerticalContentAlignment = container.getContentAlignmentVertical();
+      let verticalContentAlignment: VerticalContentAlignment = container.getVerticalContentAlignment();
       if (verticalContentAlignment === VerticalContentAlignment.Bottom) {
         // add unused vertical space
-        yPos = availableHeight - totalWrapperHeights;
+        yPos = verticalSpaceForColumn;
       } else if (verticalContentAlignment === VerticalContentAlignment.Middle) {
         // add half of the unused vertical space
-        yPos = (availableHeight - totalWrapperHeights) / 2;
+        yPos = verticalSpaceForColumn / 2;
       }
 
       let addVSpacing: boolean = false;

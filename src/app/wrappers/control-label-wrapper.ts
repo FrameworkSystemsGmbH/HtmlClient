@@ -14,8 +14,4 @@ export class ControlLabelWrapper extends BaseWrapper implements LayoutableContro
 
   }
 
-  public updateComponent(): void {
-
-  }
-
 }

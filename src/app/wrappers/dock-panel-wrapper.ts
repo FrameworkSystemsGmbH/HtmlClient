@@ -25,15 +25,8 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockC
   }
 
   public getDockOrientation(): DockOrientation {
-    return this.propertyStore.getDockOrientation();
-  }
-
-  public getContentAlignmentHorizontal(): HorizontalContentAlignment {
-    return this.propertyStore.getHorizontalContentAlignment();
-  }
-
-  public getContentAlignmentVertical(): VerticalContentAlignment {
-    return this.propertyStore.getVerticalContentAlignment();
+    let dockOrientation: DockOrientation = this.propertyStore.getDockOrientation();
+    return dockOrientation != null ? dockOrientation : DockOrientation.Vertical;
   }
 
   public createComponent(container: ContainerWrapper): void {

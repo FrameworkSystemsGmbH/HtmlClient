@@ -263,8 +263,8 @@ export class DockLayout extends LayoutContainerBase {
   public arrange(): void {
     let container: DockContainer = this.getControl();
 
-    let containerWidth: number = container.getLayoutableProperties().getWidth();
-    let containerHeight: number = container.getLayoutableProperties().getHeight();
+    let containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
+    let containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
     // Consistency check
     if (containerWidth !== this.width) {

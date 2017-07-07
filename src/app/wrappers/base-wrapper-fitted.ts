@@ -1,7 +1,6 @@
 import { Injector } from '@angular/core';
 
 import { LayoutBase } from '../layout';
-import { FittedLayout } from '../layout/fitted-layout';
 import { BaseWrapper, FormWrapper, ContainerWrapper } from '.';
 import { FontService } from '../services/font.service';
 
@@ -21,8 +20,12 @@ export abstract class BaseWrapperFitted extends BaseWrapper {
     this.fontService = appInjector.get(FontService);
   }
 
-  protected createLayout(): LayoutBase {
-    return new FittedLayout(this);
+  public getMinWidth(): number {
+    return this.isMinWidthSet() ? super.getMinWidth() : this.fittedWidth;
+  }
+
+  public getMinHeight(): number {
+    return this.isMinHeightSet() ? super.getMinHeight() : this.fittedHeight;
   }
 
   public setJson(json: any, isNew: boolean): void {
@@ -31,36 +34,26 @@ export abstract class BaseWrapperFitted extends BaseWrapper {
     this.updateFittedHeight();
   }
 
-  public isMinWidthSet(): boolean {
-    return this.getMinWidth() != null;
-  }
-
-  public isMinHeightSet(): boolean {
-    return this.getMinHeight() != null;
-  }
-
-  public getFittedWidth(): number {
-    return this.fittedWidth;
-  }
-
-  public setFittedWidth(fittedWidth): void {
-    this.fittedWidth = fittedWidth;
-  }
-
-  public getFittedHeight(): number {
-    return this.fittedHeight;
-  }
-
-  public setFittedHeight(fittedHeight: number): void {
-    this.fittedHeight = fittedHeight;
-  }
-
-  public updateFittedWidth(): void {
-    this.setFittedWidth(null);
-  }
+  public abstract updateFittedWidth(): void;
 
   public updateFittedHeight(): void {
-    this.setFittedHeight(this.getBorderThicknessTop() + this.getPaddingTop() + this.getFontSize() + this.getPaddingBottom() + this.getBorderThicknessBottom());
+    this.setFittedContentHeight(this.getFontSize());
+  }
+
+  protected setFittedContentWidth(fittedWidth): void {
+    if (!fittedWidth || fittedWidth <= 0) {
+      this.fittedWidth = null;
+    } else {
+      this.fittedWidth = this.getBorderThicknessLeft() + this.getPaddingLeft() + fittedWidth + this.getPaddingRight() + this.getBorderThicknessRight();
+    }
+  }
+
+  protected setFittedContentHeight(fittedHeight: number): void {
+    if (!fittedHeight || fittedHeight <= 0) {
+      this.fittedHeight = null;
+    } else {
+      this.fittedHeight = this.getBorderThicknessTop() + this.getPaddingTop() + fittedHeight + this.getPaddingBottom() + this.getBorderThicknessBottom();
+    }
   }
 
 }

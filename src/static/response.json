@@ -1,6 +1,6 @@
 {
   "meta": {
-    "token": "9fe2f5d1fff34b8785d751ed8b142942",
+    "token": "43ff19e6fc4e485bb0812a2a8f005f9e",
     "requCounter": 1
   },
   "start": {
@@ -1539,9 +1539,6 @@
         "frameId": 2,
         "orgFrameId": 2
       },
-      "data": {
-        "title": "Test"
-      },
       "controls": [
         {
           "meta": {
@@ -1605,8 +1602,16 @@
             "style": "DockPanel"
           },
           "properties": {
+            "backColor": "#D3D3D3",
             "borderColor": "#000000",
-            "borderThicknessBottom": 3,
+            "borderThicknessBottom": 1,
+            "borderThicknessLeft": 1,
+            "borderThicknessRight": 1,
+            "borderThicknessTop": 1,
+            "marginBottom": 10,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "marginTop": 10,
             "dockPanelOrientation": 1
           }
         },
@@ -1718,16 +1723,13 @@
             "paddingLeft": 10,
             "paddingRight": 10,
             "paddingTop": 10,
-            "marginBottom": 10,
+            "marginBottom": 0,
             "marginLeft": 10,
             "marginRight": 10,
-            "marginTop": 10,
+            "marginTop": 0,
             "invertFlowDirection": false,
             "spacingHorizontal": 5,
-            "spacingVertical": 5,
-            "wrapArrangement": 1,
-            "horizontalContentAlignment": 0,
-            "verticalContentAlignment": 0
+            "spacingVertical": 5
           }
         },
         {
@@ -1744,17 +1746,6 @@
             "paddingLeft": 3,
             "paddingRight": 3,
             "paddingTop": 3,
-            "caption": "One"
-          }
-        },
-        {
-          "meta": {
-            "name": "btnOne",
-            "parentName": "wpnContainer",
-            "typeId": 1,
-            "style": "ButtonDefault"
-          },
-          "properties": {
             "caption": "One"
           }
         },
@@ -1777,17 +1768,6 @@
         },
         {
           "meta": {
-            "name": "btnTwo",
-            "parentName": "wpnContainer",
-            "typeId": 1,
-            "style": "ButtonDefault"
-          },
-          "properties": {
-            "caption": "Two"
-          }
-        },
-        {
-          "meta": {
             "name": "lblThree",
             "parentName": "wpnContainer",
             "typeId": 5,
@@ -1800,17 +1780,6 @@
             "paddingLeft": 3,
             "paddingRight": 3,
             "paddingTop": 3,
-            "caption": "Three"
-          }
-        },
-        {
-          "meta": {
-            "name": "btnThree",
-            "parentName": "wpnContainer",
-            "typeId": 1,
-            "style": "ButtonDefault"
-          },
-          "properties": {
             "caption": "Three"
           }
         },
@@ -1835,17 +1804,6 @@
         },
         {
           "meta": {
-            "name": "btnFour",
-            "parentName": "wpnContainer",
-            "typeId": 1,
-            "style": "ButtonDefault"
-          },
-          "properties": {
-            "caption": "Four"
-          }
-        },
-        {
-          "meta": {
             "name": "lblFive",
             "parentName": "wpnContainer",
             "typeId": 5,
@@ -1865,17 +1823,6 @@
         },
         {
           "meta": {
-            "name": "btnFive",
-            "parentName": "wpnContainer",
-            "typeId": 1,
-            "style": "ButtonDefault"
-          },
-          "properties": {
-            "caption": "Five"
-          }
-        },
-        {
-          "meta": {
             "name": "lblSix",
             "parentName": "wpnContainer",
             "typeId": 5,
@@ -1889,17 +1836,6 @@
             "paddingRight": 3,
             "paddingTop": 3,
             "minWidth": 60,
-            "caption": "Six"
-          }
-        },
-        {
-          "meta": {
-            "name": "btnSix",
-            "parentName": "wpnContainer",
-            "typeId": 1,
-            "style": "ButtonDefault"
-          },
-          "properties": {
             "caption": "Six"
           }
         },
@@ -1924,6 +1860,72 @@
         },
         {
           "meta": {
+            "name": "btnOne",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "One"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnTwo",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Two"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnThree",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Three"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnFour",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Four"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnFive",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Five"
+          }
+        },
+        {
+          "meta": {
+            "name": "btnSix",
+            "parentName": "wpnContainer",
+            "typeId": 1,
+            "style": "ButtonDefault"
+          },
+          "properties": {
+            "caption": "Six"
+          }
+        },
+        {
+          "meta": {
             "name": "btnSeven",
             "parentName": "wpnContainer",
             "typeId": 1,
@@ -1935,14 +1937,99 @@
         },
         {
           "meta": {
+            "name": "edtOne",
+            "parentName": "wpnContainer",
+            "typeId": 2,
+            "style": "Editfield"
+          },
+          "properties": {
+            "tooltipText": "",
+            "dataSourceTypeID": 1,
+            "maxSize": 255,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 0,
+            "paddingBottom": 3,
+            "paddingLeft": 3,
+            "paddingRight": 3,
+            "paddingTop": 3,
+            "caption": "TextOne",
+            "textAlign": 0,
+            "displayMaxLines": 1,
+            "displayMinLines": 1,
+            "displayMaxLength": 255,
+            "displayMinLength": 15
+          }
+        },
+        {
+          "meta": {
+            "name": "edtTwo",
+            "parentName": "wpnContainer",
+            "typeId": 2,
+            "style": "Editfield"
+          },
+          "properties": {
+            "tooltipText": "",
+            "dataSourceTypeID": 8,
+            "maxPrec": 18,
+            "maxScale": 4,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 0,
+            "paddingBottom": 3,
+            "paddingLeft": 3,
+            "paddingRight": 3,
+            "paddingTop": 3,
+            "caption": "TextTwo",
+            "textAlign": 2,
+            "displayMaxLines": 1,
+            "displayMinLines": 1,
+            "displayMaxLength": 18,
+            "displayMinLength": 10,
+            "format": 11
+          }
+        },
+        {
+          "meta": {
+            "name": "edtThree",
+            "parentName": "wpnContainer",
+            "typeId": 2,
+            "style": "Editfield"
+          },
+          "properties": {
+            "tooltipText": "",
+            "dataSourceTypeID": 6,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 0,
+            "paddingBottom": 3,
+            "paddingLeft": 3,
+            "paddingRight": 3,
+            "paddingTop": 3,
+            "caption": "TextThree",
+            "textAlign": 0,
+            "displayMaxLines": 1,
+            "displayMinLines": 1,
+            "displayMaxLength": 0,
+            "displayMinLength": 0,
+            "format": 2
+          }
+        },
+        {
+          "meta": {
             "name": "dpnFooter",
             "parentName": "dpnForm",
             "typeId": 29,
             "style": "DockPanel"
           },
           "properties": {
+            "backColor": "#D3D3D3",
             "borderColor": "#000000",
-            "borderThicknessTop": 3,
+            "borderThicknessBottom": 1,
+            "borderThicknessLeft": 1,
+            "borderThicknessRight": 1,
+            "borderThicknessTop": 1,
+            "marginBottom": 10,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "marginTop": 10,
             "dockPanelOrientation": 1
           }
         },

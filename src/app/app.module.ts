@@ -5,13 +5,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule, NG_VALIDATORS } from '@angular/forms';
 import { RouterModule, } from '@angular/router';
 
+import { jqxInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxinput';
+import { jqxNumberInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxnumberinput';
+import { jqxDateTimeInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxdatetimeinput';
+
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ViewerComponent } from './components/viewer/viewer.component';
 import { FrameComponent } from './components/frame/frame.component';
-import { ButtonComponent, DockPanelComponent, FormComponent, LabelComponent, TextBoxComponent, WrapPanelComponent, VariantComponent } from './controls';
 import { MediaQueryDirective, MouseWheelDirective } from './directives';
 import { ResponseFormDto } from './communication/response';
 import { FormWrapper } from './wrappers';
@@ -32,16 +35,34 @@ import { RoutingService } from './services/routing.service';
 import { TitleService } from './services/title.service';
 import { WindowRefService } from './services/windowref.service';
 
+import {
+  ButtonComponent,
+  DockPanelComponent,
+  FormComponent,
+  LabelComponent,
+  TextBoxDateTimeComponent,
+  TextBoxNumberComponent,
+  TextBoxPlainComponent,
+  WrapPanelComponent,
+  VariantComponent
+} from './controls';
+
 @NgModule({
   entryComponents: [
     LabelComponent,
     ButtonComponent,
     DockPanelComponent,
     FormComponent,
+    TextBoxDateTimeComponent,
+    TextBoxNumberComponent,
+    TextBoxPlainComponent,
     VariantComponent,
     WrapPanelComponent
   ],
   declarations: [
+    jqxInputComponent,
+    jqxNumberInputComponent,
+    jqxDateTimeInputComponent,
     AppComponent,
     NavbarComponent,
     ViewerComponent,
@@ -51,7 +72,9 @@ import { WindowRefService } from './services/windowref.service';
     FormComponent,
     LabelComponent,
     LoginComponent,
-    TextBoxComponent,
+    TextBoxDateTimeComponent,
+    TextBoxNumberComponent,
+    TextBoxPlainComponent,
     VariantComponent,
     WrapPanelComponent,
     MediaQueryDirective,
