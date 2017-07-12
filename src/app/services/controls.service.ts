@@ -23,6 +23,8 @@ import { ControlStyleService } from './control-style.service';
 @Injectable()
 export class ControlsService {
 
+  private scrollBarWidth: number;
+
   constructor(
     private appInjector: Injector,
     private controlStyleService: ControlStyleService
@@ -92,5 +94,17 @@ export class ControlsService {
     }
 
     return propertyStore;
+  }
+
+  public getScrollBarWidth(): number {
+    if (this.scrollBarWidth == null) {
+      let div: HTMLDivElement = document.createElement('div');
+      div.className = 'scrollbar-measure';
+      document.body.appendChild(div);
+      this.scrollBarWidth = div.offsetWidth - div.clientWidth;
+      document.body.removeChild(div);
+    }
+
+    return this.scrollBarWidth;
   }
 }

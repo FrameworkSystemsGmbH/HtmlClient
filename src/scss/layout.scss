@@ -6,3 +6,9 @@ html, body {
 #wrapper {
   height: 100%;
 }
+
+.scrollbar-measure {
+  width: 100px;
+  height: 100px;
+  overflow: scroll;
+}

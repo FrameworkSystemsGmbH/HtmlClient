@@ -9,6 +9,9 @@ export class LayoutablePropertiesDefault implements LayoutableProperties {
   private x: number;
   private y: number;
 
+  private hBarNeeded: boolean;
+  private vBarNeeded: boolean;
+
   constructor(private wrapper: BaseWrapper) { }
 
   // This is the width that gets used in the CSS for the HTML control.
@@ -57,6 +60,22 @@ export class LayoutablePropertiesDefault implements LayoutableProperties {
 
   public setY(y: number): void {
     this.y = y;
+  }
+
+  public getHBarNeeded(): boolean {
+    return this.hBarNeeded;
+  }
+
+  public setHBarNeeded(needed: boolean): void {
+    this.hBarNeeded = needed;
+  }
+
+  public getVBarNeeded(): boolean {
+    return this.vBarNeeded;
+  }
+
+  public setVBarNeeded(needed: boolean): void {
+    this.vBarNeeded = needed;
   }
 
 }

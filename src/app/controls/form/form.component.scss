@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-.hc-form {
+.hc-form-scroller {
+  position: relative;
   flex: 1;
-  overflow: auto;
 }

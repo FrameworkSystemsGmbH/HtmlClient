@@ -2,6 +2,7 @@ import { Component, ViewChild, ViewContainerRef, ElementRef } from '@angular/cor
 
 import { ContainerComponent } from '..';
 import { FormWrapper } from '../../wrappers';
+import { LayoutableProperties } from '../../layout';
 
 @Component({
   selector: 'hc-form',
@@ -10,26 +11,45 @@ import { FormWrapper } from '../../wrappers';
 })
 export class FormComponent extends ContainerComponent {
 
-  @ViewChild('container', { read: ElementRef }) container: ElementRef;
+  @ViewChild('scroller', { read: ElementRef }) scroller: ElementRef;
   @ViewChild('anchor', { read: ViewContainerRef }) anchor: ViewContainerRef;
+
+  constructor(private elRef: ElementRef) {
+    super();
+  }
 
   public getWrapper(): FormWrapper {
     return super.getWrapper() as FormWrapper;
   }
 
   public getContainter(): ElementRef {
-    return this.container;
+    return this.elRef;
   }
 
   public getViewContainerRef(): ViewContainerRef {
     return this.anchor;
   }
 
-  public getStyles(): any {
+  public getScrollerStyles(): any {
     let wrapper: FormWrapper = this.getWrapper();
+    let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
 
     let styles: any = {
-      'backgroundColor': wrapper.getBackColor()
+      'overflow-x': layoutableProperties.getHBarNeeded() ? 'scroll' : 'hidden',
+      'overflow-y': layoutableProperties.getVBarNeeded() ? 'scroll' : 'hidden'
+    }
+
+    return styles;
+  }
+
+  public getContentStyles(): any {
+    let wrapper: FormWrapper = this.getWrapper();
+    let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
+
+    let styles: any = {
+      'backgroundColor': wrapper.getBackColor(),
+      'width.px': layoutableProperties.getLayoutWidth(),
+      'height.px': layoutableProperties.getLayoutHeight()
     }
 
     return styles;

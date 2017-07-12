@@ -1,3 +1,5 @@
-<div #container class="hc-form" [ngStyle]="getStyles()">
-  <ng-template #anchor></ng-template>
+<div #scroller class="hc-form-scroller" [ngStyle]="getScrollerStyles()">
+  <div class="hc-form-content" [ngStyle]="getContentStyles()">
+    <ng-template #anchor></ng-template>
+  </div>
 </div>
