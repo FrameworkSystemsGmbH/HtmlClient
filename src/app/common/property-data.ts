@@ -14,6 +14,7 @@ import {
 import { FsSize } from '.';
 import { DockOrientation } from '../layout/dock-layout';
 import { WrapArrangement } from '../layout/wrap-layout';
+import { DataSourceType } from "../enums/datasource-type";
 
 export class PropertyData {
 
@@ -92,6 +93,7 @@ export class PropertyData {
 
   public caption: string;
   public captionAlign: ContentAlignment;
+  public dataSourceTypeID: DataSourceType;
   public dockPanel_ItemSize: number;
   public dockPanelOrientation: DockOrientation;
   public editorStyle: number;

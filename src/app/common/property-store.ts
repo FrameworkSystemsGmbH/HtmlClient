@@ -3,6 +3,7 @@ import { PropertyLayer } from './property-layer';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment, ContentAlignment, TextAlign, TextFormat } from '../enums';
 import { DockOrientation } from '../layout/dock-layout';
 import { WrapArrangement } from '../layout/wrap-layout';
+import { DataSourceType } from '../enums';
 
 export class PropertyStore {
 
@@ -525,6 +526,19 @@ export class PropertyStore {
     this.setValue<ContentAlignment>(layer, (data: PropertyData) => { data.captionAlign = value });
   }
 
+  // DataSourceType
+  public getDataSourceType(): DataSourceType {
+    return this.getValue<DataSourceType>((data: PropertyData) => { return data.dataSourceTypeID });
+  }
+
+  public getDataSourceTypeForLayer(layer: PropertyLayer): DataSourceType {
+    return this.getValueForLayer<DataSourceType>(layer, (data: PropertyData) => { return data.dataSourceTypeID });
+  }
+
+  public setDataSourceType(layer: PropertyLayer, value: DataSourceType): void {
+    this.setValue<DataSourceType>(layer, (data: PropertyData) => { data.dataSourceTypeID = value });
+  }
+
   // DockItemSize
   public getDockItemSize(): number {
     return this.getValue<number>((data: PropertyData) => { return data.dockPanel_ItemSize });
@@ -627,6 +641,19 @@ export class PropertyStore {
 
   public setMaxScale(layer: PropertyLayer, value: number): void {
     this.setValue<number>(layer, (data: PropertyData) => { data.maxScale = value });
+  }
+
+  // IsMultiline
+  public getIsMultiline(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => { return data.multiline });
+  }
+
+  public getIsMultilineForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => { return data.multiline });
+  }
+
+  public setIsMultiline(layer: PropertyLayer, value: boolean): void {
+    this.setValue<boolean>(layer, (data: PropertyData) => { data.multiline = value });
   }
 
   // MaxPrec

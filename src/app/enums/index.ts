@@ -3,6 +3,7 @@ export * from './control-action';
 export * from './control-event';
 export * from './control-type';
 export * from './control-visibility';
+export * from './datasource-type';
 export * from './horizontal-alignment';
 export * from './horizontal-content-alignment';
 export * from './picture-scale-mode';
