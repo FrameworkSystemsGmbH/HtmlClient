@@ -14,4 +14,8 @@ export class ControlStyleService {
     return this.controlStyles.get(key);
   }
 
+  public getBaseControlStyle(): PropertyData {
+    return this.controlStyles.get('BaseControl');
+  }
+
 }

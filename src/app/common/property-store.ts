@@ -45,6 +45,45 @@ export class PropertyStore {
     this.store.set(layer, data);
   }
 
+  // MeasureText
+  public getMeasureText(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.measureText });
+  }
+
+  public getMeasureTextForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.measureText });
+  }
+
+  public setMeasureText(layer: PropertyLayer, value: string): void {
+    this.setValue<string>(layer, (data: PropertyData) => { data.measureText = value });
+  }
+
+  // MinWidthRaster
+  public getMinWidthRaster(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.minWidthRaster });
+  }
+
+  public getMinWidthRasterForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.minWidthRaster });
+  }
+
+  public setMinWidthRaster(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.minWidthRaster = value });
+  }
+
+  // MaxWidthRaster
+  public getMaxWidthRaster(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.maxWidthRaster });
+  }
+
+  public getMaxWidthRasterForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.maxWidthRaster });
+  }
+
+  public setMaxWidthRaster(layer: PropertyLayer, value: number): void {
+    this.setValue<number>(layer, (data: PropertyData) => { data.maxWidthRaster = value });
+  }
+
   // ForeColor
   public getForeColor(): string {
     return this.getValue<string>((data: PropertyData) => { return data.foreColor });

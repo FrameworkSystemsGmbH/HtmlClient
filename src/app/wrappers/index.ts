@@ -1,5 +1,6 @@
 export * from './base-wrapper';
 export * from './base-wrapper-fitted';
+export * from './base-wrapper-fitted-data';
 export * from './button-wrapper';
 export * from './container-wrapper';
 export * from './container-wrapper-spaceable';

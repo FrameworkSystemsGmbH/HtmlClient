@@ -26,8 +26,11 @@ export class FormWrapper extends ContainerWrapper {
     let availableWidth: number = container.nativeElement.clientWidth;
     let availableHeight: number = container.nativeElement.clientHeight;
 
+    // Get the absolute minimum width of the form
     let minWidth: number = this.getMinLayoutWidth();
-    let minHeight: number = this.getMinLayoutHeight(minWidth);
+
+    // Get the minimum height depending on the available width but don't deceed the minimum width
+    let minHeight: number = this.getMinLayoutHeight(Math.max(minWidth, availableWidth));
 
     let resultWidth: number;
     let resultHeight: number;

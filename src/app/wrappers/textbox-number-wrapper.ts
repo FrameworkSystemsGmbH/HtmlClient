@@ -9,24 +9,6 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
   protected value: string;
   protected orgValue: string;
 
-  public getMaxScale(): number {
-    let maxScale: number = this.propertyStore.getMaxScale();
-    return maxScale != null ? maxScale : 2;
-  }
-
-  public getMaxPrec(): number {
-    let maxPrec: number = this.propertyStore.getMaxPrec();
-    return maxPrec != null ? maxPrec : 18;
-  }
-
-  public getMinWidth(): number {
-    return 120;
-  }
-
-  public getMinHeight(): number {
-    return 20;
-  }
-
   public getValue(): string {
     return this.value;
   }

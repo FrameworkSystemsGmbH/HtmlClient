@@ -9,14 +9,6 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
   protected value: number;
   protected orgValue: number;
 
-  public getMinWidth(): number {
-    return 120;
-  }
-
-  public getMinHeight(): number {
-    return 20;
-  }
-
   public getValue(): number {
     return this.value;
   }

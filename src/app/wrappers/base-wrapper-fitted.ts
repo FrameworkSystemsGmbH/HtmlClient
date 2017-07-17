@@ -41,7 +41,7 @@ export abstract class BaseWrapperFitted extends BaseWrapper {
   }
 
   protected setFittedContentWidth(fittedWidth): void {
-    if (!fittedWidth || fittedWidth <= 0) {
+    if (fittedWidth == null || fittedWidth <= 0) {
       this.fittedWidth = null;
     } else {
       this.fittedWidth = this.getBorderThicknessLeft() + this.getPaddingLeft() + fittedWidth + this.getPaddingRight() + this.getBorderThicknessRight();
@@ -49,7 +49,7 @@ export abstract class BaseWrapperFitted extends BaseWrapper {
   }
 
   protected setFittedContentHeight(fittedHeight: number): void {
-    if (!fittedHeight || fittedHeight <= 0) {
+    if (fittedHeight == null || fittedHeight <= 0) {
       this.fittedHeight = null;
     } else {
       this.fittedHeight = this.getBorderThicknessTop() + this.getPaddingTop() + fittedHeight + this.getPaddingBottom() + this.getBorderThicknessBottom();

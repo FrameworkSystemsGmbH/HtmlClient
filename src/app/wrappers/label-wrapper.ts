@@ -34,6 +34,6 @@ export class LabelWrapper extends BaseWrapperFitted {
   }
 
   public updateFittedWidth(): void {
-    this.setFittedContentWidth(this.fontService.measureWidth(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
+    this.setFittedContentWidth(this.fontService.measureText(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
   }
 }

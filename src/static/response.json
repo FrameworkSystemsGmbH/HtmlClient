@@ -1989,31 +1989,6 @@
         },
         {
           "meta": {
-            "name": "edtThree",
-            "parentName": "wpnContainer",
-            "typeId": 2,
-            "style": "Editfield"
-          },
-          "properties": {
-            "tooltipText": "",
-            "dataSourceTypeID": 6,
-            "alignmentHorizontal": 0,
-            "alignmentVertical": 0,
-            "paddingBottom": 3,
-            "paddingLeft": 3,
-            "paddingRight": 3,
-            "paddingTop": 3,
-            "caption": "TextThree",
-            "textAlign": 0,
-            "displayMaxLines": 1,
-            "displayMinLines": 1,
-            "displayMaxLength": 0,
-            "displayMinLength": 0,
-            "format": 2
-          }
-        },
-        {
-          "meta": {
             "name": "dpnFooter",
             "parentName": "dpnForm",
             "typeId": 29,

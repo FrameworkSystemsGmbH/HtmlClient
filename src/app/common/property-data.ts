@@ -14,9 +14,13 @@ import {
 import { FsSize } from '.';
 import { DockOrientation } from '../layout/dock-layout';
 import { WrapArrangement } from '../layout/wrap-layout';
-import { DataSourceType } from "../enums/datasource-type";
+import { DataSourceType } from '../enums/datasource-type';
 
 export class PropertyData {
+
+  public measureText: string;
+  public minWidthRaster: number;
+  public maxWidthRaster: number;
 
   public foreColor: string
   public backColor: string;

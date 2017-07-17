@@ -9,14 +9,6 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   protected value: string;
   protected orgValue: string;
 
-  public getMinWidth(): number {
-    return 120;
-  }
-
-  public getMinHeight(): number {
-    return 20;
-  }
-
   public getValue(): string {
     return this.value;
   }

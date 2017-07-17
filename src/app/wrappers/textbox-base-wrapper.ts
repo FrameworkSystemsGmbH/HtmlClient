@@ -1,8 +1,8 @@
-import { BaseWrapper } from '.';
+import { BaseWrapperFittedData } from '.';
 import { TextBoxPlainComponent } from '../controls';
 import { ControlEvent, TextAlign, TextFormat } from '../enums';
 
-export abstract class TextBoxBaseWrapper extends BaseWrapper {
+export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
 
   protected events: ControlEvent;
 
@@ -21,6 +21,16 @@ export abstract class TextBoxBaseWrapper extends BaseWrapper {
     return textAlign != null ? textAlign : TextAlign.Center;
   }
 
+  public getMaxScale(): number {
+    let maxScale: number = this.propertyStore.getMaxScale();
+    return maxScale != null ? maxScale : 2;
+  }
+
+  public getMaxPrec(): number {
+    let maxPrec: number = this.propertyStore.getMaxPrec();
+    return maxPrec != null ? maxPrec : 18;
+  }
+
   public getFormat(): TextFormat {
     let textFormat: TextFormat = this.propertyStore.getFormat();
     return textFormat != null ? textFormat : TextFormat.None;
@@ -29,6 +39,22 @@ export abstract class TextBoxBaseWrapper extends BaseWrapper {
   public getFormatPattern(): string {
     let formatPattern: string = this.propertyStore.getFormatPattern();
     return formatPattern != null ? formatPattern : null;
+  }
+
+  protected getDataMinWidth(): number {
+    return this.fontService.getDataMinWidthTextBox(this);
+  }
+
+  protected getDataMaxWidth() {
+    return this.fontService.getDataMaxWidthTextBox(this);
+  }
+
+  protected getDataMinHeight() {
+    return this.fontService.getDataMinHeightTextBox(this);
+  }
+
+  protected getDataMaxHeight() {
+    return this.fontService.getDataMaxHeightTextBox(this);
   }
 
   public formatValue(): void {
@@ -80,6 +106,10 @@ export abstract class TextBoxBaseWrapper extends BaseWrapper {
     if (eventsJson.leave) {
       this.events &= ControlEvent.Leave;
     }
+  }
+
+  public updateFittedWidth(): void {
+    this.setFittedContentWidth(null);
   }
 
 }
