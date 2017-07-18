@@ -1,6 +1,6 @@
 {
   "meta": {
-    "token": "43ff19e6fc4e485bb0812a2a8f005f9e",
+    "token": "b4dc2f511f97468c8ac87c8f77f326c0",
     "requCounter": 1
   },
   "start": {
@@ -1213,7 +1213,7 @@
       {
         "name": "BaseControl",
         "properties": {
-          "measureText": "This is a test string",
+          "measureText": "Das ist ein Test String",
           "minWidthRaster": 25,
           "maxWidthRaster": 50
         }
@@ -1958,6 +1958,12 @@
             "displayMinLines": 1,
             "displayMaxLength": 255,
             "displayMinLength": 15
+          },
+          "data": {
+            "text": {
+              "type": 1,
+              "value": ""
+            }
           }
         },
         {
@@ -1984,7 +1990,13 @@
             "displayMinLines": 1,
             "displayMaxLength": 18,
             "displayMinLength": 10,
-            "format": 11
+            "format": 10
+          },
+          "data": {
+            "text": {
+              "type": 8,
+              "value": ""
+            }
           }
         },
         {

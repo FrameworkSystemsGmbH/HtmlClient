@@ -51,17 +51,17 @@ export class FontService {
     return this.baseControlStyle.getMaxWidthRaster();
   }
 
-  private getMeasuredWidth(wrapper: BaseWrapperFittedData, type: DataSourceType, lenght: number, scale: number,
+  private getMeasuredWidth(wrapper: BaseWrapperFittedData, type: DataSourceType, length: number, scale: number,
     format: TextFormat, formatPattern: string, raster: number): number {
     switch (type) {
       case DataSourceType.String:
-        return this.getStringWidthRastered(wrapper, lenght, format, raster);
+        return this.getStringWidthRastered(wrapper, length, format, raster);
       case DataSourceType.DateTime:
         return this.getDateTimeWidthRastered(wrapper, format, formatPattern, raster);
       case DataSourceType.None:
         return 0;
       default:
-        return this.getNumberWidthRastered(wrapper, type, scale, lenght, format, formatPattern, raster);
+        return this.getNumberWidthRastered(wrapper, type, scale, length, format, formatPattern, raster);
     }
   }
 
@@ -82,7 +82,7 @@ export class FontService {
     if (raster == null) {
       return value;
     } else {
-      let rasterPos: number = (value / raster);
+      let rasterPos: number = Math.round(value / raster);
 
       if (rasterPos * raster === value) {
         return value;
@@ -104,8 +104,12 @@ export class FontService {
       let fontBold: boolean = wrapper.getFontBold();
       let fontItalic: boolean = wrapper.getFontItalic();
 
-      for (let i = 0; i <= 9; i++) {
-        let digitWidth: number = this.measureText(i.toString(), fontFamily, fontSize, fontBold, fontItalic);
+      for (let i = 9; i >= 0; i--) {
+        let digitStr: string = i.toString();
+        // Measure 3 of the same digits behind each other because of a weird measuring behavior:
+        // '1' is the same width as '6' but '111' is not as wide as '666' -> WTF?
+        let measureText: string = digitStr + digitStr + digitStr;
+        let digitWidth: number = this.measureText(measureText, fontFamily, fontSize, fontBold, fontItalic) / 3;
         if (digitWidth > maxDigitWidth || digitWidth === maxDigitWidth && digit === 0) {
           digit = i;
           maxDigitWidth = digitWidth;
@@ -249,39 +253,41 @@ export class FontService {
     precision: number, format: TextFormat, formatPattern: string): number {
 
     let maxWidthDigit: number = this.getMaxWidthDigit(wrapper);
-    let value: any;
+    let value: string = String.empty();
 
     switch (type) {
       case DataSourceType.Byte:
       case DataSourceType.Int:
       case DataSourceType.Long:
       case DataSourceType.Short:
-        let lngValue: number = maxWidthDigit === 0 ? -9 : -maxWidthDigit;
+        let intValue: number = maxWidthDigit === 0 ? -9 : -maxWidthDigit;
         for (let i = 1; i < precision - scale; i++) {
-          lngValue = lngValue * 10 - maxWidthDigit;
+          intValue = intValue * 10 - maxWidthDigit;
         }
-        value = lngValue;
+        value += intValue;
         break;
 
       default:
-        let dblValue: number = maxWidthDigit === 0 ? -9.0 : maxWidthDigit * -1.0;
+        let digits: number = maxWidthDigit === 0 ? -9 : maxWidthDigit * -1;
         for (let i = 1; i < precision - scale; i++) {
-          dblValue = dblValue * 10.0 - maxWidthDigit;
+          digits = digits * 10 - maxWidthDigit;
         }
+
+        value += digits + '.';
 
         if (scale > 0) {
-          let scaleValue: number = maxWidthDigit === 0 ? 9 : maxWidthDigit;
+          let decimals: number = maxWidthDigit === 0 ? 9 : maxWidthDigit;
           for (let i = 1; i < scale; i++) {
-            scaleValue = scaleValue * 10 + maxWidthDigit;
+            decimals = decimals * 10 + maxWidthDigit;
           }
-          dblValue = dblValue - (scaleValue / 10 ^ scale);
+          value += decimals;
+        } else {
+          value += maxWidthDigit;
         }
-
-        value = dblValue;
         break;
     }
 
-    let measureString: string = value.toString();
+    let measureString: string = value;
     // #warning String measureString = FrameworkFormatMask.ToFormattedString(value, format, formatPattern, scale, type);
 
     let fontFamily: string = wrapper.getFontFamily();
