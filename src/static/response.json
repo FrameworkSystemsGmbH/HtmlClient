@@ -1,6 +1,6 @@
 {
   "meta": {
-    "token": "b4dc2f511f97468c8ac87c8f77f326c0",
+    "token": "d568073fa6cf40378ed8089d8b96d6dd",
     "requCounter": 1
   },
   "start": {
@@ -1867,7 +1867,10 @@
           },
           "properties": {
             "caption": "One"
-          }
+          },
+          "events": [
+            "OnClick"
+          ]
         },
         {
           "meta": {
@@ -1959,6 +1962,10 @@
             "displayMaxLength": 255,
             "displayMinLength": 15
           },
+          "events": [
+            "OnEnter",
+            "OnLeave"
+          ],
           "data": {
             "text": {
               "type": 1,
