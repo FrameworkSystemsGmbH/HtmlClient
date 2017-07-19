@@ -17,6 +17,10 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
     this.value = value;
   }
 
+  public formatValue(): void {
+
+  }
+
   protected getValueJson(): string {
     return this.getValue().toString();
   }
@@ -41,8 +45,11 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<TextBoxNumberComponent> = cfr.resolveComponentFactory(TextBoxNumberComponent);
     let comp: ComponentRef<TextBoxNumberComponent> = container.getViewContainerRef().createComponent(factory);
+    let instance: TextBoxNumberComponent = comp.instance;
+
     this.setComponentRef(comp);
-    comp.instance.setWrapper(this);
+    instance.setWrapper(this);
+    this.attachEvents(instance);
   }
 
 }

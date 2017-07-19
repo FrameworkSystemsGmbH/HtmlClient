@@ -33,8 +33,11 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockC
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<DockPanelComponent> = cfr.resolveComponentFactory(DockPanelComponent);
     let comp: ComponentRef<DockPanelComponent> = container.getViewContainerRef().createComponent(factory);
+    let instance: DockPanelComponent = comp.instance;
+
     this.setComponentRef(comp);
-    comp.instance.setWrapper(this);
+    instance.setWrapper(this);
+    this.attachEvents(instance);
   }
 
 }

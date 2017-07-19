@@ -69,30 +69,19 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
     // Noop
   }
 
-  // public getDto(): any {
-  //   let controlsJson: any = [];
+  public getControlsJson(controlsJson: Array<any>): void {
+    this.controls.forEach((controlWrp: BaseWrapper) => {
+      let controlJson: any = controlWrp.getJson();
 
-  //   this.controls.forEach((controlWrp: BaseWrapper) => {
-  //     let controlJson: any = controlWrp.getJson();
+      if (controlJson && !JsonUtil.isEmptyObject(controlJson)) {
+        controlsJson.push(controlJson);
+      }
 
-  //     if (controlJson && !JsonUtil.isEmptyObject(controlJson)) {
-  //       controlsJson.push(controlJson);
-  //     }
-  //   });
-
-  //   if (!JsonUtil.isEmptyObject(controlsJson)) {
-  //     let containerJson: any = {
-  //       meta: {
-  //         name: this.getName()
-  //       },
-  //       controls: controlsJson
-  //     };
-
-  //     return containerJson;
-  //   }
-
-  //   return null;
-  // }
+      if (controlWrp instanceof ContainerWrapper) {
+        (<ContainerWrapper>controlWrp).getControlsJson(controlsJson);
+      }
+    });
+  }
 
   public attachComponent(container: ContainerWrapper): void {
     super.attachComponent(container);

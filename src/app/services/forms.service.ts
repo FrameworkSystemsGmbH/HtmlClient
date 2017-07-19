@@ -3,19 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { ControlType } from '../enums';
-import { ClientEventArgs } from '../common/eventargs';
 import { JsonUtil } from '../util';
-
-import {
-  BaseWrapper,
-  ButtonWrapper,
-  FormWrapper,
-  LabelWrapper,
-  TextBoxPlainWrapper
-} from '../wrappers';
-
+import { FormWrapper } from '../wrappers';
 import { ResponseFormDto } from '../communication/response';
 import { ControlsService } from './controls.service';
+import { ClientEvent } from '../common/events';
 
 @Injectable()
 export class FormsService {
@@ -53,30 +45,23 @@ export class FormsService {
     }
   }
 
-  // public getFormsJson(eventArgs?: ClientEventArgs): any {
-  //   let formsJson: any = [];
+  public getFormsJson(): any {
+    let formsJson: Array<any> = new Array<any>();
 
-  //   this.forms.forEach((formWrp: FormWrapper) => {
-  //     let formJson: any = formWrp.getJson();
+    this.forms.forEach((formWrp: FormWrapper) => {
+      let controlsJson: Array<any> = new Array<any>();
 
-  //     if (formJson && eventArgs) {
-  //       formJson.event = eventArgs.getJson();
-  //     } else if (eventArgs) {
-  //       formJson = {
-  //         meta: {
-  //           name: formWrp.getName()
-  //         },
-  //         event: eventArgs.getJson()
-  //       };
-  //     }
+      formWrp.getControlsJson(controlsJson);
 
-  //     if (formJson) {
-  //       formsJson.push(formJson);
-  //     }
-  //   });
+      if (controlsJson.length) {
+        let formJson: any = formWrp.getMetaJson();
+        formJson.controls = controlsJson;
+        formsJson.push(formJson);
+      }
+    });
 
-  //   return formsJson;
-  // }
+    return formsJson.length ? formsJson : null;
+  }
 
   public setJson(fromsJson: any) {
     for (let formJson of fromsJson) {
@@ -88,7 +73,7 @@ export class FormsService {
           this.selectedForm = formWrp;
         }
       } else {
-        let formId: number = formJson.meta.id;
+        let formId: string = formJson.meta.id;
         let formWrps: Array<FormWrapper> = this.forms.filter((formWrp: FormWrapper) => formWrp.getId() === formId);
         if (formWrps && formWrps.length) {
           let form: FormWrapper = formWrps[0];

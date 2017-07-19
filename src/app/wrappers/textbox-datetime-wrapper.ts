@@ -17,6 +17,10 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     this.value = value;
   }
 
+  public formatValue(): void {
+
+  }
+
   protected getValueJson(): string {
     return this.getValue().toString();
   }
@@ -41,8 +45,11 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<TextBoxDateTimeComponent> = cfr.resolveComponentFactory(TextBoxDateTimeComponent);
     let comp: ComponentRef<TextBoxDateTimeComponent> = container.getViewContainerRef().createComponent(factory);
+    let instance: TextBoxDateTimeComponent = comp.instance;
+
     this.setComponentRef(comp);
-    comp.instance.setWrapper(this);
+    instance.setWrapper(this);
+    this.attachEvents(instance);
   }
 
 }

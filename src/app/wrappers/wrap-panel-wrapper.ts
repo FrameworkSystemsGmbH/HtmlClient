@@ -42,8 +42,11 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapC
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<WrapPanelComponent> = cfr.resolveComponentFactory(WrapPanelComponent);
     let comp: ComponentRef<WrapPanelComponent> = container.getViewContainerRef().createComponent(factory);
+    let instance: WrapPanelComponent = comp.instance;
+
     this.setComponentRef(comp);
-    comp.instance.setWrapper(this);
+    instance.setWrapper(this);
+    this.attachEvents(instance);
   }
 
 }

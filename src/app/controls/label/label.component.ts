@@ -13,7 +13,21 @@ export class LabelComponent extends BaseComponent {
 
   @ViewChild('focus') focus: ElementRef;
 
-  @Output() onClick: EventEmitter<any> = new EventEmitter<any>();
+  public callOnEnter(event: any): void {
+    super.callOnEnter(event);
+  }
+
+  public callOnLeave(event: any): void {
+    super.callOnLeave(event);
+  }
+
+  public callOnDrag(event: any): void {
+    super.callOnDrag(event);
+  }
+
+  public callOnCanDrop(event: any): void {
+    super.callOnCanDrop(event);
+  }
 
   public getWrapper(): LabelWrapper {
     return super.getWrapper() as LabelWrapper;
@@ -61,10 +75,6 @@ export class LabelComponent extends BaseComponent {
     };
 
     return styles;
-  }
-
-  public callOnClick(event: any): void {
-    this.onClick.emit(event);
   }
 
   public setFocus(): void {

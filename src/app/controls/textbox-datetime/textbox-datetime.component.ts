@@ -1,23 +1,25 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
 import { jqxDateTimeInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxdatetimeinput';
 
-import { BaseComponent } from '..';
+import { TextBoxBaseComponent } from '../textbox-base.component';
 import { StyleUtil } from '../../util';
 import { TextBoxDateTimeWrapper } from '../../wrappers';
 import { LayoutableProperties } from '../../layout';
+import { ControlEvent } from '../../enums';
 
 @Component({
   selector: 'hc-txt-datetime',
   templateUrl: './textbox-datetime.component.html',
   styleUrls: ['./textbox-datetime.component.scss']
 })
-export class TextBoxDateTimeComponent extends BaseComponent implements AfterViewInit {
+export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('jqxDateTimeInput') jqxDateTimeInput: jqxDateTimeInputComponent;
 
-  @Output() onLeave: EventEmitter<any> = new EventEmitter<any>();
-
   private input: HTMLInputElement;
+
+  private onEnterSub: () => void;
+  private onLeaveSub: () => void;
 
   constructor(private renderer: Renderer2) {
     super();
@@ -34,18 +36,47 @@ export class TextBoxDateTimeComponent extends BaseComponent implements AfterView
   public ngAfterViewInit(): void {
     this.jqxDateTimeInput.createComponent({ width: '120px', height: '18px' });
     this.input = this.jqxDateTimeInput.widgetObject.getInstance().element;
+
+    if (this.getWrapper().getEvents() & ControlEvent.OnEnter) {
+      this.onEnterSub = this.renderer.listen(this.input, 'focusin', event => { this.callOnEnter(event); });
+    }
+
+    if (this.getWrapper().getEvents() & ControlEvent.OnLeave) {
+      this.onLeaveSub = this.renderer.listen(this.input, 'focusout', event => { this.callOnLeave(event); });
+    }
+  }
+
+  public ngOnDestroy(): void {
+    if (this.onEnterSub) {
+      this.onEnterSub();
+    }
+
+    if (this.onLeaveSub) {
+      this.onLeaveSub();
+    }
+
+    super.ngOnDestroy();
+  }
+
+  public callOnEnter(event: any): void {
+    super.callOnEnter(event);
+  }
+
+  public callOnLeave(event: any): void {
+    this.getWrapper().formatValue();
+    super.callOnLeave(event);
+  }
+
+  public callOnDrag(event: any): void {
+    super.callOnDrag(event);
+  }
+
+  public callOnCanDrop(event: any): void {
+    super.callOnCanDrop(event);
   }
 
   public getWrapper(): TextBoxDateTimeWrapper {
     return super.getWrapper() as TextBoxDateTimeWrapper;
-  }
-
-  public focusLost(event: any): void {
-    this.getWrapper().formatValue();
-  }
-
-  public callOnLeave(event: any): void {
-    this.onLeave.emit(event);
   }
 
   public setFocus(): void {

@@ -1,25 +1,26 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
 import { jqxNumberInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxnumberinput';
 
-import { BaseComponent } from '..';
+import { TextBoxBaseComponent } from '../textbox-base.component';
 import { StyleUtil } from '../../util';
 import { TextBoxNumberWrapper } from '../../wrappers';
 import { LayoutableProperties } from '../../layout';
-import { TextFormat } from '../../enums';
+import { TextFormat, ControlEvent } from '../../enums';
 
 @Component({
   selector: 'hc-txt-number',
   templateUrl: './textbox-number.component.html',
   styleUrls: ['./textbox-number.component.scss']
 })
-export class TextBoxNumberComponent extends BaseComponent implements AfterViewInit {
+export class TextBoxNumberComponent extends TextBoxBaseComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('jqxNumberInput') jqxNumberInput: jqxNumberInputComponent;
 
-  @Output() onLeave: EventEmitter<any> = new EventEmitter<any>();
-
   private div: HTMLDivElement;
   private input: HTMLInputElement;
+
+  private onEnterSub: () => void;
+  private onLeaveSub: () => void;
 
   constructor(private renderer: Renderer2) {
     super();
@@ -38,8 +39,45 @@ export class TextBoxNumberComponent extends BaseComponent implements AfterViewIn
     this.div = this.jqxNumberInput.widgetObject.getInstance().element;
     this.input = this.div.lastElementChild as HTMLInputElement;
 
+    if (this.getWrapper().getEvents() & ControlEvent.OnEnter) {
+      this.onEnterSub = this.renderer.listen(this.input, 'focusin', event => { this.callOnEnter(event); });
+    }
+
+    if (this.getWrapper().getEvents() & ControlEvent.OnLeave) {
+      this.onLeaveSub = this.renderer.listen(this.input, 'focusout', event => { this.callOnLeave(event); });
+    }
+
     this.renderer.removeClass(this.div, 'jqx-rc-all');
     this.renderer.addClass(this.input, 'jqx-rc-all');
+  }
+
+  public ngOnDestroy(): void {
+    if (this.onEnterSub) {
+      this.onEnterSub();
+    }
+
+    if (this.onLeaveSub) {
+      this.onLeaveSub();
+    }
+
+    super.ngOnDestroy();
+  }
+
+  public callOnEnter(event: any): void {
+    super.callOnEnter(event);
+  }
+
+  public callOnLeave(event: any): void {
+    this.getWrapper().formatValue();
+    super.callOnLeave(event);
+  }
+
+  public callOnDrag(event: any): void {
+    super.callOnDrag(event);
+  }
+
+  public callOnCanDrop(event: any): void {
+    super.callOnCanDrop(event);
   }
 
   private getJqxOptions(): jqwidgets.NumberInputOptions {
@@ -75,14 +113,6 @@ export class TextBoxNumberComponent extends BaseComponent implements AfterViewIn
 
   public getWrapper(): TextBoxNumberWrapper {
     return super.getWrapper() as TextBoxNumberWrapper;
-  }
-
-  public focusLost(event: any): void {
-    this.getWrapper().formatValue();
-  }
-
-  public callOnLeave(event: any): void {
-    this.onLeave.emit(event);
   }
 
   public setFocus(): void {

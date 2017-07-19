@@ -12,14 +12,20 @@ export class HttpService {
 
   public readonly onResponseReceived: EventEmitter<any> = new EventEmitter<any>();
 
+  private brokerUrl: string;
+
   constructor(
     private http: Http,
     private errorService: ErrorService,
     private logService: LogService) { }
 
+  public setBrokerUrl(brokerUrl: string): void {
+    this.brokerUrl = brokerUrl;
+  }
+
   public doRequest(requestJson: any): void {
     try {
-      this.http.get(HttpService.BROKERURL)
+      this.http.post(this.brokerUrl, requestJson)
         .map(response => response.json())
         .subscribe(responseJson => {
           this.onResponseReceived.emit(responseJson);

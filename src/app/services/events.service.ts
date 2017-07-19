@@ -1,33 +1,24 @@
 import { EventEmitter, Injectable, } from '@angular/core';
 
-import { ClientEventArgs } from '../common/eventargs';
 import { BaseWrapper } from '../wrappers';
+import { ControlEvent } from '../enums';
+import { ClientEvent, ClientClickEvent } from '../common/events';
 
 @Injectable()
 export class EventsService {
 
-  public readonly onEventFired: EventEmitter<ClientEventArgs> = new EventEmitter<ClientEventArgs>();
+  public readonly onEventFired: EventEmitter<ClientEvent> = new EventEmitter<ClientEvent>();
 
-  public fireClick(controlWrp: BaseWrapper): void {
-    let json: any = {
-      control: controlWrp.getName(),
-      event: 'click'
-    };
+  public fireEnter(formId: string, controlName: string): void {
 
-    let eventArgs: ClientEventArgs = new ClientEventArgs(controlWrp.getForm(), json);
-
-    this.onEventFired.emit(eventArgs);
   }
 
-  public fireLeave(controlWrp: BaseWrapper): void {
-    let json: any = {
-      control: controlWrp.getName(),
-      event: 'leave'
-    };
+  public fireLeave(formId: string, controlName: string): void {
 
-    let eventArgs: ClientEventArgs = new ClientEventArgs(controlWrp.getForm(), json);
+  }
 
-    this.onEventFired.emit(eventArgs);
+  public fireClick(formId: string, controlName: string): void {
+    this.onEventFired.emit(new ClientClickEvent(formId, controlName));
   }
 
 }

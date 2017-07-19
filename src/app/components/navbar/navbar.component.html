@@ -7,7 +7,8 @@
       <span class="fa fa-fw fa-angle-left fa-lg" (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft($event)" (mouseleave)="stopScrollingLeft($event)"></span>
     </div>
     <div #center class="hc-navbar-tabs-center">
-      <ul #tabs class="hc-navbar-tabs-list" [style.margin-left.px]="tabScrollPosition" hcMouseWheel (mouseWheelUp)="onMouseWheel($event)" (mouseWheelDown)="onMouseWheel($event)" (panstart)="panTabsStart($event)" (pan)="panTabsStep($event)">
+      <ul #tabs class="hc-navbar-tabs-list" [style.margin-left.px]="tabScrollPosition" hcMouseWheel (mouseWheelUp)="onMouseWheel($event)" (mouseWheelDown)="onMouseWheel($event)" (panstart)="panTabsStart($event)"
+        (pan)="panTabsStep($event)">
         <li *ngFor="let form of forms; let i = index;" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (tap)="selectForm(form)">{{ form.getTitle() }}</li>
       </ul>
     </div>

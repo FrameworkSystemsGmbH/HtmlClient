@@ -53,8 +53,11 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<TextBoxPlainComponent> = cfr.resolveComponentFactory(TextBoxPlainComponent);
     let comp: ComponentRef<TextBoxPlainComponent> = container.getViewContainerRef().createComponent(factory);
+    let instance: TextBoxPlainComponent = comp.instance;
+
     this.setComponentRef(comp);
-    comp.instance.setWrapper(this);
+    instance.setWrapper(this);
+    this.attachEvents(instance);
   }
 
 }

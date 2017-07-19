@@ -15,7 +15,7 @@ export class ASD {
 
 export class FormWrapper extends ContainerWrapper {
 
-  private id: number;
+  private id: string;
   private title: string;
   private fullName: string;
 
@@ -101,7 +101,7 @@ export class FormWrapper extends ContainerWrapper {
     this.getLayout().doLayout();
   }
 
-  public getId(): number {
+  public getId(): string {
     return this.id;
   }
 
@@ -119,6 +119,10 @@ export class FormWrapper extends ContainerWrapper {
 
   public getViewContainerRef(): ViewContainerRef {
     return this.getComponent().anchor;
+  }
+
+  public getMetaJson(): any {
+    return { id: this.getId() };
   }
 
   public setJson(json: any, isNew: boolean): void {
@@ -170,8 +174,11 @@ export class FormWrapper extends ContainerWrapper {
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<FormComponent> = cfr.resolveComponentFactory(FormComponent);
     let comp: ComponentRef<FormComponent> = vc.createComponent(factory);
+    let instance: FormComponent = comp.instance;
+
     this.setComponentRef(comp);
-    comp.instance.setWrapper(this);
+    instance.setWrapper(this);
+    this.attachEvents(instance);
 
     for (let child of this.controls) {
       child.attachComponent(this);

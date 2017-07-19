@@ -21,7 +21,10 @@ export class VariantWrapper extends ContainerWrapper {
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<VariantComponent> = cfr.resolveComponentFactory(VariantComponent);
     let comp: ComponentRef<VariantComponent> = container.getViewContainerRef().createComponent(factory);
+    let instance: VariantComponent = comp.instance;
+
     this.setComponentRef(comp);
-    comp.instance.setWrapper(this);
+    instance.setWrapper(this);
+    this.attachEvents(instance);
   }
 }

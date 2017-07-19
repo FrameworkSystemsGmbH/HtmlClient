@@ -7,6 +7,7 @@ export * from './datasource-type';
 export * from './horizontal-alignment';
 export * from './horizontal-content-alignment';
 export * from './picture-scale-mode';
+export * from './request-type';
 export * from './scrollbars';
 export * from './tab-alignment';
 export * from './text-align';

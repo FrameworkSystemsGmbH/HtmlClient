@@ -1,8 +1,9 @@
 import { ComponentRef, Injector, ViewContainerRef } from '@angular/core';
+import { ISubscription } from 'rxjs/Subscription';
 
 import { ContainerWrapper, FormWrapper } from '.';
 import { BaseComponent } from '../controls';
-import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
+import { ControlVisibility, HorizontalAlignment, VerticalAlignment, ControlEvent } from '../enums';
 import { LayoutableControl, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer, LayoutableProperties, LayoutBase, LayoutablePropertiesDefault } from '../layout';
 import { VchControl, VchContainer } from '../vch';
 import { ResponseControlDto } from '../communication/response';
@@ -13,6 +14,7 @@ import { ControlLayout } from '../layout/control-layout';
 
 export abstract class BaseWrapper implements LayoutableControl {
 
+  protected events: ControlEvent;
   protected appInjector: Injector;
   protected vchControl: VchControl;
   protected propertyStore: PropertyStore;
@@ -27,6 +29,11 @@ export abstract class BaseWrapper implements LayoutableControl {
   private layout: LayoutBase;
   private layoutableProperties: LayoutablePropertiesDefault;
 
+  private onEnterSub: ISubscription;
+  private onLeaveSub: ISubscription;
+  private onDragSub: ISubscription;
+  private onCanDropSub: ISubscription;
+
   constructor(
     form: FormWrapper,
     parent: ContainerWrapper,
@@ -40,6 +47,10 @@ export abstract class BaseWrapper implements LayoutableControl {
     this.eventsService = appInjector.get(EventsService);
     this.controlStyleService = appInjector.get(ControlStyleService);
     this.addToParent();
+  }
+
+  public getEvents(): ControlEvent {
+    return this.events;
   }
 
   protected getLayout(): LayoutBase {
@@ -285,7 +296,16 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public onComponentRefDestroyed(): void {
+    this.detachEvents();
     this.componentRef = null;
+  }
+
+  public getJson(): any {
+    // Override in derived classes
+  }
+
+  public getMetaJson(): any {
+    return { controlName: this.getName() };
   }
 
   public setJson(json: any, isNew: boolean): void {
@@ -316,12 +336,21 @@ export abstract class BaseWrapper implements LayoutableControl {
     this.propertyStore.setLayer(PropertyLayer.Control, propertiesJson as PropertyData);
   }
 
-  protected setEventsJson(dataJson: any) {
-    // BaseWrapper does not have events
+  protected setEventsJson(eventsJson: any) {
+    if (!eventsJson || !eventsJson.length) {
+      return;
+    }
+
+    for (let eventJson of eventsJson) {
+      let event: ControlEvent = ControlEvent[<string>eventJson];
+      if (event != null) {
+        this.events |= event;
+      }
+    }
   }
 
   protected setDataJson(dataJson: any) {
-    // BaseWrapper does not have data
+    // Override in derived classes
   }
 
   protected setControlStyle(controlStyle: string) {
@@ -343,5 +372,41 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public abstract createComponent(container: ContainerWrapper): void;
+
+  protected attachEvents(instance: BaseComponent): void {
+    if (this.events & ControlEvent.OnEnter) {
+      this.onEnterSub = instance.onEnter.subscribe(event => console.log(event));
+    }
+
+    if (this.events & ControlEvent.OnLeave) {
+      this.onLeaveSub = instance.onLeave.subscribe(event => console.log(event));
+    }
+
+    if (this.events & ControlEvent.OnDrag) {
+      this.onDragSub = instance.onDrag.subscribe(event => console.log(event));
+    }
+
+    if (this.events & ControlEvent.OnCanDrop) {
+      this.onCanDropSub = instance.onCanDrop.subscribe(event => console.log(event));
+    }
+  }
+
+  protected detachEvents(): void {
+    if (this.onEnterSub) {
+      this.onEnterSub.unsubscribe();
+    }
+
+    if (this.onLeaveSub) {
+      this.onLeaveSub.unsubscribe();
+    }
+
+    if (this.onDragSub) {
+      this.onDragSub.unsubscribe();
+    }
+
+    if (this.onCanDropSub) {
+      this.onCanDropSub.unsubscribe();
+    }
+  }
 
 }

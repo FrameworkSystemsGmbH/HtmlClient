@@ -3,6 +3,7 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 import { BaseComponent } from '..';
 import { ButtonWrapper } from '../../wrappers';
 import { StyleUtil } from '../../util';
+import { ControlEvent } from '../../enums';
 
 @Component({
   selector: 'hc-btn',
@@ -11,12 +12,42 @@ import { StyleUtil } from '../../util';
 })
 export class ButtonComponent extends BaseComponent {
 
-  @Output() onClick: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onClick: EventEmitter<any>;
 
   @ViewChild('focus') focus: ElementRef;
 
+  public callOnClick(event: any): void {
+    if (this.getWrapper().getEvents() & ControlEvent.OnClick) {
+      this.onClick.emit(event);
+    }
+  }
+
+  public callOnEnter(event: any): void {
+    super.callOnEnter(event);
+  }
+
+  public callOnLeave(event: any): void {
+    super.callOnLeave(event);
+  }
+
+  public callOnDrag(event: any): void {
+    super.callOnDrag(event);
+  }
+
+  public callOnCanDrop(event: any): void {
+    super.callOnCanDrop(event);
+  }
+
   public getWrapper(): ButtonWrapper {
     return super.getWrapper() as ButtonWrapper;
+  }
+
+  public setWrapper(wrapper: ButtonWrapper): void {
+    super.setWrapper(wrapper);
+
+    if (wrapper.getEvents() & ControlEvent.OnClick) {
+      this.onClick = new EventEmitter<any>();
+    }
   }
 
   public getCaption(): string {
@@ -62,10 +93,6 @@ export class ButtonComponent extends BaseComponent {
     };
 
     return styles;
-  }
-
-  public callOnClick(event: any): void {
-    this.onClick.emit(event);
   }
 
   public setFocus(): void {

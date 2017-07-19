@@ -2,7 +2,6 @@ import { Injectable, ViewContainerRef, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ISubscription } from 'rxjs/subscription';
 
-import { ClientEventArgs } from '../common/eventargs';
 import { JsonUtil } from '../util';
 import { ResponseDto } from '../communication/response';
 import { HttpService } from './http.service';
@@ -14,6 +13,8 @@ import { ErrorService } from './error.service';
 import { RoutingService } from './routing.service';
 import { TitleService } from './title.service';
 import { LoginBroker } from '../common';
+import { ClientEvent } from '../common/events';
+import { RequestType } from '../enums'
 
 @Injectable()
 export class BrokerService {
@@ -22,6 +23,8 @@ export class BrokerService {
 
   private activeToken: string;
   private activeBroker: LoginBroker;
+  private requestCounter: number;
+  private languages: Array<string>;
   private onEventFiredSub: ISubscription;
   private onResponseReceivedSub: ISubscription;
 
@@ -35,11 +38,17 @@ export class BrokerService {
     private routingService: RoutingService,
     private titleService: TitleService
   ) {
-    // this.onEventFiredSub = this.eventsService.onEventFired.subscribe((eventArgs: ClientEventArgs) => {
-    //   this.performRequest(this.createRequest(eventArgs));
-    // });
+
+    this.activeToken = String.empty();
+    this.requestCounter = 0;
+    this.languages = ['de', 'en'];
+
+    this.onEventFiredSub = this.eventsService.onEventFired.subscribe(event => {
+      this.performRequest(this.createRequest(event));
+    });
 
     this.onResponseReceivedSub = this.httpService.onResponseReceived.subscribe((json: any) => {
+      console.log(JSON.stringify(json, null, 2))
       this.processResponse(json);
     });
 
@@ -57,6 +66,7 @@ export class BrokerService {
       if (this.activeBroker) {
         this.formsService.resetViews();
       }
+      this.httpService.setBrokerUrl(broker.url);
       this.activeBroker = broker;
       this.activeBrokerChanged.emit(broker);
       this.sendInitRequest();
@@ -65,27 +75,37 @@ export class BrokerService {
 
   public sendInitRequest(): void {
     let requestJson: any = {
-      token: '',
-      requCounter: 1
+      meta: this.getMetaJson(RequestType.Request)
     };
 
     this.httpService.doRequest(requestJson);
   }
 
-  // private createRequest(eventArgs?: ClientEventArgs): any {
-  //   let formsJson: any = this.formsService.getFormsJson(eventArgs);
+  private getMetaJson(requestType: RequestType): any {
+    let metaJson: any = {
+      token: this.activeToken,
+      requCounter: ++this.requestCounter,
+      languages: this.languages,
+      type: RequestType[requestType]
+    };
 
-  //   if (!JsonUtil.isEmptyObject(formsJson)) {
+    return metaJson;
+  }
 
-  //     let requestJson: any = {
-  //       forms: formsJson
-  //     };
+  private createRequest(event: ClientEvent): any {
+    let requestJson: any = {
+      meta: this.getMetaJson(RequestType.Request),
+      event: event
+    };
 
-  //     return requestJson;
-  //   }
+    let formsJson: any = this.formsService.getFormsJson();
 
-  //   return null;
-  // }
+    if (!JsonUtil.isEmptyObject(formsJson)) {
+      requestJson.forms = formsJson;
+    }
+
+    return requestJson;
+  }
 
   public performRequest(requestJson: any): void {
     this.httpService.doRequest(requestJson);

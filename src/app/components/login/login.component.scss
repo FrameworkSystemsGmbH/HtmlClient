@@ -41,6 +41,13 @@ h3 {
       white-space: nowrap;
       width: 1%;
     }
+
+    th.ellipsis, td.ellipsis {
+      max-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 

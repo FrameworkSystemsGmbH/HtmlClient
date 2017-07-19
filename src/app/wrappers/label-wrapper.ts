@@ -29,8 +29,11 @@ export class LabelWrapper extends BaseWrapperFitted {
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<LabelComponent> = cfr.resolveComponentFactory(LabelComponent);
     let comp: ComponentRef<LabelComponent> = container.getViewContainerRef().createComponent(factory);
+    let instance: LabelComponent = comp.instance;
+
     this.setComponentRef(comp);
-    comp.instance.setWrapper(this);
+    instance.setWrapper(this);
+    this.attachEvents(instance);
   }
 
   public updateFittedWidth(): void {

@@ -1,10 +1,13 @@
+import { ISubscription } from 'rxjs/Subscription';
+
 import { BaseWrapperFittedData } from '.';
 import { TextBoxPlainComponent } from '../controls';
 import { ControlEvent, TextAlign, TextFormat } from '../enums';
+import { TextBoxBaseComponent } from '../controls/textbox-base.component';
 
 export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
 
-  protected events: ControlEvent;
+  private onValidatedSub: ISubscription;
 
   public getDisabledBackColor(): string {
     let disabledBackColor: string = this.propertyStore.getDisabledBackColor();
@@ -57,10 +60,6 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
     return this.fontService.getDataMaxHeightTextBox(this);
   }
 
-  public formatValue(): void {
-    // Override in derived classes
-  }
-
   protected abstract hasChanges(): boolean;
 
   protected abstract getValueJson(): string;
@@ -104,12 +103,28 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
     }
 
     if (eventsJson.leave) {
-      this.events &= ControlEvent.Leave;
+      this.events |= ControlEvent.OnLeave;
     }
   }
 
   public updateFittedWidth(): void {
     this.setFittedContentWidth(null);
+  }
+
+  protected attachEvents(instance: TextBoxBaseComponent): void {
+    super.attachEvents(instance);
+
+    if (this.events & ControlEvent.OnValidated) {
+      this.onValidatedSub = instance.onValidated.subscribe(() => {});
+    }
+  }
+
+  protected detachEvents(): void {
+    super.detachEvents();
+
+    if (this.onValidatedSub) {
+      this.onValidatedSub.unsubscribe();
+    }
   }
 
 }

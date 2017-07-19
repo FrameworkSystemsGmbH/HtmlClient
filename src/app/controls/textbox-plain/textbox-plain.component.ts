@@ -1,23 +1,25 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
 import { jqxInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxinput';
 
-import { BaseComponent } from '..';
+import { TextBoxBaseComponent } from '../textbox-base.component';
 import { StyleUtil } from '../../util';
 import { TextBoxPlainWrapper } from '../../wrappers';
 import { LayoutableProperties } from '../../layout';
+import { ControlEvent } from '../../enums';
 
 @Component({
   selector: 'hc-txt-plain',
   templateUrl: './textbox-plain.component.html',
   styleUrls: ['./textbox-plain.component.scss']
 })
-export class TextBoxPlainComponent extends BaseComponent implements AfterViewInit {
+export class TextBoxPlainComponent extends TextBoxBaseComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('jqxInput') jqxInput: jqxInputComponent;
 
-  @Output() onLeave: EventEmitter<any> = new EventEmitter<any>();
-
   private input: HTMLInputElement;
+
+  private onEnterSub: () => void;
+  private onLeaveSub: () => void;
 
   constructor(private renderer: Renderer2) {
     super();
@@ -34,18 +36,46 @@ export class TextBoxPlainComponent extends BaseComponent implements AfterViewIni
   public ngAfterViewInit(): void {
     this.jqxInput.createComponent();
     this.input = this.jqxInput.widgetObject.getInstance().element;
+
+    if (this.getWrapper().getEvents() & ControlEvent.OnEnter) {
+      this.onEnterSub = this.renderer.listen(this.input, 'focusin', event => { this.callOnEnter(event); });
+    }
+
+    if (this.getWrapper().getEvents() & ControlEvent.OnLeave) {
+      this.onLeaveSub = this.renderer.listen(this.input, 'focusout', event => { this.callOnLeave(event); });
+    }
+  }
+
+  public ngOnDestroy(): void {
+    if (this.onEnterSub) {
+      this.onEnterSub();
+    }
+
+    if (this.onLeaveSub) {
+      this.onLeaveSub();
+    }
+
+    super.ngOnDestroy();
+  }
+
+  public callOnEnter(event: any): void {
+    super.callOnEnter(event);
+  }
+
+  public callOnLeave(event: any): void {
+    super.callOnLeave(event);
+  }
+
+  public callOnDrag(event: any): void {
+    super.callOnDrag(event);
+  }
+
+  public callOnCanDrop(event: any): void {
+    super.callOnCanDrop(event);
   }
 
   public getWrapper(): TextBoxPlainWrapper {
     return super.getWrapper() as TextBoxPlainWrapper;
-  }
-
-  public focusLost(event: any): void {
-    this.getWrapper().formatValue();
-  }
-
-  public callOnLeave(event: any): void {
-    this.onLeave.emit(event);
   }
 
   public setFocus(): void {
