@@ -33,12 +33,13 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     return this.value !== this.orgValue;
   }
 
-  public getComponentRef(): ComponentRef<TextBoxDateTimeComponent> {
-    return <ComponentRef<TextBoxDateTimeComponent>>super.getComponentRef();
+  protected getComponentRef(): ComponentRef<TextBoxDateTimeComponent> {
+    return super.getComponentRef() as ComponentRef<TextBoxDateTimeComponent>;
   }
 
   protected getComponent(): TextBoxDateTimeComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<TextBoxDateTimeComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   public createComponent(container: ContainerWrapper): void {

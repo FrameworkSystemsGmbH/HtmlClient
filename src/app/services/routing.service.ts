@@ -7,11 +7,15 @@ export class RoutingService {
   constructor(private router: Router) { }
 
   public showLogin(): void {
-    this.router.navigate(['/'], { skipLocationChange: true });
+    if (this.router.routerState.snapshot.url !== '/') {
+      this.router.navigate(['/'], { skipLocationChange: true });
+    }
   }
 
   public showViewer(): void {
-    this.router.navigate(['/viewer'], { skipLocationChange: true });
+    if (this.router.routerState.snapshot.url !== '/viewer') {
+      this.router.navigate(['/viewer'], { skipLocationChange: true });
+    }
   }
 
 }

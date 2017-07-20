@@ -12,11 +12,12 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapC
   }
 
   protected getComponentRef(): ComponentRef<WrapPanelComponent> {
-    return <ComponentRef<WrapPanelComponent>>super.getComponentRef();
+    return super.getComponentRef() as ComponentRef<WrapPanelComponent>;
   }
 
   protected getComponent(): WrapPanelComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<WrapPanelComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   public getViewContainerRef(): ViewContainerRef {

@@ -1,8 +1,8 @@
 import { BaseWrapper } from '../wrappers';
-import { OnDestroy, Output, EventEmitter } from '@angular/core';
+import { OnDestroy, Output, EventEmitter, OnInit } from '@angular/core';
 import { ControlEvent } from '../enums';
 
-export abstract class BaseComponent implements OnDestroy {
+export abstract class BaseComponent implements OnInit, OnDestroy {
 
   private wrapper: BaseWrapper;
 
@@ -10,6 +10,10 @@ export abstract class BaseComponent implements OnDestroy {
   @Output() onLeave: EventEmitter<any>;
   @Output() onDrag: EventEmitter<any>;
   @Output() onCanDrop: EventEmitter<any>;
+
+  public ngOnInit(): void {
+    this.updateComponent();
+  }
 
   public ngOnDestroy(): void {
     this.getWrapper().onComponentRefDestroyed();
@@ -69,8 +73,12 @@ export abstract class BaseComponent implements OnDestroy {
     return this.getWrapper().getName();
   }
 
+  public updateComponent(): void {
+    // Overridde in subclasses
+  }
+
   public setFocus(): void {
-    // Has to be overridden in subclasses to take effect
+    // Overridde in subclasses
   }
 
 }

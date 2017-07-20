@@ -30,23 +30,27 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   }
 
   protected getValueJson(): string {
-    return this.getValue();
+    return this.value == null ? String.empty() : this.value;
   }
 
   protected setValueJson(value: string): void {
-    this.setValue(value);
+    let val: string = value ? value : null;
+
+    this.orgValue = val;
+    this.setValue(val);
   }
 
   protected hasChanges(): boolean {
     return this.value !== this.orgValue;
   }
 
-  public getComponentRef(): ComponentRef<TextBoxPlainComponent> {
-    return <ComponentRef<TextBoxPlainComponent>>super.getComponentRef();
+  protected getComponentRef(): ComponentRef<TextBoxPlainComponent> {
+    return super.getComponentRef() as ComponentRef<TextBoxPlainComponent>;
   }
 
   protected getComponent(): TextBoxPlainComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<TextBoxPlainComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   public createComponent(container: ContainerWrapper): void {
@@ -59,5 +63,4 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
     instance.setWrapper(this);
     this.attachEvents(instance);
   }
-
 }

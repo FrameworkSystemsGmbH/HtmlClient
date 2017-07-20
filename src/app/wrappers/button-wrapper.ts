@@ -19,12 +19,13 @@ export class ButtonWrapper extends BaseWrapperFitted {
     return Boolean.trueIfNull(this.propertyStore.getShowCaption());
   }
 
-  public getComponentRef(): ComponentRef<ButtonComponent> {
-    return <ComponentRef<ButtonComponent>>super.getComponentRef();
+  protected getComponentRef(): ComponentRef<ButtonComponent> {
+    return super.getComponentRef() as ComponentRef<ButtonComponent>;
   }
 
   protected getComponent(): ButtonComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<ButtonComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   protected setDataJson(dataJson: any): void {

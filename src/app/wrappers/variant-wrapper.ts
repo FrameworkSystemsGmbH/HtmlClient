@@ -6,11 +6,12 @@ import { VariantComponent } from '../controls';
 export class VariantWrapper extends ContainerWrapper {
 
   protected getComponentRef(): ComponentRef<VariantComponent> {
-    return <ComponentRef<VariantComponent>>super.getComponentRef();
+    return super.getComponentRef() as ComponentRef<VariantComponent>;
   }
 
   protected getComponent(): VariantComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<VariantComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   public getViewContainerRef(): ViewContainerRef {

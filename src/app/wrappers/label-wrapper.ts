@@ -17,12 +17,13 @@ export class LabelWrapper extends BaseWrapperFitted {
     return textAlign != null ? textAlign : TextAlign.Center;
   }
 
-  public getComponentRef(): ComponentRef<LabelComponent> {
-    return <ComponentRef<LabelComponent>>super.getComponentRef();
+  protected getComponentRef(): ComponentRef<LabelComponent> {
+    return super.getComponentRef() as ComponentRef<LabelComponent>;
   }
 
   protected getComponent(): LabelComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<LabelComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   public createComponent(container: ContainerWrapper): void {

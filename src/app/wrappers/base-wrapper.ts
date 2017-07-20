@@ -292,7 +292,8 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   protected getComponent(): BaseComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<BaseComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   public onComponentRefDestroyed(): void {
@@ -323,7 +324,15 @@ export abstract class BaseWrapper implements LayoutableControl {
         this.setDataJson(json.data);
       }
     } else {
+      if (json.data) {
+        this.setDataJson(json.data);
+      }
+    }
 
+    let comp: BaseComponent = this.getComponent();
+
+    if (comp) {
+      comp.updateComponent();
     }
   }
 
@@ -350,7 +359,7 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   protected setDataJson(dataJson: any) {
-    // Override in derived classes
+    // Override in subclasses
   }
 
   protected setControlStyle(controlStyle: string) {
@@ -375,19 +384,19 @@ export abstract class BaseWrapper implements LayoutableControl {
 
   protected attachEvents(instance: BaseComponent): void {
     if (this.events & ControlEvent.OnEnter) {
-      this.onEnterSub = instance.onEnter.subscribe(event => console.log(event));
+      this.onEnterSub = instance.onEnter.subscribe(event => this.eventsService.fireEnter(this.getForm().getId(), this.getName()));
     }
 
     if (this.events & ControlEvent.OnLeave) {
-      this.onLeaveSub = instance.onLeave.subscribe(event => console.log(event));
+      this.onLeaveSub = instance.onLeave.subscribe(event => this.eventsService.fireLeave(this.getForm().getId(), this.getName(), false));
     }
 
     if (this.events & ControlEvent.OnDrag) {
-      this.onDragSub = instance.onDrag.subscribe(event => console.log(event));
+      this.onDragSub = instance.onDrag.subscribe(event => { });
     }
 
     if (this.events & ControlEvent.OnCanDrop) {
-      this.onCanDropSub = instance.onCanDrop.subscribe(event => console.log(event));
+      this.onCanDropSub = instance.onCanDrop.subscribe(event => { });
     }
   }
 

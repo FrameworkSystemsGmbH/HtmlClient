@@ -42,7 +42,8 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
   }
 
   protected getComponent(): ContainerComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<ContainerComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   public getInvertFlowDirection(): boolean {

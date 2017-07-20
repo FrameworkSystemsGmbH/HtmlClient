@@ -16,6 +16,8 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements Afte
 
   @ViewChild('jqxNumberInput') jqxNumberInput: jqxNumberInputComponent;
 
+  public value: number;
+
   private div: HTMLDivElement;
   private input: HTMLInputElement;
 
@@ -26,29 +28,18 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements Afte
     super();
   }
 
-  public get value(): string {
-    return this.getWrapper().getValue();
-  }
-
-  public set value(value: string) {
-    this.getWrapper().setValue(value);
-  }
-
   public ngAfterViewInit(): void {
     this.jqxNumberInput.createComponent(this.getJqxOptions());
     this.div = this.jqxNumberInput.widgetObject.getInstance().element;
     this.input = this.div.lastElementChild as HTMLInputElement;
 
-    if (this.getWrapper().getEvents() & ControlEvent.OnEnter) {
-      this.onEnterSub = this.renderer.listen(this.input, 'focusin', event => { this.callOnEnter(event); });
-    }
-
-    if (this.getWrapper().getEvents() & ControlEvent.OnLeave) {
-      this.onLeaveSub = this.renderer.listen(this.input, 'focusout', event => { this.callOnLeave(event); });
-    }
+    this.onEnterSub = this.renderer.listen(this.input, 'focusin', event => { this.callOnEnter(event); });
+    this.onLeaveSub = this.renderer.listen(this.input, 'focusout', event => { this.callOnLeave(event); });
 
     this.renderer.removeClass(this.div, 'jqx-rc-all');
     this.renderer.addClass(this.input, 'jqx-rc-all');
+
+    this.jqxNumberInput.val(this.value);
   }
 
   public ngOnDestroy(): void {
@@ -68,7 +59,7 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements Afte
   }
 
   public callOnLeave(event: any): void {
-    this.getWrapper().formatValue();
+    this.updateWrapper();
     super.callOnLeave(event);
   }
 
@@ -109,6 +100,10 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements Afte
     }
 
     return options;
+  }
+
+  private isJqxInputInitialized(): boolean {
+    return this.jqxNumberInput && this.jqxNumberInput.widgetObject ? true : false;
   }
 
   public getWrapper(): TextBoxNumberWrapper {
@@ -179,5 +174,18 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements Afte
     this.renderer.setStyle(this.input, 'font-style', wrapper.getFontItalic());
     this.renderer.setStyle(this.input, 'text-decoration', wrapper.getFontUnderline());
     this.renderer.setStyle(this.input, 'text-align', wrapper.getTextAlign());
+  }
+
+  public updateComponent(): void {
+    this.value = this.getWrapper().getValue();
+
+    if (this.isJqxInputInitialized()) {
+      this.jqxNumberInput.val(this.getWrapper().getValue());
+    }
+  }
+
+  private updateWrapper(): void {
+    let value: number = this.jqxNumberInput.val();
+    this.getWrapper().setValue(value);
   }
 }

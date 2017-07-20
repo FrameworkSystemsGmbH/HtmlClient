@@ -2,7 +2,7 @@ import { Injectable, ViewContainerRef, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ISubscription } from 'rxjs/subscription';
 
-import { JsonUtil } from '../util';
+import { JsonUtil, Queue } from '../util';
 import { ResponseDto } from '../communication/response';
 import { HttpService } from './http.service';
 import { ActionsService } from './actions.service';
@@ -21,6 +21,7 @@ export class BrokerService {
 
   public activeBrokerChanged: EventEmitter<LoginBroker>;
 
+  private requestActive: boolean;
   private activeToken: string;
   private activeBroker: LoginBroker;
   private requestCounter: number;
@@ -42,17 +43,15 @@ export class BrokerService {
     this.activeToken = String.empty();
     this.requestCounter = 0;
     this.languages = ['de', 'en'];
+    this.activeBrokerChanged = new EventEmitter<LoginBroker>();
 
-    this.onEventFiredSub = this.eventsService.onEventFired.subscribe(event => {
-      this.performRequest(this.createRequest(event));
+    this.onEventFiredSub = this.eventsService.onEventFired.subscribe(() => {
+      this.processPendingEvents();
     });
 
     this.onResponseReceivedSub = this.httpService.onResponseReceived.subscribe((json: any) => {
-      console.log(JSON.stringify(json, null, 2))
       this.processResponse(json);
     });
-
-    this.activeBrokerChanged = new EventEmitter<LoginBroker>();
   }
 
   public getActiveBroker(): LoginBroker {
@@ -74,6 +73,8 @@ export class BrokerService {
   }
 
   public sendInitRequest(): void {
+    this.requestActive = true;
+
     let requestJson: any = {
       meta: this.getMetaJson(RequestType.Request)
     };
@@ -107,8 +108,15 @@ export class BrokerService {
     return requestJson;
   }
 
-  public performRequest(requestJson: any): void {
-    this.httpService.doRequest(requestJson);
+  private processPendingEvents(): void {
+    if (!this.requestActive) {
+      let nextEvent: ClientEvent = this.eventsService.getNextEvent();
+      if (nextEvent) {
+        this.requestActive = true;
+        let json: any = this.createRequest(nextEvent);
+        this.httpService.doRequest(json);
+      }
+    }
   }
 
   public processResponse(json: any) {
@@ -116,13 +124,12 @@ export class BrokerService {
       throw new Error('Response JSON is null or empty!');
     }
 
-    if (!json.start) {
-      throw new Error('Could not find property \'start\' in response JSON!');
-    }
-
     this.processMeta(json.meta);
-    this.processApplication(json.start.application);
-    this.processControlStyles(json.start.controlStyles);
+
+    if (json.start && !JsonUtil.isEmptyObject(json.start)) {
+      this.processApplication(json.start.application);
+      this.processControlStyles(json.start.controlStyles);
+    }
 
     if (json.forms && json.forms.length) {
       this.formsService.setJson(json.forms);
@@ -132,6 +139,8 @@ export class BrokerService {
       this.actionsService.processActions(json.actions);
     }
 
+    this.requestActive = false;
+    this.processPendingEvents();
     this.routingService.showViewer();
   }
 

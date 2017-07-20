@@ -76,7 +76,7 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
         name: this.getName()
       },
       data: {
-        value: this.getValueJson()
+        text: this.getValueJson()
       }
     };
 
@@ -90,8 +90,8 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
       return;
     }
 
-    if (dataJson.value) {
-      this.setValueJson(dataJson.value);
+    if (dataJson.text && dataJson.text.value !== undefined) {
+      this.setValueJson(dataJson.text.value);
     }
   }
 

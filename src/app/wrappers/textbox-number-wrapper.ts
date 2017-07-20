@@ -6,39 +6,47 @@ import { ControlEvent, TextAlign } from '../enums';
 
 export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
 
-  protected value: string;
-  protected orgValue: string;
+  protected value: number;
+  protected orgValue: number;
 
-  public getValue(): string {
+  public getValue(): number {
     return this.value;
   }
 
-  public setValue(value: string): void {
+  public setValue(value: number): void {
     this.value = value;
   }
 
-  public formatValue(): void {
-
-  }
-
   protected getValueJson(): string {
-    return this.getValue().toString();
+    return this.value == null ? String.empty() : this.value.toString();
   }
 
   protected setValueJson(value: string): void {
-    this.setValue(value);
+    let val: number = null;
+
+    if (!String.isNullOrWhiteSpace(value)) {
+      val = parseFloat(value);
+
+      if (val === NaN) {
+        val = null;
+      }
+    }
+
+    this.orgValue = val;
+    this.setValue(val);
   }
 
   protected hasChanges(): boolean {
     return this.value !== this.orgValue;
   }
 
-  public getComponentRef(): ComponentRef<TextBoxNumberComponent> {
-    return <ComponentRef<TextBoxNumberComponent>>super.getComponentRef();
+  protected getComponentRef(): ComponentRef<TextBoxNumberComponent> {
+    return super.getComponentRef() as ComponentRef<TextBoxNumberComponent>;
   }
 
   protected getComponent(): TextBoxNumberComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<TextBoxNumberComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   public createComponent(container: ContainerWrapper): void {

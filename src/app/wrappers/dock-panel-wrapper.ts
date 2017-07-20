@@ -13,11 +13,12 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockC
   }
 
   protected getComponentRef(): ComponentRef<DockPanelComponent> {
-    return <ComponentRef<DockPanelComponent>>super.getComponentRef();
+    return super.getComponentRef() as ComponentRef<DockPanelComponent>;
   }
 
   protected getComponent(): DockPanelComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<DockPanelComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   public getViewContainerRef(): ViewContainerRef {

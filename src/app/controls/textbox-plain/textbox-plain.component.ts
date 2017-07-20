@@ -37,13 +37,8 @@ export class TextBoxPlainComponent extends TextBoxBaseComponent implements After
     this.jqxInput.createComponent();
     this.input = this.jqxInput.widgetObject.getInstance().element;
 
-    if (this.getWrapper().getEvents() & ControlEvent.OnEnter) {
-      this.onEnterSub = this.renderer.listen(this.input, 'focusin', event => { this.callOnEnter(event); });
-    }
-
-    if (this.getWrapper().getEvents() & ControlEvent.OnLeave) {
-      this.onLeaveSub = this.renderer.listen(this.input, 'focusout', event => { this.callOnLeave(event); });
-    }
+    this.onEnterSub = this.renderer.listen(this.input, 'focusin', event => { this.callOnEnter(event); });
+    this.onLeaveSub = this.renderer.listen(this.input, 'focusout', event => { this.callOnLeave(event); });
   }
 
   public ngOnDestroy(): void {

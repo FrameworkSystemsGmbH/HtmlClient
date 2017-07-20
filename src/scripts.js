@@ -20,6 +20,10 @@ String.prototype.equals = function (other, ignoreCase) {
   return String.equals(this, other, ignoreCase);
 };
 
+String.isNullOrWhiteSpace = function(str) {
+  return !str || str.trim() === String.empty();
+}
+
 Array.prototype.clone = function () {
   let i = this.length;
   let result = new Array(i);

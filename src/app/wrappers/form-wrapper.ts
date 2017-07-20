@@ -114,7 +114,8 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   protected getComponent(): FormComponent {
-    return this.getComponentRef().instance;
+    let compRef: ComponentRef<FormComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   public getViewContainerRef(): ViewContainerRef {
@@ -152,10 +153,8 @@ export class FormWrapper extends ContainerWrapper {
         let control: BaseWrapper = this.controlsService.createWrapperFromType(controlJson, this, parent);
         control.setJson(controlJson, true);
       } else {
-        let controlName: string = controlJson.name;
-        let controlWrps: Array<BaseWrapper> = this.controls.filter((controlWrp: BaseWrapper) => controlWrp.getName() === controlName);
-        if (controlWrps && controlWrps.length) {
-          let control: BaseWrapper = controlWrps[0];
+        let control: BaseWrapper = this.findControlRecursive(controlJson.meta.name);
+        if (control) {
           control.setJson(controlJson, false);
         }
       }
