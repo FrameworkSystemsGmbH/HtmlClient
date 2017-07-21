@@ -4,6 +4,7 @@ import { BaseWrapper } from '../wrappers';
 import { ControlEvent } from '../enums';
 import { Queue } from '../util';
 import { ClientEvent, ClientClickEvent, ClientEnterEvent, ClientLeaveEvent } from '../common/events';
+import { FocusService } from './focus.service';
 
 @Injectable()
 export class EventsService {
@@ -11,6 +12,8 @@ export class EventsService {
   public readonly onEventFired: EventEmitter<any> = new EventEmitter<any>();
 
   private readonly eventQueue: Queue<ClientEvent> = new Queue<ClientEvent>();
+
+  constructor(private focusService: FocusService) { }
 
   public getNextEvent(): ClientEvent {
     return this.eventQueue.dequeue();
@@ -22,7 +25,8 @@ export class EventsService {
   }
 
   public fireLeave(formId: string, controlName: string, hasValueChanged: boolean): void {
-    this.eventQueue.enqueue(new ClientLeaveEvent(formId, controlName, hasValueChanged));
+    let activator: string = this.focusService.getLeaveActivator();
+    this.eventQueue.enqueue(new ClientLeaveEvent(formId, controlName, activator, hasValueChanged));
     this.onEventFired.emit();
   }
 

@@ -60,6 +60,10 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
     return this.fontService.getDataMaxHeightTextBox(this);
   }
 
+  protected hasChangesLeave(): boolean {
+    return this.hasChanges();
+  }
+
   protected abstract hasChanges(): boolean;
 
   protected abstract getValueJson(): string;
@@ -115,7 +119,7 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
     super.attachEvents(instance);
 
     if (this.events & ControlEvent.OnValidated) {
-      this.onValidatedSub = instance.onValidated.subscribe(() => {});
+      this.onValidatedSub = instance.onValidated.subscribe(() => { });
     }
   }
 

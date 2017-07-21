@@ -26,6 +26,7 @@ import { ControlStyleService } from './services/control-style.service';
 import { ControlsService } from './services/controls.service';
 import { ErrorService } from './services/error.service';
 import { EventsService } from './services/events.service';
+import { FocusService } from './services/focus.service';
 import { FontService } from './services/font.service';
 import { FormsService } from './services/forms.service';
 import { HttpService } from './services/http.service';
@@ -97,6 +98,7 @@ import {
     ControlsService,
     ErrorService,
     EventsService,
+    FocusService,
     FontService,
     FormsService,
     HttpService,

@@ -6,9 +6,9 @@ export class ClientLeaveEvent extends ClientEvent {
 
   private args: ClientLeaveEventArgs;
 
-  constructor(formId: string, controlName: string, hasValueChanged: boolean) {
+  constructor(formId: string, controlName: string, activator: string, hasValueChanged: boolean) {
     super(ControlEvent[ControlEvent.OnLeave], formId, controlName);
-    this.args = new ClientLeaveEventArgs('Mouse', String.empty(), hasValueChanged);
+    this.args = new ClientLeaveEventArgs(activator, String.empty(), hasValueChanged);
   }
 
 }

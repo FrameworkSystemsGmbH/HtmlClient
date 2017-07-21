@@ -6,6 +6,7 @@ export * from './control-visibility';
 export * from './datasource-type';
 export * from './horizontal-alignment';
 export * from './horizontal-content-alignment';
+export * from './last-input';
 export * from './picture-scale-mode';
 export * from './request-type';
 export * from './scrollbars';
