@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2, OnDestroy, NgZone } from '@angular/core';
 import { jqxInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxinput';
 
 import { TextBoxBaseComponent } from '../textbox-base.component';

@@ -1,4 +1,4 @@
-import { NgModule, forwardRef } from '@angular/core';
+import { NgModule, forwardRef, ErrorHandler } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -91,6 +91,7 @@ import {
     ReactiveFormsModule
   ],
   providers: [
+    { provide: ErrorHandler, useClass: ErrorService },
     { provide: StorageService, useClass: LocalStorageService },
     ActionsService,
     BrokerService,

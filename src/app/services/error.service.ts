@@ -1,16 +1,10 @@
-import { Injectable, EventEmitter } from '@angular/core';
-
-import { LogService } from './log.service';
+import { Injectable, ErrorHandler } from '@angular/core';
 
 @Injectable()
-export class ErrorService {
+export class ErrorService implements ErrorHandler {
 
-  public readonly errorThrown: EventEmitter<Error> = new EventEmitter<Error>();
-
-  constructor(private logService: LogService) { }
-
-  public processError(error: Error) {
-    this.logService.writeError(error)
-    this.errorThrown.emit(error);
+  public handleError(error: any): void {
+    // Modal dialog here!
+    throw error;
   }
 }
