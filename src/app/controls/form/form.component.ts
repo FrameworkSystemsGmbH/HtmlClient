@@ -47,9 +47,7 @@ export class FormComponent extends ContainerComponent {
     let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
 
     let styles: any = {
-      'backgroundColor': wrapper.getBackColor(),
-      'width.px': layoutableProperties.getLayoutWidth(),
-      'height.px': layoutableProperties.getLayoutHeight()
+      'backgroundColor': wrapper.getBackColor()
     }
 
     return styles;
