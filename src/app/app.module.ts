@@ -28,6 +28,7 @@ import { ErrorService } from './services/error.service';
 import { EventsService } from './services/events.service';
 import { FocusService } from './services/focus.service';
 import { FontService } from './services/font.service';
+import { FormatService } from './services/format.service';
 import { FormsService } from './services/forms.service';
 import { HttpService } from './services/http.service';
 import { LogService } from './services/log.service';
@@ -101,6 +102,7 @@ import {
     EventsService,
     FocusService,
     FontService,
+    FormatService,
     FormsService,
     HttpService,
     LoginService,

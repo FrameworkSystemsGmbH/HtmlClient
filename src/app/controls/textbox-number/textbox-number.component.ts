@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
 import { jqxNumberInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxnumberinput';
 
 import { TextBoxBaseComponent } from '../textbox-base.component';
@@ -16,8 +16,6 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements Afte
 
   @ViewChild('jqxNumberInput') jqxNumberInput: jqxNumberInputComponent;
 
-  public value: number;
-
   private div: HTMLDivElement;
   private input: HTMLInputElement;
 
@@ -31,7 +29,7 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements Afte
   public ngAfterViewInit(): void {
     this.jqxNumberInput.createComponent(this.getJqxOptions());
     this.div = this.jqxNumberInput.widgetObject.getInstance().element;
-    this.input = this.div.lastElementChild as HTMLInputElement;
+    this.input = this.div.querySelector('.jqx-input-content') as HTMLInputElement;
 
     this.onEnterSub = this.renderer.listen(this.input, 'focusin', event => { this.callOnEnter(event); });
     this.onLeaveSub = this.renderer.listen(this.input, 'focusout', event => { this.callOnLeave(event); });
@@ -39,7 +37,7 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements Afte
     this.renderer.removeClass(this.div, 'jqx-rc-all');
     this.renderer.addClass(this.input, 'jqx-rc-all');
 
-    this.jqxNumberInput.val(this.value);
+    this.updateComponent();
   }
 
   public ngOnDestroy(): void {
@@ -177,15 +175,12 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements Afte
   }
 
   public updateComponent(): void {
-    this.value = this.getWrapper().getValue();
-
     if (this.isJqxInputInitialized()) {
       this.jqxNumberInput.val(this.getWrapper().getValue());
     }
   }
 
   private updateWrapper(): void {
-    let value: number = this.jqxNumberInput.val();
-    this.getWrapper().setValue(value);
+    this.getWrapper().setValue(this.jqxNumberInput.val());
   }
 }

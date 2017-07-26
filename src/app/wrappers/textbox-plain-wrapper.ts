@@ -14,19 +14,7 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   }
 
   public setValue(value: string): void {
-    let textFormat: TextFormat = this.getFormat();
-
-    switch (textFormat) {
-      case TextFormat.LowerCase:
-        this.value = value ? value.toLowerCase() : value;
-        break;
-      case TextFormat.UpperCase:
-        this.value = value ? value.toUpperCase() : value;
-        break;
-      default:
-        this.value = value;
-        break;
-    }
+    this.value = value;
   }
 
   protected getValueJson(): string {
@@ -35,7 +23,7 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
   protected setValueJson(value: string): void {
     let val: string = value ? value : null;
-
+    val = this.formatService.formatString(val, this.getFormat());
     this.orgValue = val;
     this.setValue(val);
   }

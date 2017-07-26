@@ -2,3 +2,7 @@
 *:active {
   outline: none !important;
 }
+
+input {
+  @include round-corners();
+}

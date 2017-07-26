@@ -1,13 +1,26 @@
+import { Injector } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { BaseWrapperFittedData } from '.';
+import { BaseWrapperFittedData, FormWrapper, ContainerWrapper } from '.';
 import { TextBoxPlainComponent } from '../controls';
 import { ControlEvent, TextAlign, TextFormat } from '../enums';
 import { TextBoxBaseComponent } from '../controls/textbox-base.component';
+import { FormatService } from '../services/format.service';
 
 export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
 
+  protected formatService: FormatService;
+
   private onValidatedSub: ISubscription;
+
+  constructor(
+    form: FormWrapper,
+    parent: ContainerWrapper,
+    appInjector: Injector
+  ) {
+    super(form, parent, appInjector);
+    this.formatService = appInjector.get(FormatService);
+  }
 
   public getDisabledBackColor(): string {
     let disabledBackColor: string = this.propertyStore.getDisabledBackColor();
