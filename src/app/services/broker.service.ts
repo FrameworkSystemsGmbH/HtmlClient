@@ -39,10 +39,7 @@ export class BrokerService {
     private routingService: RoutingService,
     private titleService: TitleService
   ) {
-
-    this.activeToken = String.empty();
-    this.requestCounter = 0;
-    this.languages = ['de', 'en'];
+    this.resetActiveBroker();
     this.activeBrokerChanged = new EventEmitter<LoginBroker>();
 
     this.onEventFiredSub = this.eventsService.onEventFired.subscribe(() => {
@@ -63,13 +60,20 @@ export class BrokerService {
       this.routingService.showViewer();
     } else {
       if (this.activeBroker) {
-        this.formsService.resetViews();
+        this.resetActiveBroker();
       }
       this.httpService.setBrokerUrl(broker.url);
       this.activeBroker = broker;
       this.activeBrokerChanged.emit(broker);
       this.sendInitRequest();
     }
+  }
+
+  private resetActiveBroker(): void {
+    this.formsService.resetViews();
+    this.activeToken = String.empty();
+    this.requestCounter = 0;
+    this.languages = ['de', 'en'];
   }
 
   public sendInitRequest(): void {

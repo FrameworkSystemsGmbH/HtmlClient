@@ -15,7 +15,7 @@ export class FrameComponent implements OnInit, AfterViewInit {
   private selectedForm: FormWrapper;
   private selectedFormSub: ISubscription;
 
-  constructor(private formsService: FormsService) {}
+  constructor(private formsService: FormsService) { }
 
   public ngOnInit(): void {
     this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.showForm(form); });
@@ -31,5 +31,4 @@ export class FrameComponent implements OnInit, AfterViewInit {
     this.selectedForm = form;
     form.attachComponentToFrame(this.anchor);
   }
-
 }
