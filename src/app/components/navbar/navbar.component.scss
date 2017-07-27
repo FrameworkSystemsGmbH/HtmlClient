@@ -149,6 +149,7 @@
 }
 
 .hc-navbar-side {
+  z-index: 2000;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -159,10 +160,9 @@
   background-color: $navbar-background;
   user-select: none;
   cursor: default;
-  z-index: 1000;
 
   &:after {
-    box-shadow: 10px 0 10px -10px inset;
+    box-shadow: 10px 0 10px -10px black inset;
     content: " ";
     height: 100%;
     position: absolute;
@@ -188,4 +188,15 @@
       @include navbar-side-list();
     }
   }
+}
+
+.hc-navbar-side-overlay {
+  z-index: 1000;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: $navbar-height + 1px;
+  bottom: 0;
+  background-color: black;
+  opacity: 0.75;
 }

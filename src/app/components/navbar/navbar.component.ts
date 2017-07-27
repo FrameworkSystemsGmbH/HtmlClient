@@ -30,6 +30,22 @@ declare var $;
         animate(200, style({
           transform: 'translateX(-300px)'
         }))])
+    ]),
+    trigger('overlay', [
+      transition('void => *', [
+        style({
+          opacity: 0
+        }),
+        animate(200, style({
+          opacity: 0.75
+        }))]),
+      transition('* => void', [
+        style({
+          opacity: 0.75
+        }),
+        animate(200, style({
+          opacity: 0
+        }))])
     ])
   ]
 })
@@ -137,6 +153,10 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.formsService.selectForm(form);
+
+    if (this.sidebarVisible) {
+      this.toggleSidebar();
+    }
   }
 
   public closeForm(event: any, form: FormWrapper): void {
