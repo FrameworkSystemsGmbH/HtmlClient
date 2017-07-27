@@ -19,9 +19,11 @@ export class HttpService {
   }
 
   public doRequest(requestJson: any): void {
+    // console.log(JSON.stringify(requestJson, null, 2));
     this.http.post(this.brokerUrl, requestJson)
       .map(response => response.json())
       .subscribe(responseJson => {
+        // console.log(JSON.stringify(responseJson, null, 2));
         this.onResponseReceived.emit(responseJson);
       });
   }

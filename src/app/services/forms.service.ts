@@ -8,6 +8,7 @@ import { FormWrapper } from '../wrappers';
 import { ResponseFormDto } from '../communication/response';
 import { ControlsService } from './controls.service';
 import { ClientEvent } from '../common/events';
+import { EventsService } from './events.service';
 
 @Injectable()
 export class FormsService {
@@ -17,7 +18,9 @@ export class FormsService {
   private forms: Array<FormWrapper> = new Array<FormWrapper>();
   private selectedForm: FormWrapper;
 
-  constructor(private controlsService: ControlsService) {
+  constructor(
+    private controlsService: ControlsService,
+    private eventsService: EventsService) {
     this.formSelected = new EventEmitter<FormWrapper>();
   }
 
@@ -34,15 +37,34 @@ export class FormsService {
     this.formSelected.emit(form);
   }
 
+  public closeForm(form: FormWrapper): void {
+    let formId: string = form.getId();
+
+    this.eventsService.fireClose(formId);
+    this.eventsService.fireDispose(formId);
+
+    let index: number = this.forms.indexOf(form);
+
+    this.forms.remove(form);
+
+    if (form === this.selectedForm) {
+      if (index < this.forms.length && index >= 0) {
+        this.selectForm(this.forms[index]);
+      } else if (this.forms.length) {
+        this.selectForm(this.forms[0]);
+      } else {
+        this.selectForm(null);
+      }
+    }
+  }
+
   public resetViews(): void {
     this.forms = new Array<FormWrapper>();
-    this.selectedForm = null;
+    this.selectForm(null);
   }
 
   public fireSelectCurrentForm(): void {
-    if (this.selectedForm) {
-      this.selectForm(this.selectedForm);
-    }
+    this.selectForm(this.selectedForm ? this.selectedForm : null);
   }
 
   public getFormsJson(): any {
@@ -66,11 +88,11 @@ export class FormsService {
   public setJson(fromsJson: any) {
     for (let formJson of fromsJson) {
       if (formJson.meta.new) {
-        let formWrp: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType({ meta: { typeId: ControlType.Form } }, null, null);
-        formWrp.setJson(formJson, true);
-        this.forms.push(formWrp);
-        if (!this.selectedForm) {
-          this.selectedForm = formWrp;
+        let form: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType({ meta: { typeId: ControlType.Form } }, null, null);
+        form.setJson(formJson, true);
+        this.forms.push(form);
+        if (!this.selectedForm || formJson.meta.focused) {
+          this.selectForm(form);
         }
       } else {
         let formId: string = formJson.meta.id;
@@ -78,6 +100,9 @@ export class FormsService {
         if (formWrps && formWrps.length) {
           let form: FormWrapper = formWrps[0];
           form.setJson(formJson, false);
+          if (!this.selectedForm || formJson.meta.focused) {
+            this.selectForm(form);
+          }
         }
       }
     }

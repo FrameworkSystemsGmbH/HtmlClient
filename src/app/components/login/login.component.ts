@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.brokersSub = this.loginService.getBrokers().subscribe(brokers => { this.brokers = brokers; });
-    this.brokerService.activeBrokerChanged.subscribe(broker => { this.activeBroker = broker });
+    this.activeBrokerSub = this.brokerService.activeBrokerChanged.subscribe(broker => { this.activeBroker = broker });
 
     this.activeBroker = this.brokerService.getActiveBroker();
     this.nameControl = new FormControl(null, Validators.required, this.createBrokerValidator(this.loginService));
@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.brokersSub.unsubscribe();
+    this.activeBrokerSub.unsubscribe();
   }
 
   public nameHasErrors(): boolean {

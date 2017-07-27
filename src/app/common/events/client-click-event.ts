@@ -6,5 +6,4 @@ export class ClientClickEvent extends ClientEvent {
   constructor(formId: string, controlName: string) {
     super(ControlEvent[ControlEvent.OnClick], formId, controlName);
   }
-
 }

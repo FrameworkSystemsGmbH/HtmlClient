@@ -1,6 +1,6 @@
 import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, Injector, ElementRef } from '@angular/core';
 
-import { BaseWrapper, ContainerWrapper } from '.';
+import { BaseWrapper, ContainerWrapper, VariantWrapper } from '.';
 import { ControlType } from '../enums';
 import { FormComponent } from '../controls';
 import { ResponseFormDto } from '../communication/response';
@@ -8,23 +8,14 @@ import { PropertyLayer } from '../common';
 import { WindowRefService } from '../services/windowref.service';
 import { LayoutableProperties } from '../layout';
 
-export class ASD {
-  public name: string;
-  public other: string;
-}
-
 export class FormWrapper extends ContainerWrapper {
 
   private id: string;
   private title: string;
   private fullName: string;
 
-  public doLayout(): void {
-    let container: ElementRef = this.getComponent().getContainter();
+  public doLayout(availableWidth: number, availableHeight: number): void {
     let scrollBarWidth: number = this.controlsService.getScrollBarWidth();
-
-    let availableWidth: number = container.nativeElement.clientWidth;
-    let availableHeight: number = container.nativeElement.clientHeight;
 
     // Get the absolute minimum width of the form
     let minWidth: number = this.getMinLayoutWidth();
@@ -107,6 +98,14 @@ export class FormWrapper extends ContainerWrapper {
 
   public getTitle(): string {
     return this.title ? this.title : this.fullName;
+  }
+
+  private getDefaultVariant(): VariantWrapper {
+    return null;
+  }
+
+  public isCloseIconVisible(): boolean {
+    return true;
   }
 
   protected getComponentRef(): ComponentRef<FormComponent> {

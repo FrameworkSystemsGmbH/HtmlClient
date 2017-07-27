@@ -3,7 +3,7 @@ import { EventEmitter, Injectable, } from '@angular/core';
 import { BaseWrapper } from '../wrappers';
 import { ControlEvent } from '../enums';
 import { Queue } from '../util';
-import { ClientEvent, ClientClickEvent, ClientEnterEvent, ClientLeaveEvent } from '../common/events';
+import { ClientEvent, ClientClickEvent, ClientEnterEvent, ClientLeaveEvent, ClientCloseEvent, ClientDisposeEvent } from '../common/events';
 import { FocusService } from './focus.service';
 
 @Injectable()
@@ -40,6 +40,16 @@ export class EventsService {
 
   public fireClick(formId: string, controlName: string): void {
     this.eventQueue.enqueue(new ClientClickEvent(formId, controlName));
+    this.onEventFired.emit();
+  }
+
+  public fireClose(formId: string): void {
+    this.eventQueue.enqueue(new ClientCloseEvent(formId));
+    this.onEventFired.emit();
+  }
+
+  public fireDispose(formId: string) {
+    this.eventQueue.enqueue(new ClientDisposeEvent(formId));
     this.onEventFired.emit();
   }
 }

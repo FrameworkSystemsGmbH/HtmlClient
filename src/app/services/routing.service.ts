@@ -17,5 +17,4 @@ export class RoutingService {
       this.router.navigate(['/viewer'], { skipLocationChange: true });
     }
   }
-
 }

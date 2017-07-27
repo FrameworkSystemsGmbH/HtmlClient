@@ -129,8 +129,18 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.routingService.showLogin();
   }
 
-  public selectForm(form: FormWrapper): void {
+  public selectForm(event: any, form: FormWrapper): void {
+    let target: HTMLElement = event.target;
+
+    if (target && target.classList.contains('hc-navbar-close-icon')) {
+      return;
+    }
+
     this.formsService.selectForm(form);
+  }
+
+  public closeForm(event: any, form: FormWrapper): void {
+    this.formsService.closeForm(form);
   }
 
   @HostListener('window:resize')

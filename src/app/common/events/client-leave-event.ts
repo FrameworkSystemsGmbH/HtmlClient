@@ -10,5 +10,4 @@ export class ClientLeaveEvent extends ClientEvent {
     super(ControlEvent[ControlEvent.OnLeave], formId, controlName);
     this.args = new ClientLeaveEventArgs(activator, String.empty(), hasValueChanged);
   }
-
 }

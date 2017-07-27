@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, ViewContainerRef, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 import { FormsService } from '../../services/forms.service';
 import { FormWrapper } from '../../wrappers';
@@ -8,8 +8,9 @@ import { FormWrapper } from '../../wrappers';
   templateUrl: './frame.component.html',
   styleUrls: ['./frame.component.scss']
 })
-export class FrameComponent implements OnInit, AfterViewInit {
+export class FrameComponent implements OnInit, OnDestroy {
 
+  @ViewChild('frame') frame: ElementRef;
   @ViewChild('anchor', { read: ViewContainerRef }) anchor: ViewContainerRef;
 
   private selectedForm: FormWrapper;
@@ -22,13 +23,27 @@ export class FrameComponent implements OnInit, AfterViewInit {
     this.formsService.fireSelectCurrentForm();
   }
 
-  public ngAfterViewInit(): void {
-    this.selectedForm.doLayout();
+  public ngOnDestroy(): void {
+    this.selectedFormSub.unsubscribe();
+  }
+
+  @HostListener('window:resize')
+  private layout(): void {
+    if (this.selectedForm) {
+      let availableWidth: number = this.frame.nativeElement.clientWidth;
+      let availableHeight: number = this.frame.nativeElement.clientHeight;
+      this.selectedForm.doLayout(availableWidth, availableHeight);
+    }
   }
 
   private showForm(form: FormWrapper): void {
     this.anchor.clear();
-    this.selectedForm = form;
-    form.attachComponentToFrame(this.anchor);
+    if (form) {
+      this.selectedForm = form;
+      this.selectedForm.attachComponentToFrame(this.anchor);
+      this.layout();
+    } else {
+      this.selectedForm = null;
+    }
   }
 }

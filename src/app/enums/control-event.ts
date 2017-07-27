@@ -4,5 +4,7 @@ export enum ControlEvent {
   OnDrag      = 1 << 2,
   OnCanDrop   = 1 << 3,
   OnClick     = 1 << 4,
-  OnValidated = 1 << 5
+  OnValidated = 1 << 5,
+  OnClose     = 1 << 6,
+  OnDispose   = 1 << 7
 }

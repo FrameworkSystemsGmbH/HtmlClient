@@ -19,6 +19,15 @@
       color: $navbar-color-highlight;
       background-color: $navbar-background-highlight;
     }
+
+    span.hc-navbar-close-icon-span {
+      margin-left: 5px;
+      color: $navbar-color;
+
+      &:hover {
+        color: $navbar-close-hover;
+      }
+    }
   }
 }
 
@@ -40,6 +49,15 @@
     &:hover {
       color: $navbar-color-highlight;
       background-color: $navbar-background-highlight;
+    }
+
+    span.hc-navbar-close-icon-span {
+      float: right;
+      color: $navbar-color;
+
+      &:hover {
+        color: $navbar-close-hover;
+      }
     }
   }
 }

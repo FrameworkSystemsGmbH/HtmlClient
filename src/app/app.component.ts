@@ -1,8 +1,5 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
-import { FormsService } from './services/forms.service';
-import { WindowRefService } from './services/windowref.service';
-import { FormWrapper } from './wrappers';
 import { FocusService } from './services/focus.service';
 
 @Component({
@@ -12,18 +9,7 @@ import { FocusService } from './services/focus.service';
 })
 export class AppComponent {
 
-  constructor(
-    private focusService: FocusService,
-    private formsService: FormsService,
-    private windowRefService: WindowRefService) { }
-
-  @HostListener('window:resize')
-  private layout(): void {
-    let form: FormWrapper = this.formsService.getSelectedForm();
-    if (form) {
-      form.doLayout();
-    }
-  }
+  constructor(private focusService: FocusService) { }
 
   @HostListener('window:keydown', ['$event'])
   private globalKeyDown(event: any): void {
