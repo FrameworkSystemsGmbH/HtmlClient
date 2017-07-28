@@ -40,7 +40,10 @@ export class FormsService {
   public closeForm(form: FormWrapper): void {
     let formId: string = form.getId();
 
-    this.eventsService.fireClose(formId);
+    if (form.isCloseEventAttached()) {
+      this.eventsService.fireClose(formId);
+    }
+
     this.eventsService.fireDispose(formId);
 
     let index: number = this.forms.indexOf(form);

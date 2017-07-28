@@ -2,8 +2,18 @@ import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFact
 
 import { ContainerWrapper } from '.';
 import { VariantComponent } from '../controls';
+import { ControlEvent } from '../enums';
 
 export class VariantWrapper extends ContainerWrapper {
+
+  public getIsCloseIconVisible(): boolean {
+    let isCloseIconVisible: boolean = this.propertyStore.getIsCloseIconVisible();
+    return isCloseIconVisible != null ? isCloseIconVisible : false;
+  }
+
+  public isCloseEventAttached(): boolean {
+    return (this.events & ControlEvent.OnClose) === ControlEvent.OnClose;
+  }
 
   protected getComponentRef(): ComponentRef<VariantComponent> {
     return super.getComponentRef() as ComponentRef<VariantComponent>;

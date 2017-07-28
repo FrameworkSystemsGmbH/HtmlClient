@@ -40,18 +40,6 @@ export class ButtonWrapper extends BaseWrapperFitted {
     }
   }
 
-  protected setEventsJson(eventsJson: any): void {
-    super.setEventsJson(eventsJson);
-
-    if (!eventsJson) {
-      return;
-    }
-
-    if (eventsJson.click) {
-      this.events |= ControlEvent.OnClick;
-    }
-  }
-
   public createComponent(container: ContainerWrapper): void {
     let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
     let factory: ComponentFactory<ButtonComponent> = cfr.resolveComponentFactory(ButtonComponent);

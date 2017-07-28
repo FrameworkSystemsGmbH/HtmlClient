@@ -112,18 +112,6 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
     }
   }
 
-  protected setEventsJson(eventsJson: any): void {
-    super.setEventsJson(eventsJson);
-
-    if (!eventsJson) {
-      return;
-    }
-
-    if (eventsJson.leave) {
-      this.events |= ControlEvent.OnLeave;
-    }
-  }
-
   public updateFittedWidth(): void {
     this.setFittedContentWidth(null);
   }
