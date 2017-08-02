@@ -1,13 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
-
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class HttpService {
-
-  public static readonly BROKERURL: string = 'http://localhost:4200/static/response.json';
-
-  public readonly onResponseReceived: EventEmitter<any> = new EventEmitter<any>();
 
   private brokerUrl: string;
 
@@ -18,13 +14,9 @@ export class HttpService {
     this.brokerUrl = brokerUrl;
   }
 
-  public doRequest(requestJson: any): void {
-    // console.log(JSON.stringify(requestJson, null, 2));
-    this.http.post(this.brokerUrl, requestJson)
-      .map(response => response.json())
-      .subscribe(responseJson => {
-        // console.log(JSON.stringify(responseJson, null, 2));
-        this.onResponseReceived.emit(responseJson);
-      });
+  public doRequest(requestJson: any): Observable<any> {
+    console.log(JSON.stringify(requestJson, null, 2));
+    return this.http.post(this.brokerUrl, requestJson)
+      .map(response => response.json());
   }
 }

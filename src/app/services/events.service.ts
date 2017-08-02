@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable, } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 import { BaseWrapper } from '../wrappers';
 import { ControlEvent } from '../enums';
@@ -9,25 +10,17 @@ import { FocusService } from './focus.service';
 @Injectable()
 export class EventsService {
 
-  public readonly onEventFired: EventEmitter<any> = new EventEmitter<any>();
-
-  private readonly eventQueue: Queue<ClientEvent> = new Queue<ClientEvent>();
+  public readonly onEventFired: EventEmitter<ClientEvent> = new EventEmitter<ClientEvent>();
 
   constructor(private focusService: FocusService) { }
 
-  public getNextEvent(): ClientEvent {
-    return this.eventQueue.dequeue();
-  }
-
   public fireEnter(formId: string, controlName: string): void {
-    this.eventQueue.enqueue(new ClientEnterEvent(formId, controlName));
-    this.onEventFired.emit();
+    this.onEventFired.emit(new ClientEnterEvent(formId, controlName));
   }
 
   public fireLeave(formId: string, controlName: string, hasValueChanged: boolean): void {
     let activator: string = this.focusService.getLeaveActivator();
-    this.eventQueue.enqueue(new ClientLeaveEvent(formId, controlName, activator, hasValueChanged));
-    this.onEventFired.emit();
+    this.onEventFired.emit(new ClientLeaveEvent(formId, controlName, activator, hasValueChanged));
   }
 
   public fireDrag(formId: string, controlName: string): void {
@@ -39,17 +32,14 @@ export class EventsService {
   }
 
   public fireClick(formId: string, controlName: string): void {
-    this.eventQueue.enqueue(new ClientClickEvent(formId, controlName));
-    this.onEventFired.emit();
+    this.onEventFired.emit(new ClientClickEvent(formId, controlName));
   }
 
   public fireClose(formId: string): void {
-    this.eventQueue.enqueue(new ClientCloseEvent(formId));
-    this.onEventFired.emit();
+    this.onEventFired.emit(new ClientCloseEvent(formId));
   }
 
   public fireDispose(formId: string) {
-    this.eventQueue.enqueue(new ClientDisposeEvent(formId));
-    this.onEventFired.emit();
+    this.onEventFired.emit(new ClientDisposeEvent(formId));
   }
 }

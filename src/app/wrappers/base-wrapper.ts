@@ -6,7 +6,6 @@ import { BaseComponent } from '../controls';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment, ControlEvent } from '../enums';
 import { LayoutableControl, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer, LayoutableProperties, LayoutBase, LayoutablePropertiesDefault } from '../layout';
 import { VchControl, VchContainer } from '../vch';
-import { ResponseControlDto } from '../communication/response';
 import { PropertyStore, PropertyData, PropertyLayer } from '../common';
 import { EventsService } from '../services/events.service';
 import { ControlStyleService } from '../services/control-style.service';

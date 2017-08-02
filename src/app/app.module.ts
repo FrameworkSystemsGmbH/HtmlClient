@@ -16,7 +16,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ViewerComponent } from './components/viewer/viewer.component';
 import { FrameComponent } from './components/frame/frame.component';
 import { MediaQueryDirective, MouseWheelDirective } from './directives';
-import { ResponseFormDto } from './communication/response';
 import { FormWrapper } from './wrappers';
 import { StorageService } from './services/storage.service';
 import { LocalStorageService } from './services/local-storage.service';

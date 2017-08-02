@@ -5,7 +5,6 @@ import { BaseComponent, ContainerComponent } from '../controls';
 import { LayoutableControl, LayoutableContainer, LayoutContainerBase, LayoutBase } from '../layout';
 import { JsonUtil } from '../util';
 import { VchContainer } from '../vch';
-import { ResponseControlDto } from '../communication/response';
 import { EventsService } from '../services/events.service';
 import { ControlStyleService } from '../services/control-style.service';
 import { ControlsService } from '../services/controls.service';

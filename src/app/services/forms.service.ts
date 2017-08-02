@@ -5,7 +5,6 @@ import { ISubscription } from 'rxjs/Subscription';
 import { ControlType } from '../enums';
 import { JsonUtil } from '../util';
 import { FormWrapper } from '../wrappers';
-import { ResponseFormDto } from '../communication/response';
 import { ControlsService } from './controls.service';
 import { ClientEvent } from '../common/events';
 import { EventsService } from './events.service';

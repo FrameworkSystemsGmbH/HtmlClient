@@ -2,8 +2,7 @@ import { Injectable, ViewContainerRef, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ISubscription } from 'rxjs/subscription';
 
-import { JsonUtil, Queue } from '../util';
-import { ResponseDto } from '../communication/response';
+import { JsonUtil } from '../util';
 import { HttpService } from './http.service';
 import { ActionsService } from './actions.service';
 import { ControlStyleService } from './control-style.service';
@@ -21,13 +20,11 @@ export class BrokerService {
 
   public activeBrokerChanged: EventEmitter<LoginBroker>;
 
-  private requestActive: boolean;
   private activeToken: string;
   private activeBroker: LoginBroker;
   private requestCounter: number;
   private languages: Array<string>;
   private onEventFiredSub: ISubscription;
-  private onResponseReceivedSub: ISubscription;
 
   constructor(
     private httpService: HttpService,
@@ -42,13 +39,9 @@ export class BrokerService {
     this.resetActiveBroker();
     this.activeBrokerChanged = new EventEmitter<LoginBroker>();
 
-    this.onEventFiredSub = this.eventsService.onEventFired.subscribe(() => {
-      this.processPendingEvents();
-    });
-
-    this.onResponseReceivedSub = this.httpService.onResponseReceived.subscribe((json: any) => {
-      this.processResponse(json);
-    });
+    this.onEventFiredSub = this.eventsService.onEventFired
+      .concatMap(event => this.httpService.doRequest(this.createRequest(event)))
+      .subscribe(responseJson => this.processResponse(responseJson));
   }
 
   public getActiveBroker(): LoginBroker {
@@ -77,13 +70,11 @@ export class BrokerService {
   }
 
   public sendInitRequest(): void {
-    this.requestActive = true;
-
     let requestJson: any = {
       meta: this.getMetaJson(RequestType.Request)
     };
 
-    this.httpService.doRequest(requestJson);
+    this.httpService.doRequest(requestJson).subscribe(responseJson => this.processResponse(responseJson));
   }
 
   private getMetaJson(requestType: RequestType): any {
@@ -112,17 +103,6 @@ export class BrokerService {
     return requestJson;
   }
 
-  private processPendingEvents(): void {
-    if (!this.requestActive) {
-      let nextEvent: ClientEvent = this.eventsService.getNextEvent();
-      if (nextEvent) {
-        this.requestActive = true;
-        let json: any = this.createRequest(nextEvent);
-        this.httpService.doRequest(json);
-      }
-    }
-  }
-
   public processResponse(json: any) {
     if (!json) {
       throw new Error('Response JSON is null or empty!');
@@ -143,8 +123,6 @@ export class BrokerService {
       this.actionsService.processActions(json.actions);
     }
 
-    this.requestActive = false;
-    this.processPendingEvents();
     this.routingService.showViewer();
   }
 

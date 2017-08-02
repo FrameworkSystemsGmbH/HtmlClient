@@ -3,7 +3,6 @@ import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFact
 import { BaseWrapper, ContainerWrapper, VariantWrapper } from '.';
 import { ControlType } from '../enums';
 import { FormComponent } from '../controls';
-import { ResponseFormDto } from '../communication/response';
 import { PropertyLayer } from '../common';
 import { WindowRefService } from '../services/windowref.service';
 import { LayoutableProperties } from '../layout';
@@ -198,5 +197,4 @@ export class FormWrapper extends ContainerWrapper {
 
     this.getLayout().doLayout();
   }
-
 }
