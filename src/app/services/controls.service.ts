@@ -1,5 +1,4 @@
-import { ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, Injector, ViewContainerRef, ApplicationRef } from '@angular/core';
-import { ISubscription } from 'rxjs/subscription';
+import { Injectable, Injector } from '@angular/core';
 
 import {
   BaseWrapper,

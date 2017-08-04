@@ -1,7 +1,5 @@
-import { animate, transition, trigger, state, style } from '@angular/animations';
+import { animate, transition, trigger, style } from '@angular/animations';
 import { Component, ViewChild, ElementRef, AfterViewInit, HostListener, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { FormWrapper } from '../../wrappers';
@@ -164,7 +162,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   @HostListener('window:resize')
-  private refreshScroller(): void {
+  public refreshScroller(): void {
     let divWidth: number = $(this.center.nativeElement).width();
     let ulWidth: number = this.tabs.nativeElement.scrollWidth;
     let maxScroll: number = Math.max(0, ulWidth - divWidth);
@@ -190,14 +188,14 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   @HostListener('body:swipeleft')
-  private swipeLeft(): void {
+  public swipeLeft(): void {
     if (this.sidebarVisible) {
       this.toggleSidebar();
     }
   }
 
   @HostListener('body:swiperight', ['$event'])
-  private swipeRight(event: any): void {
+  public swipeRight(event: any): void {
     let startX: number = event.center.x - event.deltaX;
     if (startX < 20 && this.sidebarEnabled && !this.sidebarVisible) {
       this.toggleSidebar();

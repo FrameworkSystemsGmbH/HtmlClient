@@ -1,11 +1,11 @@
-import { Component, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
 import { jqxNumberInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxnumberinput';
 
 import { TextBoxBaseComponent } from '../textbox-base.component';
 import { StyleUtil } from '../../util';
 import { TextBoxNumberWrapper } from '../../wrappers';
 import { LayoutableProperties } from '../../layout';
-import { TextFormat, ControlEvent } from '../../enums';
+import { TextFormat } from '../../enums';
 
 @Component({
   selector: 'hc-txt-number',
@@ -114,7 +114,6 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements Afte
 
   public getWrapperStyles(): any {
     let wrapper: TextBoxNumberWrapper = this.getWrapper();
-    let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
 
     let styles: any = {
       'left.px': wrapper.getLayoutableProperties().getX(),

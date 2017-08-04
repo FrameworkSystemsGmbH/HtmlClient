@@ -11,7 +11,7 @@
     ],
     "curly": true,
     "eofline": false,
-    "forin": false,
+    "forin": true,
     "import-blacklist": [
       true,
       "rxjs"

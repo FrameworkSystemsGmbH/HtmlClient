@@ -1,7 +1,7 @@
 import { WrapRow, WrapColumn, WrapContainer, WrapArrangement } from '.';
 import { LayoutContainerBase, LayoutableControlWrapper, LayoutableControl, LayoutableProperties } from '..';
 import { HorizontalContentAlignment, HorizontalAlignment, VerticalAlignment, VerticalContentAlignment } from '../../enums';
-import { Queue, LinkedListOneWay } from '../../util';
+import { LinkedListOneWay } from '../../util';
 
 export class WrapLayout extends LayoutContainerBase {
 

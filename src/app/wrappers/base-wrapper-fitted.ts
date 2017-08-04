@@ -1,6 +1,5 @@
 import { Injector } from '@angular/core';
 
-import { LayoutBase } from '../layout';
 import { BaseWrapper, FormWrapper, ContainerWrapper } from '.';
 import { FontService } from '../services/font.service';
 

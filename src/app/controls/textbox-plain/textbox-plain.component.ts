@@ -1,11 +1,8 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, OnInit, Renderer2, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
-import { jqxInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxinput';
+import { Component, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
 
 import { TextBoxBaseComponent } from '../textbox-base.component';
-import { StyleUtil } from '../../util';
 import { TextBoxPlainWrapper } from '../../wrappers';
 import { LayoutableProperties } from '../../layout';
-import { ControlEvent, TextFormat } from '../../enums';
 import { FormatService } from '../../services/format.service';
 
 @Component({
@@ -20,7 +17,6 @@ export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnIni
   public value: string;
 
   constructor(
-    private renderer: Renderer2,
     private formatService: FormatService) {
     super();
   }

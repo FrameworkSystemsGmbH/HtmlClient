@@ -1,5 +1,4 @@
-import { Injectable, ViewContainerRef, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable, EventEmitter } from '@angular/core';
 import { ISubscription } from 'rxjs/subscription';
 
 import { JsonUtil } from '../util';
@@ -8,7 +7,6 @@ import { ActionsService } from './actions.service';
 import { ControlStyleService } from './control-style.service';
 import { EventsService } from './events.service';
 import { FormsService } from './forms.service';
-import { ErrorService } from './error.service';
 import { RoutingService } from './routing.service';
 import { TitleService } from './title.service';
 import { LoginBroker } from '../common';
@@ -32,7 +30,6 @@ export class BrokerService {
     private controlStyleSerivce: ControlStyleService,
     private eventsService: EventsService,
     private formsService: FormsService,
-    private errorService: ErrorService,
     private routingService: RoutingService,
     private titleService: TitleService
   ) {

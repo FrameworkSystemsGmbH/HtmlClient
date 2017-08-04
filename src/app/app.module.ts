@@ -1,8 +1,8 @@
-import { NgModule, forwardRef, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule, NG_VALIDATORS } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, } from '@angular/router';
 
 import { jqxInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxinput';
@@ -16,7 +16,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ViewerComponent } from './components/viewer/viewer.component';
 import { FrameComponent } from './components/frame/frame.component';
 import { MediaQueryDirective, MouseWheelDirective } from './directives';
-import { FormWrapper } from './wrappers';
 import { StorageService } from './services/storage.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { ActionsService } from './services/actions.service';

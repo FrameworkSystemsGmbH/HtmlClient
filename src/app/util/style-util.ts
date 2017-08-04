@@ -1,4 +1,4 @@
-import { HorizontalAlignment, TextAlign } from '../enums';
+import { TextAlign } from '../enums';
 
 export class StyleUtil {
 

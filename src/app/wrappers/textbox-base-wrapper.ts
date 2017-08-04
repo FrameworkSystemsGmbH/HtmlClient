@@ -2,7 +2,6 @@ import { Injector } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { BaseWrapperFittedData, FormWrapper, ContainerWrapper } from '.';
-import { TextBoxPlainComponent } from '../controls';
 import { ControlEvent, TextAlign, TextFormat } from '../enums';
 import { TextBoxBaseComponent } from '../controls/textbox-base.component';
 import { FormatService } from '../services/format.service';

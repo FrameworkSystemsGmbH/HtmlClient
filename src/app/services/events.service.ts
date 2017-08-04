@@ -1,9 +1,5 @@
 import { EventEmitter, Injectable, } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 
-import { BaseWrapper } from '../wrappers';
-import { ControlEvent } from '../enums';
-import { Queue } from '../util';
 import { ClientEvent, ClientClickEvent, ClientEnterEvent, ClientLeaveEvent, ClientCloseEvent, ClientDisposeEvent } from '../common/events';
 import { FocusService } from './focus.service';
 

@@ -22,9 +22,6 @@ export class MouseWheelDirective {
   }
 
   private mouseWheelFunc(event: any): void {
-    // Old IE support
-    let internalEvent = window.event || event;
-
     let delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
 
     if (delta > 0) {

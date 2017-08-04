@@ -1,4 +1,4 @@
-import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
+import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { ContainerWrapper, BaseWrapperFitted } from '.';

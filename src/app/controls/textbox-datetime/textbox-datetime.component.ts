@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
 import { jqxDateTimeInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxdatetimeinput';
 
 import { TextBoxBaseComponent } from '../textbox-base.component';
@@ -85,7 +85,6 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements Af
 
   public getWrapperStyles(): any {
     let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
-    let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
 
     let styles: any = {
       'left.px': wrapper.getLayoutableProperties().getX(),

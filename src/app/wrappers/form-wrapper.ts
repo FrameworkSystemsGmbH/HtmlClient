@@ -1,10 +1,7 @@
-import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, Injector, ElementRef } from '@angular/core';
+import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
 import { BaseWrapper, ContainerWrapper, VariantWrapper } from '.';
-import { ControlType } from '../enums';
 import { FormComponent } from '../controls';
-import { PropertyLayer } from '../common';
-import { WindowRefService } from '../services/windowref.service';
 import { LayoutableProperties } from '../layout';
 
 export class FormWrapper extends ContainerWrapper {

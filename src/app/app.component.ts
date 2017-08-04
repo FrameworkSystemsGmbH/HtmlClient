@@ -12,12 +12,12 @@ export class AppComponent {
   constructor(private focusService: FocusService) { }
 
   @HostListener('window:keydown', ['$event'])
-  private globalKeyDown(event: any): void {
+  public globalKeyDown(event: any): void {
     this.focusService.setLastKeyEvent(event);
   }
 
   @HostListener('window:mousedown', ['$event'])
-  private globalMouseDown(event: any): void {
+  public globalMouseDown(event: any): void {
     this.focusService.setLastMouseEvent(event);
   }
 }

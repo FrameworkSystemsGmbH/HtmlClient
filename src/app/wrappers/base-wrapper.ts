@@ -1,11 +1,11 @@
-import { ComponentRef, Injector, ViewContainerRef } from '@angular/core';
+import { ComponentRef, Injector } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { ContainerWrapper, FormWrapper } from '.';
 import { BaseComponent } from '../controls';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment, ControlEvent } from '../enums';
 import { LayoutableControl, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer, LayoutableProperties, LayoutBase, LayoutablePropertiesDefault } from '../layout';
-import { VchControl, VchContainer } from '../vch';
+import { VchControl } from '../vch';
 import { PropertyStore, PropertyData, PropertyLayer } from '../common';
 import { EventsService } from '../services/events.service';
 import { ControlStyleService } from '../services/control-style.service';

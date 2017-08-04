@@ -1,5 +1,5 @@
 import { FieldContainer, FieldRowWrapper, FieldColumnWrapper, FieldCellWrapper, FieldRowLabelMode } from '.';
-import { LayoutContainerBase, LayoutableContainer, LayoutableControlLabel } from '..';
+import { LayoutContainerBase, LayoutableControlLabel } from '..';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../../enums';
 import { LinkedListOneWay } from '../../util';
 
@@ -124,8 +124,6 @@ export class FieldLayout extends LayoutContainerBase {
     // insets (padding and border) of the container
     let insetsLeft: number = container.getInsetsLeft();
     let insetsRight: number = container.getInsetsRight();
-    let insetsTop: number = container.getInsetsTop();
-    let insetsBottom: number = container.getInsetsBottom();
 
     let hSpacing: number = container.getSpacingHorizontal();
     let vSpacing: number = container.getSpacingVertical();
@@ -341,7 +339,6 @@ export class FieldLayout extends LayoutContainerBase {
 
     // include insets (padding and border) of the container
     let insetsLeft: number = container.getInsetsLeft();
-    let insetsRight: number = container.getInsetsRight();
     let insetsTop: number = container.getInsetsTop();
     let insetsBottom: number = container.getInsetsBottom();
 

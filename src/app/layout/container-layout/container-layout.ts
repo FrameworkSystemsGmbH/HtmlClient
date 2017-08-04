@@ -1,5 +1,5 @@
 import { LayoutContainerBase, LayoutableContainer, LayoutableControlWrapper, LayoutableControl, LayoutableProperties } from '..';
-import { HorizontalContentAlignment, VerticalContentAlignment, VerticalAlignment, HorizontalAlignment } from '../../enums';
+import { VerticalAlignment, HorizontalAlignment } from '../../enums';
 import { LinkedListOneWay } from '../../util';
 
 export class ContainerLayout extends LayoutContainerBase {
@@ -59,12 +59,9 @@ export class ContainerLayout extends LayoutContainerBase {
     this.width = width;
 
     // Include insets (padding + border + margin) of the container
-    let insetsLeft: number = container.getInsetsLeft();
-    let insetsRight: number = container.getInsetsRight();
     let insetsTop: number = container.getInsetsTop();
     let insetsBottom: number = container.getInsetsBottom();
 
-    let availableWidth: number = width - insetsLeft - insetsRight;
     let minHeight: number = 0;
 
     for (let wrapper of this.wrappers) {

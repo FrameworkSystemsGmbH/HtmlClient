@@ -1,8 +1,7 @@
-import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
+import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
 import { TextBoxBaseWrapper, ContainerWrapper } from '.';
 import { TextBoxPlainComponent } from '../controls';
-import { ControlEvent, TextAlign, TextFormat } from '../enums';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 

@@ -1,8 +1,7 @@
-import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
+import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
 import { TextBoxBaseWrapper, ContainerWrapper } from '.';
 import { TextBoxDateTimeComponent } from '../controls';
-import { ControlEvent, TextAlign } from '../enums';
 
 export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
 

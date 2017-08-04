@@ -1,4 +1,4 @@
-import { LayoutBase, LayoutableContainer, LayoutableControlWrapper, LayoutableControl } from '.';
+import { LayoutBase, LayoutableContainer, LayoutableControl } from '.';
 
 export abstract class LayoutContainerBase extends LayoutBase {
 

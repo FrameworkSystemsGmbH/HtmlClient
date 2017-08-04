@@ -4,7 +4,6 @@ import { LayoutBase } from '../layout';
 import { DockPanelComponent } from '../controls';
 import { DockContainer, DockOrientation, DockLayout } from '../layout/dock-layout';
 import { ContainerWrapperSpaceable, ContainerWrapper } from '.';
-import { HorizontalContentAlignment, VerticalContentAlignment } from '../enums';
 
 export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockContainer {
 

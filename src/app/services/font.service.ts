@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { PropertyStore, PropertyLayer, PropertyData } from '../common';
+import { PropertyStore, PropertyLayer } from '../common';
 import { ControlStyleService } from './control-style.service';
 import { TextBoxBaseWrapper, BaseWrapperFittedData } from '../wrappers';
 import { DataSourceType, TextFormat } from '../enums';
