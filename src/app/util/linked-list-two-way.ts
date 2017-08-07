@@ -1,6 +1,6 @@
 import { LinkedListNode } from '.';
 
-export class DoublyLinkedList<T> {
+export class LinkedListTwoWay<T> {
 
   private length: number;
   private head: LinkedListNode<T>;
