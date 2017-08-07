@@ -14,14 +14,6 @@
 
 	<content src="index.html" />
 
-	<platform name="android">
-		<plugin name="cordova-plugin-crosswalk-webview" spec="../../node_modules/cordova-plugin-crosswalk-webview" />
-	</platform>
-
-	<platform name="ios">
-		<hook type="after_platform_add" src="hooks/ios/after_platform_add.js" />
-	</platform>
-
 	<access origin="*" />
 
 	<allow-intent href="http://*/*" />
@@ -43,8 +35,6 @@
 	<preference name="DisallowOverscroll" value="true" />
 	<preference name="android-minSdkVersion" value="19" />
 	<preference name="android-targetSdkVersion" value="25" />
-	<preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
-	<preference name="xwalkMode" value="embedded" />
 
 	<platform name="windows">
 		<preference name="windows-target-version" value="10.0" />
