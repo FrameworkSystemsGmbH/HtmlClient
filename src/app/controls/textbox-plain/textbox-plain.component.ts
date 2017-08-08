@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 
 import { TextBoxBaseComponent } from '../textbox-base.component';
 import { TextBoxPlainWrapper } from '../../wrappers';
@@ -10,7 +10,7 @@ import { FormatService } from '../../services/format.service';
   templateUrl: './textbox-plain.component.html',
   styleUrls: ['./textbox-plain.component.scss']
 })
-export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnInit, OnDestroy {
+export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnInit {
 
   @ViewChild('input') input: ElementRef;
 

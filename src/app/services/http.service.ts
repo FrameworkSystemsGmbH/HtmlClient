@@ -15,8 +15,11 @@ export class HttpService {
   }
 
   public doRequest(requestJson: any): Observable<any> {
-    console.log(JSON.stringify(requestJson, null, 2));
+    // console.log(JSON.stringify(requestJson, null, 2));
     return this.http.post(this.brokerUrl, requestJson)
-      .map(response => response.json());
+      .map(response => {
+        // console.log(JSON.stringify(response.json(), null, 2));
+        return response.json()
+      });
   }
 }

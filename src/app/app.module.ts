@@ -5,8 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, } from '@angular/router';
 
-import { jqxInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxinput';
-import { jqxNumberInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxnumberinput';
 import { jqxDateTimeInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxdatetimeinput';
 
 import { AppComponent } from './app.component';
@@ -60,8 +58,6 @@ import {
     WrapPanelComponent
   ],
   declarations: [
-    jqxInputComponent,
-    jqxNumberInputComponent,
     jqxDateTimeInputComponent,
     AppComponent,
     NavbarComponent,

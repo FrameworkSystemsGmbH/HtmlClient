@@ -1,1 +1,1 @@
-<jqxNumberInput #jqxNumberInput [ngStyle]="getWrapperStyles()" [auto-create]="false"></jqxNumberInput>
+<input #input type="text" [(ngModel)]="value" [ngStyle]="getStyles()" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" />
