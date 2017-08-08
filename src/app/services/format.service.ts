@@ -91,6 +91,10 @@ export class FormatService {
 
     if (typeof (value) === 'string') {
       valueStr = this.cleanNumberString(valueStr);
+
+      if (String.isNullOrWhiteSpace(valueStr)) {
+        return null;
+      }
     }
 
     let valueNum: number = Number(valueStr);
@@ -213,7 +217,9 @@ export class FormatService {
         }
       }
 
-      digitsStr += valueDigitsStr;
+      if (!String.isNullOrWhiteSpace(valueDigitsStr)) {
+        digitsStr += valueDigitsStr;
+      }
 
       // Add grouping separators if grouping is active
       if (formatInfo.hasGrouping) {
@@ -230,13 +236,14 @@ export class FormatService {
       } else {
         resultStr += digitsStr;
       }
-    } else {
-      resultStr += valueDigitsStr;
     }
 
     if ((formatInfo.hasDecimalsPart() && valueDecimalPointPos != null) || formatInfo.hasLastDecimalZero()) {
       resultStr += this.getDecimalSeparator();
-      resultStr += valueDecimalsStr;
+
+      if (!String.isNullOrWhiteSpace(valueDecimalsStr)) {
+        resultStr += valueDecimalsStr
+      }
 
       // Pad zeros on right side if necessary
       if (formatInfo.hasLastDecimalZero()) {

@@ -4,6 +4,7 @@ import { TextBoxBaseComponent } from '../textbox-base.component';
 import { TextBoxPlainWrapper } from '../../wrappers';
 import { LayoutableProperties } from '../../layout';
 import { FormatService } from '../../services/format.service';
+import { StyleUtil } from '../../util';
 
 @Component({
   selector: 'hc-txt-plain',
@@ -84,10 +85,10 @@ export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnIni
       'font-family': wrapper.getFontFamily(),
       'font-size.px': wrapper.getFontSize(),
       'line-height.px': wrapper.getFontSize(),
-      'font-weight': wrapper.getFontBold(),
-      'font-style': wrapper.getFontItalic(),
-      'text-decoration': wrapper.getFontUnderline(),
-      'text-align': wrapper.getTextAlign()
+      'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
+      'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
+      'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
+      'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };
 
     return styles;

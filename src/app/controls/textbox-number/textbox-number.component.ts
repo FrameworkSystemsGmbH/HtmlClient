@@ -4,6 +4,7 @@ import { TextBoxBaseComponent } from '../textbox-base.component';
 import { TextBoxNumberWrapper } from '../../wrappers';
 import { LayoutableProperties } from '../../layout';
 import { FormatService } from '../../services/format.service';
+import { StyleUtil } from '../../util';
 
 @Component({
   selector: 'hc-txt-number',
@@ -81,10 +82,10 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnIn
       'font-family': wrapper.getFontFamily(),
       'font-size.px': wrapper.getFontSize(),
       'line-height.px': wrapper.getFontSize(),
-      'font-weight': wrapper.getFontBold(),
-      'font-style': wrapper.getFontItalic(),
-      'text-decoration': wrapper.getFontUnderline(),
-      'text-align': wrapper.getTextAlign()
+      'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
+      'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
+      'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
+      'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };
 
     return styles;
