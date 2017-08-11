@@ -7,13 +7,13 @@
   "license": "none",
   "readme": "readme.md",
   "scripts": {
-    "build": "ng build --prod --no-sourcemap --vendor-chunk false && npm run lint",
+    "build": "ng build --prod --no-sourcemap --vendor-chunk false",
     "lint": "tslint \"src/**/*.ts\" --project \"src/tsconfig.json\" --type-check",
-    "buildElectron": "gulp electron",
-    "buildCordovaAndroid": "gulp cordova.build.android",
-    "buildCordovaIos": "gulp cordova.build.ios",
-    "emulateCordovaAndroid": "gulp cordova.emulate.android",
-    "emulateCordovaIos": "gulp cordova.emulate.ios"
+    "serve": "ng serve",
+    "buildElectron": "npm run build && gulp electron",
+    "initCordova": "npm run build && gulp cordova.initialize",
+    "buildCordovaAndroid": "npm run build && gulp cordova.build.android",
+    "emulateCordovaAndroid": "npm run build && gulp cordova.emulate.android"
   },
   "dependencies": {
     "@angular/animations": "4.3.3",

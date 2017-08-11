@@ -9,6 +9,15 @@
       "port": 9222,
       "url": "http://localhost:4200",
       "webRoot": "${workspaceRoot}"
+    },
+    {
+      "name": "Gulp",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
+      "args": [
+        "electron"
+      ]
     }
   ]
 }
