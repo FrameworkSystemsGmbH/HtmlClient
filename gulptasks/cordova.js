@@ -66,5 +66,23 @@
       sh.cd(currentDir);
       done();
     });
+
+    gulp.task('cordova.build.windows', function (done) {
+      var currentDir = sh.pwd();
+      sh.cd(config.target.root);
+      sh.exec('"../../node_modules/.bin/cordova" prepare windows');
+      sh.exec('"../../node_modules/.bin/cordova" compile windows');
+      sh.cd(currentDir);
+      done();
+    });
+
+    gulp.task('cordova.emulate.windows', function (done) {
+      var currentDir = sh.pwd();
+      sh.cd(config.target.root);
+      sh.exec('"../../node_modules/.bin/cordova" prepare windows');
+      sh.exec('"../../node_modules/.bin/cordova" emulate windows');
+      sh.cd(currentDir);
+      done();
+    });
   }
 })();

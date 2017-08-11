@@ -13,7 +13,9 @@
     "buildElectron": "npm run build && gulp electron",
     "initCordova": "npm run build && gulp cordova.initialize",
     "buildCordovaAndroid": "npm run build && gulp cordova.build.android",
-    "emulateCordovaAndroid": "npm run build && gulp cordova.emulate.android"
+    "emulateCordovaAndroid": "gulp cordova.emulate.android",
+    "buildCordovaWindows": "npm run build && gulp cordova.build.windows",
+    "emulateCordovaWindows": "gulp cordova.emulate.windows"
   },
   "dependencies": {
     "@angular/animations": "4.3.3",
