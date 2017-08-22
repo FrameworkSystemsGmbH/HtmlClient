@@ -29,6 +29,7 @@ import { LogService } from './services/log.service';
 import { LoginService } from './services/login.service';
 import { LocaleService } from './services/locale.service';
 import { NumberFormatService } from './services/formatter/number-format.service';
+import { PatternFormatService } from './services/formatter/pattern-format.service';
 import { RoutingService } from './services/routing.service';
 import { StringFormatService } from './services/formatter/string-format.service';
 import { TitleService } from './services/title.service';
@@ -103,6 +104,7 @@ import {
     LogService,
     LocaleService,
     NumberFormatService,
+    PatternFormatService,
     RoutingService,
     StringFormatService,
     TitleService,
