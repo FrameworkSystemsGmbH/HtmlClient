@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
 import { LastInput } from '../enums';
 
-@Injectable()
 export class FocusService {
 
   private lastInput: LastInput;

@@ -1,5 +1,5 @@
 import { FieldCellWrapper, FieldRowLabelMode, FieldContainer, FieldRowControl } from '.';
-import { LayoutableControlLabel, LayoutableControl, LayoutableControlWrapper, LayoutableControlLabelTemplate } from '..';
+import { LayoutableControlLabel, LayoutableControlWrapper, LayoutableControlLabelTemplate } from '..';
 import { ControlVisibility, VerticalAlignment } from '../../enums';
 
 /**

@@ -3,7 +3,7 @@ import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { TextBoxBaseComponent } from '../textbox-base.component';
 import { TextBoxPlainWrapper } from '../../wrappers';
 import { LayoutableProperties } from '../../layout';
-import { FormatService } from '../../services/format.service';
+import { StringFormatService } from '../../services/formatter/string-format.service';
 import { StyleUtil } from '../../util';
 
 @Component({
@@ -18,7 +18,7 @@ export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnIni
   public value: string;
 
   constructor(
-    private formatService: FormatService) {
+    private stringFormatService: StringFormatService) {
     super();
   }
 
@@ -27,7 +27,7 @@ export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnIni
   }
 
   public onInput(event: any): void {
-    this.value = this.formatService.formatString(this.value, this.getWrapper().getFormat());
+    this.value = this.formatValue(this.value);
   }
 
   public callOnEnter(event: any): void {
@@ -94,8 +94,12 @@ export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnIni
     return styles;
   }
 
+  private formatValue(value: string): string {
+    return this.stringFormatService.formatString(this.value, this.getWrapper().getFormat());
+  }
+
   public updateComponent(): void {
-    this.value = this.getWrapper().getValue();
+    this.value = this.formatValue(this.getWrapper().getValue());
   }
 
   private updateWrapper(): void {

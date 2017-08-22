@@ -17,16 +17,12 @@
       "mobile": false,
       "styles": [
         "../node_modules/font-awesome/css/font-awesome.css",
-        "../node_modules/jqwidgets-framework/jqwidgets/styles/jqx.base.css",
         "styles.scss"
       ],
       "scripts": [
+        "../node_modules/moment/min/moment-with-locales.js",
         "../node_modules/hammerjs/hammer.js",
         "../node_modules/jquery/dist/jquery.js",
-        "../node_modules/jqwidgets-framework/jqwidgets/jqxcore.js",
-        "../node_modules/jqwidgets-framework/jqwidgets/jqxcalendar.js",
-        "../node_modules/jqwidgets-framework/jqwidgets/jqxdatetimeinput.js",
-        "../node_modules/jqwidgets-framework/jqwidgets/globalization/globalize.js",
         "../node_modules/bootstrap-sass/assets/javascripts/bootstrap.js",
         "scripts.js"
       ],

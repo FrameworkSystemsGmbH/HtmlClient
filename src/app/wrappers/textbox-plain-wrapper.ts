@@ -1,12 +1,24 @@
-import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
+import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
 
-import { TextBoxBaseWrapper, ContainerWrapper } from '.';
+import { StringFormatService } from '../services/formatter/string-format.service';
+import { TextBoxBaseWrapper, ContainerWrapper, FormWrapper } from '.';
 import { TextBoxPlainComponent } from '../controls';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
+  private stringFormatService: StringFormatService;
+
   protected value: string;
   protected orgValue: string;
+
+  constructor(
+    form: FormWrapper,
+    parent: ContainerWrapper,
+    appInjector: Injector
+  ) {
+    super(form, parent, appInjector);
+    this.stringFormatService = appInjector.get(StringFormatService);
+  }
 
   public getValue(): string {
     return this.value;
@@ -22,7 +34,7 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
   protected setValueJson(value: string): void {
     let val: string = value ? value : null;
-    val = this.formatService.formatString(val, this.getFormat());
+    val = this.stringFormatService.formatString(val, this.getFormat());
     this.orgValue = val;
     this.setValue(val);
   }

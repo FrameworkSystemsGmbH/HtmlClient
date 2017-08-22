@@ -3,9 +3,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, } from '@angular/router';
-
-import { jqxDateTimeInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxdatetimeinput';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
@@ -20,16 +18,19 @@ import { ActionsService } from './services/actions.service';
 import { BrokerService } from './services/broker.service';
 import { ControlStyleService } from './services/control-style.service';
 import { ControlsService } from './services/controls.service';
+import { DateFormatService } from './services/formatter/date-format.service';
 import { ErrorService } from './services/error.service';
 import { EventsService } from './services/events.service';
 import { FocusService } from './services/focus.service';
 import { FontService } from './services/font.service';
-import { FormatService } from './services/format.service';
 import { FormsService } from './services/forms.service';
 import { HttpService } from './services/http.service';
 import { LogService } from './services/log.service';
 import { LoginService } from './services/login.service';
+import { LocaleService } from './services/locale.service';
+import { NumberFormatService } from './services/formatter/number-format.service';
 import { RoutingService } from './services/routing.service';
+import { StringFormatService } from './services/formatter/string-format.service';
 import { TitleService } from './services/title.service';
 import { WindowRefService } from './services/windowref.service';
 
@@ -58,7 +59,6 @@ import {
     WrapPanelComponent
   ],
   declarations: [
-    jqxDateTimeInputComponent,
     AppComponent,
     NavbarComponent,
     ViewerComponent,
@@ -92,16 +92,19 @@ import {
     BrokerService,
     ControlStyleService,
     ControlsService,
+    DateFormatService,
     ErrorService,
     EventsService,
     FocusService,
     FontService,
-    FormatService,
     FormsService,
     HttpService,
     LoginService,
     LogService,
+    LocaleService,
+    NumberFormatService,
     RoutingService,
+    StringFormatService,
     TitleService,
     WindowRefService,
   ],

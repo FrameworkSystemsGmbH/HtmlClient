@@ -95,7 +95,7 @@ export abstract class BaseWrapper implements LayoutableControl {
 
   public getVisibility(): ControlVisibility {
     let visibility: ControlVisibility = this.propertyStore.getVisibility();
-    return visibility != null ? visibility : ControlVisibility.Collapsed;
+    return visibility != null ? visibility : ControlVisibility.Visible;
   }
 
   public getForeColor(): string {

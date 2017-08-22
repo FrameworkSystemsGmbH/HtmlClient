@@ -1,1 +1,1 @@
-<jqxDateTimeInput #jqxDateTimeInput [ngStyle]="getWrapperStyles()" [(ngModel)]="value" [auto-create]="false"></jqxDateTimeInput>
+<input #input type="text" [(ngModel)]="value" [ngStyle]="getStyles()" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" />

@@ -27,7 +27,7 @@ export class StyleUtil {
       case TextAlign.Right:
         return 'right';
       default:
-        return 'center';
+        return 'left';
     }
   }
 

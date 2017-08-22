@@ -4,22 +4,10 @@ import { ISubscription } from 'rxjs/Subscription';
 import { BaseWrapperFittedData, FormWrapper, ContainerWrapper } from '.';
 import { ControlEvent, TextAlign, TextFormat } from '../enums';
 import { TextBoxBaseComponent } from '../controls/textbox-base.component';
-import { FormatService } from '../services/format.service';
 
 export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
 
-  protected formatService: FormatService;
-
   private onValidatedSub: ISubscription;
-
-  constructor(
-    form: FormWrapper,
-    parent: ContainerWrapper,
-    appInjector: Injector
-  ) {
-    super(form, parent, appInjector);
-    this.formatService = appInjector.get(FormatService);
-  }
 
   public getDisabledBackColor(): string {
     let disabledBackColor: string = this.propertyStore.getDisabledBackColor();
@@ -33,7 +21,7 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
 
   public getTextAlign(): TextAlign {
     let textAlign: TextAlign = this.propertyStore.getTextAlign();
-    return textAlign != null ? textAlign : TextAlign.Center;
+    return textAlign != null ? textAlign : TextAlign.Left;
   }
 
   public getMaxScale(): number {

@@ -7,8 +7,7 @@ export class HttpService {
 
   private brokerUrl: string;
 
-  constructor(
-    private http: Http) { }
+  constructor(private http: Http) { }
 
   public setBrokerUrl(brokerUrl: string): void {
     this.brokerUrl = brokerUrl;

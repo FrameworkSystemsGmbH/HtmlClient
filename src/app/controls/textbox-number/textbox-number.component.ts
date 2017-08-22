@@ -3,7 +3,7 @@ import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { TextBoxBaseComponent } from '../textbox-base.component';
 import { TextBoxNumberWrapper } from '../../wrappers';
 import { LayoutableProperties } from '../../layout';
-import { FormatService } from '../../services/format.service';
+import { NumberFormatService } from '../../services/formatter/number-format.service';
 import { StyleUtil } from '../../util';
 
 @Component({
@@ -17,8 +17,7 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnIn
 
   public value: string;
 
-  constructor(
-    private formatService: FormatService) {
+  constructor(private numberFormatService: NumberFormatService) {
     super();
   }
 
@@ -31,7 +30,8 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnIn
   }
 
   public callOnLeave(event: any): void {
-    this.value = this.formatValue(this.value);
+    let wrapper: TextBoxNumberWrapper = this.getWrapper();
+    this.value = this.numberFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
     this.updateWrapper();
     super.callOnLeave(event);
   }
@@ -91,17 +91,13 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnIn
     return styles;
   }
 
-  public formatValue(value: string | number): string {
-    let wrapper: TextBoxNumberWrapper = this.getWrapper();
-    return this.formatService.formatNumber(value, wrapper.getFormat(), wrapper.getFormatPattern());
-  }
-
   public updateComponent(): void {
-    this.value = this.formatValue(this.getWrapper().getValue());
+    let wrapper: TextBoxNumberWrapper = this.getWrapper();
+    this.value = this.numberFormatService.formatNumber(this.getWrapper().getValue(), wrapper.getFormat(), wrapper.getFormatPattern());
   }
 
   private updateWrapper(): void {
     let wrapper: TextBoxNumberWrapper = this.getWrapper();
-    this.getWrapper().setValue(this.formatService.parseNumber(this.value, wrapper.getFormat(), wrapper.getFormatPattern()));
+    this.getWrapper().setValue(this.numberFormatService.parseString(this.value, wrapper.getFormat(), wrapper.getFormatPattern()));
   }
 }

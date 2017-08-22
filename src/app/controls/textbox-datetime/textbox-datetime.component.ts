@@ -1,61 +1,28 @@
-import { Component, ViewChild, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
-import { jqxDateTimeInputComponent } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxdatetimeinput';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 
 import { TextBoxBaseComponent } from '../textbox-base.component';
-import { StyleUtil } from '../../util';
 import { TextBoxDateTimeWrapper } from '../../wrappers';
 import { LayoutableProperties } from '../../layout';
-import { ControlEvent } from '../../enums';
+import { DateFormatService } from '../../services/formatter/date-format.service';
+import { StyleUtil } from '../../util';
 
 @Component({
   selector: 'hc-txt-datetime',
   templateUrl: './textbox-datetime.component.html',
   styleUrls: ['./textbox-datetime.component.scss']
 })
-export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements AfterViewInit, OnDestroy {
+export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements OnInit {
 
-  @ViewChild('jqxDateTimeInput') jqxDateTimeInput: jqxDateTimeInputComponent;
+  @ViewChild('input') input: ElementRef;
 
-  private input: HTMLInputElement;
+  public value: string;
 
-  private onEnterSub: () => void;
-  private onLeaveSub: () => void;
-
-  constructor(private renderer: Renderer2) {
+  constructor(private dateFormatService: DateFormatService) {
     super();
   }
 
-  public get value(): string {
-    return '';
-  }
-
-  public set value(value: string) {
-
-  }
-
-  public ngAfterViewInit(): void {
-    this.jqxDateTimeInput.createComponent({ width: '120px', height: '18px' });
-    this.input = this.jqxDateTimeInput.widgetObject.getInstance().element;
-
-    if (this.getWrapper().getEvents() & ControlEvent.OnEnter) {
-      this.onEnterSub = this.renderer.listen(this.input, 'focusin', event => { this.callOnEnter(event); });
-    }
-
-    if (this.getWrapper().getEvents() & ControlEvent.OnLeave) {
-      this.onLeaveSub = this.renderer.listen(this.input, 'focusout', event => { this.callOnLeave(event); });
-    }
-  }
-
-  public ngOnDestroy(): void {
-    if (this.onEnterSub) {
-      this.onEnterSub();
-    }
-
-    if (this.onLeaveSub) {
-      this.onLeaveSub();
-    }
-
-    super.ngOnDestroy();
+  public ngOnInit(): void {
+    this.updateComponent();
   }
 
   public callOnEnter(event: any): void {
@@ -63,7 +30,9 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements Af
   }
 
   public callOnLeave(event: any): void {
-    this.getWrapper().formatValue();
+    let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
+    this.value = this.dateFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern())
+    this.updateWrapper();
     super.callOnLeave(event);
   }
 
@@ -80,55 +49,55 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements Af
   }
 
   public setFocus(): void {
-    this.jqxDateTimeInput.focus();
+    this.input.nativeElement.focus();
   }
 
-  public getWrapperStyles(): any {
+  public getStyles(): any {
     let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
+    let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
 
     let styles: any = {
       'left.px': wrapper.getLayoutableProperties().getX(),
-      'top.px': wrapper.getLayoutableProperties().getY()
+      'top.px': wrapper.getLayoutableProperties().getY(),
+      'min-width.px': 0,
+      'min-height.px': 0,
+      'width.px': layoutableProperties.getWidth(),
+      'height.px': layoutableProperties.getHeight(),
+      'color': wrapper.getForeColor(),
+      'background-color': wrapper.getBackColor(),
+      'border-style': 'solid',
+      'border-color': wrapper.getBorderColor(),
+      'border-left-width.px': wrapper.getBorderThicknessLeft(),
+      'border-right-width.px': wrapper.getBorderThicknessRight(),
+      'border-top-width.px': wrapper.getBorderThicknessTop(),
+      'border-bottom-width.px': wrapper.getBorderThicknessBottom(),
+      'margin-left.px': wrapper.getMarginLeft(),
+      'margin-right.px': wrapper.getMarginRight(),
+      'margin-top.px': wrapper.getMarginTop(),
+      'margin-bottom.px': wrapper.getMarginBottom(),
+      'padding-left.px': wrapper.getPaddingLeft(),
+      'padding-right.px': wrapper.getPaddingRight(),
+      'padding-top.px': wrapper.getPaddingTop(),
+      'padding-bottom.px': wrapper.getPaddingBottom(),
+      'font-family': wrapper.getFontFamily(),
+      'font-size.px': wrapper.getFontSize(),
+      'line-height.px': wrapper.getFontSize(),
+      'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
+      'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
+      'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
+      'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };
-
-    if (this.input) {
-      // this.setInputStyles();
-    }
 
     return styles;
   }
 
-  public setInputStyles(): void {
+  public updateComponent(): void {
     let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
-    let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
+    this.value = this.dateFormatService.formatMoment(wrapper.getValue(), wrapper.getFormat(), wrapper.getFormatPattern())
+  }
 
-    this.renderer.setStyle(this.input, 'box-sizing', 'border-box');
-    this.renderer.setStyle(this.input, 'min-width', StyleUtil.getValuePx(0));
-    this.renderer.setStyle(this.input, 'min-height', StyleUtil.getValuePx(0));
-    this.renderer.setStyle(this.input, 'width', StyleUtil.getValuePx(layoutableProperties.getWidth()));
-    this.renderer.setStyle(this.input, 'height', StyleUtil.getValuePx(layoutableProperties.getHeight()));
-    this.renderer.setStyle(this.input, 'color', wrapper.getForeColor());
-    this.renderer.setStyle(this.input, 'background-color', wrapper.getBackColor());
-    this.renderer.setStyle(this.input, 'border-style', 'solid');
-    this.renderer.setStyle(this.input, 'border-color', wrapper.getBorderColor());
-    this.renderer.setStyle(this.input, 'border-left-width', StyleUtil.getValuePx(wrapper.getBorderThicknessLeft()));
-    this.renderer.setStyle(this.input, 'border-right-width', StyleUtil.getValuePx(wrapper.getBorderThicknessRight()));
-    this.renderer.setStyle(this.input, 'border-top-width', StyleUtil.getValuePx(wrapper.getBorderThicknessTop()));
-    this.renderer.setStyle(this.input, 'border-bottom-width', StyleUtil.getValuePx(wrapper.getBorderThicknessBottom()));
-    this.renderer.setStyle(this.input, 'margin-left', StyleUtil.getValuePx(wrapper.getMarginLeft()));
-    this.renderer.setStyle(this.input, 'margin-right', StyleUtil.getValuePx(wrapper.getMarginRight()));
-    this.renderer.setStyle(this.input, 'margin-top', StyleUtil.getValuePx(wrapper.getMarginTop()));
-    this.renderer.setStyle(this.input, 'margin-bottom', StyleUtil.getValuePx(wrapper.getMarginBottom()));
-    this.renderer.setStyle(this.input, 'padding-left', StyleUtil.getValuePx(wrapper.getPaddingLeft()));
-    this.renderer.setStyle(this.input, 'padding-right', StyleUtil.getValuePx(wrapper.getPaddingRight()));
-    this.renderer.setStyle(this.input, 'padding-top', StyleUtil.getValuePx(wrapper.getPaddingTop()));
-    this.renderer.setStyle(this.input, 'padding-bottom', StyleUtil.getValuePx(wrapper.getPaddingBottom()));
-    this.renderer.setStyle(this.input, 'font-family', wrapper.getFontFamily());
-    this.renderer.setStyle(this.input, 'font-size', StyleUtil.getValuePx(wrapper.getFontSize()));
-    this.renderer.setStyle(this.input, 'line-height', StyleUtil.getValuePx(wrapper.getFontSize()));
-    this.renderer.setStyle(this.input, 'font-weight', wrapper.getFontBold());
-    this.renderer.setStyle(this.input, 'font-style', wrapper.getFontItalic());
-    this.renderer.setStyle(this.input, 'text-decoration', wrapper.getFontUnderline());
-    this.renderer.setStyle(this.input, 'text-align', wrapper.getTextAlign());
+  private updateWrapper(): void {
+    let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
+    this.getWrapper().setValue(this.dateFormatService.parseString(this.value, wrapper.getFormat(), wrapper.getFormatPattern()));
   }
 }

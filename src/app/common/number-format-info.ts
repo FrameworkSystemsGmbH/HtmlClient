@@ -1,4 +1,4 @@
-export class FormatInfo {
+export class NumberFormatInfo {
   public prefixPart: string = String.empty();
   public digitsPart: string = String.empty();
   public decimalsPart: string = String.empty();
