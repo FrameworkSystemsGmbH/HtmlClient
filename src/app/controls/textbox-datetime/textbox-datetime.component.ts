@@ -93,7 +93,7 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements On
 
   public updateComponent(): void {
     let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
-    this.value = this.dateFormatService.formatMoment(wrapper.getValue(), wrapper.getFormat(), wrapper.getFormatPattern())
+    this.value = this.dateFormatService.formatDate(wrapper.getValue(), wrapper.getFormat(), wrapper.getFormatPattern())
   }
 
   private updateWrapper(): void {

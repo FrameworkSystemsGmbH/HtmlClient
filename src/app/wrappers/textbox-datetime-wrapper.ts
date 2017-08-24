@@ -1,5 +1,5 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
-import * as Moment from 'moment';
+import * as Moment from 'moment-timezone';
 
 import { TextBoxBaseWrapper, ContainerWrapper, FormWrapper } from '.';
 import { TextBoxDateTimeComponent } from '../controls';

@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 
 import { FocusService } from './services/focus.service';
+import { LocaleService } from './services/locale.service';
 
 @Component({
   selector: 'hc-app',
@@ -9,7 +10,11 @@ import { FocusService } from './services/focus.service';
 })
 export class AppComponent {
 
-  constructor(private focusService: FocusService) { }
+  constructor(
+    private focusService: FocusService,
+    private localeService: LocaleService) {
+    this.localeService.setMomentLocaleGlobally();
+  }
 
   @HostListener('window:keydown', ['$event'])
   public globalKeyDown(event: any): void {

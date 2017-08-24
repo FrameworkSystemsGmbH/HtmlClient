@@ -4,10 +4,22 @@ import { ISubscription } from 'rxjs/Subscription';
 import { BaseWrapperFittedData, FormWrapper, ContainerWrapper } from '.';
 import { ControlEvent, TextAlign, TextFormat } from '../enums';
 import { TextBoxBaseComponent } from '../controls/textbox-base.component';
+import { PatternFormatService } from '../services/formatter/pattern-format.service';
 
 export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
 
+  private readonly patternFormatService: PatternFormatService;
+
   private onValidatedSub: ISubscription;
+
+  constructor(
+    form: FormWrapper,
+    parent: ContainerWrapper,
+    appInjector: Injector
+  ) {
+    super(form, parent, appInjector);
+    this.patternFormatService = appInjector.get(PatternFormatService);
+  }
 
   public getDisabledBackColor(): string {
     let disabledBackColor: string = this.propertyStore.getDisabledBackColor();
@@ -41,7 +53,7 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
 
   public getFormatPattern(): string {
     let formatPattern: string = this.propertyStore.getFormatPattern();
-    return formatPattern != null ? formatPattern : null;
+    return formatPattern != null ? this.patternFormatService.javaToMoment(formatPattern) : null;
   }
 
   protected getDataMinWidth(): number {
