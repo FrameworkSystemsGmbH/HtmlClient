@@ -20,9 +20,6 @@ export class DateFormatService {
 
   private static readonly dtShortcutSeparators: Array<string> = ['.', ',', '+', '-', '/'];
 
-  private static readonly dateSpecialChar: string = '*';
-  private static readonly timeSpecialChar: string = '*';
-
   private static readonly dayMonthYear: string = 'DMY';
   private static readonly monthDayYear: string = 'MDY';
   private static readonly dayYearMonth: string = 'DYM';
@@ -212,7 +209,7 @@ export class DateFormatService {
 
     let valueTrimmed: string = value.trim();
 
-    if (valueTrimmed.startsWith(DateFormatService.dateSpecialChar)) {
+    if (valueTrimmed.startsWith('*')) {
       return this.getDateFromSpecialChar(valueTrimmed);
     }
 
@@ -326,7 +323,7 @@ export class DateFormatService {
 
     let valueTrimmed: string = value.trim();
 
-    if (valueTrimmed.startsWith(DateFormatService.timeSpecialChar)) {
+    if (valueTrimmed.startsWith('*')) {
       return this.getTimeFromSpecialChar(valueTrimmed);
     }
 
@@ -548,7 +545,7 @@ export class DateFormatService {
   }
 
   private getDateFromSpecialChar(value: string): Moment.Moment {
-    if (!value.startsWith(DateFormatService.dateSpecialChar)) {
+    if (!value.startsWith('*')) {
       return null;
     }
 
@@ -575,7 +572,7 @@ export class DateFormatService {
   }
 
   private getTimeFromSpecialChar(value: string): Moment.Moment {
-    if (!value.startsWith(DateFormatService.timeSpecialChar)) {
+    if (!value.startsWith('*')) {
       return null;
     }
 
