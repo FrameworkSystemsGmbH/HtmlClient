@@ -207,15 +207,13 @@ export class DateFormatService {
       return null;
     }
 
-    let valueTrimmed: string = value.trim();
-
-    if (valueTrimmed.startsWith('*')) {
-      return this.getDateFromSpecialChar(valueTrimmed);
+    if (value.startsWith('*')) {
+      return this.getDateFromSpecialChar(value);
     }
 
-    let length: number = valueTrimmed.length;
+    let length: number = value.length;
 
-    if (length > 8 || length === 7 || length === 5 || length === 3 || !DateFormatService.onlyDigitRegExp.test(valueTrimmed)) {
+    if (length > 8 || length === 7 || length === 5 || length === 3 || !DateFormatService.onlyDigitRegExp.test(value)) {
       return null;
     }
 
@@ -225,75 +223,75 @@ export class DateFormatService {
 
     if (formatOrder === DateFormatService.dayMonthYear) {
       if (length === 8) {
-        date = Moment(valueTrimmed, 'DDMMYYYY');
+        date = Moment(value, 'DDMMYYYY');
       } else if (length === 6) {
-        date = Moment(valueTrimmed, 'DDMMYY');
+        date = Moment(value, 'DDMMYY');
       } else if (length === 4) {
-        date = Moment(valueTrimmed, 'DDMM');
+        date = Moment(value, 'DDMM');
       } else if (length === 2) {
-        date = Moment(valueTrimmed, 'DD');
+        date = Moment(value, 'DD');
       } else {
-        date = Moment(valueTrimmed, 'D');
+        date = Moment(value, 'D');
       }
     } else if (formatOrder === DateFormatService.monthDayYear) {
       if (length === 8) {
-        date = Moment(valueTrimmed, 'MMDDYYYY');
+        date = Moment(value, 'MMDDYYYY');
       } else if (length === 6) {
-        date = Moment(valueTrimmed, 'MMDDYY');
+        date = Moment(value, 'MMDDYY');
       } else if (length === 4) {
-        date = Moment(valueTrimmed, 'MMDD');
+        date = Moment(value, 'MMDD');
       } else if (length === 2) {
-        date = Moment(valueTrimmed, 'DD');
+        date = Moment(value, 'DD');
       } else {
-        date = Moment(valueTrimmed, 'D');
+        date = Moment(value, 'D');
       }
     } else if (formatOrder === DateFormatService.dayYearMonth) {
       if (length === 8) {
-        date = Moment(valueTrimmed, 'DDYYYYMM');
+        date = Moment(value, 'DDYYYYMM');
       } else if (length === 6) {
-        date = Moment(valueTrimmed, 'DDYYMM');
+        date = Moment(value, 'DDYYMM');
       } else if (length === 4) {
-        date = Moment(valueTrimmed, 'DDMM');
+        date = Moment(value, 'DDMM');
       } else if (length === 2) {
-        date = Moment(valueTrimmed, 'DD');
+        date = Moment(value, 'DD');
       } else {
-        date = Moment(valueTrimmed, 'D');
+        date = Moment(value, 'D');
       }
     } else if (formatOrder === DateFormatService.monthYearDay) {
       if (length === 8) {
-        date = Moment(valueTrimmed, 'MMYYYYDD');
+        date = Moment(value, 'MMYYYYDD');
       } else if (length === 6) {
-        date = Moment(valueTrimmed, 'MMYYDD');
+        date = Moment(value, 'MMYYDD');
       } else if (length === 4) {
-        date = Moment(valueTrimmed, 'MMDD');
+        date = Moment(value, 'MMDD');
       } else if (length === 2) {
-        date = Moment(valueTrimmed, 'DD');
+        date = Moment(value, 'DD');
       } else {
-        date = Moment(valueTrimmed, 'D');
+        date = Moment(value, 'D');
       }
     } else if (formatOrder === DateFormatService.yearDayMonth) {
       if (length === 8) {
-        date = Moment(valueTrimmed, 'YYYYDDMM');
+        date = Moment(value, 'YYYYDDMM');
       } else if (length === 6) {
-        date = Moment(valueTrimmed, 'YYDDMM');
+        date = Moment(value, 'YYDDMM');
       } else if (length === 4) {
-        date = Moment(valueTrimmed, 'DDMM');
+        date = Moment(value, 'DDMM');
       } else if (length === 2) {
-        date = Moment(valueTrimmed, 'DD');
+        date = Moment(value, 'DD');
       } else {
-        date = Moment(valueTrimmed, 'D');
+        date = Moment(value, 'D');
       }
     } else if (formatOrder === DateFormatService.yearMonthDay) {
       if (length === 8) {
-        date = Moment(valueTrimmed, 'YYYYMMDD');
+        date = Moment(value, 'YYYYMMDD');
       } else if (length === 6) {
-        date = Moment(valueTrimmed, 'YYMMDD');
+        date = Moment(value, 'YYMMDD');
       } else if (length === 4) {
-        date = Moment(valueTrimmed, 'MMDD');
+        date = Moment(value, 'MMDD');
       } else if (length === 2) {
-        date = Moment(valueTrimmed, 'DD');
+        date = Moment(value, 'DD');
       } else {
-        date = Moment(valueTrimmed, 'D');
+        date = Moment(value, 'D');
       }
     }
 
@@ -321,15 +319,13 @@ export class DateFormatService {
       return null;
     }
 
-    let valueTrimmed: string = value.trim();
-
-    if (valueTrimmed.startsWith('*')) {
-      return this.getTimeFromSpecialChar(valueTrimmed);
+    if (value.startsWith('*')) {
+      return this.getTimeFromSpecialChar(value);
     }
 
-    let length: number = valueTrimmed.length;
+    let length: number = value.length;
 
-    if (length > 6 || !DateFormatService.onlyDigitRegExp.test(valueTrimmed)) {
+    if (length > 6 || !DateFormatService.onlyDigitRegExp.test(value)) {
       return null;
     }
 
@@ -339,87 +335,87 @@ export class DateFormatService {
 
     if (formatOrder === DateFormatService.hourMinSec) {
       if (length === 6) {
-        time = Moment(valueTrimmed, 'HHmmss');
+        time = Moment(value, 'HHmmss');
       } else if (length === 5) {
-        time = Moment(valueTrimmed, 'Hmmss');
+        time = Moment(value, 'Hmmss');
       } else if (length === 4) {
-        time = Moment(valueTrimmed, 'HHmm');
+        time = Moment(value, 'HHmm');
       } else if (length === 3) {
-        time = Moment(valueTrimmed, 'Hmm');
+        time = Moment(value, 'Hmm');
       } else if (length === 2) {
-        time = Moment(valueTrimmed, 'HH');
+        time = Moment(value, 'HH');
       } else {
-        time = Moment(valueTrimmed, 'H');
+        time = Moment(value, 'H');
       }
     } else if (formatOrder === DateFormatService.hourSecMin) {
       if (length === 6) {
-        time = Moment(valueTrimmed, 'HHssmm');
+        time = Moment(value, 'HHssmm');
       } else if (length === 5) {
-        time = Moment(valueTrimmed, 'Hssmm');
+        time = Moment(value, 'Hssmm');
       } else if (length === 4) {
-        time = Moment(valueTrimmed, 'HHmm');
+        time = Moment(value, 'HHmm');
       } else if (length === 3) {
-        time = Moment(valueTrimmed, 'Hmm');
+        time = Moment(value, 'Hmm');
       } else if (length === 2) {
-        time = Moment(valueTrimmed, 'HH');
+        time = Moment(value, 'HH');
       } else {
-        time = Moment(valueTrimmed, 'H');
+        time = Moment(value, 'H');
       }
     } else if (formatOrder === DateFormatService.minHourSec) {
       if (length === 6) {
-        time = Moment(valueTrimmed, 'mmHHss');
+        time = Moment(value, 'mmHHss');
       } else if (length === 5) {
-        time = Moment(valueTrimmed, 'mmHss');
+        time = Moment(value, 'mmHss');
       } else if (length === 4) {
-        time = Moment(valueTrimmed, 'mmHH');
+        time = Moment(value, 'mmHH');
       } else if (length === 3) {
-        time = Moment(valueTrimmed, 'mmH');
+        time = Moment(value, 'mmH');
       } else if (length === 2) {
-        time = Moment(valueTrimmed, 'HH');
+        time = Moment(value, 'HH');
       } else {
-        time = Moment(valueTrimmed, 'H');
+        time = Moment(value, 'H');
       }
     } else if (formatOrder === DateFormatService.secHourMin) {
       if (length === 6) {
-        time = Moment(valueTrimmed, 'ssHHmm');
+        time = Moment(value, 'ssHHmm');
       } else if (length === 5) {
-        time = Moment(valueTrimmed, 'ssHmm');
+        time = Moment(value, 'ssHmm');
       } else if (length === 4) {
-        time = Moment(valueTrimmed, 'HHmm');
+        time = Moment(value, 'HHmm');
       } else if (length === 3) {
-        time = Moment(valueTrimmed, 'Hmm');
+        time = Moment(value, 'Hmm');
       } else if (length === 2) {
-        time = Moment(valueTrimmed, 'HH');
+        time = Moment(value, 'HH');
       } else {
-        time = Moment(valueTrimmed, 'H');
+        time = Moment(value, 'H');
       }
     } else if (formatOrder === DateFormatService.minSecHour) {
       if (length === 6) {
-        time = Moment(valueTrimmed, 'mmssHH');
+        time = Moment(value, 'mmssHH');
       } else if (length === 5) {
-        time = Moment(valueTrimmed, 'mmssH');
+        time = Moment(value, 'mmssH');
       } else if (length === 4) {
-        time = Moment(valueTrimmed, 'mmHH');
+        time = Moment(value, 'mmHH');
       } else if (length === 3) {
-        time = Moment(valueTrimmed, 'mmH');
+        time = Moment(value, 'mmH');
       } else if (length === 2) {
-        time = Moment(valueTrimmed, 'HH');
+        time = Moment(value, 'HH');
       } else {
-        time = Moment(valueTrimmed, 'H');
+        time = Moment(value, 'H');
       }
     } else if (formatOrder === DateFormatService.secMinHour) {
       if (length === 6) {
-        time = Moment(valueTrimmed, 'ssmmHH');
+        time = Moment(value, 'ssmmHH');
       } else if (length === 5) {
-        time = Moment(valueTrimmed, 'ssmmH');
+        time = Moment(value, 'ssmmH');
       } else if (length === 4) {
-        time = Moment(valueTrimmed, 'mmHH');
+        time = Moment(value, 'mmHH');
       } else if (length === 3) {
-        time = Moment(valueTrimmed, 'mmH');
+        time = Moment(value, 'mmH');
       } else if (length === 2) {
-        time = Moment(valueTrimmed, 'HH');
+        time = Moment(value, 'HH');
       } else {
-        time = Moment(valueTrimmed, 'H');
+        time = Moment(value, 'H');
       }
     }
 
@@ -441,16 +437,10 @@ export class DateFormatService {
       return null;
     }
 
-    let valueTrimmed: string = value.trim();
-
-    if (!valueTrimmed.length) {
-      return null;
-    }
-
     let separatorPos: number = Number.MAX_SAFE_INTEGER;
 
     for (let separator of DateFormatService.dtShortcutSeparators) {
-      let pos: number = valueTrimmed.indexOf(separator);
+      let pos: number = value.indexOf(separator);
       if (pos >= 0) {
         separatorPos = Math.min(separatorPos, pos);
       }
@@ -460,18 +450,18 @@ export class DateFormatService {
 
     if (separatorPos < Number.MAX_SAFE_INTEGER) {
       if (separatorPos === 0) {
-        let timePart: string = valueTrimmed.substring(1);
+        let timePart: string = value.substring(1);
         if (!String.isNullOrWhiteSpace(timePart)) {
           dateTime = this.getTimeFromShortcut(timePart, formatPattern);
         }
-      } else if (separatorPos === valueTrimmed.length - 1) {
-        let datePart: string = valueTrimmed.substring(0, valueTrimmed.length - 1);
+      } else if (separatorPos === value.length - 1) {
+        let datePart: string = value.substring(0, value.length - 1);
         if (!String.isNullOrWhiteSpace(datePart)) {
           dateTime = this.getDateFromShortcut(datePart, formatPattern);
         }
       } else {
-        let datePart: string = valueTrimmed.substring(0, separatorPos);
-        let timePart: string = valueTrimmed.substring(separatorPos + 1);
+        let datePart: string = value.substring(0, separatorPos);
+        let timePart: string = value.substring(separatorPos + 1);
 
         let date: Moment.Moment = this.getDateFromShortcut(datePart, formatPattern);
         let time: Moment.Moment = this.getTimeFromShortcut(timePart, formatPattern);
@@ -490,7 +480,7 @@ export class DateFormatService {
         dateTime = date;
       }
     } else {
-      dateTime = this.getDateFromShortcut(valueTrimmed, formatPattern);
+      dateTime = this.getDateFromShortcut(value, formatPattern);
     }
 
     if (dateTime == null || !dateTime.isValid()) {
