@@ -51,6 +51,10 @@ export class DateFormatService {
 
     let dateTime: Moment.Moment = this.parseString(value, textFormat, formatPattern);
 
+    if (dateTime == null || !dateTime.isValid()) {
+      return null;
+    }
+
     return this.formatDate(dateTime, textFormat, formatPattern);
   }
 

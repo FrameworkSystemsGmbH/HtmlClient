@@ -63,12 +63,6 @@ export abstract class BaseComponent implements OnDestroy {
     if (events & ControlEvent.OnCanDrop) {
       this.onCanDrop = new EventEmitter<any>();
     }
-
-    this.onWrapperSet(wrapper);
-  }
-
-  protected onWrapperSet(wrapper: BaseWrapper): void {
-    // Overridde in subclasses
   }
 
   public getName(): string {
