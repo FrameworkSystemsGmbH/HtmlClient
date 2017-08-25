@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
+import * as Moment from 'moment-timezone';
 
-import { PropertyStore, PropertyLayer } from '../common';
 import { ControlStyleService } from './control-style.service';
+import { NumberFormatService } from './formatter/number-format.service';
+import { DateFormatService } from './formatter/date-format.service';
+import { PropertyStore, PropertyLayer } from '../common';
 import { TextBoxBaseWrapper, BaseWrapperFittedData } from '../wrappers';
 import { DataSourceType, TextFormat } from '../enums';
 
@@ -32,7 +35,10 @@ export class FontService {
   private readonly context: CanvasRenderingContext2D;
   private readonly baseControlStyle: PropertyStore;
 
-  constructor(private controlStyleService: ControlStyleService) {
+  constructor(
+    private controlStyleService: ControlStyleService,
+    private numberFormatService: NumberFormatService,
+    private dateFormatService: DateFormatService) {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
     this.baseControlStyle = new PropertyStore();
@@ -230,7 +236,7 @@ export class FontService {
     return measureTextWidth * factor;
   }
 
-  private measureDateTimeWidth(wrapper: BaseWrapperFittedData, format: TextFormat, formatPattern: string): number {
+  private measureDateTimeWidth(wrapper: BaseWrapperFittedData, textFormat: TextFormat, formatPattern: string): number {
     let result: number = 0;
 
     let fontFamily: string = wrapper.getFontFamily();
@@ -240,9 +246,17 @@ export class FontService {
 
     for (let month = this.date_start_month; month <= this.date_end_month; month++) {
       for (let day = this.date_start_day; day <= this.date_end_day; day++) {
-        let dt: Date = new Date(this.date_year, month, day, this.date_hours, this.date_minutes, this.date_seconds);
-        let measureString: string = dt.toDateString();
-        // #warning let measureString: string = FrameworkFormatMask.ToFormattedString(dt, format, formatPattern, 0, DotNetTypes.DateTime);
+        let date: Moment.Moment = Moment({
+          year: this.date_year,
+          month: month,
+          day: day,
+          hours: this.date_hours,
+          minutes: this.date_minutes,
+          seconds: this.date_seconds
+        });
+
+        let measureString: string = this.dateFormatService.formatDate(date, textFormat, formatPattern);
+
         result = Math.max(result, this.measureText(measureString, fontFamily, fontSize, fontBold, fontItalic));
       }
     }
@@ -250,7 +264,7 @@ export class FontService {
   }
 
   private measureNumberWidth(wrapper: BaseWrapperFittedData, type: DataSourceType, scale: number,
-    precision: number, format: TextFormat, formatPattern: string): number {
+    precision: number, textFormat: TextFormat, formatPattern: string): number {
 
     let maxWidthDigit: number = this.getMaxWidthDigit(wrapper);
     let value: string = String.empty();
@@ -287,8 +301,7 @@ export class FontService {
         break;
     }
 
-    let measureString: string = value;
-    // #warning String measureString = FrameworkFormatMask.ToFormattedString(value, format, formatPattern, scale, type);
+    let measureString: string = this.numberFormatService.formatString(value, textFormat, formatPattern);
 
     let fontFamily: string = wrapper.getFontFamily();
     let fontSize: number = wrapper.getFontSize();

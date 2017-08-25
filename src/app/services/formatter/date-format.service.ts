@@ -4,44 +4,44 @@ import { TextFormat } from '../../enums';
 
 export class DateFormatService {
 
-  private static readonly jsonFormat: string = 'DD.MM.YYYY HH:mm:ss';
+  private readonly jsonFormat: string = 'DD.MM.YYYY HH:mm:ss';
 
-  private static readonly dateOnlyShortFormat: string = 'L';
-  private static readonly dateOnlyMediumFormat: string = 'll';
-  private static readonly dateOnlyLongFormat: string = 'LL';
+  private readonly dateOnlyShortFormat: string = 'L';
+  private readonly dateOnlyMediumFormat: string = 'll';
+  private readonly dateOnlyLongFormat: string = 'LL';
 
-  private static readonly dateTimeShortFormat: string = 'L LT';
-  private static readonly dateTimeMediumFormat: string = 'll LT';
-  private static readonly dateTimeLongFormat: string = 'LL LT';
+  private readonly dateTimeShortFormat: string = 'L LT';
+  private readonly dateTimeMediumFormat: string = 'll LT';
+  private readonly dateTimeLongFormat: string = 'LL LT';
 
-  private static readonly timeOnlyShortFormat: string = 'LT';
-  private static readonly timeOnlyMediumFormat: string = 'LTS';
-  private static readonly timeOnlyLongFormat: string = 'LTS zz';
+  private readonly timeOnlyShortFormat: string = 'LT';
+  private readonly timeOnlyMediumFormat: string = 'LTS';
+  private readonly timeOnlyLongFormat: string = 'LTS zz';
 
-  private static readonly dtShortcutSeparators: Array<string> = ['.', ',', '+', '-', '/'];
+  private readonly dtShortcutSeparators: Array<string> = ['.', ',', '+', '-', '/'];
 
-  private static readonly dayMonthYear: string = 'DMY';
-  private static readonly monthDayYear: string = 'MDY';
-  private static readonly dayYearMonth: string = 'DYM';
-  private static readonly monthYearDay: string = 'MYD';
-  private static readonly yearDayMonth: string = 'YDM';
-  private static readonly yearMonthDay: string = 'YMD';
+  private readonly dayMonthYear: string = 'DMY';
+  private readonly monthDayYear: string = 'MDY';
+  private readonly dayYearMonth: string = 'DYM';
+  private readonly monthYearDay: string = 'MYD';
+  private readonly yearDayMonth: string = 'YDM';
+  private readonly yearMonthDay: string = 'YMD';
 
-  private static readonly hourMinSec: string = 'Hms';
-  private static readonly hourSecMin: string = 'Hsm';
-  private static readonly secHourMin: string = 'sHm';
-  private static readonly minHourSec: string = 'mHs';
-  private static readonly secMinHour: string = 'smH';
-  private static readonly minSecHour: string = 'msH';
+  private readonly hourMinSec: string = 'Hms';
+  private readonly hourSecMin: string = 'Hsm';
+  private readonly secHourMin: string = 'sHm';
+  private readonly minHourSec: string = 'mHs';
+  private readonly secMinHour: string = 'smH';
+  private readonly minSecHour: string = 'msH';
 
-  private static readonly onlyDigitRegExp: RegExp = /^\d+$/;
+  private readonly onlyDigitRegExp: RegExp = /^\d+$/;
 
   public momentToJson(value: Moment.Moment): string {
-    return value ? value.format(DateFormatService.jsonFormat) : null;
+    return value ? value.format(this.jsonFormat) : null;
   }
 
   public momentFromJson(value: string): Moment.Moment {
-    return Moment(value, DateFormatService.jsonFormat, true);
+    return Moment(value, this.jsonFormat, true);
   }
 
   public formatString(value: string, textFormat: TextFormat, formatPattern: string): string {
@@ -64,23 +64,23 @@ export class DateFormatService {
     } else if (textFormat != null) {
       switch (textFormat) {
         case TextFormat.DateOnlyShort:
-          return value.format(DateFormatService.dateOnlyShortFormat);
+          return value.format(this.dateOnlyShortFormat);
         case TextFormat.DateOnlyMedium:
-          return value.format(DateFormatService.dateOnlyMediumFormat);
+          return value.format(this.dateOnlyMediumFormat);
         case TextFormat.DateOnlyLong:
-          return value.format(DateFormatService.dateOnlyLongFormat);
+          return value.format(this.dateOnlyLongFormat);
         case TextFormat.TimeOnlyShort:
-          return value.format(DateFormatService.timeOnlyShortFormat);
+          return value.format(this.timeOnlyShortFormat);
         case TextFormat.TimeOnlyMedium:
-          return value.format(DateFormatService.timeOnlyMediumFormat);
+          return value.format(this.timeOnlyMediumFormat);
         case TextFormat.TimeOnlyLong:
-          return value.format(DateFormatService.timeOnlyLongFormat);
+          return value.format(this.timeOnlyLongFormat);
         case TextFormat.DateTimeShort:
-          return value.format(DateFormatService.dateTimeShortFormat);
+          return value.format(this.dateTimeShortFormat);
         case TextFormat.DateTimeMedium:
-          return value.format(DateFormatService.dateTimeMediumFormat);
+          return value.format(this.dateTimeMediumFormat);
         case TextFormat.DateTimeLong:
-          return value.format(DateFormatService.dateTimeLongFormat);
+          return value.format(this.dateTimeLongFormat);
       }
     }
 
@@ -110,7 +110,7 @@ export class DateFormatService {
       return null;
     }
 
-    let dateTime: Moment.Moment = Moment(value, formatPattern);
+    let dateTime: Moment.Moment = Moment(value, formatPattern, true);
 
     if (dateTime == null || !dateTime.isValid()) {
       return null;
@@ -128,31 +128,31 @@ export class DateFormatService {
 
     switch (textFormat) {
       case TextFormat.DateOnlyShort:
-        dateTime = Moment(value, DateFormatService.dateOnlyShortFormat);
+        dateTime = Moment(value, this.dateOnlyShortFormat, true);
         break;
       case TextFormat.DateOnlyMedium:
-        dateTime = Moment(value, DateFormatService.dateOnlyMediumFormat);
+        dateTime = Moment(value, this.dateOnlyMediumFormat, true);
         break;
       case TextFormat.DateOnlyLong:
-        dateTime = Moment(value, DateFormatService.dateOnlyLongFormat);
+        dateTime = Moment(value, this.dateOnlyLongFormat, true);
         break;
       case TextFormat.TimeOnlyShort:
-        dateTime = Moment(value, DateFormatService.timeOnlyShortFormat);
+        dateTime = Moment(value, this.timeOnlyShortFormat, true);
         break;
       case TextFormat.TimeOnlyMedium:
-        dateTime = Moment(value, DateFormatService.timeOnlyMediumFormat);
+        dateTime = Moment(value, this.timeOnlyMediumFormat, true);
         break;
       case TextFormat.TimeOnlyLong:
-        dateTime = Moment(value, DateFormatService.timeOnlyLongFormat);
+        dateTime = Moment(value, this.timeOnlyLongFormat, true);
         break;
       case TextFormat.DateTimeShort:
-        dateTime = Moment(value, DateFormatService.dateTimeShortFormat);
+        dateTime = Moment(value, this.dateTimeShortFormat, true);
         break;
       case TextFormat.DateTimeMedium:
-        dateTime = Moment(value, DateFormatService.dateTimeMediumFormat);
+        dateTime = Moment(value, this.dateTimeMediumFormat, true);
         break;
       case TextFormat.DateTimeLong:
-        dateTime = Moment(value, DateFormatService.dateTimeLongFormat);
+        dateTime = Moment(value, this.dateTimeLongFormat, true);
         break;
     }
 
@@ -213,7 +213,7 @@ export class DateFormatService {
 
     let length: number = value.length;
 
-    if (length > 8 || length === 7 || length === 5 || length === 3 || !DateFormatService.onlyDigitRegExp.test(value)) {
+    if (length > 8 || length === 7 || length === 5 || length === 3 || !this.onlyDigitRegExp.test(value)) {
       return null;
     }
 
@@ -221,77 +221,66 @@ export class DateFormatService {
 
     let date: Moment.Moment = null;
 
-    if (formatOrder === DateFormatService.dayMonthYear) {
-      if (length === 8) {
-        date = Moment(value, 'DDMMYYYY');
-      } else if (length === 6) {
-        date = Moment(value, 'DDMMYY');
-      } else if (length === 4) {
-        date = Moment(value, 'DDMM');
-      } else if (length === 2) {
-        date = Moment(value, 'DD');
-      } else {
-        date = Moment(value, 'D');
-      }
-    } else if (formatOrder === DateFormatService.monthDayYear) {
-      if (length === 8) {
-        date = Moment(value, 'MMDDYYYY');
-      } else if (length === 6) {
-        date = Moment(value, 'MMDDYY');
-      } else if (length === 4) {
-        date = Moment(value, 'MMDD');
-      } else if (length === 2) {
-        date = Moment(value, 'DD');
-      } else {
-        date = Moment(value, 'D');
-      }
-    } else if (formatOrder === DateFormatService.dayYearMonth) {
-      if (length === 8) {
-        date = Moment(value, 'DDYYYYMM');
-      } else if (length === 6) {
-        date = Moment(value, 'DDYYMM');
-      } else if (length === 4) {
-        date = Moment(value, 'DDMM');
-      } else if (length === 2) {
-        date = Moment(value, 'DD');
-      } else {
-        date = Moment(value, 'D');
-      }
-    } else if (formatOrder === DateFormatService.monthYearDay) {
-      if (length === 8) {
-        date = Moment(value, 'MMYYYYDD');
-      } else if (length === 6) {
-        date = Moment(value, 'MMYYDD');
-      } else if (length === 4) {
-        date = Moment(value, 'MMDD');
-      } else if (length === 2) {
-        date = Moment(value, 'DD');
-      } else {
-        date = Moment(value, 'D');
-      }
-    } else if (formatOrder === DateFormatService.yearDayMonth) {
-      if (length === 8) {
-        date = Moment(value, 'YYYYDDMM');
-      } else if (length === 6) {
-        date = Moment(value, 'YYDDMM');
-      } else if (length === 4) {
-        date = Moment(value, 'DDMM');
-      } else if (length === 2) {
-        date = Moment(value, 'DD');
-      } else {
-        date = Moment(value, 'D');
-      }
-    } else if (formatOrder === DateFormatService.yearMonthDay) {
-      if (length === 8) {
-        date = Moment(value, 'YYYYMMDD');
-      } else if (length === 6) {
-        date = Moment(value, 'YYMMDD');
-      } else if (length === 4) {
-        date = Moment(value, 'MMDD');
-      } else if (length === 2) {
-        date = Moment(value, 'DD');
-      } else {
-        date = Moment(value, 'D');
+    if (length === 1) {
+      date = Moment(value, 'D');
+    } else if (length === 2) {
+      date = Moment(value, 'DD');
+    } else {
+      switch (formatOrder) {
+        case this.dayMonthYear:
+          if (length === 4) {
+            date = Moment(value, 'DDMM');
+          } else if (length === 6) {
+            date = Moment(value, 'DDMMYY');
+          } else if (length === 8) {
+            date = Moment(value, 'DDMMYYYY');
+          }
+          break;
+        case this.monthDayYear:
+          if (length === 4) {
+            date = Moment(value, 'MMDD');
+          } else if (length === 6) {
+            date = Moment(value, 'MMDDYY');
+          } else if (length === 8) {
+            date = Moment(value, 'MMDDYYYY');
+          }
+          break;
+        case this.dayYearMonth:
+          if (length === 4) {
+            date = Moment(value, 'DDMM');
+          } else if (length === 6) {
+            date = Moment(value, 'DDYYMM');
+          } else if (length === 8) {
+            date = Moment(value, 'DDYYYYMM');
+          }
+          break;
+        case this.monthYearDay:
+          if (length === 4) {
+            date = Moment(value, 'MMDD');
+          } else if (length === 6) {
+            date = Moment(value, 'MMYYDD');
+          } else if (length === 8) {
+            date = Moment(value, 'MMYYYYDD');
+          }
+          break;
+        case this.yearDayMonth:
+          if (length === 4) {
+            date = Moment(value, 'DDMM');
+          } else if (length === 6) {
+            date = Moment(value, 'YYDDMM');
+          } else if (length === 8) {
+            date = Moment(value, 'YYYYDDMM');
+          }
+          break;
+        case this.yearMonthDay:
+          if (length === 4) {
+            date = Moment(value, 'MMDD');
+          } else if (length === 6) {
+            date = Moment(value, 'YYMMDD');
+          } else if (length === 8) {
+            date = Moment(value, 'YYYYMMDD');
+          }
+          break;
       }
     }
 
@@ -325,97 +314,85 @@ export class DateFormatService {
 
     let length: number = value.length;
 
-    if (length > 6 || !DateFormatService.onlyDigitRegExp.test(value)) {
+    if (length > 6 || !this.onlyDigitRegExp.test(value)) {
       return null;
     }
 
     let formatOrder: string = this.getTimeFormatOrderFromPattern(formatPattern);
-
     let time: Moment.Moment = null;
 
-    if (formatOrder === DateFormatService.hourMinSec) {
-      if (length === 6) {
-        time = Moment(value, 'HHmmss');
-      } else if (length === 5) {
-        time = Moment(value, 'Hmmss');
-      } else if (length === 4) {
-        time = Moment(value, 'HHmm');
-      } else if (length === 3) {
-        time = Moment(value, 'Hmm');
-      } else if (length === 2) {
-        time = Moment(value, 'HH');
-      } else {
-        time = Moment(value, 'H');
-      }
-    } else if (formatOrder === DateFormatService.hourSecMin) {
-      if (length === 6) {
-        time = Moment(value, 'HHssmm');
-      } else if (length === 5) {
-        time = Moment(value, 'Hssmm');
-      } else if (length === 4) {
-        time = Moment(value, 'HHmm');
-      } else if (length === 3) {
-        time = Moment(value, 'Hmm');
-      } else if (length === 2) {
-        time = Moment(value, 'HH');
-      } else {
-        time = Moment(value, 'H');
-      }
-    } else if (formatOrder === DateFormatService.minHourSec) {
-      if (length === 6) {
-        time = Moment(value, 'mmHHss');
-      } else if (length === 5) {
-        time = Moment(value, 'mmHss');
-      } else if (length === 4) {
-        time = Moment(value, 'mmHH');
-      } else if (length === 3) {
-        time = Moment(value, 'mmH');
-      } else if (length === 2) {
-        time = Moment(value, 'HH');
-      } else {
-        time = Moment(value, 'H');
-      }
-    } else if (formatOrder === DateFormatService.secHourMin) {
-      if (length === 6) {
-        time = Moment(value, 'ssHHmm');
-      } else if (length === 5) {
-        time = Moment(value, 'ssHmm');
-      } else if (length === 4) {
-        time = Moment(value, 'HHmm');
-      } else if (length === 3) {
-        time = Moment(value, 'Hmm');
-      } else if (length === 2) {
-        time = Moment(value, 'HH');
-      } else {
-        time = Moment(value, 'H');
-      }
-    } else if (formatOrder === DateFormatService.minSecHour) {
-      if (length === 6) {
-        time = Moment(value, 'mmssHH');
-      } else if (length === 5) {
-        time = Moment(value, 'mmssH');
-      } else if (length === 4) {
-        time = Moment(value, 'mmHH');
-      } else if (length === 3) {
-        time = Moment(value, 'mmH');
-      } else if (length === 2) {
-        time = Moment(value, 'HH');
-      } else {
-        time = Moment(value, 'H');
-      }
-    } else if (formatOrder === DateFormatService.secMinHour) {
-      if (length === 6) {
-        time = Moment(value, 'ssmmHH');
-      } else if (length === 5) {
-        time = Moment(value, 'ssmmH');
-      } else if (length === 4) {
-        time = Moment(value, 'mmHH');
-      } else if (length === 3) {
-        time = Moment(value, 'mmH');
-      } else if (length === 2) {
-        time = Moment(value, 'HH');
-      } else {
-        time = Moment(value, 'H');
+    if (length === 1) {
+      time = Moment(value, 'H');
+    } else if (length === 2) {
+      time = Moment(value, 'HH');
+    } else {
+      switch (formatOrder) {
+        case this.hourMinSec:
+          if (length === 3) {
+            time = Moment(value, 'Hmm');
+          } else if (length === 4) {
+            time = Moment(value, 'HHmm');
+          } else if (length === 5) {
+            time = Moment(value, 'Hmmss');
+          } else if (length === 6) {
+            time = Moment(value, 'HHmmss');
+          }
+          break;
+        case this.hourSecMin:
+          if (length === 3) {
+            time = Moment(value, 'Hmm');
+          } else if (length === 4) {
+            time = Moment(value, 'HHmm');
+          } else if (length === 5) {
+            time = Moment(value, 'Hssmm');
+          } else if (length === 6) {
+            time = Moment(value, 'HHssmm');
+          }
+          break;
+        case this.minHourSec:
+          if (length === 3) {
+            time = Moment(value, 'mmH');
+          } else if (length === 4) {
+            time = Moment(value, 'mmHH');
+          } else if (length === 5) {
+            time = Moment(value, 'mmHss');
+          } else if (length === 6) {
+            time = Moment(value, 'mmHHss');
+          }
+          break;
+        case this.secHourMin:
+          if (length === 3) {
+            time = Moment(value, 'Hmm');
+          } else if (length === 4) {
+            time = Moment(value, 'HHmm');
+          } else if (length === 5) {
+            time = Moment(value, 'ssHmm');
+          } else if (length === 6) {
+            time = Moment(value, 'ssHHmm');
+          }
+          break;
+        case this.minSecHour:
+          if (length === 3) {
+            time = Moment(value, 'mmH');
+          } else if (length === 4) {
+            time = Moment(value, 'mmHH');
+          } else if (length === 5) {
+            time = Moment(value, 'mmssH');
+          } else if (length === 6) {
+            time = Moment(value, 'mmssHH');
+          }
+          break;
+        case this.secMinHour:
+          if (length === 3) {
+            time = Moment(value, 'mmH');
+          } else if (length === 4) {
+            time = Moment(value, 'mmHH');
+          } else if (length === 5) {
+            time = Moment(value, 'ssmmH');
+          } else if (length === 6) {
+            time = Moment(value, 'ssmmHH');
+          }
+          break;
       }
     }
 
@@ -430,6 +407,7 @@ export class DateFormatService {
   * Can process the following date + time patterns:
   * [datepart]                        Example: DDMMYY
   * [separator][timepart]             Example: /HHmm
+  * [datepart][separator]             Example: DDMM/
   * [datepart][separator][timepart]   Example: DDMMYY/HHmm
   */
   private getDateTimeFromShortcut(value: string, formatPattern: string): Moment.Moment {
@@ -437,18 +415,23 @@ export class DateFormatService {
       return null;
     }
 
-    let separatorPos: number = Number.MAX_SAFE_INTEGER;
+    let separatorPos: number = null;
 
-    for (let separator of DateFormatService.dtShortcutSeparators) {
-      let pos: number = value.indexOf(separator);
-      if (pos >= 0) {
-        separatorPos = Math.min(separatorPos, pos);
+    for (let i = 0; i < value.length; i++) {
+      let char: string = value.charAt(i);
+      if (this.dtShortcutSeparators.indexOf(char) >= 0) {
+        if (separatorPos == null) {
+          separatorPos = i;
+        } else {
+          // If more than one separator is found the shortcut is invalid
+          return null;
+        }
       }
     }
 
     let dateTime: Moment.Moment = null;
 
-    if (separatorPos < Number.MAX_SAFE_INTEGER) {
+    if (separatorPos != null) {
       if (separatorPos === 0) {
         let timePart: string = value.substring(1);
         if (!String.isNullOrWhiteSpace(timePart)) {
@@ -477,7 +460,7 @@ export class DateFormatService {
         date.minutes(time.minutes());
         date.seconds(time.seconds());
 
-        dateTime = date;
+        return date;
       }
     } else {
       dateTime = this.getDateFromShortcut(value, formatPattern);
@@ -491,51 +474,71 @@ export class DateFormatService {
   }
 
   private getDateFormatOrderFromPattern(formatPattern: string): string {
-    let pattern: string = formatPattern;
+    let patternValid: (string) => boolean = (pattern) => !String.isNullOrWhiteSpace(pattern) && pattern.length === 3;
 
-    if (String.isNullOrWhiteSpace(pattern)) {
-      pattern = Moment.localeData().longDateFormat('L');
+    let shortPattern: string = this.getShortDatePattern(formatPattern);
 
-      if (String.isNullOrWhiteSpace(pattern)) {
-        return DateFormatService.dayMonthYear;
+    if (!patternValid(shortPattern)) {
+      shortPattern = this.getShortDatePattern(Moment.localeData().longDateFormat('L'));
+      if (!patternValid(shortPattern)) {
+        shortPattern = this.dayMonthYear;
       }
+    }
+
+    return shortPattern;
+  }
+
+  private getShortDatePattern(formatPattern: string): string {
+    if (String.isNullOrWhiteSpace(formatPattern)) {
+      return null;
     }
 
     let shortPattern: string = String.empty();
 
-    for (let char of pattern) {
+    for (let char of formatPattern) {
       if ((char === 'D' || char === 'M' || char === 'Y') && shortPattern.indexOf(char) === -1) {
         shortPattern += char;
       }
     }
 
-    return shortPattern.length === 3 ? shortPattern : DateFormatService.dayMonthYear;
+    return shortPattern;
   }
 
   private getTimeFormatOrderFromPattern(formatPattern: string): string {
-    let pattern: string = formatPattern;
+    let patternValid: (string) => boolean = (pattern) => !String.isNullOrWhiteSpace(pattern) && pattern.length === 3;
 
-    if (String.isNullOrWhiteSpace(pattern)) {
-      pattern = Moment.localeData().longDateFormat('LTS');
+    let shortPattern: string = this.getShortTimePattern(formatPattern);
 
-      if (String.isNullOrWhiteSpace(pattern)) {
-        return DateFormatService.hourMinSec;
+    if (!patternValid(shortPattern)) {
+      shortPattern = this.getShortTimePattern(Moment.localeData().longDateFormat('LTS'));
+      if (!patternValid(shortPattern)) {
+        shortPattern = this.hourMinSec;
       }
     }
+
+    return shortPattern;
+  }
+
+  private getShortTimePattern(formatPattern: string): string {
+    if (String.isNullOrWhiteSpace(formatPattern)) {
+      return null;
+    }
+
+    let hourChar: string = formatPattern.indexOf('H') >= 0 ? 'H' : 'h';
 
     let shortPattern: string = String.empty();
 
-    for (let char of pattern) {
-      if ((char === 'H' || char === 'm' || char === 's') && shortPattern.indexOf(char) === -1) {
-        shortPattern += char;
+    for (let char of formatPattern) {
+      if ((char === hourChar || char === 'm' || char === 's') && shortPattern.indexOf(char) === -1) {
+        shortPattern += (char === hourChar ? char.toUpperCase() : char);
       }
     }
 
-    return shortPattern.length === 3 ? shortPattern : DateFormatService.hourMinSec;
+    return shortPattern;
   }
 
   private getDateFromSpecialChar(value: string): Moment.Moment {
-    if (!value.startsWith('*')) {
+    if (String.isNullOrWhiteSpace(value) || !value.startsWith('*')) {
       return null;
     }
 
@@ -555,6 +558,21 @@ export class DateFormatService {
       let amount: number = this.getAmoutToAdd(value.substring(2));
       if (amount != null) {
         date.add(amount, 'days');
+      }
+    } else if (value.startsWith('*---')) {
+      let amount: number = this.getAmoutToAdd(value.substring(4));
+      if (amount != null) {
+        date.subtract(amount, 'years');
+      }
+    } else if (value.startsWith('*--')) {
+      let amount: number = this.getAmoutToAdd(value.substring(3));
+      if (amount != null) {
+        date.subtract(amount, 'months');
+      }
+    } else if (value.startsWith('*-')) {
+      let amount: number = this.getAmoutToAdd(value.substring(2));
+      if (amount != null) {
+        date.subtract(amount, 'days');
       }
     }
 
@@ -583,13 +601,28 @@ export class DateFormatService {
       if (amount != null) {
         time.add(amount, 'seconds');
       }
+    } else if (value.startsWith('*---')) {
+      let amount: number = this.getAmoutToAdd(value.substring(4));
+      if (amount != null) {
+        time.subtract(amount, 'hours');
+      }
+    } else if (value.startsWith('*--')) {
+      let amount: number = this.getAmoutToAdd(value.substring(3));
+      if (amount != null) {
+        time.subtract(amount, 'minutes');
+      }
+    } else if (value.startsWith('*-')) {
+      let amount: number = this.getAmoutToAdd(value.substring(2));
+      if (amount != null) {
+        time.subtract(amount, 'seconds');
+      }
     }
 
     return time;
   }
 
   private getAmoutToAdd(value: string): number {
-    if (String.isNullOrWhiteSpace(value) || !DateFormatService.onlyDigitRegExp.test(value)) {
+    if (String.isNullOrWhiteSpace(value) || !this.onlyDigitRegExp.test(value)) {
       return null;
     }
 
