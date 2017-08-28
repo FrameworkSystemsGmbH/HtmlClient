@@ -12,8 +12,8 @@ module.exports = {
     version: 'v1.6.11'
   },
   resources: {
-    iconWin: 'resources/icon.ico',
-    iconMac: 'resources/icon.icns',
-    iconPng: 'resources/icon.png'
+    iconWin: 'electron/icons/icon.ico',
+    iconMac: 'electron/icons/icon.icns',
+    iconPng: 'electron/icons/icon.png'
   }
 };

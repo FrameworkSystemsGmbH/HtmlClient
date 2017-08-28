@@ -18,21 +18,21 @@
       return del(config.target.root);
     });
 
-    gulp.task('cordova.copy.config', function () {
-      gulp.src(config.source.config)
-        .pipe(gulp.dest(config.target.root));
-    });
-
     gulp.task('cordova.copy.web', function () {
       return gulp.src(path.join(config.source.web, '**', '*'))
         .pipe(gulp.dest(config.target.web));
     });
 
-    gulp.task('cordova.initialize', function (done) {
+    gulp.task('cordova.copy.cordova', function () {
+      return gulp.src(path.join(config.source.cordova, '**', '*'))
+        .pipe(gulp.dest(config.target.root));
+    });
+
+    gulp.task('cordova.init', function (done) {
       runSequence(
         'cordova.clean',
-        'cordova.copy.config',
         'cordova.copy.web',
+        'cordova.copy.cordova',
         'cordova.prepare.all',
         done
       );
@@ -41,9 +41,6 @@
     gulp.task('cordova.prepare.all', function (done) {
       var currentDir = sh.pwd();
       sh.cd(config.target.root);
-      sh.exec('"../../node_modules/.bin/cordova" platform add android');
-      sh.exec('"../../node_modules/.bin/cordova" platform add windows');
-      sh.exec('"../../node_modules/.bin/cordova" platform add ios');
       sh.exec('"../../node_modules/.bin/cordova" prepare');
       sh.cd(currentDir);
       done();

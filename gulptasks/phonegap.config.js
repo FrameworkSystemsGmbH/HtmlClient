@@ -6,7 +6,7 @@ module.exports = {
     cordova: 'cordova'
   },
   target: {
-    root: 'dist/cordova',
-    web: 'dist/cordova/www'
+    root: 'dist/phonegap',
+    zip: 'app.zip'
   }
 };
