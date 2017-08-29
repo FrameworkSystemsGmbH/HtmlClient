@@ -3,7 +3,7 @@
 module.exports = {
   source: {
     web: 'dist/web',
-    cordova: 'cordova'
+    cordova: 'platforms/cordova'
   },
   target: {
     root: 'dist/phonegap',

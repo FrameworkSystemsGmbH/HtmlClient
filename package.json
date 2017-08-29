@@ -11,10 +11,8 @@
     "lint": "tslint \"src/**/*.ts\" --project \"src/tsconfig.json\" --type-check",
     "serve": "ng serve",
     "initCordova": "npm run build && gulp cordova.init",
-    "buildCordovaAndroid": "npm run build && gulp cordova.buid.android",
-    "emulateCordovaAndroid": "npm run build && gulp cordova.emulate.android",
-    "buildCordovaWindows": "npm run build && gulp cordova.buid.windows",
-    "emulateCordovaWindows": "npm run build && gulp cordova.emulate.windows",
+    "buildCordova": "npm run build && gulp cordova.build",
+    "emulateCordova": "npm run build && gulp cordova.emulate",
     "buildPhonegap": "npm run build && gulp phonegap",
     "buildElectron": "npm run build && gulp electron"
   },

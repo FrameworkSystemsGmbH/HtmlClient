@@ -3,7 +3,7 @@
 module.exports = {
   source: {
     web: 'dist/web',
-    electron: 'electron'
+    electron: 'platforms/electron'
   },
   target: {
     root: 'dist/electron',
@@ -12,8 +12,8 @@ module.exports = {
     version: 'v1.6.11'
   },
   resources: {
-    iconWin: 'electron/icons/icon.ico',
-    iconMac: 'electron/icons/icon.icns',
-    iconPng: 'electron/icons/icon.png'
+    iconWin: 'platforms/electron/icons/icon.ico',
+    iconMac: 'platforms/electron/icons/icon.icns',
+    iconPng: 'platforms/electron/icons/icon.png'
   }
 };

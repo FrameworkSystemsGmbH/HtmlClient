@@ -33,20 +33,21 @@
         'cordova.clean',
         'cordova.copy.web',
         'cordova.copy.cordova',
-        'cordova.prepare.all',
+        'cordova.prepare',
         done
       );
     });
 
-    gulp.task('cordova.prepare.all', function (done) {
+    gulp.task('cordova.prepare', function (done) {
       var currentDir = sh.pwd();
       sh.cd(config.target.root);
+      sh.exec('"../../node_modules/.bin/cordova" platform add android');
       sh.exec('"../../node_modules/.bin/cordova" prepare');
       sh.cd(currentDir);
       done();
     });
 
-    gulp.task('cordova.build.android', function (done) {
+    gulp.task('cordova.build', function (done) {
       var currentDir = sh.pwd();
       sh.cd(config.target.root);
       sh.exec('"../../node_modules/.bin/cordova" prepare android');
@@ -55,29 +56,11 @@
       done();
     });
 
-    gulp.task('cordova.emulate.android', function (done) {
+    gulp.task('cordova.emulate', function (done) {
       var currentDir = sh.pwd();
       sh.cd(config.target.root);
       sh.exec('"../../node_modules/.bin/cordova" prepare android');
       sh.exec('"../../node_modules/.bin/cordova" emulate android');
-      sh.cd(currentDir);
-      done();
-    });
-
-    gulp.task('cordova.build.windows', function (done) {
-      var currentDir = sh.pwd();
-      sh.cd(config.target.root);
-      sh.exec('"../../node_modules/.bin/cordova" prepare windows');
-      sh.exec('"../../node_modules/.bin/cordova" compile windows');
-      sh.cd(currentDir);
-      done();
-    });
-
-    gulp.task('cordova.emulate.windows', function (done) {
-      var currentDir = sh.pwd();
-      sh.cd(config.target.root);
-      sh.exec('"../../node_modules/.bin/cordova" prepare windows');
-      sh.exec('"../../node_modules/.bin/cordova" emulate windows');
       sh.cd(currentDir);
       done();
     });
