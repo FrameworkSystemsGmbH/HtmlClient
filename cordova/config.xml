@@ -5,11 +5,11 @@
         version="1.0.0">
 
 	<name>
-		Html Client
+		Mobile Client
 	</name>
 
 	<description>
-		HTML Client for Framework Studio Applications
+		Mobile Client for Framework Studio Applications
 	</description>
 
 	<author email="info@framework-systems.de" href="http://www.framework-systems.de">
