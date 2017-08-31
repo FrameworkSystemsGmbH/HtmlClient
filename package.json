@@ -10,6 +10,7 @@
     "build": "ng build --prod --no-sourcemap --vendor-chunk false",
     "lint": "tslint \"src/**/*.ts\" --project \"src/tsconfig.json\" --type-check",
     "serve": "ng serve",
+    "servePublic": "ng serve --host=0.0.0.0 --disable-host-check",
     "initCordova": "npm run build && gulp cordova.init",
     "buildCordova": "npm run build && gulp cordova.build",
     "emulateCordova": "npm run build && gulp cordova.emulate",
