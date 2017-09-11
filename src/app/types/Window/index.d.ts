@@ -1,0 +1,5 @@
+interface Window {
+
+  cordova: any;
+
+}
