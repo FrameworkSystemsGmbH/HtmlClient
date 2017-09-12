@@ -8,5 +8,10 @@ module.exports = {
   target: {
     root: 'dist/phonegap',
     zip: 'app.zip'
+  },
+  inject: {
+    js: [
+      'cordova.js'
+    ]
   }
 };

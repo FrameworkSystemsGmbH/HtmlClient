@@ -8,5 +8,10 @@ module.exports = {
   target: {
     root: 'dist/cordova',
     web: 'dist/cordova/www'
+  },
+  inject: {
+    js: [
+      'cordova.js'
+    ]
   }
 };
