@@ -6,8 +6,6 @@ import { FormWrapper } from '../../wrappers';
 import { FormsService } from '../../services/forms.service';
 import { RoutingService } from '../../services/routing.service';
 
-declare var $;
-
 @Component({
   selector: 'hc-navbar',
   templateUrl: './navbar.component.html',
@@ -128,7 +126,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private scrollTabs(deltaX: number, absolute: boolean = false): void {
-    let divWidth: number = $(this.center.nativeElement).width();
+    let divWidth: number = this.center.nativeElement.width;
     let ulWidth: number = this.tabs.nativeElement.scrollWidth;
     let maxScroll: number = Math.max(0, ulWidth - divWidth);
     this.tabScrollPosition = Math.min(Math.max(-maxScroll, (absolute ? 0 : this.tabScrollPosition) + deltaX), 0);
@@ -163,7 +161,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:resize')
   public refreshScroller(): void {
-    let divWidth: number = $(this.center.nativeElement).width();
+    let divWidth: number = this.center.nativeElement.width;
     let ulWidth: number = this.tabs.nativeElement.scrollWidth;
     let maxScroll: number = Math.max(0, ulWidth - divWidth);
 
