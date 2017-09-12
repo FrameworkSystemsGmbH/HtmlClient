@@ -7,7 +7,6 @@ import { LayoutableProperties } from '../layout';
 export class FormWrapper extends ContainerWrapper {
 
   private id: string;
-  private title: string;
   private fullName: string;
   private variant: VariantWrapper;
 
@@ -16,7 +15,8 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   public getTitle(): string {
-    return this.title ? this.title : this.fullName;
+    let title: string = this.getDefaultVariant().getTitle();
+    return title ? title : this.fullName;
   }
 
   private getDefaultVariant(): VariantWrapper {
@@ -61,11 +61,6 @@ export class FormWrapper extends ContainerWrapper {
   protected setMetaJson(metaJson: any): void {
     this.id = metaJson.id;
     this.fullName = metaJson.fullName;
-  }
-
-  protected setDataJson(dataJson: any): void {
-    super.setDataJson(dataJson);
-    this.title = dataJson.title;
   }
 
   protected setControlsJson(controlsJson: any, isNew: boolean): void {

@@ -120,6 +120,7 @@ export class PropertyData {
   public showCaption: boolean;
   public tabStop: boolean;
   public textAlign: TextAlign;
+  public title: string;
   public visibility: ControlVisibility;
   public width: number;
   public wordWrap: boolean;

@@ -6,6 +6,10 @@ import { ControlEvent } from '../enums';
 
 export class VariantWrapper extends ContainerWrapper {
 
+  public getTitle(): string {
+    return this.propertyStore.getTitle();
+  }
+
   public getIsCloseIconVisible(): boolean {
     let isCloseIconVisible: boolean = this.propertyStore.getIsCloseIconVisible();
     return isCloseIconVisible != null ? isCloseIconVisible : false;

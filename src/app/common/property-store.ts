@@ -760,6 +760,19 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.textAlign = value });
   }
 
+  // Title
+  public getTitle(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.title });
+  }
+
+  public getTitleForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.title });
+  }
+
+  public setTitle(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.title = value });
+  }
+
   // Visibility
   public getVisibility(): ControlVisibility {
     return this.getValue<ControlVisibility>((data: PropertyData) => { return data.visibility });
