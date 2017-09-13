@@ -539,6 +539,136 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.fontUnderline = value });
   }
 
+  // Image
+  public getImage(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.image });
+  }
+
+  public getImageForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.image });
+  }
+
+  public setImage(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.image = value });
+  }
+
+  // ImageBack
+  public getImageBack(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.imageBack });
+  }
+
+  public getImageBackForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.imageBack });
+  }
+
+  public setImageBack(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.imageBack = value });
+  }
+
+  // ImageForward
+  public getImageForward(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.imageForward });
+  }
+
+  public getImageForwardForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.imageForward });
+  }
+
+  public setImageForward(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.imageForward = value });
+  }
+
+  // InactiveImage
+  public getInactiveImage(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.inactiveImage });
+  }
+
+  public getInactiveImageForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.inactiveImage });
+  }
+
+  public setInactiveImage(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.inactiveImage = value });
+  }
+
+  // ActiveImage
+  public getActiveImage(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.activeImage });
+  }
+
+  public getActiveImageForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.activeImage });
+  }
+
+  public setActiveImage(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.activeImage = value });
+  }
+
+  // DisabledImage
+  public getDisabledImage(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.disabledImage });
+  }
+
+  public getDisabledImageForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.disabledImage });
+  }
+
+  public setDisabledImage(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.disabledImage = value });
+  }
+
+  // HighlightImage
+  public getHighlightImage(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.highlightImage });
+  }
+
+  public getHighlightImageForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.highlightImage });
+  }
+
+  public setHighlightImage(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.highlightImage = value });
+  }
+
+  // MouseOverImage
+  public getMouseOverImage(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.mouseOverImage });
+  }
+
+  public getMouseOverImageForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.mouseOverImage });
+  }
+
+  public setMouseOverImage(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.mouseOverImage = value });
+  }
+
+  // PressedImage
+  public getPressedImage(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.pressedImage });
+  }
+
+  public getPressedImageForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.pressedImage });
+  }
+
+  public setPressedImage(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.pressedImage = value });
+  }
+
+  // BackgroundImage
+  public getBackgroundImage(): string {
+    return this.getValue<string>((data: PropertyData) => { return data.backgroundImage });
+  }
+
+  public getBackgroundImageForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => { return data.backgroundImage });
+  }
+
+  public setBackgroundImage(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.backgroundImage = value });
+  }
+
   // Caption
   public getCaption(): string {
     return this.getValue<string>((data: PropertyData) => { return data.caption });
@@ -667,6 +797,19 @@ export class PropertyStore {
 
   public setIsCloseIconVisible(layer: PropertyLayer, value: boolean): void {
     this.setValue(layer, (data: PropertyData) => { data.isCloseIconVisible = value });
+  }
+
+  // IsEnabled
+  public getIsEnabled(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => { return data.isEnabled });
+  }
+
+  public getIsEnabledForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => { return data.isEnabled });
+  }
+
+  public setIsEnabled(layer: PropertyLayer, value: boolean): void {
+    this.setValue(layer, (data: PropertyData) => { data.isEnabled = value });
   }
 
   // MaxSize

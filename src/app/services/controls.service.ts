@@ -3,7 +3,8 @@ import { Injectable, Injector } from '@angular/core';
 import {
   BaseWrapper,
   ContainerWrapper,
-  ButtonWrapper,
+  ButtonImageWrapper,
+  ButtonPlainWrapper,
   DockPanelWrapper,
   FormWrapper,
   LabelWrapper,
@@ -34,7 +35,9 @@ export class ControlsService {
 
     switch (controlType) {
       case ControlType.Button:
-        return new ButtonWrapper(form, parent, this.appInjector);
+        return new ButtonPlainWrapper(form, parent, this.appInjector);
+      case ControlType.ImageButton:
+        return new ButtonImageWrapper(form, parent, this.appInjector);
       case ControlType.DockPanel:
         return new DockPanelWrapper(form, parent, this.appInjector);
       case ControlType.Label:

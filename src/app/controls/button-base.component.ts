@@ -1,20 +1,13 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { EventEmitter, Output } from '@angular/core';
 
-import { BaseComponent } from '..';
-import { ButtonWrapper } from '../../wrappers';
-import { StyleUtil } from '../../util';
-import { ControlEvent } from '../../enums';
+import { BaseComponent } from '.';
+import { ButtonBaseWrapper } from '../wrappers';
+import { StyleUtil } from '../util';
+import { ControlEvent } from '../enums';
 
-@Component({
-  selector: 'hc-btn',
-  templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss']
-})
-export class ButtonComponent extends BaseComponent {
+export abstract class ButtonBaseComponent extends BaseComponent {
 
   @Output() onClick: EventEmitter<any>;
-
-  @ViewChild('focus') focus: ElementRef;
 
   public callOnClick(event: any): void {
     if (this.getWrapper().getEvents() & ControlEvent.OnClick) {
@@ -22,27 +15,11 @@ export class ButtonComponent extends BaseComponent {
     }
   }
 
-  public callOnEnter(event: any): void {
-    super.callOnEnter(event);
+  public getWrapper(): ButtonBaseWrapper {
+    return super.getWrapper() as ButtonBaseWrapper;
   }
 
-  public callOnLeave(event: any): void {
-    super.callOnLeave(event);
-  }
-
-  public callOnDrag(event: any): void {
-    super.callOnDrag(event);
-  }
-
-  public callOnCanDrop(event: any): void {
-    super.callOnCanDrop(event);
-  }
-
-  public getWrapper(): ButtonWrapper {
-    return super.getWrapper() as ButtonWrapper;
-  }
-
-  public setWrapper(wrapper: ButtonWrapper): void {
+  public setWrapper(wrapper: ButtonBaseWrapper): void {
     super.setWrapper(wrapper);
 
     if (wrapper.getEvents() & ControlEvent.OnClick) {
@@ -51,8 +28,11 @@ export class ButtonComponent extends BaseComponent {
   }
 
   public getCaption(): string {
-    let wrapper: ButtonWrapper = this.getWrapper();
-    return wrapper.showCaption() ? wrapper.getCaption() : null;
+    return this.getWrapper().getCaption();
+  }
+
+  public showCaption(): boolean {
+    return this.getWrapper().showCaption();
   }
 
   public getTabStop(): boolean {
@@ -60,7 +40,7 @@ export class ButtonComponent extends BaseComponent {
   }
 
   public getStyles(): any {
-    let wrapper: ButtonWrapper = this.getWrapper();
+    let wrapper: ButtonBaseWrapper = this.getWrapper();
 
     let styles: any = {
       'left.px': wrapper.getLayoutableProperties().getX(),
@@ -93,9 +73,5 @@ export class ButtonComponent extends BaseComponent {
     };
 
     return styles;
-  }
-
-  public setFocus(): void {
-    this.focus.nativeElement.focus();
   }
 }

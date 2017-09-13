@@ -24,7 +24,6 @@ import { EventsService } from './services/events.service';
 import { FocusService } from './services/focus.service';
 import { FontService } from './services/font.service';
 import { FormsService } from './services/forms.service';
-import { HttpService } from './services/http.service';
 import { LogService } from './services/log.service';
 import { LoginService } from './services/login.service';
 import { LocaleService } from './services/locale.service';
@@ -36,7 +35,8 @@ import { TitleService } from './services/title.service';
 import { WindowRefService } from './services/windowref.service';
 
 import {
-  ButtonComponent,
+  ButtonImageComponent,
+  ButtonPlainComponent,
   DockPanelComponent,
   FormComponent,
   LabelComponent,
@@ -50,7 +50,8 @@ import {
 @NgModule({
   entryComponents: [
     LabelComponent,
-    ButtonComponent,
+    ButtonImageComponent,
+    ButtonPlainComponent,
     DockPanelComponent,
     FormComponent,
     TextBoxDateTimeComponent,
@@ -64,7 +65,8 @@ import {
     NavbarComponent,
     ViewerComponent,
     FrameComponent,
-    ButtonComponent,
+    ButtonImageComponent,
+    ButtonPlainComponent,
     DockPanelComponent,
     FormComponent,
     LabelComponent,
@@ -99,7 +101,6 @@ import {
     FocusService,
     FontService,
     FormsService,
-    HttpService,
     LoginService,
     LogService,
     LocaleService,

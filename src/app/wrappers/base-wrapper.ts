@@ -93,6 +93,10 @@ export abstract class BaseWrapper implements LayoutableControl {
     return Boolean.falseIfNull(this.propertyStore.getTabStop());
   }
 
+  public getIsEnabled(): boolean {
+    return Boolean.trueIfNull(this.propertyStore.getIsEnabled());
+  }
+
   public getVisibility(): ControlVisibility {
     let visibility: ControlVisibility = this.propertyStore.getVisibility();
     return visibility != null ? visibility : ControlVisibility.Visible;

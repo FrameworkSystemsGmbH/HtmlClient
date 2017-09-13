@@ -3,7 +3,7 @@ import { ISubscription } from 'rxjs/Subscription';
 
 import { BaseWrapperFittedData, FormWrapper, ContainerWrapper } from '.';
 import { ControlEvent, TextAlign, TextFormat } from '../enums';
-import { TextBoxBaseComponent } from '../controls/textbox-base.component';
+import { TextBoxBaseComponent } from '../controls';
 import { PatternFormatService } from '../services/formatter/pattern-format.service';
 
 export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {

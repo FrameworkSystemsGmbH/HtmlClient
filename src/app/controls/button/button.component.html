@@ -1,1 +1,0 @@
-<button #focus [ngStyle]="getStyles()" (click)="callOnClick($event)" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" [attr.tabindex]="getTabStop() ? null : -1">{{ getCaption() }}</button>

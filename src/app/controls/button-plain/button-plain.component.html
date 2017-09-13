@@ -1,0 +1,3 @@
+<button #focus [ngStyle]="getStyles()" (click)="callOnClick($event)" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" [attr.tabindex]="getTabStop() ? null : -1">
+    <span *ngIf="showCaption()">{{ getCaption() }}</span>
+</button>

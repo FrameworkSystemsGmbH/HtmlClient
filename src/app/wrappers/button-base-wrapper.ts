@@ -1,12 +1,11 @@
-import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { ContainerWrapper, BaseWrapperFitted } from '.';
+import { BaseWrapperFitted } from '.';
 import { ControlEvent } from '../enums';
-import { ButtonComponent } from '../controls';
+import { ButtonBaseComponent } from '../controls';
 import { PropertyLayer } from '../common';
 
-export class ButtonWrapper extends BaseWrapperFitted {
+export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
 
   private onClickSub: ISubscription;
 
@@ -17,15 +16,6 @@ export class ButtonWrapper extends BaseWrapperFitted {
 
   public showCaption(): boolean {
     return Boolean.trueIfNull(this.propertyStore.getShowCaption());
-  }
-
-  protected getComponentRef(): ComponentRef<ButtonComponent> {
-    return super.getComponentRef() as ComponentRef<ButtonComponent>;
-  }
-
-  protected getComponent(): ButtonComponent {
-    let compRef: ComponentRef<ButtonComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
   }
 
   protected setDataJson(dataJson: any): void {
@@ -40,18 +30,7 @@ export class ButtonWrapper extends BaseWrapperFitted {
     }
   }
 
-  public createComponent(container: ContainerWrapper): void {
-    let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
-    let factory: ComponentFactory<ButtonComponent> = cfr.resolveComponentFactory(ButtonComponent);
-    let comp: ComponentRef<ButtonComponent> = container.getViewContainerRef().createComponent(factory);
-    let instance: ButtonComponent = comp.instance;
-
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
-  }
-
-  protected attachEvents(instance: ButtonComponent): void {
+  protected attachEvents(instance: ButtonBaseComponent): void {
     super.attachEvents(instance);
 
     if (this.events & ControlEvent.OnClick) {

@@ -106,6 +106,7 @@ export class PropertyData {
   public formatPattern: string;
   public invertFlowDirection: boolean;
   public isCloseIconVisible: boolean;
+  public isEnabled: boolean;
   public isVisible: boolean;
   public mapEnterToTab: boolean;
   public maxDropDownSize: FsSize;
