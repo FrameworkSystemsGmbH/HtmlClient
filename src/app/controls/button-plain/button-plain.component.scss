@@ -1,3 +1,18 @@
 :host, button {
   position: absolute;
 }
+
+button {
+  span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+button:active {
+  span {
+    transform: translate(calc(-50% + 1px), calc(-50% + 1px));
+  }
+}

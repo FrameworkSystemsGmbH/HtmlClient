@@ -36,6 +36,20 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
     return this.brokerService.getImageUrl(image);
   }
 
+  public getPressedImage(): string {
+    return this.propertyStore.getPressedImage();
+  }
+
+  public getPressedImageUrl(): string {
+    const image: string = this.getPressedImage();
+
+    if (String.isNullOrWhiteSpace(image)) {
+      return null;
+    }
+
+    return this.brokerService.getImageUrl(image);
+  }
+
   public getMouseOverImage(): string {
     return this.propertyStore.getMouseOverImage();
   }
