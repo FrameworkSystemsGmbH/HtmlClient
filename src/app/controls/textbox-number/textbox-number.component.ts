@@ -28,18 +28,20 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnIn
   }
 
   public callOnLeave(event: any): void {
-    if (String.isNullOrWhiteSpace(this.value)) {
-      this.value = null;
-      this.updateWrapper();
-    } else {
-      let wrapper: TextBoxNumberWrapper = this.getWrapper();
-      let formattedValue: string = this.numberFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
-
-      if (formattedValue == null) {
-        this.updateComponent();
-      } else {
-        this.value = formattedValue;
+    if (this.input.nativeElement.classList.contains('ng-dirty')) {
+      if (String.isNullOrWhiteSpace(this.value)) {
+        this.value = null;
         this.updateWrapper();
+      } else {
+        let wrapper: TextBoxNumberWrapper = this.getWrapper();
+        let formattedValue: string = this.numberFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
+
+        if (formattedValue == null) {
+          this.updateComponent();
+        } else {
+          this.value = formattedValue;
+          this.updateWrapper();
+        }
       }
     }
 
