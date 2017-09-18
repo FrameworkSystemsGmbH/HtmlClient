@@ -2,6 +2,7 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { ContainerComponent } from '..';
 import { WrapPanelWrapper } from '../../wrappers';
+import { ControlVisibility } from '../../enums/index';
 
 @Component({
   selector: 'hc-wrp-panel',
@@ -41,6 +42,10 @@ export class WrapPanelComponent extends ContainerComponent {
       'padding-right.px': wrapper.getPaddingRight(),
       'padding-top.px': wrapper.getPaddingTop(),
       'padding-bottom.px': wrapper.getPaddingBottom()
+    }
+
+    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
+      styles['display'] = 'none';
     }
 
     return styles;

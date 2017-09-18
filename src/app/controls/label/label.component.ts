@@ -3,6 +3,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { BaseComponent } from '..';
 import { LabelWrapper } from '../../wrappers';
 import { StyleUtil } from '../../util';
+import { ControlVisibility } from '../../enums/index';
 
 @Component({
   selector: 'hc-lbl',
@@ -73,6 +74,10 @@ export class LabelComponent extends BaseComponent {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };
+
+    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
+      styles['display'] = 'none';
+    }
 
     return styles;
   }

@@ -29,11 +29,11 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   }
 
   protected getValueJson(): string {
-    return this.value == null ? String.empty() : this.value;
+    return this.value == null ? String.empty() : encodeURIComponent(this.value);
   }
 
   protected setValueJson(value: string): void {
-    let val: string = value ? value : null;
+    let val: string = value ? decodeURIComponent(value) : null;
     val = this.stringFormatService.formatString(val, this.getFormat());
     this.orgValue = val;
     this.setValue(val);

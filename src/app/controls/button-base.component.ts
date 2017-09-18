@@ -3,7 +3,7 @@ import { EventEmitter, Output } from '@angular/core';
 import { BaseComponent } from '.';
 import { ButtonBaseWrapper } from '../wrappers';
 import { StyleUtil } from '../util';
-import { ControlEvent } from '../enums';
+import { ControlEvent, ControlVisibility } from '../enums';
 
 export abstract class ButtonBaseComponent extends BaseComponent {
 
@@ -71,6 +71,10 @@ export abstract class ButtonBaseComponent extends BaseComponent {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': 'center'
     };
+
+    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
+      styles['display'] = 'none';
+    }
 
     return styles;
   }

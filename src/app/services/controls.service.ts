@@ -51,7 +51,8 @@ export class ControlsService {
       case ControlType.WrapPanel:
         return new WrapPanelWrapper(form, parent, this.appInjector);
       default:
-        throw new Error('ControlType \'' + controlType + '\' not supported!');
+        // #warning Commented because of CustomControls
+        // throw new Error('ControlType \'' + controlType + '\' not supported!');
     }
   }
 

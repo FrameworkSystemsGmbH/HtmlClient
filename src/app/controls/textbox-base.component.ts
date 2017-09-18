@@ -2,7 +2,7 @@ import { Output, EventEmitter } from '@angular/core';
 
 import { BaseComponent } from '.';
 import { TextBoxBaseWrapper } from '../wrappers';
-import { ControlEvent } from '../enums';
+import { ControlEvent, ControlVisibility } from '../enums';
 import { LayoutableProperties } from '../layout';
 import { StyleUtil } from '../util';
 
@@ -68,6 +68,10 @@ export abstract class TextBoxBaseComponent extends BaseComponent {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };
+
+    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
+      styles['display'] = 'none';
+    }
 
     return styles;
   }
