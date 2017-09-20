@@ -10,10 +10,10 @@ button {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-}
 
-button:active {
-  span {
-    transform: translate(calc(-50% + 1px), calc(-50% + 1px));
+  &:active:not([disabled]) {
+    span {
+      transform: translate(calc(-50% + 1px), calc(-50% + 1px));
+    }
   }
 }

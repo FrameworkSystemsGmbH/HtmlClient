@@ -1,6 +1,8 @@
 import { Injector } from '@angular/core';
 
-import { BaseWrapper, FormWrapper, ContainerWrapper } from '.';
+import { BaseWrapper } from './base-wrapper';
+import { FormWrapper } from './form-wrapper';
+import { ContainerWrapper } from './container-wrapper';
 import { FontService } from '../services/font.service';
 
 export abstract class BaseWrapperFitted extends BaseWrapper {

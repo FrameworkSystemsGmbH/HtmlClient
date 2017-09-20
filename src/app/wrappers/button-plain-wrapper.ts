@@ -1,6 +1,7 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
-import { ContainerWrapper, ButtonBaseWrapper } from '.';
+import { ContainerWrapper } from './container-wrapper';
+import { ButtonBaseWrapper } from './button-base-wrapper';
 import { ButtonPlainComponent } from '../controls';
 
 export class ButtonPlainWrapper extends ButtonBaseWrapper {

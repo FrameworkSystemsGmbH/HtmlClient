@@ -1,4 +1,4 @@
-import { ContainerWrapper } from '.';
+import { ContainerWrapper } from './container-wrapper';
 import { LayoutableContainerSpaceable } from '../layout';
 
 export abstract class ContainerWrapperSpaceable extends ContainerWrapper implements LayoutableContainerSpaceable {

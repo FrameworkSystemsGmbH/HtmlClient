@@ -1,4 +1,4 @@
-import { BaseWrapperFitted } from '.';
+import { BaseWrapperFitted } from './base-wrapper-fitted';
 import { DataSourceType } from '../enums';
 
 export abstract class BaseWrapperFittedData extends BaseWrapperFitted {

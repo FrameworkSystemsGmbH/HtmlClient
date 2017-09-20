@@ -1,7 +1,9 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
 
+import { FormWrapper } from './form-wrapper';
+import { ContainerWrapper } from './container-wrapper';
+import { TextBoxBaseWrapper } from './textbox-base-wrapper';
 import { StringFormatService } from '../services/formatter/string-format.service';
-import { TextBoxBaseWrapper, ContainerWrapper, FormWrapper } from '.';
 import { TextBoxPlainComponent } from '../controls';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {

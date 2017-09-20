@@ -1,6 +1,7 @@
 import { ComponentRef, ViewContainerRef, Injector } from '@angular/core';
 
-import { BaseWrapper, FormWrapper } from '.';
+import { BaseWrapper } from './base-wrapper';
+import { FormWrapper } from './form-wrapper';
 import { ContainerComponent } from '../controls';
 import { LayoutableControl, LayoutableContainer, LayoutContainerBase, LayoutBase } from '../layout';
 import { JsonUtil } from '../util';

@@ -21,9 +21,6 @@ $navbar-border-color: #e7e7e7;
 // Layout
 $breakpoint: 768px;
 
-// Controls
-$corner-radius: 3px;
-
 // Mixins
 @mixin gradient-silver {
   /* Old browsers */
@@ -40,8 +37,4 @@ $corner-radius: 3px;
   background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 240, 1) 100%);
   /* W3C */
   background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 240, 1) 100%);
-}
-
-@mixin round-corners {
-  border-radius: $corner-radius;
 }

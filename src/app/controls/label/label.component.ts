@@ -14,22 +14,6 @@ export class LabelComponent extends BaseComponent {
 
   @ViewChild('focus') focus: ElementRef;
 
-  public callOnEnter(event: any): void {
-    super.callOnEnter(event);
-  }
-
-  public callOnLeave(event: any): void {
-    super.callOnLeave(event);
-  }
-
-  public callOnDrag(event: any): void {
-    super.callOnDrag(event);
-  }
-
-  public callOnCanDrop(event: any): void {
-    super.callOnCanDrop(event);
-  }
-
   public getWrapper(): LabelWrapper {
     return super.getWrapper() as LabelWrapper;
   }
@@ -50,10 +34,11 @@ export class LabelComponent extends BaseComponent {
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight(),
-      'color': wrapper.getForeColor(),
-      'background-color': wrapper.getBackColor(),
+      'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
+      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
+      'border-radius': StyleUtil.getBorderRadius(wrapper.getBorderRadiusTopLeft(), wrapper.getBorderRadiusTopRight(), wrapper.getBorderRadiusBottomLeft(), wrapper.getBorderRadiusBottomRight()),
       'border-left-width.px': wrapper.getBorderThicknessLeft(),
       'border-right-width.px': wrapper.getBorderThicknessRight(),
       'border-top-width.px': wrapper.getBorderThicknessTop(),

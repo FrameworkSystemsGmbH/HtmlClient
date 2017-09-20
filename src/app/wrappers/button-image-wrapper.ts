@@ -1,6 +1,8 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
 
-import { ContainerWrapper, ButtonBaseWrapper, FormWrapper } from '.';
+import { FormWrapper } from './form-wrapper';
+import { ContainerWrapper } from './container-wrapper';
+import { ButtonBaseWrapper } from './button-base-wrapper';
 import { ButtonImageComponent } from '../controls';
 import { ContentAlignment } from '../enums';
 import { BrokerService } from '../services/broker.service';

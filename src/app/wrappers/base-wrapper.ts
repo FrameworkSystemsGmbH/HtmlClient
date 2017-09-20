@@ -1,7 +1,8 @@
 import { ComponentRef, Injector } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { ContainerWrapper, FormWrapper } from '.';
+import { FormWrapper } from './form-wrapper';
+import { ContainerWrapper } from './container-wrapper';
 import { BaseComponent } from '../controls';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment, ControlEvent } from '../enums';
 import { LayoutableControl, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer, LayoutableProperties, LayoutBase, LayoutablePropertiesDefault } from '../layout';
@@ -93,8 +94,8 @@ export abstract class BaseWrapper implements LayoutableControl {
     return Boolean.falseIfNull(this.propertyStore.getTabStop());
   }
 
-  public getIsEnabled(): boolean {
-    return Boolean.trueIfNull(this.propertyStore.getIsEnabled());
+  public getIsEditable(): boolean {
+    return Boolean.trueIfNull(this.propertyStore.getIsEditable());
   }
 
   public getVisibility(): ControlVisibility {
@@ -194,6 +195,22 @@ export abstract class BaseWrapper implements LayoutableControl {
   public getBorderColor(): string {
     let borderColor: string = this.propertyStore.getBorderColor();
     return borderColor != null ? borderColor : '#808080';
+  }
+
+  public getBorderRadiusTopLeft(): number {
+    return Number.zeroIfNull(this.propertyStore.getBorderRadiusTopLeft());
+  }
+
+  public getBorderRadiusTopRight(): number {
+    return Number.zeroIfNull(this.propertyStore.getBorderRadiusTopRight());
+  }
+
+  public getBorderRadiusBottomLeft(): number {
+    return Number.zeroIfNull(this.propertyStore.getBorderRadiusBottomLeft());
+  }
+
+  public getBorderRadiusBottomRight(): number {
+    return Number.zeroIfNull(this.propertyStore.getBorderRadiusBottomRight());
   }
 
   public getBorderThicknessLeft(): number {

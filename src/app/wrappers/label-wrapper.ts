@@ -1,6 +1,7 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
-import { ContainerWrapper, BaseWrapperFitted } from '.';
+import { ContainerWrapper } from './container-wrapper';
+import { BaseWrapperFitted } from './base-wrapper-fitted';
 import { LabelComponent } from '../controls';
 import { TextAlign } from '../enums';
 

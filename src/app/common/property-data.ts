@@ -42,6 +42,11 @@ export class PropertyData {
   public marginTop: number;
   public marginBottom: number;
 
+  public borderRadiusTopLeft: number;
+  public borderRadiusTopRight: number;
+  public borderRadiusBottomLeft: number;
+  public borderRadiusBottomRight: number;
+
   public borderThicknessLeft: number;
   public borderThicknessRight: number;
   public borderThicknessTop: number;
@@ -106,6 +111,7 @@ export class PropertyData {
   public formatPattern: string;
   public invertFlowDirection: boolean;
   public isCloseIconVisible: boolean;
+  public isEditable: boolean;
   public isEnabled: boolean;
   public isVisible: boolean;
   public mapEnterToTab: boolean;

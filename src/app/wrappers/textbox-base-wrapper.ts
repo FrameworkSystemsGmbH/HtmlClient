@@ -1,7 +1,9 @@
 import { Injector } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { BaseWrapperFittedData, FormWrapper, ContainerWrapper } from '.';
+import { FormWrapper } from './form-wrapper';
+import { ContainerWrapper } from './container-wrapper';
+import { BaseWrapperFittedData } from './base-wrapper-fitted-data';
 import { ControlEvent, TextAlign, TextFormat } from '../enums';
 import { TextBoxBaseComponent } from '../controls';
 import { PatternFormatService } from '../services/formatter/pattern-format.service';

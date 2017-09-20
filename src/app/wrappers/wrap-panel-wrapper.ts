@@ -1,4 +1,5 @@
-import { ContainerWrapperSpaceable, ContainerWrapper } from '.';
+import { ContainerWrapper } from './container-wrapper';
+import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
 import { WrapContainer, WrapArrangement, WrapLayout } from '../layout/wrap-layout';
 import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 import { WrapPanelComponent } from '../controls';

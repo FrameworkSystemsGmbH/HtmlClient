@@ -1,4 +1,4 @@
-import { ContainerWrapperSpaceable } from '.';
+import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
 import { FieldContainer, FieldRowControl } from '../layout/field-layout';
 import { LayoutableControlLabelTemplate, LayoutableControlLabel } from '../layout';
 import { ControlLabelWrapper } from '.';

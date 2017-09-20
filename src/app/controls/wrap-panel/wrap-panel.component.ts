@@ -3,6 +3,7 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '..';
 import { WrapPanelWrapper } from '../../wrappers';
 import { ControlVisibility } from '../../enums/index';
+import { StyleUtil } from '../../util';
 
 @Component({
   selector: 'hc-wrp-panel',
@@ -30,6 +31,7 @@ export class WrapPanelComponent extends ContainerComponent {
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight(),
       'background-color': wrapper.getBackColor(),
+      'border-radius': StyleUtil.getBorderRadius(wrapper.getBorderRadiusTopLeft(), wrapper.getBorderRadiusTopRight(), wrapper.getBorderRadiusBottomLeft(), wrapper.getBorderRadiusBottomRight()),
       'border-left': wrapper.getBorderThicknessLeft() + 'px solid',
       'border-right': wrapper.getBorderThicknessRight() + 'px solid',
       'border-top': wrapper.getBorderThicknessTop() + 'px solid',

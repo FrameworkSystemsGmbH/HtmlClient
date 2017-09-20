@@ -10,13 +10,21 @@ export abstract class TextBoxBaseComponent extends BaseComponent {
 
   @Output() onValidated: EventEmitter<any>;
 
+  public callOnEnter(event: any): void {
+    if (this.getWrapper().getIsEditable()) {
+      super.callOnEnter(event);
+    }
+  }
+
   public callOnLeave(event: any): void {
-    this.callOnValidated(event);
-    super.callOnLeave(event);
+    if (this.getWrapper().getIsEditable()) {
+      this.callOnValidated(event);
+      super.callOnLeave(event);
+    }
   }
 
   public callOnValidated(event: any): void {
-    if (this.getWrapper().getEvents() & ControlEvent.OnValidated) {
+    if (this.getWrapper().getIsEditable() && (this.getWrapper().getEvents() & ControlEvent.OnValidated)) {
       this.onValidated.emit(event);
     }
   }
@@ -33,6 +41,15 @@ export abstract class TextBoxBaseComponent extends BaseComponent {
     }
   }
 
+  public getIsReadonly(): boolean {
+    return Boolean.nullIfFalse(!this.getWrapper().getIsEditable());
+  }
+
+  public getTabStop(): number {
+    const wrapper: TextBoxBaseWrapper = this.getWrapper();
+    return (wrapper.getIsEditable() && wrapper.getTabStop()) ? null : -1;
+  }
+
   public getStyles(): any {
     let wrapper: TextBoxBaseWrapper = this.getWrapper();
     let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
@@ -44,10 +61,11 @@ export abstract class TextBoxBaseComponent extends BaseComponent {
       'min-height.px': 0,
       'width.px': layoutableProperties.getWidth(),
       'height.px': layoutableProperties.getHeight(),
-      'color': wrapper.getForeColor(),
-      'background-color': wrapper.getBackColor(),
+      'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
+      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
+      'border-radius': StyleUtil.getBorderRadius(wrapper.getBorderRadiusTopLeft(), wrapper.getBorderRadiusTopRight(), wrapper.getBorderRadiusBottomLeft(), wrapper.getBorderRadiusBottomRight()),
       'border-left-width.px': wrapper.getBorderThicknessLeft(),
       'border-right-width.px': wrapper.getBorderThicknessRight(),
       'border-top-width.px': wrapper.getBorderThicknessTop(),

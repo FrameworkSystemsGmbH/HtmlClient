@@ -1,6 +1,7 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
-import { TextBoxBaseWrapper, ContainerWrapper } from '.';
+import { ContainerWrapper } from './container-wrapper';
+import { TextBoxBaseWrapper } from './textbox-base-wrapper';
 import { TextBoxNumberComponent } from '../controls';
 
 export class TextBoxNumberWrapper extends TextBoxBaseWrapper {

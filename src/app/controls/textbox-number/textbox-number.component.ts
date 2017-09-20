@@ -23,37 +23,26 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnIn
     this.updateComponent();
   }
 
-  public callOnEnter(event: any): void {
-    super.callOnEnter(event);
-  }
-
   public callOnLeave(event: any): void {
-    if (this.input.nativeElement.classList.contains('ng-dirty')) {
-      if (String.isNullOrWhiteSpace(this.value)) {
-        this.value = null;
-        this.updateWrapper();
-      } else {
-        let wrapper: TextBoxNumberWrapper = this.getWrapper();
-        let formattedValue: string = this.numberFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
-
-        if (formattedValue == null) {
-          this.updateComponent();
-        } else {
-          this.value = formattedValue;
+    let wrapper: TextBoxNumberWrapper = this.getWrapper();
+    if (wrapper.getIsEditable()) {
+      if (this.input.nativeElement.classList.contains('ng-dirty')) {
+        if (String.isNullOrWhiteSpace(this.value)) {
+          this.value = null;
           this.updateWrapper();
+        } else {
+          let formattedValue: string = this.numberFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
+          if (formattedValue == null) {
+            this.updateComponent();
+          } else {
+            this.value = formattedValue;
+            this.updateWrapper();
+          }
         }
       }
     }
 
     super.callOnLeave(event);
-  }
-
-  public callOnDrag(event: any): void {
-    super.callOnDrag(event);
-  }
-
-  public callOnCanDrop(event: any): void {
-    super.callOnCanDrop(event);
   }
 
   public getWrapper(): TextBoxNumberWrapper {
@@ -62,10 +51,6 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnIn
 
   public setFocus(): void {
     this.input.nativeElement.focus();
-  }
-
-  public getStyles(): any {
-    return super.getStyles();
   }
 
   public updateComponent(): void {

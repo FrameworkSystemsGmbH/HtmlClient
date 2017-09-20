@@ -1,6 +1,6 @@
 import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
-import { ContainerWrapper } from '.';
+import { ContainerWrapper } from './container-wrapper';
 import { VariantComponent } from '../controls';
 import { ControlEvent } from '../enums';
 

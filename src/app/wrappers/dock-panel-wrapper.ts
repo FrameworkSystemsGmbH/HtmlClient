@@ -1,9 +1,10 @@
 import { ComponentFactory, ComponentRef, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
 
+import { ContainerWrapper } from './container-wrapper';
+import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
 import { LayoutBase } from '../layout';
 import { DockPanelComponent } from '../controls';
 import { DockContainer, DockOrientation, DockLayout } from '../layout/dock-layout';
-import { ContainerWrapperSpaceable, ContainerWrapper } from '.';
 
 export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockContainer {
 

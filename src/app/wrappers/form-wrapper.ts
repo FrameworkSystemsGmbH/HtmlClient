@@ -1,6 +1,8 @@
 import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
-import { BaseWrapper, ContainerWrapper, VariantWrapper } from '.';
+import { BaseWrapper } from './base-wrapper';
+import { ContainerWrapper } from './container-wrapper';
+import { VariantWrapper } from './variant-wrapper';
 import { FormComponent } from '../controls';
 import { LayoutableProperties } from '../layout';
 

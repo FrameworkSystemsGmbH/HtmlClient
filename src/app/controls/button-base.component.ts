@@ -27,6 +27,10 @@ export abstract class ButtonBaseComponent extends BaseComponent {
     }
   }
 
+  public getIsDisabled(): boolean {
+    return Boolean.nullIfFalse(!this.getWrapper().getIsEditable());
+  }
+
   public getCaption(): string {
     return this.getWrapper().getCaption();
   }
@@ -35,8 +39,9 @@ export abstract class ButtonBaseComponent extends BaseComponent {
     return this.getWrapper().showCaption();
   }
 
-  public getTabStop(): boolean {
-    return this.getWrapper().getTabStop();
+  public getTabStop(): number {
+    const wrapper: ButtonBaseWrapper = this.getWrapper();
+    return (wrapper.getIsEditable() && wrapper.getTabStop()) ? null : -1;
   }
 
   public getStyles(): any {
@@ -47,10 +52,11 @@ export abstract class ButtonBaseComponent extends BaseComponent {
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight(),
-      'color': wrapper.getForeColor(),
-      'background-color': wrapper.getBackColor(),
+      'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
+      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
+      'border-radius': StyleUtil.getBorderRadius(wrapper.getBorderRadiusTopLeft(), wrapper.getBorderRadiusTopRight(), wrapper.getBorderRadiusBottomLeft(), wrapper.getBorderRadiusBottomRight()),
       'border-left-width.px': wrapper.getBorderThicknessLeft(),
       'border-right-width.px': wrapper.getBorderThicknessRight(),
       'border-top-width.px': wrapper.getBorderThicknessTop(),

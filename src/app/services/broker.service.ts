@@ -103,10 +103,10 @@ export class BrokerService {
 
   private doRequest(requestJson: any): Observable<any> {
     // console.log(JSON.stringify(requestJson, null, 2));
-    return this.httpClient.post(this.activeBrokerRequestUrl, requestJson)
-      .do(response => {
-        console.log(JSON.stringify(response, null, 2));
-      });
+    return this.httpClient.post(this.activeBrokerRequestUrl, requestJson);
+      // .do(response => {
+      //   console.log(JSON.stringify(response, null, 2));
+      // });
   }
 
   private getMetaJson(requestType: RequestType): any {

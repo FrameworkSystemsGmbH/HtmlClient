@@ -2,8 +2,16 @@ import { TextAlign, ContentAlignment } from '../enums';
 
 export class StyleUtil {
 
-  public static getValuePx(value: string | number): string {
-    return (value ? value : 0) + 'px';
+  public static getValuePx(value: number): string {
+    return Number.zeroIfNull(value) + 'px';
+  }
+
+  public static getForeColor(isEditable: boolean, color: string): string {
+    return isEditable ? color : '#707070';
+  }
+
+  public static getBackgroundColor(isEditable: boolean, color: string): string {
+    return isEditable ? color : '#E8E8E8';
   }
 
   public static getFontWeight(bold: boolean): string {
@@ -31,26 +39,30 @@ export class StyleUtil {
     }
   }
 
+  public static getBorderRadius(topLeft: number, topRight: number, bottomLeft: number, bottomRight: number): string {
+    return StyleUtil.getValuePx(topLeft) + ' ' + StyleUtil.getValuePx(topRight) + ' ' + StyleUtil.getValuePx(bottomRight) + ' ' + StyleUtil.getValuePx(bottomLeft);
+  }
+
   public static getCaptionAlignStyles(captionAlign: ContentAlignment, paddingLeft: number, paddingTop: number, paddingRight: number, paddingBottom: number): any {
     const styles: any = {};
 
     switch (captionAlign) {
       case ContentAlignment.TopLeft:
-        styles['top.px'] = paddingTop;
-        styles['left.px'] = paddingLeft;
+        styles['top.px'] = Number.zeroIfNull(paddingTop);
+        styles['left.px'] = Number.zeroIfNull(paddingLeft);
         break;
       case ContentAlignment.TopCenter:
-        styles['top.px'] = paddingTop;
+        styles['top.px'] = Number.zeroIfNull(paddingTop);
         styles['left'] = '50%';
         styles['transform'] = 'translateX(-50%)';
         break;
       case ContentAlignment.TopRight:
-        styles['top.px'] = paddingTop;
-        styles['right.px'] = paddingRight;
+        styles['top.px'] = Number.zeroIfNull(paddingTop);
+        styles['right.px'] = Number.zeroIfNull(paddingRight);
         break;
       case ContentAlignment.MiddleLeft:
         styles['top'] = '50%';
-        styles['left.px'] = paddingLeft;
+        styles['left.px'] = Number.zeroIfNull(paddingLeft);
         styles['transform'] = 'translateY(-50%)';
         break;
       case ContentAlignment.MiddleCenter:
@@ -60,21 +72,21 @@ export class StyleUtil {
         break;
       case ContentAlignment.MiddleRight:
         styles['top.px'] = '50%';
-        styles['right.px'] = paddingRight;
+        styles['right.px'] = Number.zeroIfNull(paddingRight);
         styles['transform'] = 'translateY(-50%)';
         break;
       case ContentAlignment.BottomLeft:
-        styles['bottom.px'] = paddingBottom;
-        styles['left.px'] = paddingLeft;
+        styles['bottom.px'] = Number.zeroIfNull(paddingBottom);
+        styles['left.px'] = Number.zeroIfNull(paddingLeft);
         break;
       case ContentAlignment.BottomCenter:
-        styles['bottom.px'] = paddingBottom;
+        styles['bottom.px'] = Number.zeroIfNull(paddingBottom);
         styles['left'] = '50%';
         styles['transform'] = 'translateX(-50%)';
         break;
       case ContentAlignment.BottomRight:
-        styles['bottom.px'] = paddingBottom;
-        styles['right.px'] = paddingRight;
+        styles['bottom.px'] = Number.zeroIfNull(paddingBottom);
+        styles['right.px'] = Number.zeroIfNull(paddingRight);
         break;
     }
 

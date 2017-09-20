@@ -3,6 +3,7 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '..';
 import { DockPanelWrapper } from '../../wrappers';
 import { ControlVisibility } from '../../enums/index';
+import { StyleUtil } from '../../util';
 
 @Component({
   selector: 'hc-dock-panel',
@@ -30,6 +31,7 @@ export class DockPanelComponent extends ContainerComponent {
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight(),
       'background-color': wrapper.getBackColor(),
+      'border-radius': StyleUtil.getBorderRadius(wrapper.getBorderRadiusTopLeft(), wrapper.getBorderRadiusTopRight(), wrapper.getBorderRadiusBottomLeft(), wrapper.getBorderRadiusBottomRight()),
       'border-left': wrapper.getBorderThicknessLeft() + 'px solid',
       'border-right': wrapper.getBorderThicknessRight() + 'px solid',
       'border-top': wrapper.getBorderThicknessTop() + 'px solid',

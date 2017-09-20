@@ -292,6 +292,58 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.marginBottom = value });
   }
 
+  // BorderRadiusTopLeft
+  public getBorderRadiusTopLeft(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.borderRadiusTopLeft });
+  }
+
+  public getBorderRadiusTopLeftForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.borderRadiusTopLeft });
+  }
+
+  public setBorderRadiusTopLeft(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.borderRadiusTopLeft = value });
+  }
+
+  // BorderRadiusTopRight
+  public getBorderRadiusTopRight(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.borderRadiusTopRight });
+  }
+
+  public getBorderRadiusTopRightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.borderRadiusTopRight });
+  }
+
+  public setBorderRadiusTopRight(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.borderRadiusTopRight = value });
+  }
+
+  // BorderRadiusBottomLeft
+  public getBorderRadiusBottomLeft(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.borderRadiusBottomLeft });
+  }
+
+  public getBorderRadiusBottomLeftForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.borderRadiusBottomLeft });
+  }
+
+  public setBorderRadiusBottomLeft(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.borderRadiusBottomLeft = value });
+  }
+
+  // BorderRadiusBottomRight
+  public getBorderRadiusBottomRight(): number {
+    return this.getValue<number>((data: PropertyData) => { return data.borderRadiusBottomRight });
+  }
+
+  public getBorderRadiusBottomRightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => { return data.borderRadiusBottomRight });
+  }
+
+  public setBorderRadiusBottomRight(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.borderRadiusBottomRight = value });
+  }
+
   // BorderThicknessLeft
   public getBorderThicknessLeft(): number {
     return this.getValue<number>((data: PropertyData) => { return data.borderThicknessLeft });
@@ -797,6 +849,19 @@ export class PropertyStore {
 
   public setIsCloseIconVisible(layer: PropertyLayer, value: boolean): void {
     this.setValue(layer, (data: PropertyData) => { data.isCloseIconVisible = value });
+  }
+
+  // IsEditable
+  public getIsEditable(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => { return data.isEditable });
+  }
+
+  public getIsEditableForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => { return data.isEditable });
+  }
+
+  public setIsEditable(layer: PropertyLayer, value: boolean): void {
+    this.setValue(layer, (data: PropertyData) => { data.isEditable = value });
   }
 
   // IsEnabled

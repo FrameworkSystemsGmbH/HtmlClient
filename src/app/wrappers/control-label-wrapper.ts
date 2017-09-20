@@ -1,4 +1,5 @@
-import { BaseWrapper, ContainerWrapper } from '.';
+import { BaseWrapper } from './base-wrapper';
+import { ContainerWrapper } from './container-wrapper';
 import { LayoutableControlLabel } from '../layout';
 
 export class ControlLabelWrapper extends BaseWrapper implements LayoutableControlLabel {

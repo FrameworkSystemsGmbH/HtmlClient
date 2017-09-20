@@ -1,7 +1,11 @@
 interface BooleanConstructor {
 
+  trueIfNull(value: boolean): boolean;
+
   falseIfNull(value: boolean): boolean;
 
-  trueIfNull(value: boolean): boolean;
+  nullIfTrue(value: boolean): boolean;
+
+  nullIfFalse(value: boolean): boolean;
 
 }

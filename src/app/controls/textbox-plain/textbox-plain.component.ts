@@ -28,21 +28,12 @@ export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnIni
     this.value = this.formatValue(this.value);
   }
 
-  public callOnEnter(event: any): void {
-    super.callOnEnter(event);
-  }
-
   public callOnLeave(event: any): void {
-    this.updateWrapper();
-    super.callOnLeave(event);
-  }
-
-  public callOnDrag(event: any): void {
-    super.callOnDrag(event);
-  }
-
-  public callOnCanDrop(event: any): void {
-    super.callOnCanDrop(event);
+    let wrapper: TextBoxPlainWrapper = this.getWrapper();
+    if (wrapper.getIsEditable()) {
+      this.updateWrapper();
+      super.callOnLeave(event);
+    }
   }
 
   public getWrapper(): TextBoxPlainWrapper {
@@ -51,10 +42,6 @@ export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnIni
 
   public setFocus(): void {
     this.input.nativeElement.focus();
-  }
-
-  public getStyles(): any {
-    return super.getStyles();
   }
 
   private formatValue(value: string): string {

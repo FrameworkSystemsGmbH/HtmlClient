@@ -18,10 +18,6 @@ export class ButtonImageComponent extends ButtonBaseComponent {
   public isMouseDown: boolean;
   public wasMouseDownOnLeave: boolean;
 
-  public callOnClick(event: any): void {
-    super.callOnClick(event);
-  }
-
   public callOnFocus(event: any): void {
     this.isFocused = true;
     super.callOnEnter(event);
@@ -56,24 +52,8 @@ export class ButtonImageComponent extends ButtonBaseComponent {
     this.isMouseDown = false;
   }
 
-  public getCaption(): string {
-    return super.getCaption();
-  }
-
-  public showCaption(): boolean {
-    return super.showCaption();
-  }
-
-  public getTabStop(): boolean {
-    return this.getWrapper().getTabStop();
-  }
-
   public getWrapper(): ButtonImageWrapper {
     return super.getWrapper() as ButtonImageWrapper;
-  }
-
-  public getStyles(): any {
-    return super.getStyles();
   }
 
   public getImageUrl(): string {
@@ -81,7 +61,7 @@ export class ButtonImageComponent extends ButtonBaseComponent {
 
     let imageUrl: string = '';
 
-    if (!wrapper.getIsEnabled()) {
+    if (!wrapper.getIsEditable()) {
       imageUrl = wrapper.getDisabledImageUrl();
     } else if (this.isMouseDown) {
       imageUrl = wrapper.getPressedImageUrl();
