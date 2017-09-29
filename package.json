@@ -7,25 +7,26 @@
   "license": "none",
   "readme": "readme.md",
   "scripts": {
-    "build": "ng build --prod --no-sourcemap --vendor-chunk false",
+    "build": "ng build",
+    "buildProd": "ng build --prod",
     "lint": "tslint \"src/**/*.ts\" --project \"src/tsconfig.json\" --type-check",
     "serve": "ng serve",
     "servePublic": "ng serve --host=0.0.0.0 --disable-host-check",
-    "initCordova": "npm run build && gulp cordova.init",
-    "buildCordova": "npm run build && gulp cordova.build",
-    "emulateCordova": "npm run build && gulp cordova.emulate",
-    "buildPhonegap": "npm run build && gulp phonegap",
-    "buildElectron": "npm run build && gulp electron"
+    "initCordova": "npm run buildProd && gulp cordova.init",
+    "buildCordova": "npm run buildProd && gulp cordova.build",
+    "emulateCordova": "npm run buildProd && gulp cordova.emulate",
+    "buildPhonegap": "npm run buildProd && gulp phonegap",
+    "buildElectron": "npm run buildProd && gulp electron"
   },
   "dependencies": {
-    "@angular/animations": "4.4.3",
-    "@angular/common": "4.4.3",
-    "@angular/compiler": "4.4.3",
-    "@angular/core": "4.4.3",
-    "@angular/forms": "4.4.3",
-    "@angular/platform-browser": "4.4.3",
-    "@angular/platform-browser-dynamic": "4.4.3",
-    "@angular/router": "4.4.3",
+    "@angular/animations": "4.4.4",
+    "@angular/common": "4.4.4",
+    "@angular/compiler": "4.4.4",
+    "@angular/core": "4.4.4",
+    "@angular/forms": "4.4.4",
+    "@angular/platform-browser": "4.4.4",
+    "@angular/platform-browser-dynamic": "4.4.4",
+    "@angular/router": "4.4.4",
     "bootstrap-sass": "3.3.7",
     "core-js": "2.5.1",
     "font-awesome": "4.7.0",
@@ -34,14 +35,14 @@
     "moment": "2.18.1",
     "moment-timezone": "0.5.13",
     "rxjs": "5.4.3",
-    "zone.js": "0.8.17"
+    "zone.js": "0.8.18"
   },
   "devDependencies": {
-    "@angular/cli": "1.4.2",
-    "@angular/compiler-cli": "4.4.3",
+    "@angular/cli": "1.4.4",
+    "@angular/compiler-cli": "4.4.4",
     "@types/jasmine": "2.6.0",
-    "@types/moment-timezone": "0.2.35",
-    "@types/node": "8.0.28",
+    "@types/moment-timezone": "0.5.0",
+    "@types/node": "8.0.31",
     "codelyzer": "3.2.0",
     "cordova": "7.0.1",
     "del": "3.0.0",
@@ -55,6 +56,6 @@
     "shelljs": "0.7.8",
     "ts-node": "3.3.0",
     "tslint": "5.7.0",
-    "typescript": "2.5.2"
+    "typescript": "2.5.3"
   }
 }
