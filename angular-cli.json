@@ -50,5 +50,8 @@
       "pipe": false,
       "service": false
     }
+  },
+  "warnings": {
+    "typescriptMismatch": false
   }
 }

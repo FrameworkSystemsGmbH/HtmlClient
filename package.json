@@ -7,6 +7,7 @@
   "license": "none",
   "readme": "readme.md",
   "scripts": {
+    "set": "ng set warnings.typescriptMismatch=false",
     "build": "ng build",
     "buildProd": "ng build --prod",
     "lint": "tslint \"src/**/*.ts\" --project \"src/tsconfig.json\" --type-check",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@angular/cli": "1.4.4",
     "@angular/compiler-cli": "4.4.4",
+    "@types/cordova": "0.0.34",
     "@types/jasmine": "2.6.0",
     "@types/moment-timezone": "0.5.0",
     "@types/node": "8.0.31",
