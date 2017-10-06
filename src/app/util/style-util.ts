@@ -2,8 +2,12 @@ import { TextAlign, ContentAlignment } from '../enums';
 
 export class StyleUtil {
 
-  public static getValuePx(value: number): string {
-    return Number.zeroIfNull(value) + 'px';
+  public static getValue(unit: string, value: number): string {
+    return Number.zeroIfNull(value) + unit;
+  }
+
+  public static getFourValue(unit: string, first: number, second: number, third: number, fourth: number): string {
+    return StyleUtil.getValue(unit, first) + ' ' + StyleUtil.getValue(unit, second) + ' ' + StyleUtil.getValue(unit, third) + ' ' + StyleUtil.getValue(unit, fourth);
   }
 
   public static getForeColor(isEditable: boolean, color: string): string {
@@ -37,10 +41,6 @@ export class StyleUtil {
       default:
         return 'left';
     }
-  }
-
-  public static getBorderRadius(topLeft: number, topRight: number, bottomLeft: number, bottomRight: number): string {
-    return StyleUtil.getValuePx(topLeft) + ' ' + StyleUtil.getValuePx(topRight) + ' ' + StyleUtil.getValuePx(bottomRight) + ' ' + StyleUtil.getValuePx(bottomLeft);
   }
 
   public static getCaptionAlignStyles(captionAlign: ContentAlignment, paddingLeft: number, paddingTop: number, paddingRight: number, paddingBottom: number): any {

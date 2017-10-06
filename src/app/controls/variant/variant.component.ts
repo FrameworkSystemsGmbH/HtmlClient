@@ -3,6 +3,7 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '..';
 import { VariantWrapper } from '../../wrappers';
 import { ControlVisibility } from '../../enums/index';
+import { StyleUtil } from '../../util';
 
 @Component({
   selector: 'hc-variant',
@@ -30,18 +31,28 @@ export class VariantComponent extends ContainerComponent {
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight(),
       'background-color': wrapper.getBackColor(),
-      'border-left': wrapper.getBorderThicknessLeft() + 'px solid',
-      'border-right': wrapper.getBorderThicknessRight() + 'px solid',
-      'border-top': wrapper.getBorderThicknessTop() + 'px solid',
-      'border-bottom': wrapper.getBorderThicknessBottom() + 'px solid',
-      'margin-left.px': wrapper.getMarginLeft(),
-      'margin-right.px': wrapper.getMarginRight(),
-      'margin-top.px': wrapper.getMarginTop(),
-      'margin-bottom.px': wrapper.getMarginBottom(),
-      'padding-left.px': wrapper.getPaddingLeft(),
-      'padding-right.px': wrapper.getPaddingRight(),
-      'padding-top.px': wrapper.getPaddingTop(),
-      'padding-bottom.px': wrapper.getPaddingBottom()
+      'border-style': 'solid',
+      'border-color': wrapper.getBorderColor(),
+      'border-radius': StyleUtil.getFourValue('px',
+        wrapper.getBorderRadiusTopLeft(),
+        wrapper.getBorderRadiusTopRight(),
+        wrapper.getBorderRadiusBottomRight(),
+        wrapper.getBorderRadiusBottomLeft()),
+      'border-width': StyleUtil.getFourValue('px',
+        wrapper.getBorderThicknessTop(),
+        wrapper.getBorderThicknessRight(),
+        wrapper.getBorderThicknessBottom(),
+        wrapper.getBorderThicknessLeft()),
+      'margin': StyleUtil.getFourValue('px',
+        wrapper.getMarginTop(),
+        wrapper.getMarginRight(),
+        wrapper.getMarginBottom(),
+        wrapper.getMarginLeft()),
+      'padding': StyleUtil.getFourValue('px',
+        wrapper.getPaddingTop(),
+        wrapper.getPaddingRight(),
+        wrapper.getPaddingBottom(),
+        wrapper.getPaddingLeft()),
     }
 
     if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
