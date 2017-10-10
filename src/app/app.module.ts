@@ -4,80 +4,30 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
-import { LoginComponent } from './components/login/login.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { ViewerComponent } from './components/viewer/viewer.component';
-import { FrameComponent } from './components/frame/frame.component';
-import { MediaQueryDirective, MouseWheelDirective } from './directives';
-import { StorageService } from './services/storage.service';
-import { LocalStorageService } from './services/local-storage.service';
-import { ActionsService } from './services/actions.service';
-import { BrokerService } from './services/broker.service';
-import { ControlStyleService } from './services/control-style.service';
-import { ControlsService } from './services/controls.service';
-import { DateFormatService } from './services/formatter/date-format.service';
-import { ErrorService } from './services/error.service';
-import { EventsService } from './services/events.service';
-import { FocusService } from './services/focus.service';
-import { FontService } from './services/font.service';
-import { FormsService } from './services/forms.service';
-import { LogService } from './services/log.service';
-import { LoginService } from './services/login.service';
-import { LocaleService } from './services/locale.service';
-import { NumberFormatService } from './services/formatter/number-format.service';
-import { PatternFormatService } from './services/formatter/pattern-format.service';
-import { RoutingService } from './services/routing.service';
-import { StringFormatService } from './services/formatter/string-format.service';
-import { TitleService } from './services/title.service';
-import { WindowRefService } from './services/windowref.service';
 
-import {
-  ButtonImageComponent,
-  ButtonPlainComponent,
-  DockPanelComponent,
-  FormComponent,
-  LabelComponent,
-  TextBoxDateTimeComponent,
-  TextBoxNumberComponent,
-  TextBoxPlainComponent,
-  WrapPanelComponent,
-  VariantComponent
-} from './controls';
+import { ALL_COMPONENTS } from './components/_all.components';
+import { ALL_CONTROLS } from './controls/_all.controls';
+import { ALL_DIRECTIVES } from './directives/_all.direcives';
+import { ALL_SERVICES } from './services/_all.services';
+import { ALL_FORMATTERS } from './services/formatter/_all.formatters';
+import { ALL_FACTORIES } from './wrappers/factories/_all.factories';
+
+import { ErrorService } from './services/error.service';
+import { APP_REDUCERS } from './app.reducers';
 
 @NgModule({
   entryComponents: [
-    LabelComponent,
-    ButtonImageComponent,
-    ButtonPlainComponent,
-    DockPanelComponent,
-    FormComponent,
-    TextBoxDateTimeComponent,
-    TextBoxNumberComponent,
-    TextBoxPlainComponent,
-    VariantComponent,
-    WrapPanelComponent
+    ALL_CONTROLS
   ],
   declarations: [
     AppComponent,
-    NavbarComponent,
-    ViewerComponent,
-    FrameComponent,
-    ButtonImageComponent,
-    ButtonPlainComponent,
-    DockPanelComponent,
-    FormComponent,
-    LabelComponent,
-    LoginComponent,
-    TextBoxDateTimeComponent,
-    TextBoxNumberComponent,
-    TextBoxPlainComponent,
-    VariantComponent,
-    WrapPanelComponent,
-    MediaQueryDirective,
-    MouseWheelDirective
+    ALL_COMPONENTS,
+    ALL_CONTROLS,
+    ALL_DIRECTIVES
   ],
   imports: [
     AppRouting,
@@ -86,30 +36,14 @@ import {
     FormsModule,
     HttpClientModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot(APP_REDUCERS)
   ],
   providers: [
     { provide: ErrorHandler, useClass: ErrorService },
-    { provide: StorageService, useClass: LocalStorageService },
-    ActionsService,
-    BrokerService,
-    ControlStyleService,
-    ControlsService,
-    DateFormatService,
-    ErrorService,
-    EventsService,
-    FocusService,
-    FontService,
-    FormsService,
-    LoginService,
-    LogService,
-    LocaleService,
-    NumberFormatService,
-    PatternFormatService,
-    RoutingService,
-    StringFormatService,
-    TitleService,
-    WindowRefService,
+    ALL_SERVICES,
+    ALL_FORMATTERS,
+    ALL_FACTORIES,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,10 @@
-import { FieldCellWrapper, FieldRowLabelMode, FieldContainer, FieldRowControl } from '.';
-import { LayoutableControlLabel, LayoutableControlWrapper, LayoutableControlLabelTemplate } from '..';
+import { FieldContainer } from './field-container';
+import { FieldCellWrapper } from './field-cell-wrapper';
+import { FieldRowControl } from './field-row-control';
+import { FieldRowLabelMode } from './field-row-label-mode';
+import { LayoutableControlLabel } from '../layoutable-control-label';
+import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
+import { LayoutableControlLabelTemplate } from '../layoutable-control-label-template';
 import { ControlVisibility, VerticalAlignment } from '../../enums';
 
 /**

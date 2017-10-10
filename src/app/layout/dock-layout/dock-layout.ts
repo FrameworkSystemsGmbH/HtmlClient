@@ -1,5 +1,9 @@
-import { DockContainer, DockOrientation } from '.';
-import { LayoutContainerBase, LayoutableControlWrapper, LayoutableControl, LayoutableProperties } from '..';
+import { DockContainer } from './dock-container';
+import { DockOrientation } from './dock-orientation';
+import { LayoutContainerBase } from '../layout-container-base';
+import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
+import { LayoutableControl } from '../layoutable-control';
+import { LayoutableProperties } from '../layoutable-properties';
 import { HorizontalAlignment, VerticalAlignment } from '../../enums';
 
 export class DockLayout extends LayoutContainerBase {

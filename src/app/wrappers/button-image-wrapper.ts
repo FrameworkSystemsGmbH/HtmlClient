@@ -3,20 +3,25 @@ import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } fr
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { ButtonBaseWrapper } from './button-base-wrapper';
-import { ButtonImageComponent } from '../controls';
+import { ButtonImageComponent } from '../controls/button-image/button-image.component';
 import { ContentAlignment } from '../enums';
-import { BrokerService } from '../services/broker.service';
+import { PropertyData } from '../common';
+import { EventsService } from '../services/events.service';
+import { FontService } from '../services/font.service';
+import { ImageService } from '../services/image.service';
 
 export class ButtonImageWrapper extends ButtonBaseWrapper {
 
-  private brokerService: BrokerService;
+  private imageService: ImageService;
 
   constructor(
     form: FormWrapper,
     parent: ContainerWrapper,
-    appInjector: Injector) {
-    super(form, parent, appInjector);
-    this.brokerService = appInjector.get(BrokerService);
+    controlStyle: PropertyData,
+    injector: Injector
+  ) {
+    super(form, parent, controlStyle, injector);
+    this.imageService = injector.get(ImageService);
   }
 
   public getCaptionAlign(): ContentAlignment {
@@ -35,7 +40,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
       return null;
     }
 
-    return this.brokerService.getImageUrl(image);
+    return this.imageService.getImageUrl(image);
   }
 
   public getPressedImage(): string {
@@ -49,7 +54,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
       return null;
     }
 
-    return this.brokerService.getImageUrl(image);
+    return this.imageService.getImageUrl(image);
   }
 
   public getMouseOverImage(): string {
@@ -63,7 +68,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
       return null;
     }
 
-    return this.brokerService.getImageUrl(image);
+    return this.imageService.getImageUrl(image);
   }
 
   public getDisabledImage(): string {
@@ -77,7 +82,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
       return null;
     }
 
-    return this.brokerService.getImageUrl(image);
+    return this.imageService.getImageUrl(image);
   }
 
   protected getComponentRef(): ComponentRef<ButtonImageComponent> {
@@ -90,10 +95,9 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
-    let factory: ComponentFactory<ButtonImageComponent> = cfr.resolveComponentFactory(ButtonImageComponent);
-    let comp: ComponentRef<ButtonImageComponent> = container.getViewContainerRef().createComponent(factory);
-    let instance: ButtonImageComponent = comp.instance;
+    const factory: ComponentFactory<ButtonImageComponent> = this.resolver.resolveComponentFactory(ButtonImageComponent);
+    const comp: ComponentRef<ButtonImageComponent> = container.getViewContainerRef().createComponent(factory);
+    const instance: ButtonImageComponent = comp.instance;
 
     this.setComponentRef(comp);
     instance.setWrapper(this);

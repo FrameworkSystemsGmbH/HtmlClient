@@ -1,4 +1,4 @@
-import { LayoutableControl } from '.';
+import { LayoutableControl } from './layoutable-control';
 
 export abstract class LayoutBase {
 

@@ -1,9 +1,9 @@
-import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
+import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
 
 import { BaseWrapper } from './base-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { VariantWrapper } from './variant-wrapper';
-import { FormComponent } from '../controls';
+import { FormComponent } from '../controls/form/form.component';
 import { LayoutableProperties } from '../layout';
 
 export class FormWrapper extends ContainerWrapper {
@@ -95,10 +95,9 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   public attachComponentToFrame(vc: ViewContainerRef): void {
-    let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
-    let factory: ComponentFactory<FormComponent> = cfr.resolveComponentFactory(FormComponent);
-    let comp: ComponentRef<FormComponent> = vc.createComponent(factory);
-    let instance: FormComponent = comp.instance;
+    const factory: ComponentFactory<FormComponent> = this.resolver.resolveComponentFactory(FormComponent);
+    const comp: ComponentRef<FormComponent> = vc.createComponent(factory);
+    const instance: FormComponent = comp.instance;
 
     this.setComponentRef(comp);
     instance.setWrapper(this);
@@ -118,7 +117,9 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   public doLayout(availableWidth: number, availableHeight: number): void {
-    let scrollBarWidth: number = this.controlsService.getScrollBarWidth();
+    // #warning Rework to overlaying scrollbar
+    // let scrollBarWidth: number = this.controlsService.getScrollBarWidth();
+    let scrollBarWidth: number = 17;
 
     // Get the absolute minimum width of the form
     let minWidth: number = this.getMinLayoutWidth();

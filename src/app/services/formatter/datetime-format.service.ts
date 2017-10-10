@@ -2,7 +2,7 @@ import * as Moment from 'moment-timezone';
 
 import { TextFormat } from '../../enums';
 
-export class DateFormatService {
+export class DateTimeFormatService {
 
   private readonly jsonFormat: string = 'DD.MM.YYYY HH:mm:ss';
 

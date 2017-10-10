@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 
 import { TextBoxBaseComponent } from '../textbox-base.component';
-import { TextBoxPlainWrapper } from '../../wrappers';
+import { TextBoxPlainWrapper } from '../../wrappers/textbox-plain-wrapper';
 import { StringFormatService } from '../../services/formatter/string-format.service';
 
 @Component({

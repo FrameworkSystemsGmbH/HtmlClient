@@ -1,5 +1,5 @@
-import { ClientEvent } from '.';
-import { ControlEvent } from '../../enums';
+import { ClientEvent } from './client-event';
+import { ControlEvent } from '../../enums/control-event';
 
 export class ClientDisposeEvent extends ClientEvent {
 

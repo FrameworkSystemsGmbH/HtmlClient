@@ -1,9 +1,9 @@
 import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
 import { FieldContainer, FieldRowControl } from '../layout/field-layout';
 import { LayoutableControlLabelTemplate, LayoutableControlLabel } from '../layout';
-import { ControlLabelWrapper } from '.';
+import { ControlLabelWrapper } from './control-label-wrapper';
 import { ViewContainerRef, ComponentRef } from '@angular/core';
-import { LabelComponent } from '../controls';
+import { LabelComponent } from '../controls/label/label.component';
 
 export class FieldPanelWrapper extends ContainerWrapperSpaceable implements FieldContainer {
 

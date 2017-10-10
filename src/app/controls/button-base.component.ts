@@ -1,9 +1,9 @@
 import { EventEmitter, Output } from '@angular/core';
 
-import { BaseComponent } from '.';
-import { ButtonBaseWrapper } from '../wrappers';
-import { StyleUtil } from '../util';
+import { BaseComponent } from './base.component';
 import { ControlEvent, ControlVisibility } from '../enums';
+import { ButtonBaseWrapper } from '../wrappers/button-base-wrapper';
+import { StyleUtil } from '../util';
 
 export abstract class ButtonBaseComponent extends BaseComponent {
 

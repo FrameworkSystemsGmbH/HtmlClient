@@ -1,9 +1,9 @@
 import { ISubscription } from 'rxjs/Subscription';
 
+import { ButtonBaseComponent } from '../controls/button-base.component';
 import { BaseWrapperFitted } from './base-wrapper-fitted';
-import { ControlEvent } from '../enums';
-import { ButtonBaseComponent } from '../controls';
 import { PropertyLayer } from '../common';
+import { ControlEvent } from '../enums';
 
 export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
 

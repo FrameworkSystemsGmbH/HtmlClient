@@ -1,4 +1,4 @@
-import { LayoutableControlWrapper } from '..';
+import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
 
 export class WrapColumn {
 

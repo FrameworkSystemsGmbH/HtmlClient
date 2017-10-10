@@ -1,4 +1,7 @@
-import { LayoutableControl, LayoutableProperties, LayoutableControlLabelTemplate, LayoutableControlLabel } from '.';
+import { LayoutableControl } from './layoutable-control';
+import { LayoutableProperties } from './layoutable-properties';
+import { LayoutableControlLabel } from './layoutable-control-label';
+import { LayoutableControlLabelTemplate } from './layoutable-control-label-template';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
 
 export class LayoutableControlWrapper {

@@ -1,5 +1,6 @@
-import { VchControl } from '.';
-import { BaseWrapper, ContainerWrapper } from '../wrappers';
+import { VchControl } from './vch-control';
+import { BaseWrapper } from '../wrappers/base-wrapper';
+import { ContainerWrapper } from '../wrappers/container-wrapper';
 
 export class VchContainer extends VchControl {
 

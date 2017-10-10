@@ -1,8 +1,8 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
-import { ContainerComponent } from '..';
-import { DockPanelWrapper } from '../../wrappers';
-import { ControlVisibility } from '../../enums/index';
+import { ContainerComponent } from '../container.component';
+import { DockPanelWrapper } from '../../wrappers/dock-panel-wrapper';
+import { ControlVisibility } from '../../enums';
 import { StyleUtil } from '../../util';
 
 @Component({

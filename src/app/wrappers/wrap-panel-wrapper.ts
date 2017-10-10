@@ -1,8 +1,9 @@
+import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
+
 import { ContainerWrapper } from './container-wrapper';
 import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
 import { WrapContainer, WrapArrangement, WrapLayout } from '../layout/wrap-layout';
-import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
-import { WrapPanelComponent } from '../controls';
+import { WrapPanelComponent } from '../controls/wrap-panel/wrap-panel.component';
 import { HorizontalContentAlignment, VerticalContentAlignment } from '../enums';
 import { LayoutBase } from '../layout';
 
@@ -41,10 +42,9 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapC
   }
 
   public createComponent(container: ContainerWrapper): void {
-    let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
-    let factory: ComponentFactory<WrapPanelComponent> = cfr.resolveComponentFactory(WrapPanelComponent);
-    let comp: ComponentRef<WrapPanelComponent> = container.getViewContainerRef().createComponent(factory);
-    let instance: WrapPanelComponent = comp.instance;
+    const factory: ComponentFactory<WrapPanelComponent> = this.resolver.resolveComponentFactory(WrapPanelComponent);
+    const comp: ComponentRef<WrapPanelComponent> = container.getViewContainerRef().createComponent(factory);
+    const instance: WrapPanelComponent = comp.instance;
 
     this.setComponentRef(comp);
     instance.setWrapper(this);

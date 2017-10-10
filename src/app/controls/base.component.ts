@@ -1,5 +1,6 @@
-import { BaseWrapper } from '../wrappers';
 import { OnDestroy, Output, EventEmitter } from '@angular/core';
+
+import { BaseWrapper } from '../wrappers/base-wrapper';
 import { ControlEvent } from '../enums';
 
 export abstract class BaseComponent implements OnDestroy {

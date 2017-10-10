@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { ControlType } from '../enums';
-import { FormWrapper } from '../wrappers';
+import { FormWrapper } from '../wrappers/form-wrapper';
 import { ControlsService } from './controls.service';
 import { EventsService } from './events.service';
 
@@ -15,17 +15,13 @@ export class FormsService {
   private selectedForm: FormWrapper;
 
   constructor(
-    private controlsService: ControlsService,
-    private eventsService: EventsService) {
+    private eventsService: EventsService,
+    private controlsService: ControlsService) {
     this.formSelected = new EventEmitter<FormWrapper>();
   }
 
   public getForms(): Observable<Array<FormWrapper>> {
     return Observable.of(this.forms);
-  }
-
-  public getSelectedForm(): FormWrapper {
-    return this.selectedForm;
   }
 
   public selectForm(form: FormWrapper): void {

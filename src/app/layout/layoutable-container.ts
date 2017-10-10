@@ -1,4 +1,5 @@
-import { LayoutableControl, LayoutContainerBase } from '.';
+import { LayoutableControl } from './layoutable-control';
+import { LayoutContainerBase } from './layout-container-base';
 
 export interface LayoutableContainer extends LayoutableControl {
 

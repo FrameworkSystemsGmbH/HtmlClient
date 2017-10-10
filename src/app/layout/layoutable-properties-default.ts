@@ -1,5 +1,5 @@
-import { LayoutableProperties } from '../layout';
-import { BaseWrapper } from '../wrappers';
+import { LayoutableProperties } from './layoutable-properties';
+import { BaseWrapper } from '../wrappers/base-wrapper';
 
 export class LayoutablePropertiesDefault implements LayoutableProperties {
 

@@ -2,7 +2,7 @@ import { animate, transition, trigger, style } from '@angular/animations';
 import { Component, ViewChild, ElementRef, AfterViewInit, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { FormWrapper } from '../../wrappers';
+import { FormWrapper } from '../../wrappers/form-wrapper';
 import { FormsService } from '../../services/forms.service';
 import { RoutingService } from '../../services/routing.service';
 

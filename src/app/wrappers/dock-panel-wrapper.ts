@@ -1,9 +1,9 @@
-import { ComponentFactory, ComponentRef, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { ComponentFactory, ComponentRef, ViewContainerRef } from '@angular/core';
 
 import { ContainerWrapper } from './container-wrapper';
 import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
 import { LayoutBase } from '../layout';
-import { DockPanelComponent } from '../controls';
+import { DockPanelComponent } from '../controls/dock-panel/dock-panel.component';
 import { DockContainer, DockOrientation, DockLayout } from '../layout/dock-layout';
 
 export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockContainer {
@@ -31,10 +31,9 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockC
   }
 
   public createComponent(container: ContainerWrapper): void {
-    let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
-    let factory: ComponentFactory<DockPanelComponent> = cfr.resolveComponentFactory(DockPanelComponent);
-    let comp: ComponentRef<DockPanelComponent> = container.getViewContainerRef().createComponent(factory);
-    let instance: DockPanelComponent = comp.instance;
+    const factory: ComponentFactory<DockPanelComponent> = this.resolver.resolveComponentFactory(DockPanelComponent);
+    const comp: ComponentRef<DockPanelComponent> = container.getViewContainerRef().createComponent(factory);
+    const instance: DockPanelComponent = comp.instance;
 
     this.setComponentRef(comp);
     instance.setWrapper(this);

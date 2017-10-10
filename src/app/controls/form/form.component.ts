@@ -1,7 +1,7 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
-import { ContainerComponent } from '..';
-import { FormWrapper } from '../../wrappers';
+import { ContainerComponent } from '../container.component';
+import { FormWrapper } from '../../wrappers/form-wrapper';
 import { LayoutableProperties } from '../../layout';
 
 @Component({

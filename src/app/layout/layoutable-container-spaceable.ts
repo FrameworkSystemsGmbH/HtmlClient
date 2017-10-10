@@ -1,4 +1,4 @@
-import { LayoutableContainer } from '.';
+import { LayoutableContainer } from './layoutable-container';
 
 export interface LayoutableContainerSpaceable extends LayoutableContainer {
 

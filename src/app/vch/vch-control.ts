@@ -1,4 +1,4 @@
-import { ContainerWrapper } from '../wrappers';
+import { ContainerWrapper } from '../wrappers/container-wrapper';
 
 export class VchControl {
 

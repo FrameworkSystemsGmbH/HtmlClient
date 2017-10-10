@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ControlAction } from '../enums';
-import { FormWrapper } from '../wrappers';
+import { FormWrapper } from '../wrappers/form-wrapper';
 import { FormsService } from './forms.service';
 
 @Injectable()

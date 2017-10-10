@@ -1,4 +1,5 @@
-import { LayoutBase, LayoutableControl } from '..';
+import { LayoutBase } from '../layout-base';
+import { LayoutableControl } from '../layoutable-control';
 
 export class ControlLayout extends LayoutBase {
 

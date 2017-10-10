@@ -1,5 +1,11 @@
-import { WrapRow, WrapColumn, WrapContainer, WrapArrangement } from '.';
-import { LayoutContainerBase, LayoutableControlWrapper, LayoutableControl, LayoutableProperties } from '..';
+import { WrapRow } from './wrap-row';
+import { WrapColumn } from './wrap-column';
+import { WrapContainer } from './wrap-container';
+import { WrapArrangement } from './wrap-arrangement';
+import { LayoutContainerBase } from '../layout-container-base';
+import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
+import { LayoutableControl } from '../layoutable-control';
+import { LayoutableProperties } from '../layoutable-properties';
 import { HorizontalContentAlignment, HorizontalAlignment, VerticalAlignment, VerticalContentAlignment } from '../../enums';
 import { LinkedListOneWay } from '../../util';
 

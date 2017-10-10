@@ -1,4 +1,5 @@
-import { FsFont, FsInsets } from '../common';
+import { FsFont } from '../common/fs-font';
+import { FsInsets } from '../common/fs-insets';
 
 export interface LayoutableControlLabelTemplate {
 

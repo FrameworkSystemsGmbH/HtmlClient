@@ -1,5 +1,8 @@
-import { FieldColumnWrapper } from '.';
-import { LayoutableControlWrapper, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableProperties } from '..';
+import { FieldColumnWrapper } from './field-column-wrapper';
+import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
+import { LayoutableControlLabel } from '../layoutable-control-label';
+import { LayoutableControlLabelTemplate } from '../layoutable-control-label-template';
+import { LayoutableProperties } from '../layoutable-properties';
 import { HorizontalAlignment, VerticalAlignment, ControlVisibility } from '../../enums';
 
 /**

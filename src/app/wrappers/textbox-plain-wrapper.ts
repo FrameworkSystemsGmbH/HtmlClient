@@ -3,8 +3,12 @@ import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } fr
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { TextBoxBaseWrapper } from './textbox-base-wrapper';
+import { TextBoxPlainComponent } from '../controls/textbox-plain/textbox-plain.component';
+import { PropertyData } from '../common';
 import { StringFormatService } from '../services/formatter/string-format.service';
-import { TextBoxPlainComponent } from '../controls';
+import { EventsService } from '../services/events.service';
+import { FontService } from '../services/font.service';
+import { PatternFormatService } from '../services/formatter/pattern-format.service';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
@@ -16,10 +20,11 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   constructor(
     form: FormWrapper,
     parent: ContainerWrapper,
-    appInjector: Injector
+    controlStyle: PropertyData,
+    injector: Injector
   ) {
-    super(form, parent, appInjector);
-    this.stringFormatService = appInjector.get(StringFormatService);
+    super(form, parent, controlStyle, injector);
+    this.stringFormatService = injector.get(StringFormatService);
   }
 
   public getValue(): string {
@@ -55,10 +60,9 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
-    let factory: ComponentFactory<TextBoxPlainComponent> = cfr.resolveComponentFactory(TextBoxPlainComponent);
-    let comp: ComponentRef<TextBoxPlainComponent> = container.getViewContainerRef().createComponent(factory);
-    let instance: TextBoxPlainComponent = comp.instance;
+    const factory: ComponentFactory<TextBoxPlainComponent> = this.resolver.resolveComponentFactory(TextBoxPlainComponent);
+    const comp: ComponentRef<TextBoxPlainComponent> = container.getViewContainerRef().createComponent(factory);
+    const instance: TextBoxPlainComponent = comp.instance;
 
     this.setComponentRef(comp);
     instance.setWrapper(this);

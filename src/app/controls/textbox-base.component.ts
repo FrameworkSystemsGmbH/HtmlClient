@@ -1,8 +1,8 @@
 import { Output, EventEmitter } from '@angular/core';
 
-import { BaseComponent } from '.';
-import { TextBoxBaseWrapper } from '../wrappers';
+import { BaseComponent } from './base.component';
 import { ControlEvent, ControlVisibility } from '../enums';
+import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
 import { LayoutableProperties } from '../layout';
 import { StyleUtil } from '../util';
 

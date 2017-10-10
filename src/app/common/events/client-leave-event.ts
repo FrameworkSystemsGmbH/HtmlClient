@@ -1,6 +1,6 @@
-import { ClientEvent } from '.';
-import { ControlEvent } from '../../enums';
-import { ClientLeaveEventArgs } from './eventargs';
+import { ClientEvent } from './client-event';
+import { ControlEvent } from '../../enums/control-event';
+import { ClientLeaveEventArgs } from './eventargs/client-leave-eventargs';
 
 export class ClientLeaveEvent extends ClientEvent {
 

@@ -1,9 +1,11 @@
-import { Injector } from '@angular/core';
+import { ComponentFactoryResolver, Injector } from '@angular/core';
 
 import { BaseWrapper } from './base-wrapper';
-import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
+import { FormWrapper } from './form-wrapper';
 import { FontService } from '../services/font.service';
+import { EventsService } from '../services/events.service';
+import { PropertyData } from '../common';
 
 export abstract class BaseWrapperFitted extends BaseWrapper {
 
@@ -15,10 +17,11 @@ export abstract class BaseWrapperFitted extends BaseWrapper {
   constructor(
     form: FormWrapper,
     parent: ContainerWrapper,
-    appInjector: Injector
+    controlStyle: PropertyData,
+    injector: Injector
   ) {
-    super(form, parent, appInjector);
-    this.fontService = appInjector.get(FontService);
+    super(form, parent, controlStyle, injector);
+    this.fontService = injector.get(FontService);
   }
 
   public getMinWidth(): number {

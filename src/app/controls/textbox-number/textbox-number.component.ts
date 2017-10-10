@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 
 import { TextBoxBaseComponent } from '../textbox-base.component';
-import { TextBoxNumberWrapper } from '../../wrappers';
+import { TextBoxNumberWrapper } from '../../wrappers/textbox-number-wrapper';
 import { NumberFormatService } from '../../services/formatter/number-format.service';
 
 @Component({

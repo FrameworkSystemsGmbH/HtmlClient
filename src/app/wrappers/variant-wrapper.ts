@@ -1,7 +1,7 @@
-import { ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
+import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
 
 import { ContainerWrapper } from './container-wrapper';
-import { VariantComponent } from '../controls';
+import { VariantComponent } from '../controls/variant/variant.component';
 import { ControlEvent } from '../enums';
 
 export class VariantWrapper extends ContainerWrapper {
@@ -33,10 +33,9 @@ export class VariantWrapper extends ContainerWrapper {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
-    let factory: ComponentFactory<VariantComponent> = cfr.resolveComponentFactory(VariantComponent);
-    let comp: ComponentRef<VariantComponent> = container.getViewContainerRef().createComponent(factory);
-    let instance: VariantComponent = comp.instance;
+    const factory: ComponentFactory<VariantComponent> = this.resolver.resolveComponentFactory(VariantComponent);
+    const comp: ComponentRef<VariantComponent> = container.getViewContainerRef().createComponent(factory);
+    const instance: VariantComponent = comp.instance;
 
     this.setComponentRef(comp);
     instance.setWrapper(this);

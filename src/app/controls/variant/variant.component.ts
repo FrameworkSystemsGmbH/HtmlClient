@@ -1,8 +1,8 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
-import { ContainerComponent } from '..';
-import { VariantWrapper } from '../../wrappers';
-import { ControlVisibility } from '../../enums/index';
+import { ContainerComponent } from '../container.component';
+import { VariantWrapper } from '../../wrappers/variant-wrapper';
+import { ControlVisibility } from '../../enums';
 import { StyleUtil } from '../../util';
 
 @Component({

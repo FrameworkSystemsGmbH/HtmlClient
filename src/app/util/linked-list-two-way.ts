@@ -1,4 +1,4 @@
-import { LinkedListNode } from '.';
+import { LinkedListNode } from './linked-list-node';
 
 export class LinkedListTwoWay<T> {
 

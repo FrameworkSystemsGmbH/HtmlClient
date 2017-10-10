@@ -3,9 +3,10 @@ import * as Moment from 'moment-timezone';
 
 import { ControlStyleService } from './control-style.service';
 import { NumberFormatService } from './formatter/number-format.service';
-import { DateFormatService } from './formatter/date-format.service';
+import { DateTimeFormatService } from './formatter/datetime-format.service';
 import { PropertyStore, PropertyLayer } from '../common';
-import { TextBoxBaseWrapper, BaseWrapperFittedData } from '../wrappers';
+import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
+import { BaseWrapperFittedData } from '../wrappers/base-wrapper-fitted-data';
 import { DataSourceType, TextFormat } from '../enums';
 
 @Injectable()
@@ -38,7 +39,7 @@ export class FontService {
   constructor(
     private controlStyleService: ControlStyleService,
     private numberFormatService: NumberFormatService,
-    private dateFormatService: DateFormatService) {
+    private dateTimeFormatService: DateTimeFormatService) {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
     this.baseControlStyle = new PropertyStore();
@@ -255,7 +256,7 @@ export class FontService {
           seconds: this.date_seconds
         });
 
-        let measureString: string = this.dateFormatService.formatDate(date, textFormat, formatPattern);
+        let measureString: string = this.dateTimeFormatService.formatDate(date, textFormat, formatPattern);
 
         result = Math.max(result, this.measureText(measureString, fontFamily, fontSize, fontBold, fontItalic));
       }

@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/subscription';
+import { Store } from '@ngrx/store';
 
 import { JsonUtil } from '../util';
 import { ActionsService } from './actions.service';
@@ -14,6 +15,9 @@ import { LoginBroker } from '../common';
 import { ClientEvent } from '../common/events';
 import { RequestType } from '../enums'
 
+import * as fromBrokerActions from '../store/broker.actions';
+import * as fromBroker from '../store/broker.reducers';
+
 @Injectable()
 export class BrokerService {
 
@@ -22,7 +26,6 @@ export class BrokerService {
   private activeToken: string;
   private activeBroker: LoginBroker;
   private activeBrokerRequestUrl: string;
-  private activeBrokerImageUrl: string;
   private activeBrokerFilesUrl: string;
   private requestCounter: number;
   private languages: Array<string>;
@@ -35,7 +38,8 @@ export class BrokerService {
     private eventsService: EventsService,
     private formsService: FormsService,
     private routingService: RoutingService,
-    private titleService: TitleService
+    private titleService: TitleService,
+    private store: Store<fromBroker.State>
   ) {
     this.resetActiveBroker();
     this.activeBrokerChanged = new EventEmitter<LoginBroker>();
@@ -49,24 +53,6 @@ export class BrokerService {
     return this.activeBroker;
   }
 
-  public getImageUrl(image: string): string {
-    if (String.isNullOrWhiteSpace(image)) {
-      return null;
-    }
-
-    const imgLower: string = image.toLowerCase();
-
-    if (imgLower.startsWith('http://') || imgLower.startsWith('https://')) {
-      return image;
-    }
-
-    if (!image.startsWith('/')) {
-      return this.activeBrokerFilesUrl + '/' + image;
-    }
-
-    return null;
-  }
-
   public login(broker: LoginBroker): void {
     if (this.activeBroker === broker) {
       this.routingService.showViewer();
@@ -75,9 +61,10 @@ export class BrokerService {
         this.resetActiveBroker();
       }
       const url: string = broker.url
+      this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(url.trimCharsRight('/') + '/files'));
+      this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(url.trimCharsRight('/') + '/api/image'));
+      this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(url.trimCharsRight('/') + '/api/process'));
       this.activeBrokerRequestUrl = url.trimCharsRight('/') + '/api/process';
-      this.activeBrokerImageUrl = url.trimCharsRight('/') + '/api/image';
-      this.activeBrokerFilesUrl = url.trimCharsRight('/') + '/files';
       this.activeBroker = broker;
       this.activeBrokerChanged.emit(broker);
       this.sendInitRequest();
@@ -88,7 +75,9 @@ export class BrokerService {
     this.formsService.resetViews();
     this.activeToken = String.empty();
     this.activeBrokerRequestUrl = null;
-    this.activeBrokerImageUrl = null;
+    this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(null));
+    this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(null));
+    this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(null));
     this.requestCounter = 0;
     this.languages = ['de', 'en'];
   }

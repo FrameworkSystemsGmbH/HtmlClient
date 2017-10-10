@@ -1,25 +1,23 @@
-import { ComponentRef, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactoryResolver, Injector } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { FormWrapper } from './form-wrapper';
+import { BaseComponent } from '../controls/base.component';
 import { ContainerWrapper } from './container-wrapper';
-import { BaseComponent } from '../controls';
+import { FormWrapper } from './form-wrapper';
 import { ControlVisibility, HorizontalAlignment, VerticalAlignment, ControlEvent } from '../enums';
 import { LayoutableControl, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer, LayoutableProperties, LayoutBase, LayoutablePropertiesDefault } from '../layout';
-import { VchControl } from '../vch';
+import { ControlLayout } from '../layout/control-layout';
+import { VchControl } from '../vch/vch-control';
 import { PropertyStore, PropertyData, PropertyLayer } from '../common';
 import { EventsService } from '../services/events.service';
-import { ControlStyleService } from '../services/control-style.service';
-import { ControlLayout } from '../layout/control-layout';
 
 export abstract class BaseWrapper implements LayoutableControl {
 
   protected events: ControlEvent;
-  protected appInjector: Injector;
   protected vchControl: VchControl;
   protected propertyStore: PropertyStore;
+  protected resolver: ComponentFactoryResolver;
   protected eventsService: EventsService;
-  protected controlStyleService: ControlStyleService;
 
   private componentRef: ComponentRef<BaseComponent>;
   private form: FormWrapper;
@@ -37,15 +35,16 @@ export abstract class BaseWrapper implements LayoutableControl {
   constructor(
     form: FormWrapper,
     parent: ContainerWrapper,
-    appInjector: Injector
+    controlStyle: PropertyData,
+    injector: Injector
   ) {
     this.vchControl = new VchControl();
     this.propertyStore = new PropertyStore();
     this.form = form;
     this.parent = parent;
-    this.appInjector = appInjector;
-    this.eventsService = appInjector.get(EventsService);
-    this.controlStyleService = appInjector.get(ControlStyleService);
+    this.resolver = injector.get(ComponentFactoryResolver);
+    this.eventsService = injector.get(EventsService);
+    this.setControlStyle(controlStyle);
     this.addToParent();
   }
 
@@ -362,7 +361,6 @@ export abstract class BaseWrapper implements LayoutableControl {
 
   protected setMetaJson(metaJson: any): void {
     this.name = metaJson.name;
-    this.setControlStyle(metaJson.style);
   }
 
   protected setPropertiesJson(propertiesJson: any): void {
@@ -386,12 +384,9 @@ export abstract class BaseWrapper implements LayoutableControl {
     // Override in subclasses
   }
 
-  protected setControlStyle(controlStyle: string) {
+  protected setControlStyle(controlStyle: PropertyData) {
     if (controlStyle) {
-      let style: PropertyData = this.controlStyleService.getControlStyle(controlStyle);
-      if (style) {
-        this.propertyStore.setLayer(PropertyLayer.ControlStyle, style);
-      }
+      this.propertyStore.setLayer(PropertyLayer.ControlStyle, controlStyle);
     }
   }
 

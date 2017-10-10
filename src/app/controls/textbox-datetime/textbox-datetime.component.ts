@@ -1,8 +1,8 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 
 import { TextBoxBaseComponent } from '../textbox-base.component';
-import { TextBoxDateTimeWrapper } from '../../wrappers';
-import { DateFormatService } from '../../services/formatter/date-format.service';
+import { TextBoxDateTimeWrapper } from '../../wrappers/textbox-datetime-wrapper';
+import { DateTimeFormatService } from '../../services/formatter/datetime-format.service';
 
 @Component({
   selector: 'hc-txt-datetime',
@@ -15,7 +15,7 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements On
 
   public value: string;
 
-  constructor(private dateFormatService: DateFormatService) {
+  constructor(private dateTimeFormatService: DateTimeFormatService) {
     super();
   }
 
@@ -31,7 +31,7 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements On
           this.value = null;
           this.updateWrapper();
         } else {
-          let formattedValue: string = this.dateFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
+          let formattedValue: string = this.dateTimeFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
           if (formattedValue == null) {
             this.updateComponent();
           } else {
@@ -55,11 +55,11 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements On
 
   public updateComponent(): void {
     let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
-    this.value = this.dateFormatService.formatDate(wrapper.getValue(), wrapper.getFormat(), wrapper.getFormatPattern())
+    this.value = this.dateTimeFormatService.formatDate(wrapper.getValue(), wrapper.getFormat(), wrapper.getFormatPattern())
   }
 
   private updateWrapper(): void {
     let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
-    this.getWrapper().setValue(this.dateFormatService.parseString(this.value, wrapper.getFormat(), wrapper.getFormatPattern()));
+    this.getWrapper().setValue(this.dateTimeFormatService.parseString(this.value, wrapper.getFormat(), wrapper.getFormatPattern()));
   }
 }

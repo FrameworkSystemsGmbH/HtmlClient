@@ -1,8 +1,8 @@
-import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
+import { ComponentRef, ComponentFactory } from '@angular/core';
 
 import { ContainerWrapper } from './container-wrapper';
 import { BaseWrapperFitted } from './base-wrapper-fitted';
-import { LabelComponent } from '../controls';
+import { LabelComponent } from '../controls/label/label.component';
 import { TextAlign } from '../enums';
 
 export class LabelWrapper extends BaseWrapperFitted {
@@ -27,10 +27,9 @@ export class LabelWrapper extends BaseWrapperFitted {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    let cfr: ComponentFactoryResolver = this.appInjector.get(ComponentFactoryResolver);
-    let factory: ComponentFactory<LabelComponent> = cfr.resolveComponentFactory(LabelComponent);
-    let comp: ComponentRef<LabelComponent> = container.getViewContainerRef().createComponent(factory);
-    let instance: LabelComponent = comp.instance;
+    const factory: ComponentFactory<LabelComponent> = this.resolver.resolveComponentFactory(LabelComponent);
+    const comp: ComponentRef<LabelComponent> = container.getViewContainerRef().createComponent(factory);
+    const instance: LabelComponent = comp.instance;
 
     this.setComponentRef(comp);
     instance.setWrapper(this);

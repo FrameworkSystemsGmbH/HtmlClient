@@ -1,4 +1,8 @@
-import { LayoutContainerBase, LayoutableContainer, LayoutableControlWrapper, LayoutableControl, LayoutableProperties } from '..';
+import { LayoutContainerBase } from '../layout-container-base';
+import { LayoutableContainer } from '../layoutable-container';
+import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
+import { LayoutableControl } from '../layoutable-control';
+import { LayoutableProperties } from '../layoutable-properties';
 import { VerticalAlignment, HorizontalAlignment } from '../../enums';
 import { LinkedListOneWay } from '../../util';
 

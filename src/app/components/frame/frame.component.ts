@@ -1,7 +1,8 @@
 import { Component, ViewChild, ElementRef, ViewContainerRef, OnInit, OnDestroy, HostListener, ChangeDetectorRef } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
+
 import { FormsService } from '../../services/forms.service';
-import { FormWrapper } from '../../wrappers';
+import { FormWrapper } from '../../wrappers/form-wrapper';
 
 @Component({
   selector: 'hc-frame',

@@ -1,4 +1,4 @@
-import { FieldCellWrapper } from '.';
+import { FieldCellWrapper } from './field-cell-wrapper';
 import { HorizontalAlignment } from '../../enums';
 
 /**
