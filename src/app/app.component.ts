@@ -12,7 +12,8 @@ export class AppComponent {
 
   constructor(
     private focusService: FocusService,
-    private localeService: LocaleService) {
+    private localeService: LocaleService
+  ) {
     this.localeService.setMomentLocaleGlobally();
   }
 
@@ -24,5 +25,12 @@ export class AppComponent {
   @HostListener('window:mousedown', ['$event'])
   public globalMouseDown(event: any): void {
     this.focusService.setLastMouseEvent(event);
+  }
+
+  @HostListener('window:native.keyboardshow', ['$event'])
+  public showKeyboard(event: any): void {
+    if (document.activeElement) {
+      document.activeElement.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }

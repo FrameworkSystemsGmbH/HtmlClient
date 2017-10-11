@@ -12,6 +12,7 @@ import { LocalStorageService } from './local-storage.service';
 import { LoginService } from './login.service';
 import { LogService } from './log.service';
 import { LocaleService } from './locale.service';
+import { PlatformService } from './platform.service';
 import { RoutingService } from './routing.service';
 import { StorageService } from './storage.service';
 import { TitleService } from './title.service';
@@ -32,6 +33,7 @@ export const ALL_SERVICES = [
   LoginService,
   LogService,
   LocaleService,
+  PlatformService,
   RoutingService,
   TitleService,
   WindowRefService

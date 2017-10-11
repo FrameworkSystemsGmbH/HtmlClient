@@ -20,7 +20,7 @@ export class LocalStorageService extends StorageService {
   }
 
   public loadData(key: string): string {
-    if (!key || !this.window.localStorage) { return undefined; }
+    if (!key || !this.window.localStorage) { return null; }
     return this.window.localStorage.getItem(key);
   }
 }
