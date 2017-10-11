@@ -1,10 +1,9 @@
-import { ComponentFactoryResolver, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 
 import { BaseWrapper } from './base-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { FormWrapper } from './form-wrapper';
 import { FontService } from '../services/font.service';
-import { EventsService } from '../services/events.service';
 import { PropertyData } from '../common';
 
 export abstract class BaseWrapperFitted extends BaseWrapper {

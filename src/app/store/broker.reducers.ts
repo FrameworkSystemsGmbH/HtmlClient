@@ -1,42 +1,57 @@
-import { LoginBroker } from '../common/login-broker';
-import * as fromBroker from './broker.actions';
+import * as fromBrokerActions from './broker.actions';
 
-export interface State {
-  activeBroker: LoginBroker,
+export interface BrokerState {
+  activeBrokerName: string,
+  activeBrokerToken: string;
+  activeBrokerUrl: string;
   activeBrokerFilesUrl: string;
   activeBrokerImageUrl: string;
   activeBrokerRequestUrl: string;
 }
 
-const initialState: State = {
-  activeBroker: null,
+const initialBrokerState: BrokerState = {
+  activeBrokerName: null,
+  activeBrokerToken: String.empty(),
+  activeBrokerUrl: null,
   activeBrokerFilesUrl: null,
   activeBrokerImageUrl: null,
   activeBrokerRequestUrl: null
 }
 
-export function brokerStateReducer(state = initialState, action: fromBroker.BrokerActions): State {
+export function brokerStateReducer(state = initialBrokerState, action: fromBrokerActions.BrokerActions): BrokerState {
   switch (action.type) {
-    case fromBroker.SET_BROKER:
+    case fromBrokerActions.SET_BROKER_NAME:
       return {
         ...state,
-        activeBroker: action.payload
+        activeBrokerName: action.payload
       }
-    case fromBroker.SET_BROKER_FILE_URL:
+    case fromBrokerActions.SET_BROKER_TOKEN:
+      return {
+        ...state,
+        activeBrokerToken: action.payload
+      }
+    case fromBrokerActions.SET_BROKER_URL:
+      return {
+        ...state,
+        activeBrokerUrl: action.payload
+      }
+    case fromBrokerActions.SET_BROKER_FILE_URL:
       return {
         ...state,
         activeBrokerFilesUrl: action.payload
       }
-    case fromBroker.SET_BROKER_IMAGE_URL:
+    case fromBrokerActions.SET_BROKER_IMAGE_URL:
       return {
         ...state,
         activeBrokerImageUrl: action.payload
       }
-    case fromBroker.SET_BROKER_REQUEST_URL:
+    case fromBrokerActions.SET_BROKER_REQUEST_URL:
       return {
         ...state,
         activeBrokerRequestUrl: action.payload
       }
+    case fromBrokerActions.RESET_BROKER:
+      return initialBrokerState;
     default:
       return state;
   }

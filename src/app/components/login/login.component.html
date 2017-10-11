@@ -1,15 +1,15 @@
 <div class="wrapper">
   <h3>Framework Studio HTML Client</h3>
   <h4>Available Brokers</h4>
-  <table class="table" [ngClass]="{ 'table-hover': brokers && brokers.length }">
-    <tbody *ngIf="!brokers || !brokers.length">
+  <table class="table" [ngClass]="{ 'table-hover': (brokers$ | async) && (brokers$ | async).length }">
+    <tbody *ngIf="!(brokers$ | async) || !(brokers$ | async).length">
       <tr>
         <td>No Brokers defined...</td>
       </tr>
     </tbody>
-    <tbody *ngIf="brokers && brokers.length">
-      <tr *ngFor="let broker of brokers; let i = index" (click)="loadBroker(broker)">
-        <td style="width: 30%;"><i *ngIf="broker.name === activeBroker?.name" class="fa fa-fw fa-cog fa-spin"></i> {{ broker.name }}</td>
+    <tbody *ngIf="(brokers$ | async) && (brokers$ | async).length">
+      <tr *ngFor="let broker of (brokers$ | async); let i = index" (click)="loadBroker(broker)">
+        <td style="width: 30%;"><i *ngIf="broker.name === (activeBrokerName$ | async)" class="fa fa-fw fa-cog fa-spin"></i> {{ broker.name }}</td>
         <td class="ellipsis">{{ broker.url }}</td>
         <td class="text-right fit">
           <button type="button" class="btn btn-danger" (click)="deleteBroker(i)"><span class="fa fw fa-trash"></span></button>

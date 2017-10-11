@@ -1,37 +1,35 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { ISubscription } from 'rxjs/Subscription';
+import { Store } from '@ngrx/store';
 
 import { LoginBroker } from '../../common';
 import { LoginService } from '../../services/login.service';
 import { BrokerService } from '../../services/broker.service';
+import { AppState } from '../../app.reducers';
 
 @Component({
   selector: 'hc-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 
-  public brokers: Array<LoginBroker>;
-  public activeBroker: LoginBroker;
+  public brokers$: Observable<Array<LoginBroker>>;
+  public activeBrokerName$: Observable<string>;
   public addForm: FormGroup;
   public nameControl: FormControl;
   public urlControl: FormControl;
 
-  private brokersSub: ISubscription;
-  private activeBrokerSub: ISubscription;
-
   constructor(
     private loginService: LoginService,
-    private brokerService: BrokerService) { }
+    private brokerService: BrokerService,
+    private store: Store<AppState>) { }
 
   public ngOnInit(): void {
-    this.brokersSub = this.loginService.getBrokers().subscribe(brokers => { this.brokers = brokers; });
-    this.activeBrokerSub = this.brokerService.activeBrokerChanged.subscribe(broker => { this.activeBroker = broker });
+    this.brokers$ = this.loginService.getBrokers();
+    this.activeBrokerName$ = this.store.select(appState => appState.broker.activeBrokerName);
 
-    this.activeBroker = this.brokerService.getActiveBroker();
     this.nameControl = new FormControl(null, Validators.required, this.createBrokerValidator(this.loginService));
     this.urlControl = new FormControl(null, Validators.required);
 
@@ -39,11 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       name: this.nameControl,
       url: this.urlControl
     });
-  }
-
-  public ngOnDestroy(): void {
-    this.brokersSub.unsubscribe();
-    this.activeBrokerSub.unsubscribe();
   }
 
   public nameHasErrors(): boolean {

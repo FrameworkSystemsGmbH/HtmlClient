@@ -1,11 +1,9 @@
-import { ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 
 import { DockPanelWrapper } from '../dock-panel-wrapper';
 import { ContainerWrapper } from '../container-wrapper';
 import { FormWrapper } from '../form-wrapper';
 import { PropertyData } from '../../common';
-import { EventsService } from '../../services/events.service';
-import { ControlsService } from '../../services/controls.service';
 
 @Injectable()
 export class DockPanelWrapperFactory {

@@ -1,9 +1,9 @@
-import * as fromBroker from './store/broker.reducers';
+import * as fromBrokerReducers from './store/broker.reducers';
 
-export interface State {
-  broker: fromBroker.State
+export interface AppState {
+  broker: fromBrokerReducers.BrokerState
 }
 
 export const APP_REDUCERS = {
-  broker: fromBroker.brokerStateReducer
+  broker: fromBrokerReducers.brokerStateReducer
 }

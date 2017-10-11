@@ -1,4 +1,4 @@
-import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
 
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
@@ -6,8 +6,6 @@ import { ButtonBaseWrapper } from './button-base-wrapper';
 import { ButtonImageComponent } from '../controls/button-image/button-image.component';
 import { ContentAlignment } from '../enums';
 import { PropertyData } from '../common';
-import { EventsService } from '../services/events.service';
-import { FontService } from '../services/font.service';
 import { ImageService } from '../services/image.service';
 
 export class ButtonImageWrapper extends ButtonBaseWrapper {

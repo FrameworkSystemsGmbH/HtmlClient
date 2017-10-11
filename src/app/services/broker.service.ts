@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/subscription';
@@ -15,18 +15,15 @@ import { LoginBroker } from '../common';
 import { ClientEvent } from '../common/events';
 import { RequestType } from '../enums'
 
+import * as fromAppReducers from '../app.reducers';
 import * as fromBrokerActions from '../store/broker.actions';
-import * as fromBroker from '../store/broker.reducers';
 
 @Injectable()
 export class BrokerService {
 
-  public activeBrokerChanged: EventEmitter<LoginBroker>;
-
-  private activeToken: string;
-  private activeBroker: LoginBroker;
+  private activeBrokerName: string;
+  private activeBrokerToken: string;
   private activeBrokerRequestUrl: string;
-  private activeBrokerFilesUrl: string;
   private requestCounter: number;
   private languages: Array<string>;
   private onEventFiredSub: ISubscription;
@@ -39,45 +36,51 @@ export class BrokerService {
     private formsService: FormsService,
     private routingService: RoutingService,
     private titleService: TitleService,
-    private store: Store<fromBroker.State>
+    private store: Store<fromAppReducers.AppState>
   ) {
-    this.resetActiveBroker();
-    this.activeBrokerChanged = new EventEmitter<LoginBroker>();
+    this.store.select(appState => appState.broker).subscribe(brokerState => {
+      this.activeBrokerName = brokerState.activeBrokerName;
+      this.activeBrokerToken = brokerState.activeBrokerToken;
+      this.activeBrokerRequestUrl = brokerState.activeBrokerRequestUrl;
+    });
 
     this.onEventFiredSub = this.eventsService.onEventFired
       .concatMap(event => this.doRequest(this.createRequest(event)))
       .subscribe(responseJson => this.processResponse(responseJson));
+
+    this.resetActiveBroker();
   }
 
-  public getActiveBroker(): LoginBroker {
-    return this.activeBroker;
+  public getActiveBrokerName(): string {
+    return this.activeBrokerName;
   }
 
   public login(broker: LoginBroker): void {
-    if (this.activeBroker === broker) {
+    if (this.activeBrokerName === broker.name) {
       this.routingService.showViewer();
     } else {
-      if (this.activeBroker) {
+      if (this.activeBrokerName) {
         this.resetActiveBroker();
       }
+      const name = broker.name;
       const url: string = broker.url
-      this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(url.trimCharsRight('/') + '/files'));
-      this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(url.trimCharsRight('/') + '/api/image'));
-      this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(url.trimCharsRight('/') + '/api/process'));
-      this.activeBrokerRequestUrl = url.trimCharsRight('/') + '/api/process';
-      this.activeBroker = broker;
-      this.activeBrokerChanged.emit(broker);
+      const fileUrl: string = url.trimCharsRight('/') + '/files';
+      const imageUrl: string = url.trimCharsRight('/') + '/api/image';
+      const requestUrl: string = url.trimCharsRight('/') + '/api/process'
+
+      this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(name));
+      this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(url));
+      this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(fileUrl));
+      this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(imageUrl));
+      this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(requestUrl));
+
       this.sendInitRequest();
     }
   }
 
   private resetActiveBroker(): void {
     this.formsService.resetViews();
-    this.activeToken = String.empty();
-    this.activeBrokerRequestUrl = null;
-    this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(null));
-    this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(null));
-    this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(null));
+    this.store.dispatch(new fromBrokerActions.ResetBrokerAction());
     this.requestCounter = 0;
     this.languages = ['de', 'en'];
   }
@@ -93,14 +96,14 @@ export class BrokerService {
   private doRequest(requestJson: any): Observable<any> {
     // console.log(JSON.stringify(requestJson, null, 2));
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson);
-      // .do(response => {
-      //   console.log(JSON.stringify(response, null, 2));
-      // });
+    // .do(response => {
+    //   console.log(JSON.stringify(response, null, 2));
+    // });
   }
 
   private getMetaJson(requestType: RequestType): any {
     let metaJson: any = {
-      token: this.activeToken,
+      token: this.activeBrokerToken,
       requCounter: ++this.requestCounter,
       languages: this.languages,
       type: RequestType[requestType]
@@ -152,7 +155,7 @@ export class BrokerService {
       throw new Error('Could not find property \'meta\' in response JSON!');
     }
 
-    this.activeToken = metaJson.token;
+    this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(metaJson.token));
   }
 
   private processApplication(applicationJson: any): void {

@@ -1,4 +1,4 @@
-import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
 import * as Moment from 'moment-timezone';
 
 import { FormWrapper } from './form-wrapper';
@@ -7,9 +7,6 @@ import { TextBoxBaseWrapper } from './textbox-base-wrapper';
 import { TextBoxDateTimeComponent } from '../controls/textbox-datetime/textbox-datetime.component';
 import { PropertyData } from '../common';
 import { DateTimeFormatService } from '../services/formatter/datetime-format.service';
-import { EventsService } from '../services/events.service';
-import { FontService } from '../services/font.service';
-import { PatternFormatService } from '../services/formatter/pattern-format.service';
 
 export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
 

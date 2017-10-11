@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { BaseWrapper } from '../wrappers/base-wrapper';
 import { ContainerWrapper } from '../wrappers/container-wrapper';

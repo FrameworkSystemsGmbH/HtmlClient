@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { FormWrapper } from './form-wrapper';
@@ -7,8 +7,6 @@ import { BaseWrapperFittedData } from './base-wrapper-fitted-data';
 import { ControlEvent, TextAlign, TextFormat } from '../enums';
 import { TextBoxBaseComponent } from '../controls/textbox-base.component';
 import { PropertyData } from '../common';
-import { EventsService } from '../services/events.service';
-import { FontService } from '../services/font.service';
 import { PatternFormatService } from '../services/formatter/pattern-format.service';
 
 export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {

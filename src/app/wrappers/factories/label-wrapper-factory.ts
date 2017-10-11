@@ -1,11 +1,9 @@
-import { ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 
 import { LabelWrapper } from '../label-wrapper';
 import { ContainerWrapper } from '../container-wrapper';
 import { FormWrapper } from '../form-wrapper';
 import { PropertyData } from '../../common';
-import { EventsService } from '../../services/events.service';
-import { FontService } from '../../services/font.service';
 
 @Injectable()
 export class LabelWrapperFactory {
