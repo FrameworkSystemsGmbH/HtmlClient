@@ -118,8 +118,7 @@ export class FormWrapper extends ContainerWrapper {
 
   public doLayout(availableWidth: number, availableHeight: number): void {
     // #warning Rework to overlaying scrollbar
-    // let scrollBarWidth: number = this.controlsService.getScrollBarWidth();
-    let scrollBarWidth: number = 17;
+    let scrollBarWidth: number = this.controlsService.getScrollBarWidth();
 
     // Get the absolute minimum width of the form
     let minWidth: number = this.getMinLayoutWidth();

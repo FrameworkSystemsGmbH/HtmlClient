@@ -24,6 +24,10 @@ export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnIni
     this.updateComponent();
   }
 
+  public getInput(): ElementRef {
+    return this.input;
+  }
+
   public onInput(event: any): void {
     this.value = this.formatValue(this.value);
   }

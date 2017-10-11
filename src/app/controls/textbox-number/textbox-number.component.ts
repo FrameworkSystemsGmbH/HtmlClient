@@ -23,6 +23,10 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnIn
     this.updateComponent();
   }
 
+  public getInput(): ElementRef {
+    return this.input;
+  }
+
   public callOnLeave(event: any): void {
     let wrapper: TextBoxNumberWrapper = this.getWrapper();
     if (wrapper.getIsEditable()) {

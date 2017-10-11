@@ -1,4 +1,4 @@
-import { Output, EventEmitter } from '@angular/core';
+import { Output, EventEmitter, ElementRef } from '@angular/core';
 
 import { BaseComponent } from './base.component';
 import { ControlEvent, ControlVisibility } from '../enums';
@@ -10,10 +10,14 @@ export abstract class TextBoxBaseComponent extends BaseComponent {
 
   @Output() onValidated: EventEmitter<any>;
 
+  protected abstract getInput(): ElementRef;
+
   public callOnEnter(event: any): void {
     if (this.getWrapper().getIsEditable()) {
       super.callOnEnter(event);
     }
+
+    this.selectAll();
   }
 
   public callOnLeave(event: any): void {
@@ -99,5 +103,13 @@ export abstract class TextBoxBaseComponent extends BaseComponent {
     }
 
     return styles;
+  }
+
+  protected selectAll(): void {
+    const input: ElementRef = this.getInput();
+
+    if (input) {
+      setTimeout(() => input.nativeElement.select());
+    }
   }
 }

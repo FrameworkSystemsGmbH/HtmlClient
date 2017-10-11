@@ -23,6 +23,10 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements On
     this.updateComponent();
   }
 
+  public getInput(): ElementRef {
+    return this.input;
+  }
+
   public callOnLeave(event: any): void {
     let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
     if (wrapper.getIsEditable()) {
@@ -55,7 +59,7 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements On
 
   public updateComponent(): void {
     let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
-    this.value = this.dateTimeFormatService.formatDate(wrapper.getValue(), wrapper.getFormat(), wrapper.getFormatPattern())
+    this.value = this.dateTimeFormatService.formatDate(wrapper.getValue(), wrapper.getFormat(), wrapper.getFormatPattern());
   }
 
   private updateWrapper(): void {
