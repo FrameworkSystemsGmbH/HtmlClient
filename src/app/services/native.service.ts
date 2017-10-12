@@ -2,9 +2,9 @@ function getWindow(): any {
   return window;
 }
 
-export class WindowRefService {
+export class NativeService {
 
-  public get nativeWindow(): Window {
+  public get window(): Window {
     return getWindow();
   }
 }

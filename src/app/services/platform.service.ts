@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 
-import { WindowRefService } from './windowref.service';
+import { NativeService } from './native.service';
 
 @Injectable()
 export class PlatformService {
+
   private _isMobile: boolean;
   private _isDesktop: boolean;
   private _isWeb: boolean;
 
-  constructor(private windowRefService: WindowRefService) {
+  private _isAndroid: boolean;
+  private _isIos: boolean;
+
+  constructor(private nativeService: NativeService) {
     this.guessPlatform();
   }
 
@@ -24,9 +28,22 @@ export class PlatformService {
     return this._isWeb;
   }
 
+  public get isAndroid(): boolean {
+    return this._isAndroid;
+  }
+
+  public get isIos(): boolean {
+    return this._isIos;
+  }
+
   private guessPlatform(): void {
-    this._isMobile = !!this.windowRefService.nativeWindow.cordova;
-    this._isDesktop = this.windowRefService.nativeWindow.navigator.userAgent.match(/Electron/) !== null;
+    const userAgent: string = this.nativeService.window.navigator.userAgent;
+
+    this._isMobile = !!window.cordova;
+    this._isDesktop = userAgent.match(/Electron/) !== null;
     this._isWeb = !(this._isMobile || this._isDesktop);
+
+    this._isAndroid = this._isMobile && userAgent.match(/Android/) !== null;
+    this._isIos = this._isMobile && (userAgent.match(/iPhone/) !== null || userAgent.match(/iPad/) !== null);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 
 import { FocusService } from './services/focus.service';
+import { KeyboardService } from './services/keyboard.service';
 import { LocaleService } from './services/locale.service';
 
 @Component({
@@ -12,9 +13,11 @@ export class AppComponent {
 
   constructor(
     private focusService: FocusService,
-    private localeService: LocaleService
+    private localeService: LocaleService,
+    private keyboardService: KeyboardService
   ) {
     this.localeService.setMomentLocaleGlobally();
+    this.keyboardService.attachScrollHandler();
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -25,12 +28,5 @@ export class AppComponent {
   @HostListener('window:mousedown', ['$event'])
   public globalMouseDown(event: any): void {
     this.focusService.setLastMouseEvent(event);
-  }
-
-  @HostListener('window:native.keyboardshow', ['$event'])
-  public showKeyboard(event: any): void {
-    if (document.activeElement) {
-      document.activeElement.scrollIntoView({ behavior: 'smooth' });
-    }
   }
 }

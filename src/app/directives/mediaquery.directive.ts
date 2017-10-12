@@ -1,6 +1,6 @@
 import { Directive, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
-import { WindowRefService } from '../services/windowref.service';
+import { NativeService } from '../services/native.service';
 
 @Directive({ selector: '[hcMediaQuery]' })
 export class MediaQueryDirective implements OnInit, OnDestroy {
@@ -12,12 +12,11 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
   private mediaQueryList: MediaQueryList;
   private mediaQueryListener: (MediaQueryList) => void;
 
-  constructor(private windowRef: WindowRefService) { }
+  constructor(private nativeService: NativeService) { }
 
   public ngOnInit(): void {
-    let window = this.windowRef.nativeWindow;
     this.mediaQueryListener = (mq) => { this.onMediaQueryChanged.emit(mq); };
-    this.mediaQueryList = window.matchMedia(this.mediaQuery);
+    this.mediaQueryList = this.nativeService.window.matchMedia(this.mediaQuery);
     this.mediaQueryList.addListener(this.mediaQueryListener);
     this.onMediaQueryChanged.emit(this.mediaQueryList);
   }
