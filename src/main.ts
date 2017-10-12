@@ -6,7 +6,7 @@ import { enableProdMode } from '@angular/core';
 import { environment } from './env/env.dev';
 import { AppModule } from './app/app.module';
 
-let bootstrap: () => void = () => {
+const bootstrap: () => void = () => {
   if (environment.production) {
     enableProdMode();
   }
@@ -15,7 +15,9 @@ let bootstrap: () => void = () => {
 };
 
 if (!!window.cordova) {
-  document.addEventListener('deviceready', bootstrap, false);
+  document.addEventListener('deviceready', () => {
+    bootstrap();
+  });
 } else {
   bootstrap();
 }
