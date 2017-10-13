@@ -1,4 +1,5 @@
 import { FieldContainer } from './field-container';
+import { FieldRowControl } from './field-row-control';
 import { FieldRowWrapper } from './field-row-wrapper';
 import { FieldColumnWrapper } from './field-column-wrapper';
 import { FieldCellWrapper } from './field-cell-wrapper';
@@ -34,7 +35,8 @@ export class FieldLayout extends LayoutContainerBase {
     }
 
     // iterate children and fill wrapper array
-    for (let row of container.getLayoutableControls()) {
+    for (let control of container.getLayoutableControls()) {
+      const row: FieldRowControl = control as FieldRowControl;
       // check, if at least one control of this row is visible
       let isRowVisible: boolean = false;
       for (let rowChild of row.getLayoutableControls()) {
