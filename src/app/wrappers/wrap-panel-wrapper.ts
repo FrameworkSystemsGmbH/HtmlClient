@@ -42,7 +42,7 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapC
   }
 
   public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<WrapPanelComponent> = this.resolver.resolveComponentFactory(WrapPanelComponent);
+    const factory: ComponentFactory<WrapPanelComponent> = this.componentFactoryResolver.resolveComponentFactory(WrapPanelComponent);
     const comp: ComponentRef<WrapPanelComponent> = container.getViewContainerRef().createComponent(factory);
     const instance: WrapPanelComponent = comp.instance;
 

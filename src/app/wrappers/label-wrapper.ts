@@ -27,7 +27,7 @@ export class LabelWrapper extends BaseWrapperFitted {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<LabelComponent> = this.resolver.resolveComponentFactory(LabelComponent);
+    const factory: ComponentFactory<LabelComponent> = this.componentFactoryResolver.resolveComponentFactory(LabelComponent);
     const comp: ComponentRef<LabelComponent> = container.getViewContainerRef().createComponent(factory);
     const instance: LabelComponent = comp.instance;
 

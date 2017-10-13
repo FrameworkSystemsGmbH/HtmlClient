@@ -14,7 +14,6 @@ import { ALL_CONTROLS } from './controls/_all.controls';
 import { ALL_DIRECTIVES } from './directives/_all.direcives';
 import { ALL_SERVICES } from './services/_all.services';
 import { ALL_FORMATTERS } from './services/formatter/_all.formatters';
-import { ALL_FACTORIES } from './wrappers/factories/_all.factories';
 
 import { ErrorService } from './services/error.service';
 import { APP_REDUCERS } from './app.reducers';
@@ -42,8 +41,7 @@ import { APP_REDUCERS } from './app.reducers';
   providers: [
     { provide: ErrorHandler, useClass: ErrorService },
     ALL_SERVICES,
-    ALL_FORMATTERS,
-    ALL_FACTORIES,
+    ALL_FORMATTERS
   ],
   bootstrap: [AppComponent]
 })

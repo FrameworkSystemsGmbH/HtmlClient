@@ -9,8 +9,16 @@ import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
 import { BaseWrapperFittedData } from '../wrappers/base-wrapper-fitted-data';
 import { DataSourceType, TextFormat } from '../enums';
 
+export interface IFontService {
+  getDataMinWidthTextBox(wrapper: TextBoxBaseWrapper): number;
+  getDataMaxWidthTextBox(wrapper: TextBoxBaseWrapper): number;
+  getDataMinHeightTextBox(wrapper: TextBoxBaseWrapper): number;
+  getDataMaxHeightTextBox(wrapper: TextBoxBaseWrapper): number;
+  measureText(text: string, font: string, size: number, isBold: boolean, isItalic: boolean): number;
+}
+
 @Injectable()
-export class FontService {
+export class FontService implements IFontService {
 
   // Common constants
   private readonly separator: string = '|';
@@ -34,7 +42,8 @@ export class FontService {
 
   private readonly canvas: HTMLCanvasElement;
   private readonly context: CanvasRenderingContext2D;
-  private readonly baseControlStyle: PropertyStore;
+
+  private baseControlStyle: PropertyStore;
 
   constructor(
     private controlStyleService: ControlStyleService,
@@ -42,19 +51,27 @@ export class FontService {
     private dateTimeFormatService: DateTimeFormatService) {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
-    this.baseControlStyle = new PropertyStore();
-    this.baseControlStyle.setLayer(PropertyLayer.ControlStyle, this.controlStyleService.getBaseControlStyle());
+  }
+
+  private initBaseControlStyle(): void {
+    if (!this.baseControlStyle) {
+      this.baseControlStyle = new PropertyStore();
+      this.baseControlStyle.setLayer(PropertyLayer.ControlStyle, this.controlStyleService.getBaseControlStyle());
+    }
   }
 
   private getMeasureText(): string {
+    this.initBaseControlStyle();
     return this.baseControlStyle.getMeasureText();
   }
 
   private getMinWidthRaster(): number {
+    this.initBaseControlStyle();
     return this.baseControlStyle.getMinWidthRaster();
   }
 
   private getMaxWidthRaster(): number {
+    this.initBaseControlStyle();
     return this.baseControlStyle.getMaxWidthRaster();
   }
 

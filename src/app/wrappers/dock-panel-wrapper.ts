@@ -31,7 +31,7 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockC
   }
 
   public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<DockPanelComponent> = this.resolver.resolveComponentFactory(DockPanelComponent);
+    const factory: ComponentFactory<DockPanelComponent> = this.componentFactoryResolver.resolveComponentFactory(DockPanelComponent);
     const comp: ComponentRef<DockPanelComponent> = container.getViewContainerRef().createComponent(factory);
     const instance: DockPanelComponent = comp.instance;
 

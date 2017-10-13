@@ -1,5 +1,9 @@
-import { Injector } from '@angular/core';
+import { ComponentFactoryResolver } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
+
+import { IEventsService } from '../services/events.service';
+import { IFontService } from '../services/font.service';
+import { IPatternFormatService } from '../services/formatter/pattern-format.service';
 
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
@@ -7,11 +11,10 @@ import { BaseWrapperFittedData } from './base-wrapper-fitted-data';
 import { ControlEvent, TextAlign, TextFormat } from '../enums';
 import { TextBoxBaseComponent } from '../controls/textbox-base.component';
 import { PropertyData } from '../common';
-import { PatternFormatService } from '../services/formatter/pattern-format.service';
 
 export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
 
-  private readonly patternFormatService: PatternFormatService;
+  private readonly patternFormatService: IPatternFormatService;
 
   private onValidatedSub: ISubscription;
 
@@ -19,10 +22,13 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    injector: Injector
+    resolver: ComponentFactoryResolver,
+    eventsService: IEventsService,
+    fontService: IFontService,
+    patternFormatService: IPatternFormatService
   ) {
-    super(form, parent, controlStyle, injector);
-    this.patternFormatService = injector.get(PatternFormatService);
+    super(form, parent, controlStyle, resolver, eventsService, fontService);
+    this.patternFormatService = patternFormatService;
   }
 
   public getDisabledBackColor(): string {

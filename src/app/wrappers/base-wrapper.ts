@@ -1,5 +1,7 @@
-import { ComponentRef, ComponentFactoryResolver, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactoryResolver } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
+
+import { IEventsService } from '../services/events.service';
 
 import { BaseComponent } from '../controls/base.component';
 import { ContainerWrapper } from './container-wrapper';
@@ -9,15 +11,14 @@ import { LayoutableControl, LayoutableControlLabel, LayoutableControlLabelTempla
 import { ControlLayout } from '../layout/control-layout';
 import { VchControl } from '../vch/vch-control';
 import { PropertyStore, PropertyData, PropertyLayer } from '../common';
-import { EventsService } from '../services/events.service';
 
 export abstract class BaseWrapper implements LayoutableControl {
 
   protected events: ControlEvent;
   protected vchControl: VchControl;
   protected propertyStore: PropertyStore;
-  protected resolver: ComponentFactoryResolver;
-  protected eventsService: EventsService;
+  protected componentFactoryResolver: ComponentFactoryResolver;
+  protected eventsService: IEventsService;
 
   private componentRef: ComponentRef<BaseComponent>;
   private form: FormWrapper;
@@ -36,14 +37,15 @@ export abstract class BaseWrapper implements LayoutableControl {
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    injector: Injector
+    resolver: ComponentFactoryResolver,
+    eventsService: IEventsService
   ) {
     this.vchControl = new VchControl();
     this.propertyStore = new PropertyStore();
     this.form = form;
     this.parent = parent;
-    this.resolver = injector.get(ComponentFactoryResolver);
-    this.eventsService = injector.get(EventsService);
+    this.componentFactoryResolver = resolver;
+    this.eventsService = eventsService;
     this.setControlStyle(controlStyle);
     this.addToParent();
   }

@@ -1,16 +1,20 @@
-import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
 import * as Moment from 'moment-timezone';
+
+import { IEventsService } from '../services/events.service';
+import { IFontService } from '../services/font.service';
+import { IPatternFormatService } from '../services/formatter/pattern-format.service';
+import { IDateTimeFormatService } from '../services/formatter/datetime-format.service';
 
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { TextBoxBaseWrapper } from './textbox-base-wrapper';
 import { TextBoxDateTimeComponent } from '../controls/textbox-datetime/textbox-datetime.component';
 import { PropertyData } from '../common';
-import { DateTimeFormatService } from '../services/formatter/datetime-format.service';
 
 export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
 
-  private dateTimeFormatService: DateTimeFormatService;
+  private dateTimeFormatService: IDateTimeFormatService;
 
   protected value: Moment.Moment;
   protected orgValue: Moment.Moment;
@@ -19,10 +23,14 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    injector: Injector
+    resolver: ComponentFactoryResolver,
+    eventsService: IEventsService,
+    fontService: IFontService,
+    patternFormatService: IPatternFormatService,
+    dateTimeFormatService: IDateTimeFormatService
   ) {
-    super(form, parent, controlStyle, injector);
-    this.dateTimeFormatService = injector.get(DateTimeFormatService);
+    super(form, parent, controlStyle, resolver, eventsService, fontService, patternFormatService);
+    this.dateTimeFormatService = dateTimeFormatService;
   }
 
   public getValue(): Moment.Moment {
@@ -66,7 +74,7 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<TextBoxDateTimeComponent> = this.resolver.resolveComponentFactory(TextBoxDateTimeComponent);
+    const factory: ComponentFactory<TextBoxDateTimeComponent> = this.componentFactoryResolver.resolveComponentFactory(TextBoxDateTimeComponent);
     const comp: ComponentRef<TextBoxDateTimeComponent> = container.getViewContainerRef().createComponent(factory);
     const instance: TextBoxDateTimeComponent = comp.instance;
 

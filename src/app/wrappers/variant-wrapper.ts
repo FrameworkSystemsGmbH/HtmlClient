@@ -33,7 +33,7 @@ export class VariantWrapper extends ContainerWrapper {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<VariantComponent> = this.resolver.resolveComponentFactory(VariantComponent);
+    const factory: ComponentFactory<VariantComponent> = this.componentFactoryResolver.resolveComponentFactory(VariantComponent);
     const comp: ComponentRef<VariantComponent> = container.getViewContainerRef().createComponent(factory);
     const instance: VariantComponent = comp.instance;
 

@@ -1,41 +1,50 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ComponentFactoryResolver } from '@angular/core';
 
-import { BaseWrapper } from '../wrappers/base-wrapper';
-import { ContainerWrapper } from '../wrappers/container-wrapper';
-import { FormWrapper } from '../wrappers/form-wrapper';
-import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
 import { ControlStyleService } from './control-style.service';
 import { PropertyStore, PropertyData, PropertyLayer } from '../common';
 import { ControlType, TextFormat } from '../enums';
 
-import { ButtonImageWrapperFactory } from '../wrappers/factories/button-image-wrapper-factory';
-import { ButtonPlainWrapperFactory } from '../wrappers/factories/button-plain-wrapper-factory';
-import { DockPanelWrapperFactory } from '../wrappers/factories/dock-panel-wrapper-factory';
-import { FormWrapperFactory } from '../wrappers/factories/form-wrapper-factory';
-import { LabelWrapperFactory } from '../wrappers/factories/label-wrapper-factory';
-import { TextBoxDateTimeWrapperFactory } from '../wrappers/factories/textbox-datetime-wrapper-factory';
-import { TextBoxNumberWrapperFactory } from '../wrappers/factories/textbox-number-wrapper-factory';
-import { TextBoxPlainWrapperFactory } from '../wrappers/factories/textbox-plain-wrapper-factory';
-import { VariantWrapperFactory } from '../wrappers/factories/variant-wrapper-factory';
-import { WrapPanelWrapperFactory } from '../wrappers/factories/wrap-panel-wrapper-factory';
+import { EventsService } from './events.service';
+import { FontService } from './font.service';
+import { ImageService } from './image.service';
+import { PatternFormatService } from './formatter/pattern-format.service';
+import { DateTimeFormatService } from './formatter/datetime-format.service';
+import { StringFormatService } from './formatter/string-format.service';
+
+import { BaseWrapper } from '../wrappers/base-wrapper';
+import { ButtonImageWrapper } from '../wrappers/button-image-wrapper';
+import { ButtonPlainWrapper } from '../wrappers/button-plain-wrapper';
+import { ContainerWrapper } from '../wrappers/container-wrapper';
+import { DockPanelWrapper } from '../wrappers/dock-panel-wrapper';
+import { FormWrapper } from '../wrappers/form-wrapper';
+import { LabelWrapper } from '../wrappers/label-wrapper';
+import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
+import { TextBoxNumberWrapper } from '../wrappers/textbox-number-wrapper';
+import { TextBoxDateTimeWrapper } from '../wrappers/textbox-datetime-wrapper';
+import { TextBoxPlainWrapper } from '../wrappers/textbox-plain-wrapper';
+import { VariantWrapper } from '../wrappers/variant-wrapper';
+import { WrapPanelWrapper } from '../wrappers/wrap-panel-wrapper';
+
+export interface IControlsService {
+  createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): BaseWrapper;
+  getScrollBarWidth(): number;
+}
 
 @Injectable()
-export class ControlsService {
+export class ControlsService implements IControlsService {
 
   private scrollBarWidth: number;
 
   constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
     private controlStyleService: ControlStyleService,
-    private buttonImageWrapperFactory: ButtonImageWrapperFactory,
-    private buttonPlainWrapperFactory: ButtonPlainWrapperFactory,
-    private dockPanelWrapperFactory: DockPanelWrapperFactory,
-    private formWrapperFactory: FormWrapperFactory,
-    private labelWrapperFactory: LabelWrapperFactory,
-    private textBoxDateTimeWrapperFactory: TextBoxDateTimeWrapperFactory,
-    private textBoxNumberWrapperFactory: TextBoxNumberWrapperFactory,
-    private textBoxPlainWrapperFactory: TextBoxPlainWrapperFactory,
-    private variantWrapperFactory: VariantWrapperFactory,
-    private wrapPanelWrapperFactory: WrapPanelWrapperFactory) { }
+    private eventsService: EventsService,
+    private fontService: FontService,
+    private imageService: ImageService,
+    private patternFormatService: PatternFormatService,
+    private dateTimeFormatService: DateTimeFormatService,
+    private stringFormatService: StringFormatService
+  ) { }
 
   public createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): BaseWrapper {
     const controlType: ControlType = controlJson.meta.typeId;
@@ -44,21 +53,21 @@ export class ControlsService {
 
     switch (controlType) {
       case ControlType.Button:
-        return this.buttonPlainWrapperFactory.create(form, parent, controlStyle);
+        return new ButtonPlainWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this.fontService);
       case ControlType.ImageButton:
-        return this.buttonImageWrapperFactory.create(form, parent, controlStyle);
+        return new ButtonImageWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this.fontService, this.imageService);
       case ControlType.DockPanel:
-        return this.dockPanelWrapperFactory.create(form, parent, controlStyle);
+        return new DockPanelWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this);
       case ControlType.Label:
-        return this.labelWrapperFactory.create(form, parent, controlStyle);
+        return new LabelWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this.fontService);
       case ControlType.TextBox:
         return this.createTextBoxWrapper(controlJson, form, parent, controlStyle)
       case ControlType.Form:
-        return this.formWrapperFactory.create(form, parent, controlStyle);
+        return new FormWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this);
       case ControlType.Variant:
-        return this.variantWrapperFactory.create(form, parent, controlStyle);
+        return new VariantWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this);
       case ControlType.WrapPanel:
-        return this.wrapPanelWrapperFactory.create(form, parent, controlStyle);
+        return new WrapPanelWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this);
       default:
       // #warning Commented because of CustomControls
       // throw new Error('ControlType \'' + controlType + '\' not supported!');
@@ -73,7 +82,15 @@ export class ControlsService {
       case TextFormat.Integer:
       case TextFormat.PositiveInteger:
       case TextFormat.NegativeInteger:
-        return this.textBoxNumberWrapperFactory.create(form, parent, controlStyle);
+        return new TextBoxNumberWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.fontService,
+          this.patternFormatService
+        );
       case TextFormat.DateTimeShort:
       case TextFormat.DateTimeMedium:
       case TextFormat.DateTimeLong:
@@ -83,9 +100,27 @@ export class ControlsService {
       case TextFormat.TimeOnlyShort:
       case TextFormat.TimeOnlyMedium:
       case TextFormat.TimeOnlyLong:
-        return this.textBoxDateTimeWrapperFactory.create(form, parent, controlStyle);
+        return new TextBoxDateTimeWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.fontService,
+          this.patternFormatService,
+          this.dateTimeFormatService
+        );
       default:
-        return this.textBoxPlainWrapperFactory.create(form, parent, controlStyle);
+        return new TextBoxPlainWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.fontService,
+          this.patternFormatService,
+          this.stringFormatService
+        );
     }
   }
 

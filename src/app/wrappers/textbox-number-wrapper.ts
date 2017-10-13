@@ -50,7 +50,7 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<TextBoxNumberComponent> = this.resolver.resolveComponentFactory(TextBoxNumberComponent);
+    const factory: ComponentFactory<TextBoxNumberComponent> = this.componentFactoryResolver.resolveComponentFactory(TextBoxNumberComponent);
     const comp: ComponentRef<TextBoxNumberComponent> = container.getViewContainerRef().createComponent(factory);
     const instance: TextBoxNumberComponent = comp.instance;
 

@@ -16,7 +16,7 @@ export class ButtonPlainWrapper extends ButtonBaseWrapper {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<ButtonPlainComponent> = this.resolver.resolveComponentFactory(ButtonPlainComponent);
+    const factory: ComponentFactory<ButtonPlainComponent> = this.componentFactoryResolver.resolveComponentFactory(ButtonPlainComponent);
     const comp: ComponentRef<ButtonPlainComponent> = container.getViewContainerRef().createComponent(factory);
     const instance: ButtonPlainComponent = comp.instance;
 

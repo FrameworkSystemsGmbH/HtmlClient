@@ -3,8 +3,12 @@ import { Store } from '@ngrx/store';
 
 import * as fromAppReducers from '../app.reducers';
 
+export interface IImageService {
+  getImageUrl(image: string): string;
+}
+
 @Injectable()
-export class ImageService {
+export class ImageService implements IImageService {
 
   private filesUrl: string;
 

@@ -1,4 +1,7 @@
-import { ComponentRef, ViewContainerRef, Injector } from '@angular/core';
+import { ComponentRef, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+
+import { IControlsService } from '../services/controls.service';
+import { IEventsService } from '../services/events.service';
 
 import { BaseWrapper } from './base-wrapper';
 import { FormWrapper } from './form-wrapper';
@@ -6,25 +9,26 @@ import { ContainerComponent } from '../controls/container.component';
 import { LayoutableControl, LayoutableContainer, LayoutContainerBase, LayoutBase } from '../layout';
 import { JsonUtil } from '../util';
 import { VchContainer } from '../vch/vch-container';
-import { ControlsService } from '../services/controls.service';
 import { ContainerLayout } from '../layout/container-layout';
 import { PropertyData } from '../common';
 
 export abstract class ContainerWrapper extends BaseWrapper implements LayoutableContainer {
 
   protected controls: Array<BaseWrapper>;
-  protected controlsService: ControlsService;
+  protected controlsService: IControlsService;
 
   constructor(
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    injector: Injector
+    resolver: ComponentFactoryResolver,
+    eventsService: IEventsService,
+    controlsService: IControlsService
   ) {
-    super(form, parent, controlStyle, injector);
+    super(form, parent, controlStyle, resolver, eventsService);
     this.vchControl = new VchContainer(this);
     this.controls = new Array<BaseWrapper>();
-    this.controlsService = injector.get(ControlsService);
+    this.controlsService = controlsService;
   }
 
   public getLayout(): LayoutContainerBase {

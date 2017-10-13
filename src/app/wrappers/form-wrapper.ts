@@ -95,7 +95,7 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   public attachComponentToFrame(vc: ViewContainerRef): void {
-    const factory: ComponentFactory<FormComponent> = this.resolver.resolveComponentFactory(FormComponent);
+    const factory: ComponentFactory<FormComponent> = this.componentFactoryResolver.resolveComponentFactory(FormComponent);
     const comp: ComponentRef<FormComponent> = vc.createComponent(factory);
     const instance: FormComponent = comp.instance;
 

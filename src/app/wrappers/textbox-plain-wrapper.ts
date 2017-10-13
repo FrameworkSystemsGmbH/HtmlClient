@@ -1,15 +1,19 @@
-import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
+
+import { IEventsService } from '../services/events.service';
+import { IFontService } from '../services/font.service';
+import { IPatternFormatService } from '../services/formatter/pattern-format.service';
+import { IStringFormatService } from '../services/formatter/string-format.service';
 
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { TextBoxBaseWrapper } from './textbox-base-wrapper';
 import { TextBoxPlainComponent } from '../controls/textbox-plain/textbox-plain.component';
 import { PropertyData } from '../common';
-import { StringFormatService } from '../services/formatter/string-format.service';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
-  private stringFormatService: StringFormatService;
+  private stringFormatService: IStringFormatService;
 
   protected value: string;
   protected orgValue: string;
@@ -18,10 +22,14 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    injector: Injector
+    resolver: ComponentFactoryResolver,
+    eventsService: IEventsService,
+    fontService: IFontService,
+    patternFormatService: IPatternFormatService,
+    stringFormatService: IStringFormatService
   ) {
-    super(form, parent, controlStyle, injector);
-    this.stringFormatService = injector.get(StringFormatService);
+    super(form, parent, controlStyle, resolver, eventsService, fontService, patternFormatService);
+    this.stringFormatService = stringFormatService;
   }
 
   public getValue(): string {
@@ -57,7 +65,7 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<TextBoxPlainComponent> = this.resolver.resolveComponentFactory(TextBoxPlainComponent);
+    const factory: ComponentFactory<TextBoxPlainComponent> = this.componentFactoryResolver.resolveComponentFactory(TextBoxPlainComponent);
     const comp: ComponentRef<TextBoxPlainComponent> = container.getViewContainerRef().createComponent(factory);
     const instance: TextBoxPlainComponent = comp.instance;
 

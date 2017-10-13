@@ -4,8 +4,14 @@ import { LocaleService } from '.././locale.service';
 import { NumberFormatInfo } from '../../common';
 import { TextFormat } from '../../enums';
 
+export interface INumberFormatService {
+  formatString(value: string, textFormat: TextFormat, formatPattern: string): string;
+  formatNumber(value: number, textFormat: TextFormat, formatPattern: string): string;
+  parseString(value: string, textFormat: TextFormat, formatPattern: string): number;
+}
+
 @Injectable()
-export class NumberFormatService {
+export class NumberFormatService implements INumberFormatService {
 
   private static readonly formatDefault: string = '#.#';
   private static readonly formatZero: string = '0';
@@ -25,15 +31,15 @@ export class NumberFormatService {
     this.numberFormat = Intl.NumberFormat(this.localeService.getLocale());
   }
 
-  public getGroupingCount(): number {
+  private getGroupingCount(): number {
     return this.numberFormat.resolvedOptions().maximumFractionDigits;
   }
 
-  public getGroupingSeparator(): string {
+  private getGroupingSeparator(): string {
     return this.numberFormat.format(1111).substring(1, 2);
   }
 
-  public getDecimalSeparator(): string {
+  private getDecimalSeparator(): string {
     return this.numberFormat.format(1.1).substring(1, 2);
   }
 

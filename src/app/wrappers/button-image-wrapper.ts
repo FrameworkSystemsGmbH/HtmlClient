@@ -1,25 +1,30 @@
-import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
 
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { ButtonBaseWrapper } from './button-base-wrapper';
 import { ButtonImageComponent } from '../controls/button-image/button-image.component';
+import { IEventsService } from '../services/events.service';
+import { IFontService } from '../services/font.service';
+import { IImageService } from '../services/image.service';
 import { ContentAlignment } from '../enums';
 import { PropertyData } from '../common';
-import { ImageService } from '../services/image.service';
 
 export class ButtonImageWrapper extends ButtonBaseWrapper {
 
-  private imageService: ImageService;
+  private imageService: IImageService;
 
   constructor(
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    injector: Injector
+    resolver: ComponentFactoryResolver,
+    eventsService: IEventsService,
+    fontService: IFontService,
+    imageService: IImageService
   ) {
-    super(form, parent, controlStyle, injector);
-    this.imageService = injector.get(ImageService);
+    super(form, parent, controlStyle, resolver, eventsService, fontService);
+    this.imageService = imageService;
   }
 
   public getCaptionAlign(): ContentAlignment {
@@ -93,7 +98,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   }
 
   public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<ButtonImageComponent> = this.resolver.resolveComponentFactory(ButtonImageComponent);
+    const factory: ComponentFactory<ButtonImageComponent> = this.componentFactoryResolver.resolveComponentFactory(ButtonImageComponent);
     const comp: ComponentRef<ButtonImageComponent> = container.getViewContainerRef().createComponent(factory);
     const instance: ButtonImageComponent = comp.instance;
 
