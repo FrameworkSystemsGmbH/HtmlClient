@@ -1,7 +1,12 @@
 import { EventEmitter, Injectable, } from '@angular/core';
 
-import { ClientEvent, ClientClickEvent, ClientEnterEvent, ClientLeaveEvent, ClientCloseEvent, ClientDisposeEvent } from '../common/events';
 import { FocusService } from './focus.service';
+import { ClientEvent } from '../common/events/client-event';
+import { ClientEnterEvent } from '../common/events/client-enter-event';
+import { ClientLeaveEvent } from '../common/events/client-leave-event';
+import { ClientClickEvent } from '../common/events/client-click-event';
+import { ClientCloseEvent } from '../common/events/client-close-event';
+import { ClientDisposeEvent } from '../common/events/client-dispose-event';
 
 export interface IEventsService {
   fireEnter(formId: string, controlName: string): void;

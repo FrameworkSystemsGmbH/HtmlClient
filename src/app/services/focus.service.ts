@@ -1,4 +1,4 @@
-import { LastInput } from '../enums';
+import { LastInput } from '../enums/last-input';
 
 export class FocusService {
 

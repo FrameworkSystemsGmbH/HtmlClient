@@ -6,8 +6,11 @@ import { LayoutContainerBase } from '../layout-container-base';
 import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
 import { LayoutableControl } from '../layoutable-control';
 import { LayoutableProperties } from '../layoutable-properties';
-import { HorizontalContentAlignment, HorizontalAlignment, VerticalAlignment, VerticalContentAlignment } from '../../enums';
-import { LinkedListOneWay } from '../../util';
+import { LinkedListOneWay } from '../../util/linked-list-one-way';
+import { HorizontalAlignment } from '../../enums/horizontal-alignment';
+import { VerticalAlignment } from '../../enums/vertical-alignment';
+import { HorizontalContentAlignment } from '../../enums/horizontal-content-alignment';
+import { VerticalContentAlignment } from '../../enums/vertical-content-alignment';
 
 export class WrapLayout extends LayoutContainerBase {
 

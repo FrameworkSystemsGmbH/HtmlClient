@@ -6,11 +6,22 @@ import { IEventsService } from '../services/events.service';
 import { BaseComponent } from '../controls/base.component';
 import { ContainerWrapper } from './container-wrapper';
 import { FormWrapper } from './form-wrapper';
-import { ControlVisibility, HorizontalAlignment, VerticalAlignment, ControlEvent } from '../enums';
-import { LayoutableControl, LayoutableControlLabel, LayoutableControlLabelTemplate, LayoutableContainer, LayoutableProperties, LayoutBase, LayoutablePropertiesDefault } from '../layout';
-import { ControlLayout } from '../layout/control-layout';
+import { ControlVisibility } from '../enums/control-visibility';
+import { HorizontalAlignment } from '../enums/horizontal-alignment';
+import { VerticalAlignment } from '../enums/vertical-alignment';
+import { ControlEvent } from '../enums/control-event';
+import { ControlLayout } from '../layout/control-layout/control-layout';
 import { VchControl } from '../vch/vch-control';
-import { PropertyStore, PropertyData, PropertyLayer } from '../common';
+import { PropertyStore } from '../common/property-store';
+import { PropertyData } from '../common/property-data';
+import { PropertyLayer } from '../common/property-layer';
+import { LayoutableControl } from '../layout/layoutable-control';
+import { LayoutBase } from '../layout/layout-base';
+import { LayoutablePropertiesDefault } from '../layout/layoutable-properties-default';
+import { LayoutableProperties } from '../layout/layoutable-properties';
+import { LayoutableControlLabel } from '../layout/layoutable-control-label';
+import { LayoutableControlLabelTemplate } from '../layout/layoutable-control-label-template';
+import { LayoutableContainer } from '../layout/layoutable-container';
 
 export abstract class BaseWrapper implements LayoutableControl {
 

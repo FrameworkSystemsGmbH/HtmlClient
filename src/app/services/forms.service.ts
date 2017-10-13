@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { ControlType } from '../enums';
+import { ControlType } from '../enums/control-type';
 import { FormWrapper } from '../wrappers/form-wrapper';
 import { ControlsService } from './controls.service';
 import { EventsService } from './events.service';

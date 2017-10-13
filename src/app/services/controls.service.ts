@@ -1,9 +1,12 @@
 import { Injectable, ComponentFactoryResolver } from '@angular/core';
 
-import { ControlStyleService } from './control-style.service';
-import { PropertyStore, PropertyData, PropertyLayer } from '../common';
-import { ControlType, TextFormat } from '../enums';
+import { ControlType } from '../enums/control-type';
+import { TextFormat } from '../enums/text-format';
+import { PropertyStore } from '../common/property-store';
+import { PropertyLayer } from '../common/property-layer';
+import { PropertyData } from '../common/property-data';
 
+import { ControlStyleService } from './control-style.service';
 import { EventsService } from './events.service';
 import { FontService } from './font.service';
 import { ImageService } from './image.service';

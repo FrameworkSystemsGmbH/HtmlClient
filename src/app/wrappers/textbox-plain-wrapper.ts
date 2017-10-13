@@ -9,7 +9,7 @@ import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { TextBoxBaseWrapper } from './textbox-base-wrapper';
 import { TextBoxPlainComponent } from '../controls/textbox-plain/textbox-plain.component';
-import { PropertyData } from '../common';
+import { PropertyData } from '../common/property-data';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 

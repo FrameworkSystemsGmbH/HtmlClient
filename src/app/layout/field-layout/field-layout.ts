@@ -6,8 +6,10 @@ import { FieldCellWrapper } from './field-cell-wrapper';
 import { FieldRowLabelMode } from './field-row-label-mode';
 import { LayoutContainerBase } from '../layout-container-base';
 import { LayoutableControlLabel } from '../layoutable-control-label';
-import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../../enums';
-import { LinkedListOneWay } from '../../util';
+import { ControlVisibility } from '../../enums/control-visibility';
+import { HorizontalAlignment } from '../../enums/horizontal-alignment';
+import { VerticalAlignment } from '../../enums/vertical-alignment';
+import { LinkedListOneWay } from '../../util/linked-list-one-way';
 
 export class FieldLayout extends LayoutContainerBase {
 

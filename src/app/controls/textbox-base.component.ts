@@ -1,10 +1,11 @@
 import { Output, EventEmitter, ElementRef } from '@angular/core';
 
 import { BaseComponent } from './base.component';
-import { ControlEvent, ControlVisibility } from '../enums';
 import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
-import { LayoutableProperties } from '../layout';
-import { StyleUtil } from '../util';
+import { ControlEvent } from '../enums/control-event';
+import { LayoutableProperties } from '../layout/layoutable-properties';
+import { StyleUtil } from '../util/style-util';
+import { ControlVisibility } from '../enums/control-visibility';
 
 export abstract class TextBoxBaseComponent extends BaseComponent {
 

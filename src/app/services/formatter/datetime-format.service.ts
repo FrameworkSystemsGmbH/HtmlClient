@@ -1,6 +1,6 @@
 import * as Moment from 'moment-timezone';
 
-import { TextFormat } from '../../enums';
+import { TextFormat } from '../../enums/text-format';
 
 export interface IDateTimeFormatService {
   momentToJson(value: Moment.Moment): string;

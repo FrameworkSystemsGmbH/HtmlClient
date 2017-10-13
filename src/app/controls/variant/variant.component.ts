@@ -2,8 +2,8 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { ContainerComponent } from '../container.component';
 import { VariantWrapper } from '../../wrappers/variant-wrapper';
-import { ControlVisibility } from '../../enums';
-import { StyleUtil } from '../../util';
+import { ControlVisibility } from '../../enums/control-visibility'
+import { StyleUtil } from '../../util/style-util';
 
 @Component({
   selector: 'hc-variant',

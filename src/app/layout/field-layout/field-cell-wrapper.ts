@@ -3,7 +3,9 @@ import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
 import { LayoutableControlLabel } from '../layoutable-control-label';
 import { LayoutableControlLabelTemplate } from '../layoutable-control-label-template';
 import { LayoutableProperties } from '../layoutable-properties';
-import { HorizontalAlignment, VerticalAlignment, ControlVisibility } from '../../enums';
+import { ControlVisibility } from '../../enums/control-visibility';
+import { HorizontalAlignment } from '../../enums/horizontal-alignment';
+import { VerticalAlignment } from '../../enums/vertical-alignment';
 
 /**
  * Die Klasse wrappt eine Zelle in einem FieldPanel.

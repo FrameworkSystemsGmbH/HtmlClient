@@ -2,8 +2,8 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { ContainerComponent } from '../container.component';
 import { DockPanelWrapper } from '../../wrappers/dock-panel-wrapper';
-import { ControlVisibility } from '../../enums';
-import { StyleUtil } from '../../util';
+import { ControlVisibility } from '../../enums/control-visibility';
+import { StyleUtil } from '../../util/style-util';
 
 @Component({
   selector: 'hc-dock-panel',

@@ -4,7 +4,7 @@ import { BaseWrapper } from './base-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { VariantWrapper } from './variant-wrapper';
 import { FormComponent } from '../controls/form/form.component';
-import { LayoutableProperties } from '../layout';
+import { LayoutableProperties } from '../layout/layoutable-properties';
 
 export class FormWrapper extends ContainerWrapper {
 

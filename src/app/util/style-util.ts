@@ -1,4 +1,5 @@
-import { TextAlign, ContentAlignment } from '../enums';
+import { TextAlign } from '../enums/text-align';
+import { ContentAlignment } from '../enums/content-alignment';
 
 export class StyleUtil {
 

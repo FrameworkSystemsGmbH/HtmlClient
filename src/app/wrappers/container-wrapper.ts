@@ -6,11 +6,14 @@ import { IEventsService } from '../services/events.service';
 import { BaseWrapper } from './base-wrapper';
 import { FormWrapper } from './form-wrapper';
 import { ContainerComponent } from '../controls/container.component';
-import { LayoutableControl, LayoutableContainer, LayoutContainerBase, LayoutBase } from '../layout';
-import { JsonUtil } from '../util';
+import { LayoutableContainer } from '../layout/layoutable-container';
+import { PropertyData } from '../common/property-data';
 import { VchContainer } from '../vch/vch-container';
-import { ContainerLayout } from '../layout/container-layout';
-import { PropertyData } from '../common';
+import { LayoutContainerBase } from '../layout/layout-container-base';
+import { LayoutBase } from '../layout/layout-base';
+import { ContainerLayout } from '../layout/container-layout/container-layout';
+import { LayoutableControl } from '../layout/layoutable-control';
+import { JsonUtil } from '../util/json-util';
 
 export abstract class ContainerWrapper extends BaseWrapper implements LayoutableContainer {
 

@@ -4,7 +4,8 @@ import { LayoutContainerBase } from '../layout-container-base';
 import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
 import { LayoutableControl } from '../layoutable-control';
 import { LayoutableProperties } from '../layoutable-properties';
-import { HorizontalAlignment, VerticalAlignment } from '../../enums';
+import { HorizontalAlignment } from '../../enums/horizontal-alignment';
+import { VerticalAlignment } from '../../enums/vertical-alignment';
 
 export class DockLayout extends LayoutContainerBase {
 

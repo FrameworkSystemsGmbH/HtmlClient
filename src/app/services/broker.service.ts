@@ -4,16 +4,16 @@ import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/subscription';
 import { Store } from '@ngrx/store';
 
-import { JsonUtil } from '../util';
+import { JsonUtil } from '../util/json-util';
 import { ActionsService } from './actions.service';
 import { ControlStyleService } from './control-style.service';
 import { EventsService } from './events.service';
 import { FormsService } from './forms.service';
 import { RoutingService } from './routing.service';
 import { TitleService } from './title.service';
-import { LoginBroker } from '../common';
-import { ClientEvent } from '../common/events';
-import { RequestType } from '../enums'
+import { LoginBroker } from '../common/login-broker';
+import { ClientEvent } from '../common/events/client-event';
+import { RequestType } from '../enums/request-type'
 
 import * as fromAppReducers from '../app.reducers';
 import * as fromBrokerActions from '../store/broker.actions';

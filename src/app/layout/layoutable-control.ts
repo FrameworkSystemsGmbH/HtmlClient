@@ -2,7 +2,9 @@ import { LayoutableProperties } from './layoutable-properties';
 import { LayoutableControlLabel } from './layoutable-control-label';
 import { LayoutableControlLabelTemplate } from './layoutable-control-label-template';
 import { LayoutableContainer } from './layoutable-container';
-import { ControlVisibility, HorizontalAlignment, VerticalAlignment } from '../enums';
+import { ControlVisibility } from '../enums/control-visibility';
+import { HorizontalAlignment } from '../enums/horizontal-alignment';
+import { VerticalAlignment } from '../enums/vertical-alignment';
 
 export interface LayoutableControl {
 

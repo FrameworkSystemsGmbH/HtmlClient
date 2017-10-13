@@ -5,8 +5,8 @@ import { FieldRowLabelMode } from './field-row-label-mode';
 import { LayoutableControlLabel } from '../layoutable-control-label';
 import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
 import { LayoutableControlLabelTemplate } from '../layoutable-control-label-template';
-import { ControlVisibility, VerticalAlignment } from '../../enums';
-
+import { ControlVisibility } from '../../enums/control-visibility';
+import { VerticalAlignment } from '../../enums/vertical-alignment';
 /**
  * Diese Klasse stellt eine Zeile eines FieldPanels dar. Sie besteht im Wesentlichen aus CellWrappern
  * und kennt den LabelMode.

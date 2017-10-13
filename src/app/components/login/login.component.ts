@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import { LoginBroker } from '../../common';
+import { LoginBroker } from '../../common/login-broker';
 import { LoginService } from '../../services/login.service';
 import { BrokerService } from '../../services/broker.service';
 import { AppState } from '../../app.reducers';

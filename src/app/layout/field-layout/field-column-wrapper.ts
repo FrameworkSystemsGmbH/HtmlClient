@@ -1,5 +1,5 @@
 import { FieldCellWrapper } from './field-cell-wrapper';
-import { HorizontalAlignment } from '../../enums';
+import { HorizontalAlignment } from '../../enums/horizontal-alignment';
 
 /**
  * Diese Klasse stellt eine vertikale Verknüpfung von CellWrappern dar.

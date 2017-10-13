@@ -8,9 +8,11 @@ import { IPatternFormatService } from '../services/formatter/pattern-format.serv
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { BaseWrapperFittedData } from './base-wrapper-fitted-data';
-import { ControlEvent, TextAlign, TextFormat } from '../enums';
 import { TextBoxBaseComponent } from '../controls/textbox-base.component';
-import { PropertyData } from '../common';
+import { PropertyData } from '../common/property-data';
+import { TextAlign } from '../enums/text-align';
+import { TextFormat } from '../enums/text-format';
+import { ControlEvent } from '../enums/control-event';
 
 export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
 

@@ -6,7 +6,7 @@ import { IFontService } from '../services/font.service';
 import { BaseWrapper } from './base-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { FormWrapper } from './form-wrapper';
-import { PropertyData } from '../common';
+import { PropertyData } from '../common/property-data';
 
 export abstract class BaseWrapperFitted extends BaseWrapper {
 

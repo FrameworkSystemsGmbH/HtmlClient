@@ -2,8 +2,8 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { ContainerComponent } from '../container.component';
 import { WrapPanelWrapper } from '../../wrappers/wrap-panel-wrapper';
-import { ControlVisibility } from '../../enums';
-import { StyleUtil } from '../../util';
+import { ControlVisibility } from '../../enums/control-visibility';
+import { StyleUtil } from '../../util/style-util';
 
 @Component({
   selector: 'hc-wrp-panel',

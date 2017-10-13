@@ -1,6 +1,6 @@
-import { LayoutableContainerSpaceable } from '..';
-import { LayoutableControlLabel } from '..';
-import { LayoutableControlLabelTemplate } from '..';
+import { LayoutableContainerSpaceable } from '../layoutable-container-spaceable';
+import { LayoutableControlLabel } from '../layoutable-control-label';
+import { LayoutableControlLabelTemplate } from '../layoutable-control-label-template';
 
 export interface FieldContainer extends LayoutableContainerSpaceable {
 

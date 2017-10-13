@@ -3,8 +3,9 @@ import { LayoutableContainer } from '../layoutable-container';
 import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
 import { LayoutableControl } from '../layoutable-control';
 import { LayoutableProperties } from '../layoutable-properties';
-import { VerticalAlignment, HorizontalAlignment } from '../../enums';
-import { LinkedListOneWay } from '../../util';
+import { HorizontalAlignment } from '../../enums/horizontal-alignment';
+import { VerticalAlignment } from '../../enums/vertical-alignment';
+import { LinkedListOneWay } from '../../util/linked-list-one-way';
 
 export class ContainerLayout extends LayoutContainerBase {
 

@@ -2,10 +2,13 @@ import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core'
 
 import { ContainerWrapper } from './container-wrapper';
 import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
-import { WrapContainer, WrapArrangement, WrapLayout } from '../layout/wrap-layout';
+import { WrapContainer } from '../layout/wrap-layout/wrap-container';
+import { WrapArrangement } from '../layout/wrap-layout/wrap-arrangement';
+import { WrapLayout } from '../layout/wrap-layout/wrap-layout';
 import { WrapPanelComponent } from '../controls/wrap-panel/wrap-panel.component';
-import { HorizontalContentAlignment, VerticalContentAlignment } from '../enums';
-import { LayoutBase } from '../layout';
+import { HorizontalContentAlignment } from '../enums/horizontal-content-alignment';
+import { VerticalContentAlignment } from '../enums/vertical-content-alignment';
+import { LayoutBase } from '../layout/layout-base';
 
 export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapContainer {
 

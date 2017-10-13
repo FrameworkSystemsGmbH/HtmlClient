@@ -3,7 +3,7 @@ import { ComponentRef, ComponentFactory } from '@angular/core';
 import { ContainerWrapper } from './container-wrapper';
 import { BaseWrapperFitted } from './base-wrapper-fitted';
 import { LabelComponent } from '../controls/label/label.component';
-import { TextAlign } from '../enums';
+import { TextAlign } from '../enums/text-align';
 
 export class LabelWrapper extends BaseWrapperFitted {
 

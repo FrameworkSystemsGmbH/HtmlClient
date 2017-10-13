@@ -4,10 +4,12 @@ import * as Moment from 'moment-timezone';
 import { ControlStyleService } from './control-style.service';
 import { NumberFormatService } from './formatter/number-format.service';
 import { DateTimeFormatService } from './formatter/datetime-format.service';
-import { PropertyStore, PropertyLayer } from '../common';
 import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
 import { BaseWrapperFittedData } from '../wrappers/base-wrapper-fitted-data';
-import { DataSourceType, TextFormat } from '../enums';
+import { PropertyStore } from '../common/property-store';
+import { PropertyLayer } from '../common/property-layer';
+import { DataSourceType } from '../enums/datasource-type';
+import { TextFormat } from '../enums/text-format';
 
 export interface IFontService {
   getDataMinWidthTextBox(wrapper: TextBoxBaseWrapper): number;

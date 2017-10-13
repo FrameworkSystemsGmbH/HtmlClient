@@ -1,20 +1,17 @@
-import {
-  ControlVisibility,
-  HorizontalAlignment,
-  VerticalAlignment,
-  HorizontalContentAlignment,
-  VerticalContentAlignment,
-  TextAlign,
-  ContentAlignment,
-  PictureScaleMode,
-  ScrollBars,
-  TextFormat
-} from '../enums';
-
-import { FsSize } from '.';
-import { DockOrientation } from '../layout/dock-layout';
-import { WrapArrangement } from '../layout/wrap-layout';
+import { HorizontalAlignment } from '../enums/horizontal-alignment';
+import { VerticalAlignment } from '../enums/vertical-alignment';
+import { HorizontalContentAlignment } from '../enums/horizontal-content-alignment';
+import { VerticalContentAlignment } from '../enums/vertical-content-alignment';
+import { ContentAlignment } from '../enums/content-alignment';
 import { DataSourceType } from '../enums/datasource-type';
+import { DockOrientation } from '../layout/dock-layout/dock-orientation';
+import { TextFormat } from '../enums/text-format';
+import { FsSize } from './fs-size';
+import { PictureScaleMode } from '../enums/picture-scale-mode';
+import { ScrollBars } from '../enums/scrollbars';
+import { TextAlign } from '../enums/text-align';
+import { ControlVisibility } from '../enums/control-visibility';
+import { WrapArrangement } from '../layout/wrap-layout/wrap-arrangement';
 
 export class PropertyData {
 

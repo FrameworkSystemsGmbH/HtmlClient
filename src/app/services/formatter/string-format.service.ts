@@ -1,4 +1,4 @@
-import { TextFormat } from '../../enums';
+import { TextFormat } from '../../enums/text-format';
 
 export interface IStringFormatService {
   formatString(value: string, textFormat: TextFormat): string;

@@ -7,8 +7,8 @@ import { ButtonImageComponent } from '../controls/button-image/button-image.comp
 import { IEventsService } from '../services/events.service';
 import { IFontService } from '../services/font.service';
 import { IImageService } from '../services/image.service';
-import { ContentAlignment } from '../enums';
-import { PropertyData } from '../common';
+import { ContentAlignment } from '../enums/content-alignment';
+import { PropertyData } from '../common/property-data';
 
 export class ButtonImageWrapper extends ButtonBaseWrapper {
 

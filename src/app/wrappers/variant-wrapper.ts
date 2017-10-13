@@ -2,7 +2,7 @@ import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core'
 
 import { ContainerWrapper } from './container-wrapper';
 import { VariantComponent } from '../controls/variant/variant.component';
-import { ControlEvent } from '../enums';
+import { ControlEvent } from '../enums/control-event';
 
 export class VariantWrapper extends ContainerWrapper {
 
