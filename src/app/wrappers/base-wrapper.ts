@@ -41,8 +41,6 @@ export abstract class BaseWrapper implements LayoutableControl {
 
   private onEnterSub: ISubscription;
   private onLeaveSub: ISubscription;
-  private onDragSub: ISubscription;
-  private onCanDropSub: ISubscription;
 
   constructor(
     form: FormWrapper,
@@ -422,14 +420,6 @@ export abstract class BaseWrapper implements LayoutableControl {
     if (this.events & ControlEvent.OnLeave) {
       this.onLeaveSub = instance.onLeave.subscribe(event => this.eventsService.fireLeave(this.getForm().getId(), this.getName(), this.hasChangesLeave()));
     }
-
-    if (this.events & ControlEvent.OnDrag) {
-      this.onDragSub = instance.onDrag.subscribe(event => this.eventsService.fireDrag(this.getForm().getId(), this.getName()));
-    }
-
-    if (this.events & ControlEvent.OnCanDrop) {
-      this.onCanDropSub = instance.onCanDrop.subscribe(event => this.eventsService.fireCanDrop(this.getForm().getId(), this.getName()));
-    }
   }
 
   protected detachEvents(): void {
@@ -439,14 +429,6 @@ export abstract class BaseWrapper implements LayoutableControl {
 
     if (this.onLeaveSub) {
       this.onLeaveSub.unsubscribe();
-    }
-
-    if (this.onDragSub) {
-      this.onDragSub.unsubscribe();
-    }
-
-    if (this.onCanDropSub) {
-      this.onCanDropSub.unsubscribe();
     }
   }
 
