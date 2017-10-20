@@ -1,46 +1,114 @@
 import { EventEmitter, Injectable, } from '@angular/core';
 
-import { FocusService } from './focus.service';
-import { ClientEvent } from '../common/events/client-event';
+import { InternalEvent } from '../common/internal-event';
+import { InternalEventCallbacks } from '../common/internal-event-callbacks';
+import { ClientClickEvent } from '../common/events/client-click-event';
+import { ClientValidatedEvent } from '../common/events/client-validated-event';
 import { ClientEnterEvent } from '../common/events/client-enter-event';
 import { ClientLeaveEvent } from '../common/events/client-leave-event';
-import { ClientClickEvent } from '../common/events/client-click-event';
 import { ClientCloseEvent } from '../common/events/client-close-event';
 import { ClientDisposeEvent } from '../common/events/client-dispose-event';
 
 export interface IEventsService {
-  fireClick(formId: string, controlName: string): void;
-  fireEnter(formId: string, controlName: string): void;
-  fireLeave(formId: string, controlName: string, hasValueChanged: boolean): void;
-  fireClose(formId: string): void;
-  fireDispose(formId: string): void;
+  fireClick(
+    formId: string,
+    controlName: string,
+    callbacks: InternalEventCallbacks
+  ): void;
+
+  fireValidated(
+    formId: string,
+    controlName: string,
+    callbacks: InternalEventCallbacks
+  ): void;
+
+  fireEnter(
+    formId: string,
+    controlName: string,
+    callbacks: InternalEventCallbacks
+  ): void;
+
+  fireLeave(
+    formId: string,
+    controlName: string,
+    activator: string,
+    hasValueChanged: boolean,
+    callbacks: InternalEventCallbacks
+  ): void;
+
+  fireClose(
+    formId: string,
+    callbacks: InternalEventCallbacks
+  ): void;
+
+  fireDispose(
+    formId: string,
+    callbacks: InternalEventCallbacks
+  ): void;
 }
 
 @Injectable()
 export class EventsService implements IEventsService {
 
-  public readonly onEventFired: EventEmitter<ClientEvent> = new EventEmitter<ClientEvent>();
+  public readonly onHandleEvent: EventEmitter<InternalEvent> = new EventEmitter<InternalEvent>();
 
-  constructor(private focusService: FocusService) { }
-
-  public fireClick(formId: string, controlName: string): void {
-    this.onEventFired.emit(new ClientClickEvent(formId, controlName));
+  public fireClick(
+    formId: string,
+    controlName: string,
+    callbacks: InternalEventCallbacks): void {
+    this.onHandleEvent.emit({
+      clientEvent: new ClientClickEvent(formId, controlName),
+      callbacks: callbacks
+    });
   }
 
-  public fireEnter(formId: string, controlName: string): void {
-    this.onEventFired.emit(new ClientEnterEvent(formId, controlName));
+  public fireValidated(
+    formId: string,
+    controlName: string,
+    callbacks: InternalEventCallbacks): void {
+    this.onHandleEvent.emit({
+      clientEvent: new ClientValidatedEvent(formId, controlName),
+      callbacks: callbacks
+    });
   }
 
-  public fireLeave(formId: string, controlName: string, hasValueChanged: boolean): void {
-    let activator: string = this.focusService.getLeaveActivator();
-    this.onEventFired.emit(new ClientLeaveEvent(formId, controlName, activator, hasValueChanged));
+  public fireEnter(
+    formId: string,
+    controlName: string,
+    callbacks: InternalEventCallbacks): void {
+    this.onHandleEvent.emit({
+      clientEvent: new ClientEnterEvent(formId, controlName),
+      callbacks: callbacks
+    });
   }
 
-  public fireClose(formId: string): void {
-    this.onEventFired.emit(new ClientCloseEvent(formId));
+  public fireLeave(
+    formId: string,
+    controlName: string,
+    activator: string,
+    hasValueChanged: boolean,
+    callbacks: InternalEventCallbacks): void {
+    this.onHandleEvent.emit({
+      clientEvent: new ClientLeaveEvent(formId, controlName, activator, hasValueChanged),
+      callbacks: callbacks
+    });
   }
 
-  public fireDispose(formId: string): void {
-    this.onEventFired.emit(new ClientDisposeEvent(formId));
+  public fireClose(
+    formId: string,
+    callbacks: InternalEventCallbacks): void {
+    this.onHandleEvent.emit({
+      clientEvent: new ClientCloseEvent(formId),
+      callbacks: callbacks
+    });
+  }
+
+  public fireDispose(
+    formId: string,
+    callbacks: InternalEventCallbacks): void {
+    this.onHandleEvent.emit({
+      clientEvent: new ClientDisposeEvent(formId),
+      callbacks: callbacks
+    });
   }
 }

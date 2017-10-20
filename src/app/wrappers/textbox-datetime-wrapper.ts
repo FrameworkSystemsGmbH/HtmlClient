@@ -2,6 +2,7 @@ import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angul
 import * as Moment from 'moment-timezone';
 
 import { IEventsService } from '../services/events.service';
+import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
 import { IPatternFormatService } from '../services/formatter/pattern-format.service';
 import { IDateTimeFormatService } from '../services/formatter/datetime-format.service';
@@ -25,11 +26,12 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
     eventsService: IEventsService,
+    focusService: IFocusService,
     fontService: IFontService,
     patternFormatService: IPatternFormatService,
     dateTimeFormatService: IDateTimeFormatService
   ) {
-    super(form, parent, controlStyle, resolver, eventsService, fontService, patternFormatService);
+    super(form, parent, controlStyle, resolver, eventsService, focusService, fontService, patternFormatService);
     this.dateTimeFormatService = dateTimeFormatService;
   }
 

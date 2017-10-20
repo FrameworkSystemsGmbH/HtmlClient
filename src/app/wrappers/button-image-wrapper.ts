@@ -1,12 +1,14 @@
 import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
 
+import { IEventsService } from '../services/events.service';
+import { IFocusService } from '../services/focus.service';
+import { IFontService } from '../services/font.service';
+import { IImageService } from '../services/image.service';
+
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { ButtonBaseWrapper } from './button-base-wrapper';
 import { ButtonImageComponent } from '../controls/button-image/button-image.component';
-import { IEventsService } from '../services/events.service';
-import { IFontService } from '../services/font.service';
-import { IImageService } from '../services/image.service';
 import { ContentAlignment } from '../enums/content-alignment';
 import { PropertyData } from '../common/property-data';
 
@@ -20,10 +22,11 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
     eventsService: IEventsService,
+    focusService: IFocusService,
     fontService: IFontService,
     imageService: IImageService
   ) {
-    super(form, parent, controlStyle, resolver, eventsService, fontService);
+    super(form, parent, controlStyle, resolver, eventsService, focusService, fontService);
     this.imageService = imageService;
   }
 

@@ -1,6 +1,7 @@
 import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
 
 import { IEventsService } from '../services/events.service';
+import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
 import { IPatternFormatService } from '../services/formatter/pattern-format.service';
 import { IStringFormatService } from '../services/formatter/string-format.service';
@@ -24,11 +25,12 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
     eventsService: IEventsService,
+    focusService: IFocusService,
     fontService: IFontService,
     patternFormatService: IPatternFormatService,
     stringFormatService: IStringFormatService
   ) {
-    super(form, parent, controlStyle, resolver, eventsService, fontService, patternFormatService);
+    super(form, parent, controlStyle, resolver, eventsService, focusService, fontService, patternFormatService);
     this.stringFormatService = stringFormatService;
   }
 

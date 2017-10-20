@@ -3,6 +3,7 @@ import { ISubscription } from 'rxjs/Subscription';
 import { ButtonBaseComponent } from '../controls/button-base.component';
 import { BaseWrapperFitted } from './base-wrapper-fitted';
 import { PropertyLayer } from '../common/property-layer';
+import { ControlVisibility } from '../enums/control-visibility';
 import { ControlEvent } from '../enums/control-event';
 
 export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
@@ -34,7 +35,8 @@ export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
     super.attachEvents(instance);
 
     if (this.events & ControlEvent.OnClick) {
-      this.onClickSub = instance.onClick.subscribe(event => this.eventsService.fireClick(this.getForm().getId(), this.getName()));
+      this.onClickSub = instance.onClick
+        .subscribe(event => this.getOnClickSubscription()(event));
     }
   }
 
@@ -44,6 +46,34 @@ export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
     if (this.onClickSub) {
       this.onClickSub.unsubscribe();
     }
+  }
+
+  public hasOnClickEvent(): boolean {
+    return (this.getEvents() & ControlEvent.OnClick) ? true : false;
+  }
+
+  protected getOnClickSubscription(): (event: any) => void {
+    return (event: any) => this.eventsService.fireClick(
+      this.getForm().getId(),
+      this.getName(),
+      {
+        canExecute: this.canExecuteClick.bind(this),
+        onExecuted: this.onClickExecuted.bind(this),
+        onCompleted: this.onClickCompleted.bind(this)
+      }
+    );
+  }
+
+  protected canExecuteClick(): boolean {
+    return this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
+  }
+
+  protected onClickExecuted(): void {
+    // Override in subclasses
+  }
+
+  protected onClickCompleted(): void {
+    // Override in subclasses
   }
 
   public updateFittedWidth(): void {

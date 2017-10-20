@@ -1,24 +1,23 @@
 import { ComponentFactoryResolver } from '@angular/core';
-import { ISubscription } from 'rxjs/Subscription';
 
 import { IEventsService } from '../services/events.service';
+import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
 import { IPatternFormatService } from '../services/formatter/pattern-format.service';
 
+import { TextBoxBaseComponent } from '../controls/textbox-base.component';
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { BaseWrapperFittedData } from './base-wrapper-fitted-data';
-import { TextBoxBaseComponent } from '../controls/textbox-base.component';
 import { PropertyData } from '../common/property-data';
 import { TextAlign } from '../enums/text-align';
 import { TextFormat } from '../enums/text-format';
 import { ControlEvent } from '../enums/control-event';
+import { ControlVisibility } from '../enums/control-visibility';
 
 export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
 
   private readonly patternFormatService: IPatternFormatService;
-
-  private onValidatedSub: ISubscription;
 
   constructor(
     form: FormWrapper,
@@ -26,11 +25,16 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
     eventsService: IEventsService,
+    focusService: IFocusService,
     fontService: IFontService,
     patternFormatService: IPatternFormatService
   ) {
-    super(form, parent, controlStyle, resolver, eventsService, fontService);
+    super(form, parent, controlStyle, resolver, eventsService, focusService, fontService);
     this.patternFormatService = patternFormatService;
+  }
+
+  protected getComponent(): TextBoxBaseComponent {
+    return super.getComponent() as TextBoxBaseComponent;
   }
 
   public getDisabledBackColor(): string {
@@ -127,20 +131,51 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
     this.setFittedContentWidth(null);
   }
 
-  protected attachEvents(instance: TextBoxBaseComponent): void {
-    super.attachEvents(instance);
-
-    if (this.events & ControlEvent.OnValidated) {
-      this.onValidatedSub = instance.onValidated.subscribe(() => { });
-    }
+  protected onEnterCompleted(): void {
+    this.getComponent().onAfterEnter();
   }
 
-  protected detachEvents(): void {
-    super.detachEvents();
-
-    if (this.onValidatedSub) {
-      this.onValidatedSub.unsubscribe();
-    }
+  protected getOnLeaveSubscription(): (event: any) => void {
+    return (event: any) => this.eventsService.fireValidated(
+      this.getForm().getId(),
+      this.getName(),
+      {
+        canExecute: this.canExecuteValidated.bind(this),
+        onExecuted: this.onValidatedExecuted.bind(this),
+        onCompleted: this.onValidatedCompleted.bind(this)
+      }
+    );
   }
 
+  public hasOnLeaveEvent(): boolean {
+    return super.hasOnLeaveEvent() || this.hasOnValidatedEvent();
+  }
+
+  public hasOnValidatedEvent(): boolean {
+    return (this.getEvents() & ControlEvent.OnValidated) ? true : false;
+  }
+
+  protected canExecuteValidated(): boolean {
+    return (this.getEvents() & ControlEvent.OnValidated)
+      && this.getIsEditable()
+      && this.getVisibility() === ControlVisibility.Visible;
+  }
+
+  protected onValidatedExecuted(): void {
+    // // Override in subclasses
+  }
+
+  protected onValidatedCompleted(): void {
+    this.eventsService.fireLeave(
+      this.getForm().getId(),
+      this.getName(),
+      this.focusService.getLeaveActivator(),
+      this.hasChangesLeave(),
+      {
+        canExecute: this.canExecuteLeave.bind(this),
+        onExecuted: this.onLeaveExecuted.bind(this),
+        onCompleted: this.onLeaveCompleted.bind(this)
+      }
+    );
+  }
 }

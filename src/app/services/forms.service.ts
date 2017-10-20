@@ -32,25 +32,37 @@ export class FormsService {
   public closeForm(form: FormWrapper): void {
     let formId: string = form.getId();
 
-    if (form.isCloseEventAttached()) {
-      this.eventsService.fireClose(formId);
-    }
+    this.eventsService.fireClose(formId, {
+      canExecute: form.isCloseEventAttached.bind(form),
+      onExecuted: null,
+      onCompleted: this.getOnCloseCompletedCallback(formId, form).bind(this)
+    })
+  }
 
-    this.eventsService.fireDispose(formId);
+  protected getOnCloseCompletedCallback(formId: string, form: FormWrapper): () => void {
+    return () => {
+      this.eventsService.fireDispose(formId, {
+        canExecute: () => true,
+        onExecuted: null,
+        onCompleted: this.getOnDisposeCompletedCallback(form).bind(this)
+      });
+    };
+  }
 
-    let index: number = this.forms.indexOf(form);
-
-    this.forms.remove(form);
-
-    if (form === this.selectedForm) {
-      if (index < this.forms.length && index >= 0) {
-        this.selectForm(this.forms[index]);
-      } else if (this.forms.length) {
-        this.selectForm(this.forms[0]);
-      } else {
-        this.selectForm(null);
+  protected getOnDisposeCompletedCallback(form: FormWrapper): () => void {
+    return () => {
+      let index: number = this.forms.indexOf(form);
+      this.forms.remove(form);
+      if (form === this.selectedForm) {
+        if (index < this.forms.length && index >= 0) {
+          this.selectForm(this.forms[index]);
+        } else if (this.forms.length) {
+          this.selectForm(this.forms[0]);
+        } else {
+          this.selectForm(null);
+        }
       }
-    }
+    };
   }
 
   public resetViews(): void {

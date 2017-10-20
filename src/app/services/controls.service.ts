@@ -8,6 +8,7 @@ import { PropertyData } from '../common/property-data';
 
 import { ControlStyleService } from './control-style.service';
 import { EventsService } from './events.service';
+import { FocusService } from './focus.service';
 import { FontService } from './font.service';
 import { ImageService } from './image.service';
 import { PatternFormatService } from './formatter/pattern-format.service';
@@ -42,6 +43,7 @@ export class ControlsService implements IControlsService {
     private componentFactoryResolver: ComponentFactoryResolver,
     private controlStyleService: ControlStyleService,
     private eventsService: EventsService,
+    private focusService: FocusService,
     private fontService: FontService,
     private imageService: ImageService,
     private patternFormatService: PatternFormatService,
@@ -56,21 +58,77 @@ export class ControlsService implements IControlsService {
 
     switch (controlType) {
       case ControlType.Button:
-        return new ButtonPlainWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this.fontService);
+        return new ButtonPlainWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.focusService,
+          this.fontService
+        );
       case ControlType.ImageButton:
-        return new ButtonImageWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this.fontService, this.imageService);
+        return new ButtonImageWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.focusService,
+          this.fontService,
+          this.imageService);
       case ControlType.DockPanel:
-        return new DockPanelWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this);
+        return new DockPanelWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.focusService,
+          this
+        );
       case ControlType.Label:
-        return new LabelWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this.fontService);
+        return new LabelWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.focusService,
+          this.fontService
+        );
+      case ControlType.Form:
+        return new FormWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.focusService,
+          this
+        );
+      case ControlType.Variant:
+        return new VariantWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.focusService,
+          this
+        );
+      case ControlType.WrapPanel:
+        return new WrapPanelWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.focusService,
+          this
+        );
       case ControlType.TextBox:
         return this.createTextBoxWrapper(controlJson, form, parent, controlStyle)
-      case ControlType.Form:
-        return new FormWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this);
-      case ControlType.Variant:
-        return new VariantWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this);
-      case ControlType.WrapPanel:
-        return new WrapPanelWrapper(form, parent, controlStyle, this.componentFactoryResolver, this.eventsService, this);
       default:
       // #warning Commented because of CustomControls
       // throw new Error('ControlType \'' + controlType + '\' not supported!');
@@ -91,6 +149,7 @@ export class ControlsService implements IControlsService {
           controlStyle,
           this.componentFactoryResolver,
           this.eventsService,
+          this.focusService,
           this.fontService,
           this.patternFormatService
         );
@@ -109,6 +168,7 @@ export class ControlsService implements IControlsService {
           controlStyle,
           this.componentFactoryResolver,
           this.eventsService,
+          this.focusService,
           this.fontService,
           this.patternFormatService,
           this.dateTimeFormatService
@@ -120,6 +180,7 @@ export class ControlsService implements IControlsService {
           controlStyle,
           this.componentFactoryResolver,
           this.eventsService,
+          this.focusService,
           this.fontService,
           this.patternFormatService,
           this.stringFormatService

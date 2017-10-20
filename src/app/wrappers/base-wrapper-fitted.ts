@@ -1,6 +1,7 @@
 import { ComponentFactoryResolver } from '@angular/core';
 
 import { IEventsService } from '../services/events.service';
+import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
 
 import { BaseWrapper } from './base-wrapper';
@@ -21,9 +22,10 @@ export abstract class BaseWrapperFitted extends BaseWrapper {
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
     eventsService: IEventsService,
+    focusService: IFocusService,
     fontService: IFontService
   ) {
-    super(form, parent, controlStyle, resolver, eventsService);
+    super(form, parent, controlStyle, resolver, eventsService, focusService);
     this.fontService = fontService;
   }
 

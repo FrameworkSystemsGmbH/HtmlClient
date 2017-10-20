@@ -11,7 +11,7 @@ export abstract class ButtonBaseComponent extends BaseComponent {
   @Output() onClick: EventEmitter<any>;
 
   public callOnClick(event: any): void {
-    if (this.getWrapper().getEvents() & ControlEvent.OnClick) {
+    if (this.getWrapper().hasOnClickEvent()) {
       this.onClick.emit(event);
     }
   }
@@ -23,7 +23,7 @@ export abstract class ButtonBaseComponent extends BaseComponent {
   public setWrapper(wrapper: ButtonBaseWrapper): void {
     super.setWrapper(wrapper);
 
-    if (wrapper.getEvents() & ControlEvent.OnClick) {
+    if (this.getWrapper().hasOnClickEvent()) {
       this.onClick = new EventEmitter<any>();
     }
   }

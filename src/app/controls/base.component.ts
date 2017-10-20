@@ -9,34 +9,20 @@ export abstract class BaseComponent implements OnDestroy {
 
   @Output() onEnter: EventEmitter<any>;
   @Output() onLeave: EventEmitter<any>;
-  @Output() onDrag: EventEmitter<any>;
-  @Output() onCanDrop: EventEmitter<any>;
 
   public ngOnDestroy(): void {
     this.getWrapper().onComponentRefDestroyed();
   }
 
   public callOnEnter(event: any): void {
-    if (this.getWrapper().getEvents() & ControlEvent.OnEnter) {
+    if (this.getWrapper().hasOnEnterEvent()) {
       this.onEnter.emit(event);
     }
   }
 
   public callOnLeave(event: any): void {
-    if (this.getWrapper().getEvents() & ControlEvent.OnLeave) {
+    if (this.getWrapper().hasOnLeaveEvent()) {
       this.onLeave.emit(event);
-    }
-  }
-
-  public callOnDrag(event: any): void {
-    if (this.getWrapper().getEvents() & ControlEvent.OnDrag) {
-      this.onDrag.emit(event);
-    }
-  }
-
-  public callOnCanDrop(event: any): void {
-    if (this.getWrapper().getEvents() & ControlEvent.OnCanDrop) {
-      this.onCanDrop.emit(event);
     }
   }
 
@@ -49,20 +35,12 @@ export abstract class BaseComponent implements OnDestroy {
 
     let events: ControlEvent = wrapper.getEvents();
 
-    if (events & ControlEvent.OnEnter) {
+    if (this.getWrapper().hasOnEnterEvent()) {
       this.onEnter = new EventEmitter<any>();
     }
 
-    if (events & ControlEvent.OnLeave) {
+    if (this.getWrapper().hasOnLeaveEvent()) {
       this.onLeave = new EventEmitter<any>();
-    }
-
-    if (events & ControlEvent.OnDrag) {
-      this.onDrag = new EventEmitter<any>();
-    }
-
-    if (events & ControlEvent.OnCanDrop) {
-      this.onCanDrop = new EventEmitter<any>();
     }
   }
 

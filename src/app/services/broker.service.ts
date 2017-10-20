@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { ISubscription } from 'rxjs/subscription';
 import { Store } from '@ngrx/store';
+
+import 'rxjs/add/observable/of';
+
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/concatMap';
 
 import { JsonUtil } from '../util/json-util';
 import { ActionsService } from './actions.service';
@@ -26,7 +32,6 @@ export class BrokerService {
   private activeBrokerRequestUrl: string;
   private requestCounter: number;
   private languages: Array<string>;
-  private onEventFiredSub: ISubscription;
 
   constructor(
     private httpClient: HttpClient,
@@ -44,9 +49,27 @@ export class BrokerService {
       this.activeBrokerRequestUrl = brokerState.activeBrokerRequestUrl;
     });
 
-    this.onEventFiredSub = this.eventsService.onEventFired
-      .concatMap(event => this.doRequest(this.createRequest(event)))
-      .subscribe(responseJson => this.processResponse(responseJson));
+    this.eventsService.onHandleEvent
+      .concatMap(event => Observable.of(event)
+        .mergeMap(() => {
+          if (event.callbacks.canExecute()) {
+            return this.doRequest(this.createRequest(event.clientEvent))
+              .map(responseJson => this.processResponse(responseJson))
+              .map(() => true);
+          } else {
+            return Observable.of(false);
+          }
+        }
+        )
+        .map(executed => {
+          if (executed && event.callbacks.onExecuted) {
+            event.callbacks.onExecuted();
+          }
+          if (event.callbacks.onCompleted) {
+            event.callbacks.onCompleted();
+          }
+        })
+      ).subscribe();
 
     this.resetActiveBroker();
   }
@@ -96,9 +119,9 @@ export class BrokerService {
   private doRequest(requestJson: any): Observable<any> {
     // console.log(JSON.stringify(requestJson, null, 2));
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson);
-    // .do(response => {
-    //   console.log(JSON.stringify(response, null, 2));
-    // });
+      // .do(response => {
+      //   console.log(JSON.stringify(response, null, 2));
+      // });
   }
 
   private getMetaJson(requestType: RequestType): any {

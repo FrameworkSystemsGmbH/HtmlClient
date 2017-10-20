@@ -2,6 +2,7 @@ import { ComponentRef, ComponentFactoryResolver } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { IEventsService } from '../services/events.service';
+import { IFocusService } from '../services/focus.service';
 
 import { BaseComponent } from '../controls/base.component';
 import { ContainerWrapper } from './container-wrapper';
@@ -30,6 +31,7 @@ export abstract class BaseWrapper implements LayoutableControl {
   protected propertyStore: PropertyStore;
   protected componentFactoryResolver: ComponentFactoryResolver;
   protected eventsService: IEventsService;
+  protected focusService: IFocusService;
 
   private componentRef: ComponentRef<BaseComponent>;
   private form: FormWrapper;
@@ -47,7 +49,8 @@ export abstract class BaseWrapper implements LayoutableControl {
     parent: ContainerWrapper,
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
-    eventsService: IEventsService
+    eventsService: IEventsService,
+    focusService: IFocusService
   ) {
     this.vchControl = new VchControl();
     this.propertyStore = new PropertyStore();
@@ -55,6 +58,7 @@ export abstract class BaseWrapper implements LayoutableControl {
     this.parent = parent;
     this.componentFactoryResolver = resolver;
     this.eventsService = eventsService;
+    this.focusService = focusService;
     this.setControlStyle(controlStyle);
     this.addToParent();
   }
@@ -413,12 +417,12 @@ export abstract class BaseWrapper implements LayoutableControl {
   public abstract createComponent(container: ContainerWrapper): void;
 
   protected attachEvents(instance: BaseComponent): void {
-    if (this.events & ControlEvent.OnEnter) {
-      this.onEnterSub = instance.onEnter.subscribe(event => this.eventsService.fireEnter(this.getForm().getId(), this.getName()));
+    if (this.hasOnEnterEvent()) {
+      this.onEnterSub = instance.onEnter.subscribe(event => this.getOnEnterSubscription()(event));
     }
 
-    if (this.events & ControlEvent.OnLeave) {
-      this.onLeaveSub = instance.onLeave.subscribe(event => this.eventsService.fireLeave(this.getForm().getId(), this.getName(), this.hasChangesLeave()));
+    if (this.hasOnLeaveEvent()) {
+      this.onLeaveSub = instance.onLeave.subscribe(event => this.getOnLeaveSubscription()(event));
     }
   }
 
@@ -432,4 +436,65 @@ export abstract class BaseWrapper implements LayoutableControl {
     }
   }
 
+  public hasOnEnterEvent(): boolean {
+    return (this.events & ControlEvent.OnEnter) ? true : false;
+  }
+
+  protected getOnEnterSubscription(): (event: any) => void {
+    return (event: any) => this.eventsService.fireEnter(
+      this.getForm().getId(),
+      this.getName(),
+      {
+        canExecute: this.canExecuteEnter.bind(this),
+        onExecuted: this.onEnterExecuted.bind(this),
+        onCompleted: this.onEnterCompleted.bind(this)
+      }
+    );
+  }
+
+  protected canExecuteEnter(): boolean {
+    return (this.getEvents() & ControlEvent.OnEnter)
+      && this.getIsEditable()
+      && this.getVisibility() === ControlVisibility.Visible;
+  }
+
+  protected onEnterExecuted(): void {
+    // // Override in subclasses
+  }
+
+  protected onEnterCompleted(): void {
+    // // Override in subclasses
+  }
+
+  public hasOnLeaveEvent(): boolean {
+    return (this.events & ControlEvent.OnLeave) ? true : false;
+  }
+
+  protected getOnLeaveSubscription(): (event: any) => void {
+    return (event: any) => this.eventsService.fireLeave(
+      this.getForm().getId(),
+      this.getName(),
+      this.focusService.getLeaveActivator(),
+      this.hasChangesLeave(),
+      {
+        canExecute: this.canExecuteLeave.bind(this),
+        onExecuted: this.onLeaveExecuted.bind(this),
+        onCompleted: this.onLeaveCompleted.bind(this)
+      }
+    );
+  }
+
+  protected canExecuteLeave(): boolean {
+    return (this.getEvents() & ControlEvent.OnLeave)
+      && this.getIsEditable()
+      && this.getVisibility() === ControlVisibility.Visible;
+  }
+
+  protected onLeaveExecuted(): void {
+    // // Override in subclasses
+  }
+
+  protected onLeaveCompleted(): void {
+    // // Override in subclasses
+  }
 }

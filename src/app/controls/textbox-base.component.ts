@@ -1,49 +1,25 @@
-import { Output, EventEmitter, ElementRef } from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 import { BaseComponent } from './base.component';
 import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
-import { ControlEvent } from '../enums/control-event';
 import { LayoutableProperties } from '../layout/layoutable-properties';
 import { StyleUtil } from '../util/style-util';
 import { ControlVisibility } from '../enums/control-visibility';
 
 export abstract class TextBoxBaseComponent extends BaseComponent {
 
-  @Output() onValidated: EventEmitter<any>;
+  public callOnEnter(event: any): void {
+    if (this.getWrapper().hasOnEnterEvent()) {
+      this.onEnter.emit(event);
+    } else {
+      this.onAfterEnter();
+    }
+  }
 
   protected abstract getInput(): ElementRef;
 
-  public callOnEnter(event: any): void {
-    if (this.getWrapper().getIsEditable()) {
-      super.callOnEnter(event);
-    }
-
-    this.selectAll();
-  }
-
-  public callOnLeave(event: any): void {
-    if (this.getWrapper().getIsEditable()) {
-      this.callOnValidated(event);
-      super.callOnLeave(event);
-    }
-  }
-
-  public callOnValidated(event: any): void {
-    if (this.getWrapper().getIsEditable() && (this.getWrapper().getEvents() & ControlEvent.OnValidated)) {
-      this.onValidated.emit(event);
-    }
-  }
-
   public getWrapper(): TextBoxBaseWrapper {
     return super.getWrapper() as TextBoxBaseWrapper;
-  }
-
-  public setWrapper(wrapper: TextBoxBaseWrapper): void {
-    super.setWrapper(wrapper);
-
-    if (wrapper.getEvents() & ControlEvent.OnValidated) {
-      this.onValidated = new EventEmitter<any>();
-    }
   }
 
   public getIsReadonly(): boolean {
@@ -106,7 +82,7 @@ export abstract class TextBoxBaseComponent extends BaseComponent {
     return styles;
   }
 
-  protected selectAll(): void {
+  public onAfterEnter(): void {
     const input: ElementRef = this.getInput();
 
     if (input) {

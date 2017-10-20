@@ -2,6 +2,7 @@ import { ComponentRef, ViewContainerRef, ComponentFactoryResolver } from '@angul
 
 import { IControlsService } from '../services/controls.service';
 import { IEventsService } from '../services/events.service';
+import { IFocusService } from '../services/focus.service';
 
 import { BaseWrapper } from './base-wrapper';
 import { FormWrapper } from './form-wrapper';
@@ -26,9 +27,10 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
     eventsService: IEventsService,
+    focusService: IFocusService,
     controlsService: IControlsService
   ) {
-    super(form, parent, controlStyle, resolver, eventsService);
+    super(form, parent, controlStyle, resolver, eventsService, focusService);
     this.vchControl = new VchContainer(this);
     this.controls = new Array<BaseWrapper>();
     this.controlsService = controlsService;
