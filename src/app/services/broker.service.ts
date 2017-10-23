@@ -52,7 +52,7 @@ export class BrokerService {
     this.eventsService.onHandleEvent
       .concatMap(event => Observable.of(event)
         .mergeMap(() => {
-          if (event.callbacks.canExecute()) {
+          if (event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
             return this.doRequest(this.createRequest(event.clientEvent))
               .map(responseJson => this.processResponse(responseJson))
               .map(() => true);
@@ -63,10 +63,10 @@ export class BrokerService {
         )
         .map(executed => {
           if (executed && event.callbacks.onExecuted) {
-            event.callbacks.onExecuted();
+            event.callbacks.onExecuted(event.originalEvent, event.clientEvent);
           }
           if (event.callbacks.onCompleted) {
-            event.callbacks.onCompleted();
+            event.callbacks.onCompleted(event.originalEvent, event.clientEvent);
           }
         })
       ).subscribe();
@@ -119,9 +119,9 @@ export class BrokerService {
   private doRequest(requestJson: any): Observable<any> {
     // console.log(JSON.stringify(requestJson, null, 2));
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson);
-      // .do(response => {
-      //   console.log(JSON.stringify(response, null, 2));
-      // });
+    // .do(response => {
+    //   console.log(JSON.stringify(response, null, 2));
+    // });
   }
 
   private getMetaJson(requestType: RequestType): any {

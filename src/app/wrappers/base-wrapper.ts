@@ -10,6 +10,9 @@ import { FormWrapper } from './form-wrapper';
 import { ControlVisibility } from '../enums/control-visibility';
 import { HorizontalAlignment } from '../enums/horizontal-alignment';
 import { VerticalAlignment } from '../enums/vertical-alignment';
+import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
+import { ClientEnterEvent } from '../common/events/client-enter-event';
+import { ClientLeaveEvent } from '../common/events/client-leave-event';
 import { ControlEvent } from '../enums/control-event';
 import { ControlLayout } from '../layout/control-layout/control-layout';
 import { VchControl } from '../vch/vch-control';
@@ -418,11 +421,11 @@ export abstract class BaseWrapper implements LayoutableControl {
 
   protected attachEvents(instance: BaseComponent): void {
     if (this.hasOnEnterEvent()) {
-      this.onEnterSub = instance.onEnter.subscribe(event => this.getOnEnterSubscription()(event));
+      this.onEnterSub = instance.onEnter.subscribe(event => this.getOnEnterSubscription(event)());
     }
 
     if (this.hasOnLeaveEvent()) {
-      this.onLeaveSub = instance.onLeave.subscribe(event => this.getOnLeaveSubscription()(event));
+      this.onLeaveSub = instance.onLeave.subscribe(event => this.getOnLeaveSubscription(event)());
     }
   }
 
@@ -440,29 +443,28 @@ export abstract class BaseWrapper implements LayoutableControl {
     return (this.events & ControlEvent.OnEnter) ? true : false;
   }
 
-  protected getOnEnterSubscription(): (event: any) => void {
-    return (event: any) => this.eventsService.fireEnter(
+  protected getOnEnterSubscription(event: any): () => void {
+    return () => this.eventsService.fireEnter(
       this.getForm().getId(),
       this.getName(),
-      {
-        canExecute: this.canExecuteEnter.bind(this),
-        onExecuted: this.onEnterExecuted.bind(this),
-        onCompleted: this.onEnterCompleted.bind(this)
-      }
+      event,
+      new InternalEventCallbacks<ClientEnterEvent>(
+        this.canExecuteEnter.bind(this),
+        this.onEnterExecuted.bind(this),
+        this.onEnterCompleted.bind(this)
+      )
     );
   }
 
-  protected canExecuteEnter(): boolean {
-    return (this.getEvents() & ControlEvent.OnEnter)
-      && this.getIsEditable()
-      && this.getVisibility() === ControlVisibility.Visible;
+  protected canExecuteEnter(originalEvent: any, clientEvent: ClientEnterEvent): boolean {
+    return this.hasOnEnterEvent() && this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
   }
 
-  protected onEnterExecuted(): void {
+  protected onEnterExecuted(originalEvent: any, clientEvent: ClientEnterEvent): void {
     // // Override in subclasses
   }
 
-  protected onEnterCompleted(): void {
+  protected onEnterCompleted(originalEvent: any, clientEvent: ClientEnterEvent): void {
     // // Override in subclasses
   }
 
@@ -470,31 +472,30 @@ export abstract class BaseWrapper implements LayoutableControl {
     return (this.events & ControlEvent.OnLeave) ? true : false;
   }
 
-  protected getOnLeaveSubscription(): (event: any) => void {
-    return (event: any) => this.eventsService.fireLeave(
+  protected getOnLeaveSubscription(event: any): () => void {
+    return () => this.eventsService.fireLeave(
       this.getForm().getId(),
       this.getName(),
       this.focusService.getLeaveActivator(),
       this.hasChangesLeave(),
-      {
-        canExecute: this.canExecuteLeave.bind(this),
-        onExecuted: this.onLeaveExecuted.bind(this),
-        onCompleted: this.onLeaveCompleted.bind(this)
-      }
+      event,
+      new InternalEventCallbacks<ClientLeaveEvent>(
+        this.canExecuteLeave.bind(this),
+        this.onLeaveExecuted.bind(this),
+        this.onLeaveCompleted.bind(this)
+      )
     );
   }
 
-  protected canExecuteLeave(): boolean {
-    return (this.getEvents() & ControlEvent.OnLeave)
-      && this.getIsEditable()
-      && this.getVisibility() === ControlVisibility.Visible;
+  protected canExecuteLeave(originalEvent: any, clientEvent: ClientLeaveEvent): boolean {
+    return this.hasOnLeaveEvent() && this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
   }
 
-  protected onLeaveExecuted(): void {
+  protected onLeaveExecuted(originalEvent: any, clientEvent: ClientLeaveEvent): void {
     // // Override in subclasses
   }
 
-  protected onLeaveCompleted(): void {
+  protected onLeaveCompleted(originalEvent: any, clientEvent: ClientLeaveEvent): void {
     // // Override in subclasses
   }
 }

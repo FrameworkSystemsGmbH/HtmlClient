@@ -2,7 +2,6 @@ import { EventEmitter, Output } from '@angular/core';
 
 import { BaseComponent } from './base.component';
 import { ButtonBaseWrapper } from '../wrappers/button-base-wrapper';
-import { ControlEvent } from '../enums/control-event';
 import { ControlVisibility } from '../enums/control-visibility';
 import { StyleUtil } from '../util/style-util';
 
@@ -23,7 +22,7 @@ export abstract class ButtonBaseComponent extends BaseComponent {
   public setWrapper(wrapper: ButtonBaseWrapper): void {
     super.setWrapper(wrapper);
 
-    if (this.getWrapper().hasOnClickEvent()) {
+    if (wrapper.hasOnClickEvent()) {
       this.onClick = new EventEmitter<any>();
     }
   }

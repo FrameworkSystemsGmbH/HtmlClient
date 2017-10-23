@@ -5,6 +5,8 @@ import { BaseWrapperFitted } from './base-wrapper-fitted';
 import { PropertyLayer } from '../common/property-layer';
 import { ControlVisibility } from '../enums/control-visibility';
 import { ControlEvent } from '../enums/control-event';
+import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
+import { ClientClickEvent } from '../common/events/client-click-event';
 
 export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
 
@@ -35,8 +37,7 @@ export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
     super.attachEvents(instance);
 
     if (this.events & ControlEvent.OnClick) {
-      this.onClickSub = instance.onClick
-        .subscribe(event => this.getOnClickSubscription()(event));
+      this.onClickSub = instance.onClick.subscribe(event => this.getOnClickSubscription(event)());
     }
   }
 
@@ -52,27 +53,28 @@ export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
     return (this.getEvents() & ControlEvent.OnClick) ? true : false;
   }
 
-  protected getOnClickSubscription(): (event: any) => void {
-    return (event: any) => this.eventsService.fireClick(
+  protected getOnClickSubscription(event: any): () => void {
+    return () => this.eventsService.fireClick(
       this.getForm().getId(),
       this.getName(),
-      {
-        canExecute: this.canExecuteClick.bind(this),
-        onExecuted: this.onClickExecuted.bind(this),
-        onCompleted: this.onClickCompleted.bind(this)
-      }
+      event,
+      new InternalEventCallbacks<ClientClickEvent>(
+        this.canExecuteClick.bind(this),
+        this.onClickExecuted.bind(this),
+        this.onClickCompleted.bind(this)
+      )
     );
   }
 
-  protected canExecuteClick(): boolean {
+  protected canExecuteClick(originalEvent: any, clientEvent: ClientClickEvent): boolean {
     return this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
   }
 
-  protected onClickExecuted(): void {
+  protected onClickExecuted(originalEvent: any, clientEvent: ClientClickEvent): void {
     // Override in subclasses
   }
 
-  protected onClickCompleted(): void {
+  protected onClickCompleted(originalEvent: any, clientEvent: ClientClickEvent): void {
     // Override in subclasses
   }
 

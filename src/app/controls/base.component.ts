@@ -1,7 +1,6 @@
 import { OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { BaseWrapper } from '../wrappers/base-wrapper';
-import { ControlEvent } from '../enums/control-event';
 
 export abstract class BaseComponent implements OnDestroy {
 
@@ -33,13 +32,11 @@ export abstract class BaseComponent implements OnDestroy {
   public setWrapper(wrapper: BaseWrapper): void {
     this.wrapper = wrapper;
 
-    let events: ControlEvent = wrapper.getEvents();
-
-    if (this.getWrapper().hasOnEnterEvent()) {
+    if (wrapper.hasOnEnterEvent()) {
       this.onEnter = new EventEmitter<any>();
     }
 
-    if (this.getWrapper().hasOnLeaveEvent()) {
+    if (wrapper.hasOnLeaveEvent()) {
       this.onLeave = new EventEmitter<any>();
     }
   }

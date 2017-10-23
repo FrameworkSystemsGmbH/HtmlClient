@@ -5,6 +5,9 @@ import { ControlType } from '../enums/control-type';
 import { FormWrapper } from '../wrappers/form-wrapper';
 import { ControlsService } from './controls.service';
 import { EventsService } from './events.service';
+import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
+import { ClientCloseEvent } from '../common/events/client-close-event';
+import { ClientDisposeEvent } from '../common/events/client-dispose-event';
 
 @Injectable()
 export class FormsService {
@@ -30,22 +33,25 @@ export class FormsService {
   }
 
   public closeForm(form: FormWrapper): void {
-    let formId: string = form.getId();
-
-    this.eventsService.fireClose(formId, {
-      canExecute: form.isCloseEventAttached.bind(form),
-      onExecuted: null,
-      onCompleted: this.getOnCloseCompletedCallback(formId, form).bind(this)
-    })
+    const formId: string = form.getId();
+    this.eventsService.fireClose(formId,
+      new InternalEventCallbacks<ClientCloseEvent>(
+        form.isCloseEventAttached.bind(form),
+        null,
+        this.getOnCloseCompletedCallback(formId, form).bind(this)
+      )
+    );
   }
 
   protected getOnCloseCompletedCallback(formId: string, form: FormWrapper): () => void {
     return () => {
-      this.eventsService.fireDispose(formId, {
-        canExecute: () => true,
-        onExecuted: null,
-        onCompleted: this.getOnDisposeCompletedCallback(form).bind(this)
-      });
+      this.eventsService.fireDispose(formId,
+        new InternalEventCallbacks<ClientDisposeEvent>(
+          () => true,
+          null,
+          this.getOnDisposeCompletedCallback(form).bind(this)
+        )
+      );
     };
   }
 

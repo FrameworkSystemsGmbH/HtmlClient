@@ -12,6 +12,9 @@ import { BaseWrapperFittedData } from './base-wrapper-fitted-data';
 import { PropertyData } from '../common/property-data';
 import { TextAlign } from '../enums/text-align';
 import { TextFormat } from '../enums/text-format';
+import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
+import { ClientEnterEvent } from '../common/events/client-enter-event';
+import { ClientValidatedEvent } from '../common/events/client-validated-event';
 import { ControlEvent } from '../enums/control-event';
 import { ControlVisibility } from '../enums/control-visibility';
 
@@ -131,51 +134,40 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
     this.setFittedContentWidth(null);
   }
 
-  protected onEnterCompleted(): void {
+  protected onEnterCompleted(originalEvent: any, clientEvent: ClientEnterEvent): void {
     this.getComponent().onAfterEnter();
-  }
-
-  protected getOnLeaveSubscription(): (event: any) => void {
-    return (event: any) => this.eventsService.fireValidated(
-      this.getForm().getId(),
-      this.getName(),
-      {
-        canExecute: this.canExecuteValidated.bind(this),
-        onExecuted: this.onValidatedExecuted.bind(this),
-        onCompleted: this.onValidatedCompleted.bind(this)
-      }
-    );
-  }
-
-  public hasOnLeaveEvent(): boolean {
-    return super.hasOnLeaveEvent() || this.hasOnValidatedEvent();
   }
 
   public hasOnValidatedEvent(): boolean {
     return (this.getEvents() & ControlEvent.OnValidated) ? true : false;
   }
 
-  protected canExecuteValidated(): boolean {
-    return (this.getEvents() & ControlEvent.OnValidated)
-      && this.getIsEditable()
-      && this.getVisibility() === ControlVisibility.Visible;
+  protected canExecuteValidated(originalEvent: any, clientEvent: ClientValidatedEvent): boolean {
+    return this.hasOnValidatedEvent() && this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
   }
 
-  protected onValidatedExecuted(): void {
+  protected onValidatedExecuted(originalEvent: any, clientEvent: ClientValidatedEvent): void {
     // // Override in subclasses
   }
 
-  protected onValidatedCompleted(): void {
-    this.eventsService.fireLeave(
+  protected onValidatedCompleted(originalEvent: any, clientEvent: ClientValidatedEvent): void {
+    super.getOnLeaveSubscription(event)();
+  }
+
+  public hasOnLeaveEvent(): boolean {
+    return super.hasOnLeaveEvent() || this.hasOnValidatedEvent();
+  }
+
+  protected getOnLeaveSubscription(event: any): () => void {
+    return () => this.eventsService.fireValidated(
       this.getForm().getId(),
       this.getName(),
-      this.focusService.getLeaveActivator(),
-      this.hasChangesLeave(),
-      {
-        canExecute: this.canExecuteLeave.bind(this),
-        onExecuted: this.onLeaveExecuted.bind(this),
-        onCompleted: this.onLeaveCompleted.bind(this)
-      }
+      event,
+      new InternalEventCallbacks<ClientValidatedEvent>(
+        this.canExecuteValidated.bind(this),
+        this.onValidatedExecuted.bind(this),
+        this.onValidatedCompleted.bind(this)
+      )
     );
   }
 }
