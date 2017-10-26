@@ -3,8 +3,11 @@ import { Directive, Output, HostListener, EventEmitter } from '@angular/core';
 @Directive({ selector: '[hcMouseWheel]' })
 export class MouseWheelDirective {
 
-  @Output() mouseWheelUp = new EventEmitter();
-  @Output() mouseWheelDown = new EventEmitter();
+  @Output()
+  public mouseWheelUp = new EventEmitter();
+
+  @Output()
+  public mouseWheelDown = new EventEmitter();
 
   @HostListener('mousewheel', ['$event'])
   public onMouseWheelChrome(event: any): void {
@@ -22,7 +25,7 @@ export class MouseWheelDirective {
   }
 
   private mouseWheelFunc(event: any): void {
-    let delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
+    const delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
 
     if (delta > 0) {
       this.mouseWheelUp.emit(event);

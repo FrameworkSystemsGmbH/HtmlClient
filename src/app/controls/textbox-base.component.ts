@@ -2,7 +2,7 @@ import { ElementRef } from '@angular/core';
 
 import { BaseComponent } from './base.component';
 import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
-import { LayoutableProperties } from '../layout/layoutable-properties';
+import { ILayoutableProperties } from '../layout/layoutable-properties';
 import { StyleUtil } from '../util/style-util';
 import { ControlVisibility } from '../enums/control-visibility';
 
@@ -32,10 +32,10 @@ export abstract class TextBoxBaseComponent extends BaseComponent {
   }
 
   public getStyles(): any {
-    let wrapper: TextBoxBaseWrapper = this.getWrapper();
-    let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
+    const wrapper: TextBoxBaseWrapper = this.getWrapper();
+    const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
-    let styles: any = {
+    const styles: any = {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'min-width.px': 0,

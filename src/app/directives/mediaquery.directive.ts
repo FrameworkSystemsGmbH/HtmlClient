@@ -5,17 +5,19 @@ import { NativeService } from '../services/native.service';
 @Directive({ selector: '[hcMediaQuery]' })
 export class MediaQueryDirective implements OnInit, OnDestroy {
 
-  @Input() mediaQuery: string;
+  @Input()
+  public mediaQuery: string;
 
-  @Output() onMediaQueryChanged = new EventEmitter<MediaQueryList>();
+  @Output()
+  public onMediaQueryChanged = new EventEmitter<MediaQueryList>();
 
   private mediaQueryList: MediaQueryList;
-  private mediaQueryListener: (MediaQueryList) => void;
+  private mediaQueryListener: (mediaQueryList: MediaQueryList) => void;
 
   constructor(private nativeService: NativeService) { }
 
   public ngOnInit(): void {
-    this.mediaQueryListener = (mq) => { this.onMediaQueryChanged.emit(mq); };
+    this.mediaQueryListener = mq => { this.onMediaQueryChanged.emit(mq); };
     this.mediaQueryList = this.nativeService.window.matchMedia(this.mediaQuery);
     this.mediaQueryList.addListener(this.mediaQueryListener);
     this.onMediaQueryChanged.emit(this.mediaQueryList);

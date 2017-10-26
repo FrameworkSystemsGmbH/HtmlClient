@@ -1,12 +1,12 @@
-import { LayoutableProperties } from './layoutable-properties';
-import { LayoutableControlLabel } from './layoutable-control-label';
-import { LayoutableControlLabelTemplate } from './layoutable-control-label-template';
-import { LayoutableContainer } from './layoutable-container';
+import { ILayoutableProperties } from './layoutable-properties';
+import { ILayoutableControlLabel } from './layoutable-control-label';
+import { ILayoutableControlLabelTemplate } from './layoutable-control-label-template';
+import { ILayoutableContainer } from './layoutable-container';
 import { ControlVisibility } from '../enums/control-visibility';
 import { HorizontalAlignment } from '../enums/horizontal-alignment';
 import { VerticalAlignment } from '../enums/vertical-alignment';
 
-export interface LayoutableControl {
+export interface ILayoutableControl {
 
   getMinLayoutWidth(): number;
 
@@ -20,7 +20,7 @@ export interface LayoutableControl {
 
   getVisibility(): ControlVisibility;
 
-  getLayoutableProperties(): LayoutableProperties;
+  getLayoutableProperties(): ILayoutableProperties;
 
   getMinWidth(): number;
 
@@ -54,10 +54,10 @@ export interface LayoutableControl {
 
   getVerticalAlignment(): VerticalAlignment;
 
-  getControlLabel(): LayoutableControlLabel;
+  getControlLabel(): ILayoutableControlLabel;
 
-  getLabelTemplate(): LayoutableControlLabelTemplate;
+  getLabelTemplate(): ILayoutableControlLabelTemplate;
 
-  setParent(container: LayoutableContainer): void;
+  setParent(container: ILayoutableContainer): void;
 
 }

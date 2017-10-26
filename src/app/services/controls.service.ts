@@ -128,15 +128,16 @@ export class ControlsService implements IControlsService {
           this
         );
       case ControlType.TextBox:
-        return this.createTextBoxWrapper(controlJson, form, parent, controlStyle)
+        return this.createTextBoxWrapper(controlJson, form, parent, controlStyle);
       default:
+        break;
       // #warning Commented because of CustomControls
       // throw new Error('ControlType \'' + controlType + '\' not supported!');
     }
   }
 
   private createTextBoxWrapper(controlJson: any, form: FormWrapper, parent: ContainerWrapper, controlStyle: PropertyData): TextBoxBaseWrapper {
-    let propertyStore: PropertyStore = this.createPropertyStore(controlJson);
+    const propertyStore: PropertyStore = this.createPropertyStore(controlJson);
 
     switch (propertyStore.getFormat()) {
       case TextFormat.Decimal:
@@ -189,16 +190,16 @@ export class ControlsService implements IControlsService {
   }
 
   private createPropertyStore(controlJson: any): PropertyStore {
-    let controlStyle: string = controlJson.meta.style;
-    let properties: PropertyData = controlJson.properties;
-    let propertyStore: PropertyStore = new PropertyStore();
+    const controlStyle: string = controlJson.meta.style;
+    const properties: PropertyData = controlJson.properties;
+    const propertyStore: PropertyStore = new PropertyStore();
 
     if (properties) {
       propertyStore.setLayer(PropertyLayer.Control, properties);
     }
 
     if (controlStyle) {
-      let style: PropertyData = this.controlStyleService.getControlStyle(controlStyle);
+      const style: PropertyData = this.controlStyleService.getControlStyle(controlStyle);
       if (style) {
         propertyStore.setLayer(PropertyLayer.ControlStyle, style);
       }
@@ -209,7 +210,7 @@ export class ControlsService implements IControlsService {
 
   public getScrollBarWidth(): number {
     if (this.scrollBarWidth == null) {
-      let div: HTMLDivElement = document.createElement('div');
+      const div: HTMLDivElement = document.createElement('div');
       div.className = 'scrollbar-measure';
       document.body.appendChild(div);
       this.scrollBarWidth = div.offsetWidth - div.clientWidth;

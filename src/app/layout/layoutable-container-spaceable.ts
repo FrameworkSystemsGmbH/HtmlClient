@@ -1,6 +1,6 @@
-import { LayoutableContainer } from './layoutable-container';
+import { ILayoutableContainer } from './layoutable-container';
 
-export interface LayoutableContainerSpaceable extends LayoutableContainer {
+export interface ILayoutableContainerSpaceable extends ILayoutableContainer {
 
   getSpacingHorizontal(): number;
 

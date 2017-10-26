@@ -1,8 +1,9 @@
+// tslint:disable:interface-name
 interface Array<T> {
 
   clone(): Array<T>;
 
-  pushAll(items: Array<T>)
+  pushAll(items: Array<T>);
 
   isEmpty(): boolean;
 

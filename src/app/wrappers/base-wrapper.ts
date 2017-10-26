@@ -19,15 +19,15 @@ import { VchControl } from '../vch/vch-control';
 import { PropertyStore } from '../common/property-store';
 import { PropertyData } from '../common/property-data';
 import { PropertyLayer } from '../common/property-layer';
-import { LayoutableControl } from '../layout/layoutable-control';
+import { ILayoutableControl } from '../layout/layoutable-control';
 import { LayoutBase } from '../layout/layout-base';
 import { LayoutablePropertiesDefault } from '../layout/layoutable-properties-default';
-import { LayoutableProperties } from '../layout/layoutable-properties';
-import { LayoutableControlLabel } from '../layout/layoutable-control-label';
-import { LayoutableControlLabelTemplate } from '../layout/layoutable-control-label-template';
-import { LayoutableContainer } from '../layout/layoutable-container';
+import { ILayoutableProperties } from '../layout/layoutable-properties';
+import { ILayoutableControlLabel } from '../layout/layoutable-control-label';
+import { ILayoutableControlLabelTemplate } from '../layout/layoutable-control-label-template';
+import { ILayoutableContainer } from '../layout/layoutable-container';
 
-export abstract class BaseWrapper implements LayoutableControl {
+export abstract class BaseWrapper implements ILayoutableControl {
 
   protected events: ControlEvent;
   protected vchControl: VchControl;
@@ -116,32 +116,32 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getVisibility(): ControlVisibility {
-    let visibility: ControlVisibility = this.propertyStore.getVisibility();
+    const visibility: ControlVisibility = this.propertyStore.getVisibility();
     return visibility != null ? visibility : ControlVisibility.Visible;
   }
 
   public getForeColor(): string {
-    let foreColor: string = this.propertyStore.getForeColor();
+    const foreColor: string = this.propertyStore.getForeColor();
     return foreColor != null ? foreColor : '#000000';
   }
 
   public getBackColor(): string {
-    let backColor: string = this.propertyStore.getBackColor();
+    const backColor: string = this.propertyStore.getBackColor();
     return backColor != null ? backColor : '#FFFFFF';
   }
 
-  public getLayoutableProperties(): LayoutableProperties {
+  public getLayoutableProperties(): ILayoutableProperties {
     if (!this.layoutableProperties) {
       this.layoutableProperties = new LayoutablePropertiesDefault(this);
     }
     return this.layoutableProperties;
   }
 
-  public getControlLabel(): LayoutableControlLabel {
+  public getControlLabel(): ILayoutableControlLabel {
     return null;
   }
 
-  public getLabelTemplate(): LayoutableControlLabelTemplate {
+  public getLabelTemplate(): ILayoutableControlLabelTemplate {
     return null;
   }
 
@@ -210,7 +210,7 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getBorderColor(): string {
-    let borderColor: string = this.propertyStore.getBorderColor();
+    const borderColor: string = this.propertyStore.getBorderColor();
     return borderColor != null ? borderColor : '#808080';
   }
 
@@ -263,22 +263,22 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getDockItemSize(): number {
-    let dockItemSize: number = this.propertyStore.getDockItemSize();
+    const dockItemSize: number = this.propertyStore.getDockItemSize();
     return dockItemSize != null ? dockItemSize : null;
   }
 
   public getFieldRowSize(): number {
-    let fieldRowSize: number = this.propertyStore.getFieldRowSize();
+    const fieldRowSize: number = this.propertyStore.getFieldRowSize();
     return fieldRowSize != null ? fieldRowSize : null;
   }
 
   public getHorizontalAlignment(): HorizontalAlignment {
-    let hAlign: HorizontalAlignment = this.propertyStore.getHorizontalAlignment();
+    const hAlign: HorizontalAlignment = this.propertyStore.getHorizontalAlignment();
     return hAlign != null ? hAlign : HorizontalAlignment.Stretch;
   }
 
   public getVerticalAlignment(): VerticalAlignment {
-    let vAlign: VerticalAlignment = this.propertyStore.getVerticalAlignment();
+    const vAlign: VerticalAlignment = this.propertyStore.getVerticalAlignment();
     return vAlign != null ? vAlign : VerticalAlignment.Stretch;
   }
 
@@ -287,7 +287,7 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getFontFamily(): string {
-    let fontFamily: string = this.propertyStore.getFontFamily();
+    const fontFamily: string = this.propertyStore.getFontFamily();
     return fontFamily != null ? fontFamily : 'Arial';
   }
 
@@ -296,7 +296,7 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   public getFontSize(): number {
-    let fontSize: number = this.propertyStore.getFontSize();
+    const fontSize: number = this.propertyStore.getFontSize();
     return fontSize != null ? fontSize : 14;
   }
 
@@ -312,7 +312,7 @@ export abstract class BaseWrapper implements LayoutableControl {
     return this.parent;
   }
 
-  public setParent(container: LayoutableContainer) {
+  public setParent(container: ILayoutableContainer) {
     this.parent = container as ContainerWrapper;
   }
 
@@ -333,7 +333,7 @@ export abstract class BaseWrapper implements LayoutableControl {
   }
 
   protected getComponent(): BaseComponent {
-    let compRef: ComponentRef<BaseComponent> = this.getComponentRef();
+    const compRef: ComponentRef<BaseComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 
@@ -370,7 +370,7 @@ export abstract class BaseWrapper implements LayoutableControl {
       }
     }
 
-    let comp: BaseComponent = this.getComponent();
+    const comp: BaseComponent = this.getComponent();
 
     if (comp) {
       comp.updateComponent();
@@ -390,8 +390,8 @@ export abstract class BaseWrapper implements LayoutableControl {
       return;
     }
 
-    for (let eventJson of eventsJson) {
-      let event: ControlEvent = ControlEvent[<string>eventJson];
+    for (const eventJson of eventsJson) {
+      const event: ControlEvent = ControlEvent[eventJson as string];
       if (event != null) {
         this.events |= event;
       }

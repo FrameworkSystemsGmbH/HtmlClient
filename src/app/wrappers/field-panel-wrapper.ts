@@ -2,20 +2,20 @@ import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
 import { ControlLabelWrapper } from './control-label-wrapper';
 import { ViewContainerRef, ComponentRef } from '@angular/core';
 import { LabelComponent } from '../controls/label/label.component';
-import { FieldContainer } from '../layout/field-layout/field-container';
-import { FieldRowControl } from '../layout/field-layout/field-row-control';
-import { LayoutableControlLabel } from '../layout/layoutable-control-label';
-import { LayoutableControlLabelTemplate } from '../layout/layoutable-control-label-template';
+import { IFieldContainer } from '../layout/field-layout/field-container';
+import { IFieldRowControl } from '../layout/field-layout/field-row-control';
+import { ILayoutableControlLabel } from '../layout/layoutable-control-label';
+import { ILayoutableControlLabelTemplate } from '../layout/layoutable-control-label-template';
 
-export class FieldPanelWrapper extends ContainerWrapperSpaceable implements FieldContainer {
+export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFieldContainer {
 
-  public getLayoutableControls(): Array<FieldRowControl> {
-    return super.getLayoutableControls() as Array<FieldRowControl>;
+  public getLayoutableControls(): Array<IFieldRowControl> {
+    return super.getLayoutableControls() as Array<IFieldRowControl>;
   }
 
-  public getLayoutableControlLabels(): Array<LayoutableControlLabel> {
-    let controlLabels = new Array<LayoutableControlLabel>();
-    for (let wrapper of this.getLayoutableControls()) {
+  public getLayoutableControlLabels(): Array<ILayoutableControlLabel> {
+    const controlLabels = new Array<ILayoutableControlLabel>();
+    for (const wrapper of this.getLayoutableControls()) {
       if (wrapper instanceof ControlLabelWrapper) {
         controlLabels.push(wrapper);
       }
@@ -27,7 +27,7 @@ export class FieldPanelWrapper extends ContainerWrapperSpaceable implements Fiel
     return false;
   }
 
-  public getRowLabelTemplate(): LayoutableControlLabelTemplate {
+  public getRowLabelTemplate(): ILayoutableControlLabelTemplate {
     return null;
   }
 

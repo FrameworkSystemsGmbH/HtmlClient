@@ -4,7 +4,7 @@ import { BaseWrapper } from './base-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { VariantWrapper } from './variant-wrapper';
 import { FormComponent } from '../controls/form/form.component';
-import { LayoutableProperties } from '../layout/layoutable-properties';
+import { ILayoutableProperties } from '../layout/layoutable-properties';
 
 export class FormWrapper extends ContainerWrapper {
 
@@ -17,7 +17,7 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   public getTitle(): string {
-    let title: string = this.getDefaultVariant().getTitle();
+    const title: string = this.getDefaultVariant().getTitle();
     return title ? title : this.fullName;
   }
 
@@ -41,7 +41,7 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   protected getComponent(): FormComponent {
-    let compRef: ComponentRef<FormComponent> = this.getComponentRef();
+    const compRef: ComponentRef<FormComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 
@@ -66,19 +66,19 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   protected setControlsJson(controlsJson: any, isNew: boolean): void {
-    for (let controlJson of controlsJson) {
+    for (const controlJson of controlsJson) {
       if (isNew) {
         let parent: ContainerWrapper = this;
         if (controlJson.meta.parentName) {
           parent = this.findControlRecursive(controlJson.meta.parentName) as ContainerWrapper;
         }
-        let control: BaseWrapper = this.controlsService.createWrapperFromType(controlJson, this, parent);
+        const control: BaseWrapper = this.controlsService.createWrapperFromType(controlJson, this, parent);
         // #warning Null-Check only because of CustomControls
         if (control) {
           control.setJson(controlJson, true);
         }
       } else {
-        let control: BaseWrapper = this.findControlRecursive(controlJson.meta.name);
+        const control: BaseWrapper = this.findControlRecursive(controlJson.meta.name);
         if (control) {
           control.setJson(controlJson, false);
         }
@@ -87,7 +87,7 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   public setFocusControl(name: string): void {
-    let control: BaseWrapper = this.findControlRecursive(name);
+    const control: BaseWrapper = this.findControlRecursive(name);
 
     if (control) {
       control.setFocus();
@@ -103,7 +103,7 @@ export class FormWrapper extends ContainerWrapper {
     instance.setWrapper(this);
     this.attachEvents(instance);
 
-    for (let child of this.controls) {
+    for (const child of this.controls) {
       child.attachComponent(this);
     }
   }
@@ -118,13 +118,13 @@ export class FormWrapper extends ContainerWrapper {
 
   public doLayout(availableWidth: number, availableHeight: number): void {
     // #warning Rework to overlaying scrollbar
-    let scrollBarWidth: number = this.controlsService.getScrollBarWidth();
+    const scrollBarWidth: number = this.controlsService.getScrollBarWidth();
 
     // Get the absolute minimum width of the form
-    let minWidth: number = this.getMinLayoutWidth();
+    const minWidth: number = this.getMinLayoutWidth();
 
     // Get the minimum height depending on the available width but don't deceed the minimum width
-    let minHeight: number = this.getMinLayoutHeight(Math.max(minWidth, availableWidth));
+    const minHeight: number = this.getMinLayoutHeight(Math.max(minWidth, availableWidth));
 
     let resultWidth: number;
     let resultHeight: number;
@@ -147,7 +147,7 @@ export class FormWrapper extends ContainerWrapper {
         resultWidth = minWidth;
 
         // Calculate the available height with a horizontal scrollbar
-        let availabelHeightScroll: number = availableHeight - scrollBarWidth;
+        const availabelHeightScroll: number = availableHeight - scrollBarWidth;
 
         // Check if we need a vertical scrollbar because of the horizontal one
         if (minHeight <= availabelHeightScroll) {
@@ -170,7 +170,7 @@ export class FormWrapper extends ContainerWrapper {
       resultHeight = minHeight;
 
       // Calculate the available width with a vertical scrollbar
-      let availableWidthScroll: number = availableWidth - scrollBarWidth;
+      const availableWidthScroll: number = availableWidth - scrollBarWidth;
 
       // Check if we need a horizontal scrollbar because of the vertical one
       if (minWidth <= availableWidthScroll) {
@@ -186,7 +186,7 @@ export class FormWrapper extends ContainerWrapper {
       }
     }
 
-    let layoutableProperties: LayoutableProperties = this.getLayoutableProperties();
+    const layoutableProperties: ILayoutableProperties = this.getLayoutableProperties();
     layoutableProperties.setLayoutWidth(resultWidth);
     layoutableProperties.setLayoutHeight(resultHeight);
     layoutableProperties.setHBarNeeded(hBarNeeded);

@@ -41,37 +41,37 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
   }
 
   public getDisabledBackColor(): string {
-    let disabledBackColor: string = this.propertyStore.getDisabledBackColor();
+    const disabledBackColor: string = this.propertyStore.getDisabledBackColor();
     return disabledBackColor != null ? disabledBackColor : '#CCCCCC';
   }
 
   public getCaption(): string {
-    let caption: string = this.propertyStore.getCaption();
+    const caption: string = this.propertyStore.getCaption();
     return caption != null ? caption : null;
   }
 
   public getTextAlign(): TextAlign {
-    let textAlign: TextAlign = this.propertyStore.getTextAlign();
+    const textAlign: TextAlign = this.propertyStore.getTextAlign();
     return textAlign != null ? textAlign : TextAlign.Left;
   }
 
   public getMaxScale(): number {
-    let maxScale: number = this.propertyStore.getMaxScale();
+    const maxScale: number = this.propertyStore.getMaxScale();
     return maxScale != null ? maxScale : 2;
   }
 
   public getMaxPrec(): number {
-    let maxPrec: number = this.propertyStore.getMaxPrec();
+    const maxPrec: number = this.propertyStore.getMaxPrec();
     return maxPrec != null ? maxPrec : 18;
   }
 
   public getFormat(): TextFormat {
-    let textFormat: TextFormat = this.propertyStore.getFormat();
+    const textFormat: TextFormat = this.propertyStore.getFormat();
     return textFormat != null ? textFormat : TextFormat.None;
   }
 
   public getFormatPattern(): string {
-    let formatPattern: string = this.propertyStore.getFormatPattern();
+    const formatPattern: string = this.propertyStore.getFormatPattern();
     return formatPattern != null ? this.patternFormatService.javaToMoment(formatPattern) : null;
   }
 
@@ -106,7 +106,7 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
       return null;
     }
 
-    let controlJson: any = {
+    const controlJson: any = {
       meta: {
         name: this.getName()
       },

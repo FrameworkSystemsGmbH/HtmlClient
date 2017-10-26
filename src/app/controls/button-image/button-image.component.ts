@@ -11,7 +11,8 @@ import { StyleUtil } from '../../util/style-util';
 })
 export class ButtonImageComponent extends ButtonBaseComponent {
 
-  @ViewChild('focus') focus: ElementRef;
+  @ViewChild('focus')
+  public focus: ElementRef;
 
   public isFocused: boolean;
   public isHovered: boolean;

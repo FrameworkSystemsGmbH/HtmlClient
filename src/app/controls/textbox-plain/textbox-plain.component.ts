@@ -11,7 +11,8 @@ import { StringFormatService } from '../../services/formatter/string-format.serv
 })
 export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnInit {
 
-  @ViewChild('input') input: ElementRef;
+  @ViewChild('input')
+  public input: ElementRef;
 
   public value: string;
 
@@ -33,7 +34,7 @@ export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnIni
   }
 
   public callOnLeave(event: any): void {
-    let wrapper: TextBoxPlainWrapper = this.getWrapper();
+    const wrapper: TextBoxPlainWrapper = this.getWrapper();
     if (wrapper.getIsEditable()) {
       this.updateWrapper();
       super.callOnLeave(event);

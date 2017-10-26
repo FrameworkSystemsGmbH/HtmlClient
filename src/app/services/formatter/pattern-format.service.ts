@@ -124,8 +124,8 @@ export class PatternFormatService implements IPatternFormatService {
     let isEscaped: boolean = false;
 
     for (let i = 0; i < formatPattern.length; i++) {
-      let currentChar: string = formatPattern.charAt(i);
-      let nextChar: string = formatPattern.charAt(i + 1);
+      const currentChar: string = formatPattern.charAt(i);
+      const nextChar: string = formatPattern.charAt(i + 1);
 
       if (!isEscaped && currentChar === escapeStartChar) {
         isEscaped = true;

@@ -1,3 +1,4 @@
+// tslint:disable:interface-name
 interface StringConstructor {
 
   empty(): string;

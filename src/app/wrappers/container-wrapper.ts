@@ -7,16 +7,16 @@ import { IFocusService } from '../services/focus.service';
 import { BaseWrapper } from './base-wrapper';
 import { FormWrapper } from './form-wrapper';
 import { ContainerComponent } from '../controls/container.component';
-import { LayoutableContainer } from '../layout/layoutable-container';
+import { ILayoutableContainer } from '../layout/layoutable-container';
 import { PropertyData } from '../common/property-data';
 import { VchContainer } from '../vch/vch-container';
 import { LayoutContainerBase } from '../layout/layout-container-base';
 import { LayoutBase } from '../layout/layout-base';
 import { ContainerLayout } from '../layout/container-layout/container-layout';
-import { LayoutableControl } from '../layout/layoutable-control';
+import { ILayoutableControl } from '../layout/layoutable-control';
 import { JsonUtil } from '../util/json-util';
 
-export abstract class ContainerWrapper extends BaseWrapper implements LayoutableContainer {
+export abstract class ContainerWrapper extends BaseWrapper implements ILayoutableContainer {
 
   protected controls: Array<BaseWrapper>;
   protected controlsService: IControlsService;
@@ -51,7 +51,7 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
   }
 
   protected getComponent(): ContainerComponent {
-    let compRef: ComponentRef<ContainerComponent> = this.getComponentRef();
+    const compRef: ComponentRef<ContainerComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 
@@ -60,10 +60,10 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
   }
 
   public getVchContainer(): VchContainer {
-    return <VchContainer>this.getVchControl();
+    return this.getVchControl() as VchContainer;
   }
 
-  public getLayoutableControls(): Array<LayoutableControl> {
+  public getLayoutableControls(): Array<ILayoutableControl> {
     return this.getVchContainer().getChildrenInFlowDirection();
   }
 
@@ -71,7 +71,7 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
     this.controls.push(control);
   }
 
-  public removeChild(child: LayoutableControl): void {
+  public removeChild(child: ILayoutableControl): void {
 
   }
 
@@ -81,14 +81,14 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
 
   public getControlsJson(controlsJson: Array<any>): void {
     this.controls.forEach((controlWrp: BaseWrapper) => {
-      let controlJson: any = controlWrp.getJson();
+      const controlJson: any = controlWrp.getJson();
 
       if (controlJson && !JsonUtil.isEmptyObject(controlJson)) {
         controlsJson.push(controlJson);
       }
 
       if (controlWrp instanceof ContainerWrapper) {
-        (<ContainerWrapper>controlWrp).getControlsJson(controlsJson);
+        (controlWrp as ContainerWrapper).getControlsJson(controlsJson);
       }
     });
   }
@@ -96,14 +96,13 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
   public attachComponent(container: ContainerWrapper): void {
     super.attachComponent(container);
 
-    for (let child of this.controls) {
+    for (const child of this.controls) {
       child.attachComponent(this);
     }
   }
 
   public findControl(name: string): BaseWrapper {
-    for (let i: number = 0; i < this.controls.length; i++) {
-      let control: BaseWrapper = this.controls[i];
+    for (const control of this.controls) {
       if (control.getName() === name) {
         return control;
       }
@@ -115,10 +114,9 @@ export abstract class ContainerWrapper extends BaseWrapper implements Layoutable
   public findControlRecursive(name: string): BaseWrapper {
     let control: BaseWrapper = this.findControl(name);
     if (!control) {
-      for (let i: number = 0; i < this.controls.length; i++) {
-        let subControl: BaseWrapper = this.controls[i];
+      for (const subControl of this.controls) {
         if (subControl instanceof ContainerWrapper) {
-          control = (<ContainerWrapper>subControl).findControlRecursive(name);
+          control = (subControl as ContainerWrapper).findControlRecursive(name);
           if (control) {
             return control;
           }

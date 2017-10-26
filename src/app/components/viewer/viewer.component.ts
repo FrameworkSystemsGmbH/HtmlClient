@@ -5,4 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss']
 })
+// tslint:disable-next-line:no-unnecessary-class
 export class ViewerComponent { }

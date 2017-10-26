@@ -1,7 +1,7 @@
-import { LayoutableControl } from './layoutable-control';
-import { LayoutableProperties } from './layoutable-properties';
-import { LayoutableControlLabel } from './layoutable-control-label';
-import { LayoutableControlLabelTemplate } from './layoutable-control-label-template';
+import { ILayoutableControl } from './layoutable-control';
+import { ILayoutableProperties } from './layoutable-properties';
+import { ILayoutableControlLabel } from './layoutable-control-label';
+import { ILayoutableControlLabelTemplate } from './layoutable-control-label-template';
 import { ControlVisibility } from '../enums/control-visibility';
 import { HorizontalAlignment } from '../enums/horizontal-alignment';
 import { VerticalAlignment } from '../enums/vertical-alignment';
@@ -25,14 +25,14 @@ export class LayoutableControlWrapper {
   private hAlign: HorizontalAlignment;
   private vAlign: VerticalAlignment;
 
-  private layoutableProperties: LayoutableProperties;
-  private controlLabel: LayoutableControlLabel;
-  private labelTemplate: LayoutableControlLabelTemplate;
+  private layoutableProperties: ILayoutableProperties;
+  private controlLabel: ILayoutableControlLabel;
+  private labelTemplate: ILayoutableControlLabelTemplate;
 
   private resultWdith: number;
   private resultHeight: number;
 
-  constructor(private control: LayoutableControl) {
+  constructor(private control: ILayoutableControl) {
     this.name = control.getName();
     this.layoutableProperties = control.getLayoutableProperties();
     this.minLayoutWidth = control.getMinLayoutWidth();
@@ -55,7 +55,7 @@ export class LayoutableControlWrapper {
     return this.name;
   }
 
-  public getLayoutableProperties(): LayoutableProperties {
+  public getLayoutableProperties(): ILayoutableProperties {
     return this.layoutableProperties;
   }
 
@@ -112,11 +112,11 @@ export class LayoutableControlWrapper {
     return this.vAlign;
   }
 
-  public getControlLabel(): LayoutableControlLabel {
+  public getControlLabel(): ILayoutableControlLabel {
     return this.controlLabel;
   }
 
-  public getLabelTemplate(): LayoutableControlLabelTemplate {
+  public getLabelTemplate(): ILayoutableControlLabelTemplate {
     return this.labelTemplate;
   }
 

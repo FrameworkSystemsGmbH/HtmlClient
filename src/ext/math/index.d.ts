@@ -1,3 +1,4 @@
+// tslint:disable:interface-name
 interface Math {
 
   roundDec(value: number, exp: number): number;

@@ -1,22 +1,22 @@
 import { LayoutBase } from './layout-base';
-import { LayoutableContainer } from './layoutable-container';
+import { ILayoutableContainer } from './layoutable-container';
 
 export abstract class LayoutContainerBase extends LayoutBase {
 
-  constructor(container: LayoutableContainer) {
+  constructor(container: ILayoutableContainer) {
     super(container);
   }
 
-  public getControl(): LayoutableContainer {
-    return super.getControl() as LayoutableContainer;
+  public getControl(): ILayoutableContainer {
+    return super.getControl() as ILayoutableContainer;
   }
 
   public doLayout(): void {
     this.arrange();
-    for (let control of this.getControl().getLayoutableControls()) {
-      let container: LayoutableContainer = control as LayoutableContainer;
+    for (const control of this.getControl().getLayoutableControls()) {
+      const container: ILayoutableContainer = control as ILayoutableContainer;
       if (container) {
-        let layout: any = container.getLayout();
+        const layout: any = container.getLayout();
         if (layout.doLayout) {
           layout.doLayout();
         }

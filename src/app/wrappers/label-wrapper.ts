@@ -8,12 +8,12 @@ import { TextAlign } from '../enums/text-align';
 export class LabelWrapper extends BaseWrapperFitted {
 
   public getCaption(): string {
-    let caption: string = this.propertyStore.getCaption();
+    const caption: string = this.propertyStore.getCaption();
     return caption != null ? caption : null;
   }
 
   public getTextAlign(): TextAlign {
-    let textAlign: TextAlign = this.propertyStore.getTextAlign();
+    const textAlign: TextAlign = this.propertyStore.getTextAlign();
     return textAlign != null ? textAlign : TextAlign.Center;
   }
 
@@ -22,7 +22,7 @@ export class LabelWrapper extends BaseWrapperFitted {
   }
 
   protected getComponent(): LabelComponent {
-    let compRef: ComponentRef<LabelComponent> = this.getComponentRef();
+    const compRef: ComponentRef<LabelComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 

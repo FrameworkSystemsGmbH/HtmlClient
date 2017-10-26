@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable, } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 import { InternalEvent } from '../common/events/internal/internal-event';
 import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
@@ -63,9 +63,9 @@ export class EventsService implements IEventsService {
     originalEvent: any,
     callbacks: InternalEventCallbacks<ClientClickEvent>): void {
     this.onHandleEvent.emit({
-      originalEvent: originalEvent,
+      originalEvent,
       clientEvent: new ClientClickEvent(formId, controlName),
-      callbacks: callbacks
+      callbacks
     });
   }
 
@@ -75,9 +75,9 @@ export class EventsService implements IEventsService {
     originalEvent: any,
     callbacks: InternalEventCallbacks<ClientValidatedEvent>): void {
     this.onHandleEvent.emit({
-      originalEvent: originalEvent,
+      originalEvent,
       clientEvent: new ClientValidatedEvent(formId, controlName),
-      callbacks: callbacks
+      callbacks
     });
   }
 
@@ -87,9 +87,9 @@ export class EventsService implements IEventsService {
     originalEvent: any,
     callbacks: InternalEventCallbacks<ClientEnterEvent>): void {
     this.onHandleEvent.emit({
-      originalEvent: originalEvent,
+      originalEvent,
       clientEvent: new ClientEnterEvent(formId, controlName),
-      callbacks: callbacks
+      callbacks
     });
   }
 
@@ -101,9 +101,9 @@ export class EventsService implements IEventsService {
     originalEvent: any,
     callbacks: InternalEventCallbacks<ClientLeaveEvent>): void {
     this.onHandleEvent.emit({
-      originalEvent: originalEvent,
+      originalEvent,
       clientEvent: new ClientLeaveEvent(formId, controlName, activator, hasValueChanged),
-      callbacks: callbacks
+      callbacks
     });
   }
 
@@ -113,7 +113,7 @@ export class EventsService implements IEventsService {
     this.onHandleEvent.emit({
       originalEvent: null,
       clientEvent: new ClientCloseEvent(formId),
-      callbacks: callbacks
+      callbacks
     });
   }
 
@@ -123,7 +123,7 @@ export class EventsService implements IEventsService {
     this.onHandleEvent.emit({
       originalEvent: null,
       clientEvent: new ClientDisposeEvent(formId),
-      callbacks: callbacks
+      callbacks
     });
   }
 }

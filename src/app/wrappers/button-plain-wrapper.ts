@@ -11,7 +11,7 @@ export class ButtonPlainWrapper extends ButtonBaseWrapper {
   }
 
   protected getComponent(): ButtonPlainComponent {
-    let compRef: ComponentRef<ButtonPlainComponent> = this.getComponentRef();
+    const compRef: ComponentRef<ButtonPlainComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 

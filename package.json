@@ -9,8 +9,8 @@
   "scripts": {
     "set": "ng set warnings.typescriptMismatch=false",
     "build": "ng build",
-    "buildProd": "ng build --prod",
-    "lint": "tslint \"src/**/*.ts\" --project \"src/tsconfig.json\" --type-check",
+    "buildProd": "npm run lint && ng build --prod",
+    "lint": "tslint \"src/**/*.ts\" --project \"src/tsconfig.json\"",
     "serve": "ng serve",
     "servePublic": "ng serve --host=0.0.0.0 --disable-host-check",
     "initCordova": "npm run buildProd && gulp cordova.init",
@@ -36,17 +36,17 @@
     "intl": "1.2.5",
     "moment": "2.19.1",
     "moment-timezone": "0.5.13",
-    "rxjs": "5.5.0",
+    "rxjs": "5.5.2",
     "zone.js": "0.8.18"
   },
   "devDependencies": {
     "@angular/cli": "1.4.9",
     "@angular/compiler-cli": "4.4.6",
     "@types/cordova": "0.0.34",
-    "@types/jasmine": "2.6.0",
-    "@types/moment-timezone": "0.5.0",
-    "@types/node": "8.0.46",
-    "codelyzer": "3.2.1",
+    "@types/jasmine": "2.6.2",
+    "@types/moment-timezone": "0.5.1",
+    "@types/node": "8.0.47",
+    "codelyzer": "3.2.2",
     "cordova": "7.1.0",
     "del": "3.0.0",
     "gulp": "3.9.1",
@@ -58,7 +58,7 @@
     "run-sequence": "2.2.0",
     "shelljs": "0.7.8",
     "ts-node": "3.3.0",
-    "tslint": "5.7.0",
+    "tslint": "5.8.0",
     "typescript": "2.5.3"
   }
 }

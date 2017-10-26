@@ -2,7 +2,7 @@ import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core'
 
 import { ContainerWrapper } from './container-wrapper';
 import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
-import { WrapContainer } from '../layout/wrap-layout/wrap-container';
+import { IWrapContainer } from '../layout/wrap-layout/wrap-container';
 import { WrapArrangement } from '../layout/wrap-layout/wrap-arrangement';
 import { WrapLayout } from '../layout/wrap-layout/wrap-layout';
 import { WrapPanelComponent } from '../controls/wrap-panel/wrap-panel.component';
@@ -10,7 +10,7 @@ import { HorizontalContentAlignment } from '../enums/horizontal-content-alignmen
 import { VerticalContentAlignment } from '../enums/vertical-content-alignment';
 import { LayoutBase } from '../layout/layout-base';
 
-export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapContainer {
+export class WrapPanelWrapper extends ContainerWrapperSpaceable implements IWrapContainer {
 
   protected createLayout(): LayoutBase {
     return new WrapLayout(this);
@@ -21,7 +21,7 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapC
   }
 
   protected getComponent(): WrapPanelComponent {
-    let compRef: ComponentRef<WrapPanelComponent> = this.getComponentRef();
+    const compRef: ComponentRef<WrapPanelComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 
@@ -30,17 +30,17 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements WrapC
   }
 
   public getWrapArrangement(): WrapArrangement {
-    let wrapArrangement: WrapArrangement = this.propertyStore.getWrapArrangement();
+    const wrapArrangement: WrapArrangement = this.propertyStore.getWrapArrangement();
     return wrapArrangement != null ? wrapArrangement : WrapArrangement.Horizontal;
   }
 
   public getHorizontalContentAlignment(): HorizontalContentAlignment {
-    let horizontalContentAlignment: HorizontalContentAlignment = this.propertyStore.getHorizontalContentAlignment();
+    const horizontalContentAlignment: HorizontalContentAlignment = this.propertyStore.getHorizontalContentAlignment();
     return horizontalContentAlignment != null ? horizontalContentAlignment : HorizontalContentAlignment.Left;
   }
 
   public getVerticalContentAlignment(): VerticalContentAlignment {
-    let verticalContentAlignment: VerticalContentAlignment = this.propertyStore.getVerticalContentAlignment();
+    const verticalContentAlignment: VerticalContentAlignment = this.propertyStore.getVerticalContentAlignment();
     return verticalContentAlignment != null ? verticalContentAlignment : VerticalContentAlignment.Top;
   }
 

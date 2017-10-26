@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
-import { AppRouting } from './app.routing';
+import { APP_ROUTING } from './app.routing';
 
 import { ALL_COMPONENTS } from './components/_all.components';
 import { ALL_CONTROLS } from './controls/_all.controls';
@@ -29,7 +29,7 @@ import { APP_REDUCERS } from './app.reducers';
     ALL_DIRECTIVES
   ],
   imports: [
-    AppRouting,
+    APP_ROUTING,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
@@ -45,4 +45,5 @@ import { APP_REDUCERS } from './app.reducers';
   ],
   bootstrap: [AppComponent]
 })
+// tslint:disable-next-line:no-unnecessary-class
 export class AppModule { }

@@ -19,7 +19,7 @@ export class LinkedListOneWay<T> {
   }
 
   public add(data: T): void {
-    let currentNode = new LinkedListNode<T>(data);
+    const currentNode = new LinkedListNode<T>(data);
 
     if (this.head === null || this.length === 0) {
       this.head = currentNode;
@@ -41,7 +41,7 @@ export class LinkedListOneWay<T> {
       return false;
     }
 
-    let index = this.indexOf(data);
+    const index = this.indexOf(data);
 
     if (index === -1) {
       return false;
@@ -70,7 +70,7 @@ export class LinkedListOneWay<T> {
 
   public poll(): T {
     if (this.length) {
-      let data = this.peek();
+      const data = this.peek();
       this.remove(data);
       return data;
     } else {
@@ -123,7 +123,7 @@ export class LinkedListOneWay<T> {
   }
 
   public toArray(): Array<T> {
-    let result: Array<T> = new Array<T>(this.length);
+    const result: Array<T> = new Array<T>(this.length);
 
     let node = this.head;
 

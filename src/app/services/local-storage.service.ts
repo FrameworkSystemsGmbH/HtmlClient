@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { NativeService } from './native.service';
 import { StorageService } from './storage.service';
 
-
 @Injectable()
 export class LocalStorageService extends StorageService {
 

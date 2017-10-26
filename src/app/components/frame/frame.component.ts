@@ -11,8 +11,11 @@ import { FormWrapper } from '../../wrappers/form-wrapper';
 })
 export class FrameComponent implements OnInit, OnDestroy {
 
-  @ViewChild('frame') frame: ElementRef;
-  @ViewChild('anchor', { read: ViewContainerRef }) anchor: ViewContainerRef;
+  @ViewChild('frame')
+  public frame: ElementRef;
+
+  @ViewChild('anchor', { read: ViewContainerRef })
+  public anchor: ViewContainerRef;
 
   private selectedForm: FormWrapper;
   private selectedFormSub: ISubscription;
@@ -33,8 +36,8 @@ export class FrameComponent implements OnInit, OnDestroy {
   @HostListener('window:resize')
   private layout(): void {
     if (this.selectedForm) {
-      let availableWidth: number = this.frame.nativeElement.clientWidth;
-      let availableHeight: number = this.frame.nativeElement.clientHeight;
+      const availableWidth: number = this.frame.nativeElement.clientWidth;
+      const availableHeight: number = this.frame.nativeElement.clientHeight;
       this.selectedForm.doLayout(availableWidth, availableHeight);
     }
 

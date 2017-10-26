@@ -27,7 +27,7 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
     if (!String.isNullOrWhiteSpace(value)) {
       val = parseFloat(value);
 
-      if (val === NaN) {
+      if (isNaN(val)) {
         val = null;
       }
     }
@@ -45,7 +45,7 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
   }
 
   protected getComponent(): TextBoxNumberComponent {
-    let compRef: ComponentRef<TextBoxNumberComponent> = this.getComponentRef();
+    const compRef: ComponentRef<TextBoxNumberComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 

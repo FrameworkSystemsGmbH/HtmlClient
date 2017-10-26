@@ -108,7 +108,7 @@ export class FontService implements IFontService {
     if (raster == null) {
       return value;
     } else {
-      let rasterPos: number = Math.round(value / raster);
+      const rasterPos: number = Math.round(value / raster);
 
       if (rasterPos * raster === value) {
         return value;
@@ -119,23 +119,23 @@ export class FontService implements IFontService {
   }
 
   private getMaxWidthDigit(wrapper: BaseWrapperFittedData): number {
-    let bufferKey: string = this.getFontKey(wrapper);
+    const bufferKey: string = this.getFontKey(wrapper);
     let bufferedValue: number = this.maxWidthDigitBuffer.get(bufferKey);
 
     if (bufferedValue == null) {
       let digit: number = 0;
       let maxDigitWidth: number = 0;
-      let fontFamily: string = wrapper.getFontFamily();
-      let fontSize: number = wrapper.getFontSize();
-      let fontBold: boolean = wrapper.getFontBold();
-      let fontItalic: boolean = wrapper.getFontItalic();
+      const fontFamily: string = wrapper.getFontFamily();
+      const fontSize: number = wrapper.getFontSize();
+      const fontBold: boolean = wrapper.getFontBold();
+      const fontItalic: boolean = wrapper.getFontItalic();
 
       for (let i = 9; i >= 0; i--) {
-        let digitStr: string = i.toString();
+        const digitStr: string = i.toString();
         // Measure 3 of the same digits behind each other because of a weird measuring behavior:
         // '1' is the same width as '6' but '111' is not as wide as '666' -> WTF?
-        let measureText: string = digitStr + digitStr + digitStr;
-        let digitWidth: number = this.measureText(measureText, fontFamily, fontSize, fontBold, fontItalic) / 3;
+        const measureText: string = digitStr + digitStr + digitStr;
+        const digitWidth: number = this.measureText(measureText, fontFamily, fontSize, fontBold, fontItalic) / 3;
         if (digitWidth > maxDigitWidth || digitWidth === maxDigitWidth && digit === 0) {
           digit = i;
           maxDigitWidth = digitWidth;
@@ -155,8 +155,6 @@ export class FontService implements IFontService {
   private addKey(key: string, value: any): string {
     return key + this.separator + (value == null ? '' : value.toString());
   }
-
-
 
   private getStringWidthRastered(wrapper: BaseWrapperFittedData, length: number, format: TextFormat, raster: number): number {
     if (length == null || length <= 0) {
@@ -215,12 +213,10 @@ export class FontService implements IFontService {
     return Number.zeroIfNull(bufferValue);
   }
 
-
   private measureLinesHeight(wrapper: BaseWrapperFittedData, lines: number): number {
-    let fontSize: number = wrapper.getFontSize();
+    const fontSize: number = wrapper.getFontSize();
     return fontSize * lines;
   }
-
 
   private measureStringWidth(wrapper: BaseWrapperFittedData, length: number, format: TextFormat) {
     // 1. Get the measure text and either cut to desired length or determine the factor that is needed to achieve the desired length
@@ -246,12 +242,12 @@ export class FontService implements IFontService {
     }
 
     // 3. Calculate width of measure text and multiply with factor
-    let fontFamily: string = wrapper.getFontFamily();
-    let fontSize: number = wrapper.getFontSize();
-    let fontBold: boolean = wrapper.getFontBold();
-    let fontItalic: boolean = wrapper.getFontItalic();
+    const fontFamily: string = wrapper.getFontFamily();
+    const fontSize: number = wrapper.getFontSize();
+    const fontBold: boolean = wrapper.getFontBold();
+    const fontItalic: boolean = wrapper.getFontItalic();
 
-    let measureTextWidth: number = this.measureText(measureText, fontFamily, fontSize, fontBold, fontItalic);
+    const measureTextWidth: number = this.measureText(measureText, fontFamily, fontSize, fontBold, fontItalic);
 
     return measureTextWidth * factor;
   }
@@ -259,23 +255,23 @@ export class FontService implements IFontService {
   private measureDateTimeWidth(wrapper: BaseWrapperFittedData, textFormat: TextFormat, formatPattern: string): number {
     let result: number = 0;
 
-    let fontFamily: string = wrapper.getFontFamily();
-    let fontSize: number = wrapper.getFontSize();
-    let fontBold: boolean = wrapper.getFontBold();
-    let fontItalic: boolean = wrapper.getFontItalic();
+    const fontFamily: string = wrapper.getFontFamily();
+    const fontSize: number = wrapper.getFontSize();
+    const fontBold: boolean = wrapper.getFontBold();
+    const fontItalic: boolean = wrapper.getFontItalic();
 
     for (let month = this.date_start_month; month <= this.date_end_month; month++) {
       for (let day = this.date_start_day; day <= this.date_end_day; day++) {
-        let date: Moment.Moment = Moment({
+        const date: Moment.Moment = Moment({
           year: this.date_year,
-          month: month,
-          day: day,
+          month,
+          day,
           hours: this.date_hours,
           minutes: this.date_minutes,
           seconds: this.date_seconds
         });
 
-        let measureString: string = this.dateTimeFormatService.formatDate(date, textFormat, formatPattern);
+        const measureString: string = this.dateTimeFormatService.formatDate(date, textFormat, formatPattern);
 
         result = Math.max(result, this.measureText(measureString, fontFamily, fontSize, fontBold, fontItalic));
       }
@@ -286,7 +282,7 @@ export class FontService implements IFontService {
   private measureNumberWidth(wrapper: BaseWrapperFittedData, type: DataSourceType, scale: number,
     precision: number, textFormat: TextFormat, formatPattern: string): number {
 
-    let maxWidthDigit: number = this.getMaxWidthDigit(wrapper);
+    const maxWidthDigit: number = this.getMaxWidthDigit(wrapper);
     let value: string = String.empty();
 
     switch (type) {
@@ -321,12 +317,12 @@ export class FontService implements IFontService {
         break;
     }
 
-    let measureString: string = this.numberFormatService.formatString(value, textFormat, formatPattern);
+    const measureString: string = this.numberFormatService.formatString(value, textFormat, formatPattern);
 
-    let fontFamily: string = wrapper.getFontFamily();
-    let fontSize: number = wrapper.getFontSize();
-    let fontBold: boolean = wrapper.getFontBold();
-    let fontItalic: boolean = wrapper.getFontItalic();
+    const fontFamily: string = wrapper.getFontFamily();
+    const fontSize: number = wrapper.getFontSize();
+    const fontBold: boolean = wrapper.getFontBold();
+    const fontItalic: boolean = wrapper.getFontItalic();
 
     return this.measureText(measureString, fontFamily, fontSize, fontBold, fontItalic);
   }
@@ -376,7 +372,6 @@ export class FontService implements IFontService {
   public getDataMaxHeightTextBox(wrapper: TextBoxBaseWrapper): number {
     return this.getMeasuredHeight(wrapper, wrapper.getDisplayMaxLines());
   }
-
 
   // public getMeasuredMinWidth(UIJideTable uiTable, ColDesc colDesc): number {
   //   DevProperties devProperties = colDesc.getProperties();

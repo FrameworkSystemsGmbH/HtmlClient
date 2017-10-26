@@ -84,13 +84,13 @@ export class NumberFormatService implements INumberFormatService {
       return null;
     }
 
-    let valueStr: string = this.cleanNumberString(value);
+    const valueStr: string = this.cleanNumberString(value);
 
     if (String.isNullOrWhiteSpace(valueStr)) {
       return null;
     }
 
-    let valueNum: number = Number(valueStr);
+    const valueNum: number = Number(valueStr);
 
     return this.formatNumber(valueNum, textFormat, formatPattern);
   }
@@ -139,7 +139,7 @@ export class NumberFormatService implements INumberFormatService {
 
     let activeFormat: string;
 
-    let formats: string[] = formatPattern.split(NumberFormatService.formatSeparator, 3);
+    const formats: Array<string> = formatPattern.split(NumberFormatService.formatSeparator, 3);
 
     if (value === 0 && formats.length === 3) {
       activeFormat = formats[2];
@@ -163,7 +163,7 @@ export class NumberFormatService implements INumberFormatService {
       actualValue = actualValue * 1000;
     }
 
-    let hasDecimalPart: boolean = formatInfo.hasDecimalsPart();
+    const hasDecimalPart: boolean = formatInfo.hasDecimalsPart();
 
     if (hasDecimalPart && formatInfo.hasLastDecimalZero()) {
       actualValue = Math.roundDec(actualValue, -(formatInfo.lastDecimalZeroPos + 1));
@@ -171,10 +171,11 @@ export class NumberFormatService implements INumberFormatService {
       actualValue = Math.roundDec(actualValue, 0);
     }
 
-    let valueNegative: boolean = actualValue < 0;
-    let valueAbs: number = Math.abs(actualValue);
-    let valueAbsStr: string = valueAbs.toString();
-    let valueDecimalPointPos: number = valueAbsStr.indexOf('.');
+    const valueNegative: boolean = actualValue < 0;
+    const valueAbs: number = Math.abs(actualValue);
+    const valueAbsStr: string = valueAbs.toString();
+    const valueDecimalPointPos: number = valueAbsStr.indexOf('.');
+
     let valueDigitsStr: string;
     let valueDigitsCount: number = 0;
     let valueDecimalsStr: string;
@@ -206,7 +207,7 @@ export class NumberFormatService implements INumberFormatService {
 
       // Pad zeros on left side if necessary
       if (formatInfo.hasFirstDigitZero()) {
-        let padZeroCount: number = formatInfo.getDigitsCount() - valueDigitsCount - formatInfo.firstDigitZeroPos;
+        const padZeroCount: number = formatInfo.getDigitsCount() - valueDigitsCount - formatInfo.firstDigitZeroPos;
         if (padZeroCount > 0) {
           for (let i = 0; i < padZeroCount; i++) {
             digitsStr += '0';
@@ -220,8 +221,8 @@ export class NumberFormatService implements INumberFormatService {
 
       // Add grouping separators if grouping is active
       if (formatInfo.hasGrouping) {
-        let groupSep: string = this.getGroupingSeparator();
-        let groupingCount: number = this.getGroupingCount();
+        const groupSep: string = this.getGroupingSeparator();
+        const groupingCount: number = this.getGroupingCount();
 
         for (let i = 0; i < digitsStr.length; i++) {
           if (i > 0 && ((digitsStr.length - i) % groupingCount) === 0) {
@@ -239,12 +240,12 @@ export class NumberFormatService implements INumberFormatService {
       resultStr += this.getDecimalSeparator();
 
       if (!String.isNullOrWhiteSpace(valueDecimalsStr)) {
-        resultStr += valueDecimalsStr
+        resultStr += valueDecimalsStr;
       }
 
       // Pad zeros on right side if necessary
       if (formatInfo.hasLastDecimalZero()) {
-        let padZeroCount: number = formatInfo.lastDecimalZeroPos + 1 - valueDecimalsCount;
+        const padZeroCount: number = formatInfo.lastDecimalZeroPos + 1 - valueDecimalsCount;
         if (padZeroCount > 0) {
           for (let i = 0; i < padZeroCount; i++) {
             resultStr += '0';
@@ -275,7 +276,7 @@ export class NumberFormatService implements INumberFormatService {
       return Number(this.cleanNumberString(valueStr));
     }
 
-    let formatInfo: NumberFormatInfo = this.getFormatInfo(formatPattern);
+    const formatInfo: NumberFormatInfo = this.getFormatInfo(formatPattern);
 
     if (formatInfo.hasPrefixPart()) {
       valueStr = valueStr.trimStringLeft(formatInfo.prefixPart);
@@ -348,7 +349,7 @@ export class NumberFormatService implements INumberFormatService {
       return value;
     }
 
-    let formatInfo: NumberFormatInfo = this.getFormatInfo(formatPattern);
+    const formatInfo: NumberFormatInfo = this.getFormatInfo(formatPattern);
 
     if (formatInfo.hasDecimalsPart() && formatInfo.hasLastDecimalZero()) {
       return Math.roundDec(value, -(formatInfo.lastDecimalZeroPos + 1));
@@ -359,7 +360,7 @@ export class NumberFormatService implements INumberFormatService {
 
   private getFormatInfo(format: string): NumberFormatInfo {
     let formatToDo = format;
-    let negativeFirst: boolean = formatToDo.charAt(0) === NumberFormatService.formatNegativeSign;
+    const negativeFirst: boolean = formatToDo.charAt(0) === NumberFormatService.formatNegativeSign;
 
     if (negativeFirst) {
       formatToDo = formatToDo.substring(1);
@@ -386,8 +387,8 @@ export class NumberFormatService implements INumberFormatService {
 
     // Get the prefix part if available
     for (let i = 0; i < formatToDo.length; i++) {
-      let char: string = formatToDo.charAt(i);
-      let nextChar: string = formatToDo.charAt(i + 1);
+      const char: string = formatToDo.charAt(i);
+      const nextChar: string = formatToDo.charAt(i + 1);
 
       if (this.isStringChar(char)) {
         isInString = !isInString;
@@ -417,7 +418,7 @@ export class NumberFormatService implements INumberFormatService {
       formatToDo = formatToDo.substring(digitsPos);
       if (formatToDo) {
         for (let i = 0; i < formatToDo.length; i++) {
-          let char: string = formatToDo.charAt(i);
+          const char: string = formatToDo.charAt(i);
           if (this.isHashOrZero(char)) {
             if (firstDigitPos == null) {
               firstDigitPos = i;
@@ -442,7 +443,7 @@ export class NumberFormatService implements INumberFormatService {
       formatToDo = formatToDo.substring(decimalsPos);
       if (formatToDo) {
         for (let i = 0; i < formatToDo.length; i++) {
-          let char: string = formatToDo.charAt(i);
+          const char: string = formatToDo.charAt(i);
           if (this.isHashOrZero(char)) {
             decimalsPart += char;
           } else if (this.isGroupSeparator(char) || this.isDecimalSeparator(char)) {
@@ -461,8 +462,8 @@ export class NumberFormatService implements INumberFormatService {
       if (formatToDo != null) {
         isInString = false;
         for (let i = 0; i < formatToDo.length; i++) {
-          let char: string = formatToDo.charAt(i);
-          let nextChar: string = formatToDo.charAt(i + 1);
+          const char: string = formatToDo.charAt(i);
+          const nextChar: string = formatToDo.charAt(i + 1);
           if (this.isStringChar(char)) {
             isInString = !isInString;
           } else if (isInString) {
@@ -494,7 +495,7 @@ export class NumberFormatService implements INumberFormatService {
       firstDigitPos < groupingSeparatorPos &&
       lastDigitPos > groupingSeparatorPos;
 
-    let formatInfo: NumberFormatInfo = new NumberFormatInfo();
+    const formatInfo: NumberFormatInfo = new NumberFormatInfo();
     formatInfo.prefixPart = prefixPart;
     formatInfo.digitsPart = digitsPart;
     formatInfo.decimalsPart = decimalsPart;
@@ -514,8 +515,8 @@ export class NumberFormatService implements INumberFormatService {
       return null;
     }
 
-    let groupSep: string = this.getGroupingSeparator();
-    let decSep: string = this.getDecimalSeparator();
+    const groupSep: string = this.getGroupingSeparator();
+    const decSep: string = this.getDecimalSeparator();
 
     return value
       .replace(groupSep, String.empty())

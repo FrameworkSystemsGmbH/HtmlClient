@@ -13,7 +13,7 @@ export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
   private onClickSub: ISubscription;
 
   public getCaption(): string {
-    let caption: string = this.propertyStore.getCaption();
+    const caption: string = this.propertyStore.getCaption();
     return caption != null ? caption : null;
   }
 

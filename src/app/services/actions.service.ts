@@ -14,14 +14,14 @@ export class ActionsService {
       return;
     }
 
-    for (let actionJson of actionsJson) {
-      let form: FormWrapper = this.formsService.findForm(actionJson.form);
+    for (const actionJson of actionsJson) {
+      const form: FormWrapper = this.formsService.findForm(actionJson.form);
 
       if (!form) {
         continue;
       }
 
-      switch (ControlAction[<string>actionJson.action]) {
+      switch (ControlAction[actionJson.action as string]) {
         case ControlAction.SetEnabled:
 
           break;

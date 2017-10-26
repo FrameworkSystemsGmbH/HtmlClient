@@ -9,7 +9,8 @@ import { ButtonBaseComponent } from '../button-base.component';
 })
 export class ButtonPlainComponent extends ButtonBaseComponent {
 
-  @ViewChild('focus') focus: ElementRef;
+  @ViewChild('focus')
+  public focus: ElementRef;
 
   public setFocus(): void {
     this.focus.nativeElement.focus();

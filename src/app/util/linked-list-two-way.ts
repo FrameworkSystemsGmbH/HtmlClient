@@ -17,7 +17,7 @@ export class LinkedListTwoWay<T> {
   }
 
   public add(data: T): void {
-    let currentNode = new LinkedListNode<T>(data);
+    const currentNode = new LinkedListNode<T>(data);
 
     if (this.head === null || this.length === 0) {
       this.head = currentNode;
@@ -36,7 +36,7 @@ export class LinkedListTwoWay<T> {
       return false;
     }
 
-    let index = this.indexOf(data);
+    const index = this.indexOf(data);
 
     if (index === -1) {
       return false;
@@ -52,7 +52,7 @@ export class LinkedListTwoWay<T> {
         node = node.next;
       }
 
-      let deleteNode = node.next;
+      const deleteNode = node.next;
       node.next = deleteNode.next;
       deleteNode.next.prev = node;
 
@@ -72,7 +72,7 @@ export class LinkedListTwoWay<T> {
 
   public poll(): T {
     if (this.length) {
-      let data = this.peek();
+      const data = this.peek();
       this.remove(data);
       return data;
     } else {
@@ -126,7 +126,7 @@ export class LinkedListTwoWay<T> {
   }
 
   public toArray(): Array<T> {
-    let result: Array<T> = new Array<T>(this.length);
+    const result: Array<T> = new Array<T>(this.length);
 
     let node = this.head;
 

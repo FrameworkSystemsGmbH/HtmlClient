@@ -1,8 +1,8 @@
 import { LayoutContainerBase } from '../layout-container-base';
-import { LayoutableContainer } from '../layoutable-container';
+import { ILayoutableContainer } from '../layoutable-container';
 import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
-import { LayoutableControl } from '../layoutable-control';
-import { LayoutableProperties } from '../layoutable-properties';
+import { ILayoutableControl } from '../layoutable-control';
+import { ILayoutableProperties } from '../layoutable-properties';
 import { HorizontalAlignment } from '../../enums/horizontal-alignment';
 import { VerticalAlignment } from '../../enums/vertical-alignment';
 import { LinkedListOneWay } from '../../util/linked-list-one-way';
@@ -12,17 +12,17 @@ export class ContainerLayout extends LayoutContainerBase {
   private width: number = -1;
   private wrappers: Array<LayoutableControlWrapper>;
 
-  constructor(container: LayoutableContainer) {
+  constructor(container: ILayoutableContainer) {
     super(container);
   }
 
-  public getControl(): LayoutableContainer {
-    return super.getControl() as LayoutableContainer;
+  public getControl(): ILayoutableContainer {
+    return super.getControl() as ILayoutableContainer;
   }
 
   private initWrappers(): void {
-    let controls: Array<LayoutableControl> = this.getControl().getLayoutableControls();
-    let controlCount: number = controls.length;
+    const controls: Array<ILayoutableControl> = this.getControl().getLayoutableControls();
+    const controlCount: number = controls.length;
 
     this.wrappers = new Array<LayoutableControlWrapper>(controlCount);
 
@@ -32,14 +32,14 @@ export class ContainerLayout extends LayoutContainerBase {
   }
 
   public measureMinWidth(): number {
-    let container: LayoutableContainer = this.getControl();
+    const container: ILayoutableContainer = this.getControl();
 
     this.initWrappers();
 
     // Iterate wrappers to calculate total content min width (maximum of all min widths)
     let minWidth: number = 0;
 
-    for (let wrapper of this.wrappers) {
+    for (const wrapper of this.wrappers) {
       // Ignore invisible items (items with min width = 0 do not have an impact)
       if (wrapper.getIsVisible()) {
         minWidth = Math.max(minWidth, wrapper.getMinLayoutWidth());
@@ -52,24 +52,24 @@ export class ContainerLayout extends LayoutContainerBase {
     }
 
     // Determine the container minimum width and add horizontal margins
-    let containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
+    const containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
 
     // The greater value wins: The calculated minimum width for all children or defined container minimum width
     return Math.max(minWidth, Number.zeroIfNull(containerMinWidth));
   }
 
   public measureMinHeight(width: number): number {
-    let container: LayoutableContainer = this.getControl();
+    const container: ILayoutableContainer = this.getControl();
 
     this.width = width;
 
     // Include insets (padding + border + margin) of the container
-    let insetsTop: number = container.getInsetsTop();
-    let insetsBottom: number = container.getInsetsBottom();
+    const insetsTop: number = container.getInsetsTop();
+    const insetsBottom: number = container.getInsetsBottom();
 
     let minHeight: number = 0;
 
-    for (let wrapper of this.wrappers) {
+    for (const wrapper of this.wrappers) {
       if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
         minHeight += wrapper.getMinLayoutHeight(width);
       }
@@ -81,17 +81,17 @@ export class ContainerLayout extends LayoutContainerBase {
     }
 
     // Determine the container minimum height and add vertical margins
-    let containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
+    const containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
 
     // The greater value wins: calculated minimum height or defined container minimum height
     return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));
   }
 
   public arrange(): void {
-    let container: LayoutableContainer = this.getControl();
+    const container: ILayoutableContainer = this.getControl();
 
-    let containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
-    let containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
+    const containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
+    const containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
     // Consistency check
     if (containerWidth !== this.width) {
@@ -103,19 +103,19 @@ export class ContainerLayout extends LayoutContainerBase {
     }
 
     // Include insets (padding + border + margin) of the container
-    let insetsLeft: number = container.getInsetsLeft();
-    let insetsRight: number = container.getInsetsRight();
-    let insetsTop: number = container.getInsetsTop();
-    let insetsBottom: number = container.getInsetsBottom();
+    const insetsLeft: number = container.getInsetsLeft();
+    const insetsRight: number = container.getInsetsRight();
+    const insetsTop: number = container.getInsetsTop();
+    const insetsBottom: number = container.getInsetsBottom();
 
-    let availableWidth = containerWidth - insetsLeft - insetsRight;
+    const availableWidth = containerWidth - insetsLeft - insetsRight;
     let availableHeight = containerHeight - insetsTop - insetsBottom;
 
     // Calculate result widths and heights
     let sumMinHeights: number = 0;
-    let todo: LinkedListOneWay<LayoutableControlWrapper> = new LinkedListOneWay<LayoutableControlWrapper>();
+    const todo: LinkedListOneWay<LayoutableControlWrapper> = new LinkedListOneWay<LayoutableControlWrapper>();
 
-    for (let wrapper of this.wrappers) {
+    for (const wrapper of this.wrappers) {
       if (wrapper.getHorizontalAlignment() !== HorizontalAlignment.Stretch) {
         wrapper.setResultWidth(wrapper.getMinLayoutWidth());
       } else {
@@ -136,8 +136,8 @@ export class ContainerLayout extends LayoutContainerBase {
 
     while (!todo.isEmpty() && !allProblemsSolved) {
       allProblemsSolved = true;
-      for (let wrapper of todo.toArray()) {
-        let desiredHeight: number = Math.round(verticalStretchFactor * wrapper.getMinLayoutHeightBuffered());
+      for (const wrapper of todo.toArray()) {
+        const desiredHeight: number = Math.round(verticalStretchFactor * wrapper.getMinLayoutHeightBuffered());
         if (desiredHeight > wrapper.getMaxLayoutHeight()) {
           wrapper.setResultHeight(wrapper.getMaxLayoutHeight());
           sumMinHeights -= wrapper.getMinLayoutHeightBuffered();
@@ -150,7 +150,7 @@ export class ContainerLayout extends LayoutContainerBase {
     }
 
     while (!todo.isEmpty()) {
-      let wrapper: LayoutableControlWrapper = todo.poll();
+      const wrapper: LayoutableControlWrapper = todo.poll();
       wrapper.setResultHeight(Math.round(verticalStretchFactor * wrapper.getMinLayoutHeightBuffered()));
       sumMinHeights -= wrapper.getMinLayoutHeightBuffered();
       availableHeight -= wrapper.getResultHeight();
@@ -158,12 +158,12 @@ export class ContainerLayout extends LayoutContainerBase {
     }
 
     // Do alignment
-    let xPos: number = 0;
+    const xPos: number = 0;
     let yPos: number = 0;
 
-    for (let wrapper of this.wrappers) {
+    for (const wrapper of this.wrappers) {
       let xOffset: number = 0;
-      let hAlignment: HorizontalAlignment = wrapper.getHorizontalAlignment();
+      const hAlignment: HorizontalAlignment = wrapper.getHorizontalAlignment();
 
       if (hAlignment === HorizontalAlignment.Right) {
         xOffset = availableWidth - wrapper.getResultWidth();
@@ -171,7 +171,7 @@ export class ContainerLayout extends LayoutContainerBase {
         xOffset = (availableWidth - wrapper.getResultWidth()) / 2;
       }
 
-      let layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
+      const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
       layoutableProperties.setX(xPos + xOffset);
       layoutableProperties.setY(yPos);
       layoutableProperties.setLayoutWidth(wrapper.getResultWidth());

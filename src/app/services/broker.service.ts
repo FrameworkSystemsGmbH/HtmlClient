@@ -19,7 +19,7 @@ import { RoutingService } from './routing.service';
 import { TitleService } from './title.service';
 import { LoginBroker } from '../common/login-broker';
 import { ClientEvent } from '../common/events/client-event';
-import { RequestType } from '../enums/request-type'
+import { RequestType } from '../enums/request-type';
 
 import * as fromAppReducers from '../app.reducers';
 import * as fromBrokerActions from '../store/broker.actions';
@@ -41,7 +41,7 @@ export class BrokerService {
     private formsService: FormsService,
     private routingService: RoutingService,
     private titleService: TitleService,
-    private store: Store<fromAppReducers.AppState>
+    private store: Store<fromAppReducers.IAppState>
   ) {
     this.store.select(appState => appState.broker).subscribe(brokerState => {
       this.activeBrokerName = brokerState.activeBrokerName;
@@ -86,10 +86,10 @@ export class BrokerService {
         this.resetActiveBroker();
       }
       const name = broker.name;
-      const url: string = broker.url
+      const url: string = broker.url;
       const fileUrl: string = url.trimCharsRight('/') + '/files';
       const imageUrl: string = url.trimCharsRight('/') + '/api/image';
-      const requestUrl: string = url.trimCharsRight('/') + '/api/process'
+      const requestUrl: string = url.trimCharsRight('/') + '/api/process';
 
       this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(name));
       this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(url));
@@ -109,7 +109,7 @@ export class BrokerService {
   }
 
   public sendInitRequest(): void {
-    let requestJson: any = {
+    const requestJson: any = {
       meta: this.getMetaJson(RequestType.Request)
     };
 
@@ -125,7 +125,7 @@ export class BrokerService {
   }
 
   private getMetaJson(requestType: RequestType): any {
-    let metaJson: any = {
+    const metaJson: any = {
       token: this.activeBrokerToken,
       requCounter: ++this.requestCounter,
       languages: this.languages,
@@ -136,12 +136,12 @@ export class BrokerService {
   }
 
   private createRequest(event: ClientEvent): any {
-    let requestJson: any = {
+    const requestJson: any = {
       meta: this.getMetaJson(RequestType.Request),
-      event: event
+      event
     };
 
-    let formsJson: any = this.formsService.getFormsJson();
+    const formsJson: any = this.formsService.getFormsJson();
 
     if (!JsonUtil.isEmptyObject(formsJson)) {
       requestJson.forms = formsJson;
@@ -193,7 +193,7 @@ export class BrokerService {
 
   private processControlStyles(controlStylesJson: any): void {
     if (controlStylesJson && controlStylesJson.length) {
-      for (let controlStyleJson of controlStylesJson) {
+      for (const controlStyleJson of controlStylesJson) {
         this.controlStyleSerivce.addControlStyle(controlStyleJson.name, controlStyleJson.properties);
       }
     }

@@ -33,7 +33,7 @@ export abstract class BaseWrapperFittedData extends BaseWrapperFitted {
   }
 
   public getDataSourceType(): DataSourceType {
-    let dataSourceType: DataSourceType = this.propertyStore.getDataSourceType();
+    const dataSourceType: DataSourceType = this.propertyStore.getDataSourceType();
     return dataSourceType != null ? dataSourceType : DataSourceType.None;
   }
 
@@ -62,14 +62,14 @@ export abstract class BaseWrapperFittedData extends BaseWrapperFitted {
 
   public getMinWidth(): number {
     if (this.minWidth == null) {
-      let specifiedMinWidth: number = super.getMinWidth();
+      const specifiedMinWidth: number = super.getMinWidth();
 
       if (this.getShouldMeasureMinWidth(specifiedMinWidth)) {
-        let dataMinWidth: number = this.getDataMinWidth();
+        const dataMinWidth: number = this.getDataMinWidth();
         if (!dataMinWidth || dataMinWidth <= 0) {
           this.minWidth = null;
         } else {
-          this.minWidth = this.getBorderThicknessLeft() + this.getPaddingLeft() + dataMinWidth + this.getPaddingRight() + this.getBorderThicknessRight()
+          this.minWidth = this.getBorderThicknessLeft() + this.getPaddingLeft() + dataMinWidth + this.getPaddingRight() + this.getBorderThicknessRight();
         }
       } else {
         this.minWidth = specifiedMinWidth;
@@ -80,14 +80,14 @@ export abstract class BaseWrapperFittedData extends BaseWrapperFitted {
 
   public getMaxWidth(): number {
     if (this.maxWidth == null) {
-      let specifiedMaxWidth: number = super.getMaxWidth();
+      const specifiedMaxWidth: number = super.getMaxWidth();
 
       if (this.getShouldMeasureMaxWidth(specifiedMaxWidth)) {
-        let dataMaxWidth: number = this.getDataMaxWidth();
+        const dataMaxWidth: number = this.getDataMaxWidth();
         if (!dataMaxWidth || dataMaxWidth <= 0) {
           this.maxWidth = null;
         } else {
-          this.maxWidth = this.getBorderThicknessLeft() + this.getPaddingLeft() + dataMaxWidth + this.getPaddingRight() + this.getBorderThicknessRight()
+          this.maxWidth = this.getBorderThicknessLeft() + this.getPaddingLeft() + dataMaxWidth + this.getPaddingRight() + this.getBorderThicknessRight();
         }
       } else {
         this.maxWidth = specifiedMaxWidth;
@@ -98,14 +98,14 @@ export abstract class BaseWrapperFittedData extends BaseWrapperFitted {
 
   public getMinHeight(): number {
     if (this.minHeight == null) {
-      let specifiedMinHeight: number = super.getMinHeight();
+      const specifiedMinHeight: number = super.getMinHeight();
 
       if (this.getShouldMeasureMinHeight(specifiedMinHeight)) {
-        let dataMinHeight: number = this.getDataMinHeight();
+        const dataMinHeight: number = this.getDataMinHeight();
         if (!dataMinHeight || dataMinHeight <= 0) {
           this.minHeight = null;
         } else {
-          this.minHeight = this.getBorderThicknessTop() + this.getPaddingTop() + dataMinHeight + this.getPaddingBottom() + this.getBorderThicknessBottom()
+          this.minHeight = this.getBorderThicknessTop() + this.getPaddingTop() + dataMinHeight + this.getPaddingBottom() + this.getBorderThicknessBottom();
         }
       } else {
         this.minHeight = specifiedMinHeight;
@@ -116,14 +116,14 @@ export abstract class BaseWrapperFittedData extends BaseWrapperFitted {
 
   public getMaxHeight(): number {
     if (this.maxHeight == null) {
-      let specifiedMaxHeight: number = super.getMaxHeight();
+      const specifiedMaxHeight: number = super.getMaxHeight();
 
       if (this.getShouldMeasureMaxHeight(specifiedMaxHeight)) {
-        let dataMaxHeight: number = this.getDataMaxHeight();
+        const dataMaxHeight: number = this.getDataMaxHeight();
         if (!dataMaxHeight || dataMaxHeight <= 0) {
           this.maxHeight = null;
         } else {
-          this.maxHeight = this.getBorderThicknessTop() + this.getPaddingTop() + dataMaxHeight + this.getPaddingBottom() + this.getBorderThicknessBottom()
+          this.maxHeight = this.getBorderThicknessTop() + this.getPaddingTop() + dataMaxHeight + this.getPaddingBottom() + this.getBorderThicknessBottom();
         }
       } else {
         this.maxHeight = specifiedMaxHeight;

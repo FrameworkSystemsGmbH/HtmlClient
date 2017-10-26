@@ -1,12 +1,12 @@
-import { LayoutableControl } from './layoutable-control';
+import { ILayoutableControl } from './layoutable-control';
 import { LayoutContainerBase } from './layout-container-base';
 
-export interface LayoutableContainer extends LayoutableControl {
+export interface ILayoutableContainer extends ILayoutableControl {
 
-  getLayoutableControls(): Array<LayoutableControl>;
+  getLayoutableControls(): Array<ILayoutableControl>;
 
   getLayout(): LayoutContainerBase;
 
-  removeChild(child: LayoutableControl);
+  removeChild(child: ILayoutableControl);
 
 }

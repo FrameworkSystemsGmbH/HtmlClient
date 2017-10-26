@@ -1,8 +1,8 @@
 import { FieldColumnWrapper } from './field-column-wrapper';
 import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
-import { LayoutableControlLabel } from '../layoutable-control-label';
-import { LayoutableControlLabelTemplate } from '../layoutable-control-label-template';
-import { LayoutableProperties } from '../layoutable-properties';
+import { ILayoutableControlLabel } from '../layoutable-control-label';
+import { ILayoutableControlLabelTemplate } from '../layoutable-control-label-template';
+import { ILayoutableProperties } from '../layoutable-properties';
 import { ControlVisibility } from '../../enums/control-visibility';
 import { HorizontalAlignment } from '../../enums/horizontal-alignment';
 import { VerticalAlignment } from '../../enums/vertical-alignment';
@@ -25,14 +25,11 @@ export class FieldCellWrapper {
    * Erzeugt einen CellWrapper für das angegebene reale Control (repräsentiert durch den LayoutWrapper)
    * oder das angegebene controlLabel (repräsentiert durch das LayoutControlLabel)
    * und berücksichtigt zusätzlich das angegebene LayoutControlLabelTemplate.
-   * @param layoutControlWrapper
-   * @param controlLabel
-   * @param labelTemplate
    */
   constructor(
     private wrapper: LayoutableControlWrapper,
-    private controlLabel: LayoutableControlLabel,
-    private labelTemplate: LayoutableControlLabelTemplate) { }
+    private controlLabel: ILayoutableControlLabel,
+    private labelTemplate: ILayoutableControlLabelTemplate) { }
 
   public isVisible(): boolean {
     if (this.wrapper) {
@@ -134,17 +131,15 @@ export class FieldCellWrapper {
     this.resultWidth = value;
   }
 
-
-
   public arrange(x: number, y: number, width: number, height: number): void {
     if (this.wrapper) {
-      let layoutProperties: LayoutableProperties = this.wrapper.getLayoutableProperties();
+      const layoutProperties: ILayoutableProperties = this.wrapper.getLayoutableProperties();
       layoutProperties.setX(x);
       layoutProperties.setY(y);
       layoutProperties.setLayoutWidth(width);
       layoutProperties.setLayoutHeight(height);
     } else if (this.controlLabel) {
-      let layoutProperties: LayoutableProperties = this.controlLabel.getLayoutableProperties();
+      const layoutProperties: ILayoutableProperties = this.controlLabel.getLayoutableProperties();
       layoutProperties.setX(x);
       layoutProperties.setY(y);
       layoutProperties.setLayoutWidth(width);

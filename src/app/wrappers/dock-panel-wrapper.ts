@@ -5,10 +5,10 @@ import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
 import { DockPanelComponent } from '../controls/dock-panel/dock-panel.component';
 import { LayoutBase } from '../layout/layout-base';
 import { DockLayout } from '../layout/dock-layout/dock-layout';
-import { DockContainer } from '../layout/dock-layout/dock-container';
+import { IDockContainer } from '../layout/dock-layout/dock-container';
 import { DockOrientation } from '../layout/dock-layout/dock-orientation';
 
-export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockContainer {
+export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDockContainer {
 
   protected createLayout(): LayoutBase {
     return new DockLayout(this);
@@ -19,7 +19,7 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockC
   }
 
   protected getComponent(): DockPanelComponent {
-    let compRef: ComponentRef<DockPanelComponent> = this.getComponentRef();
+    const compRef: ComponentRef<DockPanelComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 
@@ -28,7 +28,7 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements DockC
   }
 
   public getDockOrientation(): DockOrientation {
-    let dockOrientation: DockOrientation = this.propertyStore.getDockOrientation();
+    const dockOrientation: DockOrientation = this.propertyStore.getDockOrientation();
     return dockOrientation != null ? dockOrientation : DockOrientation.Vertical;
   }
 

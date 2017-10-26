@@ -11,7 +11,7 @@ export class VariantWrapper extends ContainerWrapper {
   }
 
   public getIsCloseIconVisible(): boolean {
-    let isCloseIconVisible: boolean = this.propertyStore.getIsCloseIconVisible();
+    const isCloseIconVisible: boolean = this.propertyStore.getIsCloseIconVisible();
     return isCloseIconVisible != null ? isCloseIconVisible : false;
   }
 
@@ -24,7 +24,7 @@ export class VariantWrapper extends ContainerWrapper {
   }
 
   protected getComponent(): VariantComponent {
-    let compRef: ComponentRef<VariantComponent> = this.getComponentRef();
+    const compRef: ComponentRef<VariantComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 

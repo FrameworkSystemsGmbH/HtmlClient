@@ -62,7 +62,7 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   }
 
   protected getComponent(): TextBoxPlainComponent {
-    let compRef: ComponentRef<TextBoxPlainComponent> = this.getComponentRef();
+    const compRef: ComponentRef<TextBoxPlainComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 

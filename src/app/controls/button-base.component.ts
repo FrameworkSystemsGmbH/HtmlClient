@@ -7,7 +7,8 @@ import { StyleUtil } from '../util/style-util';
 
 export abstract class ButtonBaseComponent extends BaseComponent {
 
-  @Output() onClick: EventEmitter<any>;
+  @Output()
+  public onClick: EventEmitter<any>;
 
   public callOnClick(event: any): void {
     if (this.getWrapper().hasOnClickEvent()) {
@@ -45,9 +46,9 @@ export abstract class ButtonBaseComponent extends BaseComponent {
   }
 
   public getStyles(): any {
-    let wrapper: ButtonBaseWrapper = this.getWrapper();
+    const wrapper: ButtonBaseWrapper = this.getWrapper();
 
-    let styles: any = {
+    const styles: any = {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),

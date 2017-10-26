@@ -1,10 +1,10 @@
-import { LayoutableControl } from './layoutable-control';
+import { ILayoutableControl } from './layoutable-control';
 
 export abstract class LayoutBase {
 
-  constructor(private control: LayoutableControl) { }
+  constructor(private control: ILayoutableControl) { }
 
-  public getControl(): LayoutableControl {
+  public getControl(): ILayoutableControl {
     return this.control;
   }
 

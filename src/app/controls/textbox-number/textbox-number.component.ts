@@ -11,7 +11,8 @@ import { NumberFormatService } from '../../services/formatter/number-format.serv
 })
 export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnInit {
 
-  @ViewChild('input') input: ElementRef;
+  @ViewChild('input')
+  public input: ElementRef;
 
   public value: string;
 
@@ -28,14 +29,14 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnIn
   }
 
   public callOnLeave(event: any): void {
-    let wrapper: TextBoxNumberWrapper = this.getWrapper();
+    const wrapper: TextBoxNumberWrapper = this.getWrapper();
     if (wrapper.getIsEditable()) {
       if (this.input.nativeElement.classList.contains('ng-dirty')) {
         if (String.isNullOrWhiteSpace(this.value)) {
           this.value = null;
           this.updateWrapper();
         } else {
-          let formattedValue: string = this.numberFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
+          const formattedValue: string = this.numberFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
           if (formattedValue == null) {
             this.updateComponent();
           } else {
@@ -58,12 +59,12 @@ export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnIn
   }
 
   public updateComponent(): void {
-    let wrapper: TextBoxNumberWrapper = this.getWrapper();
+    const wrapper: TextBoxNumberWrapper = this.getWrapper();
     this.value = this.numberFormatService.formatNumber(this.getWrapper().getValue(), wrapper.getFormat(), wrapper.getFormatPattern());
   }
 
   private updateWrapper(): void {
-    let wrapper: TextBoxNumberWrapper = this.getWrapper();
+    const wrapper: TextBoxNumberWrapper = this.getWrapper();
     this.getWrapper().setValue(this.numberFormatService.parseString(this.value, wrapper.getFormat(), wrapper.getFormatPattern()));
   }
 }

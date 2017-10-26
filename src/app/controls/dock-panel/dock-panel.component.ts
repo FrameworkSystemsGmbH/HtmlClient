@@ -12,7 +12,8 @@ import { StyleUtil } from '../../util/style-util';
 })
 export class DockPanelComponent extends ContainerComponent {
 
-  @ViewChild('anchor', { read: ViewContainerRef }) anchor: ViewContainerRef;
+  @ViewChild('anchor', { read: ViewContainerRef })
+  public anchor: ViewContainerRef;
 
   public getWrapper(): DockPanelWrapper {
     return super.getWrapper() as DockPanelWrapper;
@@ -23,9 +24,9 @@ export class DockPanelComponent extends ContainerComponent {
   }
 
   public getStyles(): any {
-    let wrapper: DockPanelWrapper = this.getWrapper();
+    const wrapper: DockPanelWrapper = this.getWrapper();
 
-    let styles: any = {
+    const styles: any = {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
@@ -52,8 +53,8 @@ export class DockPanelComponent extends ContainerComponent {
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
-        wrapper.getPaddingLeft()),
-    }
+        wrapper.getPaddingLeft())
+    };
 
     if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
       styles['display'] = 'none';

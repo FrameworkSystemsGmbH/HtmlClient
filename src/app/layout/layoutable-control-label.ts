@@ -1,6 +1,6 @@
-import { LayoutableControl } from './layoutable-control';
+import { ILayoutableControl } from './layoutable-control';
 
-export interface LayoutableControlLabel extends LayoutableControl {
+export interface ILayoutableControlLabel extends ILayoutableControl {
 
   todo(): void;
 

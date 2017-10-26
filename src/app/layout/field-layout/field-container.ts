@@ -1,13 +1,13 @@
-import { LayoutableContainerSpaceable } from '../layoutable-container-spaceable';
-import { LayoutableControlLabel } from '../layoutable-control-label';
-import { LayoutableControlLabelTemplate } from '../layoutable-control-label-template';
+import { ILayoutableContainerSpaceable } from '../layoutable-container-spaceable';
+import { ILayoutableControlLabel } from '../layoutable-control-label';
+import { ILayoutableControlLabelTemplate } from '../layoutable-control-label-template';
 
-export interface FieldContainer extends LayoutableContainerSpaceable {
+export interface IFieldContainer extends ILayoutableContainerSpaceable {
 
-  getLayoutableControlLabels(): Array<LayoutableControlLabel>;
+  getLayoutableControlLabels(): Array<ILayoutableControlLabel>;
 
   getSynchronizeColumns(): boolean;
 
-  getRowLabelTemplate(): LayoutableControlLabelTemplate;
+  getRowLabelTemplate(): ILayoutableControlLabelTemplate;
 
 }

@@ -1,7 +1,7 @@
 import { FsFont } from '../common/fs-font';
 import { FsInsets } from '../common/fs-insets';
 
-export interface LayoutableControlLabelTemplate {
+export interface ILayoutableControlLabelTemplate {
 
   getIsVisible(): boolean;
 

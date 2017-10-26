@@ -1,37 +1,37 @@
 import { TextAlign } from '../enums/text-align';
 import { ContentAlignment } from '../enums/content-alignment';
 
-export class StyleUtil {
+export namespace StyleUtil {
 
-  public static getValue(unit: string, value: number): string {
+  export function getValue(unit: string, value: number): string {
     return Number.zeroIfNull(value) + unit;
   }
 
-  public static getFourValue(unit: string, first: number, second: number, third: number, fourth: number): string {
-    return StyleUtil.getValue(unit, first) + ' ' + StyleUtil.getValue(unit, second) + ' ' + StyleUtil.getValue(unit, third) + ' ' + StyleUtil.getValue(unit, fourth);
+  export function getFourValue(unit: string, first: number, second: number, third: number, fourth: number): string {
+    return getValue(unit, first) + ' ' + getValue(unit, second) + ' ' + getValue(unit, third) + ' ' + getValue(unit, fourth);
   }
 
-  public static getForeColor(isEditable: boolean, color: string): string {
+  export function getForeColor(isEditable: boolean, color: string): string {
     return isEditable ? color : '#707070';
   }
 
-  public static getBackgroundColor(isEditable: boolean, color: string): string {
+  export function getBackgroundColor(isEditable: boolean, color: string): string {
     return isEditable ? color : '#E8E8E8';
   }
 
-  public static getFontWeight(bold: boolean): string {
+  export function getFontWeight(bold: boolean): string {
     return bold ? 'bold' : 'normal';
   }
 
-  public static getFontStyle(italic: boolean): string {
+  export function getFontStyle(italic: boolean): string {
     return italic ? 'italic' : 'normal';
   }
 
-  public static getTextDecoration(underline: boolean): string {
+  export function getTextDecoration(underline: boolean): string {
     return underline ? 'underline' : 'unset';
   }
 
-  public static getTextAlign(textAlign: TextAlign): string {
+  export function getTextAlign(textAlign: TextAlign): string {
     switch (textAlign) {
       case TextAlign.Left:
         return 'left';
@@ -44,7 +44,7 @@ export class StyleUtil {
     }
   }
 
-  public static getCaptionAlignStyles(captionAlign: ContentAlignment, paddingLeft: number, paddingTop: number, paddingRight: number, paddingBottom: number): any {
+  export function getCaptionAlignStyles(captionAlign: ContentAlignment, paddingLeft: number, paddingTop: number, paddingRight: number, paddingBottom: number): any {
     const styles: any = {};
 
     switch (captionAlign) {

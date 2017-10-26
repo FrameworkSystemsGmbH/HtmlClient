@@ -1,13 +1,13 @@
-import { LayoutableContainer } from '../layoutable-container';
+import { ILayoutableContainer } from '../layoutable-container';
 import { FieldRowLabelMode } from './field-row-label-mode';
-import { FieldContainer } from './field-container';
+import { IFieldContainer } from './field-container';
 
-export interface FieldRowControl extends LayoutableContainer {
+export interface IFieldRowControl extends ILayoutableContainer {
 
   getFieldRowSize(): number;
 
   getFieldRowLabelMode(): FieldRowLabelMode;
 
-  getLayoutParent(): FieldContainer;
+  getLayoutParent(): IFieldContainer;
 
 }

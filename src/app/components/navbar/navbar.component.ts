@@ -47,8 +47,11 @@ import { RoutingService } from '../../services/routing.service';
 })
 export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  @ViewChild('center') center: ElementRef;
-  @ViewChild('tabs') tabs: ElementRef;
+  @ViewChild('center')
+  public center: ElementRef;
+
+  @ViewChild('tabs')
+  public tabs: ElementRef;
 
   public forms: Array<FormWrapper>;
   public selectedForm: FormWrapper;
@@ -72,7 +75,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngOnInit(): void {
     this.formsSub = this.formsService.getForms().subscribe(forms => { this.forms = forms; });
-    this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.selectedForm = form });
+    this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.selectedForm = form; });
   }
 
   public ngAfterViewInit(): void {
@@ -112,7 +115,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onMouseWheel(event: any): void {
     // Firefox has a special implementation via event.detail
-    let deltaX: number = -(event.wheelDelta || (event.detail * 40));
+    const deltaX: number = -(event.wheelDelta || (event.detail * 40));
     this.scrollTabs(deltaX);
   }
 
@@ -126,9 +129,9 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private scrollTabs(deltaX: number, absolute: boolean = false): void {
-    let divWidth: number = this.center.nativeElement.width;
-    let ulWidth: number = this.tabs.nativeElement.scrollWidth;
-    let maxScroll: number = Math.max(0, ulWidth - divWidth);
+    const divWidth: number = this.center.nativeElement.width;
+    const ulWidth: number = this.tabs.nativeElement.scrollWidth;
+    const maxScroll: number = Math.max(0, ulWidth - divWidth);
     this.tabScrollPosition = Math.min(Math.max(-maxScroll, (absolute ? 0 : this.tabScrollPosition) + deltaX), 0);
     this.refreshScroller();
   }
@@ -142,7 +145,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public selectForm(event: any, form: FormWrapper): void {
-    let target: HTMLElement = event.target;
+    const target: HTMLElement = event.target;
 
     if (target && target.classList.contains('hc-navbar-close-icon')) {
       return;
@@ -161,24 +164,15 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:resize')
   public refreshScroller(): void {
-    let divWidth: number = this.center.nativeElement.width;
-    let ulWidth: number = this.tabs.nativeElement.scrollWidth;
-    let maxScroll: number = Math.max(0, ulWidth - divWidth);
+    const divWidth: number = this.center.nativeElement.width;
+    const ulWidth: number = this.tabs.nativeElement.scrollWidth;
+    const maxScroll: number = Math.max(0, ulWidth - divWidth);
 
     this.tabScrollPosition = Math.min(Math.max(-maxScroll, this.tabScrollPosition), 0);
 
     if (maxScroll) {
-      if (this.tabScrollPosition === 0) {
-        this.leftScrollerVisible = false;
-      } else {
-        this.leftScrollerVisible = true;
-      }
-
-      if (this.tabScrollPosition <= -maxScroll) {
-        this.rightScrollerVisible = false;
-      } else {
-        this.rightScrollerVisible = true;
-      }
+      this.leftScrollerVisible = this.tabScrollPosition === 0;
+      this.rightScrollerVisible = !(this.tabScrollPosition <= -maxScroll);
     } else {
       this.leftScrollerVisible = false;
       this.rightScrollerVisible = false;
@@ -194,7 +188,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('body:swiperight', ['$event'])
   public swipeRight(event: any): void {
-    let startX: number = event.center.x - event.deltaX;
+    const startX: number = event.center.x - event.deltaX;
     if (startX < 20 && this.sidebarEnabled && !this.sidebarVisible) {
       this.toggleSidebar();
     }

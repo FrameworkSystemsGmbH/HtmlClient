@@ -16,7 +16,7 @@ export class VchContainer extends VchControl {
 
   public getChildrenInFlowDirection(): Array<BaseWrapper> {
     if (this.container.getInvertFlowDirection()) {
-      let result: Array<BaseWrapper> = this.children.clone();
+      const result: Array<BaseWrapper> = this.children.clone();
       return result ? result.reverse() : result;
     } else {
       return this.children;
@@ -33,7 +33,7 @@ export class VchContainer extends VchControl {
 
   public addChild(wrapper: BaseWrapper): void {
     // Remove child from old parent first
-    let oldParent: ContainerWrapper = wrapper.getVchControl().getParent();
+    const oldParent: ContainerWrapper = wrapper.getVchControl().getParent();
 
     if (oldParent) {
       oldParent.getVchContainer().removeChild(wrapper);

@@ -1,7 +1,6 @@
-export class JsonUtil {
+export namespace JsonUtil {
 
-  public static isEmptyObject(obj: any): boolean {
+  export function isEmptyObject(obj: any): boolean {
     return obj == null || Object.keys(obj).length === 0;
   }
-
 }

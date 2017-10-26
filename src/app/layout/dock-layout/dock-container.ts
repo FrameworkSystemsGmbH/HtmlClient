@@ -1,7 +1,7 @@
 import { DockOrientation } from './dock-orientation';
-import { LayoutableContainerSpaceable } from '../layoutable-container-spaceable';
+import { ILayoutableContainerSpaceable } from '../layoutable-container-spaceable';
 
-export interface DockContainer extends LayoutableContainerSpaceable {
+export interface IDockContainer extends ILayoutableContainerSpaceable {
 
   getDockOrientation(): DockOrientation;
 

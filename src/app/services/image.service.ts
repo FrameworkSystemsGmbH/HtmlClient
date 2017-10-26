@@ -12,7 +12,7 @@ export class ImageService implements IImageService {
 
   private filesUrl: string;
 
-  constructor(private store: Store<fromAppReducers.AppState>) {
+  constructor(private store: Store<fromAppReducers.IAppState>) {
     this.store.select(appState => appState.broker.activeBrokerFilesUrl).subscribe(imageUrl => {
       this.filesUrl = imageUrl;
     });

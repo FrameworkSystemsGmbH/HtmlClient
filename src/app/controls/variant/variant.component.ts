@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { ContainerComponent } from '../container.component';
 import { VariantWrapper } from '../../wrappers/variant-wrapper';
-import { ControlVisibility } from '../../enums/control-visibility'
+import { ControlVisibility } from '../../enums/control-visibility';
 import { StyleUtil } from '../../util/style-util';
 
 @Component({
@@ -12,7 +12,8 @@ import { StyleUtil } from '../../util/style-util';
 })
 export class VariantComponent extends ContainerComponent {
 
-  @ViewChild('anchor', { read: ViewContainerRef }) anchor: ViewContainerRef;
+  @ViewChild('anchor', { read: ViewContainerRef })
+  public anchor: ViewContainerRef;
 
   public getWrapper(): VariantWrapper {
     return super.getWrapper() as VariantWrapper;
@@ -23,9 +24,9 @@ export class VariantComponent extends ContainerComponent {
   }
 
   public getStyles(): any {
-    let wrapper: VariantWrapper = this.getWrapper();
+    const wrapper: VariantWrapper = this.getWrapper();
 
-    let styles: any = {
+    const styles: any = {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
@@ -52,8 +53,8 @@ export class VariantComponent extends ContainerComponent {
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
-        wrapper.getPaddingLeft()),
-    }
+        wrapper.getPaddingLeft())
+    };
 
     if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
       styles['display'] = 'none';

@@ -1,10 +1,10 @@
-import { FieldContainer } from './field-container';
+import { IFieldContainer } from './field-container';
 import { FieldCellWrapper } from './field-cell-wrapper';
-import { FieldRowControl } from './field-row-control';
+import { IFieldRowControl } from './field-row-control';
 import { FieldRowLabelMode } from './field-row-label-mode';
-import { LayoutableControlLabel } from '../layoutable-control-label';
+import { ILayoutableControlLabel } from '../layoutable-control-label';
 import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
-import { LayoutableControlLabelTemplate } from '../layoutable-control-label-template';
+import { ILayoutableControlLabelTemplate } from '../layoutable-control-label-template';
 import { ControlVisibility } from '../../enums/control-visibility';
 import { VerticalAlignment } from '../../enums/vertical-alignment';
 /**
@@ -26,32 +26,30 @@ export class FieldRowWrapper {
    * Für alle Elemente der UIFieldRow werden die LayoutControlWrapper erzeugt.
    * Es werden alle Zellen der FieldRow inklusive benötigter Leerzellen aufgebaut.
    * (FieldColumnWrapper werden nicht erzeugt.)
-   * @param fieldRow
-   * @param controlLabelsToDelete
    */
-  constructor(fieldRow: FieldRowControl, controlLabelsToDelete: Array<LayoutableControlLabel>) {
-    let fieldContainer: FieldContainer = fieldRow.getLayoutParent();
+  constructor(fieldRow: IFieldRowControl, controlLabelsToDelete: Array<ILayoutableControlLabel>) {
+    const fieldContainer: IFieldContainer = fieldRow.getLayoutParent();
 
     this.cells = new Array<FieldCellWrapper>();
     this.size = fieldRow.getFieldRowSize();
     this.labelMode = fieldRow.getFieldRowLabelMode();
 
     // 1. create layout control wrapper
-    let includeInvisibleControls: boolean = fieldContainer.getSynchronizeColumns();
-    let controlWrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
+    const includeInvisibleControls: boolean = fieldContainer.getSynchronizeColumns();
+    const controlWrappers: Array<LayoutableControlWrapper> = [];
 
-    for (let control of fieldRow.getLayoutableControls()) {
+    for (const control of fieldRow.getLayoutableControls()) {
       if (control.getVisibility() !== ControlVisibility.Collapsed || includeInvisibleControls) {
         controlWrappers.push(new LayoutableControlWrapper(control));
       }
     }
 
     // 2. create first column cell
-    let rowLabelTemplate: LayoutableControlLabelTemplate = fieldContainer.getRowLabelTemplate();
+    const rowLabelTemplate: ILayoutableControlLabelTemplate = fieldContainer.getRowLabelTemplate();
 
     switch (this.labelMode) {
       case FieldRowLabelMode.GeneratedMerged:
-        let mergedLabel: LayoutableControlLabel = fieldRow.getControlLabel();
+      const mergedLabel: ILayoutableControlLabel = fieldRow.getControlLabel();
         if (mergedLabel != null) {
           mergedLabel.setParent(fieldContainer);
           controlLabelsToDelete.remove(mergedLabel);
@@ -60,8 +58,8 @@ export class FieldRowWrapper {
         break;
 
       case FieldRowLabelMode.Generated:
-        let generatedLabel: LayoutableControlLabel = null;
-        for (let wrapper of controlWrappers) {
+        let generatedLabel: ILayoutableControlLabel = null;
+        for (const wrapper of controlWrappers) {
           if (wrapper.getIsVisible()) {
             if (wrapper.getLabelTemplate().getIsVisible()) {
               generatedLabel = wrapper.getControlLabel();
@@ -82,7 +80,7 @@ export class FieldRowWrapper {
         break;
 
       case FieldRowLabelMode.NoneAligned:
-        for (let wrapper of controlWrappers) {
+        for (const wrapper of controlWrappers) {
           if (wrapper.getIsVisible() || includeInvisibleControls) {
             this.cells.push(new FieldCellWrapper(wrapper, null, rowLabelTemplate));
             break;
@@ -97,9 +95,9 @@ export class FieldRowWrapper {
 
     // 3. iterate wrappers and create cells for wrappers and inner generated labels
     let isFirst: boolean = true;
-    let generateLabels: boolean = this.labelMode === FieldRowLabelMode.Generated;
+    const generateLabels: boolean = this.labelMode === FieldRowLabelMode.Generated;
 
-    for (let wrapper of controlWrappers) {
+    for (const wrapper of controlWrappers) {
       if (isFirst) {
         // in case of labelMode=none-aligned the first control wrapper was already inserted
         if (this.labelMode !== FieldRowLabelMode.NoneAligned) {
@@ -108,7 +106,7 @@ export class FieldRowWrapper {
         isFirst = false;
       } else {
         if (generateLabels) {
-          let controlLabel: LayoutableControlLabel = wrapper.getControlLabel();
+          const controlLabel: ILayoutableControlLabel = wrapper.getControlLabel();
           if (controlLabel != null) {
             // ignore invisible generated labels
             if (wrapper.getLabelTemplate().getIsVisible()) {
@@ -124,7 +122,7 @@ export class FieldRowWrapper {
 
     // is this row stretchable?
     this.stretchable = false;
-    for (let cell of this.cells) {
+    for (const cell of this.cells) {
       if (cell.getAlignmentVertical() === VerticalAlignment.Stretch && cell.isVisible()) {
         this.stretchable = true;
         break;
@@ -161,7 +159,6 @@ export class FieldRowWrapper {
 
   /**
    * Setzt die minimale Höhe der Zeile.
-   * @param value
    */
   public setMinRowHeight(value: number): void {
     this.minRowHeight = value;
@@ -180,7 +177,6 @@ export class FieldRowWrapper {
 
   /**
    * Setzt die endgültige Höhe der Zeile, in der sie arrangiert werden soll.
-   * @param value
    */
   public setResultRowHeight(value: number): void {
     this.resultRowHeight = value;

@@ -21,15 +21,14 @@ export class FieldColumnWrapper {
   /**
    * Erzeugt einen FieldColumnWrapper. Dieser stellt eine Spalte dar, die aus allen übergebenenn Zellen besteht.
    * An den Zellen wird dieser FieldColumnWrapper automatisch als "Column" gesetzt.
-   * @param cells
    */
   constructor(cells: Array<FieldCellWrapper>) {
-    this.cells = new Array<FieldCellWrapper>();
+    this.cells = [];
     this.minColumnWidth = 0;
     this.maxColumnWidth = 0;
     this.horizontalStretchable = false;
 
-    for (let cell of cells) {
+    for (const cell of cells) {
       cell.setColumn(this);
       this.cells.push(cell);
       if (cell.isVisible()) {
@@ -77,7 +76,6 @@ export class FieldColumnWrapper {
 
   /**
    * Setzt die minimale Höhe der Spalte.
-   * @param value
    */
   public setMinColumnHeight(value: number): void {
     this.minColumnHeight = value;
@@ -92,7 +90,6 @@ export class FieldColumnWrapper {
 
   /**
    * Setzt die endgültige Breite der Spalte, in der sie arrangiert werden soll.
-   * @param value
    */
   public setResultColumnWidth(value: number): void {
     this.resultColumnWidth = value;

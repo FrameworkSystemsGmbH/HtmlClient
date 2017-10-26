@@ -11,7 +11,8 @@ import { DateTimeFormatService } from '../../services/formatter/datetime-format.
 })
 export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements OnInit {
 
-  @ViewChild('input') input: ElementRef;
+  @ViewChild('input')
+  public input: ElementRef;
 
   public value: string;
 
@@ -28,14 +29,14 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements On
   }
 
   public callOnLeave(event: any): void {
-    let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
+    const wrapper: TextBoxDateTimeWrapper = this.getWrapper();
     if (wrapper.getIsEditable()) {
       if (this.input.nativeElement.classList.contains('ng-dirty')) {
         if (String.isNullOrWhiteSpace(this.value)) {
           this.value = null;
           this.updateWrapper();
         } else {
-          let formattedValue: string = this.dateTimeFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
+          const formattedValue: string = this.dateTimeFormatService.formatString(this.value, wrapper.getFormat(), wrapper.getFormatPattern());
           if (formattedValue == null) {
             this.updateComponent();
           } else {
@@ -58,12 +59,12 @@ export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements On
   }
 
   public updateComponent(): void {
-    let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
+    const wrapper: TextBoxDateTimeWrapper = this.getWrapper();
     this.value = this.dateTimeFormatService.formatDate(wrapper.getValue(), wrapper.getFormat(), wrapper.getFormatPattern());
   }
 
   private updateWrapper(): void {
-    let wrapper: TextBoxDateTimeWrapper = this.getWrapper();
+    const wrapper: TextBoxDateTimeWrapper = this.getWrapper();
     this.getWrapper().setValue(this.dateTimeFormatService.parseString(this.value, wrapper.getFormat(), wrapper.getFormatPattern()));
   }
 }

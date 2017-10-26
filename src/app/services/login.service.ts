@@ -25,7 +25,7 @@ export class LoginService {
     let logins: Array<LoginBroker> = this.logins.getValue();
 
     if (!logins) {
-      logins = new Array<LoginBroker>();
+      logins = [];
     }
 
     logins.push(broker);
@@ -34,7 +34,7 @@ export class LoginService {
   }
 
   public deleteBroker(index: number): void {
-    let brokers: Array<LoginBroker> = this.logins.getValue();
+    const brokers: Array<LoginBroker> = this.logins.getValue();
     brokers.splice(index, 1);
     this.saveBrokers(brokers);
     this.logins.next(brokers);

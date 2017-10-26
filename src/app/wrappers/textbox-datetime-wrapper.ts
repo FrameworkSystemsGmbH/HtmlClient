@@ -71,7 +71,7 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
   }
 
   protected getComponent(): TextBoxDateTimeComponent {
-    let compRef: ComponentRef<TextBoxDateTimeComponent> = this.getComponentRef();
+    const compRef: ComponentRef<TextBoxDateTimeComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 

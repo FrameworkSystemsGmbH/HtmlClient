@@ -1,4 +1,4 @@
-export interface LayoutableProperties {
+export interface ILayoutableProperties {
 
   // This is the width that gets used in the CSS for the HTML control.
   // Horizontal margins must be subtracted from the layout width due to HTML box-sizing.

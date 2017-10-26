@@ -26,7 +26,7 @@ export class Queue<T> {
       return undefined;
     }
 
-    let item: T = this.queue[this.offset];
+    const item: T = this.queue[this.offset];
 
     if (++this.offset * 2 >= this.queue.length) {
       this.queue = this.queue.slice(this.offset);

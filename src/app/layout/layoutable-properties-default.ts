@@ -1,7 +1,7 @@
-import { LayoutableProperties } from './layoutable-properties';
+import { ILayoutableProperties } from './layoutable-properties';
 import { BaseWrapper } from '../wrappers/base-wrapper';
 
-export class LayoutablePropertiesDefault implements LayoutableProperties {
+export class LayoutablePropertiesDefault implements ILayoutableProperties {
 
   private layoutWidth: number;
   private layoutHeight: number;

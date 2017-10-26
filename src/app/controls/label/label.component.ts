@@ -12,7 +12,8 @@ import { StyleUtil } from '../../util/style-util';
 })
 export class LabelComponent extends BaseComponent {
 
-  @ViewChild('focus') focus: ElementRef;
+  @ViewChild('focus')
+  public focus: ElementRef;
 
   public getWrapper(): LabelWrapper {
     return super.getWrapper() as LabelWrapper;
@@ -27,9 +28,9 @@ export class LabelComponent extends BaseComponent {
   }
 
   public getStyles(): any {
-    let wrapper: LabelWrapper = this.getWrapper();
+    const wrapper: LabelWrapper = this.getWrapper();
 
-    let styles: any = {
+    const styles: any = {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),

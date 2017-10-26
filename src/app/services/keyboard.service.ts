@@ -11,7 +11,7 @@ export class KeyboardService {
 
   public attachScrollHandler(): void {
     if (this.platformService.isAndroid) {
-      this.nativeService.window.addEventListener('native.keyboardshow', this.scrollToFocusOnOpen);
+      this.nativeService.window.addEventListener('native.keyboardshow', this.scrollToFocusOnOpen.bind(this));
     }
   }
 

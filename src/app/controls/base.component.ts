@@ -6,8 +6,11 @@ export abstract class BaseComponent implements OnDestroy {
 
   private wrapper: BaseWrapper;
 
-  @Output() onEnter: EventEmitter<any>;
-  @Output() onLeave: EventEmitter<any>;
+  @Output()
+  public onEnter: EventEmitter<any>;
+
+  @Output()
+  public onLeave: EventEmitter<any>;
 
   public ngOnDestroy(): void {
     this.getWrapper().onComponentRefDestroyed();

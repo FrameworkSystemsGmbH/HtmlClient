@@ -6,12 +6,12 @@ import { Store } from '@ngrx/store';
 import { LoginBroker } from '../../common/login-broker';
 import { LoginService } from '../../services/login.service';
 import { BrokerService } from '../../services/broker.service';
-import { AppState } from '../../app.reducers';
+import { IAppState } from '../../app.reducers';
 
 @Component({
   selector: 'hc-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private brokerService: BrokerService,
-    private store: Store<AppState>) { }
+    private store: Store<IAppState>) { }
 
   public ngOnInit(): void {
     this.brokers$ = this.loginService.getBrokers();
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   public addBroker(): void {
-    let newBroker: LoginBroker = new LoginBroker();
+    const newBroker: LoginBroker = new LoginBroker();
     newBroker.name = this.nameControl.value;
     newBroker.url = this.urlControl.value;
 
@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
   private createBrokerValidator(bs: LoginService): any {
     return (c: FormControl) => {
       return new Observable<any>(
-        (observer) => {
+        observer => {
           bs.getBrokers().subscribe(brokers => {
             if (brokers && brokers.length && brokers.find(b => String.equals(b.name, c.value, true))) {
               observer.next({ broker: true });

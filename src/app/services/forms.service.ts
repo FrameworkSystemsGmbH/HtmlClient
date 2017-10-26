@@ -14,7 +14,7 @@ export class FormsService {
 
   public formSelected: EventEmitter<FormWrapper>;
 
-  private forms: Array<FormWrapper> = new Array<FormWrapper>();
+  private forms: Array<FormWrapper> = [];
   private selectedForm: FormWrapper;
 
   constructor(
@@ -57,7 +57,7 @@ export class FormsService {
 
   protected getOnDisposeCompletedCallback(form: FormWrapper): () => void {
     return () => {
-      let index: number = this.forms.indexOf(form);
+      const index: number = this.forms.indexOf(form);
       this.forms.remove(form);
       if (form === this.selectedForm) {
         if (index < this.forms.length && index >= 0) {
@@ -81,15 +81,15 @@ export class FormsService {
   }
 
   public getFormsJson(): any {
-    let formsJson: Array<any> = new Array<any>();
+    const formsJson: Array<any> = [];
 
     this.forms.forEach((formWrp: FormWrapper) => {
-      let controlsJson: Array<any> = new Array<any>();
+      const controlsJson: Array<any> = [];
 
       formWrp.getControlsJson(controlsJson);
 
       if (controlsJson.length) {
-        let formJson: any = formWrp.getMetaJson();
+        const formJson: any = formWrp.getMetaJson();
         formJson.controls = controlsJson;
         formsJson.push(formJson);
       }
@@ -99,19 +99,19 @@ export class FormsService {
   }
 
   public setJson(fromsJson: any) {
-    for (let formJson of fromsJson) {
+    for (const formJson of fromsJson) {
       if (formJson.meta.new) {
-        let form: FormWrapper = <FormWrapper>this.controlsService.createWrapperFromType({ meta: { typeId: ControlType.Form } }, null, null);
+        const form: FormWrapper = this.controlsService.createWrapperFromType({ meta: { typeId: ControlType.Form } }, null, null) as FormWrapper;
         form.setJson(formJson, true);
         this.forms.push(form);
         if (!this.selectedForm || formJson.meta.focused) {
           this.selectForm(form);
         }
       } else {
-        let formId: string = formJson.meta.id;
-        let formWrps: Array<FormWrapper> = this.forms.filter((formWrp: FormWrapper) => formWrp.getId() === formId);
+        const formId: string = formJson.meta.id;
+        const formWrps: Array<FormWrapper> = this.forms.filter((formWrp: FormWrapper) => formWrp.getId() === formId);
         if (formWrps && formWrps.length) {
-          let form: FormWrapper = formWrps[0];
+          const form: FormWrapper = formWrps[0];
           form.setJson(formJson, false);
           if (!this.selectedForm || formJson.meta.focused) {
             this.selectForm(form);
@@ -122,8 +122,7 @@ export class FormsService {
   }
 
   public findForm(formName: string): FormWrapper {
-    for (let i = 0; i < this.forms.length; i++) {
-      let form: FormWrapper = this.forms[i];
+    for (const form of this.forms) {
       if (form.getName() === formName) {
         return form;
       }

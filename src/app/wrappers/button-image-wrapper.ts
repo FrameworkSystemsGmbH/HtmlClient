@@ -96,7 +96,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   }
 
   protected getComponent(): ButtonImageComponent {
-    let compRef: ComponentRef<ButtonImageComponent> = this.getComponentRef();
+    const compRef: ComponentRef<ButtonImageComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 

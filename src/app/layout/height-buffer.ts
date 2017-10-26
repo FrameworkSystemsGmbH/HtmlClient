@@ -22,9 +22,6 @@ export class HeightBuffer {
    * Returns the buffered height to a given width.
    * In case there is no value stored in the buffer for the given width,
    * hightCalculator gets executed and the result stored in the buffer.
-   * @param {number} width
-   * @param {() => number} minHeightCalculator
-   * @return
    */
   public get(width: number, heightCalculator: () => number): number {
     // Requests for widths equal to or smaller than 0 return 0 without any calculations
@@ -45,7 +42,7 @@ export class HeightBuffer {
     let firstGenerationPos: number = 0;
     let firstGenerationValue: number = Number.MAX_VALUE;
     for (let i = 0; i < this.size; i++) {
-      let currentGenerationValue: number = this.generations[i];
+      const currentGenerationValue: number = this.generations[i];
       if (currentGenerationValue < firstGenerationValue) {
         firstGenerationValue = currentGenerationValue;
         firstGenerationPos = i;
@@ -53,7 +50,7 @@ export class HeightBuffer {
     }
 
     // 3. Calculate the value and save it
-    let result: number = heightCalculator();
+    const result: number = heightCalculator();
     this.widths[firstGenerationPos] = width;
     this.heights[firstGenerationPos] = result;
     this.generations[firstGenerationPos] = ++this.generationCounter;

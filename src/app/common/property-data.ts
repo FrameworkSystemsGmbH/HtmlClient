@@ -19,7 +19,7 @@ export class PropertyData {
   public minWidthRaster: number;
   public maxWidthRaster: number;
 
-  public foreColor: string
+  public foreColor: string;
   public backColor: string;
   public disabledBackColor: string;
   public borderColor: string;
@@ -65,7 +65,7 @@ export class PropertyData {
   public fontBold: boolean;
   public fontFamily: string;
   public fontItalic: boolean;
-  public fontSize: number
+  public fontSize: number;
   public fontUnderline: boolean;
 
   public labelTemplate: PropertyData;
