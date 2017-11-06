@@ -2,7 +2,7 @@
   <h3>Framework Studio HTML Client</h3>
   <h4>Available Brokers</h4>
   <table class="table" [ngClass]="{ 'table-hover': (brokers$ | async) && (brokers$ | async).length }">
-    <tbody *ngIf="!(brokers$ | async) || !(brokers$ | async).length">
+    <tbody *ngIf="(brokers$ | async) == null || !(brokers$ | async).length">
       <tr>
         <td>No Brokers defined...</td>
       </tr>

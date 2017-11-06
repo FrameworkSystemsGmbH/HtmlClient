@@ -80,7 +80,7 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-floating-promises": true,
+    "no-floating-promises": false,
     "no-for-in-array": true,
     "no-inferrable-types": false,
     "no-internal-module": true,
@@ -199,28 +199,43 @@
       "check-type-operator",
       "check-preblock"
     ],
+    "angular-whitespace": [
+      true,
+      "check-interpolation"
+    ],
+    "banana-in-box": true,
+    "directive-class-suffix": true,
     "directive-selector": [
       true,
       "attribute",
       "hc",
       "camelCase"
     ],
+    "component-class-suffix": true,
     "component-selector": [
       true,
       "element",
       "hc",
       "kebab-case"
     ],
-    "use-input-property-decorator": true,
-    "use-output-property-decorator": true,
-    "use-host-property-decorator": true,
+    "no-attribute-parameter-decorator": true,
+    "no-forward-ref": true,
     "no-input-rename": true,
     "no-output-rename": true,
+    "no-unused-css": true,
+    "pipe-impure": true,
+    "pipe-naming": [
+      true,
+      "camelCase",
+      "hc"
+    ],
+    "templates-no-negated-async": true,
+    "use-input-property-decorator": true,
+    "use-host-property-decorator": true,
     "use-life-cycle-interface": true,
+    "use-output-property-decorator": true,
+    "use-pipe-decorator": true,
     "use-pipe-transform-interface": true,
-    "component-class-suffix": true,
-    "directive-class-suffix": true,
-    "invoke-injectable": true,
-    "templates-use-public": true
+    "use-view-encapsulation": true
   }
 }

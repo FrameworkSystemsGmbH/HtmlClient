@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [
-      "es2016",
+      "es7",
       "dom"
     ],
     "moduleResolution": "node",
-    "outDir": "dist/web/",
     "removeComments": true,
     "sourceMap": true,
     "target": "es5",
@@ -15,8 +15,5 @@
       "node_modules/@types",
       "src/ext"
     ]
-  },
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }

@@ -63,8 +63,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private clickScrollDelta: number = 100;
   private panStartX: number;
-  private leftInterval: number;
-  private rightInterval: number;
+  private leftInterval: any;
+  private rightInterval: any;
 
   private formsSub: ISubscription;
   private selectedFormSub: ISubscription;

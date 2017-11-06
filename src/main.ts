@@ -1,6 +1,3 @@
-import './prototypes.ts';
-import './polyfills.ts';
-
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
 import { environment } from './env/env.dev';
@@ -11,7 +8,7 @@ const bootstrap: () => void = () => {
     enableProdMode();
   }
 
-  platformBrowserDynamic().bootstrapModule(AppModule);
+  platformBrowserDynamic().bootstrapModule(AppModule).catch(error => console.log(error));
 };
 
 if (!!window.cordova) {

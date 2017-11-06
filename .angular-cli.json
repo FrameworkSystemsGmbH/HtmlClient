@@ -1,6 +1,5 @@
 {
   "project": {
-    "version": "v1.0.0",
     "name": "htmlclient"
   },
   "apps": [
@@ -12,9 +11,11 @@
       ],
       "index": "index.html",
       "main": "main.ts",
-      "tsconfig": "tsconfig.json",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
       "prefix": "hc",
-      "mobile": false,
       "styles": [
         "../node_modules/font-awesome/css/font-awesome.css",
         "styles.scss"
@@ -32,25 +33,27 @@
       }
     }
   ],
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "scss"
+  },
   "addons": [
     "../node_modules/font-awesome/fonts/*.+(otf|eot|svg|ttf|woff|woff2)"
   ],
-  "defaults": {
-    "styleExt": "scss",
-    "prefixInterfaces": false,
-    "inline": {
-      "style": false,
-      "template": false
-    },
-    "spec": {
-      "class": false,
-      "component": false,
-      "directive": false,
-      "module": false,
-      "pipe": false,
-      "service": false
-    }
-  },
   "warnings": {
     "typescriptMismatch": false
   }
