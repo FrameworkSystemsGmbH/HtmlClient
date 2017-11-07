@@ -22,7 +22,6 @@ import { PropertyLayer } from '../common/property-layer';
 import { ILayoutableControl } from '../layout/layoutable-control';
 import { LayoutBase } from '../layout/layout-base';
 import { LayoutablePropertiesDefault } from '../layout/layoutable-properties-default';
-import { ILayoutableProperties } from '../layout/layoutable-properties';
 import { ILayoutableControlLabel } from '../layout/layoutable-control-label';
 import { ILayoutableControlLabelTemplate } from '../layout/layoutable-control-label-template';
 import { ILayoutableContainer } from '../layout/layoutable-container';
@@ -130,11 +129,15 @@ export abstract class BaseWrapper implements ILayoutableControl {
     return backColor != null ? backColor : '#FFFFFF';
   }
 
-  public getLayoutableProperties(): ILayoutableProperties {
+  public getLayoutableProperties(): LayoutablePropertiesDefault {
     if (!this.layoutableProperties) {
-      this.layoutableProperties = new LayoutablePropertiesDefault(this);
+      this.layoutableProperties = this.createLayoutableProperties();
     }
     return this.layoutableProperties;
+  }
+
+  protected createLayoutableProperties(): LayoutablePropertiesDefault {
+    return new LayoutablePropertiesDefault(this);
   }
 
   public getControlLabel(): ILayoutableControlLabel {

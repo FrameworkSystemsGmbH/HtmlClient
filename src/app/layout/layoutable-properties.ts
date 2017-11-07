@@ -27,13 +27,4 @@ export interface ILayoutableProperties {
   getY(): number;
 
   setY(y: number): void;
-
-  getHBarNeeded(): boolean;
-
-  setHBarNeeded(needed: boolean): void;
-
-  getVBarNeeded(): boolean;
-
-  setVBarNeeded(needed: boolean): void;
-
 }

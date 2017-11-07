@@ -3,16 +3,17 @@ import { BaseWrapper } from '../wrappers/base-wrapper';
 
 export class LayoutablePropertiesDefault implements ILayoutableProperties {
 
+  private wrapper: BaseWrapper;
+
   private layoutWidth: number;
   private layoutHeight: number;
 
   private x: number;
   private y: number;
 
-  private hBarNeeded: boolean;
-  private vBarNeeded: boolean;
-
-  constructor(private wrapper: BaseWrapper) { }
+  constructor(wrapper: BaseWrapper) {
+    this.wrapper = wrapper;
+  }
 
   // This is the width that gets used in the CSS for the HTML control.
   // Horizontal margins must be subtracted from the layout width due to HTML box-sizing.
@@ -61,21 +62,4 @@ export class LayoutablePropertiesDefault implements ILayoutableProperties {
   public setY(y: number): void {
     this.y = y;
   }
-
-  public getHBarNeeded(): boolean {
-    return this.hBarNeeded;
-  }
-
-  public setHBarNeeded(needed: boolean): void {
-    this.hBarNeeded = needed;
-  }
-
-  public getVBarNeeded(): boolean {
-    return this.vBarNeeded;
-  }
-
-  public setVBarNeeded(needed: boolean): void {
-    this.vBarNeeded = needed;
-  }
-
 }

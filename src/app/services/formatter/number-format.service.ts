@@ -139,7 +139,7 @@ export class NumberFormatService implements INumberFormatService {
 
     let activeFormat: string;
 
-    const formats: Array<string> = formatPattern.split(NumberFormatService.formatSeparator, 3);
+    const formats: Array<string> = pattern.split(NumberFormatService.formatSeparator, 3);
 
     if (value === 0 && formats.length === 3) {
       activeFormat = formats[2];

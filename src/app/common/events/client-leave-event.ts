@@ -4,7 +4,7 @@ import { ClientLeaveEventArgs } from './eventargs/client-leave-eventargs';
 
 export class ClientLeaveEvent extends ClientEvent {
 
-  private args: ClientLeaveEventArgs;
+  protected args: ClientLeaveEventArgs;
 
   constructor(formId: string, controlName: string, activator: string, hasValueChanged: boolean) {
     super(ControlEvent[ControlEvent.OnLeave], formId, controlName);

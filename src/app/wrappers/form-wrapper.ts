@@ -4,7 +4,7 @@ import { BaseWrapper } from './base-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { VariantWrapper } from './variant-wrapper';
 import { FormComponent } from '../controls/form/form.component';
-import { ILayoutableProperties } from '../layout/layoutable-properties';
+import { LayoutablePropertiesScrollable } from '../layout/layoutable-properties-scrollable';
 
 export class FormWrapper extends ContainerWrapper {
 
@@ -26,6 +26,14 @@ export class FormWrapper extends ContainerWrapper {
       this.variant = this.controls.filter(wrapper => wrapper instanceof VariantWrapper)[0] as VariantWrapper;
     }
     return this.variant;
+  }
+
+  public getLayoutableProperties(): LayoutablePropertiesScrollable {
+    return super.getLayoutableProperties() as LayoutablePropertiesScrollable;
+  }
+
+  protected createLayoutableProperties(): LayoutablePropertiesScrollable {
+    return new LayoutablePropertiesScrollable(this);
   }
 
   public isCloseIconVisible(): boolean {
@@ -186,7 +194,7 @@ export class FormWrapper extends ContainerWrapper {
       }
     }
 
-    const layoutableProperties: ILayoutableProperties = this.getLayoutableProperties();
+    const layoutableProperties: LayoutablePropertiesScrollable = this.getLayoutableProperties();
     layoutableProperties.setLayoutWidth(resultWidth);
     layoutableProperties.setLayoutHeight(resultHeight);
     layoutableProperties.setHBarNeeded(hBarNeeded);
