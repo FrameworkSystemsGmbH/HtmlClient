@@ -77,7 +77,7 @@ export class FieldCellWrapper {
     } else if (this.labelTemplate) {
       return this.labelTemplate.getMaxWidth();
     } else {
-      return Number.MAX_VALUE;
+      return Number.MAX_SAFE_INTEGER;
     }
   }
 
@@ -95,7 +95,7 @@ export class FieldCellWrapper {
     if (this.wrapper != null) {
       return this.wrapper.getMaxLayoutHeight();
     } else {
-      return Number.MAX_VALUE;
+      return Number.MAX_SAFE_INTEGER;
     }
   }
 

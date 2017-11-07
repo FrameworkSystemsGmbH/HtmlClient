@@ -40,7 +40,7 @@ export class HeightBuffer {
     // 2. No value for requested width found in buffer
     // => Look for position of the oldest generation.
     let firstGenerationPos: number = 0;
-    let firstGenerationValue: number = Number.MAX_VALUE;
+    let firstGenerationValue: number = Number.MAX_SAFE_INTEGER;
     for (let i = 0; i < this.size; i++) {
       const currentGenerationValue: number = this.generations[i];
       if (currentGenerationValue < firstGenerationValue) {
