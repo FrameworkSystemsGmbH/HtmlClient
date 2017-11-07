@@ -27,11 +27,11 @@ export class FieldLayout extends LayoutContainerBase {
 
   private initRows(): void {
     const container: IFieldContainer = this.getControl();
-    this.rows = [];
+    this.rows = new Array<FieldRowWrapper>();
 
     // remember all IControlLabel children
     // those control labels, which will not be added again, have to be removed
-    const controlLabels: Array<ILayoutableControlLabel> = [];
+    const controlLabels: Array<ILayoutableControlLabel> = new Array<ILayoutableControlLabel>();
     for (const child of container.getLayoutableControlLabels()) {
       controlLabels.push(child);
     }
@@ -78,7 +78,7 @@ export class FieldLayout extends LayoutContainerBase {
 
       // build columns for all cells
       for (let i = 0; i < maxCellCount; i++) {
-        const columnCells: Array<FieldCellWrapper> = [];
+        const columnCells: Array<FieldCellWrapper> = new Array<FieldCellWrapper>();
         for (const row of this.rows) {
           if (row.getLabelMode() !== FieldRowLabelMode.NoneFill && i < row.getCellsCount()) {
             columnCells.push(row.getCell(i));
@@ -368,7 +368,7 @@ export class FieldLayout extends LayoutContainerBase {
 
     // calculate result height for auto sized rows
     // and remember all dynamic rows to be processed later
-    const todo: Array<FieldRowWrapper> = [];
+    const todo: Array<FieldRowWrapper> = new Array<FieldRowWrapper>();
     for (const row of this.rows) {
       if (row.getSize() == null || !row.isStretchable()) {
         // auto sized rows: resultSize = minSize

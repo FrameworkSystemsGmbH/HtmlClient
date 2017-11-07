@@ -25,7 +25,7 @@ export class LoginService {
     let logins: Array<LoginBroker> = this.logins.getValue();
 
     if (!logins) {
-      logins = [];
+      logins = new Array<LoginBroker>();
     }
 
     logins.push(broker);

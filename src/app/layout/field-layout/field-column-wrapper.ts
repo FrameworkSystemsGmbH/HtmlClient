@@ -23,7 +23,7 @@ export class FieldColumnWrapper {
    * An den Zellen wird dieser FieldColumnWrapper automatisch als "Column" gesetzt.
    */
   constructor(cells: Array<FieldCellWrapper>) {
-    this.cells = [];
+    this.cells = new Array<FieldCellWrapper>();
     this.minColumnWidth = 0;
     this.maxColumnWidth = 0;
     this.horizontalStretchable = false;

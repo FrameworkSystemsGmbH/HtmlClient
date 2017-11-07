@@ -14,7 +14,7 @@ export class FormsService {
 
   public formSelected: EventEmitter<FormWrapper>;
 
-  private forms: Array<FormWrapper> = [];
+  private forms: Array<FormWrapper> = new Array<FormWrapper>();
   private selectedForm: FormWrapper;
 
   constructor(
@@ -81,10 +81,10 @@ export class FormsService {
   }
 
   public getFormsJson(): any {
-    const formsJson: Array<any> = [];
+    const formsJson: Array<any> = new Array<any>();
 
     this.forms.forEach((formWrp: FormWrapper) => {
-      const controlsJson: Array<any> = [];
+      const controlsJson: Array<any> = new Array<any>();
 
       formWrp.getControlsJson(controlsJson);
 

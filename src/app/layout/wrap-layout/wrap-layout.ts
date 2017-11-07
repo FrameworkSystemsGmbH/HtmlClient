@@ -151,7 +151,7 @@ export class WrapLayout extends LayoutContainerBase {
     // as long as there are still wrappers to deal with and there is space left in this row,
     // try to add the next wrapper
     // and sum all min widths
-    const rowWrappers: Array<LayoutableControlWrapper> = [];
+    const rowWrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
     const horizontalContentAlignment: HorizontalContentAlignment = container.getHorizontalContentAlignment();
 
     let availableWidth: number = width;
@@ -301,7 +301,7 @@ export class WrapLayout extends LayoutContainerBase {
     let availableWidth: number = width - insetsLeft - insetsRight;
 
     // collect all visible wrappers having a min width (in desired order)
-    const targetWrappers: Array<LayoutableControlWrapper> = [];
+    const targetWrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
 
     if (container.getInvertFlowDirection()) {
       for (let i = this.wrappers.length - 1; i >= 0; i--) {
@@ -350,7 +350,7 @@ export class WrapLayout extends LayoutContainerBase {
     while (lowerHeightLimit < upperHeightLimit) {
       const currentHeight: number = lowerHeightLimit + (upperHeightLimit - lowerHeightLimit) / 2;
       const pendingWrappers: LinkedListOneWay<LayoutableControlWrapper> = new LinkedListOneWay<LayoutableControlWrapper>();
-      const currentWrapColumns: Array<WrapColumn> = [];
+      const currentWrapColumns: Array<WrapColumn> = new Array<WrapColumn>();
       let arrangementFailed: boolean = false;
 
       for (const wrapper of targetWrappers) {
@@ -511,7 +511,7 @@ export class WrapLayout extends LayoutContainerBase {
 
     // as long as there are still wrappers to deal with and there is space left in this column,
     // try to add the next wrapper and sum all min heights
-    const columnWrappers: Array<LayoutableControlWrapper> = [];
+    const columnWrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
 
     let neededHeight: number = 0;
     let heightExceeded: boolean = false;
