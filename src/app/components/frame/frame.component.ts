@@ -36,9 +36,7 @@ export class FrameComponent implements OnInit, OnDestroy {
   @HostListener('window:resize')
   private layout(): void {
     if (this.selectedForm) {
-      const availableWidth: number = this.frame.nativeElement.clientWidth;
-      const availableHeight: number = this.frame.nativeElement.clientHeight;
-      this.selectedForm.doLayout(availableWidth, availableHeight);
+      this.selectedForm.doLayout(this.frame.nativeElement.clientWidth);
     }
 
     this.cd.detectChanges();

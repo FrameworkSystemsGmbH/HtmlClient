@@ -33,13 +33,10 @@ import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 
 export interface IControlsService {
   createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): BaseWrapper;
-  getScrollBarWidth(): number;
 }
 
 @Injectable()
 export class ControlsService implements IControlsService {
-
-  private scrollBarWidth: number;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -228,17 +225,5 @@ export class ControlsService implements IControlsService {
     }
 
     return propertyStore;
-  }
-
-  public getScrollBarWidth(): number {
-    if (this.scrollBarWidth == null) {
-      const div: HTMLDivElement = document.createElement('div');
-      div.className = 'scrollbar-measure';
-      document.body.appendChild(div);
-      this.scrollBarWidth = div.offsetWidth - div.clientWidth;
-      document.body.removeChild(div);
-    }
-
-    return this.scrollBarWidth;
   }
 }

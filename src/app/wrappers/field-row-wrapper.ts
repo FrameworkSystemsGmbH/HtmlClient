@@ -8,8 +8,6 @@ import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {
 
-  private static readonly forbiddenError: string = 'Forbidden method call! FieldRowWrapper does not have a visual component.';
-
   public getFieldRowLabelMode(): FieldRowLabelMode {
     const labelMode: FieldRowLabelMode = this.propertyStore.getLabelMode();
     return labelMode != null ? labelMode : FieldRowLabelMode.Generated;
@@ -28,6 +26,6 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
   }
 
   public createComponent(container: ContainerWrapper): void {
-    // throw new Error(FieldRowWrapper.forbiddenError);
+    // FieldRowWrapper never gets rendered to the UI
   }
 }

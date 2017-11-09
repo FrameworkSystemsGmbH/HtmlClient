@@ -28,7 +28,7 @@ export class FormComponent extends ContainerComponent {
 
     const styles: any = {
       'overflow-x': layoutableProperties.getHBarNeeded() ? 'scroll' : 'hidden',
-      'overflow-y': layoutableProperties.getVBarNeeded() ? 'scroll' : 'hidden'
+      'overflow-y': 'auto'
     };
 
     return styles;

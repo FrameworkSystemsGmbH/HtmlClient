@@ -4,7 +4,6 @@ import { BaseWrapper } from 'app/wrappers/base-wrapper';
 export class LayoutablePropertiesScrollable extends LayoutablePropertiesDefault {
 
   private hBarNeeded: boolean;
-  private vBarNeeded: boolean;
 
   constructor(wrapper: BaseWrapper) {
     super(wrapper);
@@ -16,13 +15,5 @@ export class LayoutablePropertiesScrollable extends LayoutablePropertiesDefault 
 
   public setHBarNeeded(needed: boolean): void {
     this.hBarNeeded = needed;
-  }
-
-  public getVBarNeeded(): boolean {
-    return this.vBarNeeded;
-  }
-
-  public setVBarNeeded(needed: boolean): void {
-    this.vBarNeeded = needed;
   }
 }

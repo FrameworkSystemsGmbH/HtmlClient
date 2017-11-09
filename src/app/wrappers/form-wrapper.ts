@@ -124,10 +124,7 @@ export class FormWrapper extends ContainerWrapper {
     // A form creates its component directly on the frame's ViewContainerRef in 'attachComponentToFrame()'
   }
 
-  public doLayout(availableWidth: number, availableHeight: number): void {
-    // #warning Rework to overlaying scrollbar
-    const scrollBarWidth: number = this.controlsService.getScrollBarWidth();
-
+  public doLayout(availableWidth: number): void {
     // Get the absolute minimum width of the form
     const minWidth: number = this.getMinLayoutWidth();
 
@@ -138,67 +135,21 @@ export class FormWrapper extends ContainerWrapper {
     let resultHeight: number;
 
     let hBarNeeded: boolean = false;
-    let vBarNeeded: boolean = false;
 
-    // Check if form fits into the available space vertically
-    if (minHeight <= availableHeight) {
-      // It fits vertically -> check if it fits horizontally
-      if (minWidth <= availableWidth) {
-        // it fits horizontally -> no scrollbars needed
-        resultWidth = availableWidth;
-        resultHeight = availableHeight;
-      } else {
-        // It does not fit horizontally -> horizontal scrollbar is needed
-        hBarNeeded = true;
-
-        // Result width is minWidth because it does not fit horizontally in any case
-        resultWidth = minWidth;
-
-        // Calculate the available height with a horizontal scrollbar
-        const availabelHeightScroll: number = availableHeight - scrollBarWidth;
-
-        // Check if we need a vertical scrollbar because of the horizontal one
-        if (minHeight <= availabelHeightScroll) {
-          // No vertical scrollbar needed
-          vBarNeeded = false;
-          resultHeight = availabelHeightScroll;
-        } else {
-          // Vertical scrollbar is needed
-          vBarNeeded = true;
-
-          // Result height is minHeight because it does not fit vertically in any case
-          resultHeight = minHeight;
-        }
-      }
+    if (minWidth < availableWidth) {
+      hBarNeeded = false;
+      resultWidth = availableWidth;
     } else {
-      // It does not fit vertically -> vertical scrollbar is needed
-      vBarNeeded = true;
-
-      // Result height is minHeight because it does not fit vertically in any case
-      resultHeight = minHeight;
-
-      // Calculate the available width with a vertical scrollbar
-      const availableWidthScroll: number = availableWidth - scrollBarWidth;
-
-      // Check if we need a horizontal scrollbar because of the vertical one
-      if (minWidth <= availableWidthScroll) {
-        // No horizontal scrollbar needed
-        hBarNeeded = false;
-        resultWidth = availableWidthScroll;
-      } else {
-        // Horizontal scrollbar is needed
-        hBarNeeded = true;
-
-        // Result width is minWidth because it does not fit horizontally in any case
-        resultWidth = minWidth;
-      }
+      hBarNeeded = true;
+      resultWidth = minWidth;
     }
+
+    resultHeight = minHeight;
 
     const layoutableProperties: LayoutablePropertiesScrollable = this.getLayoutableProperties();
     layoutableProperties.setLayoutWidth(resultWidth);
     layoutableProperties.setLayoutHeight(resultHeight);
     layoutableProperties.setHBarNeeded(hBarNeeded);
-    layoutableProperties.setVBarNeeded(vBarNeeded);
 
     this.getLayout().arrange();
   }
