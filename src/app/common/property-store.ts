@@ -11,6 +11,7 @@ import { TextFormat } from '../enums/text-format';
 import { TextAlign } from '../enums/text-align';
 import { ControlVisibility } from '../enums/control-visibility';
 import { WrapArrangement } from '../layout/wrap-layout/wrap-arrangement';
+import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 
 export class PropertyStore {
 
@@ -24,6 +25,28 @@ export class PropertyStore {
     this.store.set(PropertyLayer.CSC, new PropertyData());
   }
 
+  // Layer
+  public setLayer(layer: PropertyLayer, data: PropertyData) {
+    this.store.set(layer, data);
+  }
+
+  // Get Property as new PropertyStore
+  public getPropertyStore(getFromPropertyFunc: (data: PropertyData) => PropertyData): PropertyStore {
+    const propertyLayerControlStyle: PropertyData = getFromPropertyFunc(this.store.get(PropertyLayer.ControlStyle));
+    const propertyLayerControl: PropertyData = getFromPropertyFunc(this.store.get(PropertyLayer.Control));
+    const propertyLayerAction: PropertyData = getFromPropertyFunc(this.store.get(PropertyLayer.Action));
+    const propertyLayerCSC: PropertyData = getFromPropertyFunc(this.store.get(PropertyLayer.CSC));
+
+    const propertyStore: PropertyStore = new PropertyStore();
+    propertyStore.setLayer(PropertyLayer.ControlStyle, propertyLayerControlStyle ? propertyLayerControlStyle : new PropertyData());
+    propertyStore.setLayer(PropertyLayer.Control, propertyLayerControl ? propertyLayerControl : new PropertyData());
+    propertyStore.setLayer(PropertyLayer.Action, propertyLayerAction ? propertyLayerAction : new PropertyData());
+    propertyStore.setLayer(PropertyLayer.CSC, propertyLayerCSC ? propertyLayerCSC : new PropertyData());
+
+    return propertyStore;
+  }
+
+  // Get|Set Value
   private getValue<T>(getValueFunc: (data: PropertyData) => T): T {
     let value: T = getValueFunc(this.store.get(PropertyLayer.CSC));
 
@@ -46,10 +69,6 @@ export class PropertyStore {
 
   public setValue(layer: PropertyLayer, setValueFunc: (data: PropertyData) => void): void {
     setValueFunc(this.store.get(layer));
-  }
-
-  public setLayer(layer: PropertyLayer, data: PropertyData) {
-    this.store.set(layer, data);
   }
 
   // MeasureText
@@ -884,6 +903,19 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.isEnabled = value; });
   }
 
+  // LabelMode
+  public getLabelMode(): FieldRowLabelMode {
+    return this.getValue<FieldRowLabelMode>((data: PropertyData) => data.labelMode);
+  }
+
+  public getLabelModeForLayer(layer: PropertyLayer): FieldRowLabelMode {
+    return this.getValueForLayer<FieldRowLabelMode>(layer, (data: PropertyData) => data.labelMode);
+  }
+
+  public setLabelMode(layer: PropertyLayer, value: FieldRowLabelMode): void {
+    this.setValue(layer, (data: PropertyData) => { data.labelMode = value; });
+  }
+
   // MaxSize
   public getMaxSize(): number {
     return this.getValue<number>((data: PropertyData) => data.maxSize);
@@ -936,6 +968,19 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.maxPrec = value; });
   }
 
+  // OptimizeGeneratedLabels
+  public getOptimizeGeneratedLabels(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => data.optimizeGeneratedLabels);
+  }
+
+  public getOptimizeGeneratedLabelsForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.optimizeGeneratedLabels);
+  }
+
+  public setOptimizeGeneratedLabels(layer: PropertyLayer, value: boolean): void {
+    this.setValue(layer, (data: PropertyData) => { data.optimizeGeneratedLabels = value; });
+  }
+
   // ShowCaption
   public getShowCaption(): boolean {
     return this.getValue<boolean>((data: PropertyData) => data.showCaption);
@@ -947,6 +992,19 @@ export class PropertyStore {
 
   public setShowCaption(layer: PropertyLayer, value: boolean): void {
     this.setValue(layer, (data: PropertyData) => { data.showCaption = value; });
+  }
+
+  // SynchronizeColumns
+  public getSynchronizeColumns(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => data.synchronizeColumns);
+  }
+
+  public getSynchronizeColumnsForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.synchronizeColumns);
+  }
+
+  public setSynchronizeColumns(layer: PropertyLayer, value: boolean): void {
+    this.setValue(layer, (data: PropertyData) => { data.synchronizeColumns = value; });
   }
 
   // TabStop
@@ -999,6 +1057,19 @@ export class PropertyStore {
 
   public setVisibility(layer: PropertyLayer, value: ControlVisibility): void {
     this.setValue(layer, (data: PropertyData) => { data.visibility = value; });
+  }
+
+  // IsVisible
+  public getIsVisible(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => data.isVisible);
+  }
+
+  public getIsVisibleForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.isVisible);
+  }
+
+  public setIsVisible(layer: PropertyLayer, value: boolean): void {
+    this.setValue(layer, (data: PropertyData) => { data.isVisible = value; });
   }
 
   // WrapArrangement

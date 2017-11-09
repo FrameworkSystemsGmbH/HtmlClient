@@ -8,6 +8,6 @@ export interface IFieldRowControl extends ILayoutableContainer {
 
   getFieldRowLabelMode(): FieldRowLabelMode;
 
-  getLayoutParent(): IFieldContainer;
+  getFieldContainer(): IFieldContainer;
 
 }

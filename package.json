@@ -8,7 +8,7 @@
   "readme": "readme.md",
   "scripts": {
     "build": "ng build",
-    "buildProd": "npm run lint && ng build --prod",
+    "buildProd": "npm run lint && ng build --prod --output-hashing none",
     "lint": "ng lint",
     "test": "ng test",
     "serve": "ng serve",

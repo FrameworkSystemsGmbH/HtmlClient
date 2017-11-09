@@ -1,4 +1,4 @@
-import { FieldColumnWrapper } from './field-column-wrapper';
+import { FieldLayoutColumnWrapper } from './field-layout-column-wrapper';
 import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
 import { ILayoutableControlLabel } from '../layoutable-control-label';
 import { ILayoutableControlLabelTemplate } from '../layoutable-control-label-template';
@@ -17,8 +17,8 @@ import { VerticalAlignment } from '../../enums/vertical-alignment';
  *    => für MinWidth und MaxWidth muss zusätzlich zu ControlLabel/LayoutControlWrapper
  *       das LabelTemplate berücksichtigt werden (für erste Spalte interessant).
  */
-export class FieldCellWrapper {
-  private column: FieldColumnWrapper;
+export class FieldLayoutCellWrapper {
+  private column: FieldLayoutColumnWrapper;
   private resultWidth: number;
 
   /**
@@ -115,11 +115,11 @@ export class FieldCellWrapper {
     }
   }
 
-  public getColumn(): FieldColumnWrapper {
+  public getColumn(): FieldLayoutColumnWrapper {
     return this.column;
   }
 
-  public setColumn(column: FieldColumnWrapper): void {
+  public setColumn(column: FieldLayoutColumnWrapper): void {
     this.column = column;
   }
 

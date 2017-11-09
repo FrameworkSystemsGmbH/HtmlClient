@@ -11,6 +11,7 @@ import { PictureScaleMode } from '../enums/picture-scale-mode';
 import { ScrollBars } from '../enums/scrollbars';
 import { TextAlign } from '../enums/text-align';
 import { ControlVisibility } from '../enums/control-visibility';
+import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { WrapArrangement } from '../layout/wrap-layout/wrap-arrangement';
 
 export class PropertyData {
@@ -111,17 +112,20 @@ export class PropertyData {
   public isEditable: boolean;
   public isEnabled: boolean;
   public isVisible: boolean;
+  public labelMode: FieldRowLabelMode;
   public mapEnterToTab: boolean;
   public maxDropDownSize: FsSize;
   public maxSize: number;
   public maxPrec: number;
   public maxScale: number;
   public multiline: boolean;
+  public optimizeGeneratedLabels: boolean;
   public passwordChar: string;
   public scaleMode: PictureScaleMode;
   public scrollBars: ScrollBars;
   public shortcut: string;
   public showCaption: boolean;
+  public synchronizeColumns: boolean;
   public tabStop: boolean;
   public textAlign: TextAlign;
   public title: string;

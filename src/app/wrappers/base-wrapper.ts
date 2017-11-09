@@ -21,10 +21,11 @@ import { PropertyData } from '../common/property-data';
 import { PropertyLayer } from '../common/property-layer';
 import { ILayoutableControl } from '../layout/layoutable-control';
 import { LayoutBase } from '../layout/layout-base';
-import { LayoutablePropertiesDefault } from '../layout/layoutable-properties-default';
+import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
 import { ILayoutableControlLabel } from '../layout/layoutable-control-label';
 import { ILayoutableControlLabelTemplate } from '../layout/layoutable-control-label-template';
 import { ILayoutableContainer } from '../layout/layoutable-container';
+import { LayoutableControlLabelTemplate } from 'app/wrappers/layout/layoutable-control-label-template';
 
 export abstract class BaseWrapper implements ILayoutableControl {
 
@@ -42,6 +43,7 @@ export abstract class BaseWrapper implements ILayoutableControl {
   private name: string;
   private layout: LayoutBase;
   private layoutableProperties: LayoutablePropertiesDefault;
+  private labelTemplate: LayoutableControlLabelTemplate;
 
   private onEnterSub: ISubscription;
   private onLeaveSub: ISubscription;
@@ -145,7 +147,11 @@ export abstract class BaseWrapper implements ILayoutableControl {
   }
 
   public getLabelTemplate(): ILayoutableControlLabelTemplate {
-    return null;
+    if (!this.labelTemplate) {
+      this.labelTemplate = new LayoutableControlLabelTemplate(this.propertyStore.getPropertyStore(data => data.labelTemplate));
+    }
+
+    return this.labelTemplate;
   }
 
   public getMinWidth(): number {
@@ -285,22 +291,22 @@ export abstract class BaseWrapper implements ILayoutableControl {
     return vAlign != null ? vAlign : VerticalAlignment.Stretch;
   }
 
-  public getFontBold(): boolean {
-    return Boolean.falseIfNull(this.propertyStore.getFontBold());
-  }
-
   public getFontFamily(): string {
     const fontFamily: string = this.propertyStore.getFontFamily();
     return fontFamily != null ? fontFamily : 'Arial';
   }
 
-  public getFontItalic(): boolean {
-    return Boolean.falseIfNull(this.propertyStore.getFontItalic());
-  }
-
   public getFontSize(): number {
     const fontSize: number = this.propertyStore.getFontSize();
     return fontSize != null ? fontSize : 14;
+  }
+
+  public getFontBold(): boolean {
+    return Boolean.falseIfNull(this.propertyStore.getFontBold());
+  }
+
+  public getFontItalic(): boolean {
+    return Boolean.falseIfNull(this.propertyStore.getFontItalic());
   }
 
   public getFontUnderline(): boolean {

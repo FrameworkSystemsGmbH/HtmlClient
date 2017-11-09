@@ -1,6 +1,6 @@
 import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
 
-export class WrapColumn {
+export class WrapLayoutColumn {
 
   private minColumnHeight: number;
   private resultColumnWidth: number;

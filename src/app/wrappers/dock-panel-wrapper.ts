@@ -41,5 +41,4 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDock
     instance.setWrapper(this);
     this.attachEvents(instance);
   }
-
 }

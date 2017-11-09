@@ -28,6 +28,8 @@ import { TextBoxDateTimeWrapper } from '../wrappers/textbox-datetime-wrapper';
 import { TextBoxPlainWrapper } from '../wrappers/textbox-plain-wrapper';
 import { VariantWrapper } from '../wrappers/variant-wrapper';
 import { WrapPanelWrapper } from '../wrappers/wrap-panel-wrapper';
+import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
+import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 
 export interface IControlsService {
   createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): BaseWrapper;
@@ -79,6 +81,26 @@ export class ControlsService implements IControlsService {
           this.imageService);
       case ControlType.DockPanel:
         return new DockPanelWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.focusService,
+          this
+        );
+      case ControlType.FieldPanel:
+        return new FieldPanelWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.componentFactoryResolver,
+          this.eventsService,
+          this.focusService,
+          this
+        );
+      case ControlType.FieldRow:
+        return new FieldRowWrapper(
           form,
           parent,
           controlStyle,

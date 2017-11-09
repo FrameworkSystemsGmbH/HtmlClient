@@ -1,6 +1,6 @@
 import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
 
-export class WrapRow {
+export class WrapLayoutRow {
 
   private resultRowHeight: number;
 

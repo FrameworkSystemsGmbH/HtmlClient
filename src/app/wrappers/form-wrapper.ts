@@ -4,7 +4,7 @@ import { BaseWrapper } from './base-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { VariantWrapper } from './variant-wrapper';
 import { FormComponent } from '../controls/form/form.component';
-import { LayoutablePropertiesScrollable } from '../layout/layoutable-properties-scrollable';
+import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
 
 export class FormWrapper extends ContainerWrapper {
 
@@ -200,6 +200,6 @@ export class FormWrapper extends ContainerWrapper {
     layoutableProperties.setHBarNeeded(hBarNeeded);
     layoutableProperties.setVBarNeeded(vBarNeeded);
 
-    this.getLayout().doLayout();
+    this.getLayout().arrange();
   }
 }

@@ -6,6 +6,7 @@ import { ILayoutableControl } from '../layoutable-control';
 import { ILayoutableProperties } from '../layoutable-properties';
 import { HorizontalAlignment } from '../../enums/horizontal-alignment';
 import { VerticalAlignment } from '../../enums/vertical-alignment';
+import { ILayoutableContainer } from 'app/layout/layoutable-container';
 
 export class DockLayout extends LayoutContainerBase {
 
@@ -453,6 +454,16 @@ export class DockLayout extends LayoutContainerBase {
           layoutableProperties.setLayoutHeight(resultHeight);
 
           xPos += wrapper.getResultWidth();
+        }
+      }
+    }
+
+    for (const control of container.getLayoutableControls()) {
+      const subContainer: ILayoutableContainer = control as ILayoutableContainer;
+      if (subContainer) {
+        const layout: any = subContainer.getLayout();
+        if (layout.arrange) {
+          layout.arrange();
         }
       }
     }

@@ -75,10 +75,6 @@ export abstract class ContainerWrapper extends BaseWrapper implements ILayoutabl
 
   }
 
-  public resumeVch(): void {
-    // Noop
-  }
-
   public getControlsJson(controlsJson: Array<any>): void {
     this.controls.forEach((controlWrp: BaseWrapper) => {
       const controlJson: any = controlWrp.getJson();
@@ -95,9 +91,12 @@ export abstract class ContainerWrapper extends BaseWrapper implements ILayoutabl
 
   public attachComponent(container: ContainerWrapper): void {
     super.attachComponent(container);
+    this.attachSubComponents(this);
+  }
 
+  protected attachSubComponents(container: ContainerWrapper): void {
     for (const child of this.controls) {
-      child.attachComponent(this);
+      child.attachComponent(container);
     }
   }
 

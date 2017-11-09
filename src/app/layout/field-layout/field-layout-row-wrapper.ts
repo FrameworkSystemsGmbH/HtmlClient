@@ -1,5 +1,5 @@
 import { IFieldContainer } from './field-container';
-import { FieldCellWrapper } from './field-cell-wrapper';
+import { FieldLayoutCellWrapper } from './field-layout-cell-wrapper';
 import { IFieldRowControl } from './field-row-control';
 import { FieldRowLabelMode } from './field-row-label-mode';
 import { ILayoutableControlLabel } from '../layoutable-control-label';
@@ -12,8 +12,8 @@ import { VerticalAlignment } from '../../enums/vertical-alignment';
  * und kennt den LabelMode.
  * Die Eigenschaften MinRowHeight, MaxRowHeight und ResultRowHeight können gesetzt/gepuffert werden.
  */
-export class FieldRowWrapper {
-  private cells: Array<FieldCellWrapper>;
+export class FieldLayoutRowWrapper {
+  private cells: Array<FieldLayoutCellWrapper>;
   private size: number;
   private labelMode: FieldRowLabelMode;
   private stretchable: boolean;
@@ -27,10 +27,10 @@ export class FieldRowWrapper {
    * Es werden alle Zellen der FieldRow inklusive benötigter Leerzellen aufgebaut.
    * (FieldColumnWrapper werden nicht erzeugt.)
    */
-  constructor(fieldRow: IFieldRowControl, controlLabelsToDelete: Array<ILayoutableControlLabel>) {
-    const fieldContainer: IFieldContainer = fieldRow.getLayoutParent();
+  constructor(fieldRow: IFieldRowControl, controlLabels: Array<ILayoutableControlLabel>) {
+    const fieldContainer: IFieldContainer = fieldRow.getFieldContainer();
 
-    this.cells = new Array<FieldCellWrapper>();
+    this.cells = new Array<FieldLayoutCellWrapper>();
     this.size = fieldRow.getFieldRowSize();
     this.labelMode = fieldRow.getFieldRowLabelMode();
 
@@ -52,9 +52,9 @@ export class FieldRowWrapper {
       const mergedLabel: ILayoutableControlLabel = fieldRow.getControlLabel();
         if (mergedLabel != null) {
           mergedLabel.setParent(fieldContainer);
-          controlLabelsToDelete.remove(mergedLabel);
+          controlLabels.remove(mergedLabel);
         }
-        this.cells.push(new FieldCellWrapper(null, mergedLabel, rowLabelTemplate));
+        this.cells.push(new FieldLayoutCellWrapper(null, mergedLabel, rowLabelTemplate));
         break;
 
       case FieldRowLabelMode.Generated:
@@ -66,23 +66,23 @@ export class FieldRowWrapper {
             }
             if (generatedLabel != null) {
               generatedLabel.setParent(fieldContainer);
-              controlLabelsToDelete.remove(generatedLabel);
+              controlLabels.remove(generatedLabel);
             }
             break;
           }
         }
-        this.cells.push(new FieldCellWrapper(null, generatedLabel, rowLabelTemplate));
+        this.cells.push(new FieldLayoutCellWrapper(null, generatedLabel, rowLabelTemplate));
         break;
 
       case FieldRowLabelMode.None:
         // insert empty cell
-        this.cells.push(new FieldCellWrapper(null, null, rowLabelTemplate));
+        this.cells.push(new FieldLayoutCellWrapper(null, null, rowLabelTemplate));
         break;
 
       case FieldRowLabelMode.NoneAligned:
         for (const wrapper of controlWrappers) {
           if (wrapper.getIsVisible() || includeInvisibleControls) {
-            this.cells.push(new FieldCellWrapper(wrapper, null, rowLabelTemplate));
+            this.cells.push(new FieldLayoutCellWrapper(wrapper, null, rowLabelTemplate));
             break;
           }
         }
@@ -101,7 +101,7 @@ export class FieldRowWrapper {
       if (isFirst) {
         // in case of labelMode=none-aligned the first control wrapper was already inserted
         if (this.labelMode !== FieldRowLabelMode.NoneAligned) {
-          this.cells.push(new FieldCellWrapper(wrapper, null, null));
+          this.cells.push(new FieldLayoutCellWrapper(wrapper, null, null));
         }
         isFirst = false;
       } else {
@@ -111,12 +111,12 @@ export class FieldRowWrapper {
             // ignore invisible generated labels
             if (wrapper.getLabelTemplate().getIsVisible()) {
               controlLabel.setParent(fieldContainer);
-              controlLabelsToDelete.remove(controlLabel);
-              this.cells.push(new FieldCellWrapper(null, controlLabel, null));
+              controlLabels.remove(controlLabel);
+              this.cells.push(new FieldLayoutCellWrapper(null, controlLabel, null));
             }
           }
         }
-        this.cells.push(new FieldCellWrapper(wrapper, null, null));
+        this.cells.push(new FieldLayoutCellWrapper(wrapper, null, null));
       }
     }
 
@@ -130,7 +130,7 @@ export class FieldRowWrapper {
     }
   }
 
-  public getCells(): Array<FieldCellWrapper> {
+  public getCells(): Array<FieldLayoutCellWrapper> {
     return this.cells;
   }
 
@@ -138,7 +138,7 @@ export class FieldRowWrapper {
     return this.cells.length;
   }
 
-  public getCell(index: number): FieldCellWrapper {
+  public getCell(index: number): FieldLayoutCellWrapper {
     return this.cells[index];
   }
 

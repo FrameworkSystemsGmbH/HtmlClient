@@ -179,5 +179,15 @@ export class ContainerLayout extends LayoutContainerBase {
 
       yPos += wrapper.getResultHeight();
     }
+
+    for (const control of container.getLayoutableControls()) {
+      const subContainer: ILayoutableContainer = control as ILayoutableContainer;
+      if (subContainer) {
+        const layout: any = subContainer.getLayout();
+        if (layout.arrange) {
+          layout.arrange();
+        }
+      }
+    }
   }
 }

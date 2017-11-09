@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { ContainerComponent } from '../container.component';
 import { FormWrapper } from '../../wrappers/form-wrapper';
-import { LayoutablePropertiesScrollable } from '../../layout/layoutable-properties-scrollable';
+import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
 
 @Component({
   selector: 'hc-form',

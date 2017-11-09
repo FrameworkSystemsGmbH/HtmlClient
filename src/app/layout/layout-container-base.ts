@@ -11,19 +11,6 @@ export abstract class LayoutContainerBase extends LayoutBase {
     return super.getControl() as ILayoutableContainer;
   }
 
-  public doLayout(): void {
-    this.arrange();
-    for (const control of this.getControl().getLayoutableControls()) {
-      const container: ILayoutableContainer = control as ILayoutableContainer;
-      if (container) {
-        const layout: any = container.getLayout();
-        if (layout.doLayout) {
-          layout.doLayout();
-        }
-      }
-    }
-  }
-
-  protected abstract arrange(): void;
+  public abstract arrange(): void;
 
 }

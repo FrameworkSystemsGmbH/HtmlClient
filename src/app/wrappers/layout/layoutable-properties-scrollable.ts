@@ -1,5 +1,5 @@
 import { LayoutablePropertiesDefault } from './layoutable-properties-default';
-import { BaseWrapper } from '../wrappers/base-wrapper';
+import { BaseWrapper } from 'app/wrappers/base-wrapper';
 
 export class LayoutablePropertiesScrollable extends LayoutablePropertiesDefault {
 
