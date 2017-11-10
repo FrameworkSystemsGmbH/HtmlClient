@@ -124,7 +124,7 @@ export class FormWrapper extends ContainerWrapper {
     // A form creates its component directly on the frame's ViewContainerRef in 'attachComponentToFrame()'
   }
 
-  public doLayout(availableWidth: number): void {
+  public doLayout(availableWidth: number, availableHeight: number): void {
     // Get the absolute minimum width of the form
     const minWidth: number = this.getMinLayoutWidth();
 
@@ -144,7 +144,11 @@ export class FormWrapper extends ContainerWrapper {
       resultWidth = minWidth;
     }
 
-    resultHeight = minHeight;
+    if (minHeight < availableHeight) {
+      resultHeight = availableHeight;
+    } else {
+      resultHeight = minHeight;
+    }
 
     const layoutableProperties: LayoutablePropertiesScrollable = this.getLayoutableProperties();
     layoutableProperties.setLayoutWidth(resultWidth);
