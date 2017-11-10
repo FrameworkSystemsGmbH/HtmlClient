@@ -108,18 +108,17 @@ export class FieldLayout extends LayoutContainerBase {
         } else {
           rowMinWidth += hSpacing + cell.getColumnOrCellMinWidth();
         }
-
       }
       minWidth = Math.max(minWidth, rowMinWidth);
     }
 
     if (minWidth > 0) {
-      // include insets (padding) of the container
+      // include insets (padding + border + margin) of the container
       minWidth += container.getInsetsLeft() + container.getInsetsRight();
     }
 
     // determine at the container defined minimum size (including margin)
-    const containerMinWidth: number = container.getMinWidth() + Number.zeroIfNull(container.getMarginLeft()) + Number.zeroIfNull(container.getMarginRight());
+    const containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
 
     // the greater value wins: calculated minimum size for all children or defined container minimum size
     return Math.max(minWidth, Number.zeroIfNull(containerMinWidth));
@@ -130,9 +129,11 @@ export class FieldLayout extends LayoutContainerBase {
 
     const container: IFieldContainer = this.getControl();
 
-    // insets (padding and border) of the container
+    // include insets (padding + border + margin) of the container
     const insetsLeft: number = container.getInsetsLeft();
     const insetsRight: number = container.getInsetsRight();
+    const insetsTop: number = container.getInsetsTop();
+    const insetsBottom: number = container.getInsetsBottom();
 
     const hSpacing: number = container.getSpacingHorizontal();
     const vSpacing: number = container.getSpacingVertical();
@@ -224,7 +225,6 @@ export class FieldLayout extends LayoutContainerBase {
             cell.setResultWidth(cell.getMinWidth());
           }
         }
-
       } else {
         // normal mode
 
@@ -251,7 +251,6 @@ export class FieldLayout extends LayoutContainerBase {
                 availableWidth -= cell.getResultWidth();
               }
             }
-
           }
         }
 
@@ -309,16 +308,17 @@ export class FieldLayout extends LayoutContainerBase {
           availableWidth -= cell.getResultWidth();
           stretchFactor = availableWidth / sumMinWidths;
         }
-
       }
 
-      // for both modes:
-      // now all result widths are set, so calculate min height for all rows
-      // add them including vertical spaces.
+      // For both modes:
+      // 1. All result widths are new set, so calculate minimum height for all rows
+      // 2. Add them up including vertical spacing
       let rowMinHeight: number = 0;
+
       for (const cell of row.getCells()) {
         rowMinHeight = Math.max(rowMinHeight, cell.getMinHeight());
       }
+
       row.setMinRowHeight(rowMinHeight);
 
       if (rowMinHeight > 0) {
@@ -329,17 +329,25 @@ export class FieldLayout extends LayoutContainerBase {
         }
         minHeight += rowMinHeight;
       }
-
     }
 
-    return minHeight;
+    // Add vertical insets
+    if (minHeight > 0) {
+      minHeight += insetsTop + insetsBottom;
+    }
+
+    // Determine the container minimum height and add vertical margins
+    const containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
+
+    // The greater value wins: calculated minimum height or defined container minimum height
+    return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));
   }
 
   public arrange(): void {
     const container: IFieldContainer = this.getControl();
 
-    const containerWidth: number = container.getLayoutableProperties().getWidth();
-    const containerHeight: number = container.getLayoutableProperties().getHeight();
+    const containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
+    const containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
     // consistency check
     if (containerWidth !== this.width) {
@@ -347,7 +355,6 @@ export class FieldLayout extends LayoutContainerBase {
     }
 
     // include insets (padding and border) of the container
-    const insetsLeft: number = container.getInsetsLeft();
     const insetsTop: number = container.getInsetsTop();
     const insetsBottom: number = container.getInsetsBottom();
 
@@ -427,7 +434,7 @@ export class FieldLayout extends LayoutContainerBase {
 
     // layout rows
     let addSpacing: boolean = false;
-    let yPos: number = insetsTop;
+    let yPos: number = 0;
     for (const row of this.rows) {
       if (addSpacing) {
         yPos += vSpacing;
@@ -435,7 +442,7 @@ export class FieldLayout extends LayoutContainerBase {
         addSpacing = true;
       }
 
-      this.arrangeRow(container, row, insetsLeft, yPos);
+      this.arrangeRow(container, row, 0, yPos);
 
       yPos += row.getResultRowHeight();
     }
