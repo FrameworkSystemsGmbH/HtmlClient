@@ -4,6 +4,11 @@
   "editor.wordWrapColumn": 180,
   "editor.wrappingIndent": "indent",
 
+  "html.format.wrapLineLength": 180,
+  "html.format.maxPreserveNewLines": 1,
+  "html.suggest.angular1": false,
+  "html.suggest.ionic": false,
+
   "search.exclude": {
     "**/dist": true,
     "**/node_modules": true
@@ -11,10 +16,6 @@
 
   "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
-  "html.format.wrapLineLength": 180,
-  "html.format.maxPreserveNewLines": 1,
-  "html.suggest.angular1": false,
-  "html.suggest.ionic": false,
 
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }
