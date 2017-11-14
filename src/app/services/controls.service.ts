@@ -15,7 +15,7 @@ import { PatternFormatService } from './formatter/pattern-format.service';
 import { DateTimeFormatService } from './formatter/datetime-format.service';
 import { StringFormatService } from './formatter/string-format.service';
 
-import { BaseWrapper } from '../wrappers/base-wrapper';
+import { ControlWrapper } from '../wrappers/control-wrapper';
 import { ButtonImageWrapper } from '../wrappers/button-image-wrapper';
 import { ButtonPlainWrapper } from '../wrappers/button-plain-wrapper';
 import { ContainerWrapper } from '../wrappers/container-wrapper';
@@ -32,7 +32,7 @@ import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 
 export interface IControlsService {
-  createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): BaseWrapper;
+  createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper;
 }
 
 @Injectable()
@@ -50,7 +50,7 @@ export class ControlsService implements IControlsService {
     private stringFormatService: StringFormatService
   ) { }
 
-  public createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): BaseWrapper {
+  public createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper {
     const controlType: ControlType = controlJson.meta.typeId;
     const controlStyleStr: string = controlJson.meta.style;
     const controlStyle: PropertyData = controlStyleStr ? this.controlStyleService.getControlStyle(controlStyleStr) : null;

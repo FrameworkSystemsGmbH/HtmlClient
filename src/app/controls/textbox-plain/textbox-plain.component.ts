@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 
-import { TextBoxBaseComponent } from '../textbox-base.component';
+import { TextBoxComponent } from '../textbox.component';
 import { TextBoxPlainWrapper } from '../../wrappers/textbox-plain-wrapper';
 import { StringFormatService } from '../../services/formatter/string-format.service';
 
@@ -9,7 +9,7 @@ import { StringFormatService } from '../../services/formatter/string-format.serv
   templateUrl: './textbox-plain.component.html',
   styleUrls: ['./textbox-plain.component.scss']
 })
-export class TextBoxPlainComponent extends TextBoxBaseComponent implements OnInit {
+export class TextBoxPlainComponent extends TextBoxComponent implements OnInit {
 
   @ViewChild('input')
   public input: ElementRef;

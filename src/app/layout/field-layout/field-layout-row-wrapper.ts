@@ -23,9 +23,8 @@ export class FieldLayoutRowWrapper {
 
   /**
    * Erzeugt einen FieldRowWrapper zur angegebenen UIFieldRow und puffert das zugehörige rowLabelTemplate.
-   * Für alle Elemente der UIFieldRow werden die LayoutControlWrapper erzeugt.
+   * Für alle Elemente der FieldRow werden die LayoutControlWrapper erzeugt.
    * Es werden alle Zellen der FieldRow inklusive benötigter Leerzellen aufgebaut.
-   * (FieldColumnWrapper werden nicht erzeugt.)
    */
   constructor(fieldRow: IFieldRowControl, controlLabels: Array<ILayoutableControlLabel>) {
     const fieldContainer: IFieldContainer = fieldRow.getFieldContainer();

@@ -1,13 +1,13 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import { ButtonBaseComponent } from '../button-base.component';
+import { ButtonComponent } from '../button.component';
 
 @Component({
   selector: 'hc-btn-plain',
   templateUrl: './button-plain.component.html',
   styleUrls: ['./button-plain.component.scss']
 })
-export class ButtonPlainComponent extends ButtonBaseComponent {
+export class ButtonPlainComponent extends ButtonComponent {
 
   @ViewChild('focus')
   public focus: ElementRef;

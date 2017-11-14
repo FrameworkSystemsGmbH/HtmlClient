@@ -5,10 +5,10 @@ import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
 import { IPatternFormatService } from '../services/formatter/pattern-format.service';
 
-import { TextBoxBaseComponent } from '../controls/textbox-base.component';
+import { TextBoxComponent } from '../controls/textbox.component';
 import { FormWrapper } from './form-wrapper';
 import { ContainerWrapper } from './container-wrapper';
-import { BaseWrapperFittedData } from './base-wrapper-fitted-data';
+import { FittedDataWrapper } from './fitted-data-wrapper';
 import { PropertyData } from '../common/property-data';
 import { TextAlign } from '../enums/text-align';
 import { TextFormat } from '../enums/text-format';
@@ -18,7 +18,7 @@ import { ClientValidatedEvent } from '../common/events/client-validated-event';
 import { ControlEvent } from '../enums/control-event';
 import { ControlVisibility } from '../enums/control-visibility';
 
-export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
+export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
 
   private readonly patternFormatService: IPatternFormatService;
 
@@ -36,8 +36,8 @@ export abstract class TextBoxBaseWrapper extends BaseWrapperFittedData {
     this.patternFormatService = patternFormatService;
   }
 
-  protected getComponent(): TextBoxBaseComponent {
-    return super.getComponent() as TextBoxBaseComponent;
+  protected getComponent(): TextBoxComponent {
+    return super.getComponent() as TextBoxComponent;
   }
 
   public getDisabledBackColor(): string {

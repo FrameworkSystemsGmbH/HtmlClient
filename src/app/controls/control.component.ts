@@ -1,10 +1,10 @@
 import { OnDestroy, Output, EventEmitter } from '@angular/core';
 
-import { BaseWrapper } from '../wrappers/base-wrapper';
+import { ControlWrapper } from '../wrappers/control-wrapper';
 
-export abstract class BaseComponent implements OnDestroy {
+export abstract class ControlComponent implements OnDestroy {
 
-  private wrapper: BaseWrapper;
+  private wrapper: ControlWrapper;
 
   @Output()
   public onEnter: EventEmitter<any>;
@@ -28,11 +28,11 @@ export abstract class BaseComponent implements OnDestroy {
     }
   }
 
-  public getWrapper(): BaseWrapper {
+  public getWrapper(): ControlWrapper {
     return this.wrapper;
   }
 
-  public setWrapper(wrapper: BaseWrapper): void {
+  public setWrapper(wrapper: ControlWrapper): void {
     this.wrapper = wrapper;
 
     if (wrapper.hasOnEnterEvent()) {

@@ -1,6 +1,6 @@
 import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
 
-import { BaseWrapper } from './base-wrapper';
+import { ControlWrapper } from './control-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { VariantWrapper } from './variant-wrapper';
 import { FormComponent } from '../controls/form/form.component';
@@ -80,13 +80,13 @@ export class FormWrapper extends ContainerWrapper {
         if (controlJson.meta.parentName) {
           parent = this.findControlRecursive(controlJson.meta.parentName) as ContainerWrapper;
         }
-        const control: BaseWrapper = this.controlsService.createWrapperFromType(controlJson, this, parent);
+        const control: ControlWrapper = this.controlsService.createWrapperFromType(controlJson, this, parent);
         // #warning Null-Check only because of CustomControls
         if (control) {
           control.setJson(controlJson, true);
         }
       } else {
-        const control: BaseWrapper = this.findControlRecursive(controlJson.meta.name);
+        const control: ControlWrapper = this.findControlRecursive(controlJson.meta.name);
         if (control) {
           control.setJson(controlJson, false);
         }
@@ -95,7 +95,7 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   public setFocusControl(name: string): void {
-    const control: BaseWrapper = this.findControlRecursive(name);
+    const control: ControlWrapper = this.findControlRecursive(name);
 
     if (control) {
       control.setFocus();
@@ -113,6 +113,7 @@ export class FormWrapper extends ContainerWrapper {
 
     for (const child of this.controls) {
       child.attachComponent(this);
+      child.attachToVch(this);
     }
   }
 
@@ -120,7 +121,7 @@ export class FormWrapper extends ContainerWrapper {
     // A form is directly attached to a FrameComponent by calling 'attachComponentToFrame()'
   }
 
-  public createComponent(container: ContainerWrapper): void {
+  protected createComponent(container: ContainerWrapper): void {
     // A form creates its component directly on the frame's ViewContainerRef in 'attachComponentToFrame()'
   }
 

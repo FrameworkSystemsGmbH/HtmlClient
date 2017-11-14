@@ -4,12 +4,12 @@ import { IEventsService } from '../services/events.service';
 import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
 
-import { BaseWrapper } from './base-wrapper';
+import { ControlWrapper } from './control-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { FormWrapper } from './form-wrapper';
 import { PropertyData } from '../common/property-data';
 
-export abstract class BaseWrapperFitted extends BaseWrapper {
+export abstract class FittedWrapper extends ControlWrapper {
 
   private fittedWidth: number;
   private fittedHeight: number;

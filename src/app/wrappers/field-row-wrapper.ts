@@ -22,10 +22,14 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
   }
 
   public getViewContainerRef(): ViewContainerRef {
-    return this.getParent().getViewContainerRef();
+    throw new Error('FieldRowWrapper never gets rendered to the UI! This method should not be called!');
   }
 
   public createComponent(container: ContainerWrapper): void {
-    // FieldRowWrapper never gets rendered to the UI
+    throw new Error('FieldRowWrapper never gets rendered to the UI! This method should not be called!');
+  }
+
+  public attachComponent(container: ContainerWrapper): void {
+    this.attachSubComponents(container);
   }
 }

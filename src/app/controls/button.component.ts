@@ -1,11 +1,11 @@
 import { EventEmitter, Output } from '@angular/core';
 
-import { BaseComponent } from './base.component';
+import { ControlComponent } from './control.component';
 import { ButtonBaseWrapper } from '../wrappers/button-base-wrapper';
 import { ControlVisibility } from '../enums/control-visibility';
 import { StyleUtil } from '../util/style-util';
 
-export abstract class ButtonBaseComponent extends BaseComponent {
+export abstract class ButtonComponent extends ControlComponent {
 
   @Output()
   public onClick: EventEmitter<any>;

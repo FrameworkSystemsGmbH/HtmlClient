@@ -4,7 +4,7 @@ import { IControlsService } from '../services/controls.service';
 import { IEventsService } from '../services/events.service';
 import { IFocusService } from '../services/focus.service';
 
-import { BaseWrapper } from './base-wrapper';
+import { ControlWrapper } from './control-wrapper';
 import { FormWrapper } from './form-wrapper';
 import { ContainerComponent } from '../controls/container.component';
 import { ILayoutableContainer } from '../layout/layoutable-container';
@@ -16,9 +16,9 @@ import { ContainerLayout } from '../layout/container-layout/container-layout';
 import { ILayoutableControl } from '../layout/layoutable-control';
 import { JsonUtil } from '../util/json-util';
 
-export abstract class ContainerWrapper extends BaseWrapper implements ILayoutableContainer {
+export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainer {
 
-  protected controls: Array<BaseWrapper>;
+  protected controls: Array<ControlWrapper>;
   protected controlsService: IControlsService;
 
   constructor(
@@ -32,7 +32,7 @@ export abstract class ContainerWrapper extends BaseWrapper implements ILayoutabl
   ) {
     super(form, parent, controlStyle, resolver, eventsService, focusService);
     this.vchControl = new VchContainer(this);
-    this.controls = new Array<BaseWrapper>();
+    this.controls = new Array<ControlWrapper>();
     this.controlsService = controlsService;
   }
 
@@ -67,16 +67,16 @@ export abstract class ContainerWrapper extends BaseWrapper implements ILayoutabl
     return this.getVchContainer().getChildrenInFlowDirection();
   }
 
-  public addControl(control: BaseWrapper): void {
+  public addChild(control: ControlWrapper): void {
     this.controls.push(control);
   }
 
-  public removeChild(child: ILayoutableControl): void {
-
+  public removeChild(control: ILayoutableControl): void {
+    // this.controls.remove(control);
   }
 
   public getControlsJson(controlsJson: Array<any>): void {
-    this.controls.forEach((controlWrp: BaseWrapper) => {
+    this.controls.forEach((controlWrp: ControlWrapper) => {
       const controlJson: any = controlWrp.getJson();
 
       if (controlJson && !JsonUtil.isEmptyObject(controlJson)) {
@@ -100,7 +100,18 @@ export abstract class ContainerWrapper extends BaseWrapper implements ILayoutabl
     }
   }
 
-  public findControl(name: string): BaseWrapper {
+  public attachToVch(container: ContainerWrapper): void {
+    super.attachToVch(container);
+    this.attachChildrenToVch(this);
+  }
+
+  protected attachChildrenToVch(container: ContainerWrapper): void {
+    for (const child of this.controls) {
+      child.attachToVch(container);
+    }
+  }
+
+  public findControl(name: string): ControlWrapper {
     for (const control of this.controls) {
       if (control.getName() === name) {
         return control;
@@ -110,8 +121,8 @@ export abstract class ContainerWrapper extends BaseWrapper implements ILayoutabl
     return null;
   }
 
-  public findControlRecursive(name: string): BaseWrapper {
-    let control: BaseWrapper = this.findControl(name);
+  public findControlRecursive(name: string): ControlWrapper {
+    let control: ControlWrapper = this.findControl(name);
     if (!control) {
       for (const subControl of this.controls) {
         if (subControl instanceof ContainerWrapper) {

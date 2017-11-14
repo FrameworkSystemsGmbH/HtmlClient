@@ -1,7 +1,7 @@
-import { BaseWrapperFitted } from './base-wrapper-fitted';
+import { FittedWrapper } from './fitted-wrapper';
 import { DataSourceType } from '../enums/datasource-type';
 
-export abstract class BaseWrapperFittedData extends BaseWrapperFitted {
+export abstract class FittedDataWrapper extends FittedWrapper {
 
   protected minWidth: number;
   protected maxWidth: number;

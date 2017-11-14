@@ -8,6 +8,12 @@ import { VerticalAlignment } from '../enums/vertical-alignment';
 
 export interface ILayoutableControl {
 
+  getName(): string;
+
+  getVisibility(): ControlVisibility;
+
+  getLayoutableProperties(): ILayoutableProperties;
+
   getMinLayoutWidth(): number;
 
   getMinLayoutHeight(width: number): number;
@@ -15,12 +21,6 @@ export interface ILayoutableControl {
   getMaxLayoutWidth(): number;
 
   getMaxLayoutHeight(): number;
-
-  getName(): string;
-
-  getVisibility(): ControlVisibility;
-
-  getLayoutableProperties(): ILayoutableProperties;
 
   getMinWidth(): number;
 
@@ -30,14 +30,6 @@ export interface ILayoutableControl {
 
   getMaxHeight(): number;
 
-  getInsetsLeft(): number;
-
-  getInsetsRight(): number;
-
-  getInsetsTop(): number;
-
-  getInsetsBottom(): number;
-
   getMarginLeft(): number;
 
   getMarginRight(): number;
@@ -45,6 +37,14 @@ export interface ILayoutableControl {
   getMarginTop(): number;
 
   getMarginBottom(): number;
+
+  getInsetsLeft(): number;
+
+  getInsetsRight(): number;
+
+  getInsetsTop(): number;
+
+  getInsetsBottom(): number;
 
   getDockItemSize(): number;
 

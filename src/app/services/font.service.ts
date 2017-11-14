@@ -5,7 +5,7 @@ import { ControlStyleService } from './control-style.service';
 import { NumberFormatService } from './formatter/number-format.service';
 import { DateTimeFormatService } from './formatter/datetime-format.service';
 import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
-import { BaseWrapperFittedData } from '../wrappers/base-wrapper-fitted-data';
+import { FittedDataWrapper } from '../wrappers/fitted-data-wrapper';
 import { PropertyStore } from '../common/property-store';
 import { PropertyLayer } from '../common/property-layer';
 import { DataSourceType } from '../enums/datasource-type';
@@ -77,7 +77,7 @@ export class FontService implements IFontService {
     return this.baseControlStyle.getMaxWidthRaster();
   }
 
-  private getMeasuredWidth(wrapper: BaseWrapperFittedData, type: DataSourceType, length: number, scale: number,
+  private getMeasuredWidth(wrapper: FittedDataWrapper, type: DataSourceType, length: number, scale: number,
     format: TextFormat, formatPattern: string, raster: number): number {
     switch (type) {
       case DataSourceType.String:
@@ -91,7 +91,7 @@ export class FontService implements IFontService {
     }
   }
 
-  private getMeasuredHeight(wrapper: BaseWrapperFittedData, lines: number): number {
+  private getMeasuredHeight(wrapper: FittedDataWrapper, lines: number): number {
     let bufferKey: string = this.getFontKey(wrapper);
     bufferKey = this.addKey(bufferKey, lines);
 
@@ -118,7 +118,7 @@ export class FontService implements IFontService {
     }
   }
 
-  private getMaxWidthDigit(wrapper: BaseWrapperFittedData): number {
+  private getMaxWidthDigit(wrapper: FittedDataWrapper): number {
     const bufferKey: string = this.getFontKey(wrapper);
     let bufferedValue: number = this.maxWidthDigitBuffer.get(bufferKey);
 
@@ -148,7 +148,7 @@ export class FontService implements IFontService {
     return Number.zeroIfNull(bufferedValue);
   }
 
-  private getFontKey(wrapper: BaseWrapperFittedData): string {
+  private getFontKey(wrapper: FittedDataWrapper): string {
     return wrapper.getFontFamily() + this.separator + wrapper.getFontSize() + this.separator + wrapper.getFontBold();
   }
 
@@ -156,7 +156,7 @@ export class FontService implements IFontService {
     return key + this.separator + (value == null ? '' : value.toString());
   }
 
-  private getStringWidthRastered(wrapper: BaseWrapperFittedData, length: number, format: TextFormat, raster: number): number {
+  private getStringWidthRastered(wrapper: FittedDataWrapper, length: number, format: TextFormat, raster: number): number {
     if (length == null || length <= 0) {
       return raster;
     }
@@ -176,7 +176,7 @@ export class FontService implements IFontService {
     return Number.zeroIfNull(bufferValue);
   }
 
-  private getDateTimeWidthRastered(wrapper: BaseWrapperFittedData, format: TextFormat, formatPattern: string, raster: number): number {
+  private getDateTimeWidthRastered(wrapper: FittedDataWrapper, format: TextFormat, formatPattern: string, raster: number): number {
     let bufferKey: string = this.getFontKey(wrapper);
     bufferKey = this.addKey(bufferKey, format);
     bufferKey = this.addKey(bufferKey, formatPattern);
@@ -192,7 +192,7 @@ export class FontService implements IFontService {
     return Number.zeroIfNull(bufferValue);
   }
 
-  private getNumberWidthRastered(wrapper: BaseWrapperFittedData, type: DataSourceType, scale: number,
+  private getNumberWidthRastered(wrapper: FittedDataWrapper, type: DataSourceType, scale: number,
     precision: number, format: TextFormat, formatPattern: string, raster: number): number {
 
     let bufferKey: string = this.getFontKey(wrapper);
@@ -213,12 +213,12 @@ export class FontService implements IFontService {
     return Number.zeroIfNull(bufferValue);
   }
 
-  private measureLinesHeight(wrapper: BaseWrapperFittedData, lines: number): number {
+  private measureLinesHeight(wrapper: FittedDataWrapper, lines: number): number {
     const fontSize: number = wrapper.getFontSize();
     return fontSize * lines;
   }
 
-  private measureStringWidth(wrapper: BaseWrapperFittedData, length: number, format: TextFormat) {
+  private measureStringWidth(wrapper: FittedDataWrapper, length: number, format: TextFormat) {
     // 1. Get the measure text and either cut to desired length or determine the factor that is needed to achieve the desired length
     let factor: number = 1;
     let measureText: string = this.getMeasureText();
@@ -252,7 +252,7 @@ export class FontService implements IFontService {
     return measureTextWidth * factor;
   }
 
-  private measureDateTimeWidth(wrapper: BaseWrapperFittedData, textFormat: TextFormat, formatPattern: string): number {
+  private measureDateTimeWidth(wrapper: FittedDataWrapper, textFormat: TextFormat, formatPattern: string): number {
     let result: number = 0;
 
     const fontFamily: string = wrapper.getFontFamily();
@@ -279,7 +279,7 @@ export class FontService implements IFontService {
     return result;
   }
 
-  private measureNumberWidth(wrapper: BaseWrapperFittedData, type: DataSourceType, scale: number,
+  private measureNumberWidth(wrapper: FittedDataWrapper, type: DataSourceType, scale: number,
     precision: number, textFormat: TextFormat, formatPattern: string): number {
 
     const maxWidthDigit: number = this.getMaxWidthDigit(wrapper);

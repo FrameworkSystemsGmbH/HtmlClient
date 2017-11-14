@@ -1,22 +1,22 @@
 import { VchControl } from './vch-control';
-import { BaseWrapper } from '../wrappers/base-wrapper';
+import { ControlWrapper } from '../wrappers/control-wrapper';
 import { ContainerWrapper } from '../wrappers/container-wrapper';
 
 export class VchContainer extends VchControl {
 
-  private children: Array<BaseWrapper> = new Array<BaseWrapper>();
+  private children: Array<ControlWrapper> = new Array<ControlWrapper>();
 
   constructor(private container: ContainerWrapper) {
     super();
   }
 
-  public getChildren(): Array<BaseWrapper> {
+  public getChildren(): Array<ControlWrapper> {
     return this.children;
   }
 
-  public getChildrenInFlowDirection(): Array<BaseWrapper> {
+  public getChildrenInFlowDirection(): Array<ControlWrapper> {
     if (this.container.getInvertFlowDirection()) {
-      const result: Array<BaseWrapper> = this.children.clone();
+      const result: Array<ControlWrapper> = this.children.clone();
       return result ? result.reverse() : result;
     } else {
       return this.children;
@@ -27,11 +27,11 @@ export class VchContainer extends VchControl {
     return this.children.length;
   }
 
-  public getChildAt(index: number): BaseWrapper {
+  public getChildAt(index: number): ControlWrapper {
     return index < this.getChildrenCount() ? this.children[index] : null;
   }
 
-  public addChild(wrapper: BaseWrapper): void {
+  public addChild(wrapper: ControlWrapper): void {
     // Remove child from old parent first
     const oldParent: ContainerWrapper = wrapper.getVchControl().getParent();
 
@@ -44,7 +44,8 @@ export class VchContainer extends VchControl {
     wrapper.getVchControl().setParent(this.container);
   }
 
-  public removeChild(wrapper: BaseWrapper): void {
+  public removeChild(wrapper: ControlWrapper): void {
+    wrapper.getVchControl().setParent(null);
     this.children.remove(wrapper);
   }
 }

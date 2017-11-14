@@ -1,12 +1,12 @@
 import { ElementRef } from '@angular/core';
 
-import { BaseComponent } from './base.component';
+import { ControlComponent } from './control.component';
 import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
 import { ILayoutableProperties } from '../layout/layoutable-properties';
 import { StyleUtil } from '../util/style-util';
 import { ControlVisibility } from '../enums/control-visibility';
 
-export abstract class TextBoxBaseComponent extends BaseComponent {
+export abstract class TextBoxComponent extends ControlComponent {
 
   public callOnEnter(event: any): void {
     if (this.getWrapper().hasOnEnterEvent()) {

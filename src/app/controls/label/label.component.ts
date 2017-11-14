@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 
-import { BaseComponent } from '../base.component';
+import { ControlComponent } from '../control.component';
 import { LabelWrapper } from '../../wrappers/label-wrapper';
 import { ControlVisibility } from '../../enums/control-visibility';
 import { StyleUtil } from '../../util/style-util';
@@ -10,7 +10,7 @@ import { StyleUtil } from '../../util/style-util';
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss']
 })
-export class LabelComponent extends BaseComponent {
+export class LabelComponent extends ControlComponent {
 
   @ViewChild('focus')
   public focus: ElementRef;

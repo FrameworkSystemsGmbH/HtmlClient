@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 
-import { TextBoxBaseComponent } from '../textbox-base.component';
+import { TextBoxComponent } from '../textbox.component';
 import { TextBoxNumberWrapper } from '../../wrappers/textbox-number-wrapper';
 import { NumberFormatService } from '../../services/formatter/number-format.service';
 
@@ -9,7 +9,7 @@ import { NumberFormatService } from '../../services/formatter/number-format.serv
   templateUrl: './textbox-number.component.html',
   styleUrls: ['./textbox-number.component.scss']
 })
-export class TextBoxNumberComponent extends TextBoxBaseComponent implements OnInit {
+export class TextBoxNumberComponent extends TextBoxComponent implements OnInit {
 
   @ViewChild('input')
   public input: ElementRef;

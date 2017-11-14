@@ -1,14 +1,14 @@
 import { ISubscription } from 'rxjs/Subscription';
 
-import { ButtonBaseComponent } from '../controls/button-base.component';
-import { BaseWrapperFitted } from './base-wrapper-fitted';
+import { ButtonComponent } from '../controls/button.component';
+import { FittedWrapper } from './fitted-wrapper';
 import { PropertyLayer } from '../common/property-layer';
 import { ControlVisibility } from '../enums/control-visibility';
 import { ControlEvent } from '../enums/control-event';
 import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
 import { ClientClickEvent } from '../common/events/client-click-event';
 
-export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
+export abstract class ButtonBaseWrapper extends FittedWrapper {
 
   private onClickSub: ISubscription;
 
@@ -33,7 +33,7 @@ export abstract class ButtonBaseWrapper extends BaseWrapperFitted {
     }
   }
 
-  protected attachEvents(instance: ButtonBaseComponent): void {
+  protected attachEvents(instance: ButtonComponent): void {
     super.attachEvents(instance);
 
     if (this.events & ControlEvent.OnClick) {

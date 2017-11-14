@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import { ButtonBaseComponent } from '../button-base.component';
+import { ButtonComponent } from '../button.component';
 import { ButtonImageWrapper } from '../../wrappers/button-image-wrapper';
 import { StyleUtil } from '../../util/style-util';
 
@@ -9,7 +9,7 @@ import { StyleUtil } from '../../util/style-util';
   templateUrl: './button-image.component.html',
   styleUrls: ['./button-image.component.scss']
 })
-export class ButtonImageComponent extends ButtonBaseComponent {
+export class ButtonImageComponent extends ButtonComponent {
 
   @ViewChild('focus')
   public focus: ElementRef;

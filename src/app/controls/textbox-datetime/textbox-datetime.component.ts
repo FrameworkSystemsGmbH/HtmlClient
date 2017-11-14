@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 
-import { TextBoxBaseComponent } from '../textbox-base.component';
+import { TextBoxComponent } from '../textbox.component';
 import { TextBoxDateTimeWrapper } from '../../wrappers/textbox-datetime-wrapper';
 import { DateTimeFormatService } from '../../services/formatter/datetime-format.service';
 
@@ -9,7 +9,7 @@ import { DateTimeFormatService } from '../../services/formatter/datetime-format.
   templateUrl: './textbox-datetime.component.html',
   styleUrls: ['./textbox-datetime.component.scss']
 })
-export class TextBoxDateTimeComponent extends TextBoxBaseComponent implements OnInit {
+export class TextBoxDateTimeComponent extends TextBoxComponent implements OnInit {
 
   @ViewChild('input')
   public input: ElementRef;

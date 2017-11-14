@@ -1,11 +1,11 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
 
 import { ContainerWrapper } from './container-wrapper';
-import { BaseWrapperFitted } from './base-wrapper-fitted';
+import { FittedWrapper } from './fitted-wrapper';
 import { LabelComponent } from '../controls/label/label.component';
 import { TextAlign } from '../enums/text-align';
 
-export class LabelWrapper extends BaseWrapperFitted {
+export class LabelWrapper extends FittedWrapper {
 
   public getCaption(): string {
     const caption: string = this.propertyStore.getCaption();
