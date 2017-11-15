@@ -1,22 +1,23 @@
-import { VchControl } from './vch-control';
-import { ControlWrapper } from '../wrappers/control-wrapper';
-import { ContainerWrapper } from '../wrappers/container-wrapper';
+import { ILayoutableWrapper } from 'app/wrappers/layout/layoutable-wrapper.interface';
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+
+import { VchControl } from 'app/vch/vch-control';
 
 export class VchContainer extends VchControl {
 
-  private children: Array<ControlWrapper> = new Array<ControlWrapper>();
+  private children: Array<ILayoutableWrapper> = new Array<ILayoutableWrapper>();
 
-  constructor(private container: ContainerWrapper) {
+  constructor(private container: ILayoutableContainerWrapper) {
     super();
   }
 
-  public getChildren(): Array<ControlWrapper> {
+  public getChildren(): Array<ILayoutableWrapper> {
     return this.children;
   }
 
-  public getChildrenInFlowDirection(): Array<ControlWrapper> {
+  public getChildrenInFlowDirection(): Array<ILayoutableWrapper> {
     if (this.container.getInvertFlowDirection()) {
-      const result: Array<ControlWrapper> = this.children.clone();
+      const result: Array<ILayoutableWrapper> = this.children.clone();
       return result ? result.reverse() : result;
     } else {
       return this.children;
@@ -27,13 +28,13 @@ export class VchContainer extends VchControl {
     return this.children.length;
   }
 
-  public getChildAt(index: number): ControlWrapper {
+  public getChildAt(index: number): ILayoutableWrapper {
     return index < this.getChildrenCount() ? this.children[index] : null;
   }
 
-  public addChild(wrapper: ControlWrapper): void {
+  public addChild(wrapper: ILayoutableWrapper): void {
     // Remove child from old parent first
-    const oldParent: ContainerWrapper = wrapper.getVchControl().getParent();
+    const oldParent: ILayoutableContainerWrapper = wrapper.getVchControl().getParent();
 
     if (oldParent) {
       oldParent.getVchContainer().removeChild(wrapper);
@@ -44,7 +45,7 @@ export class VchContainer extends VchControl {
     wrapper.getVchControl().setParent(this.container);
   }
 
-  public removeChild(wrapper: ControlWrapper): void {
+  public removeChild(wrapper: ILayoutableWrapper): void {
     wrapper.getVchControl().setParent(null);
     this.children.remove(wrapper);
   }

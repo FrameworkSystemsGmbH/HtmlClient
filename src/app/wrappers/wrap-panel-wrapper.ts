@@ -1,14 +1,15 @@
 import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
 
-import { ContainerWrapper } from './container-wrapper';
-import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
-import { IWrapContainer } from '../layout/wrap-layout/wrap-container';
-import { WrapArrangement } from '../layout/wrap-layout/wrap-arrangement';
-import { WrapLayout } from '../layout/wrap-layout/wrap-layout';
-import { WrapPanelComponent } from '../controls/wrap-panel/wrap-panel.component';
-import { HorizontalContentAlignment } from '../enums/horizontal-content-alignment';
-import { VerticalContentAlignment } from '../enums/vertical-content-alignment';
-import { LayoutBase } from '../layout/layout-base';
+import { IWrapContainer } from 'app/layout/wrap-layout/wrap-container.interface';
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+
+import { WrapPanelComponent } from 'app/controls/wrap-panel/wrap-panel.component';
+import { ContainerWrapperSpaceable } from 'app/wrappers/container-wrapper-spaceable';
+import { LayoutBase } from 'app/layout/layout-base';
+import { WrapLayout } from 'app/layout/wrap-layout/wrap-layout';
+import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
+import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignment';
+import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
 
 export class WrapPanelWrapper extends ContainerWrapperSpaceable implements IWrapContainer {
 
@@ -30,28 +31,22 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements IWrap
   }
 
   public getWrapArrangement(): WrapArrangement {
-    const wrapArrangement: WrapArrangement = this.propertyStore.getWrapArrangement();
+    const wrapArrangement: WrapArrangement = this.getPropertyStore().getWrapArrangement();
     return wrapArrangement != null ? wrapArrangement : WrapArrangement.Horizontal;
   }
 
   public getHorizontalContentAlignment(): HorizontalContentAlignment {
-    const horizontalContentAlignment: HorizontalContentAlignment = this.propertyStore.getHorizontalContentAlignment();
+    const horizontalContentAlignment: HorizontalContentAlignment = this.getPropertyStore().getHorizontalContentAlignment();
     return horizontalContentAlignment != null ? horizontalContentAlignment : HorizontalContentAlignment.Left;
   }
 
   public getVerticalContentAlignment(): VerticalContentAlignment {
-    const verticalContentAlignment: VerticalContentAlignment = this.propertyStore.getVerticalContentAlignment();
+    const verticalContentAlignment: VerticalContentAlignment = this.getPropertyStore().getVerticalContentAlignment();
     return verticalContentAlignment != null ? verticalContentAlignment : VerticalContentAlignment.Top;
   }
 
-  public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<WrapPanelComponent> = this.componentFactoryResolver.resolveComponentFactory(WrapPanelComponent);
-    const comp: ComponentRef<WrapPanelComponent> = container.getViewContainerRef().createComponent(factory);
-    const instance: WrapPanelComponent = comp.instance;
-
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<WrapPanelComponent> {
+    const factory: ComponentFactory<WrapPanelComponent> = this.getResolver().resolveComponentFactory(WrapPanelComponent);
+    return factory.create(container.getViewContainerRef().injector);
   }
-
 }

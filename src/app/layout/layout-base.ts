@@ -1,4 +1,4 @@
-import { ILayoutableControl } from './layoutable-control';
+import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 
 export abstract class LayoutBase {
 

@@ -1,11 +1,12 @@
-import { LayoutablePropertiesDefault } from './layoutable-properties-default';
-import { LayoutableWrapper } from 'app/wrappers/layoutable-wrapper';
+import { ILayoutableWrapper } from 'app/wrappers/layout/layoutable-wrapper.interface';
+
+import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
 
 export class LayoutablePropertiesScrollable extends LayoutablePropertiesDefault {
 
   private hBarNeeded: boolean;
 
-  constructor(wrapper: LayoutableWrapper) {
+  constructor(wrapper: ILayoutableWrapper) {
     super(wrapper);
   }
 

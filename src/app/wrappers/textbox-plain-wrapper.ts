@@ -1,5 +1,6 @@
 import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
 
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 import { IEventsService } from '../services/events.service';
 import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
@@ -66,13 +67,8 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
     return compRef ? compRef.instance : undefined;
   }
 
-  public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<TextBoxPlainComponent> = this.componentFactoryResolver.resolveComponentFactory(TextBoxPlainComponent);
-    const comp: ComponentRef<TextBoxPlainComponent> = container.getViewContainerRef().createComponent(factory);
-    const instance: TextBoxPlainComponent = comp.instance;
-
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<TextBoxPlainComponent> {
+    const factory: ComponentFactory<TextBoxPlainComponent> = this.getResolver().resolveComponentFactory(TextBoxPlainComponent);
+    return factory.create(container.getViewContainerRef().injector);
   }
 }

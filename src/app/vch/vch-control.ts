@@ -1,14 +1,14 @@
-import { ContainerWrapper } from '../wrappers/container-wrapper';
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
 export class VchControl {
 
-  private parent: ContainerWrapper;
+  private parent: ILayoutableContainerWrapper;
 
-  public getParent(): ContainerWrapper {
+  public getParent(): ILayoutableContainerWrapper {
     return this.parent;
   }
 
-  public setParent(parent: ContainerWrapper): void {
+  public setParent(parent: ILayoutableContainerWrapper): void {
     this.parent = parent;
   }
 }

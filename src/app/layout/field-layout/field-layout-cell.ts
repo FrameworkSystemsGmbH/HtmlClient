@@ -1,11 +1,12 @@
-import { FieldLayoutColumnWrapper } from './field-layout-column-wrapper';
-import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
-import { ILayoutableControlLabel } from '../layoutable-control-label';
-import { ILayoutableControlLabelTemplate } from '../layoutable-control-label-template';
-import { ILayoutableProperties } from '../layoutable-properties';
-import { ControlVisibility } from '../../enums/control-visibility';
-import { HorizontalAlignment } from '../../enums/horizontal-alignment';
-import { VerticalAlignment } from '../../enums/vertical-alignment';
+import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableControlLabelTemplate } from 'app/layout/layoutable-control-label-template.interface';
+
+import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper';
+import { FieldLayoutColumn } from 'app/layout/field-layout/field-layout-column';
+import { ControlVisibility } from 'app/enums/control-visibility';
+import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
+import { VerticalAlignment } from 'app/enums/vertical-alignment';
 
 /**
  * Die Klasse wrappt eine Zelle in einem FieldPanel.
@@ -17,8 +18,8 @@ import { VerticalAlignment } from '../../enums/vertical-alignment';
  *    => für MinWidth und MaxWidth muss zusätzlich zu ControlLabel/LayoutControlWrapper
  *       das LabelTemplate berücksichtigt werden (für erste Spalte interessant).
  */
-export class FieldLayoutCellWrapper {
-  private column: FieldLayoutColumnWrapper;
+export class FieldLayoutCell {
+  private column: FieldLayoutColumn;
   private resultWidth: number;
 
   /**
@@ -28,7 +29,7 @@ export class FieldLayoutCellWrapper {
    */
   constructor(
     private wrapper: LayoutableControlWrapper,
-    private controlLabel: ILayoutableControlLabel,
+    private controlLabel: ILayoutableControl,
     private labelTemplate: ILayoutableControlLabelTemplate) { }
 
   public isVisible(): boolean {
@@ -115,11 +116,11 @@ export class FieldLayoutCellWrapper {
     }
   }
 
-  public getColumn(): FieldLayoutColumnWrapper {
+  public getColumn(): FieldLayoutColumn {
     return this.column;
   }
 
-  public setColumn(column: FieldLayoutColumnWrapper): void {
+  public setColumn(column: FieldLayoutColumn): void {
     this.column = column;
   }
 

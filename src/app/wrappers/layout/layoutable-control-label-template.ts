@@ -1,4 +1,5 @@
-import { ILayoutableControlLabelTemplate } from 'app/layout/layoutable-control-label-template';
+import { ILayoutableControlLabelTemplate } from 'app/layout/layoutable-control-label-template.interface';
+
 import { PropertyStore } from 'app/common/property-store';
 import { TextAlign } from 'app/enums/text-align';
 

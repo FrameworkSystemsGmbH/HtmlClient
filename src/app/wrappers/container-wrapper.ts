@@ -1,22 +1,22 @@
 import { ComponentRef, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 
-import { IControlsService } from '../services/controls.service';
-import { IEventsService } from '../services/events.service';
-import { IFocusService } from '../services/focus.service';
+import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IControlsService } from 'app/services/controls.service';
+import { IEventsService } from 'app/services/events.service';
+import { IFocusService } from 'app/services/focus.service';
 
-import { ControlWrapper } from './control-wrapper';
-import { FormWrapper } from './form-wrapper';
-import { ContainerComponent } from '../controls/container.component';
-import { ILayoutableContainer } from '../layout/layoutable-container';
-import { PropertyData } from '../common/property-data';
-import { VchContainer } from '../vch/vch-container';
-import { LayoutContainerBase } from '../layout/layout-container-base';
-import { LayoutBase } from '../layout/layout-base';
-import { ContainerLayout } from '../layout/container-layout/container-layout';
-import { ILayoutableControl } from '../layout/layoutable-control';
-import { JsonUtil } from '../util/json-util';
+import { ContainerComponent } from 'app/controls/container.component';
+import { ControlWrapper } from 'app/wrappers/control-wrapper';
+import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { LayoutBase } from 'app/layout/layout-base';
+import { LayoutContainerBase } from 'app/layout/layout-container-base';
+import { ContainerLayout } from 'app/layout/container-layout/container-layout';
+import { VchContainer } from 'app/vch/vch-container';
+import { PropertyData } from 'app/common/property-data';
+import { JsonUtil } from 'app/util/json-util';
 
-export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainer {
+export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainerWrapper {
 
   protected controls: Array<ControlWrapper>;
   protected controlsService: IControlsService;
@@ -31,7 +31,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     controlsService: IControlsService
   ) {
     super(form, parent, controlStyle, resolver, eventsService, focusService);
-    this.vchControl = new VchContainer(this);
+    this.setVchControl(new VchContainer(this));
     this.controls = new Array<ControlWrapper>();
     this.controlsService = controlsService;
   }
@@ -56,7 +56,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
   }
 
   public getInvertFlowDirection(): boolean {
-    return this.propertyStore.getInvertFlowDirection();
+    return this.getPropertyStore().getInvertFlowDirection();
   }
 
   public getVchContainer(): VchContainer {
@@ -89,23 +89,23 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     });
   }
 
-  public attachComponent(container: ContainerWrapper): void {
+  public attachComponent(container: ILayoutableContainerWrapper): void {
     super.attachComponent(container);
     this.attachSubComponents(this);
   }
 
-  protected attachSubComponents(container: ContainerWrapper): void {
+  protected attachSubComponents(container: ILayoutableContainerWrapper): void {
     for (const child of this.controls) {
       child.attachComponent(container);
     }
   }
 
-  public attachToVch(container: ContainerWrapper): void {
+  public attachToVch(container: ILayoutableContainerWrapper): void {
     super.attachToVch(container);
     this.attachChildrenToVch(this);
   }
 
-  protected attachChildrenToVch(container: ContainerWrapper): void {
+  protected attachChildrenToVch(container: ILayoutableContainerWrapper): void {
     for (const child of this.controls) {
       child.attachToVch(container);
     }

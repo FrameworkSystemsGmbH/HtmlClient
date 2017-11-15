@@ -1,44 +1,43 @@
-import { ComponentRef, ComponentFactoryResolver } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { IEventsService } from '../services/events.service';
-import { IFocusService } from '../services/focus.service';
+import { ILayoutableWrapper } from 'app/wrappers/layout/layoutable-wrapper.interface';
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IEventsService } from 'app/services/events.service';
+import { IFocusService } from 'app/services/focus.service';
 
-import { ControlComponent } from '../controls/control.component';
-import { ContainerWrapper } from './container-wrapper';
-import { FormWrapper } from './form-wrapper';
-import { ControlVisibility } from '../enums/control-visibility';
-import { HorizontalAlignment } from '../enums/horizontal-alignment';
-import { VerticalAlignment } from '../enums/vertical-alignment';
-import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
-import { ClientEnterEvent } from '../common/events/client-enter-event';
-import { ClientLeaveEvent } from '../common/events/client-leave-event';
-import { ControlEvent } from '../enums/control-event';
-import { ControlLayout } from '../layout/control-layout/control-layout';
-import { VchControl } from '../vch/vch-control';
-import { PropertyStore } from '../common/property-store';
-import { PropertyData } from '../common/property-data';
-import { PropertyLayer } from '../common/property-layer';
-import { ILayoutableControl } from '../layout/layoutable-control';
-import { LayoutBase } from '../layout/layout-base';
+import { ControlComponent } from 'app/controls/control.component';
+import { ContainerWrapper } from 'app/wrappers/container-wrapper';
+import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { LayoutBase } from 'app/layout/layout-base';
 import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
-import { ILayoutableControlLabel } from '../layout/layoutable-control-label';
-import { ILayoutableControlLabelTemplate } from '../layout/layoutable-control-label-template';
-import { ILayoutableContainer } from '../layout/layoutable-container';
-import { LayoutableControlLabelTemplate } from 'app/wrappers/layout/layoutable-control-label-template';
-import { LayoutableWrapper } from 'app/wrappers/layoutable-wrapper';
+import { ControlLayout } from 'app/layout/control-layout/control-layout';
+import { VchControl } from 'app/vch/vch-control';
+import { PropertyStore } from 'app/common/property-store';
+import { PropertyData } from 'app/common/property-data';
+import { PropertyLayer } from 'app/common/property-layer';
+import { ControlVisibility } from 'app/enums/control-visibility';
+import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
+import { VerticalAlignment } from 'app/enums/vertical-alignment';
+import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
+import { ClientEnterEvent } from 'app/common/events/client-enter-event';
+import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
+import { ControlEvent } from 'app/enums/control-event';
 
-export abstract class ControlWrapper extends LayoutableWrapper {
+export abstract class ControlWrapper implements ILayoutableWrapper {
 
-  protected events: ControlEvent;
-  protected vchControl: VchControl;
-  protected componentFactoryResolver: ComponentFactoryResolver;
-  protected eventsService: IEventsService;
-  protected focusService: IFocusService;
-
-  private componentRef: ComponentRef<ControlComponent>;
+  private name: string;
   private form: FormWrapper;
   private parent: ContainerWrapper;
+  private propertyStore: PropertyStore;
+  private vchControl: VchControl;
+  private layout: LayoutBase;
+  private layoutableProperties: LayoutablePropertiesDefault;
+  private resolver: ComponentFactoryResolver;
+  private componentRef: ComponentRef<ControlComponent>;
+  private events: ControlEvent;
+  private eventsService: IEventsService;
+  private focusService: IFocusService;
 
   private onEnterSub: ISubscription;
   private onLeaveSub: ISubscription;
@@ -51,118 +50,61 @@ export abstract class ControlWrapper extends LayoutableWrapper {
     eventsService: IEventsService,
     focusService: IFocusService
   ) {
-    super();
-    this.vchControl = new VchControl();
+    this.setVchControl(new VchControl());
+    this.setPropertyStore(new PropertyStore());
     this.form = form;
     this.parent = parent;
-    this.componentFactoryResolver = resolver;
+    this.resolver = resolver;
     this.eventsService = eventsService;
     this.focusService = focusService;
     this.setControlStyle(controlStyle);
     this.addToParent();
   }
 
-  public getEvents(): ControlEvent {
-    return this.events;
+  public getName(): string {
+    return this.name;
   }
 
-  public addToParent(): void {
-    if (this.parent) {
-      this.parent.addChild(this);
-    }
-  }
-
-  public getTabStop(): boolean {
-    return Boolean.falseIfNull(this.propertyStore.getTabStop());
-  }
-
-  public getIsEditable(): boolean {
-    return Boolean.trueIfNull(this.propertyStore.getIsEditable());
-  }
-
-  public getForeColor(): string {
-    const foreColor: string = this.propertyStore.getForeColor();
-    return foreColor != null ? foreColor : '#000000';
-  }
-
-  public getBackColor(): string {
-    const backColor: string = this.propertyStore.getBackColor();
-    return backColor != null ? backColor : '#FFFFFF';
-  }
-
-  public isMinWidthSet(): boolean {
-    return this.propertyStore.getMinWidth() != null;
-  }
-
-  public isMinHeightSet(): boolean {
-    return this.propertyStore.getMinHeight() != null;
-  }
-
-  public isMaxWidthSet(): boolean {
-    return this.propertyStore.getMaxWidth() != null;
-  }
-
-  public isMaxHeightSet(): boolean {
-    return this.propertyStore.getMaxHeight() != null;
-  }
-
-  public getBorderColor(): string {
-    const borderColor: string = this.propertyStore.getBorderColor();
-    return borderColor != null ? borderColor : '#808080';
-  }
-
-  public getBorderRadiusTopLeft(): number {
-    return Number.zeroIfNull(this.propertyStore.getBorderRadiusTopLeft());
-  }
-
-  public getBorderRadiusTopRight(): number {
-    return Number.zeroIfNull(this.propertyStore.getBorderRadiusTopRight());
-  }
-
-  public getBorderRadiusBottomLeft(): number {
-    return Number.zeroIfNull(this.propertyStore.getBorderRadiusBottomLeft());
-  }
-
-  public getBorderRadiusBottomRight(): number {
-    return Number.zeroIfNull(this.propertyStore.getBorderRadiusBottomRight());
-  }
-
-  public getFontFamily(): string {
-    const fontFamily: string = this.propertyStore.getFontFamily();
-    return fontFamily != null ? fontFamily : 'Arial';
-  }
-
-  public getFontSize(): number {
-    const fontSize: number = this.propertyStore.getFontSize();
-    return fontSize != null ? fontSize : 14;
-  }
-
-  public getFontBold(): boolean {
-    return Boolean.falseIfNull(this.propertyStore.getFontBold());
-  }
-
-  public getFontItalic(): boolean {
-    return Boolean.falseIfNull(this.propertyStore.getFontItalic());
-  }
-
-  public getFontUnderline(): boolean {
-    return Boolean.falseIfNull(this.propertyStore.getFontUnderline());
-  }
-
-  public getForm(): FormWrapper {
-    return this.form;
-  }
-
-  public getParent(): ContainerWrapper {
-    return this.parent;
+  protected setName(name: string): void {
+    this.name = name;
   }
 
   public getVchControl(): VchControl {
     return this.vchControl;
   }
 
-  protected hasChangesLeave(): boolean {
-    return false;
+  protected setVchControl(vchControl: VchControl): void {
+    this.vchControl = vchControl;
+  }
+
+  protected getPropertyStore(): PropertyStore {
+    return this.propertyStore;
+  }
+
+  protected setPropertyStore(propertyStore: PropertyStore): void {
+    this.propertyStore = propertyStore;
+  }
+
+  protected getLayout(): LayoutBase {
+    if (!this.layout) {
+      this.layout = this.createLayout();
+    }
+    return this.layout;
+  }
+
+  protected createLayout(): LayoutBase {
+    return new ControlLayout(this);
+  }
+
+  public getLayoutableProperties(): LayoutablePropertiesDefault {
+    if (!this.layoutableProperties) {
+      this.layoutableProperties = this.createLayoutableProperties();
+    }
+    return this.layoutableProperties;
+  }
+
+  protected createLayoutableProperties(): LayoutablePropertiesDefault {
+    return new LayoutablePropertiesDefault(this);
   }
 
   protected getComponentRef(): ComponentRef<ControlComponent> {
@@ -178,8 +120,236 @@ export abstract class ControlWrapper extends LayoutableWrapper {
     return compRef ? compRef.instance : undefined;
   }
 
-  public onComponentRefDestroyed(): void {
-    this.detachComponent();
+  public getEvents(): ControlEvent {
+    return this.events;
+  }
+
+  public getEventsService(): IEventsService {
+    return this.eventsService;
+  }
+
+  public getFocusService(): IFocusService {
+    return this.focusService;
+  }
+
+  public getResolver(): ComponentFactoryResolver {
+    return this.resolver;
+  }
+
+  public addToParent(): void {
+    if (this.parent) {
+      this.parent.addChild(this);
+    }
+  }
+
+  public getVisibility(): ControlVisibility {
+    const visibility: ControlVisibility = this.getPropertyStore().getVisibility();
+    return visibility != null ? visibility : ControlVisibility.Visible;
+  }
+
+  public getTabStop(): boolean {
+    return Boolean.falseIfNull(this.getPropertyStore().getTabStop());
+  }
+
+  public getIsEditable(): boolean {
+    return Boolean.trueIfNull(this.getPropertyStore().getIsEditable());
+  }
+
+  public getForeColor(): string {
+    const foreColor: string = this.getPropertyStore().getForeColor();
+    return foreColor != null ? foreColor : '#000000';
+  }
+
+  public getBackColor(): string {
+    const backColor: string = this.getPropertyStore().getBackColor();
+    return backColor != null ? backColor : '#FFFFFF';
+  }
+
+  public getMinLayoutWidth(): number {
+    return this.getLayout().measureMinWidth();
+  }
+
+  public getMinLayoutHeight(width: number): number {
+    return this.getLayout().measureMinHeight(width);
+  }
+
+  public getMaxLayoutWidth(): number {
+    return Number.maxIfNull(this.getMaxWidth());
+  }
+
+  public getMaxLayoutHeight(): number {
+    return Number.maxIfNull(this.getMaxHeight());
+  }
+
+  public getMinWidth(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getMinWidth());
+  }
+
+  public isMinWidthSet(): boolean {
+    return this.getPropertyStore().getMinWidth() != null;
+  }
+
+  public getMinHeight(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getMinHeight());
+  }
+
+  public isMinHeightSet(): boolean {
+    return this.getPropertyStore().getMinHeight() != null;
+  }
+
+  public getMaxWidth(): number {
+    return Number.maxIfNull(this.getPropertyStore().getMaxWidth());
+  }
+
+  public isMaxWidthSet(): boolean {
+    return this.getPropertyStore().getMaxWidth() != null;
+  }
+
+  public getMaxHeight(): number {
+    return Number.maxIfNull(this.getPropertyStore().getMaxHeight());
+  }
+
+  public isMaxHeightSet(): boolean {
+    return this.getPropertyStore().getMaxHeight() != null;
+  }
+
+  public getMarginLeft(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getMarginLeft());
+  }
+
+  public getMarginRight(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getMarginRight());
+  }
+
+  public getMarginTop(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getMarginTop());
+  }
+
+  public getMarginBottom(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getMarginBottom());
+  }
+
+  public getBorderColor(): string {
+    const borderColor: string = this.getPropertyStore().getBorderColor();
+    return borderColor != null ? borderColor : '#808080';
+  }
+
+  public getBorderRadiusTopLeft(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getBorderRadiusTopLeft());
+  }
+
+  public getBorderRadiusTopRight(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getBorderRadiusTopRight());
+  }
+
+  public getBorderRadiusBottomLeft(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getBorderRadiusBottomLeft());
+  }
+
+  public getBorderRadiusBottomRight(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getBorderRadiusBottomRight());
+  }
+
+  public getBorderThicknessLeft(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getBorderThicknessLeft());
+  }
+
+  public getBorderThicknessRight(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getBorderThicknessRight());
+  }
+
+  public getBorderThicknessTop(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getBorderThicknessTop());
+  }
+
+  public getBorderThicknessBottom(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getBorderThicknessBottom());
+  }
+
+  public getPaddingLeft(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getPaddingLeft());
+  }
+
+  public getPaddingRight(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getPaddingRight());
+  }
+
+  public getPaddingTop(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getPaddingTop());
+  }
+
+  public getPaddingBottom(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getPaddingBottom());
+  }
+
+  public getInsetsLeft(): number {
+    return this.getPaddingLeft() + this.getBorderThicknessLeft() + this.getMarginLeft();
+  }
+
+  public getInsetsRight(): number {
+    return this.getPaddingRight() + this.getBorderThicknessRight() + this.getMarginRight();
+  }
+
+  public getInsetsTop(): number {
+    return this.getPaddingTop() + this.getBorderThicknessTop() + this.getMarginTop();
+  }
+
+  public getInsetsBottom(): number {
+    return this.getPaddingBottom() + this.getBorderThicknessBottom() + this.getMarginBottom();
+  }
+
+  public getDockItemSize(): number {
+    const dockItemSize: number = this.getPropertyStore().getDockItemSize();
+    return dockItemSize != null ? dockItemSize : null;
+  }
+
+  public getFieldRowSize(): number {
+    const fieldRowSize: number = this.getPropertyStore().getFieldRowSize();
+    return fieldRowSize != null ? fieldRowSize : null;
+  }
+
+  public getHorizontalAlignment(): HorizontalAlignment {
+    const hAlign: HorizontalAlignment = this.getPropertyStore().getHorizontalAlignment();
+    return hAlign != null ? hAlign : HorizontalAlignment.Stretch;
+  }
+
+  public getVerticalAlignment(): VerticalAlignment {
+    const vAlign: VerticalAlignment = this.getPropertyStore().getVerticalAlignment();
+    return vAlign != null ? vAlign : VerticalAlignment.Stretch;
+  }
+
+  public getFontFamily(): string {
+    const fontFamily: string = this.getPropertyStore().getFontFamily();
+    return fontFamily != null ? fontFamily : 'Arial';
+  }
+
+  public getFontSize(): number {
+    const fontSize: number = this.getPropertyStore().getFontSize();
+    return fontSize != null ? fontSize : 14;
+  }
+
+  public getFontBold(): boolean {
+    return Boolean.falseIfNull(this.getPropertyStore().getFontBold());
+  }
+
+  public getFontItalic(): boolean {
+    return Boolean.falseIfNull(this.getPropertyStore().getFontItalic());
+  }
+
+  public getFontUnderline(): boolean {
+    return Boolean.falseIfNull(this.getPropertyStore().getFontUnderline());
+  }
+
+  public getForm(): FormWrapper {
+    return this.form;
+  }
+
+  public getParent(): ContainerWrapper {
+    return this.parent;
+  }
+
+  protected hasChangesLeave(): boolean {
+    return false;
   }
 
   public getJson(): any {
@@ -222,7 +392,7 @@ export abstract class ControlWrapper extends LayoutableWrapper {
   }
 
   protected setPropertiesJson(propertiesJson: any): void {
-    this.propertyStore.setLayer(PropertyLayer.Control, propertiesJson as PropertyData);
+    this.getPropertyStore().setLayer(PropertyLayer.Control, propertiesJson as PropertyData);
   }
 
   protected setEventsJson(eventsJson: any) {
@@ -244,7 +414,7 @@ export abstract class ControlWrapper extends LayoutableWrapper {
 
   protected setControlStyle(controlStyle: PropertyData) {
     if (controlStyle) {
-      this.propertyStore.setLayer(PropertyLayer.ControlStyle, controlStyle);
+      this.getPropertyStore().setLayer(PropertyLayer.ControlStyle, controlStyle);
     }
   }
 
@@ -252,10 +422,29 @@ export abstract class ControlWrapper extends LayoutableWrapper {
     this.getComponent().setFocus();
   }
 
-  protected abstract createComponent(container: ContainerWrapper): void;
+  protected abstract createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlComponent>;
 
-  public attachComponent(container: ContainerWrapper): void {
-    this.createComponent(container);
+  public attachComponent(container: ILayoutableContainerWrapper): void {
+    const oldCompRef: ComponentRef<ControlComponent> = this.getComponentRef();
+
+    if (oldCompRef != null) {
+      oldCompRef.destroy();
+    }
+
+    const compRef: ComponentRef<ControlComponent> = this.createComponent(container);
+    const compInstance: ControlComponent = compRef.instance;
+
+    // Link wrapper with component
+    this.setComponentRef(compRef);
+
+    // Link component with wrapper
+    compInstance.setWrapper(this);
+
+    this.attachEvents(compInstance);
+
+    compRef.onDestroy(this.detachComponent.bind(this));
+
+    container.getViewContainerRef().insert(compRef.hostView);
   }
 
   protected detachComponent(): void {
@@ -264,12 +453,12 @@ export abstract class ControlWrapper extends LayoutableWrapper {
     this.componentRef = null;
   }
 
-  public attachToVch(container: ContainerWrapper): void {
+  public attachToVch(container: ILayoutableContainerWrapper): void {
     container.getVchContainer().addChild(this);
   }
 
   protected detachFromVch(): void {
-    const vchParent: ContainerWrapper = this.getVchControl().getParent();
+    const vchParent: ILayoutableContainerWrapper = this.getVchControl().getParent();
     if (vchParent) {
       vchParent.getVchContainer().removeChild(this);
     }

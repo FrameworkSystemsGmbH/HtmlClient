@@ -1,10 +1,11 @@
 import { ElementRef } from '@angular/core';
 
-import { ControlComponent } from './control.component';
-import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
-import { ILayoutableProperties } from '../layout/layoutable-properties';
-import { StyleUtil } from '../util/style-util';
-import { ControlVisibility } from '../enums/control-visibility';
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+
+import { ControlComponent } from 'app/controls/control.component';
+import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
+import { ControlVisibility } from 'app/enums/control-visibility';
+import { StyleUtil } from 'app/util/style-util';
 
 export abstract class TextBoxComponent extends ControlComponent {
 

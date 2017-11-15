@@ -1,10 +1,13 @@
 import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
 
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+
 import { ControlWrapper } from './control-wrapper';
 import { ContainerWrapper } from './container-wrapper';
 import { VariantWrapper } from './variant-wrapper';
 import { FormComponent } from '../controls/form/form.component';
 import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
+import { ControlComponent } from 'app/controls/control.component';
 
 export class FormWrapper extends ContainerWrapper {
 
@@ -102,27 +105,26 @@ export class FormWrapper extends ContainerWrapper {
     }
   }
 
-  public attachComponentToFrame(vc: ViewContainerRef): void {
-    const factory: ComponentFactory<FormComponent> = this.componentFactoryResolver.resolveComponentFactory(FormComponent);
-    const comp: ComponentRef<FormComponent> = vc.createComponent(factory);
-    const instance: FormComponent = comp.instance;
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlComponent> {
+    throw new Error('A form creates its component directly on the frame\'s ViewContainerRef in \'attachComponentToFrame()\'');
+  }
 
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
+  public attachComponentToFrame(vc: ViewContainerRef): void {
+    const compFactory: ComponentFactory<FormComponent> = this.getResolver().resolveComponentFactory(FormComponent);
+    const compRef: ComponentRef<FormComponent> = compFactory.create(vc.injector);
+    const compInstance: FormComponent = compRef.instance;
+
+    this.setComponentRef(compRef);
+    compInstance.setWrapper(this);
+
+    this.attachEvents(compInstance);
 
     for (const child of this.controls) {
       child.attachComponent(this);
       child.attachToVch(this);
     }
-  }
 
-  public attachComponent(container: ContainerWrapper): void {
-    // A form is directly attached to a FrameComponent by calling 'attachComponentToFrame()'
-  }
-
-  protected createComponent(container: ContainerWrapper): void {
-    // A form creates its component directly on the frame's ViewContainerRef in 'attachComponentToFrame()'
+    vc.insert(compRef.hostView);
   }
 
   public doLayout(availableWidth: number, availableHeight: number): void {

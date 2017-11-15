@@ -17,28 +17,28 @@ export abstract class FittedDataWrapper extends FittedWrapper {
   protected abstract getDataMaxHeight(): number;
 
   public getDisplayMinLines(): number {
-    return Number.zeroIfNull(this.propertyStore.getDisplayMinLines());
+    return Number.zeroIfNull(this.getPropertyStore().getDisplayMinLines());
   }
 
   public getDisplayMaxLines(): number {
-    return Number.zeroIfNull(this.propertyStore.getDisplayMaxLines());
+    return Number.zeroIfNull(this.getPropertyStore().getDisplayMaxLines());
   }
 
   public getDisplayMinLength(): number {
-    return Number.zeroIfNull(this.propertyStore.getDisplayMinLength());
+    return Number.zeroIfNull(this.getPropertyStore().getDisplayMinLength());
   }
 
   public getDisplayMaxLength(): number {
-    return Number.zeroIfNull(this.propertyStore.getDisplayMaxLength());
+    return Number.zeroIfNull(this.getPropertyStore().getDisplayMaxLength());
   }
 
   public getDataSourceType(): DataSourceType {
-    const dataSourceType: DataSourceType = this.propertyStore.getDataSourceType();
+    const dataSourceType: DataSourceType = this.getPropertyStore().getDataSourceType();
     return dataSourceType != null ? dataSourceType : DataSourceType.None;
   }
 
   public getIsMultiline(): boolean {
-    return Boolean.falseIfNull(this.propertyStore.getIsMultiline());
+    return Boolean.falseIfNull(this.getPropertyStore().getIsMultiline());
   }
 
   protected getShouldMeasureMinWidth(specifiedWidth: number): boolean {

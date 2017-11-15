@@ -1,8 +1,9 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
 
-import { ContainerWrapper } from './container-wrapper';
-import { TextBoxBaseWrapper } from './textbox-base-wrapper';
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+
 import { TextBoxNumberComponent } from '../controls/textbox-number/textbox-number.component';
+import { TextBoxBaseWrapper } from './textbox-base-wrapper';
 
 export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
 
@@ -49,14 +50,8 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
     return compRef ? compRef.instance : undefined;
   }
 
-  public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<TextBoxNumberComponent> = this.componentFactoryResolver.resolveComponentFactory(TextBoxNumberComponent);
-    const comp: ComponentRef<TextBoxNumberComponent> = container.getViewContainerRef().createComponent(factory);
-    const instance: TextBoxNumberComponent = comp.instance;
-
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<TextBoxNumberComponent> {
+    const factory: ComponentFactory<TextBoxNumberComponent> = this.getResolver().resolveComponentFactory(TextBoxNumberComponent);
+    return factory.create(container.getViewContainerRef().injector);
   }
-
 }

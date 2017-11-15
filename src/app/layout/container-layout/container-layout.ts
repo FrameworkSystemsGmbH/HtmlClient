@@ -1,11 +1,12 @@
-import { LayoutContainerBase } from '../layout-container-base';
-import { ILayoutableContainer } from '../layoutable-container';
-import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
-import { ILayoutableControl } from '../layoutable-control';
-import { ILayoutableProperties } from '../layoutable-properties';
-import { HorizontalAlignment } from '../../enums/horizontal-alignment';
-import { VerticalAlignment } from '../../enums/vertical-alignment';
-import { LinkedListOneWay } from '../../util/linked-list-one-way';
+import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
+import { ILayoutableContainer } from 'app/layout/layoutable-container.interface';
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+
+import { LayoutContainerBase } from 'app/layout/layout-container-base';
+import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper';
+import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
+import { LinkedListOneWay } from 'app/util/linked-list-one-way';
+import { VerticalAlignment } from 'app/enums/vertical-alignment';
 
 export class ContainerLayout extends LayoutContainerBase {
 

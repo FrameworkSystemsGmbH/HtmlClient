@@ -1,20 +1,15 @@
-import { OnDestroy, Output, EventEmitter } from '@angular/core';
+import { EventEmitter, Output } from '@angular/core';
 
 import { ControlWrapper } from '../wrappers/control-wrapper';
+import { LayoutableComponent } from 'app/controls/layoutable.component';
 
-export abstract class ControlComponent implements OnDestroy {
-
-  private wrapper: ControlWrapper;
+export abstract class ControlComponent extends LayoutableComponent {
 
   @Output()
   public onEnter: EventEmitter<any>;
 
   @Output()
   public onLeave: EventEmitter<any>;
-
-  public ngOnDestroy(): void {
-    this.getWrapper().onComponentRefDestroyed();
-  }
 
   public callOnEnter(event: any): void {
     if (this.getWrapper().hasOnEnterEvent()) {
@@ -29,11 +24,11 @@ export abstract class ControlComponent implements OnDestroy {
   }
 
   public getWrapper(): ControlWrapper {
-    return this.wrapper;
+    return super.getWrapper() as ControlWrapper;
   }
 
   public setWrapper(wrapper: ControlWrapper): void {
-    this.wrapper = wrapper;
+    super.setWrapper(wrapper);
 
     if (wrapper.hasOnEnterEvent()) {
       this.onEnter = new EventEmitter<any>();
@@ -44,10 +39,6 @@ export abstract class ControlComponent implements OnDestroy {
     }
   }
 
-  public getName(): string {
-    return this.getWrapper().getName();
-  }
-
   public updateComponent(): void {
     // Overridde in subclasses
   }
@@ -55,5 +46,4 @@ export abstract class ControlComponent implements OnDestroy {
   public setFocus(): void {
     // Overridde in subclasses
   }
-
 }

@@ -41,37 +41,37 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   public getDisabledBackColor(): string {
-    const disabledBackColor: string = this.propertyStore.getDisabledBackColor();
+    const disabledBackColor: string = this.getPropertyStore().getDisabledBackColor();
     return disabledBackColor != null ? disabledBackColor : '#CCCCCC';
   }
 
   public getCaption(): string {
-    const caption: string = this.propertyStore.getCaption();
+    const caption: string = this.getPropertyStore().getCaption();
     return caption != null ? caption : null;
   }
 
   public getTextAlign(): TextAlign {
-    const textAlign: TextAlign = this.propertyStore.getTextAlign();
+    const textAlign: TextAlign = this.getPropertyStore().getTextAlign();
     return textAlign != null ? textAlign : TextAlign.Left;
   }
 
   public getMaxScale(): number {
-    const maxScale: number = this.propertyStore.getMaxScale();
+    const maxScale: number = this.getPropertyStore().getMaxScale();
     return maxScale != null ? maxScale : 2;
   }
 
   public getMaxPrec(): number {
-    const maxPrec: number = this.propertyStore.getMaxPrec();
+    const maxPrec: number = this.getPropertyStore().getMaxPrec();
     return maxPrec != null ? maxPrec : 18;
   }
 
   public getFormat(): TextFormat {
-    const textFormat: TextFormat = this.propertyStore.getFormat();
+    const textFormat: TextFormat = this.getPropertyStore().getFormat();
     return textFormat != null ? textFormat : TextFormat.None;
   }
 
   public getFormatPattern(): string {
-    const formatPattern: string = this.propertyStore.getFormatPattern();
+    const formatPattern: string = this.getPropertyStore().getFormatPattern();
     return formatPattern != null ? this.patternFormatService.javaToMoment(formatPattern) : null;
   }
 
@@ -159,7 +159,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   protected getOnLeaveSubscription(event: any): () => void {
-    return () => this.eventsService.fireValidated(
+    return () => this.getEventsService().fireValidated(
       this.getForm().getId(),
       this.getName(),
       event,

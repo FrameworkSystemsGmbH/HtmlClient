@@ -1,4 +1,4 @@
-import { ILayoutableContainer } from './layoutable-container';
+import { ILayoutableContainer } from 'app/layout/layoutable-container.interface';
 
 export interface ILayoutableContainerSpaceable extends ILayoutableContainer {
 

@@ -1,5 +1,5 @@
-import { FieldLayoutCellWrapper } from './field-layout-cell-wrapper';
-import { HorizontalAlignment } from '../../enums/horizontal-alignment';
+import { FieldLayoutCell } from 'app/layout/field-layout/field-layout-cell';
+import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 
 /**
  * Diese Klasse stellt eine vertikale Verknüpfung von CellWrappern dar.
@@ -8,9 +8,9 @@ import { HorizontalAlignment } from '../../enums/horizontal-alignment';
  * als MinWidth bzw. MaxWidth zu verwenden sind.
  * Außerdem können die Eigenschaften ResultColumnWidth und MinColumnHeight für die Spalte gepuffert werden.
  */
-export class FieldLayoutColumnWrapper {
+export class FieldLayoutColumn {
 
-  private cells: Array<FieldLayoutCellWrapper>;
+  private cells: Array<FieldLayoutCell>;
   private minColumnWidth: number;
   private maxColumnWidth: number;
   private horizontalStretchable: boolean;
@@ -22,8 +22,8 @@ export class FieldLayoutColumnWrapper {
    * Erzeugt einen FieldColumnWrapper. Dieser stellt eine Spalte dar, die aus allen übergebenenn Zellen besteht.
    * An den Zellen wird dieser FieldColumnWrapper automatisch als "Column" gesetzt.
    */
-  constructor(cells: Array<FieldLayoutCellWrapper>) {
-    this.cells = new Array<FieldLayoutCellWrapper>();
+  constructor(cells: Array<FieldLayoutCell>) {
+    this.cells = new Array<FieldLayoutCell>();
     this.minColumnWidth = 0;
     this.maxColumnWidth = 0;
     this.horizontalStretchable = false;
@@ -47,7 +47,7 @@ export class FieldLayoutColumnWrapper {
     }
   }
 
-  public getCells(): Array<FieldLayoutCellWrapper> {
+  public getCells(): Array<FieldLayoutCell> {
     return this.cells;
   }
 

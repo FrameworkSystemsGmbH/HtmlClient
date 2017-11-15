@@ -1,21 +1,21 @@
-import { IFieldContainer } from './field-container';
-import { IFieldRowControl } from './field-row-control';
-import { FieldLayoutRowWrapper } from './field-layout-row-wrapper';
-import { FieldLayoutColumnWrapper } from './field-layout-column-wrapper';
-import { FieldLayoutCellWrapper } from './field-layout-cell-wrapper';
-import { FieldRowLabelMode } from './field-row-label-mode';
-import { LayoutContainerBase } from '../layout-container-base';
-import { ILayoutableControlLabel } from '../layoutable-control-label';
-import { ControlVisibility } from '../../enums/control-visibility';
-import { HorizontalAlignment } from '../../enums/horizontal-alignment';
-import { VerticalAlignment } from '../../enums/vertical-alignment';
-import { LinkedListOneWay } from '../../util/linked-list-one-way';
+import { IFieldContainer } from 'app/layout/field-layout/field-container.interface';
+import { IFieldRowControl } from 'app/layout/field-layout/field-row-control.interface';
+
+import { LayoutContainerBase } from 'app/layout/layout-container-base';
+import { FieldLayoutRow } from 'app/layout/field-layout/field-layout-row';
+import { FieldLayoutCell } from 'app/layout/field-layout/field-layout-cell';
+import { FieldLayoutColumn } from 'app/layout/field-layout/field-layout-column';
+import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
+import { ControlVisibility } from 'app/enums/control-visibility';
+import { LinkedListOneWay } from 'app/util/linked-list-one-way';
+import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
+import { VerticalAlignment } from 'app/enums/vertical-alignment';
 
 export class FieldLayout extends LayoutContainerBase {
 
   private width: number = -1;
-  private rows: Array<FieldLayoutRowWrapper>;
-  private columns: Array<FieldLayoutColumnWrapper>;
+  private rows: Array<FieldLayoutRow>;
+  private columns: Array<FieldLayoutColumn>;
 
   constructor(container: IFieldContainer) {
     super(container);
@@ -27,14 +27,7 @@ export class FieldLayout extends LayoutContainerBase {
 
   private initRows(): void {
     const container: IFieldContainer = this.getControl();
-    this.rows = new Array<FieldLayoutRowWrapper>();
-
-    // remember all IControlLabel children
-    // those control labels, which will not be added again, have to be removed
-    const controlLabels: Array<ILayoutableControlLabel> = new Array<ILayoutableControlLabel>();
-    for (const child of container.getLayoutableControlLabels()) {
-      controlLabels.push(child);
-    }
+    this.rows = new Array<FieldLayoutRow>();
 
     // iterate children and fill wrapper array
     for (const control of container.getLayoutableControls()) {
@@ -50,12 +43,8 @@ export class FieldLayout extends LayoutContainerBase {
       }
 
       if (isRowVisible && row.getVisibility() !== ControlVisibility.Collapsed) {
-        this.rows.push(new FieldLayoutRowWrapper(row, controlLabels));
+        this.rows.push(new FieldLayoutRow(row));
       }
-    }
-
-    for (const controlLabelToDelete of controlLabels) {
-      container.removeChild(controlLabelToDelete);
     }
   }
 
@@ -69,7 +58,7 @@ export class FieldLayout extends LayoutContainerBase {
     const isGridMode: boolean = container.getSynchronizeColumns();
 
     if (isGridMode) {
-      this.columns = new Array<FieldLayoutColumnWrapper>();
+      this.columns = new Array<FieldLayoutColumn>();
 
       let maxCellCount: number = 0;
       for (const row of this.rows) {
@@ -78,13 +67,13 @@ export class FieldLayout extends LayoutContainerBase {
 
       // build columns for all cells
       for (let i = 0; i < maxCellCount; i++) {
-        const columnCells: Array<FieldLayoutCellWrapper> = new Array<FieldLayoutCellWrapper>();
+        const columnCells: Array<FieldLayoutCell> = new Array<FieldLayoutCell>();
         for (const row of this.rows) {
           if (row.getLabelMode() !== FieldRowLabelMode.NoneFill && i < row.getCellsCount()) {
             columnCells.push(row.getCell(i));
           }
         }
-        this.columns.push(new FieldLayoutColumnWrapper(columnCells));
+        this.columns.push(new FieldLayoutColumn(columnCells));
       }
     }
 
@@ -151,7 +140,7 @@ export class FieldLayout extends LayoutContainerBase {
       // set column result width = min width for the first column and not stretchable columns
       // and update the available width (care about horizontal spacings)
       // remember columns todo
-      const todo: LinkedListOneWay<FieldLayoutColumnWrapper> = new LinkedListOneWay<FieldLayoutColumnWrapper>();
+      const todo: LinkedListOneWay<FieldLayoutColumn> = new LinkedListOneWay<FieldLayoutColumn>();
       let isFirstColumn: boolean = true;
 
       for (const column of this.columns) {
@@ -186,7 +175,7 @@ export class FieldLayout extends LayoutContainerBase {
       while (!allProblemsSolved && !todo.isEmpty()) {
         allProblemsSolved = true;
 
-        const currentTodo: Array<FieldLayoutColumnWrapper> = todo.toArray();
+        const currentTodo: Array<FieldLayoutColumn> = todo.toArray();
 
         for (const column of currentTodo) {
           const desiredWidth: number = stretchFactor * column.getMinColumnWidth();
@@ -205,7 +194,7 @@ export class FieldLayout extends LayoutContainerBase {
       // if there are still column not stretched, stretch them
       // they will not have any problems
       while (!todo.isEmpty()) {
-        const column: FieldLayoutColumnWrapper = todo.poll();
+        const column: FieldLayoutColumn = todo.poll();
         column.setResultColumnWidth(Math.round(stretchFactor * column.getMinColumnWidth()));
 
         // recalculate stretch factor to aviod rounding errors
@@ -233,7 +222,7 @@ export class FieldLayout extends LayoutContainerBase {
         // set result width = min width for first cell and not stretchable cells
         // and update the available width (care about horizontal spacings)
         // remember cells todo
-        const todo: LinkedListOneWay<FieldLayoutCellWrapper> = new LinkedListOneWay<FieldLayoutCellWrapper>();
+        const todo: LinkedListOneWay<FieldLayoutCell> = new LinkedListOneWay<FieldLayoutCell>();
         let isFirstCell: boolean = true;
 
         for (const cell of row.getCells()) {
@@ -271,7 +260,7 @@ export class FieldLayout extends LayoutContainerBase {
         while (!allProblemsSolved && !todo.isEmpty()) {
           allProblemsSolved = true;
 
-          const currentTodo: Array<FieldLayoutCellWrapper> = todo.toArray();
+          const currentTodo: Array<FieldLayoutCell> = todo.toArray();
 
           for (const cell of currentTodo) {
             if (cell.getAlignmentHorizontal() !== HorizontalAlignment.Stretch) {
@@ -300,7 +289,7 @@ export class FieldLayout extends LayoutContainerBase {
         // if there are still cells not stretched, stretch them
         // they will not have any problems
         while (!todo.isEmpty()) {
-          const cell: FieldLayoutCellWrapper = todo.poll();
+          const cell: FieldLayoutCell = todo.poll();
           cell.setResultWidth(Math.round(stretchFactor * cell.getMinWidth()));
 
           // recalculate stretch factor to aviod rounding errors
@@ -375,7 +364,7 @@ export class FieldLayout extends LayoutContainerBase {
 
     // calculate result height for auto sized rows
     // and remember all dynamic rows to be processed later
-    const todo: Array<FieldLayoutRowWrapper> = new Array<FieldLayoutRowWrapper>();
+    const todo: Array<FieldLayoutRow> = new Array<FieldLayoutRow>();
     for (const row of this.rows) {
       if (row.getSize() == null || !row.isStretchable()) {
         // auto sized rows: resultSize = minSize
@@ -395,7 +384,7 @@ export class FieldLayout extends LayoutContainerBase {
       // and remember the greatest distance item
       let hasMinFail: boolean = false;
       let maxMinFail: number = 0;
-      let maxMinFailWrapper: FieldLayoutRowWrapper = null;
+      let maxMinFailWrapper: FieldLayoutRow = null;
 
       for (const row of todo) {
         const rowSizeRatio: number = row.getSize() / sumFieldRowSizes;
@@ -424,7 +413,7 @@ export class FieldLayout extends LayoutContainerBase {
 
     // calculate result height for dynamic rows without problems concerning min height
     while (!todo.isEmpty()) {
-      const row: FieldLayoutRowWrapper = todo.shift();
+      const row: FieldLayoutRow = todo.shift();
       const rowSizeRatio: number = row.getSize() / sumFieldRowSizes;
       const desiredHeight: number = Math.round(rowSizeRatio * availableHeight);
       row.setResultRowHeight(desiredHeight);
@@ -448,7 +437,7 @@ export class FieldLayout extends LayoutContainerBase {
     }
   }
 
-  public arrangeRow(container: IFieldContainer, row: FieldLayoutRowWrapper, x: number, y: number): void {
+  public arrangeRow(container: IFieldContainer, row: FieldLayoutRow, x: number, y: number): void {
     const isGridMode: boolean = container.getSynchronizeColumns();
     const hSpacing: number = container.getSpacingHorizontal();
 

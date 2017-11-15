@@ -1,6 +1,7 @@
 import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
 import * as Moment from 'moment-timezone';
 
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 import { IEventsService } from '../services/events.service';
 import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
@@ -75,14 +76,8 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     return compRef ? compRef.instance : undefined;
   }
 
-  public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<TextBoxDateTimeComponent> = this.componentFactoryResolver.resolveComponentFactory(TextBoxDateTimeComponent);
-    const comp: ComponentRef<TextBoxDateTimeComponent> = container.getViewContainerRef().createComponent(factory);
-    const instance: TextBoxDateTimeComponent = comp.instance;
-
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<TextBoxDateTimeComponent> {
+    const factory: ComponentFactory<TextBoxDateTimeComponent> = this.getResolver().resolveComponentFactory(TextBoxDateTimeComponent);
+    return factory.create(container.getViewContainerRef().injector);
   }
-
 }

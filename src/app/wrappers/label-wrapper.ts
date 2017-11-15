@@ -1,6 +1,7 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
 
-import { ContainerWrapper } from './container-wrapper';
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+
 import { FittedWrapper } from './fitted-wrapper';
 import { LabelComponent } from '../controls/label/label.component';
 import { TextAlign } from '../enums/text-align';
@@ -8,12 +9,12 @@ import { TextAlign } from '../enums/text-align';
 export class LabelWrapper extends FittedWrapper {
 
   public getCaption(): string {
-    const caption: string = this.propertyStore.getCaption();
+    const caption: string = this.getPropertyStore().getCaption();
     return caption != null ? caption : null;
   }
 
   public getTextAlign(): TextAlign {
-    const textAlign: TextAlign = this.propertyStore.getTextAlign();
+    const textAlign: TextAlign = this.getPropertyStore().getTextAlign();
     return textAlign != null ? textAlign : TextAlign.Center;
   }
 
@@ -26,14 +27,9 @@ export class LabelWrapper extends FittedWrapper {
     return compRef ? compRef.instance : undefined;
   }
 
-  public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<LabelComponent> = this.componentFactoryResolver.resolveComponentFactory(LabelComponent);
-    const comp: ComponentRef<LabelComponent> = container.getViewContainerRef().createComponent(factory);
-    const instance: LabelComponent = comp.instance;
-
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<LabelComponent> {
+    const factory: ComponentFactory<LabelComponent> = this.getResolver().resolveComponentFactory(LabelComponent);
+    return factory.create(container.getViewContainerRef().injector);
   }
 
   public updateFittedWidth(): void {

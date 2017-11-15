@@ -1,17 +1,18 @@
-import { WrapLayoutRow } from './wrap-layout-row';
-import { WrapLayoutColumn } from './wrap-layout-column';
-import { IWrapContainer } from './wrap-container';
-import { WrapArrangement } from './wrap-arrangement';
-import { LayoutContainerBase } from '../layout-container-base';
-import { LayoutableControlWrapper } from '../layoutable-control-wrapper';
-import { ILayoutableControl } from '../layoutable-control';
-import { ILayoutableProperties } from '../layoutable-properties';
-import { LinkedListOneWay } from '../../util/linked-list-one-way';
-import { HorizontalAlignment } from '../../enums/horizontal-alignment';
-import { VerticalAlignment } from '../../enums/vertical-alignment';
-import { HorizontalContentAlignment } from '../../enums/horizontal-content-alignment';
-import { VerticalContentAlignment } from '../../enums/vertical-content-alignment';
-import { ILayoutableContainer } from 'app/layout/layoutable-container';
+import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
+import { ILayoutableContainer } from 'app/layout/layoutable-container.interface';
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { IWrapContainer } from 'app/layout/wrap-layout/wrap-container.interface';
+
+import { LayoutContainerBase } from 'app/layout/layout-container-base';
+import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper';
+import { WrapLayoutRow } from 'app/layout/wrap-layout/wrap-layout-row';
+import { WrapLayoutColumn } from 'app/layout/wrap-layout/wrap-layout-column';
+import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
+import { LinkedListOneWay } from 'app/util/linked-list-one-way';
+import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
+import { VerticalAlignment } from 'app/enums/vertical-alignment';
+import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignment';
+import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
 
 export class WrapLayout extends LayoutContainerBase {
 

@@ -1,12 +1,13 @@
 import { ComponentFactory, ComponentRef, ViewContainerRef } from '@angular/core';
 
-import { ContainerWrapper } from './container-wrapper';
-import { ContainerWrapperSpaceable } from './container-wrapper-spaceable';
-import { DockPanelComponent } from '../controls/dock-panel/dock-panel.component';
-import { LayoutBase } from '../layout/layout-base';
-import { DockLayout } from '../layout/dock-layout/dock-layout';
-import { IDockContainer } from '../layout/dock-layout/dock-container';
-import { DockOrientation } from '../layout/dock-layout/dock-orientation';
+import { IDockContainer } from 'app/layout/dock-layout/dock-container.interface';
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+
+import { ContainerWrapperSpaceable } from 'app/wrappers/container-wrapper-spaceable';
+import { LayoutBase } from 'app/layout/layout-base';
+import { DockLayout } from 'app/layout/dock-layout/dock-layout';
+import { DockPanelComponent } from 'app/controls/dock-panel/dock-panel.component';
+import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
 
 export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDockContainer {
 
@@ -28,17 +29,12 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDock
   }
 
   public getDockOrientation(): DockOrientation {
-    const dockOrientation: DockOrientation = this.propertyStore.getDockOrientation();
+    const dockOrientation: DockOrientation = this.getPropertyStore().getDockOrientation();
     return dockOrientation != null ? dockOrientation : DockOrientation.Vertical;
   }
 
-  public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<DockPanelComponent> = this.componentFactoryResolver.resolveComponentFactory(DockPanelComponent);
-    const comp: ComponentRef<DockPanelComponent> = container.getViewContainerRef().createComponent(factory);
-    const instance: DockPanelComponent = comp.instance;
-
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<DockPanelComponent> {
+    const factory: ComponentFactory<DockPanelComponent> = this.getResolver().resolveComponentFactory(DockPanelComponent);
+    return factory.create(container.getViewContainerRef().injector);
   }
 }

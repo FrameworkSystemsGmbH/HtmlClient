@@ -1,5 +1,6 @@
-import { LayoutBase } from '../layout-base';
-import { ILayoutableControl } from '../layoutable-control';
+import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
+
+import { LayoutBase } from 'app/layout/layout-base';
 
 export class ControlLayout extends LayoutBase {
 

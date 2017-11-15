@@ -1,16 +1,14 @@
 import { ComponentRef, ComponentFactory, ViewContainerRef } from '@angular/core';
 
-import { IFieldContainer } from 'app/layout/field-layout/field-container';
-import { IFieldRowControl } from 'app/layout/field-layout/field-row-control';
-import { ILayoutableControlLabel } from 'app/layout/layoutable-control-label';
-import { ILayoutableControlLabelTemplate } from 'app/layout/layoutable-control-label-template';
+import { IFieldContainer } from 'app/layout/field-layout/field-container.interface';
+import { IFieldRowControl } from 'app/layout/field-layout/field-row-control.interface';
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableControlLabelTemplate } from 'app/layout/layoutable-control-label-template.interface';
 
 import { LayoutBase } from 'app/layout/layout-base';
 import { FieldLayout } from 'app/layout/field-layout/field-layout';
 import { FieldPanelComponent } from 'app/controls/field-panel/field-panel.component';
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { ContainerWrapperSpaceable } from 'app/wrappers/container-wrapper-spaceable';
-import { ControlLabelWrapper } from 'app/wrappers/control-label-wrapper';
 import { LayoutableControlLabelTemplate } from 'app/wrappers/layout/layoutable-control-label-template';
 
 export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFieldContainer {
@@ -25,23 +23,13 @@ export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFie
     return super.getLayoutableControls() as Array<IFieldRowControl>;
   }
 
-  public getLayoutableControlLabels(): Array<ILayoutableControlLabel> {
-    const controlLabels = new Array<ILayoutableControlLabel>();
-    for (const wrapper of this.getLayoutableControls()) {
-      if (wrapper instanceof ControlLabelWrapper) {
-        controlLabels.push(wrapper);
-      }
-    }
-    return controlLabels;
-  }
-
   public getSynchronizeColumns(): boolean {
-    return Boolean.falseIfNull(this.propertyStore.getSynchronizeColumns());
+    return Boolean.falseIfNull(this.getPropertyStore().getSynchronizeColumns());
   }
 
   public getRowLabelTemplate(): ILayoutableControlLabelTemplate {
     if (!this.rowLabelTemplate) {
-      this.rowLabelTemplate = new LayoutableControlLabelTemplate(this.propertyStore.getPropertyStore(data => data.rowLabelTemplate));
+      this.rowLabelTemplate = new LayoutableControlLabelTemplate(this.getPropertyStore().getPropertyStore(data => data.rowLabelTemplate));
     }
 
     return this.rowLabelTemplate;
@@ -60,13 +48,8 @@ export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFie
     return this.getComponent().anchor;
   }
 
-  public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<FieldPanelComponent> = this.componentFactoryResolver.resolveComponentFactory(FieldPanelComponent);
-    const comp: ComponentRef<FieldPanelComponent> = container.getViewContainerRef().createComponent(factory);
-    const instance: FieldPanelComponent = comp.instance;
-
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<FieldPanelComponent> {
+    const factory: ComponentFactory<FieldPanelComponent> = this.getResolver().resolveComponentFactory(FieldPanelComponent);
+    return factory.create(container.getViewContainerRef().injector);
   }
 }

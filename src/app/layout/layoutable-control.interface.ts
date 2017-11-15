@@ -1,10 +1,8 @@
-import { ILayoutableProperties } from './layoutable-properties';
-import { ILayoutableControlLabel } from './layoutable-control-label';
-import { ILayoutableControlLabelTemplate } from './layoutable-control-label-template';
-import { ILayoutableContainer } from './layoutable-container';
-import { ControlVisibility } from '../enums/control-visibility';
-import { HorizontalAlignment } from '../enums/horizontal-alignment';
-import { VerticalAlignment } from '../enums/vertical-alignment';
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+
+import { ControlVisibility } from 'app/enums/control-visibility';
+import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
+import { VerticalAlignment } from 'app/enums/vertical-alignment';
 
 export interface ILayoutableControl {
 
@@ -53,11 +51,4 @@ export interface ILayoutableControl {
   getHorizontalAlignment(): HorizontalAlignment;
 
   getVerticalAlignment(): VerticalAlignment;
-
-  getControlLabel(): ILayoutableControlLabel;
-
-  getLabelTemplate(): ILayoutableControlLabelTemplate;
-
-  setParent(container: ILayoutableContainer): void;
-
 }

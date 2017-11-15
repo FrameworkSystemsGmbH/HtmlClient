@@ -13,12 +13,12 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
   private onClickSub: ISubscription;
 
   public getCaption(): string {
-    const caption: string = this.propertyStore.getCaption();
+    const caption: string = this.getPropertyStore().getCaption();
     return caption != null ? caption : null;
   }
 
   public showCaption(): boolean {
-    return Boolean.trueIfNull(this.propertyStore.getShowCaption());
+    return Boolean.trueIfNull(this.getPropertyStore().getShowCaption());
   }
 
   protected setDataJson(dataJson: any): void {
@@ -29,14 +29,14 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     }
 
     if (dataJson.caption) {
-      this.propertyStore.setCaption(PropertyLayer.Control, dataJson.caption);
+      this.getPropertyStore().setCaption(PropertyLayer.Control, dataJson.caption);
     }
   }
 
   protected attachEvents(instance: ButtonComponent): void {
     super.attachEvents(instance);
 
-    if (this.events & ControlEvent.OnClick) {
+    if (this.getEvents() & ControlEvent.OnClick) {
       this.onClickSub = instance.onClick.subscribe(event => this.getOnClickSubscription(event)());
     }
   }
@@ -54,7 +54,7 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
   }
 
   protected getOnClickSubscription(event: any): () => void {
-    return () => this.eventsService.fireClick(
+    return () => this.getEventsService().fireClick(
       this.getForm().getId(),
       this.getName(),
       event,

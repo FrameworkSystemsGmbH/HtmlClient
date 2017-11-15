@@ -1,5 +1,7 @@
 import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
 
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+
 import { ContainerWrapper } from './container-wrapper';
 import { VariantComponent } from '../controls/variant/variant.component';
 import { ControlEvent } from '../enums/control-event';
@@ -7,16 +9,16 @@ import { ControlEvent } from '../enums/control-event';
 export class VariantWrapper extends ContainerWrapper {
 
   public getTitle(): string {
-    return this.propertyStore.getTitle();
+    return this.getPropertyStore().getTitle();
   }
 
   public getIsCloseIconVisible(): boolean {
-    const isCloseIconVisible: boolean = this.propertyStore.getIsCloseIconVisible();
+    const isCloseIconVisible: boolean = this.getPropertyStore().getIsCloseIconVisible();
     return isCloseIconVisible != null ? isCloseIconVisible : false;
   }
 
   public isCloseEventAttached(): boolean {
-    return (this.events & ControlEvent.OnClose) === ControlEvent.OnClose;
+    return (this.getEvents() & ControlEvent.OnClose) === ControlEvent.OnClose;
   }
 
   protected getComponentRef(): ComponentRef<VariantComponent> {
@@ -32,13 +34,8 @@ export class VariantWrapper extends ContainerWrapper {
     return this.getComponent().anchor;
   }
 
-  public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<VariantComponent> = this.componentFactoryResolver.resolveComponentFactory(VariantComponent);
-    const comp: ComponentRef<VariantComponent> = container.getViewContainerRef().createComponent(factory);
-    const instance: VariantComponent = comp.instance;
-
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<VariantComponent> {
+    const factory: ComponentFactory<VariantComponent> = this.getResolver().resolveComponentFactory(VariantComponent);
+    return factory.create(container.getViewContainerRef().injector);
   }
 }

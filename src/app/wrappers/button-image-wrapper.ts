@@ -1,5 +1,6 @@
 import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
 
+import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 import { IEventsService } from '../services/events.service';
 import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
@@ -31,12 +32,12 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   }
 
   public getCaptionAlign(): ContentAlignment {
-    const captionAlign: ContentAlignment = this.propertyStore.getCaptionAlign();
+    const captionAlign: ContentAlignment = this.getPropertyStore().getCaptionAlign();
     return captionAlign != null ? captionAlign : ContentAlignment.MiddleCenter;
   }
 
   public getImage(): string {
-    return this.propertyStore.getImage();
+    return this.getPropertyStore().getImage();
   }
 
   public getImageUrl(): string {
@@ -50,7 +51,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   }
 
   public getPressedImage(): string {
-    return this.propertyStore.getPressedImage();
+    return this.getPropertyStore().getPressedImage();
   }
 
   public getPressedImageUrl(): string {
@@ -64,7 +65,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   }
 
   public getMouseOverImage(): string {
-    return this.propertyStore.getMouseOverImage();
+    return this.getPropertyStore().getMouseOverImage();
   }
 
   public getMouseOverImageUrl(): string {
@@ -78,7 +79,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   }
 
   public getDisabledImage(): string {
-    return this.propertyStore.getDisabledImage();
+    return this.getPropertyStore().getDisabledImage();
   }
 
   public getDisabledImageUrl(): string {
@@ -100,13 +101,8 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
     return compRef ? compRef.instance : undefined;
   }
 
-  public createComponent(container: ContainerWrapper): void {
-    const factory: ComponentFactory<ButtonImageComponent> = this.componentFactoryResolver.resolveComponentFactory(ButtonImageComponent);
-    const comp: ComponentRef<ButtonImageComponent> = container.getViewContainerRef().createComponent(factory);
-    const instance: ButtonImageComponent = comp.instance;
-
-    this.setComponentRef(comp);
-    instance.setWrapper(this);
-    this.attachEvents(instance);
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ButtonImageComponent> {
+    const factory: ComponentFactory<ButtonImageComponent> = this.getResolver().resolveComponentFactory(ButtonImageComponent);
+    return factory.create(container.getViewContainerRef().injector);
   }
 }

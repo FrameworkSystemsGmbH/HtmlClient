@@ -1,10 +1,9 @@
-import { ILayoutableControl } from './layoutable-control';
-import { ILayoutableProperties } from './layoutable-properties';
-import { ILayoutableControlLabel } from './layoutable-control-label';
-import { ILayoutableControlLabelTemplate } from './layoutable-control-label-template';
-import { ControlVisibility } from '../enums/control-visibility';
-import { HorizontalAlignment } from '../enums/horizontal-alignment';
-import { VerticalAlignment } from '../enums/vertical-alignment';
+import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+
+import { ControlVisibility } from 'app/enums/control-visibility';
+import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
+import { VerticalAlignment } from 'app/enums/vertical-alignment';
 
 export class LayoutableControlWrapper {
 
@@ -20,14 +19,11 @@ export class LayoutableControlWrapper {
   private marginTop: number;
   private marginBottom: number;
   private dockItemSize: number;
-  private fieldRowSize: number;
 
   private hAlign: HorizontalAlignment;
   private vAlign: VerticalAlignment;
 
   private layoutableProperties: ILayoutableProperties;
-  private controlLabel: ILayoutableControlLabel;
-  private labelTemplate: ILayoutableControlLabelTemplate;
 
   private resultWdith: number;
   private resultHeight: number;
@@ -43,11 +39,8 @@ export class LayoutableControlWrapper {
     this.marginTop = control.getMarginTop();
     this.marginBottom = control.getMarginBottom();
     this.dockItemSize = control.getDockItemSize();
-    this.fieldRowSize = control.getFieldRowSize();
     this.hAlign = control.getHorizontalAlignment();
     this.vAlign = control.getVerticalAlignment();
-    this.controlLabel = control.getControlLabel();
-    this.labelTemplate = control.getLabelTemplate();
     this.isVisible = control.getVisibility() !== ControlVisibility.Collapsed;
   }
 
@@ -100,24 +93,12 @@ export class LayoutableControlWrapper {
     return this.dockItemSize;
   }
 
-  public getFieldRowSize(): number {
-    return this.fieldRowSize;
-  }
-
   public getHorizontalAlignment(): HorizontalAlignment {
     return this.hAlign;
   }
 
   public getVerticalAlignment(): VerticalAlignment {
     return this.vAlign;
-  }
-
-  public getControlLabel(): ILayoutableControlLabel {
-    return this.controlLabel;
-  }
-
-  public getLabelTemplate(): ILayoutableControlLabelTemplate {
-    return this.labelTemplate;
   }
 
   public getIsVisible(): boolean {
@@ -139,5 +120,4 @@ export class LayoutableControlWrapper {
   public setResultHeight(measuredHeight: number): void {
     this.resultHeight = Number.zeroIfNull(measuredHeight);
   }
-
 }
