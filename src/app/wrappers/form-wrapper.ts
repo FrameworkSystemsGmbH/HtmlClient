@@ -120,8 +120,7 @@ export class FormWrapper extends ContainerWrapper {
     this.attachEvents(compInstance);
 
     for (const child of this.controls) {
-      child.attachComponent(this);
-      child.attachToVch(this);
+      child.attachComponent(this, this);
     }
 
     vc.insert(compRef.hostView);

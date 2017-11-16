@@ -450,14 +450,16 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper {
 
   protected abstract createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlComponent>;
 
-  public attachComponent(container: ILayoutableContainerWrapper): void {
+  public attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {
+    // If this wrapper is already attached -> detach and destroy old Angular Component
     const oldCompRef: ComponentRef<ControlComponent> = this.getComponentRef();
 
     if (oldCompRef != null) {
       oldCompRef.destroy();
     }
 
-    const compRef: ComponentRef<ControlComponent> = this.createComponent(container);
+    // Create the Angular Component
+    const compRef: ComponentRef<ControlComponent> = this.createComponent(uiContainer);
     const compInstance: ControlComponent = compRef.instance;
 
     // Link wrapper with component
@@ -466,28 +468,32 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper {
     // Link component with wrapper
     compInstance.setWrapper(this);
 
+    // Attach events to the Component
     this.attachEvents(compInstance);
 
+    // Register onDestroy handler of the Angular component
     compRef.onDestroy(this.detachComponent.bind(this));
 
-    container.getViewContainerRef().insert(compRef.hostView);
+    // Insert the Angular Component into the DOM
+    uiContainer.getViewContainerRef().insert(compRef.hostView);
+
+    // Insert the wrapper into the VCH
+    vchContainer.getVchContainer().addChild(this);
   }
 
   protected detachComponent(): void {
+    // Detach RxJS event subscriptions
     this.detachEvents();
-    this.detachFromVch();
-    this.componentRef = null;
-  }
 
-  public attachToVch(container: ILayoutableContainerWrapper): void {
-    container.getVchContainer().addChild(this);
-  }
-
-  protected detachFromVch(): void {
+    // Detach wrapper from VCH
     const vchParent: ILayoutableContainerWrapper = this.getVchControl().getParent();
+
     if (vchParent) {
       vchParent.getVchContainer().removeChild(this);
     }
+
+    // Clear the Angular Component reference
+    this.componentRef = null;
   }
 
   protected attachEvents(instance: ControlComponent): void {

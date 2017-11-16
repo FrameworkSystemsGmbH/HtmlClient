@@ -87,25 +87,16 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     });
   }
 
-  public attachComponent(container: ILayoutableContainerWrapper): void {
-    super.attachComponent(container);
-    this.attachSubComponents(this);
+  public attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {
+    super.attachComponent(uiContainer, vchContainer);
+
+    // Attach children to UI and VCH
+    this.attachSubComponents(this, this);
   }
 
-  protected attachSubComponents(container: ILayoutableContainerWrapper): void {
+  protected attachSubComponents(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {
     for (const child of this.controls) {
-      child.attachComponent(container);
-    }
-  }
-
-  public attachToVch(container: ILayoutableContainerWrapper): void {
-    super.attachToVch(container);
-    this.attachChildrenToVch(this);
-  }
-
-  protected attachChildrenToVch(container: ILayoutableContainerWrapper): void {
-    for (const child of this.controls) {
-      child.attachToVch(container);
+      child.attachComponent(uiContainer, vchContainer);
     }
   }
 

@@ -37,7 +37,12 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     throw new Error('FieldRowWrapper never gets rendered to the UI! This method should not be called!');
   }
 
-  public attachComponent(container: ILayoutableContainerWrapper): void {
-    this.attachSubComponents(container);
+  public attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {
+    // The FieldRow only attaches itself to the VCH since it does not render a UI Component
+    vchContainer.getVchContainer().addChild(this);
+
+    // 1. All UI Components of the children get directly attached to the FieldPanel
+    // 2. All child wrappers get attached to the FieldRow in the VCH
+    this.attachSubComponents(uiContainer, this);
   }
 }

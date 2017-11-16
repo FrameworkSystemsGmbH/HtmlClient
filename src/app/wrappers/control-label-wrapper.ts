@@ -292,14 +292,16 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
     return factory.create(container.getViewContainerRef().injector);
   }
 
-  public attachComponent(container: ILayoutableContainerWrapper): void {
+  public attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {
+    // If this wrapper is already attached -> detach and destroy old Angular Component
     const oldCompRef: ComponentRef<ControlLabelComponent> = this.getComponentRef();
 
     if (oldCompRef != null) {
       oldCompRef.destroy();
     }
 
-    const compRef: ComponentRef<ControlLabelComponent> = this.createComponent(container);
+    // Create the Angular Component
+    const compRef: ComponentRef<ControlLabelComponent> = this.createComponent(uiContainer);
     const compInstance: ControlLabelComponent = compRef.instance;
 
     // Link wrapper with component
@@ -308,26 +310,25 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
     // Link component with wrapper
     compInstance.setWrapper(this);
 
+    // Register onDestroy handler of the Angular component
     compRef.onDestroy(this.detachComponent.bind(this));
 
-    container.getViewContainerRef().insert(compRef.hostView);
+    // Insert the Angular Component into the DOM
+    uiContainer.getViewContainerRef().insert(compRef.hostView);
 
-    this.attachToVch(container);
+    // Insert the wrapper into the VCH
+    vchContainer.getVchContainer().addChild(this);
   }
 
   protected detachComponent(): void {
-    this.detachFromVch();
-    this.componentRef = null;
-  }
-
-  public attachToVch(container: ILayoutableContainerWrapper): void {
-    container.getVchContainer().addChild(this);
-  }
-
-  protected detachFromVch(): void {
+    // Detach wrapper from VCH
     const vchParent: ILayoutableContainerWrapper = this.getVchControl().getParent();
+
     if (vchParent) {
       vchParent.getVchContainer().removeChild(this);
     }
+
+    // Clear the Angular Component reference
+    this.componentRef = null;
   }
 }

@@ -7,6 +7,6 @@ export interface ILayoutableControlWrapper extends ILayoutableControl {
 
   getVchControl(): VchControl;
 
-  attachComponent(container: ILayoutableContainerWrapper): void;
+  attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void;
 
 }
