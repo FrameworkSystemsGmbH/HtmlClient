@@ -1,9 +1,9 @@
-import { ILayoutableWrapper } from 'app/wrappers/layout/layoutable-wrapper.interface';
+import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
 export class LayoutablePropertiesDefault implements ILayoutableProperties {
 
-  private wrapper: ILayoutableWrapper;
+  private wrapper: ILayoutableControlWrapper;
 
   private layoutWidth: number;
   private layoutHeight: number;
@@ -11,7 +11,7 @@ export class LayoutablePropertiesDefault implements ILayoutableProperties {
   private x: number;
   private y: number;
 
-  constructor(wrapper: ILayoutableWrapper) {
+  constructor(wrapper: ILayoutableControlWrapper) {
     this.wrapper = wrapper;
   }
 

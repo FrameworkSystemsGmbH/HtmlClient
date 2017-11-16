@@ -3,7 +3,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 
 import { VchControl } from 'app/vch/vch-control';
 
-export interface ILayoutableWrapper extends ILayoutableControl {
+export interface ILayoutableControlWrapper extends ILayoutableControl {
 
   getVchControl(): VchControl;
 

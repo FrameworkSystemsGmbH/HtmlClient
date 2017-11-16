@@ -1,8 +1,9 @@
 import { ComponentFactoryResolver, ComponentRef } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { ILayoutableWrapper } from 'app/wrappers/layout/layoutable-wrapper.interface';
+import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IControlsService } from 'app/services/controls.service';
 import { IEventsService } from 'app/services/events.service';
 import { IFocusService } from 'app/services/focus.service';
 
@@ -11,6 +12,7 @@ import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LayoutBase } from 'app/layout/layout-base';
 import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
+import { LayoutableControlLabelTemplate } from 'app/wrappers/layout/layoutable-control-label-template';
 import { ControlLayout } from 'app/layout/control-layout/control-layout';
 import { VchControl } from 'app/vch/vch-control';
 import { PropertyStore } from 'app/common/property-store';
@@ -24,7 +26,7 @@ import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
 import { ControlEvent } from 'app/enums/control-event';
 
-export abstract class ControlWrapper implements ILayoutableWrapper {
+export abstract class ControlWrapper implements ILayoutableControlWrapper {
 
   private name: string;
   private form: FormWrapper;
@@ -33,9 +35,12 @@ export abstract class ControlWrapper implements ILayoutableWrapper {
   private vchControl: VchControl;
   private layout: LayoutBase;
   private layoutableProperties: LayoutablePropertiesDefault;
+  private labelTemplate: LayoutableControlLabelTemplate;
   private resolver: ComponentFactoryResolver;
   private componentRef: ComponentRef<ControlComponent>;
   private events: ControlEvent;
+
+  private controlsService: IControlsService;
   private eventsService: IEventsService;
   private focusService: IFocusService;
 
@@ -47,14 +52,14 @@ export abstract class ControlWrapper implements ILayoutableWrapper {
     parent: ContainerWrapper,
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
+    controlsService: IControlsService,
     eventsService: IEventsService,
     focusService: IFocusService
   ) {
-    this.setVchControl(new VchControl());
-    this.setPropertyStore(new PropertyStore());
     this.form = form;
     this.parent = parent;
     this.resolver = resolver;
+    this.controlsService = controlsService;
     this.eventsService = eventsService;
     this.focusService = focusService;
     this.setControlStyle(controlStyle);
@@ -70,19 +75,25 @@ export abstract class ControlWrapper implements ILayoutableWrapper {
   }
 
   public getVchControl(): VchControl {
+    if (!this.vchControl) {
+      this.vchControl = this.createVchControl();
+    }
     return this.vchControl;
   }
 
-  protected setVchControl(vchControl: VchControl): void {
-    this.vchControl = vchControl;
+  protected createVchControl(): VchControl {
+    return new VchControl();
   }
 
   protected getPropertyStore(): PropertyStore {
+    if (!this.propertyStore) {
+      this.propertyStore = this.createPropertyStore();
+    }
     return this.propertyStore;
   }
 
-  protected setPropertyStore(propertyStore: PropertyStore): void {
-    this.propertyStore = propertyStore;
+  protected createPropertyStore(): PropertyStore {
+    return new PropertyStore();
   }
 
   protected getLayout(): LayoutBase {
@@ -120,26 +131,35 @@ export abstract class ControlWrapper implements ILayoutableWrapper {
     return compRef ? compRef.instance : undefined;
   }
 
-  public getEvents(): ControlEvent {
+  protected getEvents(): ControlEvent {
     return this.events;
   }
 
-  public getEventsService(): IEventsService {
+  protected getControlsService(): IControlsService {
+    return this.controlsService;
+  }
+
+  protected getEventsService(): IEventsService {
     return this.eventsService;
   }
 
-  public getFocusService(): IFocusService {
+  protected getFocusService(): IFocusService {
     return this.focusService;
   }
 
-  public getResolver(): ComponentFactoryResolver {
+  protected getResolver(): ComponentFactoryResolver {
     return this.resolver;
   }
 
-  public addToParent(): void {
+  protected addToParent(): void {
     if (this.parent) {
       this.parent.addChild(this);
     }
+  }
+
+  public getCaption(): string {
+    const caption: string = this.getPropertyStore().getCaption();
+    return caption != null ? caption : null;
   }
 
   public getVisibility(): ControlVisibility {
@@ -174,11 +194,11 @@ export abstract class ControlWrapper implements ILayoutableWrapper {
   }
 
   public getMaxLayoutWidth(): number {
-    return Number.maxIfNull(this.getMaxWidth());
+    return this.getLayout().measureMaxWidth();
   }
 
   public getMaxLayoutHeight(): number {
-    return Number.maxIfNull(this.getMaxHeight());
+    return this.getLayout().measureMaxHeight();
   }
 
   public getMinWidth(): number {
@@ -303,11 +323,6 @@ export abstract class ControlWrapper implements ILayoutableWrapper {
     return dockItemSize != null ? dockItemSize : null;
   }
 
-  public getFieldRowSize(): number {
-    const fieldRowSize: number = this.getPropertyStore().getFieldRowSize();
-    return fieldRowSize != null ? fieldRowSize : null;
-  }
-
   public getHorizontalAlignment(): HorizontalAlignment {
     const hAlign: HorizontalAlignment = this.getPropertyStore().getHorizontalAlignment();
     return hAlign != null ? hAlign : HorizontalAlignment.Stretch;
@@ -338,6 +353,17 @@ export abstract class ControlWrapper implements ILayoutableWrapper {
 
   public getFontUnderline(): boolean {
     return Boolean.falseIfNull(this.getPropertyStore().getFontUnderline());
+  }
+
+  public getLabelTemplate(): LayoutableControlLabelTemplate {
+    if (!this.labelTemplate) {
+      this.labelTemplate = this.createLabelTemplate();
+    }
+    return this.labelTemplate;
+  }
+
+  protected createLabelTemplate(): LayoutableControlLabelTemplate {
+    return new LayoutableControlLabelTemplate(this.getPropertyStore().getPropertyStore(data => data.labelTemplate));
   }
 
   public getForm(): FormWrapper {

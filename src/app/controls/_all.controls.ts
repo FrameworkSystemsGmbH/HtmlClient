@@ -1,5 +1,6 @@
 import { ButtonImageComponent } from 'app/controls/button-image/button-image.component';
 import { ButtonPlainComponent } from 'app/controls/button-plain/button-plain.component';
+import { ControlLabelComponent } from 'app/controls/control-label/control-label.component';
 import { DockPanelComponent } from 'app/controls/dock-panel/dock-panel.component';
 import { FieldPanelComponent } from 'app/controls/field-panel/field-panel.component';
 import { FormComponent } from 'app/controls/form/form.component';
@@ -13,6 +14,7 @@ import { WrapPanelComponent } from 'app/controls/wrap-panel/wrap-panel.component
 export const ALL_CONTROLS = [
   ButtonImageComponent,
   ButtonPlainComponent,
+  ControlLabelComponent,
   DockPanelComponent,
   FieldPanelComponent,
   FormComponent,

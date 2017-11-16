@@ -12,6 +12,7 @@ import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LayoutBase } from 'app/layout/layout-base';
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
 import { ContainerLayout } from 'app/layout/container-layout/container-layout';
+import { VchControl } from 'app/vch/vch-control';
 import { VchContainer } from 'app/vch/vch-container';
 import { PropertyData } from 'app/common/property-data';
 import { JsonUtil } from 'app/util/json-util';
@@ -19,21 +20,18 @@ import { JsonUtil } from 'app/util/json-util';
 export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainerWrapper {
 
   protected controls: Array<ControlWrapper>;
-  protected controlsService: IControlsService;
 
   constructor(
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
+    controlsService: IControlsService,
     eventsService: IEventsService,
-    focusService: IFocusService,
-    controlsService: IControlsService
+    focusService: IFocusService
   ) {
-    super(form, parent, controlStyle, resolver, eventsService, focusService);
-    this.setVchControl(new VchContainer(this));
+    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService);
     this.controls = new Array<ControlWrapper>();
-    this.controlsService = controlsService;
   }
 
   public getLayout(): LayoutContainerBase {
@@ -59,6 +57,10 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     return this.getPropertyStore().getInvertFlowDirection();
   }
 
+  protected createVchControl(): VchControl {
+    return new VchContainer(this);
+  }
+
   public getVchContainer(): VchContainer {
     return this.getVchControl() as VchContainer;
   }
@@ -69,10 +71,6 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   public addChild(control: ControlWrapper): void {
     this.controls.push(control);
-  }
-
-  public removeChild(control: ILayoutableControl): void {
-    // this.controls.remove(control);
   }
 
   public getControlsJson(controlsJson: Array<any>): void {
@@ -136,5 +134,4 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
     return control;
   }
-
 }

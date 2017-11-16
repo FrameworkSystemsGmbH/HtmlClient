@@ -1,14 +1,14 @@
-import { ILayoutableWrapper } from 'app/wrappers/layout/layoutable-wrapper.interface';
+import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 
 export abstract class LayoutableComponent {
 
-  private wrapper: ILayoutableWrapper;
+  private wrapper: ILayoutableControlWrapper;
 
-  public getWrapper(): ILayoutableWrapper {
+  public getWrapper(): ILayoutableControlWrapper {
     return this.wrapper;
   }
 
-  public setWrapper(wrapper: ILayoutableWrapper): void {
+  public setWrapper(wrapper: ILayoutableControlWrapper): void {
     this.wrapper = wrapper;
   }
 

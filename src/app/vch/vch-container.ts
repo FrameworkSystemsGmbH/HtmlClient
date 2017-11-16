@@ -1,23 +1,23 @@
-import { ILayoutableWrapper } from 'app/wrappers/layout/layoutable-wrapper.interface';
+import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
 import { VchControl } from 'app/vch/vch-control';
 
 export class VchContainer extends VchControl {
 
-  private children: Array<ILayoutableWrapper> = new Array<ILayoutableWrapper>();
+  private children: Array<ILayoutableControlWrapper> = new Array<ILayoutableControlWrapper>();
 
   constructor(private container: ILayoutableContainerWrapper) {
     super();
   }
 
-  public getChildren(): Array<ILayoutableWrapper> {
+  public getChildren(): Array<ILayoutableControlWrapper> {
     return this.children;
   }
 
-  public getChildrenInFlowDirection(): Array<ILayoutableWrapper> {
+  public getChildrenInFlowDirection(): Array<ILayoutableControlWrapper> {
     if (this.container.getInvertFlowDirection()) {
-      const result: Array<ILayoutableWrapper> = this.children.clone();
+      const result: Array<ILayoutableControlWrapper> = this.children.clone();
       return result ? result.reverse() : result;
     } else {
       return this.children;
@@ -28,11 +28,11 @@ export class VchContainer extends VchControl {
     return this.children.length;
   }
 
-  public getChildAt(index: number): ILayoutableWrapper {
+  public getChildAt(index: number): ILayoutableControlWrapper {
     return index < this.getChildrenCount() ? this.children[index] : null;
   }
 
-  public addChild(wrapper: ILayoutableWrapper): void {
+  public addChild(wrapper: ILayoutableControlWrapper): void {
     // Remove child from old parent first
     const oldParent: ILayoutableContainerWrapper = wrapper.getVchControl().getParent();
 
@@ -45,7 +45,7 @@ export class VchContainer extends VchControl {
     wrapper.getVchControl().setParent(this.container);
   }
 
-  public removeChild(wrapper: ILayoutableWrapper): void {
+  public removeChild(wrapper: ILayoutableControlWrapper): void {
     wrapper.getVchControl().setParent(null);
     this.children.remove(wrapper);
   }

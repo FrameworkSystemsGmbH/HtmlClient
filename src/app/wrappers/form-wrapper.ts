@@ -83,7 +83,7 @@ export class FormWrapper extends ContainerWrapper {
         if (controlJson.meta.parentName) {
           parent = this.findControlRecursive(controlJson.meta.parentName) as ContainerWrapper;
         }
-        const control: ControlWrapper = this.controlsService.createWrapperFromType(controlJson, this, parent);
+        const control: ControlWrapper = this.getControlsService().createWrapperFromType(controlJson, this, parent);
         // #warning Null-Check only because of CustomControls
         if (control) {
           control.setJson(controlJson, true);

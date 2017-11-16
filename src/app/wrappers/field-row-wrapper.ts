@@ -11,6 +11,11 @@ import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode'
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {
 
+  public getFieldRowSize(): number {
+    const fieldRowSize: number = this.getPropertyStore().getFieldRowSize();
+    return fieldRowSize != null ? fieldRowSize : null;
+  }
+
   public getFieldRowLabelMode(): FieldRowLabelMode {
     const labelMode: FieldRowLabelMode = this.getPropertyStore().getLabelMode();
     return labelMode != null ? labelMode : FieldRowLabelMode.Generated;

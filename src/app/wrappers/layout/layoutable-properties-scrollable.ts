@@ -1,4 +1,4 @@
-import { ILayoutableWrapper } from 'app/wrappers/layout/layoutable-wrapper.interface';
+import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 
 import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
 
@@ -6,7 +6,7 @@ export class LayoutablePropertiesScrollable extends LayoutablePropertiesDefault 
 
   private hBarNeeded: boolean;
 
-  constructor(wrapper: ILayoutableWrapper) {
+  constructor(wrapper: ILayoutableControlWrapper) {
     super(wrapper);
   }
 

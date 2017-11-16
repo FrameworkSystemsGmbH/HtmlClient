@@ -17,5 +17,4 @@ export class ControlLayout extends LayoutBase {
 
     return minHeight ? control.getMarginTop() + minHeight + control.getMarginBottom() : 0;
   }
-
 }

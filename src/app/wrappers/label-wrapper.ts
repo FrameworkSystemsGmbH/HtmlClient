@@ -8,11 +8,6 @@ import { TextAlign } from '../enums/text-align';
 
 export class LabelWrapper extends FittedWrapper {
 
-  public getCaption(): string {
-    const caption: string = this.getPropertyStore().getCaption();
-    return caption != null ? caption : null;
-  }
-
   public getTextAlign(): TextAlign {
     const textAlign: TextAlign = this.getPropertyStore().getTextAlign();
     return textAlign != null ? textAlign : TextAlign.Center;

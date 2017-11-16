@@ -62,6 +62,7 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
           this.focusService,
           this.fontService
@@ -72,6 +73,7 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
           this.focusService,
           this.fontService,
@@ -82,9 +84,9 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
-          this.focusService,
-          this
+          this.focusService
         );
       case ControlType.FieldPanel:
         return new FieldPanelWrapper(
@@ -92,9 +94,9 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
-          this.focusService,
-          this
+          this.focusService
         );
       case ControlType.FieldRow:
         return new FieldRowWrapper(
@@ -102,9 +104,9 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
-          this.focusService,
-          this
+          this.focusService
         );
       case ControlType.Label:
         return new LabelWrapper(
@@ -112,6 +114,7 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
           this.focusService,
           this.fontService
@@ -122,9 +125,9 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
-          this.focusService,
-          this
+          this.focusService
         );
       case ControlType.Variant:
         return new VariantWrapper(
@@ -132,9 +135,9 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
-          this.focusService,
-          this
+          this.focusService
         );
       case ControlType.WrapPanel:
         return new WrapPanelWrapper(
@@ -142,9 +145,9 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
-          this.focusService,
-          this
+          this.focusService
         );
       case ControlType.TextBox:
         return this.createTextBoxWrapper(controlJson, form, parent, controlStyle);
@@ -168,6 +171,7 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
           this.focusService,
           this.fontService,
@@ -187,6 +191,7 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
           this.focusService,
           this.fontService,
@@ -199,6 +204,7 @@ export class ControlsService implements IControlsService {
           parent,
           controlStyle,
           this.componentFactoryResolver,
+          this,
           this.eventsService,
           this.focusService,
           this.fontService,

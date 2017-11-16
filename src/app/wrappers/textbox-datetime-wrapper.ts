@@ -3,6 +3,7 @@ import * as Moment from 'moment-timezone';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 import { IEventsService } from '../services/events.service';
+import { IControlsService } from 'app/services/controls.service';
 import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
 import { IPatternFormatService } from '../services/formatter/pattern-format.service';
@@ -26,13 +27,14 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     parent: ContainerWrapper,
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
+    controlsService: IControlsService,
     eventsService: IEventsService,
     focusService: IFocusService,
     fontService: IFontService,
     patternFormatService: IPatternFormatService,
     dateTimeFormatService: IDateTimeFormatService
   ) {
-    super(form, parent, controlStyle, resolver, eventsService, focusService, fontService, patternFormatService);
+    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, fontService, patternFormatService);
     this.dateTimeFormatService = dateTimeFormatService;
   }
 

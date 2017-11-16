@@ -1,6 +1,7 @@
 import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IControlsService } from 'app/services/controls.service';
 import { IEventsService } from '../services/events.service';
 import { IFocusService } from '../services/focus.service';
 import { IFontService } from '../services/font.service';
@@ -22,12 +23,13 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
     parent: ContainerWrapper,
     controlStyle: PropertyData,
     resolver: ComponentFactoryResolver,
+    controlsService: IControlsService,
     eventsService: IEventsService,
     focusService: IFocusService,
     fontService: IFontService,
     imageService: IImageService
   ) {
-    super(form, parent, controlStyle, resolver, eventsService, focusService, fontService);
+    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, fontService);
     this.imageService = imageService;
   }
 

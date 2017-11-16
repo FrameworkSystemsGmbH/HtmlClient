@@ -46,8 +46,6 @@ export interface ILayoutableControl {
 
   getDockItemSize(): number;
 
-  getFieldRowSize(): number;
-
   getHorizontalAlignment(): HorizontalAlignment;
 
   getVerticalAlignment(): VerticalAlignment;
