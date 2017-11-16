@@ -379,7 +379,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper {
   }
 
   public getJson(): any {
-    // Override in derived classes
+    return null; // Override in derived classes
   }
 
   public getMetaJson(): any {
