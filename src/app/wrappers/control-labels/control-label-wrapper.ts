@@ -1,15 +1,15 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
 
+import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 import { IFontService } from 'app/services/font.service';
 
 import { ControlLabelComponent } from 'app/controls/control-label/control-label.component';
-import { ControlWrapper } from 'app/wrappers/control-wrapper';
+import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { LayoutBase } from 'app/layout/layout-base';
 import { ControlLayout } from 'app/layout/control-layout/control-layout';
 import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
-import { LayoutableControlLabelTemplate } from 'app/wrappers/layout/layoutable-control-label-template';
 import { VchControl } from 'app/vch/vch-control';
 import { TextAlign } from 'app/enums/text-align';
 import { ControlVisibility } from 'app/enums/control-visibility';
@@ -19,8 +19,9 @@ import { VerticalAlignment } from 'app/enums/vertical-alignment';
 export class ControlLabelWrapper implements ILayoutableControlWrapper {
 
   private name: string;
-  private wrapper: ControlWrapper;
-  private labelTemplate: LayoutableControlLabelTemplate;
+  private displayCaption: string;
+  private labelProvider: IControlLabelProvider;
+  private labelTemplate: ControlLabelTemplate;
   private vchControl: VchControl;
   private layout: LayoutBase;
   private layoutableProperties: LayoutablePropertiesDefault;
@@ -32,13 +33,13 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
   private fittedHeight: number;
 
   constructor(
-    wrapper: ControlWrapper,
+    labelProvider: IControlLabelProvider,
     resolver: ComponentFactoryResolver,
     fontService: IFontService
   ) {
-    this.name = wrapper.getName() + '_ControlLabel';
-    this.wrapper = wrapper;
-    this.labelTemplate = wrapper.getLabelTemplate();
+    this.name = labelProvider.getName() + '_ControlLabel';
+    this.labelProvider = labelProvider;
+    this.labelTemplate = labelProvider.getLabelTemplate();
     this.resolver = resolver;
     this.fontService = fontService;
 
@@ -46,11 +47,11 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
     this.updateFittedHeight();
   }
 
-  protected getWrapper(): ControlWrapper {
-    return this.wrapper;
+  protected getLabelProvider(): IControlLabelProvider {
+    return this.labelProvider;
   }
 
-  protected getLabelTemplate(): LayoutableControlLabelTemplate {
+  protected getLabelTemplate(): ControlLabelTemplate {
     return this.labelTemplate;
   }
 
@@ -108,11 +109,21 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
   }
 
   public getIsEditable(): boolean {
-    return this.getWrapper().getIsEditable();
+    return this.getLabelProvider().getIsEditable();
   }
 
   public getCaption(): string {
-    return this.getWrapper().getCaption();
+    return this.getLabelProvider().getCaption();
+  }
+
+  public getDisplayCaption(): string {
+    return !!this.displayCaption ? this.displayCaption : this.getCaption();
+  }
+
+  public setDisplayCaption(displayCaption: string): void {
+    this.displayCaption = displayCaption;
+    this.updateFittedWidth();
+    this.updateFittedHeight();
   }
 
   public getTextAlign(): TextAlign {
@@ -131,7 +142,7 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
   }
 
   public getVisibility(): ControlVisibility {
-    return this.getLabelTemplate().getIsVisible() ? ControlVisibility.Visible : ControlVisibility.Collapsed;
+    return this.getLabelTemplate().getIsVisible() ? this.getLabelProvider().getVisibility() : ControlVisibility.Collapsed;
   }
 
   public getMinLayoutWidth(): number {
@@ -264,7 +275,7 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
   }
 
   public updateFittedWidth(): void {
-    this.setFittedContentWidth(this.getFontService().measureText(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
+    this.setFittedContentWidth(this.getFontService().measureText(this.getDisplayCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
   }
 
   public updateFittedHeight(): void {

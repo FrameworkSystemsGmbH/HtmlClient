@@ -12,24 +12,12 @@ export class VchContainer extends VchControl {
   }
 
   public getChildren(): Array<ILayoutableControlWrapper> {
-    return this.children;
-  }
-
-  public getChildrenInFlowDirection(): Array<ILayoutableControlWrapper> {
     if (this.container.getInvertFlowDirection()) {
       const result: Array<ILayoutableControlWrapper> = this.children.clone();
       return result ? result.reverse() : result;
     } else {
       return this.children;
     }
-  }
-
-  public getChildrenCount(): number {
-    return this.children.length;
-  }
-
-  public getChildAt(index: number): ILayoutableControlWrapper {
-    return index < this.getChildrenCount() ? this.children[index] : null;
   }
 
   public addChild(wrapper: ILayoutableControlWrapper): void {

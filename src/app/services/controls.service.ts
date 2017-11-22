@@ -1,6 +1,9 @@
 import { Injectable, ComponentFactoryResolver } from '@angular/core';
 
+import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
+
 import { ControlType } from '../enums/control-type';
+import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { TextFormat } from '../enums/text-format';
 import { PropertyStore } from '../common/property-store';
 import { PropertyLayer } from '../common/property-layer';
@@ -16,6 +19,9 @@ import { DateTimeFormatService } from './formatter/datetime-format.service';
 import { StringFormatService } from './formatter/string-format.service';
 
 import { ControlWrapper } from '../wrappers/control-wrapper';
+import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
+import { ControlLabelSeparatorWrapper } from 'app/wrappers/control-labels/control-label-separator-wrapper';
+import { ControlLabelMergedWrapper } from 'app/wrappers/control-labels/control-label-merged-wrapper';
 import { ButtonImageWrapper } from '../wrappers/button-image-wrapper';
 import { ButtonPlainWrapper } from '../wrappers/button-plain-wrapper';
 import { ContainerWrapper } from '../wrappers/container-wrapper';
@@ -32,6 +38,12 @@ import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 
 export interface IControlsService {
+  createControlLabelWrapper(wrapper: IControlLabelProvider): ControlLabelWrapper;
+
+  createControlLabelSeparatorWrapper(labelProvider: IControlLabelProvider): ControlLabelSeparatorWrapper;
+
+  createControlLabelMergedWrapper(labelWrappers: Array<ControlLabelWrapper>, rowLabelTemplate: ControlLabelTemplate, optimize: boolean): ControlLabelMergedWrapper;
+
   createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper;
 }
 
@@ -39,7 +51,7 @@ export interface IControlsService {
 export class ControlsService implements IControlsService {
 
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
+    private resolver: ComponentFactoryResolver,
     private controlStyleService: ControlStyleService,
     private eventsService: EventsService,
     private focusService: FocusService,
@@ -49,6 +61,22 @@ export class ControlsService implements IControlsService {
     private dateTimeFormatService: DateTimeFormatService,
     private stringFormatService: StringFormatService
   ) { }
+
+  public createControlLabelWrapper(labelProvider: IControlLabelProvider): ControlLabelWrapper {
+    return new ControlLabelWrapper(labelProvider, this.resolver, this.fontService);
+  }
+
+  public createControlLabelSeparatorWrapper(labelProvider: IControlLabelProvider): ControlLabelSeparatorWrapper {
+    return new ControlLabelSeparatorWrapper(labelProvider, this.resolver, this.fontService);
+  }
+
+  public createControlLabelMergedWrapper(
+    labelWrappers: Array<ControlLabelWrapper>,
+    rowLabelTemplate: ControlLabelTemplate,
+    optimize: boolean
+  ): ControlLabelMergedWrapper {
+    return new ControlLabelMergedWrapper(labelWrappers, this.resolver, this, rowLabelTemplate, optimize);
+  }
 
   public createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper {
     const controlType: ControlType = controlJson.meta.typeId;
@@ -61,7 +89,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService,
@@ -72,7 +100,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService,
@@ -83,7 +111,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService
@@ -93,7 +121,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService
@@ -103,7 +131,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService
@@ -113,7 +141,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService,
@@ -124,7 +152,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService
@@ -134,7 +162,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService
@@ -144,7 +172,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService
@@ -170,7 +198,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService,
@@ -190,7 +218,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService,
@@ -203,7 +231,7 @@ export class ControlsService implements IControlsService {
           form,
           parent,
           controlStyle,
-          this.componentFactoryResolver,
+          this.resolver,
           this,
           this.eventsService,
           this.focusService,

@@ -1,5 +1,4 @@
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
-import { ILayoutableContainer } from 'app/layout/layoutable-container.interface';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 import { IDockContainer } from 'app/layout/dock-layout/dock-container.interface';
 
@@ -416,6 +415,8 @@ export class DockLayout extends LayoutContainerBase {
           layoutableProperties.setLayoutHeight(wrapper.getResultHeight());
 
           yPos += wrapper.getResultHeight();
+
+          wrapper.arrangeContainer();
         }
       }
     } else {
@@ -455,16 +456,8 @@ export class DockLayout extends LayoutContainerBase {
           layoutableProperties.setLayoutHeight(resultHeight);
 
           xPos += wrapper.getResultWidth();
-        }
-      }
-    }
 
-    for (const control of container.getLayoutableControls()) {
-      const subContainer: ILayoutableContainer = control as ILayoutableContainer;
-      if (subContainer) {
-        const layout: any = subContainer.getLayout();
-        if (layout.arrange) {
-          layout.arrange();
+          wrapper.arrangeContainer();
         }
       }
     }

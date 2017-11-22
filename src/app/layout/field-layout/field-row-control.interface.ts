@@ -11,4 +11,6 @@ export interface IFieldRowControl extends ILayoutableContainer {
 
   getFieldContainer(): IFieldContainer;
 
+  getHasFirstColumnControl(): boolean;
+
 }

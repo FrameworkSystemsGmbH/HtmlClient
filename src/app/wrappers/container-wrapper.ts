@@ -66,7 +66,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
   }
 
   public getLayoutableControls(): Array<ILayoutableControl> {
-    return this.getVchContainer().getChildrenInFlowDirection();
+    return this.getVchContainer().getChildren();
   }
 
   public addChild(control: ControlWrapper): void {

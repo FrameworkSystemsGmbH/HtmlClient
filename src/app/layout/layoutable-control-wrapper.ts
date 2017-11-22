@@ -4,6 +4,8 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 import { ControlVisibility } from 'app/enums/control-visibility';
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
+import { ILayoutableContainer } from 'app/layout/layoutable-container.interface';
+import { LayoutContainerBase } from 'app/layout/layout-container-base';
 
 export class LayoutableControlWrapper {
 
@@ -28,6 +30,8 @@ export class LayoutableControlWrapper {
   private resultWdith: number;
   private resultHeight: number;
 
+  private layout: LayoutContainerBase;
+
   constructor(private control: ILayoutableControl) {
     this.name = control.getName();
     this.layoutableProperties = control.getLayoutableProperties();
@@ -42,6 +46,14 @@ export class LayoutableControlWrapper {
     this.hAlign = control.getHorizontalAlignment();
     this.vAlign = control.getVerticalAlignment();
     this.isVisible = control.getVisibility() !== ControlVisibility.Collapsed;
+
+    const container: ILayoutableContainer = control as ILayoutableContainer;
+    if (container) {
+      const layout: any = container.getLayout();
+      if (layout.arrange) {
+        this.layout = layout;
+      }
+    }
   }
 
   public getName(): string {
@@ -119,5 +131,11 @@ export class LayoutableControlWrapper {
 
   public setResultHeight(measuredHeight: number): void {
     this.resultHeight = Number.zeroIfNull(measuredHeight);
+  }
+
+  public arrangeContainer(): void {
+    if (this.layout) {
+      this.layout.arrange();
+    }
   }
 }

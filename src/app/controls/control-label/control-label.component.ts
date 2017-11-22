@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { LayoutableComponent } from 'app/controls/layoutable.component';
-import { ControlLabelWrapper } from 'app/wrappers/control-label-wrapper';
+import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlVisibility } from '../../enums/control-visibility';
 import { StyleUtil } from '../../util/style-util';
 
@@ -17,7 +17,7 @@ export class ControlLabelComponent extends LayoutableComponent {
   }
 
   public getCaption(): string {
-    return this.getWrapper().getCaption();
+    return this.getWrapper().getDisplayCaption();
   }
 
   public getStyles(): any {

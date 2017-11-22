@@ -1,13 +1,6 @@
 import { FieldLayoutCell } from 'app/layout/field-layout/field-layout-cell';
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 
-/**
- * Diese Klasse stellt eine vertikale Verknüpfung von CellWrappern dar.
- * Aus allen verknüpften Zellen werden die Eigenschaften MinColumnWidth und
- * MaxColumnWidth berechnet, welche dann wiederrum für alle verknüpften Zellen
- * als MinWidth bzw. MaxWidth zu verwenden sind.
- * Außerdem können die Eigenschaften ResultColumnWidth und MinColumnHeight für die Spalte gepuffert werden.
- */
 export class FieldLayoutColumn {
 
   private cells: Array<FieldLayoutCell>;
@@ -18,10 +11,6 @@ export class FieldLayoutColumn {
   private resultColumnWidth: number;
   private minColumnHeight: number;
 
-  /**
-   * Erzeugt einen FieldColumnWrapper. Dieser stellt eine Spalte dar, die aus allen übergebenenn Zellen besteht.
-   * An den Zellen wird dieser FieldColumnWrapper automatisch als "Column" gesetzt.
-   */
   constructor(cells: Array<FieldLayoutCell>) {
     this.cells = new Array<FieldLayoutCell>();
     this.minColumnWidth = 0;
@@ -47,6 +36,10 @@ export class FieldLayoutColumn {
     }
   }
 
+  public isHorizontalStretchable(): boolean {
+    return this.horizontalStretchable;
+  }
+
   public getCells(): Array<FieldLayoutCell> {
     return this.cells;
   }
@@ -63,34 +56,18 @@ export class FieldLayoutColumn {
     return this.maxColumnWidth;
   }
 
-  public isHorizontalStretchable(): boolean {
-    return this.horizontalStretchable;
-  }
-
-  /**
-   * Gibt die minimale Höhe der der Spalte zurück. Der Wert muss zuvor von außerhalb gesetzt werden.
-   */
   public getMinColumnHeight(): number {
     return this.minColumnHeight;
   }
 
-  /**
-   * Setzt die minimale Höhe der Spalte.
-   */
   public setMinColumnHeight(value: number): void {
     this.minColumnHeight = value;
   }
 
-  /**
-   * Gibt die endgültige Breite der Spalte zurück, in der sie arrangiert werden soll. Der Wert muss zuvor von außerhalb gesetzt werden.
-   */
   public getResultColumnWidth(): number {
     return this.resultColumnWidth;
   }
 
-  /**
-   * Setzt die endgültige Breite der Spalte, in der sie arrangiert werden soll.
-   */
   public setResultColumnWidth(value: number): void {
     this.resultColumnWidth = value;
   }

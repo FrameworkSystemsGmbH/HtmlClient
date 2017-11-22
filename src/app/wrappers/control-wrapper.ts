@@ -3,6 +3,7 @@ import { ISubscription } from 'rxjs/Subscription';
 
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
 import { IControlsService } from 'app/services/controls.service';
 import { IEventsService } from 'app/services/events.service';
 import { IFocusService } from 'app/services/focus.service';
@@ -12,7 +13,7 @@ import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LayoutBase } from 'app/layout/layout-base';
 import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
-import { LayoutableControlLabelTemplate } from 'app/wrappers/layout/layoutable-control-label-template';
+import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { ControlLayout } from 'app/layout/control-layout/control-layout';
 import { VchControl } from 'app/vch/vch-control';
 import { PropertyStore } from 'app/common/property-store';
@@ -26,7 +27,7 @@ import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
 import { ControlEvent } from 'app/enums/control-event';
 
-export abstract class ControlWrapper implements ILayoutableControlWrapper {
+export abstract class ControlWrapper implements ILayoutableControlWrapper, IControlLabelProvider {
 
   private name: string;
   private form: FormWrapper;
@@ -35,10 +36,12 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper {
   private vchControl: VchControl;
   private layout: LayoutBase;
   private layoutableProperties: LayoutablePropertiesDefault;
-  private labelTemplate: LayoutableControlLabelTemplate;
+  private labelTemplate: ControlLabelTemplate;
   private resolver: ComponentFactoryResolver;
   private componentRef: ComponentRef<ControlComponent>;
   private events: ControlEvent;
+
+  private controlLabel: ILayoutableControlWrapper;
 
   private controlsService: IControlsService;
   private eventsService: IEventsService;
@@ -355,15 +358,30 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper {
     return Boolean.falseIfNull(this.getPropertyStore().getFontUnderline());
   }
 
-  public getLabelTemplate(): LayoutableControlLabelTemplate {
+  public providesControlLabelWrapper(): boolean {
+    return !!this.getCaption();
+  }
+
+  public getControlLabelWrapper(): ILayoutableControlWrapper {
+    if (!this.controlLabel) {
+      this.controlLabel = this.createControlLabelWrapper();
+    }
+    return this.controlLabel;
+  }
+
+  protected createControlLabelWrapper(): ILayoutableControlWrapper {
+    return this.getControlsService().createControlLabelWrapper(this);
+  }
+
+  public getLabelTemplate(): ControlLabelTemplate {
     if (!this.labelTemplate) {
       this.labelTemplate = this.createLabelTemplate();
     }
     return this.labelTemplate;
   }
 
-  protected createLabelTemplate(): LayoutableControlLabelTemplate {
-    return new LayoutableControlLabelTemplate(this.getPropertyStore().getPropertyStore(data => data.labelTemplate));
+  protected createLabelTemplate(): ControlLabelTemplate {
+    return new ControlLabelTemplate(this.getPropertyStore().getPropertyStore(data => data.labelTemplate));
   }
 
   public getForm(): FormWrapper {
@@ -482,7 +500,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper {
   }
 
   protected detachComponent(): void {
-    // Detach RxJS event subscriptions
+    // Unsubscribe RxJS event subscriptions
     this.detachEvents();
 
     // Detach wrapper from VCH
