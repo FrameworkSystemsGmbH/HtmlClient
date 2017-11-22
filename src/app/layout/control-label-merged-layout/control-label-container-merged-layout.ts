@@ -1,4 +1,4 @@
-import { IControlLabelMergedContainer } from 'app/layout/control-label-merged-layout/control-label-merged-container.interface';
+import { IControlLabelContainerMerged } from 'app/layout/control-label-merged-layout/control-label-container-merged.interface';
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -6,17 +6,17 @@ import { LayoutContainerBase } from 'app/layout/layout-container-base';
 import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper';
 import { TextAlign } from 'app/enums/text-align';
 
-export class ControlLabelMergedLayout extends LayoutContainerBase {
+export class ControlLabelContainerMergedLayout extends LayoutContainerBase {
 
   private width: number = -1;
   private wrappers: Array<LayoutableControlWrapper>;
 
-  constructor(container: IControlLabelMergedContainer) {
+  constructor(container: IControlLabelContainerMerged) {
     super(container);
   }
 
-  public getControl(): IControlLabelMergedContainer {
-    return super.getControl() as IControlLabelMergedContainer;
+  public getControl(): IControlLabelContainerMerged {
+    return super.getControl() as IControlLabelContainerMerged;
   }
 
   private initWrappers(): void {
@@ -62,7 +62,7 @@ export class ControlLabelMergedLayout extends LayoutContainerBase {
   }
 
   public arrange(): void {
-    const container: IControlLabelMergedContainer = this.getControl();
+    const container: IControlLabelContainerMerged = this.getControl();
 
     const containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
     const textAlign: TextAlign = container.getTextAlign();

@@ -21,7 +21,8 @@ import { StringFormatService } from './formatter/string-format.service';
 import { ControlWrapper } from '../wrappers/control-wrapper';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelSeparatorWrapper } from 'app/wrappers/control-labels/control-label-separator-wrapper';
-import { ControlLabelMergedWrapper } from 'app/wrappers/control-labels/control-label-merged-wrapper';
+import { ControlLabelContainerWrapper } from 'app/wrappers/control-labels/control-label-container-wrapper';
+import { ControlLabelContainerMergedWrapper } from 'app/wrappers/control-labels/control-label-container-merged-wrapper';
 import { ButtonImageWrapper } from '../wrappers/button-image-wrapper';
 import { ButtonPlainWrapper } from '../wrappers/button-plain-wrapper';
 import { ContainerWrapper } from '../wrappers/container-wrapper';
@@ -42,7 +43,16 @@ export interface IControlsService {
 
   createControlLabelSeparatorWrapper(labelProvider: IControlLabelProvider): ControlLabelSeparatorWrapper;
 
-  createControlLabelMergedWrapper(labelWrappers: Array<ControlLabelWrapper>, rowLabelTemplate: ControlLabelTemplate, optimize: boolean): ControlLabelMergedWrapper;
+  createControlLabelContainerWrapper(
+    labelWrapper: ControlLabelWrapper,
+    rowLabelTemplate: ControlLabelTemplate
+  ): ControlLabelContainerWrapper;
+
+  createControlLabelContainerMergedWrapper(
+    labelWrappers: Array<ControlLabelWrapper>,
+    rowLabelTemplate: ControlLabelTemplate,
+    optimize: boolean
+  ): ControlLabelContainerMergedWrapper;
 
   createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper;
 }
@@ -70,12 +80,19 @@ export class ControlsService implements IControlsService {
     return new ControlLabelSeparatorWrapper(labelProvider, this.resolver, this.fontService);
   }
 
-  public createControlLabelMergedWrapper(
+  public createControlLabelContainerWrapper(
+    labelWrapper: ControlLabelWrapper,
+    rowLabelTemplate: ControlLabelTemplate
+  ): ControlLabelContainerWrapper {
+    return new ControlLabelContainerWrapper(labelWrapper, this.resolver, rowLabelTemplate);
+  }
+
+  public createControlLabelContainerMergedWrapper(
     labelWrappers: Array<ControlLabelWrapper>,
     rowLabelTemplate: ControlLabelTemplate,
     optimize: boolean
-  ): ControlLabelMergedWrapper {
-    return new ControlLabelMergedWrapper(labelWrappers, this.resolver, this, rowLabelTemplate, optimize);
+  ): ControlLabelContainerMergedWrapper {
+    return new ControlLabelContainerMergedWrapper(labelWrappers, this.resolver, this, rowLabelTemplate, optimize);
   }
 
   public createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper {

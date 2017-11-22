@@ -1,6 +1,6 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory, ViewContainerRef } from '@angular/core';
 
-import { IControlLabelMergedContainer } from 'app/layout/control-label-merged-layout/control-label-merged-container.interface';
+import { IControlLabelContainerMerged } from 'app/layout/control-label-merged-layout/control-label-container-merged.interface';
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
@@ -14,13 +14,13 @@ import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { VchContainer } from 'app/vch/vch-container';
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
-import { ControlLabelMergedLayout } from 'app/layout/control-label-merged-layout/control-label-merged-layout';
-import { ControlLabelMergedComponent } from 'app/controls/control-label-merged/control-label-merged.component';
+import { ControlLabelContainerMergedLayout } from 'app/layout/control-label-merged-layout/control-label-container-merged-layout';
+import { ControlLabelContainerMergedComponent } from 'app/controls/control-label-container-merged/control-label-container-merged.component';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelSeparatorProvider } from 'app/wrappers/control-labels/control-label-separator-provider';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 
-export class ControlLabelMergedWrapper implements ILayoutableControlWrapper, IControlLabelMergedContainer {
+export class ControlLabelContainerMergedWrapper implements ILayoutableControlWrapper, IControlLabelContainerMerged {
 
   private readonly propError: string = 'This property should not get called!';
 
@@ -29,7 +29,7 @@ export class ControlLabelMergedWrapper implements ILayoutableControlWrapper, ICo
   private layout: LayoutContainerBase;
   private layoutableProperties: LayoutablePropertiesDefault;
   private resolver: ComponentFactoryResolver;
-  private componentRef: ComponentRef<ControlLabelMergedComponent>;
+  private componentRef: ComponentRef<ControlLabelContainerMergedComponent>;
   private labelWrappers: Array<ControlLabelWrapper>;
   private controlsService: IControlsService;
   private rowLabelTemplate: ControlLabelTemplate;
@@ -149,7 +149,7 @@ export class ControlLabelMergedWrapper implements ILayoutableControlWrapper, ICo
   }
 
   protected createLayout(): LayoutContainerBase {
-    return new ControlLabelMergedLayout(this);
+    return new ControlLabelContainerMergedLayout(this);
   }
 
   public getLayoutableProperties(): LayoutablePropertiesDefault {
@@ -167,16 +167,16 @@ export class ControlLabelMergedWrapper implements ILayoutableControlWrapper, ICo
     return this.labelWrappers;
   }
 
-  protected getComponentRef(): ComponentRef<ControlLabelMergedComponent> {
+  protected getComponentRef(): ComponentRef<ControlLabelContainerMergedComponent> {
     return this.componentRef;
   }
 
-  protected setComponentRef(componentRef: ComponentRef<ControlLabelMergedComponent>): void {
+  protected setComponentRef(componentRef: ComponentRef<ControlLabelContainerMergedComponent>): void {
     this.componentRef = componentRef;
   }
 
-  protected getComponent(): ControlLabelMergedComponent {
-    const compRef: ComponentRef<ControlLabelMergedComponent> = this.getComponentRef();
+  protected getComponent(): ControlLabelContainerMergedComponent {
+    const compRef: ComponentRef<ControlLabelContainerMergedComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
   }
 
@@ -284,22 +284,22 @@ export class ControlLabelMergedWrapper implements ILayoutableControlWrapper, ICo
     return VerticalAlignment.Top;
   }
 
-  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlLabelMergedComponent> {
-    const factory: ComponentFactory<ControlLabelMergedComponent> = this.getResolver().resolveComponentFactory(ControlLabelMergedComponent);
+  public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlLabelContainerMergedComponent> {
+    const factory: ComponentFactory<ControlLabelContainerMergedComponent> = this.getResolver().resolveComponentFactory(ControlLabelContainerMergedComponent);
     return factory.create(container.getViewContainerRef().injector);
   }
 
   public attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {
     // If this wrapper is already attached -> detach and destroy old Angular Component
-    const oldCompRef: ComponentRef<ControlLabelMergedComponent> = this.getComponentRef();
+    const oldCompRef: ComponentRef<ControlLabelContainerMergedComponent> = this.getComponentRef();
 
     if (oldCompRef != null) {
       oldCompRef.destroy();
     }
 
     // Create the Angular Component
-    const compRef: ComponentRef<ControlLabelMergedComponent> = this.createComponent(uiContainer);
-    const compInstance: ControlLabelMergedComponent = compRef.instance;
+    const compRef: ComponentRef<ControlLabelContainerMergedComponent> = this.createComponent(uiContainer);
+    const compInstance: ControlLabelContainerMergedComponent = compRef.instance;
 
     // Link wrapper with component
     this.setComponentRef(compRef);

@@ -1,20 +1,20 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { LayoutableComponent } from 'app/controls/layoutable.component';
-import { ControlLabelMergedWrapper } from 'app/wrappers/control-labels/control-label-merged-wrapper';
+import { ControlLabelContainerMergedWrapper } from 'app/wrappers/control-labels/control-label-container-merged-wrapper';
 
 @Component({
-  selector: 'hc-ctrl-lbl-merged',
-  templateUrl: './control-label-merged.component.html',
-  styleUrls: ['./control-label-merged.component.scss']
+  selector: 'hc-ctrl-lbl-cont-merged',
+  templateUrl: './control-label-container-merged.component.html',
+  styleUrls: ['./control-label-container-merged.component.scss']
 })
-export class ControlLabelMergedComponent extends LayoutableComponent {
+export class ControlLabelContainerMergedComponent extends LayoutableComponent {
 
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
 
-  public getWrapper(): ControlLabelMergedWrapper {
-    return super.getWrapper() as ControlLabelMergedWrapper;
+  public getWrapper(): ControlLabelContainerMergedWrapper {
+    return super.getWrapper() as ControlLabelContainerMergedWrapper;
   }
 
   public getViewContainerRef(): ViewContainerRef {
@@ -22,7 +22,7 @@ export class ControlLabelMergedComponent extends LayoutableComponent {
   }
 
   public getStyles(): any {
-    const wrapper: ControlLabelMergedWrapper = this.getWrapper();
+    const wrapper: ControlLabelContainerMergedWrapper = this.getWrapper();
 
     const styles: any = {
       'left.px': wrapper.getLayoutableProperties().getX(),

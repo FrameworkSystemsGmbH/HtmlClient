@@ -1,7 +1,8 @@
 import { ButtonImageComponent } from 'app/controls/button-image/button-image.component';
 import { ButtonPlainComponent } from 'app/controls/button-plain/button-plain.component';
 import { ControlLabelComponent } from 'app/controls/control-label/control-label.component';
-import { ControlLabelMergedComponent } from 'app/controls/control-label-merged/control-label-merged.component';
+import { ControlLabelContainerComponent } from 'app/controls/control-label-container/control-label-container.component';
+import { ControlLabelContainerMergedComponent } from 'app/controls/control-label-container-merged/control-label-container-merged.component';
 import { DockPanelComponent } from 'app/controls/dock-panel/dock-panel.component';
 import { FieldPanelComponent } from 'app/controls/field-panel/field-panel.component';
 import { FormComponent } from 'app/controls/form/form.component';
@@ -16,7 +17,8 @@ export const ALL_CONTROLS = [
   ButtonImageComponent,
   ButtonPlainComponent,
   ControlLabelComponent,
-  ControlLabelMergedComponent,
+  ControlLabelContainerComponent,
+  ControlLabelContainerMergedComponent,
   DockPanelComponent,
   FieldPanelComponent,
   FormComponent,

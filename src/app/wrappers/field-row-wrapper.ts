@@ -11,6 +11,7 @@ import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
+import { ControlLabelContainerWrapper } from 'app/wrappers/control-labels/control-label-container-wrapper';
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {
 
@@ -44,7 +45,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     }
 
     if (labelWrappers && labelWrappers.length) {
-      return this.getControlsService().createControlLabelMergedWrapper(labelWrappers, this.getParent().getRowLabelTemplate(), this.getOptimizeGeneratedLabels());
+      return this.getControlsService().createControlLabelContainerMergedWrapper(labelWrappers, this.getParent().getRowLabelTemplate(), this.getOptimizeGeneratedLabels());
     } else {
       return null;
     }
@@ -99,12 +100,16 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     for (let i = 0; i < wrappers.length; i++) {
       const wrapper: ControlWrapper = wrappers[i];
       if (labelMode === FieldRowLabelMode.Generated && wrapper.providesControlLabelWrapper()) {
-        const controlLabelWrapper: ILayoutableControlWrapper = wrapper.getControlLabelWrapper();
+        const controlLabelWrapper: ControlLabelWrapper = wrapper.getControlLabelWrapper() as ControlLabelWrapper;
         if (controlLabelWrapper) {
           if (i === 0) {
             this.hasFirstColumnControl = true;
+            const controlLabelContainerWrapper: ControlLabelContainerWrapper = this.getControlsService()
+              .createControlLabelContainerWrapper(controlLabelWrapper, this.getParent().getRowLabelTemplate());
+            controlLabelContainerWrapper.attachComponent(uiContainer, vchContainer);
+          } else {
+            controlLabelWrapper.attachComponent(uiContainer, vchContainer);
           }
-          controlLabelWrapper.attachComponent(uiContainer, vchContainer);
         }
       }
 
