@@ -50,8 +50,7 @@ export interface IControlsService {
 
   createControlLabelContainerMergedWrapper(
     labelWrappers: Array<ControlLabelWrapper>,
-    rowLabelTemplate: ControlLabelTemplate,
-    optimize: boolean
+    rowLabelTemplate: ControlLabelTemplate
   ): ControlLabelContainerMergedWrapper;
 
   createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper;
@@ -89,10 +88,9 @@ export class ControlsService implements IControlsService {
 
   public createControlLabelContainerMergedWrapper(
     labelWrappers: Array<ControlLabelWrapper>,
-    rowLabelTemplate: ControlLabelTemplate,
-    optimize: boolean
+    rowLabelTemplate: ControlLabelTemplate
   ): ControlLabelContainerMergedWrapper {
-    return new ControlLabelContainerMergedWrapper(labelWrappers, this.resolver, this, rowLabelTemplate, optimize);
+    return new ControlLabelContainerMergedWrapper(labelWrappers, this.resolver, this, rowLabelTemplate);
   }
 
   public createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper {

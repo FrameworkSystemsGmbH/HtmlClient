@@ -33,22 +33,17 @@ export class ControlLabelContainerMergedWrapper implements ILayoutableControlWra
   private labelWrappers: Array<ControlLabelWrapper>;
   private controlsService: IControlsService;
   private rowLabelTemplate: ControlLabelTemplate;
-  private optimizeGeneratedLabels: boolean;
-
-  private readonly whitespaceRegEx: RegExp = /\s{1}/;
 
   constructor(
     labelWrappers: Array<ControlLabelWrapper>,
     resolver: ComponentFactoryResolver,
     controlsService: IControlsService,
-    rowLabelTemplate: ControlLabelTemplate,
-    optimizeGeneratedLabels: boolean
+    rowLabelTemplate: ControlLabelTemplate
   ) {
     this.labelWrappers = labelWrappers;
     this.resolver = resolver;
     this.controlsService = controlsService;
     this.rowLabelTemplate = rowLabelTemplate;
-    this.optimizeGeneratedLabels = optimizeGeneratedLabels;
 
     // Init name
     this.name = String.empty();
@@ -61,54 +56,6 @@ export class ControlLabelContainerMergedWrapper implements ILayoutableControlWra
   }
 
   private initLabels(): void {
-    // Optimize labels if desired
-    if (this.optimizeGeneratedLabels) {
-      // Check equality from left side
-      let equalizedCaption: string = this.labelWrappers[0].getCaption();
-      for (let i = 1; i < this.labelWrappers.length; i++) {
-        const checkCaption: string = this.labelWrappers[i].getCaption();
-        const length: number = this.startEqualsLength(equalizedCaption, checkCaption);
-        if (length > 0) {
-          equalizedCaption = equalizedCaption.substring(0, length);
-        } else {
-          equalizedCaption = null;
-          break;
-        }
-      }
-
-      // If equality from left side has been detected -> reduce captions
-      if (!!equalizedCaption) {
-        for (let i = 1; i < this.labelWrappers.length; i++) {
-          const labelWrapper: ControlLabelWrapper = this.labelWrappers[i];
-          const reducedCaption: string = labelWrapper.getCaption().substring(equalizedCaption.length);
-          labelWrapper.setDisplayCaption(reducedCaption);
-        }
-      } else {
-        // If no equality from left side has been detected -> check from right side
-        equalizedCaption = this.labelWrappers[0].getCaption();
-        for (let i = 1; i < this.labelWrappers.length; i++) {
-          const checkCaption: string = this.labelWrappers[i].getCaption();
-          const length: number = this.endEqualsLength(equalizedCaption, checkCaption);
-          if (length > 0) {
-            equalizedCaption = equalizedCaption.substring(equalizedCaption.length - length);
-          } else {
-            equalizedCaption = null;
-            break;
-          }
-        }
-
-        // If equality from right side has been detected -> reduce captions
-        if (!!equalizedCaption) {
-          for (let i = 0; i < this.labelWrappers.length - 1; i++) {
-            const labelWrapper: ControlLabelWrapper = this.labelWrappers[i];
-            const orgCaption: string = labelWrapper.getCaption();
-            const reducedCaption: string = orgCaption.substring(0, orgCaption.length - length);
-            labelWrapper.setDisplayCaption(reducedCaption);
-          }
-        }
-      }
-    }
-
     // Add separators
     const labelsWithSeparators: Array<ControlLabelWrapper> = new Array<ControlLabelWrapper>();
 
@@ -335,48 +282,5 @@ export class ControlLabelContainerMergedWrapper implements ILayoutableControlWra
 
     // Clear the Angular Component reference
     this.componentRef = null;
-  }
-
-  // Returns the number of identical chars from the left up to a whitespace
-  private startEqualsLength(s1: string, s2: string): number {
-    if (!s1 || !s2) {
-      return 0;
-    }
-
-    const length: number = Math.min(s1.length, s2.length);
-
-    for (let i = 0; i < length; i++) {
-      if (s1.charAt(i) !== s2.charAt(i)) {
-        while (i > 0 && !this.whitespaceRegEx.test(s1.charAt(i - 1))) {
-          i--;
-        }
-        return i;
-      }
-    }
-
-    return length;
-  }
-
-  // Returns the number of identical chars from the right up to a whitespace
-  private endEqualsLength(s1: string, s2: string): number {
-    if (!s1 || !s2) {
-      return 0;
-    }
-
-    const l1: number = s1.length;
-    const l2: number = s2.length;
-    const length = Math.min(l1, l2);
-
-    for (let i = 1; i <= length; i++) {
-      if (s1.charAt(l1 - i) !== s2.charAt(l2 - i)) {
-        i--;
-        while (i > 0 && !this.whitespaceRegEx.test(s1.charAt(l1 - i))) {
-          i--;
-        }
-        return i;
-      }
-    }
-
-    return length;
   }
 }
