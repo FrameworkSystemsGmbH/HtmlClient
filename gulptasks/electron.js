@@ -76,10 +76,6 @@
         }));
     });
 
-    gulp.task('electron.purge', function () {
-      return del(config.target.web);
-    });
-
     gulp.task('electron', function (done) {
       runSequence(
         'electron.clean',
@@ -87,9 +83,12 @@
         'electron.copy.electron',
         'electron.copy.resources',
         'electron.pack',
-        'electron.purge',
         done
       );
+    });
+
+    gulp.task('electron.purge', function () {
+      return del(config.target.web);
     });
   }
 })();
