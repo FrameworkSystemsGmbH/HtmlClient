@@ -2,17 +2,17 @@ import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angul
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 import { IControlsService } from 'app/services/controls.service';
-import { IEventsService } from '../services/events.service';
-import { IFocusService } from '../services/focus.service';
-import { IFontService } from '../services/font.service';
-import { IImageService } from '../services/image.service';
+import { IEventsService } from 'app/services/events.service';
+import { IFocusService } from 'app/services/focus.service';
+import { IFontService } from 'app/services/font.service';
+import { IImageService } from 'app/services/image.service';
 
-import { FormWrapper } from './form-wrapper';
-import { ContainerWrapper } from './container-wrapper';
-import { ButtonBaseWrapper } from './button-base-wrapper';
-import { ButtonImageComponent } from '../controls/button-image/button-image.component';
-import { ContentAlignment } from '../enums/content-alignment';
-import { PropertyData } from '../common/property-data';
+import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { ContainerWrapper } from 'app/wrappers/container-wrapper';
+import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
+import { ButtonImageComponent } from 'app/controls/button-image/button-image.component';
+import { ContentAlignment } from 'app/enums/content-alignment';
+import { PropertyData } from 'app/common/property-data';
 
 export class ButtonImageWrapper extends ButtonBaseWrapper {
 

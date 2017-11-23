@@ -2,8 +2,8 @@ import { ComponentRef, ComponentFactory } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { TextBoxNumberComponent } from '../controls/textbox-number/textbox-number.component';
-import { TextBoxBaseWrapper } from './textbox-base-wrapper';
+import { TextBoxNumberComponent } from 'app/controls/textbox-number/textbox-number.component';
+import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
 
 export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
 

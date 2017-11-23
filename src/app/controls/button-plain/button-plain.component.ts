@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import { ButtonComponent } from '../button.component';
+import { ButtonComponent } from 'app/controls/button.component';
 
 @Component({
   selector: 'hc-btn-plain',

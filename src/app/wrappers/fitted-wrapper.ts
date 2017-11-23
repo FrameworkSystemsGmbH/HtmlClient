@@ -1,14 +1,14 @@
 import { ComponentFactoryResolver } from '@angular/core';
 
 import { IControlsService } from 'app/services/controls.service';
-import { IEventsService } from '../services/events.service';
-import { IFocusService } from '../services/focus.service';
-import { IFontService } from '../services/font.service';
+import { IEventsService } from 'app/services/events.service';
+import { IFocusService } from 'app/services/focus.service';
+import { IFontService } from 'app/services/font.service';
 
-import { ControlWrapper } from './control-wrapper';
-import { ContainerWrapper } from './container-wrapper';
-import { FormWrapper } from './form-wrapper';
-import { PropertyData } from '../common/property-data';
+import { ControlWrapper } from 'app/wrappers/control-wrapper';
+import { ContainerWrapper } from 'app/wrappers/container-wrapper';
+import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { PropertyData } from 'app/common/property-data';
 
 export abstract class FittedWrapper extends ControlWrapper {
 

@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import { ButtonComponent } from '../button.component';
-import { ButtonImageWrapper } from '../../wrappers/button-image-wrapper';
-import { StyleUtil } from '../../util/style-util';
+import { ButtonComponent } from 'app/controls/button.component';
+import { ButtonImageWrapper } from 'app/wrappers/button-image-wrapper';
+import { StyleUtil } from 'app/util/style-util';
 
 @Component({
   selector: 'hc-btn-image',

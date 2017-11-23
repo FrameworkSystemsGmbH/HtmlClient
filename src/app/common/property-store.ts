@@ -1,16 +1,16 @@
-import { PropertyData } from './property-data';
-import { PropertyLayer } from './property-layer';
-import { HorizontalAlignment } from '../enums/horizontal-alignment';
-import { VerticalAlignment } from '../enums/vertical-alignment';
-import { HorizontalContentAlignment } from '../enums/horizontal-content-alignment';
-import { VerticalContentAlignment } from '../enums/vertical-content-alignment';
-import { ContentAlignment } from '../enums/content-alignment';
-import { DataSourceType } from '../enums/datasource-type';
-import { DockOrientation } from '../layout/dock-layout/dock-orientation';
-import { TextFormat } from '../enums/text-format';
-import { TextAlign } from '../enums/text-align';
-import { ControlVisibility } from '../enums/control-visibility';
-import { WrapArrangement } from '../layout/wrap-layout/wrap-arrangement';
+import { PropertyData } from 'app/common/property-data';
+import { PropertyLayer } from 'app/common/property-layer';
+import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
+import { VerticalAlignment } from 'app/enums/vertical-alignment';
+import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignment';
+import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
+import { ContentAlignment } from 'app/enums/content-alignment';
+import { DataSourceType } from 'app/enums/datasource-type';
+import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
+import { TextFormat } from 'app/enums/text-format';
+import { TextAlign } from 'app/enums/text-align';
+import { ControlVisibility } from 'app/enums/control-visibility';
+import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 
 export class PropertyStore {

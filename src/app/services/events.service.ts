@@ -1,14 +1,14 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
-import { InternalEvent } from '../common/events/internal/internal-event';
-import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
-import { ClientEvent } from '../common/events/client-event';
-import { ClientClickEvent } from '../common/events/client-click-event';
-import { ClientValidatedEvent } from '../common/events/client-validated-event';
-import { ClientEnterEvent } from '../common/events/client-enter-event';
-import { ClientLeaveEvent } from '../common/events/client-leave-event';
-import { ClientCloseEvent } from '../common/events/client-close-event';
-import { ClientDisposeEvent } from '../common/events/client-dispose-event';
+import { InternalEvent } from 'app/common/events/internal/internal-event';
+import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
+import { ClientEvent } from 'app/common/events/client-event';
+import { ClientClickEvent } from 'app/common/events/client-click-event';
+import { ClientValidatedEvent } from 'app/common/events/client-validated-event';
+import { ClientEnterEvent } from 'app/common/events/client-enter-event';
+import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
+import { ClientCloseEvent } from 'app/common/events/client-close-event';
+import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
 
 export interface IEventsService {
   fireClick(

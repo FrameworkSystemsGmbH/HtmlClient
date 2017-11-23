@@ -1,10 +1,10 @@
-import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
+import { ComponentRef, ComponentFactory, ViewContainerRef } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ContainerWrapper } from './container-wrapper';
-import { VariantComponent } from '../controls/variant/variant.component';
-import { ControlEvent } from '../enums/control-event';
+import { ContainerWrapper } from 'app/wrappers/container-wrapper';
+import { VariantComponent } from 'app/controls/variant/variant.component';
+import { ControlEvent } from 'app/enums/control-event';
 
 export class VariantWrapper extends ContainerWrapper {
 

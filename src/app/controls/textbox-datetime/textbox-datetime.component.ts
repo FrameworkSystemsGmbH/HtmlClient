@@ -1,8 +1,8 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 
-import { TextBoxComponent } from '../textbox.component';
-import { TextBoxDateTimeWrapper } from '../../wrappers/textbox-datetime-wrapper';
-import { DateTimeFormatService } from '../../services/formatter/datetime-format.service';
+import { TextBoxComponent } from 'app/controls/textbox.component';
+import { TextBoxDateTimeWrapper } from 'app/wrappers/textbox-datetime-wrapper';
+import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
 
 @Component({
   selector: 'hc-txt-datetime',

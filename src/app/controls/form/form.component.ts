@@ -1,7 +1,7 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
-import { ContainerComponent } from '../container.component';
-import { FormWrapper } from '../../wrappers/form-wrapper';
+import { ContainerComponent } from 'app/controls/container.component';
+import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
 
 @Component({

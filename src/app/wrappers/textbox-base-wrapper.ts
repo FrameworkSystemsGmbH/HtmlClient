@@ -1,23 +1,23 @@
 import { ComponentFactoryResolver } from '@angular/core';
 
 import { IControlsService } from 'app/services/controls.service';
-import { IEventsService } from '../services/events.service';
-import { IFocusService } from '../services/focus.service';
-import { IFontService } from '../services/font.service';
-import { IPatternFormatService } from '../services/formatter/pattern-format.service';
+import { IEventsService } from 'app/services/events.service';
+import { IFocusService } from 'app/services/focus.service';
+import { IFontService } from 'app/services/font.service';
+import { IPatternFormatService } from 'app/services/formatter/pattern-format.service';
 
-import { TextBoxComponent } from '../controls/textbox.component';
-import { FormWrapper } from './form-wrapper';
-import { ContainerWrapper } from './container-wrapper';
-import { FittedDataWrapper } from './fitted-data-wrapper';
-import { PropertyData } from '../common/property-data';
-import { TextAlign } from '../enums/text-align';
-import { TextFormat } from '../enums/text-format';
-import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
-import { ClientEnterEvent } from '../common/events/client-enter-event';
-import { ClientValidatedEvent } from '../common/events/client-validated-event';
-import { ControlEvent } from '../enums/control-event';
-import { ControlVisibility } from '../enums/control-visibility';
+import { TextBoxComponent } from 'app/controls/textbox.component';
+import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { ContainerWrapper } from 'app/wrappers/container-wrapper';
+import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
+import { PropertyData } from 'app/common/property-data';
+import { TextAlign } from 'app/enums/text-align';
+import { TextFormat } from 'app/enums/text-format';
+import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
+import { ClientEnterEvent } from 'app/common/events/client-enter-event';
+import { ClientValidatedEvent } from 'app/common/events/client-validated-event';
+import { ControlEvent } from 'app/enums/control-event';
+import { ControlVisibility } from 'app/enums/control-visibility';
 
 export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
 

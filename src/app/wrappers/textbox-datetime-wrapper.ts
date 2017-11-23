@@ -2,18 +2,18 @@ import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angul
 import * as Moment from 'moment-timezone';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
-import { IEventsService } from '../services/events.service';
+import { IEventsService } from 'app/services/events.service';
 import { IControlsService } from 'app/services/controls.service';
-import { IFocusService } from '../services/focus.service';
-import { IFontService } from '../services/font.service';
-import { IPatternFormatService } from '../services/formatter/pattern-format.service';
-import { IDateTimeFormatService } from '../services/formatter/datetime-format.service';
+import { IFocusService } from 'app/services/focus.service';
+import { IFontService } from 'app/services/font.service';
+import { IPatternFormatService } from 'app/services/formatter/pattern-format.service';
+import { IDateTimeFormatService } from 'app/services/formatter/datetime-format.service';
 
-import { FormWrapper } from './form-wrapper';
-import { ContainerWrapper } from './container-wrapper';
-import { TextBoxBaseWrapper } from './textbox-base-wrapper';
-import { TextBoxDateTimeComponent } from '../controls/textbox-datetime/textbox-datetime.component';
-import { PropertyData } from '../common/property-data';
+import { TextBoxDateTimeComponent } from 'app/controls/textbox-datetime/textbox-datetime.component';
+import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
+import { ContainerWrapper } from 'app/wrappers/container-wrapper';
+import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { PropertyData } from 'app/common/property-data';
 
 export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
 

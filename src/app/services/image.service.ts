@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as fromAppReducers from '../app.reducers';
+import * as fromAppReducers from 'app/app.reducers';
 
 export interface IImageService {
   getImageUrl(image: string): string;

@@ -8,10 +8,10 @@ import { IFieldRowControl } from 'app/layout/field-layout/field-row-control.inte
 import { ControlComponent } from 'app/controls/control.component';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
-import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
-import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelContainerWrapper } from 'app/wrappers/control-labels/control-label-container-wrapper';
+import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
+import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {
 

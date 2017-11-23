@@ -1,6 +1,6 @@
 import { EventEmitter, Output } from '@angular/core';
 
-import { ControlWrapper } from '../wrappers/control-wrapper';
+import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { LayoutableComponent } from 'app/controls/layoutable.component';
 
 export abstract class ControlComponent extends LayoutableComponent {

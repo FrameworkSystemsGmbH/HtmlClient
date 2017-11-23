@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NativeService } from './native.service';
-import { PlatformService } from './platform.service';
+
+import { NativeService } from 'app/services/native.service';
+import { PlatformService } from 'app/services/platform.service';
 
 @Injectable()
 export class KeyboardService {

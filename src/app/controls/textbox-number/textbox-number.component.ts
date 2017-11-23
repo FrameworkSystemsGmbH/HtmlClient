@@ -1,8 +1,8 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 
-import { TextBoxComponent } from '../textbox.component';
-import { TextBoxNumberWrapper } from '../../wrappers/textbox-number-wrapper';
-import { NumberFormatService } from '../../services/formatter/number-format.service';
+import { TextBoxComponent } from 'app/controls/textbox.component';
+import { TextBoxNumberWrapper } from 'app/wrappers/textbox-number-wrapper';
+import { NumberFormatService } from 'app/services/formatter/number-format.service';
 
 @Component({
   selector: 'hc-txt-number',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { NativeService } from './native.service';
-import { StorageService } from './storage.service';
+import { NativeService } from 'app/services/native.service';
+import { StorageService } from 'app/services/storage.service';
 
 @Injectable()
 export class LocalStorageService extends StorageService {

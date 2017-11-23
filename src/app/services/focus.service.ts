@@ -1,4 +1,4 @@
-import { LastInput } from '../enums/last-input';
+import { LastInput } from 'app/enums/last-input';
 
 export interface IFocusService {
   getLeaveActivator(): string;

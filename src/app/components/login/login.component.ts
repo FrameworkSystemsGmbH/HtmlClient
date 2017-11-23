@@ -3,10 +3,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import { LoginBroker } from '../../common/login-broker';
-import { LoginService } from '../../services/login.service';
-import { BrokerService } from '../../services/broker.service';
-import { IAppState } from '../../app.reducers';
+import { IAppState } from 'app/app.reducers';
+
+import { LoginBroker } from 'app/common/login-broker';
+import { LoginService } from 'app/services/login.service';
+import { BrokerService } from 'app/services/broker.service';
 
 @Component({
   selector: 'hc-login',

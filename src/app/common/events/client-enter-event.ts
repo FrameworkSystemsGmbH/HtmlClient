@@ -1,5 +1,5 @@
-import { ClientEvent } from './client-event';
-import { ControlEvent } from '../../enums/control-event';
+import { ClientEvent } from 'app/common/events/client-event';
+import { ControlEvent } from 'app/enums/control-event';
 
 export class ClientEnterEvent extends ClientEvent {
 

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { LoginBroker } from '../common/login-broker';
-import { StorageService } from './storage.service';
+import { LoginBroker } from 'app/common/login-broker';
+import { StorageService } from 'app/services/storage.service';
 
 const BROKER_STORAGE_KEY: string = 'brokerList';
 

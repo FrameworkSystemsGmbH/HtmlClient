@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { NativeService } from './native.service';
+import { NativeService } from 'app/services/native.service';
 
 @Injectable()
 export class PlatformService {

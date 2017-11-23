@@ -1,13 +1,13 @@
-import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
+import { ComponentRef, ComponentFactory, ViewContainerRef } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ControlWrapper } from './control-wrapper';
-import { ContainerWrapper } from './container-wrapper';
-import { VariantWrapper } from './variant-wrapper';
-import { FormComponent } from '../controls/form/form.component';
-import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
+import { ControlWrapper } from 'app/wrappers/control-wrapper';
+import { ContainerWrapper } from 'app/wrappers/container-wrapper';
+import { VariantWrapper } from 'app/wrappers/variant-wrapper';
 import { ControlComponent } from 'app/controls/control.component';
+import { FormComponent } from 'app/controls/form/form.component';
+import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
 
 export class FormWrapper extends ContainerWrapper {
 

@@ -1,13 +1,13 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { ControlType } from '../enums/control-type';
-import { FormWrapper } from '../wrappers/form-wrapper';
-import { ControlsService } from './controls.service';
-import { EventsService } from './events.service';
-import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
-import { ClientCloseEvent } from '../common/events/client-close-event';
-import { ClientDisposeEvent } from '../common/events/client-dispose-event';
+import { ControlType } from 'app/enums/control-type';
+import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { ControlsService } from 'app/services/controls.service';
+import { EventsService } from 'app/services/events.service';
+import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
+import { ClientCloseEvent } from 'app/common/events/client-close-event';
+import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
 
 @Injectable()
 export class FormsService {

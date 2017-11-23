@@ -1,4 +1,4 @@
-import * as fromBrokerReducers from './store/broker.reducers';
+import * as fromBrokerReducers from 'app/store/broker.reducers';
 
 export interface IAppState {
   broker: fromBrokerReducers.IBrokerState;

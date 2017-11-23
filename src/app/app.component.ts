@@ -1,8 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 
-import { FocusService } from './services/focus.service';
-import { KeyboardService } from './services/keyboard.service';
-import { LocaleService } from './services/locale.service';
+import { FocusService } from 'app/services/focus.service';
+import { LocaleService } from 'app/services/locale.service';
+import { KeyboardService } from 'app/services/keyboard.service';
 
 @Component({
   selector: 'hc-app',

@@ -10,19 +10,19 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/concatMap';
 
-import { JsonUtil } from '../util/json-util';
-import { ActionsService } from './actions.service';
-import { ControlStyleService } from './control-style.service';
-import { EventsService } from './events.service';
-import { FormsService } from './forms.service';
-import { RoutingService } from './routing.service';
-import { TitleService } from './title.service';
-import { LoginBroker } from '../common/login-broker';
-import { ClientEvent } from '../common/events/client-event';
-import { RequestType } from '../enums/request-type';
+import { JsonUtil } from 'app/util/json-util';
+import { ActionsService } from 'app/services/actions.service';
+import { ControlStyleService } from 'app/services/control-style.service';
+import { EventsService } from 'app/services/events.service';
+import { FormsService } from 'app/services/forms.service';
+import { RoutingService } from 'app/services/routing.service';
+import { TitleService } from 'app/services/title.service';
+import { LoginBroker } from 'app/common/login-broker';
+import { ClientEvent } from 'app/common/events/client-event';
+import { RequestType } from 'app/enums/request-type';
 
-import * as fromAppReducers from '../app.reducers';
-import * as fromBrokerActions from '../store/broker.actions';
+import * as fromAppReducers from 'app/app.reducers';
+import * as fromBrokerActions from 'app/store/broker.actions';
 
 @Injectable()
 export class BrokerService {

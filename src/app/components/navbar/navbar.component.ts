@@ -2,9 +2,9 @@ import { animate, transition, trigger, style } from '@angular/animations';
 import { Component, ViewChild, ElementRef, AfterViewInit, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { FormWrapper } from '../../wrappers/form-wrapper';
-import { FormsService } from '../../services/forms.service';
-import { RoutingService } from '../../services/routing.service';
+import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { FormsService } from 'app/services/forms.service';
+import { RoutingService } from 'app/services/routing.service';
 
 @Component({
   selector: 'hc-navbar',

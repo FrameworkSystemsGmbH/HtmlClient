@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import * as Moment from 'moment-timezone';
 
-import { ControlStyleService } from './control-style.service';
-import { NumberFormatService } from './formatter/number-format.service';
-import { DateTimeFormatService } from './formatter/datetime-format.service';
-import { TextBoxBaseWrapper } from '../wrappers/textbox-base-wrapper';
-import { FittedDataWrapper } from '../wrappers/fitted-data-wrapper';
-import { PropertyStore } from '../common/property-store';
-import { PropertyLayer } from '../common/property-layer';
-import { DataSourceType } from '../enums/datasource-type';
-import { TextFormat } from '../enums/text-format';
+import { ControlStyleService } from 'app/services/control-style.service';
+import { NumberFormatService } from 'app/services/formatter/number-format.service';
+import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
+import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
+import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
+import { PropertyStore } from 'app/common/property-store';
+import { PropertyLayer } from 'app/common/property-layer';
+import { DataSourceType } from 'app/enums/datasource-type';
+import { TextFormat } from 'app/enums/text-format';
 
 export interface IFontService {
   getDataMinWidthTextBox(wrapper: TextBoxBaseWrapper): number;

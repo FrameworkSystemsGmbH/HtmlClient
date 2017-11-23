@@ -2,8 +2,8 @@ import { ComponentRef, ComponentFactory } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ButtonBaseWrapper } from './button-base-wrapper';
-import { ButtonPlainComponent } from '../controls/button-plain/button-plain.component';
+import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
+import { ButtonPlainComponent } from 'app/controls/button-plain/button-plain.component';
 
 export class ButtonPlainWrapper extends ButtonBaseWrapper {
 

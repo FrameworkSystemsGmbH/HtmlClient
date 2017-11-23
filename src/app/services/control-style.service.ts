@@ -1,4 +1,4 @@
-import { PropertyData } from '../common/property-data';
+import { PropertyData } from 'app/common/property-data';
 
 export class ControlStyleService {
 

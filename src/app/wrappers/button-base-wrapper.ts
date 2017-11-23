@@ -1,12 +1,12 @@
 import { ISubscription } from 'rxjs/Subscription';
 
-import { ButtonComponent } from '../controls/button.component';
-import { FittedWrapper } from './fitted-wrapper';
-import { PropertyLayer } from '../common/property-layer';
-import { ControlVisibility } from '../enums/control-visibility';
-import { ControlEvent } from '../enums/control-event';
-import { InternalEventCallbacks } from '../common/events/internal/internal-event-callbacks';
-import { ClientClickEvent } from '../common/events/client-click-event';
+import { ButtonComponent } from 'app/controls/button.component';
+import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
+import { PropertyLayer } from 'app/common/property-layer';
+import { ControlVisibility } from 'app/enums/control-visibility';
+import { ControlEvent } from 'app/enums/control-event';
+import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
+import { ClientClickEvent } from 'app/common/events/client-click-event';
 
 export abstract class ButtonBaseWrapper extends FittedWrapper {
 

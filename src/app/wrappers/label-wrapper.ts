@@ -2,9 +2,9 @@ import { ComponentRef, ComponentFactory } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { FittedWrapper } from './fitted-wrapper';
-import { LabelComponent } from '../controls/label/label.component';
-import { TextAlign } from '../enums/text-align';
+import { LabelComponent } from 'app/controls/label/label.component';
+import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
+import { TextAlign } from 'app/enums/text-align';
 
 export class LabelWrapper extends FittedWrapper {
 

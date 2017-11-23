@@ -1,9 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 
-import { ControlComponent } from '../control.component';
-import { LabelWrapper } from '../../wrappers/label-wrapper';
-import { ControlVisibility } from '../../enums/control-visibility';
-import { StyleUtil } from '../../util/style-util';
+import { ControlComponent } from 'app/controls/control.component';
+import { LabelWrapper } from 'app/wrappers/label-wrapper';
+import { ControlVisibility } from 'app/enums/control-visibility';
+import { StyleUtil } from 'app/util/style-util';
 
 @Component({
   selector: 'hc-lbl',

@@ -1,18 +1,18 @@
-import { HorizontalAlignment } from '../enums/horizontal-alignment';
-import { VerticalAlignment } from '../enums/vertical-alignment';
-import { HorizontalContentAlignment } from '../enums/horizontal-content-alignment';
-import { VerticalContentAlignment } from '../enums/vertical-content-alignment';
-import { ContentAlignment } from '../enums/content-alignment';
-import { DataSourceType } from '../enums/datasource-type';
-import { DockOrientation } from '../layout/dock-layout/dock-orientation';
-import { TextFormat } from '../enums/text-format';
-import { FsSize } from './fs-size';
-import { PictureScaleMode } from '../enums/picture-scale-mode';
-import { ScrollBars } from '../enums/scrollbars';
-import { TextAlign } from '../enums/text-align';
-import { ControlVisibility } from '../enums/control-visibility';
+import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
+import { VerticalAlignment } from 'app/enums/vertical-alignment';
+import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignment';
+import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
+import { ContentAlignment } from 'app/enums/content-alignment';
+import { DataSourceType } from 'app/enums/datasource-type';
+import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
+import { TextFormat } from 'app/enums/text-format';
+import { FsSize } from 'app/common/fs-size';
+import { PictureScaleMode } from 'app/enums/picture-scale-mode';
+import { ScrollBars } from 'app/enums/scrollbars';
+import { TextAlign } from 'app/enums/text-align';
+import { ControlVisibility } from 'app/enums/control-visibility';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
-import { WrapArrangement } from '../layout/wrap-layout/wrap-arrangement';
+import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 
 export class PropertyData {
 

@@ -1,4 +1,4 @@
-import * as fromBrokerActions from './broker.actions';
+import * as fromBrokerActions from 'app/store/broker.actions';
 
 export interface IBrokerState {
   activeBrokerName: string;

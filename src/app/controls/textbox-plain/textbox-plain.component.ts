@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 
-import { TextBoxComponent } from '../textbox.component';
-import { TextBoxPlainWrapper } from '../../wrappers/textbox-plain-wrapper';
-import { StringFormatService } from '../../services/formatter/string-format.service';
+import { TextBoxComponent } from 'app/controls/textbox.component';
+import { TextBoxPlainWrapper } from 'app/wrappers/textbox-plain-wrapper';
+import { StringFormatService } from 'app/services/formatter/string-format.service';
 
 @Component({
   selector: 'hc-txt-plain',
