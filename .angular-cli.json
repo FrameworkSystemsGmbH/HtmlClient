@@ -21,10 +21,8 @@
         "styles.scss"
       ],
       "scripts": [
-        "../node_modules/intl/dist/Intl.complete.js",
-        "../node_modules/moment/min/moment-with-locales.js",
-        "../node_modules/moment-timezone/builds/moment-timezone-with-data.js",
-        "../node_modules/hammerjs/hammer.js"
+        "../node_modules/hammerjs/hammer.js",
+        "../node_modules/intl/dist/Intl.complete.js"
       ],
       "environmentSource": "env/env.dev.ts",
       "environments": {
