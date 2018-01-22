@@ -115,6 +115,7 @@ export class PropertyData {
   public isVisible: boolean;
   public labelMode: FieldRowLabelMode;
   public listDisplayMinLength: number;
+  public listDisplayMaxLength: number;
   public listType: DataSourceType;
   public mapEnterToTab: boolean;
   public maxDropDownWidth: number;

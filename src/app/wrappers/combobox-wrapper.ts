@@ -67,6 +67,10 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     return Number.zeroIfNull(this.getPropertyStore().getListDisplayMinLength());
   }
 
+  public getListDisplayMaxLength(): number {
+    return Number.maxIfNull(this.getPropertyStore().getListDisplayMaxLength());
+  }
+
   public getMaxDropDownWidth(): number {
     return Number.zeroIfNull(this.getPropertyStore().getMaxDropDownWidth());
   }

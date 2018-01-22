@@ -336,7 +336,7 @@ export class FontService implements IFontService {
   }
 
   public getDataMinWidthComboBox(wrapper: ComboBoxWrapper): number {
-    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getDisplayMinLength(), null, null, null, this.getMinWidthRaster());
+    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMinLength(), null, null, null, this.getMinWidthRaster());
   }
 
   // public getMeasuredMinWidthListBox(wrapper: ListBoxWrapper): number {
@@ -352,7 +352,7 @@ export class FontService implements IFontService {
   }
 
   public getDataMaxWidthComboBox(wrapper: ComboBoxWrapper): number {
-    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getDisplayMaxLength(), null, null, null, this.getMaxWidthRaster());
+    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMaxLength(), null, null, null, this.getMaxWidthRaster());
   }
 
   // public getMeasuredMaxWidthListBox(wrapper: ListBoxWrapper): number {

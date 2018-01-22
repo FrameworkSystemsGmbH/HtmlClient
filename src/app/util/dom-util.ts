@@ -1,5 +1,13 @@
 export namespace DomUtil {
 
+  export function getViewportWidth(): number {
+    return document.body.clientWidth;
+  }
+
+  export function getViewportHeight(): number {
+    return document.body.clientHeight;
+  }
+
   export function scrollIntoView(container: HTMLElement, child: HTMLElement) {
     const contStyles: CSSStyleDeclaration = getComputedStyle(container);
     const childStyles: CSSStyleDeclaration = getComputedStyle(child);

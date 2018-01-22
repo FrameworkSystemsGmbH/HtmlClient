@@ -943,6 +943,19 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.listDisplayMinLength = value; });
   }
 
+  // ListDisplayMaxLength
+  public getListDisplayMaxLength(): number {
+    return this.getValue<number>((data: PropertyData) => data.listDisplayMaxLength);
+  }
+
+  public ListDisplayMaxLengthForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.listDisplayMaxLength);
+  }
+
+  public setListDisplayMaxLength(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.listDisplayMaxLength = value; });
+  }
+
   // ListType
   public getListType(): DataSourceType {
     return this.getValue<DataSourceType>((data: PropertyData) => data.listType);
