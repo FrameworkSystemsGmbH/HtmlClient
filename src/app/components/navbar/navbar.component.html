@@ -9,7 +9,7 @@
     <div #center class="hc-navbar-tabs-center">
       <ul #tabs class="hc-navbar-tabs-list" [style.margin-left.px]="tabScrollPosition" hcMouseWheel (mouseWheelUp)="onMouseWheel($event)" (mouseWheelDown)="onMouseWheel($event)" (panstart)="panTabsStart($event)"
         (pan)="panTabsStep($event)">
-        <li *ngFor="let form of forms; let i = index;" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (tap)="selectForm($event, form)"><span>{{ form.getTitle() }}</span><span *ngIf="form.isCloseIconVisible()" class="hc-navbar-close-icon-span"><i class="hc-navbar-close-icon fa fa-fw fa-times" (tap)="closeForm($event, form)"></i></span></li>
+        <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (tap)="selectForm($event, form)"><span>{{ form.getTitle() }}</span><span *ngIf="form.isCloseIconVisible()" class="hc-navbar-close-icon-span"><i class="hc-navbar-close-icon fa fa-fw fa-times" (tap)="closeForm($event, form)"></i></span></li>
       </ul>
     </div>
     <div class="hc-navbar-tabs-right" [style.visibility]="rightScrollerVisible ? 'visible' : 'hidden'">
@@ -29,7 +29,7 @@
 <nav [@sidebar] class="hc-navbar-side" *ngIf="sidebarEnabled && sidebarVisible">
   <div #tabs class="hc-navbar-side-middle">
     <ul class="hc-navbar-side-tabs-list">
-      <li *ngFor="let form of forms; let i = index;" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (tap)="selectForm($event, form)"><span>{{ form.getTitle() }}</span><span *ngIf="form.isCloseIconVisible()" class="hc-navbar-close-icon-span"><i class="hc-navbar-close-icon fa fa-fw fa-times" (tap)="closeForm($event, form)"></i></span></li>
+      <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (tap)="selectForm($event, form)"><span>{{ form.getTitle() }}</span><span *ngIf="form.isCloseIconVisible()" class="hc-navbar-close-icon-span"><i class="hc-navbar-close-icon fa fa-fw fa-times" (tap)="closeForm($event, form)"></i></span></li>
     </ul>
   </div>
   <div class="hc-navbar-side-bottom">

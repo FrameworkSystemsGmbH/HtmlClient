@@ -10,12 +10,15 @@ import { PropertyStore } from 'app/common/property-store';
 import { PropertyLayer } from 'app/common/property-layer';
 import { DataSourceType } from 'app/enums/datasource-type';
 import { TextFormat } from 'app/enums/text-format';
+import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 
 export interface IFontService {
   getDataMinWidthTextBox(wrapper: TextBoxBaseWrapper): number;
   getDataMaxWidthTextBox(wrapper: TextBoxBaseWrapper): number;
   getDataMinHeightTextBox(wrapper: TextBoxBaseWrapper): number;
   getDataMaxHeightTextBox(wrapper: TextBoxBaseWrapper): number;
+  getDataMinWidthComboBox(wrapper: ComboBoxWrapper): number;
+  getDataMaxWidthComboBox(wrapper: ComboBoxWrapper): number;
   measureText(text: string, font: string, size: number, isBold: boolean, isItalic: boolean): number;
 }
 
@@ -332,12 +335,9 @@ export class FontService implements IFontService {
       wrapper.getMaxScale(), wrapper.getFormat(), wrapper.getFormatPattern(), this.getMinWidthRaster());
   }
 
-  // public getMeasuredMinWidthComboBox(wrapper: ComboBoxWrapper): number {
-  //   DevProperties devProperties = uiCombobox.GetDevProperties();
-  //   return getMeasuredWidthUs(uiCombobox, devProperties.getListType(), devProperties.getListDisplayMinLength(),
-  //     devProperties.getListMaxScale(), devProperties.getListFormat(),
-  //     devProperties.getListFormatPattern(), getMinWidthRasterUs());
-  // }
+  public getDataMinWidthComboBox(wrapper: ComboBoxWrapper): number {
+    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getDisplayMinLength(), null, null, null, this.getMinWidthRaster());
+  }
 
   // public getMeasuredMinWidthListBox(wrapper: ListBoxWrapper): number {
   //   DevProperties devProperties = uiList.GetDevProperties();
@@ -351,12 +351,9 @@ export class FontService implements IFontService {
       wrapper.getMaxScale(), wrapper.getFormat(), wrapper.getFormatPattern(), this.getMaxWidthRaster());
   }
 
-  // public getMeasuredMaxWidthComboBox(wrapper: ComboBoxWrapper): number {
-  //   DevProperties devProperties = uiCombobox.GetDevProperties();
-  //   return getMeasuredWidthUs(uiCombobox, devProperties.getListType(), devProperties.getListDisplayMaxLength(), devProperties.getListMaxScale()
-  //     , devProperties.getListFormat(), devProperties.getListFormatPattern(),
-  //     getMaxWidthRasterUs());
-  // }
+  public getDataMaxWidthComboBox(wrapper: ComboBoxWrapper): number {
+    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getDisplayMaxLength(), null, null, null, this.getMaxWidthRaster());
+  }
 
   // public getMeasuredMaxWidthListBox(wrapper: ListBoxWrapper): number {
   //   DevProperties devProperties = uiList.GetDevProperties();

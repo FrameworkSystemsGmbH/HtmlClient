@@ -5,6 +5,7 @@ import { InternalEventCallbacks } from 'app/common/events/internal/internal-even
 import { ClientEvent } from 'app/common/events/client-event';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
 import { ClientValidatedEvent } from 'app/common/events/client-validated-event';
+import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';
 import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
 import { ClientCloseEvent } from 'app/common/events/client-close-event';
@@ -16,6 +17,13 @@ export interface IEventsService {
     controlName: string,
     originalEvent: any,
     callbacks: InternalEventCallbacks<ClientClickEvent>
+  ): void;
+
+  fireSelectionChanged(
+    formId: string,
+    controlName: string,
+    originalEvent: any,
+    callbacks: InternalEventCallbacks<ClientSelectionChangedEvent>
   ): void;
 
   fireValidated(
@@ -77,6 +85,18 @@ export class EventsService implements IEventsService {
     this.onHandleEvent.emit({
       originalEvent,
       clientEvent: new ClientValidatedEvent(formId, controlName),
+      callbacks
+    });
+  }
+
+  public fireSelectionChanged(
+    formId: string,
+    controlName: string,
+    originalEvent: any,
+    callbacks: InternalEventCallbacks<ClientSelectionChangedEvent>): void {
+    this.onHandleEvent.emit({
+      originalEvent,
+      clientEvent: new ClientSelectionChangedEvent(formId, controlName),
       callbacks
     });
   }

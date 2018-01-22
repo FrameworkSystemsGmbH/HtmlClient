@@ -25,6 +25,7 @@ import { ControlLabelContainerWrapper } from 'app/wrappers/control-labels/contro
 import { ControlLabelContainerMergedWrapper } from 'app/wrappers/control-labels/control-label-container-merged-wrapper';
 import { ButtonImageWrapper } from 'app/wrappers/button-image-wrapper';
 import { ButtonPlainWrapper } from 'app/wrappers/button-plain-wrapper';
+import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { DockPanelWrapper } from 'app/wrappers/dock-panel-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
@@ -121,6 +122,17 @@ export class ControlsService implements IControlsService {
           this.focusService,
           this.fontService,
           this.imageService);
+      case ControlType.ComboBox:
+        return new ComboBoxWrapper(
+          form,
+          parent,
+          controlStyle,
+          this.resolver,
+          this,
+          this.eventsService,
+          this.focusService,
+          this.fontService
+        );
       case ControlType.DockPanel:
         return new DockPanelWrapper(
           form,
@@ -194,11 +206,9 @@ export class ControlsService implements IControlsService {
         );
       case ControlType.TextBox:
         return this.createTextBoxWrapper(controlJson, form, parent, controlStyle);
-      default:
-        break;
-      // #warning Commented because of CustomControls
-      // throw new Error('ControlType \'' + controlType + '\' not supported!');
     }
+
+    return null;
   }
 
   private createTextBoxWrapper(controlJson: any, form: FormWrapper, parent: ContainerWrapper, controlStyle: PropertyData): TextBoxBaseWrapper {

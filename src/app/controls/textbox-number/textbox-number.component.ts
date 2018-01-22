@@ -60,7 +60,7 @@ export class TextBoxNumberComponent extends TextBoxComponent implements OnInit {
 
   public updateComponent(): void {
     const wrapper: TextBoxNumberWrapper = this.getWrapper();
-    this.value = this.numberFormatService.formatNumber(this.getWrapper().getValue(), wrapper.getFormat(), wrapper.getFormatPattern());
+    this.value = this.numberFormatService.formatNumber(wrapper.getValue(), wrapper.getFormat(), wrapper.getFormatPattern());
   }
 
   private updateWrapper(): void {

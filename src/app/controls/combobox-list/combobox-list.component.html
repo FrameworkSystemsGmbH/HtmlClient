@@ -1,0 +1,22 @@
+<div class="hc-cmb" [ngStyle]="containerStyle" (mousedown)="onContainerMouseDown($event)">
+  <div #control class="hc-cmb-ctrl" [ngStyle]="controlStyle" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" (click)="onControlClick($event)" [attr.tabindex]="tabIndex">
+    <div class="hc-cmb-value">
+      <span [ngStyle]="valueStyle">{{ getSelectedValue() }}</span>
+    </div>
+    <div class="hc-cmb-arrow">
+      <span>
+        <i class="fa fa-caret-down"></i>
+      </span>
+    </div>
+  </div>
+  <div *ngIf="listVisible" class="hc-cmb-list" [ngStyle]="listStyle" [@listState]>
+    <div #scroller class="hc-cmb-list-scroller" [ngStyle]="listScrollerStyle">
+      <ul #list>
+        <li *ngFor="let entry of entries; index as i;" [ngClass]="{ 'selected': i === getSelectedListIndex() }" (click)="onEntryClicked($event, i)">
+          <span *ngIf="entry.getValue()">{{ entry.getValue() }}</span>
+          <span *ngIf="!entry.getValue()">&nbsp;</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,7 @@
 import { ButtonImageComponent } from 'app/controls/button-image/button-image.component';
 import { ButtonPlainComponent } from 'app/controls/button-plain/button-plain.component';
+import { ComboBoxFreeComponent } from 'app/controls/combobox-free/combobox-free.component';
+import { ComboBoxListComponent } from 'app/controls/combobox-list/combobox-list.component';
 import { ControlLabelComponent } from 'app/controls/control-label/control-label.component';
 import { ControlLabelContainerComponent } from 'app/controls/control-label-container/control-label-container.component';
 import { ControlLabelContainerMergedComponent } from 'app/controls/control-label-container-merged/control-label-container-merged.component';
@@ -16,6 +18,8 @@ import { WrapPanelComponent } from 'app/controls/wrap-panel/wrap-panel.component
 export const ALL_CONTROLS = [
   ButtonImageComponent,
   ButtonPlainComponent,
+  ComboBoxFreeComponent,
+  ComboBoxListComponent,
   ControlLabelComponent,
   ControlLabelContainerComponent,
   ControlLabelContainerMergedComponent,

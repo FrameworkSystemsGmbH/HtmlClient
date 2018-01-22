@@ -556,11 +556,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected onEnterExecuted(originalEvent: any, clientEvent: ClientEnterEvent): void {
-    // // Override in subclasses
+    // Override in subclasses
   }
 
   protected onEnterCompleted(originalEvent: any, clientEvent: ClientEnterEvent): void {
-    // // Override in subclasses
+    // Override in subclasses
   }
 
   public hasOnLeaveEvent(): boolean {
@@ -587,10 +587,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected onLeaveExecuted(originalEvent: any, clientEvent: ClientLeaveEvent): void {
-    // // Override in subclasses
+    // Override in subclasses
   }
 
   protected onLeaveCompleted(originalEvent: any, clientEvent: ClientLeaveEvent): void {
-    // // Override in subclasses
+    // Override in subclasses
   }
 }

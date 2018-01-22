@@ -1,0 +1,78 @@
+:host, .hc-cmb {
+  position: absolute;
+}
+
+.hc-cmb-ctrl {
+  display: flex;
+  overflow: hidden;
+}
+
+.hc-cmb-value {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+
+  span {
+    flex: 1;
+    white-space: nowrap;
+  }
+}
+
+.hc-cmb-arrow {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  width: 17px;
+  border-left: 1px solid transparent;
+
+  &:hover,
+  &:active {
+    border-left-style: solid;
+    border-left-width: 1px;
+  }
+
+  span {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+.hc-cmb-list {
+  position: absolute;
+  overflow: hidden;
+  z-index: 9999;
+  color: black;
+  background-color: white;
+}
+
+.hc-cmb-list-scroller {
+  overflow: auto;
+
+  ul {
+    display: inline-block;
+    min-width: 100%;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+
+    li {
+      cursor: pointer;
+      padding-left: 3px;
+      padding-right: 3px;
+
+      &.selected {
+        color: white;
+        background-color: #337ab7;
+      }
+
+      &:not(.selected):hover,
+      &:not(.selected):active {
+        background-color: #efefef;
+      }
+
+      span {
+        white-space: nowrap;
+      }
+    }
+  }
+}

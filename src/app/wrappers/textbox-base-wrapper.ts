@@ -149,11 +149,11 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   protected onValidatedExecuted(originalEvent: any, clientEvent: ClientValidatedEvent): void {
-    // // Override in subclasses
+    // Override in subclasses
   }
 
   protected onValidatedCompleted(originalEvent: any, clientEvent: ClientValidatedEvent): void {
-    super.getOnLeaveSubscription(event)();
+    super.getOnLeaveSubscription(originalEvent)();
   }
 
   public hasOnLeaveEvent(): boolean {

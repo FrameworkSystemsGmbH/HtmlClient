@@ -50,7 +50,7 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   }
 
   protected setValueJson(value: string): void {
-    let val: string = value ? decodeURIComponent(value) : null;
+    let val: string = value != null ? decodeURIComponent(value) : String.empty();
     val = this.stringFormatService.formatString(val, this.getFormat());
     this.orgValue = val;
     this.setValue(val);

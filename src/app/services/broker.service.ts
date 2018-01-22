@@ -59,8 +59,7 @@ export class BrokerService {
           } else {
             return Observable.of(false);
           }
-        }
-        )
+        })
         .map(executed => {
           if (executed && event.callbacks.onExecuted) {
             event.callbacks.onExecuted(event.originalEvent, event.clientEvent);

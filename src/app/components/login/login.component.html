@@ -8,7 +8,7 @@
       </tr>
     </tbody>
     <tbody *ngIf="(brokers$ | async) && (brokers$ | async).length">
-      <tr *ngFor="let broker of (brokers$ | async); let i = index" (click)="loadBroker(broker)">
+      <tr *ngFor="let broker of (brokers$ | async); index as i" (click)="loadBroker(broker)">
         <td style="width: 30%;"><i *ngIf="broker.name === (activeBrokerName$ | async)" class="fa fa-fw fa-cog fa-spin"></i> {{ broker.name }}</td>
         <td class="ellipsis">{{ broker.url }}</td>
         <td class="text-right fit">

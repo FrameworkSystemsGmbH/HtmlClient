@@ -7,6 +7,7 @@ import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
 import { ContentAlignment } from 'app/enums/content-alignment';
 import { DataSourceType } from 'app/enums/datasource-type';
 import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
+import { EditStyle } from 'app/enums/edit-style';
 import { TextFormat } from 'app/enums/text-format';
 import { TextAlign } from 'app/enums/text-align';
 import { ControlVisibility } from 'app/enums/control-visibility';
@@ -812,6 +813,19 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.dockPanelOrientation = value; });
   }
 
+  // EditStyle
+  public getEditStyle(): EditStyle {
+    return this.getValue<EditStyle>((data: PropertyData) => data.editStyle);
+  }
+
+  public getEditStyleForLayer(layer: PropertyLayer): EditStyle {
+    return this.getValueForLayer<EditStyle>(layer, (data: PropertyData) => data.editStyle);
+  }
+
+  public setEditStyle(layer: PropertyLayer, value: EditStyle): void {
+    this.setValue(layer, (data: PropertyData) => { data.editStyle = value; });
+  }
+
   // FieldRowSize
   public getFieldRowSize(): number {
     return this.getValue<number>((data: PropertyData) => data.fieldRowSize);
@@ -914,6 +928,58 @@ export class PropertyStore {
 
   public setLabelMode(layer: PropertyLayer, value: FieldRowLabelMode): void {
     this.setValue(layer, (data: PropertyData) => { data.labelMode = value; });
+  }
+
+  // ListDisplayMinLength
+  public getListDisplayMinLength(): number {
+    return this.getValue<number>((data: PropertyData) => data.listDisplayMinLength);
+  }
+
+  public getListDisplayMinLengthForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.listDisplayMinLength);
+  }
+
+  public setListDisplayMinLength(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.listDisplayMinLength = value; });
+  }
+
+  // ListType
+  public getListType(): DataSourceType {
+    return this.getValue<DataSourceType>((data: PropertyData) => data.listType);
+  }
+
+  public getListTypeForLayer(layer: PropertyLayer): DataSourceType {
+    return this.getValueForLayer<DataSourceType>(layer, (data: PropertyData) => data.listType);
+  }
+
+  public setListType(layer: PropertyLayer, value: DataSourceType): void {
+    this.setValue(layer, (data: PropertyData) => { data.listType = value; });
+  }
+
+  // MaxDropDownWidth
+  public getMaxDropDownWidth(): number {
+    return this.getValue<number>((data: PropertyData) => data.maxDropDownWidth);
+  }
+
+  public getMaxDropDownWidthForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.maxDropDownWidth);
+  }
+
+  public setMaxDropDownWidth(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.maxDropDownWidth = value; });
+  }
+
+  // MaxDropDownHeight
+  public getMaxDropDownHeight(): number {
+    return this.getValue<number>((data: PropertyData) => data.maxDropDownHeight);
+  }
+
+  public getMaxDropDownHeightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.maxDropDownHeight);
+  }
+
+  public setMaxDropDownHeight(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.maxDropDownHeight = value; });
   }
 
   // MaxSize
