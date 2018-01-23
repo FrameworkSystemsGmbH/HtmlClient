@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, NgZone, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, NgZone, AfterViewInit, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
@@ -14,7 +14,6 @@ import 'rxjs/add/operator/takeUntil';
 import { ComboBoxComponent } from 'app/controls/combobox.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { StyleUtil } from 'app/util/style-util';
-import { DomUtil } from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-cmb',
@@ -29,10 +28,13 @@ import { DomUtil } from 'app/util/dom-util';
     ])
   ]
 })
-export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
+export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('input')
   public input: ElementRef;
+
+  @ViewChild('arrow')
+  public arrow: ElementRef;
 
   @ViewChild('list')
   public list: ElementRef;
@@ -46,8 +48,6 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
   public arrowStyle: any;
 
   private inputValue: string;
-  private checkedListShown: boolean;
-  private lastScrolledIndex: number;
   private keyDownSub: ISubscription;
   private arrowHover: boolean;
 
@@ -65,25 +65,6 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
       .subscribe(event => this.onKeyDown(event));
   }
 
-  public ngAfterViewChecked(): void {
-    if (this.listVisible) {
-      const selectedListIndex: number = this.getSelectedListIndex();
-      if (selectedListIndex !== this.lastScrolledIndex) {
-        this.lastScrolledIndex = selectedListIndex;
-        this.zone.runOutsideAngular(() => {
-          this.scrollSelectedEntryIntoView();
-        });
-      }
-
-      if (!this.checkedListShown) {
-        this.checkedListShown = true;
-        this.zone.runOutsideAngular(() => {
-          // this.alignList();
-        });
-      }
-    }
-  }
-
   public ngOnDestroy(): void {
     if (this.keyDownSub) {
       this.keyDownSub.unsubscribe();
@@ -98,6 +79,10 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
     this.inputValue = value;
   }
 
+  public getArrowWidth(): number {
+    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width : 0;
+  }
+
   public getSelectedPk(): string {
     return this.getSelectedValue();
   }
@@ -108,6 +93,14 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
     } else {
       return this.entries[this.selectedIndex].getValue();
     }
+  }
+
+  protected getScroller(): ElementRef {
+    return this.scroller;
+  }
+
+  protected getList(): ElementRef {
+    return this.list;
   }
 
   public onContainerMouseDown(event: any): void {
@@ -131,7 +124,7 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
   public onArrowClick(event: any): void {
     this.setFocus();
     if (this.isEditable) {
-      if (this.listVisible) {
+      if (this.dropDownVisible) {
         this.hideList();
       } else {
         this.showList();
@@ -140,7 +133,7 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
   }
 
   public onEnterKey(event: any): void {
-    if (this.isEditable && this.listVisible) {
+    if (this.isEditable && this.dropDownVisible) {
       const selectedListIndex: number = this.getSelectedListIndex();
       if (selectedListIndex != null && selectedListIndex >= 0) {
         this.hideList();
@@ -148,34 +141,6 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
         this.setInputValue(null);
         this.callOnSelectionChanged(event);
       }
-    }
-  }
-
-  protected onKeyDown(event: any): void {
-    if (!event || !this.isEditable) {
-      return;
-    }
-
-    switch (event.which) {
-      // Down
-      case 40:
-        this.selectNext();
-        break;
-
-      // Up
-      case 38:
-        this.selectPrevious();
-        break;
-
-      // Enter
-      case 13:
-        this.onEnterKey(event);
-        break;
-
-      // Escape
-      case 27:
-        this.hideList();
-        break;
     }
   }
 
@@ -207,36 +172,6 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
     }
   }
 
-  public hideList(): void {
-    super.hideList();
-    this.lastScrolledIndex = null;
-    if (this.listVisible) {
-      this.checkedListShown = false;
-    }
-  }
-
-  protected scrollSelectedEntryIntoView(): void {
-    if (!this.scroller || !this.list) { return; }
-    const selectedLi: HTMLLIElement = this.list.nativeElement.querySelector('li.selected');
-    if (selectedLi) {
-      DomUtil.scrollIntoView(this.scroller.nativeElement, selectedLi);
-    }
-  }
-
-  protected selectNext(): void {
-    super.selectNext();
-    if (!this.listVisible) {
-      this.callOnSelectionChanged();
-    }
-  }
-
-  protected selectPrevious(): void {
-    super.selectPrevious();
-    if (!this.listVisible) {
-      this.callOnSelectionChanged();
-    }
-  }
-
   public setFocus(): void {
     this.input.nativeElement.focus();
   }
@@ -248,6 +183,7 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
   protected updateProperties(wrapper: ComboBoxWrapper): void {
     super.updateProperties(wrapper);
     this.setInputValue(wrapper.getValue());
+    this.setSelectedIndex(this.entries.findIndexOnValue(wrapper.getValue()));
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
     this.isReadOnlyAttr = Boolean.nullIfFalse(!this.getWrapper().getIsEditable());
   }
@@ -256,12 +192,6 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
     super.updateStyles(wrapper);
     this.inputStyle = this.createInputStyle(wrapper);
     this.arrowStyle = this.createArrowStyle(wrapper);
-  }
-
-  protected createControlStyle(wrapper: ComboBoxWrapper): any {
-    const styles: any = super.createControlStyle(wrapper);
-    styles['cursor'] = 'pointer';
-    return styles;
   }
 
   protected createInputStyle(wrapper: ComboBoxWrapper): any {

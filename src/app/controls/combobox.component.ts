@@ -1,4 +1,4 @@
-import { OnInit, DoCheck, Output, EventEmitter, NgZone } from '@angular/core';
+import { OnInit, DoCheck, AfterViewChecked, Output, EventEmitter, NgZone } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -7,8 +7,10 @@ import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { DataList } from 'app/common/data-list';
 import { StyleUtil } from 'app/util/style-util';
 import { ControlVisibility } from 'app/enums/control-visibility';
+import { DomUtil } from 'app/util/dom-util';
+import { ElementRef } from '@angular/core/src/linker/element_ref';
 
-export abstract class ComboBoxComponent extends ControlComponent implements OnInit, DoCheck {
+export abstract class ComboBoxComponent extends ControlComponent implements OnInit, DoCheck, AfterViewChecked {
 
   @Output()
   public onSelectionChanged: EventEmitter<any>;
@@ -16,21 +18,29 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
   public selectedIndex: number;
   public selectedListIndex: number;
   public entries: DataList;
-  public listVisible: boolean;
+  public dropDownVisible: boolean;
   public isEditable: boolean;
 
   public containerStyle: any;
   public controlStyle: any;
-  public listStyle: any;
-  public listScrollerStyle: any;
+  public dropDownStyle: any;
+  public dropDownScrollerStyle: any;
+
+  private lastScrolledIndex: number;
 
   constructor(protected zone: NgZone) {
     super();
   }
 
+  public abstract getArrowWidth(): number;
+
   public abstract getSelectedPk(): string;
 
   public abstract getSelectedValue(): string;
+
+  protected abstract getScroller(): ElementRef;
+
+  protected abstract getList(): ElementRef;
 
   public ngDoCheck(): void {
     this.updateStyles(this.getWrapper());
@@ -38,6 +48,18 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
 
   public ngOnInit(): void {
     this.updateComponent();
+  }
+
+  public ngAfterViewChecked(): void {
+    if (this.dropDownVisible) {
+      const selectedListIndex: number = this.getSelectedListIndex();
+      if (selectedListIndex !== this.lastScrolledIndex) {
+        this.lastScrolledIndex = selectedListIndex;
+        this.zone.runOutsideAngular(() => {
+          this.scrollSelectedEntryIntoView();
+        });
+      }
+    }
   }
 
   protected getSelectedIndex(): number {
@@ -70,6 +92,36 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
     }
   }
 
+  public abstract onEnterKey(event: any): void;
+
+  protected onKeyDown(event: any): void {
+    if (!event || !this.isEditable) {
+      return;
+    }
+
+    switch (event.which) {
+      // Down
+      case 40:
+        this.selectNext();
+        break;
+
+      // Up
+      case 38:
+        this.selectPrevious();
+        break;
+
+      // Enter
+      case 13:
+        this.onEnterKey(event);
+        break;
+
+      // Escape
+      case 27:
+        this.hideList();
+        break;
+    }
+  }
+
   public onAfterEnter(): void {
     // Override in subclasses
   }
@@ -89,12 +141,23 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
     }
   }
 
+  protected scrollSelectedEntryIntoView(): void {
+    const scroller: ElementRef = this.getScroller();
+    const list: ElementRef = this.getList();
+
+    if (!scroller || !list) { return; }
+    const selectedLi: HTMLLIElement = list.nativeElement.querySelector('li.selected');
+    if (selectedLi) {
+      DomUtil.scrollIntoView(scroller.nativeElement, selectedLi);
+    }
+  }
+
   protected selectNext(): void {
     if (!this.entries || !this.entries.length) {
       return;
     }
 
-    if (this.listVisible) {
+    if (this.dropDownVisible) {
       const currentListIndex: number = this.getSelectedListIndex();
       this.setSelectedListIndex(currentListIndex != null ? Math.min(currentListIndex + 1, this.entries.length - 1) : 0);
     } else {
@@ -103,7 +166,7 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
   }
 
   protected selectPrevious(): void {
-    if (this.listVisible) {
+    if (this.dropDownVisible) {
       const currentListIndex: number = this.getSelectedListIndex();
       this.setSelectedListIndex(currentListIndex != null ? Math.max(currentListIndex - 1, 0) : 0);
     } else {
@@ -112,16 +175,13 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
   }
 
   public showList(): void {
-    if (!this.listVisible) {
-      this.listVisible = true;
-    }
+    this.dropDownVisible = true;
   }
 
   public hideList(): void {
-    if (this.listVisible) {
-      this.listVisible = false;
-      this.setSelectedListIndex(null);
-    }
+    this.dropDownVisible = false;
+    this.lastScrolledIndex = null;
+    this.setSelectedListIndex(null);
   }
 
   public updateComponent(): void {
@@ -137,14 +197,13 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
   protected updateProperties(wrapper: ComboBoxWrapper): void {
     this.isEditable = this.getWrapper().getIsEditable();
     this.entries = wrapper.getEntries();
-    this.setSelectedIndex(this.entries.findIndexOnPk(wrapper.getValue()));
   }
 
   protected updateStyles(wrapper: ComboBoxWrapper): void {
     this.containerStyle = this.createContainerStyle(wrapper);
     this.controlStyle = this.createControlStyle(wrapper);
-    this.listStyle = this.createListStyle(wrapper);
-    this.listScrollerStyle = this.createListScrollerStyle(wrapper);
+    this.dropDownStyle = this.createDropDownStyle(wrapper);
+    this.dropDownScrollerStyle = this.createDropDownScrollerStyle(wrapper);
   }
 
   protected createContainerStyle(wrapper: ComboBoxWrapper): any {
@@ -187,7 +246,8 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
         wrapper.getMarginTop(),
         wrapper.getMarginRight(),
         wrapper.getMarginBottom(),
-        wrapper.getMarginLeft())
+        wrapper.getMarginLeft()),
+      'cursor': 'pointer'
     };
 
     if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
@@ -214,11 +274,12 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
     return styles;
   }
 
-  protected createListStyle(wrapper: ComboBoxWrapper): any {
+  protected createDropDownStyle(wrapper: ComboBoxWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
     const styles: any = {
-      'top.px': layoutableProperties.getHeight() + wrapper.getMarginTop() - 1,
+      'top.px': layoutableProperties.getHeight() + wrapper.getMarginTop(),
+      'left.px': wrapper.getMarginLeft(),
       'min-width.px': layoutableProperties.getWidth(),
       'border': '1px solid ' + wrapper.getBorderColor(),
       'border-radius': StyleUtil.getFourValue('px',
@@ -231,7 +292,7 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
     return styles;
   }
 
-  protected createListScrollerStyle(wrapper: ComboBoxWrapper): any {
+  protected createDropDownScrollerStyle(wrapper: ComboBoxWrapper): any {
     const maxWidth: number = wrapper.getMaxDropDownWidth();
     const maxHeight: number = wrapper.getMaxDropDownHeight();
 

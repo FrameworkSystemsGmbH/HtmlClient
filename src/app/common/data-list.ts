@@ -11,6 +11,10 @@ export class DataList extends Array<DataListEntry> {
     return this.findIndex(entry => entry.getPk() === pk);
   }
 
+  public findIndexOnValue(value: string): number {
+    return this.findIndex(entry => entry.getValue() === value);
+  }
+
   public findIndexOnTerm(term: string): number {
     if (term == null) {
       return -1;

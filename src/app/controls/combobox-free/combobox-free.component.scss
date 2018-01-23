@@ -4,15 +4,16 @@
 
 .hc-cmb-ctrl {
   display: flex;
-  overflow: hidden;
 }
 
 .hc-cmb-input {
   flex: 1;
   display: flex;
+  overflow: hidden;
 
   input {
     flex: 1;
+    width: 100%;
     border: none;
   }
 }
