@@ -4,5 +4,5 @@ import { InternalEventCallbacks } from 'app/common/events/internal/internal-even
 export class InternalEvent<T extends ClientEvent> {
   public originalEvent: any;
   public clientEvent: T;
-  public callbacks: InternalEventCallbacks<T>;
+  public callbacks?: InternalEventCallbacks<T>;
 }

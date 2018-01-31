@@ -6,8 +6,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
+import { OverlayModule } from '@angular/cdk/overlay';
+import { A11yModule } from '@angular/cdk/a11y';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 import { AppComponent } from './app.component';
+import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
+import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
+
+import { ErrorService } from './services/error.service';
+
 import { APP_ROUTING } from './app.routing';
+import { APP_REDUCERS } from './app.reducers';
 
 import { ALL_COMPONENTS } from './components/_all.components';
 import { ALL_CONTROLS } from './controls/_all.controls';
@@ -15,11 +26,10 @@ import { ALL_DIRECTIVES } from './directives/_all.direcives';
 import { ALL_SERVICES } from './services/_all.services';
 import { ALL_FORMATTERS } from './services/formatter/_all.formatters';
 
-import { ErrorService } from './services/error.service';
-import { APP_REDUCERS } from './app.reducers';
-
 @NgModule({
   entryComponents: [
+    ErrorBoxComponent,
+    MsgBoxComponent,
     ALL_CONTROLS
   ],
   declarations: [
@@ -30,12 +40,16 @@ import { APP_REDUCERS } from './app.reducers';
   ],
   imports: [
     APP_ROUTING,
+    A11yModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    MatButtonModule,
+    MatExpansionModule,
     RouterModule,
     ReactiveFormsModule,
+    OverlayModule,
     StoreModule.forRoot(APP_REDUCERS)
   ],
   providers: [

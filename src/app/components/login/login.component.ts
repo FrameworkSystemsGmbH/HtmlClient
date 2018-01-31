@@ -65,11 +65,11 @@ export class LoginComponent implements OnInit {
     this.brokerService.login(broker);
   }
 
-  private createBrokerValidator(bs: LoginService): any {
+  private createBrokerValidator(ls: LoginService): any {
     return (c: FormControl) => {
       return new Observable<any>(
         observer => {
-          bs.getBrokers().subscribe(brokers => {
+          ls.getBrokers().subscribe(brokers => {
             if (brokers && brokers.length && brokers.find(b => String.equals(b.name, c.value, true))) {
               observer.next({ broker: true });
             } else {

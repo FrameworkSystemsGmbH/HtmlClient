@@ -1,0 +1,20 @@
+<div class="hc-errorbox-wrapper" [ngStyle]="sizeStyle">
+  <div class="hc-errorbox-header">
+    <span>{{ title }}</span>
+  </div>
+  <div class="hc-errorbox-message">
+    <div class="hc-errorbox-message-icon">
+      <i class="fa fa-exclamation-circle fa-3x"></i>
+    </div>
+    <div class="hc-errorbox-message-text">
+      <span>{{ message }}</span>
+    </div>
+  </div>
+  <div *ngIf="showStackTrace && stackTrace" class="hc-errorbox-stacktrace" [@stackTraceState]>
+    <span>{{ stackTrace }}</span>
+  </div>
+  <div #footer class="hc-errorbox-footer" tabindex="-1" cdkTrapFocus>
+    <button mat-button color="primary" (click)="onDetailsClick($event)">Details</button>
+    <button mat-button color="primary" (click)="onOkClick($event)">Ok</button>
+  </div>
+</div>

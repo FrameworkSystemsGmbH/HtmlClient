@@ -1,0 +1,66 @@
+:host {
+  display: flex;
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 3px 3px 10px black;
+}
+
+.hc-errorbox-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+
+  .hc-errorbox-header {
+    margin-bottom: 0.75em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid lightgray;
+
+    span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+  }
+
+  .hc-errorbox-message {
+    display: flex;
+
+    .hc-errorbox-message-icon {
+      margin-right: 1em;
+      color: red;
+    }
+
+    .hc-errorbox-message-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      span {
+        white-space: pre-wrap;
+      }
+    }
+  }
+
+
+  .hc-errorbox-stacktrace {
+    flex: 1;
+    margin-top: 0.75em;
+    padding: 1em;
+    overflow: auto;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+
+    span {
+      user-select: text;
+      white-space: pre;
+    }
+  }
+
+  .hc-errorbox-footer {
+    display: flex;
+    margin-top: 0.75em;
+    padding-top: 1em;
+    border-top: 1px solid lightgray;
+    justify-content: flex-end;
+  }
+}

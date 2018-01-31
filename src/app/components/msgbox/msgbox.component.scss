@@ -1,0 +1,64 @@
+:host {
+  display: flex;
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 3px 3px 10px black;
+}
+
+.hc-msgbox-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+
+  .hc-msgbox-header {
+    margin-bottom: 0.75em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid lightgray;
+
+    span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+  }
+
+  .hc-msgbox-message {
+    display: flex;
+
+    .hc-msgbox-message-icon {
+      margin-right: 1em;
+
+      .fa-exclamation-circle {
+        color: red;
+      }
+
+      .fa-exclamation-triangle {
+        color: #ffa400;
+      }
+
+      .fa-info-circle,
+      .fa-question-circle {
+        color: #3faeff;
+      }
+    }
+
+    .hc-msgbox-message-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      span {
+        white-space: pre-wrap;
+      }
+    }
+  }
+
+  .hc-msgbox-footer {
+    display: flex;
+    margin-top: 0.75em;
+    padding-top: 1em;
+    border-top: 1px solid lightgray;
+    justify-content: flex-end;
+  }
+}

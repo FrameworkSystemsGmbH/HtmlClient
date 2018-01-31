@@ -8,6 +8,7 @@ import { EventsService } from 'app/services/events.service';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ClientCloseEvent } from 'app/common/events/client-close-event';
 import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
+import { JsonUtil } from 'app/util/json-util';
 
 @Injectable()
 export class FormsService {
@@ -88,14 +89,14 @@ export class FormsService {
 
       formWrp.getControlsJson(controlsJson);
 
-      if (controlsJson.length) {
+      if (!JsonUtil.isEmptyObject(controlsJson)) {
         const formJson: any = formWrp.getMetaJson();
         formJson.controls = controlsJson;
         formsJson.push(formJson);
       }
     });
 
-    return formsJson.length ? formsJson : null;
+    return !JsonUtil.isEmptyObject(formsJson) ? formsJson : null;
   }
 
   public setJson(fromsJson: any) {

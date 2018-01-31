@@ -10,39 +10,40 @@ import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
 import { ClientCloseEvent } from 'app/common/events/client-close-event';
 import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
+import { ClientMsgBoxEvent } from 'app/common/events/client-msgbox-event';
 
 export interface IEventsService {
   fireClick(
-    formId: string,
     controlName: string,
+    formId: string,
     originalEvent: any,
     callbacks: InternalEventCallbacks<ClientClickEvent>
   ): void;
 
   fireSelectionChanged(
-    formId: string,
     controlName: string,
+    formId: string,
     originalEvent: any,
     callbacks: InternalEventCallbacks<ClientSelectionChangedEvent>
   ): void;
 
   fireValidated(
-    formId: string,
     controlName: string,
+    formId: string,
     originalEvent: any,
     callbacks: InternalEventCallbacks<ClientValidatedEvent>
   ): void;
 
   fireEnter(
-    formId: string,
     controlName: string,
+    formId: string,
     originalEvent: any,
     callbacks: InternalEventCallbacks<ClientEnterEvent>
   ): void;
 
   fireLeave(
-    formId: string,
     controlName: string,
+    formId: string,
     activator: string,
     hasValueChanged: boolean,
     originalEvent: any,
@@ -58,6 +59,13 @@ export interface IEventsService {
     formId: string,
     callbacks: InternalEventCallbacks<ClientDisposeEvent>
   ): void;
+
+  fireMsgBox(
+    formId: string,
+    id: string,
+    action: string,
+    originalEvent: any
+  ): void;
 }
 
 @Injectable()
@@ -72,7 +80,7 @@ export class EventsService implements IEventsService {
     callbacks: InternalEventCallbacks<ClientClickEvent>): void {
     this.onHandleEvent.emit({
       originalEvent,
-      clientEvent: new ClientClickEvent(formId, controlName),
+      clientEvent: new ClientClickEvent(controlName, formId),
       callbacks
     });
   }
@@ -84,7 +92,7 @@ export class EventsService implements IEventsService {
     callbacks: InternalEventCallbacks<ClientValidatedEvent>): void {
     this.onHandleEvent.emit({
       originalEvent,
-      clientEvent: new ClientValidatedEvent(formId, controlName),
+      clientEvent: new ClientValidatedEvent(controlName, formId),
       callbacks
     });
   }
@@ -96,7 +104,7 @@ export class EventsService implements IEventsService {
     callbacks: InternalEventCallbacks<ClientSelectionChangedEvent>): void {
     this.onHandleEvent.emit({
       originalEvent,
-      clientEvent: new ClientSelectionChangedEvent(formId, controlName),
+      clientEvent: new ClientSelectionChangedEvent(controlName, formId),
       callbacks
     });
   }
@@ -108,7 +116,7 @@ export class EventsService implements IEventsService {
     callbacks: InternalEventCallbacks<ClientEnterEvent>): void {
     this.onHandleEvent.emit({
       originalEvent,
-      clientEvent: new ClientEnterEvent(formId, controlName),
+      clientEvent: new ClientEnterEvent(controlName, formId),
       callbacks
     });
   }
@@ -122,7 +130,7 @@ export class EventsService implements IEventsService {
     callbacks: InternalEventCallbacks<ClientLeaveEvent>): void {
     this.onHandleEvent.emit({
       originalEvent,
-      clientEvent: new ClientLeaveEvent(formId, controlName, activator, hasValueChanged),
+      clientEvent: new ClientLeaveEvent(controlName, formId, activator, hasValueChanged),
       callbacks
     });
   }
@@ -144,6 +152,17 @@ export class EventsService implements IEventsService {
       originalEvent: null,
       clientEvent: new ClientDisposeEvent(formId),
       callbacks
+    });
+  }
+
+  public fireMsgBox(
+    formId: string,
+    id: string,
+    action: string,
+    originalEvent: any): void {
+    this.onHandleEvent.emit({
+      originalEvent,
+      clientEvent: new ClientMsgBoxEvent(formId, id, action)
     });
   }
 }

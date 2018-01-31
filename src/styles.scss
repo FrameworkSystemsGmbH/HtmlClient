@@ -4,7 +4,11 @@
 // Bootstrap
 @import "../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 
+// Angulat Material
+@import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+
 // Custom
 @import './scss/layout.scss';
 @import './scss/elements.scss';
 @import './scss/typography.scss';
+@import './scss/material.scss';

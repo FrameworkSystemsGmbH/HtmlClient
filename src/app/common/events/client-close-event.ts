@@ -1,9 +1,9 @@
-import { ClientEvent } from 'app/common/events/client-event';
+import { ClientFormEvent } from 'app/common/events/client-form-event';
 import { ControlEvent } from 'app/enums/control-event';
 
-export class ClientCloseEvent extends ClientEvent {
+export class ClientCloseEvent extends ClientFormEvent {
 
   constructor(formId: string) {
-    super(ControlEvent[ControlEvent.OnClose], formId, 'DefaultVariant');
+    super(ControlEvent[ControlEvent.OnClose], 'DefaultVariant', formId);
   }
 }

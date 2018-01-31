@@ -11,11 +11,15 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/concatMap';
 
 import { JsonUtil } from 'app/util/json-util';
+import { UrlUtil } from 'app/util/url-util';
 import { ActionsService } from 'app/services/actions.service';
 import { ControlStyleService } from 'app/services/control-style.service';
+import { ErrorBoxService } from 'app/services/overlays/errorbox.service';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
+import { MsgBoxService } from 'app/services/overlays/msgbox.service';
 import { RoutingService } from 'app/services/routing.service';
+import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 import { LoginBroker } from 'app/common/login-broker';
 import { ClientEvent } from 'app/common/events/client-event';
@@ -37,9 +41,12 @@ export class BrokerService {
     private httpClient: HttpClient,
     private actionsService: ActionsService,
     private controlStyleSerivce: ControlStyleService,
+    private errorBoxService: ErrorBoxService,
     private eventsService: EventsService,
     private formsService: FormsService,
+    private msgBoxService: MsgBoxService,
     private routingService: RoutingService,
+    private textsService: TextsService,
     private titleService: TitleService,
     private store: Store<fromAppReducers.IAppState>
   ) {
@@ -52,7 +59,7 @@ export class BrokerService {
     this.eventsService.onHandleEvent
       .concatMap(event => Observable.of(event)
         .mergeMap(() => {
-          if (event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
+          if (!event.callbacks || event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
             return this.doRequest(this.createRequest(event.clientEvent))
               .map(responseJson => this.processResponse(responseJson))
               .map(() => true);
@@ -61,10 +68,10 @@ export class BrokerService {
           }
         })
         .map(executed => {
-          if (executed && event.callbacks.onExecuted) {
+          if (executed && event.callbacks && event.callbacks.onExecuted) {
             event.callbacks.onExecuted(event.originalEvent, event.clientEvent);
           }
-          if (event.callbacks.onCompleted) {
+          if (event.callbacks && event.callbacks.onCompleted) {
             event.callbacks.onCompleted(event.originalEvent, event.clientEvent);
           }
         })
@@ -159,6 +166,7 @@ export class BrokerService {
     if (json.start && !JsonUtil.isEmptyObject(json.start)) {
       this.processApplication(json.start.application);
       this.processControlStyles(json.start.controlStyles);
+      this.processTexts(json.start.texts);
     }
 
     if (json.forms && json.forms.length) {
@@ -167,6 +175,26 @@ export class BrokerService {
 
     if (json.actions && json.actions.length) {
       this.actionsService.processActions(json.actions);
+    }
+
+    if (json.error) {
+      this.errorBoxService.openErrorBox({
+        errorMessage: {
+          message: UrlUtil.urlDecode(json.error.message),
+          stackTrace: UrlUtil.urlDecode(json.error.stackTrace)
+        }
+      });
+    } else if (json.msgBoxes) {
+      const msgBoxJson: any = json.msgBoxes[0];
+      this.msgBoxService.openMsgBox({
+        msgBoxMessage: {
+          formId: msgBoxJson.formId,
+          id: msgBoxJson.id,
+          message: UrlUtil.urlDecode(msgBoxJson.message),
+          icon: msgBoxJson.icon,
+          buttons: msgBoxJson.buttons
+        }
+      });
     }
 
     this.routingService.showViewer();
@@ -194,6 +222,14 @@ export class BrokerService {
     if (controlStylesJson && controlStylesJson.length) {
       for (const controlStyleJson of controlStylesJson) {
         this.controlStyleSerivce.addControlStyle(controlStyleJson.name, controlStyleJson.properties);
+      }
+    }
+  }
+
+  private processTexts(textsJson: any): void {
+    if (textsJson && textsJson.length) {
+      for (const textJson of textsJson) {
+        this.textsService.setText(textJson.id, textJson.value);
       }
     }
   }
