@@ -41,8 +41,6 @@ import { ALL_FORMATTERS } from './services/formatter/_all.formatters';
   imports: [
     APP_ROUTING,
     A11yModule,
-    BrowserAnimationsModule,
-    BrowserModule,
     FormsModule,
     HttpClientModule,
     MatButtonModule,
@@ -50,6 +48,8 @@ import { ALL_FORMATTERS } from './services/formatter/_all.formatters';
     RouterModule,
     ReactiveFormsModule,
     OverlayModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     StoreModule.forRoot(APP_REDUCERS)
   ],
   providers: [

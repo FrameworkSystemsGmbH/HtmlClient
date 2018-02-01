@@ -1,4 +1,5 @@
-import { Component, Inject, HostListener, OnInit, trigger, style, transition, animate, keyframes, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, Inject, HostListener, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { trigger, transition, animate, style, keyframes, state } from '@angular/animations';
 
 import { IErrorMessage } from 'app/services/overlays/errorbox.service';
 
@@ -13,18 +14,13 @@ import { DomUtil } from 'app/util/dom-util';
   styleUrls: ['./errorbox.component.scss'],
   animations: [
     trigger('stackTraceState', [
-      transition('void => *',
-        animate('750ms ease-in-out', keyframes([
-          style({ width: 0, height: 0, padding: 0, margin: 0, offset: 0 }),
-          style({ width: 0, height: '*', padding: 0, margin: 0, offset: 0.4 }),
-          style({ width: '*', height: '*', padding: '*', margin: '*', offset: 1 })
-        ]))),
-      transition('* => void',
-        animate('750ms ease-in-out', keyframes([
-          style({ width: '*', height: '*', padding: '*', margin: '*', offset: 0 }),
-          style({ width: 0, height: '*', padding: 0, margin: 0, offset: 0.6 }),
-          style({ width: 0, height: 0, padding: 0, margin: 0, offset: 1 })
-        ])))
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('100ms', style({ opacity: 0 }))
+      ])
     ])
   ]
 })
