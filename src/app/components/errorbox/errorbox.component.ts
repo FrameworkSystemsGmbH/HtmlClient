@@ -1,5 +1,5 @@
 import { Component, Inject, HostListener, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { trigger, transition, animate, style, keyframes, state } from '@angular/animations';
+import { trigger, transition, animate, style } from '@angular/animations';
 
 import { IErrorMessage } from 'app/services/overlays/errorbox.service';
 
