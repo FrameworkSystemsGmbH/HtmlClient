@@ -1,4 +1,4 @@
-import { ErrorHandler, Injectable, Injector, ChangeDetectorRef, NgZone } from '@angular/core';
+import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core';
 
 import { ErrorBoxService } from 'app/services/overlays/errorbox.service';
 
