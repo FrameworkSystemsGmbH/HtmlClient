@@ -3,7 +3,6 @@ import { BrokerService } from 'app/services/broker.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { ControlsService } from 'app/services/controls.service';
 import { ErrorBoxService } from 'app/services/overlays/errorbox.service';
-import { ErrorService } from 'app/services/error.service';
 import { EventsService } from 'app/services/events.service';
 import { FocusService } from 'app/services/focus.service';
 import { FontService } from 'app/services/font.service';
@@ -30,7 +29,6 @@ export const ALL_SERVICES = [
   ControlStyleService,
   ControlsService,
   ErrorBoxService,
-  ErrorService,
   EventsService,
   FocusService,
   FontService,

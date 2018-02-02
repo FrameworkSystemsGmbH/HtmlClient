@@ -18,7 +18,7 @@
     </div>
   </div>
   <div #footer class="hc-errorbox-footer" tabindex="-1" cdkTrapFocus>
-    <button mat-button color="primary" (click)="onDetailsClick($event)">Details</button>
+    <button *ngIf="stackTrace" mat-button color="primary" (click)="onDetailsClick($event)">Details</button>
     <button mat-button color="primary" (click)="onOkClick($event)">Ok</button>
   </div>
 </div>
