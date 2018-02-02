@@ -11,7 +11,11 @@
     </div>
   </div>
   <div *ngIf="showStackTrace && stackTrace" class="hc-errorbox-stacktrace" [@stackTraceState]>
-    <span>{{ stackTrace }}</span>
+    <div class="hc-errorbox-stacktrace-border">
+      <div class="hc-errorbox-stacktrace-scroller">
+        <span>{{ stackTrace }}</span>
+      </div>
+    </div>
   </div>
   <div #footer class="hc-errorbox-footer" tabindex="-1" cdkTrapFocus>
     <button mat-button color="primary" (click)="onDetailsClick($event)">Details</button>

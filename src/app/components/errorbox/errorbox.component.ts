@@ -1,5 +1,5 @@
 import { Component, Inject, HostListener, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { trigger, transition, animate, style } from '@angular/animations';
+import { trigger, transition, animate, style, keyframes } from '@angular/animations';
 
 import { IErrorMessage } from 'app/services/overlays/errorbox.service';
 
@@ -15,11 +15,19 @@ import { DomUtil } from 'app/util/dom-util';
   animations: [
     trigger('stackTraceState', [
       transition(':enter', [
-        style({ opacity: 0 }),
-        animate('500ms', style({ opacity: 1 }))
+        style({ width: 0, height: 0 }),
+        animate('750ms', keyframes([
+          style({ width: 0, height: 0, offset: 0 }),
+          style({ width: 0, height: '*', offset: 0.5 }),
+          style({ width: '*', height: '*', offset: 1 })
+        ]))
       ]),
       transition(':leave', [
-        animate('100ms', style({ opacity: 0 }))
+        animate('750ms', keyframes([
+          style({ width: '*', height: '*', offset: 0 }),
+          style({ width: 0, height: '*', offset: 0.5 }),
+          style({ width: 0, height: 0, offset: 1 })
+        ]))
       ])
     ])
   ]
