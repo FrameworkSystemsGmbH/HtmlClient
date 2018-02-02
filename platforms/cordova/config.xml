@@ -56,8 +56,8 @@
   <preference name="SplashScreenDelay" value="3000" />
 
   <platform name="android">
-    <preference name="android-minSdkVersion" value="19" />
-    <preference name="android-targetSdkVersion" value="25" />
+    <preference name="android-minSdkVersion" value="21" />
+    <preference name="android-targetSdkVersion" value="27" />
     <preference name="android-windowSoftInputMode" value="adjustResize" />
 	</platform>
 
