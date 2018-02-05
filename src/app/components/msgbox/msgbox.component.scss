@@ -1,64 +1,72 @@
 :host {
   display: flex;
+  flex-direction: column;
   overflow: hidden;
   border-radius: 5px;
   background-color: white;
   box-shadow: 3px 3px 10px black;
-}
 
-.hc-msgbox-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
-
-  .hc-msgbox-header {
-    margin-bottom: 0.75em;
-    padding-bottom: 1em;
-    border-bottom: 1px solid lightgray;
-
-    span {
-      font-size: 1.5em;
-      font-weight: bold;
-    }
-  }
-
-  .hc-msgbox-message {
+  .hc-msgbox-wrapper {
     display: flex;
+    flex-direction: column;
+    padding: 1.5em;
 
-    .hc-msgbox-message-icon {
-      margin-right: 1em;
+    .hc-msgbox-header {
+      flex: 0 0 auto;
+      display: flex;
 
-      .fa-exclamation-circle {
-        color: red;
+      .hc-msgbox-header-icon {
+        flex: 0 0 auto;
+        margin-right: 0.5em;
+
+        .fa-exclamation-circle {
+          color: red;
+        }
+
+        .fa-exclamation-triangle {
+          color: #ffa400;
+        }
+
+        .fa-info-circle,
+        .fa-question-circle {
+          color: #3faeff;
+        }
       }
 
-      .fa-exclamation-triangle {
-        color: #ffa400;
-      }
+      .hc-msgbox-header-title {
+        flex: 1;
+        overflow: hidden;
 
-      .fa-info-circle,
-      .fa-question-circle {
-        color: #3faeff;
+        span {
+          font-size: 1.5em;
+          font-weight: bold;
+        }
       }
     }
 
-    .hc-msgbox-message-text {
+    .hc-msgbox-message {
       flex: 1;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      overflow: auto;
+      overflow-x: hidden;
+      margin-top: 1em;
+      margin-left: 0.5em;
 
       span {
+        user-select: text;
         white-space: pre-wrap;
       }
     }
-  }
 
-  .hc-msgbox-footer {
-    display: flex;
-    margin-top: 0.75em;
-    padding-top: 1em;
-    border-top: 1px solid lightgray;
-    justify-content: flex-end;
+    .hc-msgbox-footer {
+      flex: 0 0 auto;
+      display: flex;
+      margin-top: 1.25em;
+      justify-content: center;
+
+      button:not(:last-child) {
+        margin-right: 1em;
+      }
+    }
   }
 }

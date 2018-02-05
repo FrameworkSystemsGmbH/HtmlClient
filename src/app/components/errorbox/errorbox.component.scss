@@ -1,57 +1,63 @@
 :host {
   display: flex;
+  flex-direction: column;
   overflow: hidden;
   border-radius: 5px;
   background-color: white;
   box-shadow: 3px 3px 10px black;
-}
 
-.hc-errorbox-wrapper {
-  padding: 1em;
-
-  .hc-errorbox-header {
-    margin-bottom: 0.75em;
-    padding-bottom: 1em;
-    border-bottom: 1px solid lightgray;
-
-    span {
-      font-size: 1.5em;
-      font-weight: bold;
-    }
-  }
-
-  .hc-errorbox-message {
+  .hc-errorbox-wrapper {
     display: flex;
+    flex-direction: column;
+    padding: 1.5em;
 
-    .hc-errorbox-message-icon {
-      margin-right: 1em;
-      color: red;
+    .hc-errorbox-header {
+      flex: 0 0 auto;
+      display: flex;
+
+      .hc-errorbox-header-icon {
+        flex: 0 0 auto;
+        margin-right: 0.5em;
+        color: red;
+      }
+
+      .hc-errorbox-header-title {
+        flex: 1;
+        overflow: hidden;
+
+        span {
+          font-size: 1.5em;
+          font-weight: bold;
+        }
+      }
     }
 
-    .hc-errorbox-message-text {
+    .hc-errorbox-message {
       flex: 1;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      overflow: auto;
+      overflow-x: hidden;
+      margin-top: 1em;
+      margin-left: 0.5em;
 
       span {
+        user-select: text;
         white-space: pre-wrap;
       }
     }
-  }
 
-  .hc-errorbox-stacktrace {
-    overflow: hidden;
-
-    .hc-errorbox-stacktrace-border {
+    .hc-errorbox-stacktrace {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
-      margin-top: 0.75em;
+      margin-top: 1em;
       border: 1px solid lightgrey;
       border-radius: 5px;
 
       .hc-errorbox-stacktrace-scroller {
-        padding: 1em;
         overflow: auto;
+        padding: 0.5em;
 
         span {
           user-select: text;
@@ -59,13 +65,16 @@
         }
       }
     }
-  }
 
-  .hc-errorbox-footer {
-    display: flex;
-    margin-top: 0.75em;
-    padding-top: 1em;
-    border-top: 1px solid lightgray;
-    justify-content: flex-end;
+    .hc-errorbox-footer {
+      flex: 0 0 auto;
+      display: flex;
+      margin-top: 1.25em;
+      justify-content: center;
+
+      button:not(:last-child) {
+        margin-right: 1em;
+      }
+    }
   }
 }

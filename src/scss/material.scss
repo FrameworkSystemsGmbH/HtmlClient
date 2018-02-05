@@ -5,6 +5,11 @@
   }
 }
 
-.mat-button {
-  font-weight: bold;
+.mat-button,
+.mat-fab,
+.mat-icon-button,
+.mat-mini-fab,
+.mat-raised-button {
+  min-width: 70px !important;
+  padding: 0px !important;
 }
