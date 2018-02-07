@@ -2,7 +2,6 @@ import { ActionsService } from 'app/services/actions.service';
 import { BrokerService } from 'app/services/broker.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { ControlsService } from 'app/services/controls.service';
-import { ErrorBoxService } from 'app/services/overlays/errorbox.service';
 import { EventsService } from 'app/services/events.service';
 import { FocusService } from 'app/services/focus.service';
 import { FontService } from 'app/services/font.service';
@@ -13,9 +12,8 @@ import { LocalStorageService } from 'app/services/local-storage.service';
 import { LoginService } from 'app/services/login.service';
 import { LogService } from 'app/services/log.service';
 import { LocaleService } from 'app/services/locale.service';
-import { MsgBoxService } from 'app/services/overlays/msgbox.service';
 import { NativeService } from 'app/services/native.service';
-import { OverlayService } from 'app/services/overlays/overlay-service';
+import { OverlayService } from 'app/services/overlay-service';
 import { PlatformService } from 'app/services/platform.service';
 import { RoutingService } from 'app/services/routing.service';
 import { StorageService } from 'app/services/storage.service';
@@ -28,7 +26,6 @@ export const ALL_SERVICES = [
   BrokerService,
   ControlStyleService,
   ControlsService,
-  ErrorBoxService,
   EventsService,
   FocusService,
   FontService,
@@ -38,7 +35,6 @@ export const ALL_SERVICES = [
   LoginService,
   LogService,
   LocaleService,
-  MsgBoxService,
   NativeService,
   OverlayService,
   PlatformService,

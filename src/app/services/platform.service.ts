@@ -2,6 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { NativeService } from 'app/services/native.service';
 
+export interface IPlatformService {
+  isMobile(): boolean;
+  isDesktop(): boolean;
+  isWeb(): boolean;
+  isAndroid();
+  isIos(): boolean;
+}
+
 @Injectable()
 export class PlatformService {
 
@@ -16,23 +24,23 @@ export class PlatformService {
     this.guessPlatform();
   }
 
-  public get isMobile(): boolean {
+  public isMobile(): boolean {
     return this._isMobile;
   }
 
-  public get isDesktop(): boolean {
+  public isDesktop(): boolean {
     return this._isDesktop;
   }
 
-  public get isWeb(): boolean {
+  public isWeb(): boolean {
     return this._isWeb;
   }
 
-  public get isAndroid(): boolean {
+  public isAndroid(): boolean {
     return this._isAndroid;
   }
 
-  public get isIos(): boolean {
+  public isIos(): boolean {
     return this._isIos;
   }
 

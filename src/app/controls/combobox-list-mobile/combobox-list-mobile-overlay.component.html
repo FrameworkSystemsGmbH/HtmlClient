@@ -1,0 +1,10 @@
+<div class="wrapper" [ngStyle]="sizeStyle">
+  <div #scroller class="scroller" tabindex="-1" cdkTrapFocus>
+    <ul #list class="list">
+      <li *ngFor="let entry of entries; index as i" [ngClass]="{ selected: i === selectedIndex }" (click)="onEntrySelected($event, i)">
+        <span *ngIf="entry.getValue()">{{ entry.getValue() }}</span>
+        <span *ngIf="!entry.getValue()">Empty</span>
+      </li>
+    </ul>
+  </div>
+</div>

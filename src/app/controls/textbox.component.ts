@@ -6,6 +6,7 @@ import { ControlComponent } from 'app/controls/control.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
 import { ControlVisibility } from 'app/enums/control-visibility';
 import { StyleUtil } from 'app/util/style-util';
+import { DomUtil } from 'app/util/dom-util';
 
 export abstract class TextBoxComponent extends ControlComponent {
 
@@ -87,7 +88,7 @@ export abstract class TextBoxComponent extends ControlComponent {
     const input: ElementRef = this.getInput();
 
     if (input) {
-      setTimeout(() => input.nativeElement.select());
+      setTimeout(() => DomUtil.setSelection(input.nativeElement));
     }
   }
 }

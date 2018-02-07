@@ -36,18 +36,29 @@ export namespace DomUtil {
     }
   }
 
-  export function setSelection(input: any, start, end) {
+  export function setSelection(input: any, start?, end?) {
+    let selStart = start;
+    let selEnd = end;
+
+    if (selStart == null) {
+      selStart = 0;
+    }
+
+    if (selEnd == null) {
+      selEnd = input.value.length;
+    }
+
     if (input.createTextRange) {
       const selRange = input.createTextRange();
       selRange.collapse(true);
-      selRange.moveStart('character', start);
-      selRange.moveEnd('character', end - start);
+      selRange.moveStart('character', selStart);
+      selRange.moveEnd('character', selEnd - selStart);
       selRange.select();
     } else if (input.setSelectionRange) {
-      input.setSelectionRange(start, end);
+      input.setSelectionRange(selStart, selEnd);
     } else if (typeof input.selectionStart !== 'undefined') {
-      input.selectionStart = start;
-      input.selectionEnd = end;
+      input.selectionStart = selStart;
+      input.selectionEnd = selEnd;
     }
   }
 

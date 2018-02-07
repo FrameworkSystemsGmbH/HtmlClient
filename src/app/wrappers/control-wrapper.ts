@@ -7,6 +7,7 @@ import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label
 import { IControlsService } from 'app/services/controls.service';
 import { IEventsService } from 'app/services/events.service';
 import { IFocusService } from 'app/services/focus.service';
+import { IPlatformService } from 'app/services/platform.service';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
@@ -46,6 +47,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private controlsService: IControlsService;
   private eventsService: IEventsService;
   private focusService: IFocusService;
+  private platformService: IPlatformService;
 
   private onEnterSub: ISubscription;
   private onLeaveSub: ISubscription;
@@ -57,7 +59,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     resolver: ComponentFactoryResolver,
     controlsService: IControlsService,
     eventsService: IEventsService,
-    focusService: IFocusService
+    focusService: IFocusService,
+    platformService: IPlatformService
   ) {
     this.form = form;
     this.parent = parent;
@@ -65,6 +68,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     this.controlsService = controlsService;
     this.eventsService = eventsService;
     this.focusService = focusService;
+    this.platformService = platformService;
     this.setControlStyle(controlStyle);
     this.addToParent();
   }
@@ -148,6 +152,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected getFocusService(): IFocusService {
     return this.focusService;
+  }
+
+  protected getPlatformService(): IPlatformService {
+    return this.platformService;
   }
 
   protected getResolver(): ComponentFactoryResolver {

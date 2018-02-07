@@ -4,8 +4,10 @@ import { ISubscription } from 'rxjs/Subscription';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
 import { ComboBoxComponent } from 'app/controls/combobox.component';
-import { ComboBoxListComponent } from 'app/controls/combobox-list/combobox-list.component';
 import { ComboBoxFreeComponent } from 'app/controls/combobox-free/combobox-free.component';
+import { ComboBoxFreeMobileComponent } from 'app/controls/combobox-free-mobile/combobox-free-mobile.component';
+import { ComboBoxListComponent } from 'app/controls/combobox-list/combobox-list.component';
+import { ComboBoxListMobileComponent } from 'app/controls/combobox-list-mobile/combobox-list-mobile.component';
 import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
 import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';
@@ -80,7 +82,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   protected getArrowWidth(): number {
-    const comp: ComboBoxComponent =  this.getComponent();
+    const comp: ComboBoxComponent = this.getComponent();
     return comp ? comp.getArrowWidth() : 0;
   }
 
@@ -110,7 +112,9 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ComboBoxComponent> {
-    const compType: any = this.getEditStyle() === EditStyle.ListValuesInput ? ComboBoxListComponent : ComboBoxFreeComponent;
+    const compType: any = this.getEditStyle() === EditStyle.ListValuesInput
+      ? this.getPlatformService().isMobile() ? ComboBoxListMobileComponent : ComboBoxListComponent
+      : this.getPlatformService().isMobile() ? ComboBoxFreeMobileComponent : ComboBoxFreeComponent;
     const factory: ComponentFactory<ComboBoxComponent> = this.getResolver().resolveComponentFactory(compType);
     return factory.create(container.getViewContainerRef().injector);
   }

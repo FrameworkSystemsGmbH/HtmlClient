@@ -5,6 +5,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { IControlsService } from 'app/services/controls.service';
 import { IEventsService } from 'app/services/events.service';
 import { IFocusService } from 'app/services/focus.service';
+import { IPlatformService } from 'app/services/platform.service';
 
 import { ContainerComponent } from 'app/controls/container.component';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
@@ -28,9 +29,10 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     resolver: ComponentFactoryResolver,
     controlsService: IControlsService,
     eventsService: IEventsService,
-    focusService: IFocusService
+    focusService: IFocusService,
+    platformService: IPlatformService
   ) {
-    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService);
+    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, platformService);
     this.controls = new Array<ControlWrapper>();
   }
 

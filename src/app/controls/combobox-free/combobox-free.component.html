@@ -1,16 +1,16 @@
-<div class="hc-cmb" [ngStyle]="containerStyle" (mousedown)="onContainerMouseDown($event)">
-  <div class="hc-cmb-ctrl" [ngStyle]="controlStyle">
-    <div class="hc-cmb-input">
+<div class="hc-cmb-free" [ngStyle]="containerStyle" (mousedown)="onContainerMouseDown($event)">
+  <div class="hc-cmb-free-ctrl" [ngStyle]="controlStyle">
+    <div class="hc-cmb-free-input">
       <input #input type="text" [ngStyle]="inputStyle" [ngModel]="getSelectedValue()" (input)="onInput($event)" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" [attr.tabindex]="tabIndexAttr" [attr.readonly]="isReadOnlyAttr" />
     </div>
-    <div #arrow class="hc-cmb-arrow" [ngStyle]="arrowStyle" (mouseover)="onArrowEnter($event)" (mouseout)="onArrowLeave($event)" (click)="onArrowClick($event)">
+    <div #arrow class="hc-cmb-free-arrow" [ngStyle]="arrowStyle" (mouseover)="onArrowEnter($event)" (mouseout)="onArrowLeave($event)" (click)="onArrowClick($event)">
       <span>
         <i class="fa fa-caret-down"></i>
       </span>
     </div>
   </div>
-  <div *ngIf="dropDownVisible" class="hc-cmb-list" [ngStyle]="dropDownStyle" [@listState]>
-    <div #scroller class="hc-cmb-list-scroller" [ngStyle]="dropDownScrollerStyle">
+  <div *ngIf="dropDownVisible" class="hc-cmb-free-list" [ngStyle]="dropDownStyle" [@listState]>
+    <div #scroller class="hc-cmb-free-list-scroller" [ngStyle]="dropDownScrollerStyle">
       <ul #list>
         <li *ngFor="let entry of entries; index as i;" [ngClass]="{ 'selected': i === getSelectedListIndex() }" (click)="onEntryClicked($event, i)">
           <span *ngIf="entry.getValue()">{{ entry.getValue() }}</span>

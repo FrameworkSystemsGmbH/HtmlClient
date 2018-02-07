@@ -1,0 +1,18 @@
+<div class="wrapper" [ngStyle]="sizeStyle" cdkTrapFocus>
+  <div #scroller class="scroller">
+    <ul #list class="list">
+      <li *ngFor="let entry of entries; index as i" [ngClass]="{ selected: i === selectedIndex }" (click)="onEntrySelected($event, i)">
+        <span *ngIf="entry.getValue()">{{ entry.getValue() }}</span>
+        <span *ngIf="!entry.getValue()">Empty</span>
+      </li>
+    </ul>
+  </div>
+  <div class="freetext">
+    <mat-form-field>
+      <input #input matInput placeholder="Value" [(ngModel)]="inputValue" (keydown.enter)="onFreetextConfirm($event)" />
+    </mat-form-field>
+  </div>
+  <div class="footer">
+    <button mat-raised-button (click)="onFreetextConfirm($event)">Ok</button>
+  </div>
+</div>

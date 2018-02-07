@@ -10,20 +10,20 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/concatMap';
 
-import { JsonUtil } from 'app/util/json-util';
-import { UrlUtil } from 'app/util/url-util';
+import { ErrorBoxOverlay } from 'app/components/errorbox/errorbox-overlay';
+import { MsgBoxOverlay } from 'app/components/msgbox/msgbox-overlay';
 import { ActionsService } from 'app/services/actions.service';
 import { ControlStyleService } from 'app/services/control-style.service';
-import { ErrorBoxService } from 'app/services/overlays/errorbox.service';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
-import { MsgBoxService } from 'app/services/overlays/msgbox.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 import { LoginBroker } from 'app/common/login-broker';
 import { ClientEvent } from 'app/common/events/client-event';
 import { RequestType } from 'app/enums/request-type';
+import { JsonUtil } from 'app/util/json-util';
+import { UrlUtil } from 'app/util/url-util';
 
 import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
@@ -39,12 +39,12 @@ export class BrokerService {
 
   constructor(
     private httpClient: HttpClient,
+    private errorBoxOverlay: ErrorBoxOverlay,
+    private msgBoxOverlay: MsgBoxOverlay,
     private actionsService: ActionsService,
     private controlStyleSerivce: ControlStyleService,
-    private errorBoxService: ErrorBoxService,
     private eventsService: EventsService,
     private formsService: FormsService,
-    private msgBoxService: MsgBoxService,
     private routingService: RoutingService,
     private textsService: TextsService,
     private titleService: TitleService,
@@ -178,7 +178,7 @@ export class BrokerService {
     }
 
     if (json.error) {
-      this.errorBoxService.openErrorBox({
+      this.errorBoxOverlay.openErrorBox({
         errorMessage: {
           message: UrlUtil.urlDecode(json.error.message),
           stackTrace: UrlUtil.urlDecode(json.error.stackTrace)
@@ -186,7 +186,7 @@ export class BrokerService {
       });
     } else if (json.msgBoxes) {
       const msgBoxJson: any = json.msgBoxes[0];
-      this.msgBoxService.openMsgBox({
+      this.msgBoxOverlay.openMsgBox({
         msgBoxMessage: {
           formId: msgBoxJson.formId,
           id: msgBoxJson.id,

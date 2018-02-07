@@ -5,6 +5,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { IEventsService } from 'app/services/events.service';
 import { IControlsService } from 'app/services/controls.service';
 import { IFocusService } from 'app/services/focus.service';
+import { IPlatformService } from 'app/services/platform.service';
 import { IFontService } from 'app/services/font.service';
 import { IPatternFormatService } from 'app/services/formatter/pattern-format.service';
 import { IDateTimeFormatService } from 'app/services/formatter/datetime-format.service';
@@ -30,11 +31,12 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     controlsService: IControlsService,
     eventsService: IEventsService,
     focusService: IFocusService,
+    platformService: IPlatformService,
     fontService: IFontService,
     patternFormatService: IPatternFormatService,
     dateTimeFormatService: IDateTimeFormatService
   ) {
-    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, fontService, patternFormatService);
+    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, platformService, fontService, patternFormatService);
     this.dateTimeFormatService = dateTimeFormatService;
   }
 

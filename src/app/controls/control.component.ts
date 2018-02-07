@@ -12,13 +12,15 @@ export abstract class ControlComponent extends LayoutableComponent {
   public onLeave: EventEmitter<any>;
 
   public callOnEnter(event: any): void {
-    if (this.getWrapper().hasOnEnterEvent()) {
+    const wrapper: ControlWrapper = this.getWrapper();
+    if (wrapper.getIsEditable() && this.getWrapper().hasOnEnterEvent()) {
       this.onEnter.emit(event);
     }
   }
 
   public callOnLeave(event: any): void {
-    if (this.getWrapper().hasOnLeaveEvent()) {
+    const wrapper: ControlWrapper = this.getWrapper();
+    if (wrapper.getIsEditable() && wrapper.hasOnLeaveEvent()) {
       this.onLeave.emit(event);
     }
   }

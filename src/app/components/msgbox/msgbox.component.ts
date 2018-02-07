@@ -1,11 +1,11 @@
 import { Component, Inject, HostListener, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { OverlayRef } from '@angular/cdk/overlay';
 
-import { IMsgBoxMessage } from 'app/services/overlays/msgbox.service';
+import { IMsgBoxMessage } from 'app/components/msgbox/msgbox-overlay';
 
 import { TitleService } from 'app/services/title.service';
 import { EventsService } from 'app/services/events.service';
 import { MSGBOX_DATA } from 'app/components/msgbox/msgbox.tokens';
-import { MsgBoxRef } from 'app/components/msgbox/msgbox.ref';
 import { DomUtil } from 'app/util/dom-util';
 import { MsgBoxButtons } from 'app/enums/msgbox-buttons';
 import { MsgBoxIcon } from 'app/enums/msgbox-icon';
@@ -35,7 +35,7 @@ export class MsgBoxComponent implements OnInit, AfterViewInit {
   constructor(
     private titleService: TitleService,
     private eventsService: EventsService,
-    private msgBoxRef: MsgBoxRef,
+    private overlayRef: OverlayRef,
     @Inject(MSGBOX_DATA) message: IMsgBoxMessage
   ) {
     this.formId = message.formId;
@@ -51,42 +51,42 @@ export class MsgBoxComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    setTimeout(() => this.footer.nativeElement.focus(), 0);
+    setTimeout(() => this.footer.nativeElement.focus());
   }
 
   public onYesClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Yes, event);
-    this.msgBoxRef.close();
+    this.overlayRef.dispose();
   }
 
   public onNoClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.No, event);
-    this.msgBoxRef.close();
+    this.overlayRef.dispose();
   }
 
   public onOkClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Ok, event);
-    this.msgBoxRef.close();
+    this.overlayRef.dispose();
   }
 
   public onAbortClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Abort, event);
-    this.msgBoxRef.close();
+    this.overlayRef.dispose();
   }
 
   public onRetryClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Retry, event);
-    this.msgBoxRef.close();
+    this.overlayRef.dispose();
   }
 
   public onIgnoreClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Ignore, event);
-    this.msgBoxRef.close();
+    this.overlayRef.dispose();
   }
 
   public onCancelClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Cancel, event);
-    this.msgBoxRef.close();
+    this.overlayRef.dispose();
   }
 
   @HostListener('window:resize')

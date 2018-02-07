@@ -1,7 +1,11 @@
 import { ButtonImageComponent } from 'app/controls/button-image/button-image.component';
 import { ButtonPlainComponent } from 'app/controls/button-plain/button-plain.component';
 import { ComboBoxFreeComponent } from 'app/controls/combobox-free/combobox-free.component';
+import { ComboBoxFreeMobileComponent } from 'app/controls/combobox-free-mobile/combobox-free-mobile.component';
+import { ComboBoxFreeMobileOverlayComponent } from 'app/controls/combobox-free-mobile/combobox-free-mobile-overlay.component';
 import { ComboBoxListComponent } from 'app/controls/combobox-list/combobox-list.component';
+import { ComboBoxListMobileComponent } from 'app/controls/combobox-list-mobile/combobox-list-mobile.component';
+import { ComboBoxListMobileOverlayComponent } from 'app/controls/combobox-list-mobile/combobox-list-mobile-overlay.component';
 import { ControlLabelComponent } from 'app/controls/control-label/control-label.component';
 import { ControlLabelContainerComponent } from 'app/controls/control-label-container/control-label-container.component';
 import { ControlLabelContainerMergedComponent } from 'app/controls/control-label-container-merged/control-label-container-merged.component';
@@ -15,11 +19,18 @@ import { TextBoxPlainComponent } from 'app/controls/textbox-plain/textbox-plain.
 import { VariantComponent } from 'app/controls/variant/variant.component';
 import { WrapPanelComponent } from 'app/controls/wrap-panel/wrap-panel.component';
 
+import { ComboBoxFreeMobileOverlay } from 'app/controls/combobox-free-mobile/combobox-free-mobile-overlay';
+import { ComboBoxListMobileOverlay } from 'app/controls/combobox-list-mobile/combobox-list-mobile-overlay';
+
 export const ALL_CONTROLS = [
   ButtonImageComponent,
   ButtonPlainComponent,
   ComboBoxFreeComponent,
+  ComboBoxFreeMobileComponent,
+  ComboBoxFreeMobileOverlayComponent,
   ComboBoxListComponent,
+  ComboBoxListMobileComponent,
+  ComboBoxListMobileOverlayComponent,
   ControlLabelComponent,
   ControlLabelContainerComponent,
   ControlLabelContainerMergedComponent,
@@ -32,4 +43,9 @@ export const ALL_CONTROLS = [
   TextBoxPlainComponent,
   VariantComponent,
   WrapPanelComponent
+];
+
+export const ALL_CONTROL_SERVICES = [
+  ComboBoxFreeMobileOverlay,
+  ComboBoxListMobileOverlay
 ];

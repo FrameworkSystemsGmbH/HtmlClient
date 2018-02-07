@@ -11,13 +11,13 @@ import 'rxjs/add/operator/repeat';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/takeUntil';
 
-import { ComboBoxComponent } from 'app/controls/combobox.component';
+import { ComboBoxDesktopComponent } from 'app/controls/combobox-desktop.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { StyleUtil } from 'app/util/style-util';
 import { DomUtil } from 'app/util/dom-util';
 
 @Component({
-  selector: 'hc-cmb',
+  selector: 'hc-cmb-list',
   templateUrl: './combobox-list.component.html',
   styleUrls: ['./combobox-list.component.scss'],
   animations: [
@@ -29,7 +29,7 @@ import { DomUtil } from 'app/util/dom-util';
     ])
   ]
 })
-export class ComboBoxListComponent extends ComboBoxComponent implements AfterViewInit, OnDestroy {
+export class ComboBoxListComponent extends ComboBoxDesktopComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('control')
   public control: ElementRef;
@@ -85,18 +85,20 @@ export class ComboBoxListComponent extends ComboBoxComponent implements AfterVie
   }
 
   public getSelectedPk(): string {
-    if (this.selectedIndex == null || this.selectedIndex < 0) {
+    const selectedIndex: number = this.getSelectedIndex();
+    if (selectedIndex == null || selectedIndex < 0) {
       return this.getWrapper().getValue();
     } else {
-      return this.entries[this.selectedIndex].getPk();
+      return this.entries[selectedIndex].getPk();
     }
   }
 
   public getSelectedValue(): string {
-    if (this.selectedIndex == null || this.selectedIndex < 0) {
+    const selectedIndex: number = this.getSelectedIndex();
+    if (selectedIndex == null || selectedIndex < 0) {
       return '## ' + this.getWrapper().getValue() + ' ##';
     } else {
-      return this.entries[this.selectedIndex].getValue();
+      return this.entries[selectedIndex].getValue();
     }
   }
 

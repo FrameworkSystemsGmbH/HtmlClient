@@ -1,10 +1,10 @@
 import { Component, Inject, HostListener, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { OverlayRef } from '@angular/cdk/overlay';
 
-import { IErrorMessage } from 'app/services/overlays/errorbox.service';
+import { IErrorMessage } from 'app/components/errorbox/errorbox-overlay';
 
 import { TitleService } from 'app/services/title.service';
 import { ERRORBOX_DATA } from 'app/components/errorbox/errorbox.tokens';
-import { ErrorBoxRef } from 'app/components/errorbox/errorbox.ref';
 import { DomUtil } from 'app/util/dom-util';
 
 @Component({
@@ -25,7 +25,7 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit {
 
   constructor(
     private titleService: TitleService,
-    private errorBoxRef: ErrorBoxRef,
+    private overlayRef: OverlayRef,
     @Inject(ERRORBOX_DATA) error: IErrorMessage
   ) {
     this.title = this.titleService.getTitle();
@@ -38,7 +38,7 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    setTimeout(() => this.footer.nativeElement.focus(), 0);
+    setTimeout(() => this.footer.nativeElement.focus());
   }
 
   public onDetailsClick(event: any): void {
@@ -46,7 +46,7 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit {
   }
 
   public onOkClick(event: any): void {
-    this.errorBoxRef.close();
+    this.overlayRef.dispose();
   }
 
   @HostListener('window:resize')

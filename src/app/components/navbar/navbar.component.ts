@@ -79,7 +79,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    setTimeout(() => { this.refreshScroller(); }, 0);
+    setTimeout(() => this.refreshScroller());
   }
 
   public ngOnDestroy(): void {

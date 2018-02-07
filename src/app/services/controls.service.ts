@@ -12,6 +12,7 @@ import { PropertyData } from 'app/common/property-data';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { EventsService } from 'app/services/events.service';
 import { FocusService } from 'app/services/focus.service';
+import { PlatformService } from 'app/services/platform.service';
 import { FontService } from 'app/services/font.service';
 import { ImageService } from 'app/services/image.service';
 import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
@@ -65,6 +66,7 @@ export class ControlsService implements IControlsService {
     private controlStyleService: ControlStyleService,
     private eventsService: EventsService,
     private focusService: FocusService,
+    private platformService: PlatformService,
     private fontService: FontService,
     private imageService: ImageService,
     private patternFormatService: PatternFormatService,
@@ -109,6 +111,7 @@ export class ControlsService implements IControlsService {
           this,
           this.eventsService,
           this.focusService,
+          this.platformService,
           this.fontService
         );
       case ControlType.ImageButton:
@@ -120,6 +123,7 @@ export class ControlsService implements IControlsService {
           this,
           this.eventsService,
           this.focusService,
+          this.platformService,
           this.fontService,
           this.imageService);
       case ControlType.ComboBox:
@@ -131,6 +135,7 @@ export class ControlsService implements IControlsService {
           this,
           this.eventsService,
           this.focusService,
+          this.platformService,
           this.fontService
         );
       case ControlType.DockPanel:
@@ -141,7 +146,8 @@ export class ControlsService implements IControlsService {
           this.resolver,
           this,
           this.eventsService,
-          this.focusService
+          this.focusService,
+          this.platformService
         );
       case ControlType.FieldPanel:
         return new FieldPanelWrapper(
@@ -151,7 +157,8 @@ export class ControlsService implements IControlsService {
           this.resolver,
           this,
           this.eventsService,
-          this.focusService
+          this.focusService,
+          this.platformService
         );
       case ControlType.FieldRow:
         return new FieldRowWrapper(
@@ -161,7 +168,8 @@ export class ControlsService implements IControlsService {
           this.resolver,
           this,
           this.eventsService,
-          this.focusService
+          this.focusService,
+          this.platformService
         );
       case ControlType.Label:
         return new LabelWrapper(
@@ -172,6 +180,7 @@ export class ControlsService implements IControlsService {
           this,
           this.eventsService,
           this.focusService,
+          this.platformService,
           this.fontService
         );
       case ControlType.Form:
@@ -182,7 +191,8 @@ export class ControlsService implements IControlsService {
           this.resolver,
           this,
           this.eventsService,
-          this.focusService
+          this.focusService,
+          this.platformService
         );
       case ControlType.Variant:
         return new VariantWrapper(
@@ -192,7 +202,8 @@ export class ControlsService implements IControlsService {
           this.resolver,
           this,
           this.eventsService,
-          this.focusService
+          this.focusService,
+          this.platformService
         );
       case ControlType.WrapPanel:
         return new WrapPanelWrapper(
@@ -202,7 +213,8 @@ export class ControlsService implements IControlsService {
           this.resolver,
           this,
           this.eventsService,
-          this.focusService
+          this.focusService,
+          this.platformService
         );
       case ControlType.TextBox:
         return this.createTextBoxWrapper(controlJson, form, parent, controlStyle);
@@ -227,6 +239,7 @@ export class ControlsService implements IControlsService {
           this,
           this.eventsService,
           this.focusService,
+          this.platformService,
           this.fontService,
           this.patternFormatService
         );
@@ -247,6 +260,7 @@ export class ControlsService implements IControlsService {
           this,
           this.eventsService,
           this.focusService,
+          this.platformService,
           this.fontService,
           this.patternFormatService,
           this.dateTimeFormatService
@@ -260,6 +274,7 @@ export class ControlsService implements IControlsService {
           this,
           this.eventsService,
           this.focusService,
+          this.platformService,
           this.fontService,
           this.patternFormatService,
           this.stringFormatService

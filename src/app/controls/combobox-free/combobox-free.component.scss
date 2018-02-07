@@ -1,12 +1,13 @@
-:host, .hc-cmb {
+:host, .hc-cmb-free {
   position: absolute;
 }
 
-.hc-cmb-ctrl {
+.hc-cmb-free-ctrl {
   display: flex;
+  overflow: hidden;
 }
 
-.hc-cmb-input {
+.hc-cmb-free-input {
   flex: 1;
   display: flex;
   overflow: hidden;
@@ -18,7 +19,7 @@
   }
 }
 
-.hc-cmb-arrow {
+.hc-cmb-free-arrow {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -31,7 +32,7 @@
   }
 }
 
-.hc-cmb-list {
+.hc-cmb-free-list {
   position: absolute;
   overflow: hidden;
   z-index: 9999;
@@ -39,7 +40,7 @@
   background-color: white;
 }
 
-.hc-cmb-list-scroller {
+.hc-cmb-free-list-scroller {
   overflow: auto;
 
   ul {

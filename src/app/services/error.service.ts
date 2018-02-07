@@ -1,12 +1,11 @@
 import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core';
-
-import { ErrorBoxService } from 'app/services/overlays/errorbox.service';
+import { ErrorBoxOverlay } from 'app/components/errorbox/errorbox-overlay';
 
 @Injectable()
 export class ErrorService extends ErrorHandler {
 
   private zone: NgZone;
-  private errorBoxService: ErrorBoxService;
+  private errorBoxOverlay: ErrorBoxOverlay;
 
   constructor(private injector: Injector) {
     super();
@@ -17,12 +16,12 @@ export class ErrorService extends ErrorHandler {
       this.zone = this.injector.get(NgZone);
     }
 
-    if (!this.errorBoxService) {
-      this.errorBoxService = this.injector.get(ErrorBoxService);
+    if (!this.errorBoxOverlay) {
+      this.errorBoxOverlay = this.injector.get(ErrorBoxOverlay);
     }
 
     this.zone.run(() => {
-      this.errorBoxService.openErrorBox({
+      this.errorBoxOverlay.openErrorBox({
         errorMessage: {
           message: error && error.message ? error.message : 'An unknown error occured!',
           stackTrace: error ? JSON.stringify(error, null, 2) : null

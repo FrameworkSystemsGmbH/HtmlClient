@@ -11,12 +11,13 @@ import 'rxjs/add/operator/repeat';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/takeUntil';
 
-import { ComboBoxComponent } from 'app/controls/combobox.component';
+import { ComboBoxDesktopComponent } from 'app/controls/combobox-desktop.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { StyleUtil } from 'app/util/style-util';
+import { DomUtil } from 'app/util/dom-util';
 
 @Component({
-  selector: 'hc-cmb',
+  selector: 'hc-cmb-free',
   templateUrl: './combobox-free.component.html',
   styleUrls: ['./combobox-free.component.scss'],
   animations: [
@@ -28,7 +29,7 @@ import { StyleUtil } from 'app/util/style-util';
     ])
   ]
 })
-export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterViewInit, OnDestroy {
+export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('input')
   public input: ElementRef;
@@ -88,10 +89,11 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
   }
 
   public getSelectedValue(): string {
-    if (this.selectedIndex == null || this.selectedIndex < 0) {
+    const selectedIndex: number = this.getSelectedIndex();
+    if (selectedIndex == null || selectedIndex < 0) {
       return this.getInputValue();
     } else {
-      return this.entries[this.selectedIndex].getValue();
+      return this.entries[selectedIndex].getValue();
     }
   }
 
@@ -168,7 +170,7 @@ export class ComboBoxFreeComponent extends ComboBoxComponent implements AfterVie
 
   public onAfterEnter(): void {
     if (this.input) {
-      setTimeout(() => this.input.nativeElement.select());
+      setTimeout(() => DomUtil.setSelection(this.input.nativeElement));
     }
   }
 

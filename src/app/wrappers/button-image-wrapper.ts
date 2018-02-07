@@ -4,6 +4,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { IControlsService } from 'app/services/controls.service';
 import { IEventsService } from 'app/services/events.service';
 import { IFocusService } from 'app/services/focus.service';
+import { IPlatformService } from 'app/services/platform.service';
 import { IFontService } from 'app/services/font.service';
 import { IImageService } from 'app/services/image.service';
 
@@ -26,10 +27,11 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
     controlsService: IControlsService,
     eventsService: IEventsService,
     focusService: IFocusService,
+    platformService: IPlatformService,
     fontService: IFontService,
     imageService: IImageService
   ) {
-    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, fontService);
+    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, platformService, fontService);
     this.imageService = imageService;
   }
 
