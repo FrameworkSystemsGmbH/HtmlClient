@@ -1,22 +1,19 @@
-import { Component, Inject, HostListener, OnInit, AfterViewInit, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { OverlayRef } from '@angular/cdk/overlay';
+import { Component, Inject, HostListener, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { IComboBoxListMobileOverlayData, IComboBoxListMobileOverlayClosedData } from 'app/controls/combobox-list-mobile/combobox-list-mobile-overlay';
-
-import { CMBBOX_DATA } from 'app/controls/combobox-list-mobile/combobox-list-mobile-overlay.tokens';
-import { DomUtil } from 'app/util/dom-util';
 import { DataList } from 'app/common/data-list';
+import { DomUtil } from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-cmb-list-mobile-overlay',
   templateUrl: './combobox-list-mobile-overlay.component.html',
   styleUrls: ['./combobox-list-mobile-overlay.component.scss']
 })
-export class ComboBoxListMobileOverlayComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
 
-  @Output()
-  public onFinished: EventEmitter<IComboBoxListMobileOverlayClosedData> = new EventEmitter<IComboBoxListMobileOverlayClosedData>();
+  @ViewChild('wrapper')
+  public wrapper: ElementRef;
 
   @ViewChild('scroller')
   public scroller: ElementRef;
@@ -26,32 +23,27 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, AfterViewInit
 
   public entries: DataList;
   public selectedIndex: number;
-  public sizeStyle: any;
 
+  private afterOpenSub: ISubscription;
   private backdropClickSub: ISubscription;
 
   constructor(
-    private zone: NgZone,
-    private overlayRef: OverlayRef,
-    @Inject(CMBBOX_DATA) data: IComboBoxListMobileOverlayData
+    private dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.entries = data.entries;
     this.selectedIndex = data.selectedIndex;
   }
 
   public ngOnInit(): void {
-    this.refreshSizeStyle();
-
-    this.backdropClickSub = this.overlayRef.backdropClick().subscribe(() => {
-      this.onFinished.emit({ selected: false });
+    this.backdropClickSub = this.dialogRef.backdropClick().subscribe(() => {
+      this.dialogRef.close({ selected: false });
     });
-  }
 
-  public ngAfterViewInit(): void {
-    this.zone.runOutsideAngular(() => {
+    this.afterOpenSub = this.dialogRef.afterOpen().subscribe(() => {
       setTimeout(() => {
         this.scrollSelectedEntryIntoView();
-        this.scroller.nativeElement.focus();
+        this.wrapper.nativeElement.focus();
       });
     });
   }
@@ -60,10 +52,14 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, AfterViewInit
     if (this.backdropClickSub) {
       this.backdropClickSub.unsubscribe();
     }
+
+    if (this.afterOpenSub) {
+      this.afterOpenSub.unsubscribe();
+    }
   }
 
   public onEntrySelected(event: any, index: number): void {
-    this.onFinished.emit({
+    this.dialogRef.close({
       selected: true,
       index
     });
@@ -80,21 +76,9 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, AfterViewInit
   @HostListener('document:keydown', ['$event'])
   public handleKeydown(event: KeyboardEvent) {
     if (event.keyCode === 27) {
-      this.onFinished.emit({
+      this.dialogRef.close({
         selected: false
       });
     }
-  }
-
-  @HostListener('window:resize')
-  public refreshSizeStyle(): void {
-    const vpWidth: number = DomUtil.getViewportWidth();
-    const vpHeight: number = DomUtil.getViewportHeight();
-
-    this.sizeStyle = {
-      'min-width.px': Math.min(300, vpWidth * 0.9),
-      'max-width.px': Math.min(900, vpWidth * 0.9),
-      'max-height.px': vpHeight * 0.9
-    };
   }
 }

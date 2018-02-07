@@ -6,9 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
-import { OverlayModule } from '@angular/cdk/overlay';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
@@ -22,8 +22,8 @@ import { ErrorService } from 'app/services/error.service';
 import { APP_ROUTING } from 'app/app.routing';
 import { APP_REDUCERS } from 'app/app.reducers';
 
-import { ALL_COMPONENTS, ALL_COMPONENT_SERVICES } from 'app/components/_all.components';
-import { ALL_CONTROLS, ALL_CONTROL_SERVICES } from 'app/controls/_all.controls';
+import { ALL_COMPONENTS } from 'app/components/_all.components';
+import { ALL_CONTROLS } from 'app/controls/_all.controls';
 import { ALL_DIRECTIVES } from 'app/directives/_all.direcives';
 import { ALL_SERVICES } from 'app/services/_all.services';
 import { ALL_FORMATTERS } from 'app/services/formatter/_all.formatters';
@@ -46,20 +46,18 @@ import { ALL_FORMATTERS } from 'app/services/formatter/_all.formatters';
     FormsModule,
     HttpClientModule,
     MatButtonModule,
+    MatDialogModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
     RouterModule,
     ReactiveFormsModule,
-    OverlayModule,
     BrowserModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(APP_REDUCERS)
   ],
   providers: [
     { provide: ErrorHandler, useClass: ErrorService },
-    ALL_COMPONENT_SERVICES,
-    ALL_CONTROL_SERVICES,
     ALL_SERVICES,
     ALL_FORMATTERS
   ],

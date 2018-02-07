@@ -1,12 +1,9 @@
-import { Component, Inject, HostListener, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { OverlayRef } from '@angular/cdk/overlay';
-
-import { IMsgBoxMessage } from 'app/components/msgbox/msgbox-overlay';
+import { Component, Inject, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ISubscription } from 'rxjs/Subscription';
 
 import { TitleService } from 'app/services/title.service';
 import { EventsService } from 'app/services/events.service';
-import { MSGBOX_DATA } from 'app/components/msgbox/msgbox.tokens';
-import { DomUtil } from 'app/util/dom-util';
 import { MsgBoxButtons } from 'app/enums/msgbox-buttons';
 import { MsgBoxIcon } from 'app/enums/msgbox-icon';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
@@ -16,7 +13,7 @@ import { MsgBoxResult } from 'app/enums/msgbox-result';
   templateUrl: './msgbox.component.html',
   styleUrls: ['./msgbox.component.scss']
 })
-export class MsgBoxComponent implements OnInit, AfterViewInit {
+export class MsgBoxComponent implements OnInit, OnDestroy {
 
   @ViewChild('footer')
   public footer: ElementRef;
@@ -27,77 +24,70 @@ export class MsgBoxComponent implements OnInit, AfterViewInit {
   public iconType: typeof MsgBoxIcon = MsgBoxIcon;
   public buttons: MsgBoxButtons;
   public buttonsType: typeof MsgBoxButtons = MsgBoxButtons;
-  public sizeStyle: any;
 
   private formId: string;
   private id: string;
 
+  private afterOpenSub: ISubscription;
+
   constructor(
     private titleService: TitleService,
     private eventsService: EventsService,
-    private overlayRef: OverlayRef,
-    @Inject(MSGBOX_DATA) message: IMsgBoxMessage
+    private dialogRef: MatDialogRef<MsgBoxComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.formId = message.formId;
-    this.id = message.id;
+    this.formId = data.formId;
+    this.id = data.id;
     this.title = this.titleService.getTitle();
-    this.message = message.message;
-    this.icon = message.icon;
-    this.buttons = message.buttons;
+    this.message = data.message;
+    this.icon = data.icon;
+    this.buttons = data.buttons;
   }
 
   public ngOnInit(): void {
-    this.refreshSizeStyle();
+    this.afterOpenSub = this.dialogRef.afterOpen().subscribe(() => {
+      setTimeout(() => this.footer.nativeElement.focus());
+    });
   }
 
-  public ngAfterViewInit(): void {
-    setTimeout(() => this.footer.nativeElement.focus());
+  public ngOnDestroy(): void {
+    if (this.afterOpenSub) {
+      this.afterOpenSub.unsubscribe();
+    }
   }
 
   public onYesClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Yes, event);
-    this.overlayRef.dispose();
+    this.dialogRef.close();
   }
 
   public onNoClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.No, event);
-    this.overlayRef.dispose();
+    this.dialogRef.close();
   }
 
   public onOkClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Ok, event);
-    this.overlayRef.dispose();
+    this.dialogRef.close();
   }
 
   public onAbortClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Abort, event);
-    this.overlayRef.dispose();
+    this.dialogRef.close();
   }
 
   public onRetryClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Retry, event);
-    this.overlayRef.dispose();
+    this.dialogRef.close();
   }
 
   public onIgnoreClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Ignore, event);
-    this.overlayRef.dispose();
+    this.dialogRef.close();
   }
 
   public onCancelClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Cancel, event);
-    this.overlayRef.dispose();
-  }
-
-  @HostListener('window:resize')
-  public refreshSizeStyle(): void {
-    const vpWidth: number = DomUtil.getViewportWidth();
-    const vpHeight: number = DomUtil.getViewportHeight();
-
-    this.sizeStyle = {
-      'min-width.px': Math.min(400, vpWidth * 0.9),
-      'max-width.px': Math.min(900, vpWidth * 0.9),
-      'max-height.px': vpHeight * 0.9
-    };
+    this.dialogRef.close();
   }
 }

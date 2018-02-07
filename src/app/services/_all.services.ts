@@ -13,7 +13,6 @@ import { LoginService } from 'app/services/login.service';
 import { LogService } from 'app/services/log.service';
 import { LocaleService } from 'app/services/locale.service';
 import { NativeService } from 'app/services/native.service';
-import { OverlayService } from 'app/services/overlay-service';
 import { PlatformService } from 'app/services/platform.service';
 import { RoutingService } from 'app/services/routing.service';
 import { StorageService } from 'app/services/storage.service';
@@ -36,7 +35,6 @@ export const ALL_SERVICES = [
   LogService,
   LocaleService,
   NativeService,
-  OverlayService,
   PlatformService,
   RoutingService,
   TextsService,

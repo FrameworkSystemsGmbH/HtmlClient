@@ -1,22 +1,19 @@
 :host {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 3px 3px 10px black;
 
   .wrapper {
     display: flex;
     flex-direction: column;
+    max-width: 900px;
     padding: 1em;
 
     .scroller {
-      display: flex;
-      flex-direction: column;
       overflow: auto;
 
       .list {
+        display: inline-block;
+        min-width: 100%;
         margin: 0;
         padding: 0;
         list-style: none;

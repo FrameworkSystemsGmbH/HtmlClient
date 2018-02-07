@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import 'rxjs/add/observable/of';
-
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/concatMap';
-
-import { ErrorBoxOverlay } from 'app/components/errorbox/errorbox-overlay';
-import { MsgBoxOverlay } from 'app/components/msgbox/msgbox-overlay';
+import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
+import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
 import { ActionsService } from 'app/services/actions.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { EventsService } from 'app/services/events.service';
@@ -38,9 +32,8 @@ export class BrokerService {
   private languages: Array<string>;
 
   constructor(
+    private dialog: MatDialog,
     private httpClient: HttpClient,
-    private errorBoxOverlay: ErrorBoxOverlay,
-    private msgBoxOverlay: MsgBoxOverlay,
     private actionsService: ActionsService,
     private controlStyleSerivce: ControlStyleService,
     private eventsService: EventsService,
@@ -178,16 +171,24 @@ export class BrokerService {
     }
 
     if (json.error) {
-      this.errorBoxOverlay.openErrorBox({
-        errorMessage: {
+      this.dialog.open(ErrorBoxComponent, {
+        backdropClass: 'hc-backdrop',
+        minWidth: 300,
+        maxWidth: '90%',
+        maxHeight: '90%',
+        data: {
           message: UrlUtil.urlDecode(json.error.message),
           stackTrace: UrlUtil.urlDecode(json.error.stackTrace)
         }
       });
     } else if (json.msgBoxes) {
       const msgBoxJson: any = json.msgBoxes[0];
-      this.msgBoxOverlay.openMsgBox({
-        msgBoxMessage: {
+      this.dialog.open(MsgBoxComponent, {
+        backdropClass: 'hc-backdrop',
+        minWidth: 300,
+        maxWidth: '90%',
+        maxHeight: '90%',
+        data: {
           formId: msgBoxJson.formId,
           id: msgBoxJson.id,
           message: UrlUtil.urlDecode(msgBoxJson.message),

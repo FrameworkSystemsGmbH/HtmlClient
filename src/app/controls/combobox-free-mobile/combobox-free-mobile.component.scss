@@ -1,39 +1,39 @@
 :host, .hc-cmb-free-mobile {
   position: absolute;
-}
 
-.hc-cmb-free-mobile-ctrl {
-  display: flex;
-  overflow: hidden;
-}
+  .hc-cmb-free-mobile-ctrl {
+    display: flex;
+    overflow: hidden;
 
-.hc-cmb-free-mobile-value {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
+    .hc-cmb-free-mobile-value {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
 
-  span {
-    flex: 1;
-    width: 100%;
-    white-space: nowrap;
-  }
-}
+      span {
+        flex: 1;
+        width: 100%;
+        white-space: nowrap;
+      }
+    }
 
-.hc-cmb-free-mobile-arrow {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  width: 17px;
-  border-left: 1px solid transparent;
+    .hc-cmb-free-mobile-arrow {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      width: 17px;
+      border-left: 1px solid transparent;
 
-  &:hover,
-  &:active {
-    border-left-style: solid;
-    border-left-width: 1px;
-  }
+      &:hover,
+      &:active {
+        border-left-style: solid;
+        border-left-width: 1px;
+      }
 
-  span {
-    flex: 1;
-    text-align: center;
+      span {
+        flex: 1;
+        text-align: center;
+      }
+    }
   }
 }

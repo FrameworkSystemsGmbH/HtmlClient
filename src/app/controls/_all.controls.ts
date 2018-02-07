@@ -19,9 +19,6 @@ import { TextBoxPlainComponent } from 'app/controls/textbox-plain/textbox-plain.
 import { VariantComponent } from 'app/controls/variant/variant.component';
 import { WrapPanelComponent } from 'app/controls/wrap-panel/wrap-panel.component';
 
-import { ComboBoxFreeMobileOverlay } from 'app/controls/combobox-free-mobile/combobox-free-mobile-overlay';
-import { ComboBoxListMobileOverlay } from 'app/controls/combobox-list-mobile/combobox-list-mobile-overlay';
-
 export const ALL_CONTROLS = [
   ButtonImageComponent,
   ButtonPlainComponent,
@@ -43,9 +40,4 @@ export const ALL_CONTROLS = [
   TextBoxPlainComponent,
   VariantComponent,
   WrapPanelComponent
-];
-
-export const ALL_CONTROL_SERVICES = [
-  ComboBoxFreeMobileOverlay,
-  ComboBoxListMobileOverlay
 ];

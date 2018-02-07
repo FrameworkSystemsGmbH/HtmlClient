@@ -1,4 +1,4 @@
-<div class="wrapper" [ngStyle]="sizeStyle" cdkTrapFocus>
+<div class="wrapper" cdkTrapFocus>
   <div #scroller class="scroller">
     <ul #list class="list">
       <li *ngFor="let entry of entries; index as i" [ngClass]="{ selected: i === selectedIndex }" (click)="onEntrySelected($event, i)">

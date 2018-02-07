@@ -1,11 +1,13 @@
 import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core';
-import { ErrorBoxOverlay } from 'app/components/errorbox/errorbox-overlay';
+import { MatDialog } from '@angular/material';
+
+import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
 
 @Injectable()
 export class ErrorService extends ErrorHandler {
 
   private zone: NgZone;
-  private errorBoxOverlay: ErrorBoxOverlay;
+  private errorDialog: MatDialog;
 
   constructor(private injector: Injector) {
     super();
@@ -16,13 +18,17 @@ export class ErrorService extends ErrorHandler {
       this.zone = this.injector.get(NgZone);
     }
 
-    if (!this.errorBoxOverlay) {
-      this.errorBoxOverlay = this.injector.get(ErrorBoxOverlay);
+    if (!this.errorDialog) {
+      this.errorDialog = this.injector.get(MatDialog);
     }
 
     this.zone.run(() => {
-      this.errorBoxOverlay.openErrorBox({
-        errorMessage: {
+      this.errorDialog.open(ErrorBoxComponent, {
+        backdropClass: 'hc-backdrop',
+        minWidth: 300,
+        maxWidth: '90%',
+        maxHeight: '90%',
+        data: {
           message: error && error.message ? error.message : 'An unknown error occured!',
           stackTrace: error ? JSON.stringify(error, null, 2) : null
         }

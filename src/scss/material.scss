@@ -1,8 +1,6 @@
-.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
-  &.dark-backdrop {
-    background: #000;
-    opacity: 0.85 !important;
-  }
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing.hc-backdrop {
+  background: black !important;
+  opacity: 0.8 !important;
 }
 
 .mat-button,
@@ -12,4 +10,18 @@
 .mat-raised-button {
   min-width: 70px !important;
   padding: 0px !important;
+}
+
+.cdk-overlay-pane {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mat-dialog-container {
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border-radius: 5px !important;
+  box-shadow: 3px 3px 10px black !important;
 }

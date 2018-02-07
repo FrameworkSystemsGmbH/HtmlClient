@@ -1,18 +1,15 @@
-import { Component, Inject, HostListener, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { OverlayRef } from '@angular/cdk/overlay';
-
-import { IErrorMessage } from 'app/components/errorbox/errorbox-overlay';
+import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ISubscription } from 'rxjs/Subscription';
 
 import { TitleService } from 'app/services/title.service';
-import { ERRORBOX_DATA } from 'app/components/errorbox/errorbox.tokens';
-import { DomUtil } from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-errorbox',
   templateUrl: './errorbox.component.html',
   styleUrls: ['./errorbox.component.scss']
 })
-export class ErrorBoxComponent implements OnInit, AfterViewInit {
+export class ErrorBoxComponent implements OnInit, OnDestroy {
 
   @ViewChild('footer')
   public footer: ElementRef;
@@ -21,24 +18,29 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit {
   public message: string;
   public stackTrace: string;
   public showStackTrace: boolean;
-  public sizeStyle: any;
+
+  private afterOpenSub: ISubscription;
 
   constructor(
     private titleService: TitleService,
-    private overlayRef: OverlayRef,
-    @Inject(ERRORBOX_DATA) error: IErrorMessage
+    private dialogRef: MatDialogRef<ErrorBoxComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.title = this.titleService.getTitle();
-    this.message = error.message;
-    this.stackTrace = error.stackTrace;
+    this.message = data.message;
+    this.stackTrace = data.stackTrace;
   }
 
   public ngOnInit(): void {
-    this.refreshSizeStyle();
+    this.afterOpenSub = this.dialogRef.afterOpen().subscribe(() => {
+      setTimeout(() => this.footer.nativeElement.focus());
+    });
   }
 
-  public ngAfterViewInit(): void {
-    setTimeout(() => this.footer.nativeElement.focus());
+  public ngOnDestroy(): void {
+    if (this.afterOpenSub) {
+      this.afterOpenSub.unsubscribe();
+    }
   }
 
   public onDetailsClick(event: any): void {
@@ -46,18 +48,6 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit {
   }
 
   public onOkClick(event: any): void {
-    this.overlayRef.dispose();
-  }
-
-  @HostListener('window:resize')
-  public refreshSizeStyle(): void {
-    const vpWidth: number = DomUtil.getViewportWidth();
-    const vpHeight: number = DomUtil.getViewportHeight();
-
-    this.sizeStyle = {
-      'min-width.px': Math.min(300, vpWidth * 0.9),
-      'max-width.px': Math.min(900, vpWidth * 0.9),
-      'max-height.px': vpHeight * 0.9
-    };
+    this.dialogRef.close();
   }
 }

@@ -1,17 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/buffer';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/repeat';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/takeUntil';
+import { MatDialogRef, MatDialog } from '@angular/material';
 
 import { ComboBoxMobileComponent } from 'app/controls/combobox-mobile.component';
+import { ComboBoxFreeMobileOverlayComponent } from 'app/controls/combobox-free-mobile/combobox-free-mobile-overlay.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
-import { ComboBoxFreeMobileOverlay } from 'app/controls/combobox-free-mobile/combobox-free-mobile-overlay';
-import { ComboBoxFreeMobileOverlayRef } from 'app/controls/combobox-free-mobile/combobox-free-mobile-overlay.ref';
 import { DomUtil } from 'app/util/dom-util';
 
 @Component({
@@ -30,7 +22,7 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
   private inputValue: string;
   private overlayShown: boolean;
 
-  constructor(private cmbOverlay: ComboBoxFreeMobileOverlay) {
+  constructor(private dialog: MatDialog) {
     super();
   }
 
@@ -68,15 +60,20 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
   public onControlClick(event: any): void {
     if (this.isEditable) {
       this.overlayShown = true;
-      const cmbRef: ComboBoxFreeMobileOverlayRef = this.cmbOverlay.openCmbBoxOverlay({
-        comboBoxData: {
+
+      const dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent> = this.dialog.open(ComboBoxFreeMobileOverlayComponent, {
+        backdropClass: 'hc-backdrop',
+        minWidth: 300,
+        maxWidth: '90%',
+        maxHeight: '90%',
+        data: {
           entries: this.entries,
           selectedIndex: this.getSelectedIndex(),
           value: this.getInputValue()
         }
       });
 
-      cmbRef.onClosed().subscribe(data => {
+      dialogRef.afterClosed().subscribe(data => {
         this.control.nativeElement.focus();
         this.overlayShown = false;
         if (data.selected) {

@@ -1,17 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/buffer';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/repeat';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/takeUntil';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { ComboBoxMobileComponent } from 'app/controls/combobox-mobile.component';
+import { ComboBoxListMobileOverlayComponent } from 'app/controls/combobox-list-mobile/combobox-list-mobile-overlay.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
-import { ComboBoxListMobileOverlay } from 'app/controls/combobox-list-mobile/combobox-list-mobile-overlay';
-import { ComboBoxListMobileOverlayRef } from 'app/controls/combobox-list-mobile/combobox-list-mobile-overlay.ref';
 import { DomUtil } from 'app/util/dom-util';
 
 @Component({
@@ -29,7 +21,7 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
   private overlayShown: boolean;
 
-  constructor(private cmbOverlay: ComboBoxListMobileOverlay) {
+  constructor(private dialog: MatDialog) {
     super();
   }
 
@@ -64,14 +56,19 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
   public onControlClick(event: any): void {
     if (this.isEditable) {
       this.overlayShown = true;
-      const cmbRef: ComboBoxListMobileOverlayRef = this.cmbOverlay.openCmbBoxOverlay({
-        comboBoxData: {
+
+      const dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent> = this.dialog.open(ComboBoxListMobileOverlayComponent, {
+        backdropClass: 'hc-backdrop',
+        minWidth: 300,
+        maxWidth: '90%',
+        maxHeight: '90%',
+        data: {
           entries: this.entries,
           selectedIndex: this.getSelectedIndex()
         }
       });
 
-      cmbRef.onClosed().subscribe(data => {
+      dialogRef.afterClosed().subscribe(data => {
         this.control.nativeElement.focus();
         this.overlayShown = false;
         if (data.selected) {
