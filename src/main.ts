@@ -4,6 +4,38 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from 'app/app.module';
 import { environment } from 'env/env.dev';
 
+import * as fa from '@fortawesome/fontawesome';
+
+import {
+  faAngleLeft,
+  faAngleRight,
+  faBars,
+  faCaretDown,
+  faCog,
+  faExclamationCircle,
+  faExclamationTriangle,
+  faInfoCircle,
+  faPlus,
+  faQuestionCircle,
+  faSignOutAlt,
+  faTrash
+} from '@fortawesome/fontawesome-free-solid';
+
+fa.library.add(
+  faAngleLeft,
+  faAngleRight,
+  faBars,
+  faCaretDown,
+  faCog,
+  faExclamationCircle,
+  faExclamationTriangle,
+  faInfoCircle,
+  faPlus,
+  faQuestionCircle,
+  faSignOutAlt,
+  faTrash
+);
+
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromEvent';
 

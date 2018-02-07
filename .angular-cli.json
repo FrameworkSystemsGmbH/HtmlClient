@@ -17,7 +17,6 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "hc",
       "styles": [
-        "../node_modules/font-awesome/css/font-awesome.css",
         "styles.scss"
       ],
       "scripts": [
@@ -49,9 +48,6 @@
   "defaults": {
     "styleExt": "scss"
   },
-  "addons": [
-    "../node_modules/font-awesome/fonts/*.+(otf|eot|svg|ttf|woff|woff2)"
-  ],
   "warnings": {
     "typescriptMismatch": false
   }
