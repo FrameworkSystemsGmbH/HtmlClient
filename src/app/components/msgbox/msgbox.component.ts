@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ISubscription } from 'rxjs/Subscription';
 
@@ -7,6 +7,7 @@ import { EventsService } from 'app/services/events.service';
 import { MsgBoxButtons } from 'app/enums/msgbox-buttons';
 import { MsgBoxIcon } from 'app/enums/msgbox-icon';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
+import { DomUtil } from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-msgbox',
@@ -24,6 +25,7 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   public iconType: typeof MsgBoxIcon = MsgBoxIcon;
   public buttons: MsgBoxButtons;
   public buttonsType: typeof MsgBoxButtons = MsgBoxButtons;
+  public wrapperStyle: any;
 
   private formId: string;
   private id: string;
@@ -45,6 +47,8 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.refreshWrapperStyle();
+
     this.afterOpenSub = this.dialogRef.afterOpen().subscribe(() => {
       setTimeout(() => this.footer.nativeElement.focus());
     });
@@ -89,5 +93,17 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   public onCancelClick(event: any): void {
     this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Cancel, event);
     this.dialogRef.close();
+  }
+
+  @HostListener('window:resize')
+  public refreshWrapperStyle(): void {
+    const maxWidth: number = DomUtil.getViewportWidth() * 0.9;
+    const maxHeight: number = DomUtil.getViewportHeight() * 0.9;
+
+    this.wrapperStyle = {
+      'min-width.px': maxWidth < 300 ? maxWidth : 300,
+      'max-width.px': Math.min(900, maxWidth),
+      'max-height.px': maxHeight
+    };
   }
 }

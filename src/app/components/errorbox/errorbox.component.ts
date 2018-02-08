@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { TitleService } from 'app/services/title.service';
+import { DomUtil } from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-errorbox',
@@ -18,6 +19,7 @@ export class ErrorBoxComponent implements OnInit, OnDestroy {
   public message: string;
   public stackTrace: string;
   public showStackTrace: boolean;
+  public wrapperStyle: any;
 
   private afterOpenSub: ISubscription;
 
@@ -32,6 +34,8 @@ export class ErrorBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.refreshWrapperStyle();
+
     this.afterOpenSub = this.dialogRef.afterOpen().subscribe(() => {
       setTimeout(() => this.footer.nativeElement.focus());
     });
@@ -49,5 +53,17 @@ export class ErrorBoxComponent implements OnInit, OnDestroy {
 
   public onOkClick(event: any): void {
     this.dialogRef.close();
+  }
+
+  @HostListener('window:resize')
+  public refreshWrapperStyle(): void {
+    const maxWidth: number = DomUtil.getViewportWidth() * 0.9;
+    const maxHeight: number = DomUtil.getViewportHeight() * 0.9;
+
+    this.wrapperStyle = {
+      'min-width.px': maxWidth < 300 ? maxWidth : 300,
+      'max-width.px': Math.min(900, maxWidth),
+      'max-height.px': maxHeight
+    };
   }
 }

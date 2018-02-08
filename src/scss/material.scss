@@ -13,13 +13,10 @@
 }
 
 .cdk-overlay-pane {
-  display: flex !important;
-  flex-direction: column !important;
+  max-width: 100% !important;
 }
 
 .mat-dialog-container {
-  display: flex !important;
-  flex-direction: column !important;
   overflow: hidden !important;
   padding: 0 !important;
   border-radius: 5px !important;

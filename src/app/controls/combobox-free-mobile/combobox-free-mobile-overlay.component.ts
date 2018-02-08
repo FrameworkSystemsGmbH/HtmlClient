@@ -24,6 +24,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   public entries: DataList;
   public selectedIndex: number;
   public inputValue: string;
+  public wrapperStyle: any;
 
   private afterOpenSub: ISubscription;
   private backdropClickSub: ISubscription;
@@ -38,6 +39,8 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.refreshWrapperStyle();
+
     this.backdropClickSub = this.dialogRef.backdropClick().subscribe(() => {
       this.dialogRef.close({ selected: false });
     });
@@ -90,5 +93,17 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
         selected: false
       });
     }
+  }
+
+  @HostListener('window:resize')
+  public refreshWrapperStyle(): void {
+    const maxWidth: number = DomUtil.getViewportWidth() * 0.9;
+    const maxHeight: number = DomUtil.getViewportHeight() * 0.9;
+
+    this.wrapperStyle = {
+      'min-width.px': maxWidth < 300 ? maxWidth : 300,
+      'max-width.px': Math.min(900, maxWidth),
+      'max-height.px': maxHeight
+    };
   }
 }

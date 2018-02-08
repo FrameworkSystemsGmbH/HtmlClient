@@ -5,7 +5,6 @@
   .wrapper {
     display: flex;
     flex-direction: column;
-    max-width: 900px;
     padding: 1em;
 
     .scroller {
@@ -29,11 +28,6 @@
           &.selected {
             color: white;
             background-color: #337ab7;
-          }
-
-          &:not(.selected):hover,
-          &:not(.selected):active {
-            background-color: #efefef;
           }
 
           span {

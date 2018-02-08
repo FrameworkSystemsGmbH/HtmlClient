@@ -59,9 +59,6 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
       const dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent> = this.dialog.open(ComboBoxListMobileOverlayComponent, {
         backdropClass: 'hc-backdrop',
-        minWidth: 300,
-        maxWidth: '90%',
-        maxHeight: '90%',
         data: {
           entries: this.entries,
           selectedIndex: this.getSelectedIndex()
