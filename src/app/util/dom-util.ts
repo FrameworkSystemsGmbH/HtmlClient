@@ -8,7 +8,7 @@ export namespace DomUtil {
     return document.body.clientHeight;
   }
 
-  export function scrollIntoView(container: HTMLElement, child: HTMLElement) {
+  export function scrollIntoView(container: HTMLElement, child: HTMLElement, center: boolean = false) {
     const contStyles: CSSStyleDeclaration = getComputedStyle(container);
     const childStyles: CSSStyleDeclaration = getComputedStyle(child);
 
@@ -29,10 +29,18 @@ export namespace DomUtil {
     const offset = (document.body.scrollTop + childTop) - (document.body.scrollTop + contTop);
     const scroll = container.scrollTop;
 
-    if (offset < 0) {
-      container.scrollTop = scroll + offset;
-    } else if ((offset + childHeight) > contHeight) {
-      container.scrollTop = scroll + offset - contHeight + childHeight;
+    if (center) {
+      if ((offset + (childHeight / 2)) < (contHeight / 2)) {
+        container.scrollTop = scroll + offset - (contHeight / 2) + (childHeight / 2);
+      } else {
+        container.scrollTop = scroll + offset - contHeight + childHeight + (contHeight / 2) - (childHeight / 2);
+      }
+    } else {
+      if (offset < 0) {
+        container.scrollTop = scroll + offset;
+      } else if ((offset + childHeight) > contHeight) {
+        container.scrollTop = scroll + offset - contHeight + childHeight;
+      }
     }
   }
 

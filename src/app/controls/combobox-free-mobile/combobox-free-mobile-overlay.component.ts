@@ -79,7 +79,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
     if (!this.scroller || !this.list) { return; }
     const selectedLi: HTMLLIElement = this.list.nativeElement.querySelector('li.selected');
     if (selectedLi) {
-      DomUtil.scrollIntoView(this.scroller.nativeElement, selectedLi);
+      DomUtil.scrollIntoView(this.scroller.nativeElement, selectedLi, true);
     }
   }
 
