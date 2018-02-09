@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
 
-import { NativeService } from 'app/services/native.service';
 import { PlatformService } from 'app/services/platform.service';
+import { DomUtil } from 'app/util/dom-util';
 
 @Injectable()
 export class KeyboardService {
 
-  constructor(
-    private nativeService: NativeService,
-    private platformService: PlatformService) { }
+  constructor(private platformService: PlatformService) { }
 
   public attachScrollHandler(): void {
     if (this.platformService.isAndroid) {
-      this.nativeService.window.addEventListener('native.keyboardshow', this.scrollToFocusOnOpen.bind(this));
+      window.addEventListener('keyboardDidShow', this.scrollToFocusOnOpen.bind(this));
     }
   }
 
   private scrollToFocusOnOpen(event: any): void {
     if (document.activeElement) {
-      document.activeElement.scrollIntoView(false);
+      DomUtil.scrollIntoView(document.body, document.activeElement as HTMLElement);
     }
   }
 }

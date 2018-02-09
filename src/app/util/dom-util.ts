@@ -8,7 +8,21 @@ export namespace DomUtil {
     return document.body.clientHeight;
   }
 
-  export function scrollIntoView(container: HTMLElement, child: HTMLElement, center: boolean = false) {
+  export interface IScrollOptions {
+    center?: boolean;
+    offset?: number;
+  }
+
+  const DEFAULT_SCROLL_OPTIONS: IScrollOptions = {
+    center: false,
+    offset: 5
+  };
+
+  export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrollOptions?: IScrollOptions) {
+    console.log(child);
+
+    const options: IScrollOptions = { ...DEFAULT_SCROLL_OPTIONS, ...scrollOptions };
+
     const contStyles: CSSStyleDeclaration = getComputedStyle(container);
     const childStyles: CSSStyleDeclaration = getComputedStyle(child);
 
@@ -29,7 +43,7 @@ export namespace DomUtil {
     const offset = (document.body.scrollTop + childTop) - (document.body.scrollTop + contTop);
     const scroll = container.scrollTop;
 
-    if (center) {
+    if (options.center) {
       if ((offset + (childHeight / 2)) < (contHeight / 2)) {
         container.scrollTop = scroll + offset - (contHeight / 2) + (childHeight / 2);
       } else {
@@ -37,9 +51,9 @@ export namespace DomUtil {
       }
     } else {
       if (offset < 0) {
-        container.scrollTop = scroll + offset;
+        container.scrollTop = scroll + offset - (options.offset > 0 ? options.offset : 0);
       } else if ((offset + childHeight) > contHeight) {
-        container.scrollTop = scroll + offset - contHeight + childHeight;
+        container.scrollTop = scroll + offset - contHeight + childHeight + (options.offset > 0 ? options.offset : 0);
       }
     }
   }

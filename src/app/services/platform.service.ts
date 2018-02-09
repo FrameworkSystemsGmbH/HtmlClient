@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { NativeService } from 'app/services/native.service';
-
 export interface IPlatformService {
   isMobile(): boolean;
   isDesktop(): boolean;
@@ -20,7 +18,7 @@ export class PlatformService {
   private _isAndroid: boolean;
   private _isIos: boolean;
 
-  constructor(private nativeService: NativeService) {
+  constructor() {
     this.guessPlatform();
   }
 
@@ -45,7 +43,7 @@ export class PlatformService {
   }
 
   private guessPlatform(): void {
-    const userAgent: string = this.nativeService.window.navigator.userAgent;
+    const userAgent: string = window.navigator.userAgent;
 
     this._isMobile = !!window.cordova;
     this._isDesktop = userAgent.match(/Electron/) !== null;

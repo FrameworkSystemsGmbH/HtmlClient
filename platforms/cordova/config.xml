@@ -15,11 +15,9 @@
   <!-- /Metadata -->
 
   <!-- Plugins -->
-  <plugin name="cordova-plugin-device" spec="^2.0.1" />
+  <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
   <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
   <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
-
-  <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
 
   <platform name="ios">
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.16" />
@@ -54,6 +52,8 @@
   <!-- Preferences -->
   <preference name="fullscreen" value="false" />
   <preference name="SplashScreenDelay" value="3000" />
+  <preference name="KeyboardResize" value="true" />
+  <preference name="KeyboardResizeMode" value="native" />
 
   <platform name="android">
     <preference name="android-minSdkVersion" value="21" />

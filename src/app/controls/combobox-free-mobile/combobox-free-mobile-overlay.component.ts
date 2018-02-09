@@ -1,8 +1,9 @@
-import { Component, Inject, HostListener, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, Inject, HostListener, OnInit, OnDestroy, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { DataList } from 'app/common/data-list';
+import { DataListEntry } from '../../common/data-list-entry';
 import { DomUtil } from 'app/util/dom-util';
 
 @Component({
@@ -24,12 +25,12 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   public entries: DataList;
   public selectedIndex: number;
   public inputValue: string;
-  public wrapperStyle: any;
 
   private afterOpenSub: ISubscription;
   private backdropClickSub: ISubscription;
 
   constructor(
+    private zone: NgZone,
     private dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -39,8 +40,6 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.refreshWrapperStyle();
-
     this.backdropClickSub = this.dialogRef.backdropClick().subscribe(() => {
       this.dialogRef.close({ selected: false });
     });
@@ -72,17 +71,26 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   public onFreetextConfirm(event: any): void {
-    this.dialogRef.close({
-      selected: true,
-      value: this.inputValue
-    });
+    const index: number = this.entries.findIndexOnValue(this.inputValue);
+
+    if (index >= 0) {
+      this.dialogRef.close({
+        selected: true,
+        index
+      });
+    } else {
+      this.dialogRef.close({
+        selected: true,
+        value: this.inputValue
+      });
+    }
   }
 
   protected scrollSelectedEntryIntoView(): void {
     if (!this.scroller || !this.list) { return; }
     const selectedLi: HTMLLIElement = this.list.nativeElement.querySelector('li.selected');
     if (selectedLi) {
-      DomUtil.scrollIntoView(this.scroller.nativeElement, selectedLi, true);
+      DomUtil.scrollIntoView(this.scroller.nativeElement, selectedLi, { center: true });
     }
   }
 
@@ -95,15 +103,21 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('window:resize')
-  public refreshWrapperStyle(): void {
-    const maxWidth: number = DomUtil.getViewportWidth() * 0.9;
-    const maxHeight: number = DomUtil.getViewportHeight() * 0.9;
+  @HostListener('window:keyboardDidShow')
+  public onKeyboardShownBla(): void {
+    this.zone.run(() => {
+      setTimeout(() => {
+        this.scrollSelectedEntryIntoView();
+      });
+    });
+  }
 
-    this.wrapperStyle = {
-      'min-width.px': maxWidth < 300 ? maxWidth : 300,
-      'max-width.px': Math.min(900, maxWidth),
-      'max-height.px': maxHeight
-    };
+  @HostListener('window:keyboardDidHide')
+  public onKeyboardHiddenBla(): void {
+    this.zone.run(() => {
+      setTimeout(() => {
+        this.scrollSelectedEntryIntoView();
+      });
+    });
   }
 }

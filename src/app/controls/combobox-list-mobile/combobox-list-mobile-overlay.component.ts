@@ -23,7 +23,6 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
 
   public entries: DataList;
   public selectedIndex: number;
-  public wrapperStyle: any;
 
   private afterOpenSub: ISubscription;
   private backdropClickSub: ISubscription;
@@ -37,8 +36,6 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.refreshWrapperStyle();
-
     this.backdropClickSub = this.dialogRef.backdropClick().subscribe(() => {
       this.dialogRef.close({ selected: false });
     });
@@ -72,7 +69,7 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
     if (!this.scroller || !this.list) { return; }
     const selectedLi: HTMLLIElement = this.list.nativeElement.querySelector('li.selected');
     if (selectedLi) {
-      DomUtil.scrollIntoView(this.scroller.nativeElement, selectedLi, true);
+      DomUtil.scrollIntoView(this.scroller.nativeElement, selectedLi, { center: true });
     }
   }
 
@@ -83,17 +80,5 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
         selected: false
       });
     }
-  }
-
-  @HostListener('window:resize')
-  public refreshWrapperStyle(): void {
-    const maxWidth: number = DomUtil.getViewportWidth() * 0.9;
-    const maxHeight: number = DomUtil.getViewportHeight() * 0.9;
-
-    this.wrapperStyle = {
-      'min-width.px': maxWidth < 300 ? maxWidth : 300,
-      'max-width.px': Math.min(900, maxWidth),
-      'max-height.px': maxHeight
-    };
   }
 }

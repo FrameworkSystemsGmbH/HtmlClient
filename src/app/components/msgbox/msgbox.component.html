@@ -1,4 +1,4 @@
-<div class="hc-msgbox-wrapper" [ngStyle]="wrapperStyle">
+<div class="hc-msgbox-wrapper" hcDialogResize>
   <div class="hc-msgbox-header">
     <div class="hc-msgbox-header-icon" *ngIf="icon !== iconType.None" [ngSwitch]="icon">
       <i *ngSwitchCase="iconType.Error" class="fas fa-exclamation-circle fa-2x"></i>
