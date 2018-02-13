@@ -7,7 +7,9 @@ export class LocaleService {
 
   constructor() {
     const browserTimeZone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    this.locale = navigator.language ? navigator.language : 'de-DE';
+    const browserLocale: string = navigator.language;
+
+    this.locale = browserLocale ? browserLocale : 'de-DE';
     this.timeZone = !String.isNullOrWhiteSpace(browserTimeZone) ? browserTimeZone : 'Europe/Berlin';
   }
 

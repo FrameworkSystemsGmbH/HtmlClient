@@ -21,6 +21,7 @@ import { UrlUtil } from 'app/util/url-util';
 
 import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
+import { LocaleService } from './locale.service';
 
 @Injectable()
 export class BrokerService {
@@ -29,7 +30,7 @@ export class BrokerService {
   private activeBrokerToken: string;
   private activeBrokerRequestUrl: string;
   private requestCounter: number;
-  private languages: Array<string>;
+  private browserLanguage: string;
 
   constructor(
     private dialog: MatDialog,
@@ -41,6 +42,7 @@ export class BrokerService {
     private routingService: RoutingService,
     private textsService: TextsService,
     private titleService: TitleService,
+    private localeService: LocaleService,
     private store: Store<fromAppReducers.IAppState>
   ) {
     this.store.select(appState => appState.broker).subscribe(brokerState => {
@@ -112,7 +114,7 @@ export class BrokerService {
     this.formsService.resetViews();
     this.store.dispatch(new fromBrokerActions.ResetBrokerAction());
     this.requestCounter = 0;
-    this.languages = ['de', 'en'];
+    this.browserLanguage = this.localeService.getLocale().substring(0, 2);
   }
 
   public sendInitRequest(): Observable<any> {
@@ -135,7 +137,7 @@ export class BrokerService {
     const metaJson: any = {
       token: this.activeBrokerToken,
       requCounter: ++this.requestCounter,
-      languages: this.languages,
+      languages: [this.browserLanguage],
       type: RequestType[requestType]
     };
 

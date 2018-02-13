@@ -19,8 +19,6 @@ export namespace DomUtil {
   };
 
   export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrollOptions?: IScrollOptions) {
-    console.log(child);
-
     const options: IScrollOptions = { ...DEFAULT_SCROLL_OPTIONS, ...scrollOptions };
 
     const contStyles: CSSStyleDeclaration = getComputedStyle(container);
