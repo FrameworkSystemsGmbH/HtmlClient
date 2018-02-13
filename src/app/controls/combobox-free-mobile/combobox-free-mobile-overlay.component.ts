@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { DataList } from 'app/common/data-list';
-import { DataListEntry } from '../../common/data-list-entry';
 import { DomUtil } from 'app/util/dom-util';
 
 @Component({

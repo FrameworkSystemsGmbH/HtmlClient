@@ -84,6 +84,7 @@ export class BrokerService {
       if (this.activeBrokerName) {
         this.resetActiveBroker();
       }
+
       const name = broker.name;
       const url: string = broker.url;
       const fileUrl: string = url.trimCharsRight('/') + '/files';
@@ -96,7 +97,14 @@ export class BrokerService {
       this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(imageUrl));
       this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(requestUrl));
 
-      this.sendInitRequest();
+      this.sendInitRequest().subscribe(
+        responseJson => {
+          this.processResponse(responseJson);
+        },
+        error => {
+          this.resetActiveBroker();
+          throw error;
+        });
     }
   }
 
@@ -107,12 +115,12 @@ export class BrokerService {
     this.languages = ['de', 'en'];
   }
 
-  public sendInitRequest(): void {
+  public sendInitRequest(): Observable<any> {
     const requestJson: any = {
       meta: this.getMetaJson(RequestType.Request)
     };
 
-    this.doRequest(requestJson).subscribe(responseJson => this.processResponse(responseJson));
+    return this.doRequest(requestJson);
   }
 
   private doRequest(requestJson: any): Observable<any> {

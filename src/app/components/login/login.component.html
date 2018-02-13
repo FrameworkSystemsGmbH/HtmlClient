@@ -9,7 +9,7 @@
     </tbody>
     <tbody *ngIf="(brokers$ | async) && (brokers$ | async).length">
       <tr *ngFor="let broker of (brokers$ | async); index as i" (click)="loadBroker(broker)">
-        <td style="width: 30%;"><i *ngIf="broker.name === (activeBrokerName$ | async)" class="fas fa-fw fa-cog fa-spin"></i> {{ broker.name }}</td>
+        <td style="width: 30%;">{{ broker.name }} <span *ngIf="broker.name === (activeBrokerName$ | async)" class="active">(Active)</span></td>
         <td class="ellipsis">{{ broker.url }}</td>
         <td class="text-right fit">
           <button type="button" class="btn btn-danger" (click)="deleteBroker(i)"><span class="fas fw fa-trash"></span></button>
