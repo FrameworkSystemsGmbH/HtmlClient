@@ -91,4 +91,18 @@ export namespace DomUtil {
     if (!container || !element) { return false; }
     return container === element || isDescendant(container, element);
   }
+
+  export function isInClass(element: HTMLElement, className: string): boolean {
+    if (!element) {
+      return false;
+    }
+
+    if (element.classList.contains(className)) {
+      return true;
+    } else if (element.parentElement) {
+      return isInClass(element.parentElement, className);
+    }
+
+    return false;
+  }
 }

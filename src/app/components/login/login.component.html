@@ -1,7 +1,62 @@
 <div class="wrapper">
-  <h3>Framework Studio HTML Client</h3>
-  <h4>Available Brokers</h4>
-  <table class="table" [ngClass]="{ 'table-hover': (brokers$ | async) && (brokers$ | async).length }">
+  <div class="headline">
+    <h3>{{ editing ? 'Add Broker' : 'Login' }}</h3>
+  </div>
+
+  <div class="editor" *ngIf="editing">
+    <form [formGroup]="addForm" (ngSubmit)="addBroker()">
+      <mat-form-field>
+        <input matInput placeholder="Name" formControlName="name" />
+        <mat-error *ngIf="nameControl.hasError('broker') && !nameControl.hasError('required')">
+          Name already in use
+        </mat-error>
+        <mat-error *ngIf="nameControl.hasError('required')">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Url" formControlName="url" />
+        <mat-error *ngIf="urlControl.hasError('required')">
+          Url is required
+        </mat-error>
+      </mat-form-field>
+      <div class="form-actions">
+        <button type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
+        <button type="submit" mat-raised-button color="primary">Add</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="broker-list-header" *ngIf="!editing">
+    <h4>Available Brokers</h4>
+    <button mat-raised-button color="primary" (click)="openEditor()">
+      <span class="fas fw fa-plus"></span>
+    </button>
+  </div>
+  <div class="broker-list" *ngIf="!editing">
+    <div class="no-broker" *ngIf="(brokers$ | async) == null || !(brokers$ | async).length">
+      <span>No Brokers defined...</span>
+    </div>
+    <div class="broker-list-wrapper" *ngIf="(brokers$ | async) && (brokers$ | async).length">
+      <div class="broker" *ngFor="let broker of (brokers$ | async); index as i" (click)="loadBroker(broker)">
+        <div class="broker-name">
+          <span *ngIf="broker.name === (activeBrokerName$ | async)" class="active">(Active) </span>
+          <span>{{ broker.name }}</span>
+        </div>
+        <div class="broker-url">
+          {{ broker.url }}
+        </div>
+        <div class="broker-action">
+          <button mat-raised-button color="warn" (click)="deleteBroker(i)">
+            <span class="fas fw fa-trash"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <table class="table" [ngClass]="{ 'table-hover': (brokers$ | async) && (brokers$ | async).length }">
     <tbody *ngIf="(brokers$ | async) == null || !(brokers$ | async).length">
       <tr>
         <td>No Brokers defined...</td>
@@ -9,10 +64,14 @@
     </tbody>
     <tbody *ngIf="(brokers$ | async) && (brokers$ | async).length">
       <tr *ngFor="let broker of (brokers$ | async); index as i" (click)="loadBroker(broker)">
-        <td style="width: 30%;">{{ broker.name }} <span *ngIf="broker.name === (activeBrokerName$ | async)" class="active">(Active)</span></td>
+        <td style="width: 30%;">{{ broker.name }}
+          <span *ngIf="broker.name === (activeBrokerName$ | async)" class="active">(Active)</span>
+        </td>
         <td class="ellipsis">{{ broker.url }}</td>
         <td class="text-right fit">
-          <button type="button" class="btn btn-danger" (click)="deleteBroker(i)"><span class="fas fw fa-trash"></span></button>
+          <button type="button" class="btn btn-danger" (click)="deleteBroker(i)">
+            <span class="fas fw fa-trash"></span>
+          </button>
         </td>
       </tr>
     </tbody>
@@ -33,7 +92,9 @@
             </div>
           </td>
           <td class="text-right fit">
-            <button type="submit" class="btn btn-success" [disabled]="!addForm.valid"><span class="fas fw fa-plus"></span></button>
+            <button type="submit" class="btn btn-success" [disabled]="!addForm.valid">
+              <span class="fas fw fa-plus"></span>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -43,5 +104,4 @@
     <li *ngIf="nameHasErrors() && nameControl.errors?.required">Name is required</li>
     <li *ngIf="nameHasErrors() && nameControl.errors?.broker">Name already in use</li>
     <li *ngIf="urlHasErrors() && urlControl.errors?.required">Url is required</li>
-  </ul>
-</div>
+  </ul> -->

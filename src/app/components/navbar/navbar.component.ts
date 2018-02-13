@@ -5,6 +5,7 @@ import { ISubscription } from 'rxjs/Subscription';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { FormsService } from 'app/services/forms.service';
 import { RoutingService } from 'app/services/routing.service';
+import { DomUtil } from '../../util/dom-util';
 
 @Component({
   selector: 'hc-navbar',
@@ -147,7 +148,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   public selectForm(event: any, form: FormWrapper): void {
     const target: HTMLElement = event.target;
 
-    if (target && target.classList.contains('hc-navbar-close-icon')) {
+    if (target && DomUtil.isInClass(target, 'hc-navbar-close-icon-event-span')) {
       return;
     }
 

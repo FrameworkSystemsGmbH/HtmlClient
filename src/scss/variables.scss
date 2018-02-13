@@ -1,3 +1,7 @@
+// Font
+$global-font: Arial, Helvetica, sans-serif;
+$global-font-size: 14px;
+
 // Colors
 $white: #fff;
 $grey1: #e7e7e7;
@@ -5,12 +9,9 @@ $grey2: #bbb;
 $grey3: #333;
 $error: #d9534f;
 
-// Icons
-$icon-font-path: "../node_modules/bootstrap-sass/assets/fonts/bootstrap/";
-
 // Navbar
 $navbar-height: 40px;
-$navbar-brand-fontsize: 20px;
+$navbar-brand-fontsize: 1.25em;
 $navbar-color: #555;
 $navbar-close-hover: #d9534f;
 $navbar-color-highlight: #337ab7;

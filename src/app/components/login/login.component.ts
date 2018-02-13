@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   public addForm: FormGroup;
   public nameControl: FormControl;
   public urlControl: FormControl;
+  public editing: boolean;
 
   constructor(
     private loginService: LoginService,
@@ -40,12 +41,13 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  public nameHasErrors(): boolean {
-    return !this.nameControl.valid && !this.nameControl.pristine;
+  public openEditor(): void {
+    this.editing = true;
   }
 
-  public urlHasErrors(): boolean {
-    return !this.urlControl.valid && !this.urlControl.pristine;
+  public exitEditor(): void {
+    this.addForm.reset();
+    this.editing = false;
   }
 
   public addBroker(): void {
@@ -55,6 +57,7 @@ export class LoginComponent implements OnInit {
 
     this.loginService.addBroker(newBroker);
     this.addForm.reset();
+    this.exitEditor();
   }
 
   public deleteBroker(index: number): void {
@@ -80,5 +83,4 @@ export class LoginComponent implements OnInit {
         });
     };
   }
-
 }

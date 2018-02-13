@@ -1,6 +1,12 @@
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
   overflow: hidden;
+  font-family: $global-font;
+  font-size: $global-font-size;
 }
 
 #hc-load-wrapper {
@@ -14,7 +20,7 @@ html, body {
   flex: 1;
   display: flex;
   align-items: center;
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 #wrapper {

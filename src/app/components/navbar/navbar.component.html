@@ -9,7 +9,14 @@
     <div #center class="hc-navbar-tabs-center">
       <ul #tabs class="hc-navbar-tabs-list" [style.margin-left.px]="tabScrollPosition" hcMouseWheel (mouseWheelUp)="onMouseWheel($event)" (mouseWheelDown)="onMouseWheel($event)" (panstart)="panTabsStart($event)"
         (pan)="panTabsStep($event)">
-        <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (tap)="selectForm($event, form)"><span>{{ form.getTitle() }}</span><span *ngIf="form.isCloseIconVisible()" class="hc-navbar-close-icon-span"><i class="hc-navbar-close-icon fa fa-fw fa-times" (tap)="closeForm($event, form)"></i></span></li>
+        <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
+          <span>{{ form.getTitle() }}</span>
+          <span *ngIf="form.isCloseIconVisible()" class="hc-navbar-close-icon-span">
+            <span (click)="closeForm($event, form)" class="hc-navbar-close-icon-event-span">
+              <i class="hc-navbar-close-icon fa fa-fw fa-times"></i>
+            </span>
+          </span>
+        </li>
       </ul>
     </div>
     <div class="hc-navbar-tabs-right" [style.visibility]="rightScrollerVisible ? 'visible' : 'hidden'">
@@ -18,10 +25,14 @@
   </div>
   <div class="hc-navbar-right">
     <ul class="hc-navbar-menu-toggle">
-      <li (click)="toggleSidebar()"><span class="fas fa-fw fa-bars"></span> Menu</li>
+      <li (click)="toggleSidebar()">
+        <i class="fas fa-fw fa-bars fa-lg"></i>
+      </li>
     </ul>
     <ul class="hc-navbar-tools-list">
-      <li (click)="switchBroker()"><span class="fas fa-fw fa-sign-out-alt"></span></li>
+      <li (click)="switchBroker()">
+        <span class="fas fa-fw fa-sign-out-alt fa-lg"></span>
+      </li>
     </ul>
   </div>
 </nav>
@@ -29,14 +40,22 @@
 <nav [@sidebar] class="hc-navbar-side" *ngIf="sidebarEnabled && sidebarVisible">
   <div #tabs class="hc-navbar-side-middle">
     <ul class="hc-navbar-side-tabs-list">
-      <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (tap)="selectForm($event, form)"><span>{{ form.getTitle() }}</span><span *ngIf="form.isCloseIconVisible()" class="hc-navbar-close-icon-span"><i class="hc-navbar-close-icon fa fa-fw fa-times" (tap)="closeForm($event, form)"></i></span></li>
+      <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
+        <span class="hc-navbar-list-title-span">{{ form.getTitle() }}</span>
+        <span *ngIf="form.isCloseIconVisible()" class="hc-navbar-close-icon-span">
+          <span (click)="closeForm($event, form)" class="hc-navbar-close-icon-event-span">
+              <i class="hc-navbar-close-icon fa fa-fw fa-times"></i>
+          </span>
+        </span>
+      </li>
     </ul>
   </div>
   <div class="hc-navbar-side-bottom">
     <ul class="hc-navbar-side-tools-list">
-      <li (click)="switchBroker()"><span class="fas fa-fw fa-sign-out-alt"></span> Switch Broker</li>
+      <li (click)="switchBroker()">
+        <span><i class="fas fa-fw fa-sign-out-alt fa-lg"></i></span> Switch Broker</li>
     </ul>
   </div>
 </nav>
 
-<div [@overlay] class="hc-navbar-side-overlay" (tap)="toggleSidebar()" *ngIf="sidebarEnabled && sidebarVisible"></div>
+<div [@overlay] class="hc-navbar-side-overlay" (click)="toggleSidebar()" *ngIf="sidebarEnabled && sidebarVisible"></div>

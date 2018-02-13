@@ -6,7 +6,9 @@
   margin: 0;
 
   li {
-    padding: ($navbar-height - $navbar-brand-fontsize) / 2;
+    display: flex;
+    align-items: center;
+    padding: 0 0.75em;
     line-height: $navbar-brand-fontsize;
     cursor: pointer;
 
@@ -21,7 +23,7 @@
     }
 
     span.hc-navbar-close-icon-span {
-      margin-left: 5px;
+      margin-left: 0.3em;
       color: $navbar-color;
 
       &:hover {
@@ -37,7 +39,10 @@
   margin: 0;
 
   li {
-    padding: ($navbar-height - $navbar-brand-fontsize) / 2 15px;
+    display: flex;
+    align-items: center;
+    height: $navbar-height;
+    padding: 0 0.5em;
     line-height: $navbar-brand-fontsize;
     cursor: pointer;
 
@@ -51,8 +56,13 @@
       background-color: $navbar-background-highlight;
     }
 
+    span.hc-navbar-list-title-span {
+      flex: 1;
+    }
+
     span.hc-navbar-close-icon-span {
-      float: right;
+      flex: 0 1 auto;
+      display: flex;
       color: $navbar-color;
 
       &:hover {
@@ -64,6 +74,7 @@
 
 .hc-navbar {
   display: flex;
+  height: $navbar-height;
   color: $navbar-color;
   background-color: $navbar-background;
   border-bottom: 1px solid $navbar-border-color;
@@ -72,11 +83,13 @@
 
   .hc-navbar-left {
     flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    padding: 0 0.75em;
 
     .hc-navbar-title {
       display: block;
       line-height: $navbar-brand-fontsize;
-      padding: ($navbar-height - $navbar-brand-fontsize) / 2 15px;
       font-size: $navbar-brand-fontsize;
       font-weight: bold;
     }
@@ -113,7 +126,6 @@
 
       span {
         line-height: $navbar-brand-fontsize;
-        padding: ($navbar-height - $navbar-brand-fontsize) / 2 0px;
         cursor: pointer;
 
         &:hover {
@@ -125,6 +137,7 @@
 
   .hc-navbar-right {
     flex: 0 1 auto;
+    display: flex;
 
     .hc-navbar-tools-list {
       display: none;
