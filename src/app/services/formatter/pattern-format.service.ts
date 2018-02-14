@@ -1,9 +1,4 @@
-export interface IPatternFormatService {
-  javaToMoment(formatPattern: string): string;
-  momentToJava(formatPattern: string): string;
-}
-
-export class PatternFormatService implements IPatternFormatService {
+export class PatternFormatService {
 
   private static readonly javaToMomentMap: Map<string, string> = new Map<string, string>([
     ['d', 'D'],               // day in month - one or two digits

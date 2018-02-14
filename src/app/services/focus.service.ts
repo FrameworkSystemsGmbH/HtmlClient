@@ -1,15 +1,6 @@
 import { LastInput } from 'app/enums/last-input';
 
-export interface IFocusService {
-  getLeaveActivator(): string;
-  getLastInput(): LastInput;
-  getLastKeyEvent(): any;
-  setLastKeyEvent(lastKeyEvent: any): void;
-  getLastMouseEvent(): string;
-  setLastMouseEvent(lastMouseEvent: any): void;
-}
-
-export class FocusService implements IFocusService {
+export class FocusService {
 
   private lastInput: LastInput;
   private lastKeyEvent: any;

@@ -1,40 +1,20 @@
-import { ComponentRef, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { ComponentRef, ViewContainerRef } from '@angular/core';
 
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
-import { IControlsService } from 'app/services/controls.service';
-import { IEventsService } from 'app/services/events.service';
-import { IFocusService } from 'app/services/focus.service';
-import { IPlatformService } from 'app/services/platform.service';
 
 import { ContainerComponent } from 'app/controls/container.component';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
-import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LayoutBase } from 'app/layout/layout-base';
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
 import { ContainerLayout } from 'app/layout/container-layout/container-layout';
 import { VchControl } from 'app/vch/vch-control';
 import { VchContainer } from 'app/vch/vch-container';
-import { PropertyData } from 'app/common/property-data';
 import { JsonUtil } from 'app/util/json-util';
 
 export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainerWrapper {
 
-  protected controls: Array<ControlWrapper>;
-
-  constructor(
-    form: FormWrapper,
-    parent: ContainerWrapper,
-    controlStyle: PropertyData,
-    resolver: ComponentFactoryResolver,
-    controlsService: IControlsService,
-    eventsService: IEventsService,
-    focusService: IFocusService,
-    platformService: IPlatformService
-  ) {
-    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, platformService);
-    this.controls = new Array<ControlWrapper>();
-  }
+  protected controls: Array<ControlWrapper> = new Array<ControlWrapper>();
 
   public getLayout(): LayoutContainerBase {
     return super.getLayout() as LayoutContainerBase;

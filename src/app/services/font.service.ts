@@ -12,18 +12,8 @@ import { DataSourceType } from 'app/enums/datasource-type';
 import { TextFormat } from 'app/enums/text-format';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 
-export interface IFontService {
-  getDataMinWidthTextBox(wrapper: TextBoxBaseWrapper): number;
-  getDataMaxWidthTextBox(wrapper: TextBoxBaseWrapper): number;
-  getDataMinHeightTextBox(wrapper: TextBoxBaseWrapper): number;
-  getDataMaxHeightTextBox(wrapper: TextBoxBaseWrapper): number;
-  getDataMinWidthComboBox(wrapper: ComboBoxWrapper): number;
-  getDataMaxWidthComboBox(wrapper: ComboBoxWrapper): number;
-  measureText(text: string, font: string, size: number, isBold: boolean, isItalic: boolean): number;
-}
-
 @Injectable()
-export class FontService implements IFontService {
+export class FontService {
 
   // Common constants
   private readonly separator: string = '|';

@@ -1,4 +1,4 @@
-import { ComponentRef, ComponentFactoryResolver, ComponentFactory, ViewContainerRef } from '@angular/core';
+import { ComponentRef, ComponentFactoryResolver, ComponentFactory, ViewContainerRef, Injector } from '@angular/core';
 
 import { IControlLabelContainer } from 'app/layout/control-label-layout/control-label-container.interface';
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
@@ -26,22 +26,27 @@ export class ControlLabelContainerWrapper implements ILayoutableControlWrapper, 
   private vchControl: VchControl;
   private layout: LayoutContainerBase;
   private layoutableProperties: LayoutablePropertiesDefault;
-  private resolver: ComponentFactoryResolver;
   private componentRef: ComponentRef<ControlLabelContainerComponent>;
   private labelWrappers: Array<ControlLabelWrapper>;
   private rowLabelTemplate: ControlLabelTemplate;
 
+  private readonly resolver: ComponentFactoryResolver;
+
   constructor(
+    injector: Injector,
     labelWrapper: ControlLabelWrapper,
-    resolver: ComponentFactoryResolver,
     rowLabelTemplate: ControlLabelTemplate
   ) {
     this.labelWrappers = new Array<ControlLabelWrapper>();
-    this.resolver = resolver;
+    this.resolver = injector.get(ComponentFactoryResolver);
     this.rowLabelTemplate = rowLabelTemplate;
     this.name = labelWrapper.getName() + '_ControlLabelContainer';
 
     this.labelWrappers.push(labelWrapper);
+  }
+
+  protected getResolver(): ComponentFactoryResolver {
+    return this.resolver;
   }
 
   public getVchControl(): VchControl {
@@ -57,10 +62,6 @@ export class ControlLabelContainerWrapper implements ILayoutableControlWrapper, 
 
   protected createVchControl(): VchControl {
     return new VchContainer(this);
-  }
-
-  protected getResolver(): ComponentFactoryResolver {
-    return this.resolver;
   }
 
   public getLayout(): LayoutContainerBase {

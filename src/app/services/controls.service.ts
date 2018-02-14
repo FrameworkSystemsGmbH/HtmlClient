@@ -1,4 +1,4 @@
-import { Injectable, ComponentFactoryResolver } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 
 import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
 
@@ -10,14 +10,6 @@ import { PropertyLayer } from 'app/common/property-layer';
 import { PropertyData } from 'app/common/property-data';
 
 import { ControlStyleService } from 'app/services/control-style.service';
-import { EventsService } from 'app/services/events.service';
-import { FocusService } from 'app/services/focus.service';
-import { PlatformService } from 'app/services/platform.service';
-import { FontService } from 'app/services/font.service';
-import { ImageService } from 'app/services/image.service';
-import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
-import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
-import { StringFormatService } from 'app/services/formatter/string-format.service';
 
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
@@ -40,60 +32,35 @@ import { WrapPanelWrapper } from 'app/wrappers/wrap-panel-wrapper';
 import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 
-export interface IControlsService {
-  createControlLabelWrapper(wrapper: IControlLabelProvider): ControlLabelWrapper;
-
-  createControlLabelSeparatorWrapper(labelProvider: IControlLabelProvider): ControlLabelSeparatorWrapper;
-
-  createControlLabelContainerWrapper(
-    labelWrapper: ControlLabelWrapper,
-    rowLabelTemplate: ControlLabelTemplate
-  ): ControlLabelContainerWrapper;
-
-  createControlLabelContainerMergedWrapper(
-    labelWrappers: Array<ControlLabelWrapper>,
-    rowLabelTemplate: ControlLabelTemplate
-  ): ControlLabelContainerMergedWrapper;
-
-  createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper;
-}
-
 @Injectable()
-export class ControlsService implements IControlsService {
+export class ControlsService {
 
-  constructor(
-    private resolver: ComponentFactoryResolver,
-    private controlStyleService: ControlStyleService,
-    private eventsService: EventsService,
-    private focusService: FocusService,
-    private platformService: PlatformService,
-    private fontService: FontService,
-    private imageService: ImageService,
-    private patternFormatService: PatternFormatService,
-    private dateTimeFormatService: DateTimeFormatService,
-    private stringFormatService: StringFormatService
-  ) { }
+  private readonly controlStyleService: ControlStyleService;
+
+  constructor(private injector: Injector) {
+    this.controlStyleService = injector.get(ControlStyleService);
+  }
 
   public createControlLabelWrapper(labelProvider: IControlLabelProvider): ControlLabelWrapper {
-    return new ControlLabelWrapper(labelProvider, this.resolver, this.fontService);
+    return new ControlLabelWrapper(this.injector, labelProvider);
   }
 
   public createControlLabelSeparatorWrapper(labelProvider: IControlLabelProvider): ControlLabelSeparatorWrapper {
-    return new ControlLabelSeparatorWrapper(labelProvider, this.resolver, this.fontService);
+    return new ControlLabelSeparatorWrapper(this.injector, labelProvider);
   }
 
   public createControlLabelContainerWrapper(
     labelWrapper: ControlLabelWrapper,
     rowLabelTemplate: ControlLabelTemplate
   ): ControlLabelContainerWrapper {
-    return new ControlLabelContainerWrapper(labelWrapper, this.resolver, rowLabelTemplate);
+    return new ControlLabelContainerWrapper(this.injector, labelWrapper, rowLabelTemplate);
   }
 
   public createControlLabelContainerMergedWrapper(
     labelWrappers: Array<ControlLabelWrapper>,
     rowLabelTemplate: ControlLabelTemplate
   ): ControlLabelContainerMergedWrapper {
-    return new ControlLabelContainerMergedWrapper(labelWrappers, this.resolver, this, rowLabelTemplate);
+    return new ControlLabelContainerMergedWrapper(this.injector, this, labelWrappers, rowLabelTemplate);
   }
 
   public createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper {
@@ -103,119 +70,25 @@ export class ControlsService implements IControlsService {
 
     switch (controlType) {
       case ControlType.Button:
-        return new ButtonPlainWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService,
-          this.fontService
-        );
+        return new ButtonPlainWrapper(this.injector, form, parent, controlStyle, this);
       case ControlType.ImageButton:
-        return new ButtonImageWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService,
-          this.fontService,
-          this.imageService);
+        return new ButtonImageWrapper(this.injector, form, parent, controlStyle, this);
       case ControlType.ComboBox:
-        return new ComboBoxWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService,
-          this.fontService
-        );
+        return new ComboBoxWrapper(this.injector, form, parent, controlStyle, this);
       case ControlType.DockPanel:
-        return new DockPanelWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService
-        );
+        return new DockPanelWrapper(this.injector, form, parent, controlStyle, this);
       case ControlType.FieldPanel:
-        return new FieldPanelWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService
-        );
+        return new FieldPanelWrapper(this.injector, form, parent, controlStyle, this);
       case ControlType.FieldRow:
-        return new FieldRowWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService
-        );
+        return new FieldRowWrapper(this.injector, form, parent, controlStyle, this);
       case ControlType.Label:
-        return new LabelWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService,
-          this.fontService
-        );
+        return new LabelWrapper(this.injector, form, parent, controlStyle, this);
       case ControlType.Form:
-        return new FormWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService
-        );
+        return new FormWrapper(this.injector, form, parent, controlStyle, this);
       case ControlType.Variant:
-        return new VariantWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService
-        );
+        return new VariantWrapper(this.injector, form, parent, controlStyle, this);
       case ControlType.WrapPanel:
-        return new WrapPanelWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService
-        );
+        return new WrapPanelWrapper(this.injector, form, parent, controlStyle, this);
       case ControlType.TextBox:
         return this.createTextBoxWrapper(controlJson, form, parent, controlStyle);
     }
@@ -231,18 +104,7 @@ export class ControlsService implements IControlsService {
       case TextFormat.Integer:
       case TextFormat.PositiveInteger:
       case TextFormat.NegativeInteger:
-        return new TextBoxNumberWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService,
-          this.fontService,
-          this.patternFormatService
-        );
+        return new TextBoxNumberWrapper(this.injector, form, parent, controlStyle, this);
       case TextFormat.DateTimeShort:
       case TextFormat.DateTimeMedium:
       case TextFormat.DateTimeLong:
@@ -252,33 +114,9 @@ export class ControlsService implements IControlsService {
       case TextFormat.TimeOnlyShort:
       case TextFormat.TimeOnlyMedium:
       case TextFormat.TimeOnlyLong:
-        return new TextBoxDateTimeWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService,
-          this.fontService,
-          this.patternFormatService,
-          this.dateTimeFormatService
-        );
+        return new TextBoxDateTimeWrapper(this.injector, form, parent, controlStyle, this);
       default:
-        return new TextBoxPlainWrapper(
-          form,
-          parent,
-          controlStyle,
-          this.resolver,
-          this,
-          this.eventsService,
-          this.focusService,
-          this.platformService,
-          this.fontService,
-          this.patternFormatService,
-          this.stringFormatService
-        );
+        return new TextBoxPlainWrapper(this.injector, form, parent, controlStyle, this);
     }
   }
 

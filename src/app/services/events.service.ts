@@ -12,64 +12,8 @@ import { ClientCloseEvent } from 'app/common/events/client-close-event';
 import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
 import { ClientMsgBoxEvent } from 'app/common/events/client-msgbox-event';
 
-export interface IEventsService {
-  fireClick(
-    controlName: string,
-    formId: string,
-    originalEvent: any,
-    callbacks: InternalEventCallbacks<ClientClickEvent>
-  ): void;
-
-  fireSelectionChanged(
-    controlName: string,
-    formId: string,
-    originalEvent: any,
-    callbacks: InternalEventCallbacks<ClientSelectionChangedEvent>
-  ): void;
-
-  fireValidated(
-    controlName: string,
-    formId: string,
-    originalEvent: any,
-    callbacks: InternalEventCallbacks<ClientValidatedEvent>
-  ): void;
-
-  fireEnter(
-    controlName: string,
-    formId: string,
-    originalEvent: any,
-    callbacks: InternalEventCallbacks<ClientEnterEvent>
-  ): void;
-
-  fireLeave(
-    controlName: string,
-    formId: string,
-    activator: string,
-    hasValueChanged: boolean,
-    originalEvent: any,
-    callbacks: InternalEventCallbacks<ClientLeaveEvent>
-  ): void;
-
-  fireClose(
-    formId: string,
-    callbacks: InternalEventCallbacks<ClientCloseEvent>
-  ): void;
-
-  fireDispose(
-    formId: string,
-    callbacks: InternalEventCallbacks<ClientDisposeEvent>
-  ): void;
-
-  fireMsgBox(
-    formId: string,
-    id: string,
-    action: string,
-    originalEvent: any
-  ): void;
-}
-
 @Injectable()
-export class EventsService implements IEventsService {
+export class EventsService {
 
   public readonly onHandleEvent: EventEmitter<InternalEvent<ClientEvent>> = new EventEmitter<InternalEvent<ClientEvent>>();
 

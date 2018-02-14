@@ -2,15 +2,7 @@ import * as Moment from 'moment-timezone';
 
 import { TextFormat } from 'app/enums/text-format';
 
-export interface IDateTimeFormatService {
-  momentToJson(value: Moment.Moment): string;
-  momentFromJson(value: string): Moment.Moment;
-  formatString(value: string, textFormat: TextFormat, formatPattern: string): string;
-  formatDate(value: Moment.Moment, textFormat: TextFormat, formatPattern: string): string;
-  parseString(value: string, textFormat: TextFormat, formatPattern: string): Moment.Moment;
-}
-
-export class DateTimeFormatService implements IDateTimeFormatService {
+export class DateTimeFormatService {
 
   private readonly jsonFormat: string = 'DD.MM.YYYY HH:mm:ss';
 

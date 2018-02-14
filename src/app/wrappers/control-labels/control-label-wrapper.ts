@@ -1,10 +1,10 @@
-import { ComponentRef, ComponentFactoryResolver, ComponentFactory } from '@angular/core';
+import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
 
 import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
-import { IFontService } from 'app/services/font.service';
 
+import { FontService } from 'app/services/font.service';
 import { ControlLabelComponent } from 'app/controls/control-label/control-label.component';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { LayoutBase } from 'app/layout/layout-base';
@@ -25,26 +25,34 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
   private vchControl: VchControl;
   private layout: LayoutBase;
   private layoutableProperties: LayoutablePropertiesDefault;
-  private resolver: ComponentFactoryResolver;
   private componentRef: ComponentRef<ControlLabelComponent>;
-  private fontService: IFontService;
+
+  private readonly resolver: ComponentFactoryResolver;
+  private readonly fontService: FontService;
 
   private fittedWidth: number;
   private fittedHeight: number;
 
   constructor(
-    labelProvider: IControlLabelProvider,
-    resolver: ComponentFactoryResolver,
-    fontService: IFontService
+    injector: Injector,
+    labelProvider: IControlLabelProvider
   ) {
     this.name = labelProvider.getName() + '_ControlLabel';
     this.labelProvider = labelProvider;
     this.labelTemplate = labelProvider.getLabelTemplate();
-    this.resolver = resolver;
-    this.fontService = fontService;
+    this.resolver = injector.get(ComponentFactoryResolver);
+    this.fontService = injector.get(FontService);
 
     this.updateFittedWidth();
     this.updateFittedHeight();
+  }
+
+  protected getResolver(): ComponentFactoryResolver {
+    return this.resolver;
+  }
+
+  protected getFontService(): FontService {
+    return this.fontService;
   }
 
   protected getLabelProvider(): IControlLabelProvider {
@@ -64,14 +72,6 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
 
   protected createVchControl(): VchControl {
     return new VchControl();
-  }
-
-  protected getResolver(): ComponentFactoryResolver {
-    return this.resolver;
-  }
-
-  protected getFontService(): IFontService {
-    return this.fontService;
   }
 
   protected getLayout(): LayoutBase {

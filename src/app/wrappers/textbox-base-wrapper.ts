@@ -1,12 +1,7 @@
-import { ComponentFactoryResolver } from '@angular/core';
+import { Injector } from '@angular/core';
 
-import { IControlsService } from 'app/services/controls.service';
-import { IEventsService } from 'app/services/events.service';
-import { IFocusService } from 'app/services/focus.service';
-import { IPlatformService } from 'app/services/platform.service';
-import { IFontService } from 'app/services/font.service';
-import { IPatternFormatService } from 'app/services/formatter/pattern-format.service';
-
+import { ControlsService } from 'app/services/controls.service';
+import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
 import { TextBoxComponent } from 'app/controls/textbox.component';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
@@ -22,22 +17,21 @@ import { ControlVisibility } from 'app/enums/control-visibility';
 
 export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
 
-  private readonly patternFormatService: IPatternFormatService;
+  private readonly patternFormatService: PatternFormatService;
 
   constructor(
+    injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    resolver: ComponentFactoryResolver,
-    controlsService: IControlsService,
-    eventsService: IEventsService,
-    focusService: IFocusService,
-    platformService: IPlatformService,
-    fontService: IFontService,
-    patternFormatService: IPatternFormatService
+    controlsService: ControlsService
   ) {
-    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, platformService, fontService);
-    this.patternFormatService = patternFormatService;
+    super(injector, form, parent, controlStyle, controlsService);
+    this.patternFormatService = injector.get(PatternFormatService);
+  }
+
+  protected getPatternFormatService(): PatternFormatService {
+    return this.patternFormatService;
   }
 
   protected getComponent(): TextBoxComponent {
@@ -80,19 +74,19 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   protected getDataMinWidth(): number {
-    return this.fontService.getDataMinWidthTextBox(this);
+    return this.getFontService().getDataMinWidthTextBox(this);
   }
 
   protected getDataMaxWidth() {
-    return this.fontService.getDataMaxWidthTextBox(this);
+    return this.getFontService().getDataMaxWidthTextBox(this);
   }
 
   protected getDataMinHeight() {
-    return this.fontService.getDataMinHeightTextBox(this);
+    return this.getFontService().getDataMinHeightTextBox(this);
   }
 
   protected getDataMaxHeight() {
-    return this.fontService.getDataMaxHeightTextBox(this);
+    return this.getFontService().getDataMaxHeightTextBox(this);
   }
 
   protected hasChangesLeave(): boolean {

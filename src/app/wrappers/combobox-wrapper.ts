@@ -87,11 +87,11 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   protected getDataMinWidth(): number {
-    return this.fontService.getDataMinWidthComboBox(this) + this.getArrowWidth();
+    return this.getFontService().getDataMinWidthComboBox(this) + this.getArrowWidth();
   }
 
   protected getDataMaxWidth() {
-    return this.fontService.getDataMaxWidthComboBox(this) + this.getArrowWidth();
+    return this.getFontService().getDataMaxWidthComboBox(this) + this.getArrowWidth();
   }
 
   protected getDataMinHeight(): number {

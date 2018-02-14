@@ -1,13 +1,9 @@
-import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
+import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
-import { IControlsService } from 'app/services/controls.service';
-import { IEventsService } from 'app/services/events.service';
-import { IFocusService } from 'app/services/focus.service';
-import { IPlatformService } from 'app/services/platform.service';
-import { IFontService } from 'app/services/font.service';
-import { IImageService } from 'app/services/image.service';
 
+import { ControlsService } from 'app/services/controls.service';
+import { ImageService } from 'app/services/image.service';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
@@ -17,22 +13,21 @@ import { PropertyData } from 'app/common/property-data';
 
 export class ButtonImageWrapper extends ButtonBaseWrapper {
 
-  private imageService: IImageService;
+  private readonly imageService: ImageService;
 
   constructor(
+    injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    resolver: ComponentFactoryResolver,
-    controlsService: IControlsService,
-    eventsService: IEventsService,
-    focusService: IFocusService,
-    platformService: IPlatformService,
-    fontService: IFontService,
-    imageService: IImageService
+    controlsService: ControlsService
   ) {
-    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, platformService, fontService);
-    this.imageService = imageService;
+    super(injector, form, parent, controlStyle, controlsService);
+    this.imageService = injector.get(ImageService);
+  }
+
+  protected getImageService(): ImageService {
+    return this.imageService;
   }
 
   public getCaptionAlign(): ContentAlignment {

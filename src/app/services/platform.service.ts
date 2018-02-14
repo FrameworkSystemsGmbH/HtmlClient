@@ -1,13 +1,5 @@
 import { Injectable } from '@angular/core';
 
-export interface IPlatformService {
-  isMobile(): boolean;
-  isDesktop(): boolean;
-  isWeb(): boolean;
-  isAndroid();
-  isIos(): boolean;
-}
-
 @Injectable()
 export class PlatformService {
 

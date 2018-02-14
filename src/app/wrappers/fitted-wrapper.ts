@@ -1,11 +1,7 @@
-import { ComponentFactoryResolver } from '@angular/core';
+import { Injector } from '@angular/core';
 
-import { IControlsService } from 'app/services/controls.service';
-import { IEventsService } from 'app/services/events.service';
-import { IFocusService } from 'app/services/focus.service';
-import { IPlatformService } from 'app/services/platform.service';
-import { IFontService } from 'app/services/font.service';
-
+import { ControlsService } from 'app/services/controls.service';
+import { FontService } from 'app/services/font.service';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
@@ -16,21 +12,21 @@ export abstract class FittedWrapper extends ControlWrapper {
   private fittedWidth: number;
   private fittedHeight: number;
 
-  protected fontService: IFontService;
+  private readonly fontService: FontService;
 
   constructor(
+    injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    resolver: ComponentFactoryResolver,
-    controlsService: IControlsService,
-    eventsService: IEventsService,
-    focusService: IFocusService,
-    platformService: IPlatformService,
-    fontService: IFontService
+    controlsService: ControlsService
   ) {
-    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, platformService);
-    this.fontService = fontService;
+    super(injector, form, parent, controlStyle, controlsService);
+    this.fontService = injector.get(FontService);
+  }
+
+  protected getFontService(): FontService {
+    return this.fontService;
   }
 
   public getMinWidth(): number {
@@ -68,5 +64,4 @@ export abstract class FittedWrapper extends ControlWrapper {
       this.fittedHeight = this.getBorderThicknessTop() + this.getPaddingTop() + fittedHeight + this.getPaddingBottom() + this.getBorderThicknessBottom();
     }
   }
-
 }

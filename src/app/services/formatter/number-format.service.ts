@@ -4,14 +4,8 @@ import { LocaleService } from 'app/services/locale.service';
 import { NumberFormatInfo } from 'app/common/number-format-info';
 import { TextFormat } from 'app/enums/text-format';
 
-export interface INumberFormatService {
-  formatString(value: string, textFormat: TextFormat, formatPattern: string): string;
-  formatNumber(value: number, textFormat: TextFormat, formatPattern: string): string;
-  parseString(value: string, textFormat: TextFormat, formatPattern: string): number;
-}
-
 @Injectable()
-export class NumberFormatService implements INumberFormatService {
+export class NumberFormatService {
 
   private static readonly formatDefault: string = '#.#';
   private static readonly formatZero: string = '0';

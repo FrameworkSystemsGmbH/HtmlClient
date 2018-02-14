@@ -1,14 +1,9 @@
-import { ComponentRef, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
+import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
-import { IEventsService } from 'app/services/events.service';
-import { IControlsService } from 'app/services/controls.service';
-import { IFocusService } from 'app/services/focus.service';
-import { IPlatformService } from 'app/services/platform.service';
-import { IFontService } from 'app/services/font.service';
-import { IPatternFormatService } from 'app/services/formatter/pattern-format.service';
-import { IStringFormatService } from 'app/services/formatter/string-format.service';
 
+import { ControlsService } from 'app/services/controls.service';
+import { StringFormatService } from 'app/services/formatter/string-format.service';
 import { TextBoxPlainComponent } from 'app/controls/textbox-plain/textbox-plain.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
@@ -17,26 +12,24 @@ import { PropertyData } from 'app/common/property-data';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
-  private stringFormatService: IStringFormatService;
+  private readonly stringFormatService: StringFormatService;
 
   protected value: string;
   protected orgValue: string;
 
   constructor(
+    injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    resolver: ComponentFactoryResolver,
-    controlsService: IControlsService,
-    eventsService: IEventsService,
-    focusService: IFocusService,
-    platformService: IPlatformService,
-    fontService: IFontService,
-    patternFormatService: IPatternFormatService,
-    stringFormatService: IStringFormatService
+    controlsService: ControlsService
   ) {
-    super(form, parent, controlStyle, resolver, controlsService, eventsService, focusService, platformService, fontService, patternFormatService);
-    this.stringFormatService = stringFormatService;
+    super(injector, form, parent, controlStyle, controlsService);
+    this.stringFormatService = injector.get(StringFormatService);
+  }
+
+  protected getStringFormatService(): StringFormatService {
+    return this.stringFormatService;
   }
 
   public getValue(): string {

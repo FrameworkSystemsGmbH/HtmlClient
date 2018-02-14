@@ -1,11 +1,11 @@
-import { ComponentRef, ComponentFactoryResolver, ComponentFactory, ViewContainerRef } from '@angular/core';
+import { ComponentRef, ComponentFactoryResolver, ComponentFactory, ViewContainerRef, Injector } from '@angular/core';
 
 import { IControlLabelContainerMerged } from 'app/layout/control-label-merged-layout/control-label-container-merged.interface';
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
-import { IControlsService } from 'app/services/controls.service';
 
+import { ControlsService } from 'app/services/controls.service';
 import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
 import { VchControl } from 'app/vch/vch-control';
 import { TextAlign } from 'app/enums/text-align';
@@ -28,21 +28,25 @@ export class ControlLabelContainerMergedWrapper implements ILayoutableControlWra
   private vchControl: VchControl;
   private layout: LayoutContainerBase;
   private layoutableProperties: LayoutablePropertiesDefault;
-  private resolver: ComponentFactoryResolver;
   private componentRef: ComponentRef<ControlLabelContainerMergedComponent>;
   private labelWrappers: Array<ControlLabelWrapper>;
-  private controlsService: IControlsService;
   private rowLabelTemplate: ControlLabelTemplate;
 
+  private readonly resolver: ComponentFactoryResolver;
+  private readonly controlsService: ControlsService;
+
+  private readonly injector: Injector;
+
   constructor(
+    injector: Injector,
+    controlsService: ControlsService,
     labelWrappers: Array<ControlLabelWrapper>,
-    resolver: ComponentFactoryResolver,
-    controlsService: IControlsService,
     rowLabelTemplate: ControlLabelTemplate
   ) {
-    this.labelWrappers = labelWrappers;
-    this.resolver = resolver;
+    this.resolver = this.injector.get(ComponentFactoryResolver);
+
     this.controlsService = controlsService;
+    this.labelWrappers = labelWrappers;
     this.rowLabelTemplate = rowLabelTemplate;
 
     // Init name
@@ -69,6 +73,14 @@ export class ControlLabelContainerMergedWrapper implements ILayoutableControlWra
     this.labelWrappers = labelsWithSeparators;
   }
 
+  protected getResolver(): ComponentFactoryResolver {
+    return this.resolver;
+  }
+
+  protected getControlsService(): ControlsService {
+    return this.controlsService;
+  }
+
   public getVchControl(): VchControl {
     if (!this.vchControl) {
       this.vchControl = this.createVchControl();
@@ -82,10 +94,6 @@ export class ControlLabelContainerMergedWrapper implements ILayoutableControlWra
 
   protected createVchControl(): VchControl {
     return new VchContainer(this);
-  }
-
-  protected getResolver(): ComponentFactoryResolver {
-    return this.resolver;
   }
 
   public getLayout(): LayoutContainerBase {

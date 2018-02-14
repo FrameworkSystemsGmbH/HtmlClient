@@ -80,7 +80,7 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
 
   public updateFittedWidth(): void {
     if (this.showCaption()) {
-      this.setFittedContentWidth(this.fontService.measureText(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
+      this.setFittedContentWidth(this.getFontService().measureText(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
     } else {
       this.setFittedContentWidth(null);
     }

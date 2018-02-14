@@ -1,14 +1,14 @@
-import { ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, Injector } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
-import { IControlsService } from 'app/services/controls.service';
-import { IEventsService } from 'app/services/events.service';
-import { IFocusService } from 'app/services/focus.service';
-import { IPlatformService } from 'app/services/platform.service';
 
+import { ControlsService } from 'app/services/controls.service';
+import { EventsService } from 'app/services/events.service';
+import { FocusService } from 'app/services/focus.service';
+import { PlatformService } from 'app/services/platform.service';
 import { ControlComponent } from 'app/controls/control.component';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
@@ -38,39 +38,57 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private layout: LayoutBase;
   private layoutableProperties: LayoutablePropertiesDefault;
   private labelTemplate: ControlLabelTemplate;
-  private resolver: ComponentFactoryResolver;
   private componentRef: ComponentRef<ControlComponent>;
   private events: ControlEvent;
 
   private controlLabel: ILayoutableControlWrapper;
 
-  private controlsService: IControlsService;
-  private eventsService: IEventsService;
-  private focusService: IFocusService;
-  private platformService: IPlatformService;
+  private readonly resolver: ComponentFactoryResolver;
+
+  private readonly controlsService: ControlsService;
+  private readonly eventsService: EventsService;
+  private readonly focusService: FocusService;
+  private readonly platformService: PlatformService;
 
   private onEnterSub: ISubscription;
   private onLeaveSub: ISubscription;
 
   constructor(
+    injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
     controlStyle: PropertyData,
-    resolver: ComponentFactoryResolver,
-    controlsService: IControlsService,
-    eventsService: IEventsService,
-    focusService: IFocusService,
-    platformService: IPlatformService
+    controlsService: ControlsService
   ) {
     this.form = form;
     this.parent = parent;
-    this.resolver = resolver;
+    this.resolver = injector.get(ComponentFactoryResolver);
+    this.eventsService = injector.get(EventsService);
+    this.focusService = injector.get(FocusService);
+    this.platformService = injector.get(PlatformService);
     this.controlsService = controlsService;
-    this.eventsService = eventsService;
-    this.focusService = focusService;
-    this.platformService = platformService;
     this.setControlStyle(controlStyle);
     this.addToParent();
+  }
+
+  protected getResolver(): ComponentFactoryResolver {
+    return this.resolver;
+  }
+
+  protected getControlsService(): ControlsService {
+    return this.controlsService;
+  }
+
+  protected getEventsService(): EventsService {
+    return this.eventsService;
+  }
+
+  protected getFocusService(): FocusService {
+    return this.focusService;
+  }
+
+  protected getPlatformService(): PlatformService {
+    return this.platformService;
   }
 
   public getName(): string {
@@ -140,26 +158,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected getEvents(): ControlEvent {
     return this.events;
-  }
-
-  protected getControlsService(): IControlsService {
-    return this.controlsService;
-  }
-
-  protected getEventsService(): IEventsService {
-    return this.eventsService;
-  }
-
-  protected getFocusService(): IFocusService {
-    return this.focusService;
-  }
-
-  protected getPlatformService(): IPlatformService {
-    return this.platformService;
-  }
-
-  protected getResolver(): ComponentFactoryResolver {
-    return this.resolver;
   }
 
   protected addToParent(): void {

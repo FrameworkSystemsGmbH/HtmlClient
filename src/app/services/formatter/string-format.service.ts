@@ -1,10 +1,6 @@
 import { TextFormat } from 'app/enums/text-format';
 
-export interface IStringFormatService {
-  formatString(value: string, textFormat: TextFormat): string;
-}
-
-export class StringFormatService implements IStringFormatService {
+export class StringFormatService {
 
   public formatString(value: string, textFormat: TextFormat): string {
     switch (textFormat) {
