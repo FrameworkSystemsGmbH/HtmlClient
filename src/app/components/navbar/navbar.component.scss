@@ -61,7 +61,7 @@
     }
 
     span.hc-navbar-close-icon-span {
-      flex: 0 1 auto;
+      flex: 0 0 auto;
       display: flex;
       color: $navbar-color;
 
@@ -82,7 +82,7 @@
   cursor: default;
 
   .hc-navbar-left {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     padding: 0 0.75em;
@@ -117,7 +117,7 @@
 
     .hc-navbar-tabs-left,
     .hc-navbar-tabs-right {
-      flex: 0 1 auto;
+      flex: 0 0 auto;
       display: none;
 
       @media (min-width: $breakpoint) {
@@ -136,7 +136,7 @@
   }
 
   .hc-navbar-right {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     display: flex;
 
     .hc-navbar-tools-list {
@@ -194,7 +194,7 @@
   }
 
   .hc-navbar-side-bottom {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     border-top: 1px solid $navbar-border-color;
 
     .hc-navbar-side-tools-list {

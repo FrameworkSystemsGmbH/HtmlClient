@@ -11,18 +11,20 @@
   .wrapper {
     display: flex;
     flex-direction: column;
-    width: 90%;
-    max-width: 600px;
     padding: 1rem;
     border: 1px solid $grey2;
     border-radius: 5px;
     @include gradient-silver();
 
-    .headline > h3 {
-      font-weight: bold;
-      padding-bottom: 0.25rem;
-      margin-bottom: 0;
-      border-bottom: 1px solid lightgray;
+    .headline {
+      flex: 0 0 auto;
+
+      h3 {
+        font-weight: bold;
+        padding-bottom: 0.25rem;
+        margin-bottom: 0;
+        border-bottom: 1px solid lightgray;
+      }
     }
 
     .editor {
@@ -34,7 +36,15 @@
         flex-direction: column;
         margin-top: 0.5rem;
 
+        .form-inputs {
+          display: flex;
+          flex-direction: column;
+          overflow: auto;
+          overflow-x: hidden;
+        }
+
         .form-actions {
+          flex: 0 0 auto;
           display: flex;
           justify-content: flex-end;
           margin-top: 0.5rem;
@@ -47,6 +57,7 @@
     }
 
     .broker-list-header {
+      flex: 0 0 auto;
       display: flex;
       align-items: center;
       margin-top: 1rem;
@@ -58,7 +69,7 @@
       }
 
       button {
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         min-width: auto !important;
         min-height: auto !important;
         line-height: 0 !important;
@@ -69,6 +80,8 @@
     .broker-list {
       display: flex;
       flex-direction: column;
+      overflow: auto;
+      overflow-x: hidden;
       margin-top: 0.5rem;
 
       .no-broker {
@@ -76,6 +89,7 @@
       }
 
       .broker-list-wrapper {
+        flex: 0 0 auto;
         display: flex;
         flex-direction: column;
 
@@ -93,7 +107,7 @@
           }
 
           .broker-name {
-            flex: 0 1 auto;
+            flex: 0 0 auto;
 
             span.active {
               color: red;
@@ -109,7 +123,7 @@
           }
 
           .broker-action {
-            flex: 0 1 auto;
+            flex: 0 0 auto;
 
             button {
               min-width: auto !important;
@@ -123,65 +137,3 @@
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-// .table {
-//   white-space: nowrap;
-// }
-
-// .table > thead,
-// .table > tbody,
-// .table > tfoot {
-//   tr {
-//     th.fit, td.fit {
-//       white-space: nowrap;
-//       width: 1%;
-//     }
-
-//     th.ellipsis, td.ellipsis {
-//       max-width: 0;
-//       overflow: hidden;
-//       text-overflow: ellipsis;
-//       white-space: nowrap;
-//     }
-//   }
-// }
-
-// .table > thead,
-// .table > tbody,
-// .table > tfoot {
-//   tr {
-//     th, td {
-//       vertical-align: middle;
-//       border: none;
-//     }
-//   }
-// }
-
-// .table > tbody > tr > td > span.active {
-//   color: red;
-// }
-
-// .table-hover > tbody > tr {
-//   &:hover {
-//     background-color: $white;
-//   }
-
-//   td {
-//     cursor: pointer;
-//   }
-// }
-
-// ul.errorlist {
-//   color: $error;
-// }

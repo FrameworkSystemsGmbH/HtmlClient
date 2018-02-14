@@ -1,25 +1,27 @@
-<div class="wrapper">
+<div class="wrapper" hcDialogResize [maxWidth]="600">
   <div class="headline">
     <h3>{{ editing ? 'Add Broker' : 'Login' }}</h3>
   </div>
 
   <div class="editor" *ngIf="editing">
     <form [formGroup]="addForm" (ngSubmit)="addBroker()">
-      <mat-form-field>
-        <input matInput placeholder="Name" formControlName="name" />
-        <mat-error *ngIf="nameControl.hasError('broker') && !nameControl.hasError('required')">
-          Name already in use
-        </mat-error>
-        <mat-error *ngIf="nameControl.hasError('required')">
-          Name is required
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Url" formControlName="url" />
-        <mat-error *ngIf="urlControl.hasError('required')">
-          Url is required
-        </mat-error>
-      </mat-form-field>
+      <div class="form-inputs">
+        <mat-form-field>
+          <input matInput placeholder="Name" formControlName="name" />
+          <mat-error *ngIf="nameControl.hasError('broker') && !nameControl.hasError('required')">
+            Name already in use
+          </mat-error>
+          <mat-error *ngIf="nameControl.hasError('required')">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Url" formControlName="url" />
+          <mat-error *ngIf="urlControl.hasError('required')">
+            Url is required
+          </mat-error>
+        </mat-form-field>
+      </div>
       <div class="form-actions">
         <button type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
         <button type="submit" mat-raised-button color="primary">Add</button>

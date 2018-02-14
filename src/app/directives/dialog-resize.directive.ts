@@ -1,8 +1,14 @@
-import { Directive, OnInit, ElementRef, Renderer2, NgZone, HostListener } from '@angular/core';
+import { Directive, Input, OnInit, ElementRef, Renderer2, NgZone, HostListener } from '@angular/core';
 import { DomUtil } from 'app/util/dom-util';
 
 @Directive({ selector: '[hcDialogResize]' })
 export class DialogResizeDirective implements OnInit {
+
+  @Input()
+  public minWidth: number = 300;
+
+  @Input()
+  public maxWidth: number = 900;
 
   constructor(
     private elRef: ElementRef,
@@ -31,11 +37,12 @@ export class DialogResizeDirective implements OnInit {
 
   private setStyles(): void {
     this.zone.run(() => {
-      const maxWidth: number = DomUtil.getViewportWidth() * 0.9;
-      const maxHeight: number = DomUtil.getViewportHeight() * 0.9;
-      this.renderer.setStyle(this.elRef.nativeElement, 'min-width', (maxWidth < 300 ? maxWidth : 300) + 'px');
-      this.renderer.setStyle(this.elRef.nativeElement, 'max-width', (Math.min(900, maxWidth)) + 'px');
-      this.renderer.setStyle(this.elRef.nativeElement, 'max-height', maxHeight + 'px');
+      const maxRespWidth: number = DomUtil.getViewportWidth() * 0.9;
+      const maxRespHeight: number = DomUtil.getViewportHeight() * 0.9;
+
+      this.renderer.setStyle(this.elRef.nativeElement, 'min-width', (maxRespWidth < this.minWidth ? maxRespWidth : this.minWidth) + 'px');
+      this.renderer.setStyle(this.elRef.nativeElement, 'max-width', (Math.min(this.maxWidth, maxRespWidth)) + 'px');
+      this.renderer.setStyle(this.elRef.nativeElement, 'max-height', maxRespHeight + 'px');
     });
   }
 }
