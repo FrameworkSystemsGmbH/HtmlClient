@@ -58,8 +58,7 @@
 
     li {
       cursor: pointer;
-      padding-left: 3px;
-      padding-right: 3px;
+      padding: 0.1em 0.2em;
 
       &.selected {
         color: white;
