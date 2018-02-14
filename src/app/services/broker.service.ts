@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +13,6 @@ import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
-import { TitleService } from 'app/services/title.service';
 import { LoginBroker } from 'app/common/login-broker';
 import { ClientEvent } from 'app/common/events/client-event';
 import { RequestType } from 'app/enums/request-type';
@@ -34,6 +34,7 @@ export class BrokerService {
 
   constructor(
     private dialog: MatDialog,
+    private titleService: Title,
     private httpClient: HttpClient,
     private actionsService: ActionsService,
     private controlStyleSerivce: ControlStyleService,
@@ -41,7 +42,6 @@ export class BrokerService {
     private formsService: FormsService,
     private routingService: RoutingService,
     private textsService: TextsService,
-    private titleService: TitleService,
     private localeService: LocaleService,
     private store: Store<fromAppReducers.IAppState>
   ) {

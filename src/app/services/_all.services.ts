@@ -16,7 +16,6 @@ import { PlatformService } from 'app/services/platform.service';
 import { RoutingService } from 'app/services/routing.service';
 import { StorageService } from 'app/services/storage.service';
 import { TextsService } from 'app/services/texts.service';
-import { TitleService } from 'app/services/title.service';
 
 export const ALL_SERVICES = [
   { provide: StorageService, useClass: LocalStorageService },
@@ -35,6 +34,5 @@ export const ALL_SERVICES = [
   LocaleService,
   PlatformService,
   RoutingService,
-  TextsService,
-  TitleService
+  TextsService
 ];
