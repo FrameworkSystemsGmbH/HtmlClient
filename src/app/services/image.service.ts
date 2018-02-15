@@ -9,8 +9,8 @@ export class ImageService {
   private filesUrl: string;
 
   constructor(private store: Store<fromAppReducers.IAppState>) {
-    this.store.select(appState => appState.broker.activeBrokerFilesUrl).subscribe(imageUrl => {
-      this.filesUrl = imageUrl;
+    this.store.select(appState => appState.broker.activeBrokerFilesUrl).subscribe(filesUrl => {
+      this.filesUrl = filesUrl;
     });
   }
 
