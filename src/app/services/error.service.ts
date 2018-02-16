@@ -30,7 +30,7 @@ export class ErrorService extends ErrorHandler {
         maxHeight: '90%',
         data: {
           message: error && error.message ? error.message : 'An unknown error occured!',
-          stackTrace: error ? JSON.stringify(error, null, 2) : null
+          stackTrace: error ? JSON.stringifyDecycle(error, null, 2) : null
         }
       });
     });
