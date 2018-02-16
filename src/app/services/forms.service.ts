@@ -1,7 +1,6 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { ControlType } from 'app/enums/control-type';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { ControlsService } from 'app/services/controls.service';
 import { EventsService } from 'app/services/events.service';
@@ -9,6 +8,8 @@ import { InternalEventCallbacks } from 'app/common/events/internal/internal-even
 import { ClientCloseEvent } from 'app/common/events/client-close-event';
 import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
 import { JsonUtil } from 'app/util/json-util';
+import { ContainerWrapper } from 'app/wrappers/container-wrapper';
+import { ControlWrapper } from 'app/wrappers/control-wrapper';
 
 @Injectable()
 export class FormsService {
@@ -19,6 +20,7 @@ export class FormsService {
   private selectedForm: FormWrapper;
 
   constructor(
+    private injector: Injector,
     private eventsService: EventsService,
     private controlsService: ControlsService) {
     this.formSelected = new EventEmitter<FormWrapper>();
@@ -102,21 +104,53 @@ export class FormsService {
   public setJson(fromsJson: any) {
     for (const formJson of fromsJson) {
       if (formJson.meta.new) {
-        const form: FormWrapper = this.controlsService.createWrapperFromType({ meta: { typeId: ControlType.Form } }, null, null) as FormWrapper;
+        const form: FormWrapper = new FormWrapper(this.injector, null, null, null);
         form.setJson(formJson, true);
+
+        if (formJson.controls && formJson.controls.length) {
+          this.setControlsJson(form, formJson.controls, true);
+        }
+
         this.forms.push(form);
+
         if (!this.selectedForm || formJson.meta.focused) {
           this.selectForm(form);
         }
       } else {
         const formId: string = formJson.meta.id;
         const formWrps: Array<FormWrapper> = this.forms.filter((formWrp: FormWrapper) => formWrp.getId() === formId);
+
         if (formWrps && formWrps.length) {
           const form: FormWrapper = formWrps[0];
           form.setJson(formJson, false);
+
+          if (formJson.controls && formJson.controls.length) {
+            this.setControlsJson(form, formJson.controls, false);
+          }
+
           if (!this.selectedForm || formJson.meta.focused) {
             this.selectForm(form);
           }
+        }
+      }
+    }
+  }
+
+  protected setControlsJson(form: FormWrapper, controlsJson: any, isNew: boolean): void {
+    for (const controlJson of controlsJson) {
+      if (isNew) {
+        let parent: ContainerWrapper = form;
+        if (controlJson.meta.parentName) {
+          parent = form.findControlRecursive(controlJson.meta.parentName) as ContainerWrapper;
+        }
+        const control: ControlWrapper = this.controlsService.createWrapperFromType(controlJson, form, parent);
+        if (control) {
+          control.setJson(controlJson, true);
+        }
+      } else {
+        const control: ControlWrapper = form.findControlRecursive(controlJson.meta.name);
+        if (control) {
+          control.setJson(controlJson, false);
         }
       }
     }

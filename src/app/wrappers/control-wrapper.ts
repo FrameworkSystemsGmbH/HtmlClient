@@ -5,7 +5,6 @@ import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-contro
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
 
-import { ControlsService } from 'app/services/controls.service';
 import { EventsService } from 'app/services/events.service';
 import { FocusService } from 'app/services/focus.service';
 import { PlatformService } from 'app/services/platform.service';
@@ -27,6 +26,7 @@ import { InternalEventCallbacks } from 'app/common/events/internal/internal-even
 import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
 import { ControlEvent } from 'app/enums/control-event';
+import { ControlLabelWrapper } from './control-labels/control-label-wrapper';
 
 export abstract class ControlWrapper implements ILayoutableControlWrapper, IControlLabelProvider {
 
@@ -43,9 +43,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   private controlLabel: ILayoutableControlWrapper;
 
+  private readonly injector: Injector;
   private readonly resolver: ComponentFactoryResolver;
-
-  private readonly controlsService: ControlsService;
   private readonly eventsService: EventsService;
   private readonly focusService: FocusService;
   private readonly platformService: PlatformService;
@@ -57,26 +56,25 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
-    controlStyle: PropertyData,
-    controlsService: ControlsService
+    controlStyle: PropertyData
   ) {
     this.form = form;
     this.parent = parent;
+    this.injector = injector;
     this.resolver = injector.get(ComponentFactoryResolver);
     this.eventsService = injector.get(EventsService);
     this.focusService = injector.get(FocusService);
     this.platformService = injector.get(PlatformService);
-    this.controlsService = controlsService;
     this.setControlStyle(controlStyle);
     this.addToParent();
   }
 
-  protected getResolver(): ComponentFactoryResolver {
-    return this.resolver;
+  protected getInjector(): Injector {
+    return this.injector;
   }
 
-  protected getControlsService(): ControlsService {
-    return this.controlsService;
+  protected getResolver(): ComponentFactoryResolver {
+    return this.resolver;
   }
 
   protected getEventsService(): EventsService {
@@ -376,7 +374,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected createControlLabelWrapper(): ILayoutableControlWrapper {
-    return this.getControlsService().createControlLabelWrapper(this);
+    return new ControlLabelWrapper(this.injector, this);
   }
 
   public getLabelTemplate(): ControlLabelTemplate {

@@ -2,7 +2,6 @@ import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ControlsService } from 'app/services/controls.service';
 import { ImageService } from 'app/services/image.service';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
@@ -19,10 +18,9 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
     injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
-    controlStyle: PropertyData,
-    controlsService: ControlsService
+    controlStyle: PropertyData
   ) {
-    super(injector, form, parent, controlStyle, controlsService);
+    super(injector, form, parent, controlStyle);
     this.imageService = injector.get(ImageService);
   }
 

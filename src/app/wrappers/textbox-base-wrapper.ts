@@ -1,6 +1,5 @@
 import { Injector } from '@angular/core';
 
-import { ControlsService } from 'app/services/controls.service';
 import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
 import { TextBoxComponent } from 'app/controls/textbox.component';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
@@ -23,10 +22,9 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
     injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
-    controlStyle: PropertyData,
-    controlsService: ControlsService
+    controlStyle: PropertyData
   ) {
-    super(injector, form, parent, controlStyle, controlsService);
+    super(injector, form, parent, controlStyle);
     this.patternFormatService = injector.get(PatternFormatService);
   }
 

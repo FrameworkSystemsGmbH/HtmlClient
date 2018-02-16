@@ -64,36 +64,9 @@ export class FormWrapper extends ContainerWrapper {
     return { id: this.getId() };
   }
 
-  public setJson(json: any, isNew: boolean): void {
-    super.setJson(json, isNew);
-    if (json.controls && json.controls.length) {
-      this.setControlsJson(json.controls, isNew);
-    }
-  }
-
   protected setMetaJson(metaJson: any): void {
     this.id = metaJson.id;
     this.fullName = metaJson.fullName;
-  }
-
-  protected setControlsJson(controlsJson: any, isNew: boolean): void {
-    for (const controlJson of controlsJson) {
-      if (isNew) {
-        let parent: ContainerWrapper = this;
-        if (controlJson.meta.parentName) {
-          parent = this.findControlRecursive(controlJson.meta.parentName) as ContainerWrapper;
-        }
-        const control: ControlWrapper = this.getControlsService().createWrapperFromType(controlJson, this, parent);
-        if (control) {
-          control.setJson(controlJson, true);
-        }
-      } else {
-        const control: ControlWrapper = this.findControlRecursive(controlJson.meta.name);
-        if (control) {
-          control.setJson(controlJson, false);
-        }
-      }
-    }
   }
 
   public setFocusControl(name: string): void {

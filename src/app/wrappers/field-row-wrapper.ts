@@ -12,6 +12,7 @@ import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-w
 import { ControlLabelContainerWrapper } from 'app/wrappers/control-labels/control-label-container-wrapper';
 import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
+import { ControlLabelContainerMergedWrapper } from './control-labels/control-label-container-merged-wrapper';
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {
 
@@ -50,7 +51,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
       if (this.getOptimizeGeneratedLabels()) {
         this.optimizeLabels(labelWrappers);
       }
-      return this.getControlsService().createControlLabelContainerMergedWrapper(labelWrappers, this.getParent().getRowLabelTemplate());
+      return new ControlLabelContainerMergedWrapper(this.getInjector(), labelWrappers, this.getParent().getRowLabelTemplate());
     } else {
       return null;
     }
@@ -113,8 +114,8 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
           }
           if (i === 0) {
             this.hasFirstColumnControl = true;
-            const controlLabelContainerWrapper: ControlLabelContainerWrapper = this.getControlsService()
-              .createControlLabelContainerWrapper(controlLabelWrapper, this.getParent().getRowLabelTemplate());
+            const controlLabelContainerWrapper: ControlLabelContainerWrapper = new ControlLabelContainerWrapper(
+              this.getInjector(), controlLabelWrapper, this.getParent().getRowLabelTemplate());
             controlLabelContainerWrapper.attachComponent(uiContainer, vchContainer);
           } else {
             controlLabelWrapper.attachComponent(uiContainer, vchContainer);

@@ -1,6 +1,5 @@
 import { Injector } from '@angular/core';
 
-import { ControlsService } from 'app/services/controls.service';
 import { FontService } from 'app/services/font.service';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
@@ -18,10 +17,9 @@ export abstract class FittedWrapper extends ControlWrapper {
     injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
-    controlStyle: PropertyData,
-    controlsService: ControlsService
+    controlStyle: PropertyData
   ) {
-    super(injector, form, parent, controlStyle, controlsService);
+    super(injector, form, parent, controlStyle);
     this.fontService = injector.get(FontService);
   }
 

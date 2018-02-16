@@ -3,7 +3,6 @@ import * as Moment from 'moment-timezone';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ControlsService } from 'app/services/controls.service';
 import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
 import { TextBoxDateTimeComponent } from 'app/controls/textbox-datetime/textbox-datetime.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
@@ -22,10 +21,9 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
-    controlStyle: PropertyData,
-    controlsService: ControlsService
+    controlStyle: PropertyData
   ) {
-    super(injector, form, parent, controlStyle, controlsService);
+    super(injector, form, parent, controlStyle);
     this.dateTimeFormatService = injector.get(DateTimeFormatService);
   }
 

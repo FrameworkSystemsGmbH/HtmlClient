@@ -2,7 +2,6 @@ import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ControlsService } from 'app/services/controls.service';
 import { StringFormatService } from 'app/services/formatter/string-format.service';
 import { TextBoxPlainComponent } from 'app/controls/textbox-plain/textbox-plain.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
@@ -21,10 +20,9 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
     injector: Injector,
     form: FormWrapper,
     parent: ContainerWrapper,
-    controlStyle: PropertyData,
-    controlsService: ControlsService
+    controlStyle: PropertyData
   ) {
-    super(injector, form, parent, controlStyle, controlsService);
+    super(injector, form, parent, controlStyle);
     this.stringFormatService = injector.get(StringFormatService);
   }
 
