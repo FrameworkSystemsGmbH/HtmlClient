@@ -8,8 +8,13 @@ import { LayoutBase } from 'app/layout/layout-base';
 import { DockLayout } from 'app/layout/dock-layout/dock-layout';
 import { DockPanelComponent } from 'app/controls/dock-panel/dock-panel.component';
 import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
+import { ControlType } from 'app/enums/control-type';
 
 export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDockContainer {
+
+  public getControlType(): ControlType {
+    return ControlType.DockPanel;
+  }
 
   protected createLayout(): LayoutBase {
     return new DockLayout(this);

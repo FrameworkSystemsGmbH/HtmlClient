@@ -8,12 +8,18 @@ import { VariantWrapper } from 'app/wrappers/variant-wrapper';
 import { ControlComponent } from 'app/controls/control.component';
 import { FormComponent } from 'app/controls/form/form.component';
 import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
+import { JsonUtil } from 'app/util/json-util';
+import { ControlType } from 'app/enums/control-type';
 
 export class FormWrapper extends ContainerWrapper {
 
   private id: string;
   private fullName: string;
   private variant: VariantWrapper;
+
+  public getControlType(): ControlType {
+    return ControlType.Form;
+  }
 
   public getId(): string {
     return this.id;
@@ -130,5 +136,27 @@ export class FormWrapper extends ContainerWrapper {
     layoutableProperties.setHBarNeeded(hBarNeeded);
 
     this.getLayout().arrange();
+  }
+
+  public getState(): any {
+    const json: any = super.getState();
+
+    json.id = this.id;
+    json.fullName = this.fullName;
+
+    const controlsJson: Array<any> = new Array<any>();
+    this.getControlsState(controlsJson);
+
+    if (!JsonUtil.isEmptyObject(controlsJson)) {
+      json.controls = controlsJson;
+    }
+
+    return json;
+  }
+
+  protected setState(json: any): void {
+    super.setState(json);
+    this.id = json.id;
+    this.fullName = json.fullName;
   }
 }

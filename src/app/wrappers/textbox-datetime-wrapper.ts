@@ -1,4 +1,4 @@
-import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactory } from '@angular/core';
 import * as Moment from 'moment-timezone';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
@@ -6,25 +6,22 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
 import { TextBoxDateTimeComponent } from 'app/controls/textbox-datetime/textbox-datetime.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
-import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { PropertyData } from 'app/common/property-data';
+import { TextBoxType } from 'app/enums/textbox-type';
 
 export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
 
-  private readonly dateTimeFormatService: DateTimeFormatService;
+  private dateTimeFormatService: DateTimeFormatService;
 
   protected value: Moment.Moment;
   protected orgValue: Moment.Moment;
 
-  constructor(
-    injector: Injector,
-    form: FormWrapper,
-    parent: ContainerWrapper,
-    controlStyle: PropertyData
-  ) {
-    super(injector, form, parent, controlStyle);
-    this.dateTimeFormatService = injector.get(DateTimeFormatService);
+  protected init(): void {
+    super.init();
+    this.dateTimeFormatService = this.getInjector().get(DateTimeFormatService);
+  }
+
+  public getTextBoxType(): TextBoxType {
+    return TextBoxType.Date;
   }
 
   protected getDateTimeFormatService(): DateTimeFormatService {

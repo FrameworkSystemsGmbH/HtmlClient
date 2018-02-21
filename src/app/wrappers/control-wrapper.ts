@@ -4,7 +4,9 @@ import { ISubscription } from 'rxjs/Subscription';
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
+import { IWrapperCreationOptions } from 'app/services/controls.service';
 
+import { ControlStyleService } from 'app/services/control-style.service';
 import { EventsService } from 'app/services/events.service';
 import { FocusService } from 'app/services/focus.service';
 import { PlatformService } from 'app/services/platform.service';
@@ -27,12 +29,15 @@ import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
 import { ControlEvent } from 'app/enums/control-event';
 import { ControlLabelWrapper } from './control-labels/control-label-wrapper';
+import { JsonUtil } from 'app/util/json-util';
+import { ControlType } from 'app/enums/control-type';
 
 export abstract class ControlWrapper implements ILayoutableControlWrapper, IControlLabelProvider {
 
   private name: string;
   private form: FormWrapper;
   private parent: ContainerWrapper;
+  private controlStyle: string;
   private propertyStore: PropertyStore;
   private vchControl: VchControl;
   private layout: LayoutBase;
@@ -43,31 +48,47 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   private controlLabel: ILayoutableControlWrapper;
 
-  private readonly injector: Injector;
-  private readonly resolver: ComponentFactoryResolver;
-  private readonly eventsService: EventsService;
-  private readonly focusService: FocusService;
-  private readonly platformService: PlatformService;
+  private injector: Injector;
+  private resolver: ComponentFactoryResolver;
+  private controlStyleService: ControlStyleService;
+  private eventsService: EventsService;
+  private focusService: FocusService;
+  private platformService: PlatformService;
 
   private onEnterSub: ISubscription;
   private onLeaveSub: ISubscription;
 
   constructor(
     injector: Injector,
-    form: FormWrapper,
-    parent: ContainerWrapper,
-    controlStyle: PropertyData
+    options?: IWrapperCreationOptions
   ) {
-    this.form = form;
-    this.parent = parent;
     this.injector = injector;
-    this.resolver = injector.get(ComponentFactoryResolver);
-    this.eventsService = injector.get(EventsService);
-    this.focusService = injector.get(FocusService);
-    this.platformService = injector.get(PlatformService);
-    this.setControlStyle(controlStyle);
+
+    this.init();
+
+    if (options) {
+      this.form = options.form;
+      this.parent = options.parent;
+      this.controlStyle = options.controlStyle;
+
+      if (options.state) {
+        this.setState(options.state);
+      }
+    }
+
+    this.setControlStyle();
     this.addToParent();
   }
+
+  protected init(): void {
+    this.resolver = this.injector.get(ComponentFactoryResolver);
+    this.controlStyleService = this.injector.get(ControlStyleService);
+    this.eventsService = this.injector.get(EventsService);
+    this.focusService = this.injector.get(FocusService);
+    this.platformService = this.injector.get(PlatformService);
+  }
+
+  public abstract getControlType(): ControlType;
 
   protected getInjector(): Injector {
     return this.injector;
@@ -75,6 +96,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected getResolver(): ComponentFactoryResolver {
     return this.resolver;
+  }
+
+  protected getControlStyleService(): ControlStyleService {
+    return this.controlStyleService;
   }
 
   protected getEventsService(): EventsService {
@@ -460,9 +485,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     // Override in subclasses
   }
 
-  protected setControlStyle(controlStyle: PropertyData) {
-    if (controlStyle) {
-      this.getPropertyStore().setLayer(PropertyLayer.ControlStyle, controlStyle);
+  protected setControlStyle() {
+    if (this.controlStyle) {
+      const controlStyleData: PropertyData = this.controlStyleService.getControlStyle(this.controlStyle);
+      this.getPropertyStore().setLayer(PropertyLayer.ControlStyle, controlStyleData);
     }
   }
 
@@ -596,5 +622,44 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected onLeaveCompleted(originalEvent: any, clientEvent: ClientLeaveEvent): void {
     // Override in subclasses
+  }
+
+  public getState(): any {
+    const json: any = {
+      controlType: this.getControlType(),
+      name: this.name
+    };
+
+    if (this.parent) {
+      json.parent = this.parent.getName();
+    }
+
+    if (!String.isNullOrWhiteSpace(this.controlStyle)) {
+      json.controlStyle = this.controlStyle;
+    }
+
+    const propertyStore: any = this.getPropertyStore().getState();
+
+    if (!JsonUtil.isEmptyObject(propertyStore)) {
+      json.propertyStore = propertyStore;
+    }
+
+    if (this.events != null) {
+      json.events = this.events;
+    }
+
+    return json;
+  }
+
+  protected setState(json: any): void {
+    this.name = json.name;
+
+    if (json.propertyStore) {
+      this.getPropertyStore().setState(json.propertyStore);
+    }
+
+    if (json.events) {
+      this.events = json.events;
+    }
   }
 }

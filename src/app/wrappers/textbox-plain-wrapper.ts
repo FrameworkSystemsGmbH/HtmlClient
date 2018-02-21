@@ -1,29 +1,26 @@
-import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactory } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
 import { StringFormatService } from 'app/services/formatter/string-format.service';
 import { TextBoxPlainComponent } from 'app/controls/textbox-plain/textbox-plain.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
-import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { PropertyData } from 'app/common/property-data';
+import { TextBoxType } from 'app/enums/textbox-type';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
-  private readonly stringFormatService: StringFormatService;
+  private stringFormatService: StringFormatService;
 
   protected value: string;
   protected orgValue: string;
 
-  constructor(
-    injector: Injector,
-    form: FormWrapper,
-    parent: ContainerWrapper,
-    controlStyle: PropertyData
-  ) {
-    super(injector, form, parent, controlStyle);
-    this.stringFormatService = injector.get(StringFormatService);
+  protected init(): void {
+    super.init();
+    this.stringFormatService = this.getInjector().get(StringFormatService);
+  }
+
+  public getTextBoxType(): TextBoxType {
+    return TextBoxType.Plain;
   }
 
   protected getStringFormatService(): StringFormatService {

@@ -42,4 +42,14 @@ export class DataList extends Array<DataListEntry> {
     const firstEntry: DataListEntry = this[0];
     return firstEntry.isNullEntry() ? firstEntry : null;
   }
+
+  public deserialize(json: Array<any>): void {
+    if (!json || !json.length) {
+      return;
+    }
+
+    json.forEach(entryJson => {
+      this.push(new DataListEntry(entryJson.pk, entryJson.value));
+    });
+  }
 }

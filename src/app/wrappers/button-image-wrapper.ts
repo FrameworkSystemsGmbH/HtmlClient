@@ -1,27 +1,24 @@
-import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactory } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
 import { ImageService } from 'app/services/image.service';
-import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
 import { ButtonImageComponent } from 'app/controls/button-image/button-image.component';
 import { ContentAlignment } from 'app/enums/content-alignment';
-import { PropertyData } from 'app/common/property-data';
+import { ControlType } from 'app/enums/control-type';
 
 export class ButtonImageWrapper extends ButtonBaseWrapper {
 
-  private readonly imageService: ImageService;
+  private imageService: ImageService;
 
-  constructor(
-    injector: Injector,
-    form: FormWrapper,
-    parent: ContainerWrapper,
-    controlStyle: PropertyData
-  ) {
-    super(injector, form, parent, controlStyle);
-    this.imageService = injector.get(ImageService);
+  protected init(): void {
+    super.init();
+    this.imageService = this.getInjector().get(ImageService);
+  }
+
+  public getControlType(): ControlType {
+    return ControlType.ImageButton;
   }
 
   protected getImageService(): ImageService {

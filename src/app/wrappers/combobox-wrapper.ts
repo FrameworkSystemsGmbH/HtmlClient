@@ -18,6 +18,7 @@ import { EditStyle } from 'app/enums/edit-style';
 import { DataSourceType } from 'app/enums/datasource-type';
 import { DataList } from 'app/common/data-list';
 import { DataListEntry } from 'app/common/data-list-entry';
+import { ControlType } from 'app/enums/control-type';
 
 export class ComboBoxWrapper extends FittedDataWrapper {
 
@@ -27,6 +28,10 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   private dataList: DataList;
 
   private onSelectionChangedSub: ISubscription;
+
+  public getControlType(): ControlType {
+    return ControlType.ComboBox;
+  }
 
   public getValue(): string {
     return this.value;
@@ -228,6 +233,29 @@ export class ComboBoxWrapper extends FittedDataWrapper {
 
     if (this.onSelectionChangedSub) {
       this.onSelectionChangedSub.unsubscribe();
+    }
+  }
+
+  public getState(): any {
+    const json: any = super.getState();
+    json.value = this.getValueJson();
+
+    if (this.dataList) {
+      json.entries = this.dataList;
+    }
+
+    return json;
+  }
+
+  protected setState(json: any): void {
+    super.setState(json);
+
+    this.setValueJson(json.value);
+
+    if (json.entries && json.entries.length) {
+      const entries: DataList = new DataList();
+      entries.deserialize(json.entries);
+      this.dataList = entries;
     }
   }
 }

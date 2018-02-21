@@ -15,7 +15,7 @@ export class ActionsService {
     }
 
     for (const actionJson of actionsJson) {
-      const form: FormWrapper = this.formsService.findForm(actionJson.form);
+      const form: FormWrapper = this.formsService.findFormByName(actionJson.form);
 
       if (!form) {
         continue;

@@ -9,10 +9,15 @@ import { FieldLayout } from 'app/layout/field-layout/field-layout';
 import { FieldPanelComponent } from 'app/controls/field-panel/field-panel.component';
 import { ContainerWrapperSpaceable } from 'app/wrappers/container-wrapper-spaceable';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
+import { ControlType } from 'app/enums/control-type';
 
 export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFieldContainer {
 
   private rowLabelTemplate: ControlLabelTemplate;
+
+  public getControlType(): ControlType {
+    return ControlType.FieldPanel;
+  }
 
   protected createLayout(): LayoutBase {
     return new FieldLayout(this);

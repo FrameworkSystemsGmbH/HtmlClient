@@ -4,8 +4,13 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
 import { ButtonPlainComponent } from 'app/controls/button-plain/button-plain.component';
+import { ControlType } from 'app/enums/control-type';
 
 export class ButtonPlainWrapper extends ButtonBaseWrapper {
+
+  public getControlType(): ControlType {
+    return ControlType.Button;
+  }
 
   protected getComponentRef(): ComponentRef<ButtonPlainComponent> {
     return super.getComponentRef() as ComponentRef<ButtonPlainComponent>;

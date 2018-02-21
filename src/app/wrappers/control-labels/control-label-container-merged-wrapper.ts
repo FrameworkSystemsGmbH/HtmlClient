@@ -32,16 +32,16 @@ export class ControlLabelContainerMergedWrapper implements ILayoutableControlWra
   private labelWrappers: Array<ControlLabelWrapper>;
   private rowLabelTemplate: ControlLabelTemplate;
 
-  private readonly resolver: ComponentFactoryResolver;
-
-  private readonly injector: Injector;
+  private resolver: ComponentFactoryResolver;
+  private injector: Injector;
 
   constructor(
     injector: Injector,
     labelWrappers: Array<ControlLabelWrapper>,
     rowLabelTemplate: ControlLabelTemplate
   ) {
-    this.resolver = this.injector.get(ComponentFactoryResolver);
+    this.injector = injector;
+    this.resolver = injector.get(ComponentFactoryResolver);
     this.labelWrappers = labelWrappers;
     this.rowLabelTemplate = rowLabelTemplate;
 

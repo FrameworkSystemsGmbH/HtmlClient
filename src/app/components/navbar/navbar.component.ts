@@ -5,7 +5,7 @@ import { ISubscription } from 'rxjs/Subscription';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { FormsService } from 'app/services/forms.service';
 import { RoutingService } from 'app/services/routing.service';
-import { DomUtil } from '../../util/dom-util';
+import { DomUtil } from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-navbar',

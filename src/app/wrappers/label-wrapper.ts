@@ -5,8 +5,13 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { LabelComponent } from 'app/controls/label/label.component';
 import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
 import { TextAlign } from 'app/enums/text-align';
+import { ControlType } from 'app/enums/control-type';
 
 export class LabelWrapper extends FittedWrapper {
+
+  public getControlType(): ControlType {
+    return ControlType.Label;
+  }
 
   public getTextAlign(): TextAlign {
     const textAlign: TextAlign = this.getPropertyStore().getTextAlign();

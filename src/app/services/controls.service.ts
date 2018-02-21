@@ -4,6 +4,7 @@ import { ControlStyleService } from 'app/services/control-style.service';
 
 import { ControlType } from 'app/enums/control-type';
 import { TextFormat } from 'app/enums/text-format';
+import { TextBoxType } from 'app/enums/textbox-type';
 import { PropertyStore } from 'app/common/property-store';
 import { PropertyLayer } from 'app/common/property-layer';
 import { PropertyData } from 'app/common/property-data';
@@ -16,7 +17,6 @@ import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { DockPanelWrapper } from 'app/wrappers/dock-panel-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LabelWrapper } from 'app/wrappers/label-wrapper';
-import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
 import { TextBoxNumberWrapper } from 'app/wrappers/textbox-number-wrapper';
 import { TextBoxDateTimeWrapper } from 'app/wrappers/textbox-datetime-wrapper';
 import { TextBoxPlainWrapper } from 'app/wrappers/textbox-plain-wrapper';
@@ -25,57 +25,67 @@ import { WrapPanelWrapper } from 'app/wrappers/wrap-panel-wrapper';
 import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 
+export interface IWrapperCreationOptions {
+  form?: FormWrapper;
+  parent?: ContainerWrapper;
+  controlStyle?: string;
+  textBoxStyle?: TextBoxType;
+  state?: any;
+}
+
 @Injectable()
 export class ControlsService {
 
-  private readonly controlStyleService: ControlStyleService;
+  constructor(
+    private injector: Injector,
+    private controlStyleService: ControlStyleService
+  ) { }
 
-  constructor(private injector: Injector) {
-    this.controlStyleService = injector.get(ControlStyleService);
-  }
-
-  public createWrapperFromType(controlJson: any, form: FormWrapper, parent: ContainerWrapper): ControlWrapper {
-    const controlType: ControlType = controlJson.meta.typeId;
-    const controlStyleStr: string = controlJson.meta.style;
-    const controlStyle: PropertyData = controlStyleStr ? this.controlStyleService.getControlStyle(controlStyleStr) : null;
-
+  public createWrapperFromType(controlType: ControlType, options: IWrapperCreationOptions): ControlWrapper {
     switch (controlType) {
       case ControlType.Button:
-        return new ButtonPlainWrapper(this.injector, form, parent, controlStyle);
+        return new ButtonPlainWrapper(this.injector, options);
       case ControlType.ImageButton:
-        return new ButtonImageWrapper(this.injector, form, parent, controlStyle);
+        return new ButtonImageWrapper(this.injector, options);
       case ControlType.ComboBox:
-        return new ComboBoxWrapper(this.injector, form, parent, controlStyle);
+        return new ComboBoxWrapper(this.injector, options);
       case ControlType.DockPanel:
-        return new DockPanelWrapper(this.injector, form, parent, controlStyle);
+        return new DockPanelWrapper(this.injector, options);
       case ControlType.FieldPanel:
-        return new FieldPanelWrapper(this.injector, form, parent, controlStyle);
+        return new FieldPanelWrapper(this.injector, options);
       case ControlType.FieldRow:
-        return new FieldRowWrapper(this.injector, form, parent, controlStyle);
+        return new FieldRowWrapper(this.injector, options);
       case ControlType.Label:
-        return new LabelWrapper(this.injector, form, parent, controlStyle);
+        return new LabelWrapper(this.injector, options);
       case ControlType.Form:
-        return new FormWrapper(this.injector, form, parent, controlStyle);
+        return new FormWrapper(this.injector, options);
       case ControlType.Variant:
-        return new VariantWrapper(this.injector, form, parent, controlStyle);
+        return new VariantWrapper(this.injector, options);
       case ControlType.WrapPanel:
-        return new WrapPanelWrapper(this.injector, form, parent, controlStyle);
+        return new WrapPanelWrapper(this.injector, options);
       case ControlType.TextBox:
-        return this.createTextBoxWrapper(controlJson, form, parent, controlStyle);
+        switch (options.textBoxStyle) {
+          case TextBoxType.Number:
+            return new TextBoxNumberWrapper(this.injector, options);
+          case TextBoxType.Date:
+            return new TextBoxDateTimeWrapper(this.injector, options);
+          default:
+            return new TextBoxPlainWrapper(this.injector, options);
+        }
     }
 
     return null;
   }
 
-  private createTextBoxWrapper(controlJson: any, form: FormWrapper, parent: ContainerWrapper, controlStyle: PropertyData): TextBoxBaseWrapper {
-    const propertyStore: PropertyStore = this.createPropertyStore(controlJson);
+  public getTextBoxTypeFromControlJson(controlJson: any): TextBoxType {
+    const propertyStore: PropertyStore = this.createPropertyStoreFromControlJson(controlJson);
 
     switch (propertyStore.getFormat()) {
       case TextFormat.Decimal:
       case TextFormat.Integer:
       case TextFormat.PositiveInteger:
       case TextFormat.NegativeInteger:
-        return new TextBoxNumberWrapper(this.injector, form, parent, controlStyle);
+        return TextBoxType.Number;
       case TextFormat.DateTimeShort:
       case TextFormat.DateTimeMedium:
       case TextFormat.DateTimeLong:
@@ -85,16 +95,21 @@ export class ControlsService {
       case TextFormat.TimeOnlyShort:
       case TextFormat.TimeOnlyMedium:
       case TextFormat.TimeOnlyLong:
-        return new TextBoxDateTimeWrapper(this.injector, form, parent, controlStyle);
+        return TextBoxType.Date;
       default:
-        return new TextBoxPlainWrapper(this.injector, form, parent, controlStyle);
+        return TextBoxType.Plain;
     }
   }
 
-  private createPropertyStore(controlJson: any): PropertyStore {
+  private createPropertyStoreFromControlJson(controlJson: any): PropertyStore {
+    const propertyStore: PropertyStore = new PropertyStore();
+
+    if (!controlJson) {
+      return propertyStore;
+    }
+
     const controlStyle: string = controlJson.meta.style;
     const properties: PropertyData = controlJson.properties;
-    const propertyStore: PropertyStore = new PropertyStore();
 
     if (properties) {
       propertyStore.setLayer(PropertyLayer.Control, properties);

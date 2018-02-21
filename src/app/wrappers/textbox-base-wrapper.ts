@@ -1,11 +1,6 @@
-import { Injector } from '@angular/core';
-
 import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
 import { TextBoxComponent } from 'app/controls/textbox.component';
-import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
-import { PropertyData } from 'app/common/property-data';
 import { TextAlign } from 'app/enums/text-align';
 import { TextFormat } from 'app/enums/text-format';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
@@ -13,19 +8,22 @@ import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientValidatedEvent } from 'app/common/events/client-validated-event';
 import { ControlEvent } from 'app/enums/control-event';
 import { ControlVisibility } from 'app/enums/control-visibility';
+import { TextBoxType } from 'app/enums/textbox-type';
+import { ControlType } from 'app/enums/control-type';
 
 export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
 
-  private readonly patternFormatService: PatternFormatService;
+  private patternFormatService: PatternFormatService;
 
-  constructor(
-    injector: Injector,
-    form: FormWrapper,
-    parent: ContainerWrapper,
-    controlStyle: PropertyData
-  ) {
-    super(injector, form, parent, controlStyle);
-    this.patternFormatService = injector.get(PatternFormatService);
+  protected init(): void {
+    super.init();
+    this.patternFormatService = this.getInjector().get(PatternFormatService);
+  }
+
+  public abstract getTextBoxType(): TextBoxType;
+
+  public getControlType(): ControlType {
+    return ControlType.TextBox;
   }
 
   protected getPatternFormatService(): PatternFormatService {
@@ -165,5 +163,20 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
         this.onValidatedCompleted.bind(this)
       )
     );
+  }
+
+  public getState(): any {
+    const json: any = super.getState();
+    json.value = this.getValueJson();
+    json.textBoxType = this.getTextBoxType();
+    return json;
+  }
+
+  protected setState(json: any): void {
+    super.setState(json);
+
+    if (json.value) {
+      this.setValueJson(json.value);
+    }
   }
 }

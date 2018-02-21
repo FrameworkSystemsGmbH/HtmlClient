@@ -4,11 +4,16 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 
 import { TextBoxNumberComponent } from 'app/controls/textbox-number/textbox-number.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
+import { TextBoxType } from 'app/enums/textbox-type';
 
 export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
 
   protected value: number;
   protected orgValue: number;
+
+  public getTextBoxType(): TextBoxType {
+    return TextBoxType.Number;
+  }
 
   public getValue(): number {
     return this.value;

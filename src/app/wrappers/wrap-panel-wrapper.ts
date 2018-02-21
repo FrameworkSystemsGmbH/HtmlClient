@@ -10,8 +10,13 @@ import { WrapLayout } from 'app/layout/wrap-layout/wrap-layout';
 import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignment';
 import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
+import { ControlType } from 'app/enums/control-type';
 
 export class WrapPanelWrapper extends ContainerWrapperSpaceable implements IWrapContainer {
+
+  public getControlType(): ControlType {
+    return ControlType.WrapPanel;
+  }
 
   protected createLayout(): LayoutBase {
     return new WrapLayout(this);

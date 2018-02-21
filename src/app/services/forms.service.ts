@@ -2,7 +2,7 @@ import { EventEmitter, Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { ControlsService } from 'app/services/controls.service';
+import { ControlsService, IWrapperCreationOptions } from 'app/services/controls.service';
 import { EventsService } from 'app/services/events.service';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ClientCloseEvent } from 'app/common/events/client-close-event';
@@ -10,6 +10,7 @@ import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
 import { JsonUtil } from 'app/util/json-util';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
+import { ControlType } from 'app/enums/control-type';
 
 @Injectable()
 export class FormsService {
@@ -104,7 +105,7 @@ export class FormsService {
   public setJson(fromsJson: any) {
     for (const formJson of fromsJson) {
       if (formJson.meta.new) {
-        const form: FormWrapper = new FormWrapper(this.injector, null, null, null);
+        const form: FormWrapper = new FormWrapper(this.injector);
         form.setJson(formJson, true);
 
         if (formJson.controls && formJson.controls.length) {
@@ -140,15 +141,32 @@ export class FormsService {
     for (const controlJson of controlsJson) {
       if (isNew) {
         let parent: ContainerWrapper = form;
+
         if (controlJson.meta.parentName) {
           parent = form.findControlRecursive(controlJson.meta.parentName) as ContainerWrapper;
         }
-        const control: ControlWrapper = this.controlsService.createWrapperFromType(controlJson, form, parent);
+
+        const controlType: ControlType = controlJson.meta.typeId;
+        const controlStyle: string = controlJson.meta.style;
+
+        const options: IWrapperCreationOptions = {
+          form,
+          parent,
+          controlStyle
+        };
+
+        if (controlType === ControlType.TextBox) {
+          options.textBoxStyle = this.controlsService.getTextBoxTypeFromControlJson(controlJson);
+        }
+
+        const control: ControlWrapper = this.controlsService.createWrapperFromType(controlType, options);
+
         if (control) {
           control.setJson(controlJson, true);
         }
       } else {
         const control: ControlWrapper = form.findControlRecursive(controlJson.meta.name);
+
         if (control) {
           control.setJson(controlJson, false);
         }
@@ -156,13 +174,89 @@ export class FormsService {
     }
   }
 
-  public findForm(formName: string): FormWrapper {
+  public findFormById(id: string): FormWrapper {
     for (const form of this.forms) {
-      if (form.getName() === formName) {
+      if (form.getId() === id) {
         return form;
       }
     }
-
     return null;
+  }
+
+  public findFormByName(name: string): FormWrapper {
+    for (const form of this.forms) {
+      if (form.getName() === name) {
+        return form;
+      }
+    }
+    return null;
+  }
+
+  public getState(): any {
+    const json: any = {
+      selectedForm: this.selectedForm ? this.selectedForm.getId() : null
+    };
+
+    const forms: Array<any> = new Array<any>();
+
+    this.forms.forEach(form => {
+      forms.push(form.getState());
+    });
+
+    if (forms.length) {
+      json.forms = forms;
+    }
+
+    return json;
+  }
+
+  public setState(json: any): void {
+    if (json.forms) {
+      json.forms.forEach(formJson => {
+        const form: FormWrapper = new FormWrapper(this.injector, { state: formJson});
+
+        if (formJson.controls && formJson.controls.length) {
+          this.setControlsState(form, formJson.controls);
+        }
+
+        this.forms.push(form);
+      });
+    }
+
+    if (json.selectedForm) {
+      const form: FormWrapper = this.findFormById(json.selectedForm);
+      if (form) {
+        this.selectForm(form);
+      }
+    }
+  }
+
+  private setControlsState(form: FormWrapper, controlsJson: Array<any>): void {
+    if (!controlsJson || !controlsJson.length) {
+      return;
+    }
+
+    controlsJson.forEach(controlJson => {
+      let parent: ContainerWrapper = form;
+
+      if (controlJson.parent) {
+        parent = form.findControlRecursive(controlJson.parent) as ContainerWrapper;
+      }
+
+      const controlType: ControlType = controlJson.controlType;
+
+      const options: IWrapperCreationOptions = {
+        form,
+        parent,
+        controlStyle: controlJson.controlStyle,
+        state: controlJson
+      };
+
+      if (controlType === ControlType.TextBox) {
+        options.textBoxStyle = controlJson.textBoxType;
+      }
+
+      this.controlsService.createWrapperFromType(controlType, options);
+    });
   }
 }

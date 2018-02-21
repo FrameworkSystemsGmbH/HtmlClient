@@ -35,6 +35,7 @@
       <span class="fas fw fa-plus"></span>
     </button>
   </div>
+
   <div class="broker-list" *ngIf="!editing">
     <div class="no-broker" *ngIf="(brokers$ | async) == null || !(brokers$ | async).length">
       <span>No Brokers defined...</span>
@@ -57,53 +58,3 @@
     </div>
   </div>
 </div>
-
-<!-- <table class="table" [ngClass]="{ 'table-hover': (brokers$ | async) && (brokers$ | async).length }">
-    <tbody *ngIf="(brokers$ | async) == null || !(brokers$ | async).length">
-      <tr>
-        <td>No Brokers defined...</td>
-      </tr>
-    </tbody>
-    <tbody *ngIf="(brokers$ | async) && (brokers$ | async).length">
-      <tr *ngFor="let broker of (brokers$ | async); index as i" (click)="loadBroker(broker)">
-        <td style="width: 30%;">{{ broker.name }}
-          <span *ngIf="broker.name === (activeBrokerName$ | async)" class="active">(Active)</span>
-        </td>
-        <td class="ellipsis">{{ broker.url }}</td>
-        <td class="text-right fit">
-          <button type="button" class="btn btn-danger" (click)="deleteBroker(i)">
-            <span class="fas fw fa-trash"></span>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <form [formGroup]="addForm" (ngSubmit)="addBroker()">
-    <h4>Add Broker</h4>
-    <table class="table">
-      <tbody>
-        <tr>
-          <td style="width: 30%;">
-            <div [ngClass]="{'has-error': nameHasErrors()}">
-              <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
-            </div>
-          </td>
-          <td>
-            <div [ngClass]="{'has-error': urlHasErrors()}">
-              <input type="text" class="form-control" id="url" placeholder="Url" formControlName="url">
-            </div>
-          </td>
-          <td class="text-right fit">
-            <button type="submit" class="btn btn-success" [disabled]="!addForm.valid">
-              <span class="fas fw fa-plus"></span>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </form>
-  <ul *ngIf="nameHasErrors() || urlHasErrors()" class="errorlist">
-    <li *ngIf="nameHasErrors() && nameControl.errors?.required">Name is required</li>
-    <li *ngIf="nameHasErrors() && nameControl.errors?.broker">Name already in use</li>
-    <li *ngIf="urlHasErrors() && urlControl.errors?.required">Url is required</li>
-  </ul> -->

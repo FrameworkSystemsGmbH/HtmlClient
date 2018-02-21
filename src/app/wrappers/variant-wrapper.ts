@@ -5,8 +5,13 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { VariantComponent } from 'app/controls/variant/variant.component';
 import { ControlEvent } from 'app/enums/control-event';
+import { ControlType } from 'app/enums/control-type';
 
 export class VariantWrapper extends ContainerWrapper {
+
+  public getControlType(): ControlType {
+    return ControlType.Variant;
+  }
 
   public getTitle(): string {
     return this.getPropertyStore().getTitle();

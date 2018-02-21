@@ -18,4 +18,31 @@ export class TextsService {
   public setText(id: number, value: string) {
     this.texts.set(id, value);
   }
+
+  public getState(): Array<any> {
+    const json: Array<any> = new Array<any>();
+
+    this.texts.forEach((value, key) => {
+      json.push({
+        id: key,
+        text: value
+      });
+    });
+
+    return json;
+  }
+
+  public setState(json: Array<any>): void {
+    if (!json || !json.length) {
+      return;
+    }
+
+    const texts: Map<number, string> = new Map<number, string>();
+
+    json.forEach(entry => {
+      texts.set(entry.id, entry.text);
+    });
+
+    this.texts = texts;
+  }
 }

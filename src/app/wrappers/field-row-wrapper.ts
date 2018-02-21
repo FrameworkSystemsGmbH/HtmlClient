@@ -13,12 +13,17 @@ import { ControlLabelContainerWrapper } from 'app/wrappers/control-labels/contro
 import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { ControlLabelContainerMergedWrapper } from './control-labels/control-label-container-merged-wrapper';
+import { ControlType } from 'app/enums/control-type';
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {
 
   private hasFirstColumnControl: boolean;
 
   private readonly whitespaceRegEx: RegExp = /\s{1}/;
+
+  public getControlType(): ControlType {
+    return ControlType.FieldRow;
+  }
 
   public getFieldRowSize(): number {
     const fieldRowSize: number = this.getPropertyStore().getFieldRowSize();

@@ -13,6 +13,7 @@ import { TextAlign } from 'app/enums/text-align';
 import { ControlVisibility } from 'app/enums/control-visibility';
 import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
+import { JsonUtil } from 'app/util/json-util';
 
 export class PropertyStore {
 
@@ -27,6 +28,10 @@ export class PropertyStore {
   }
 
   // Layer
+  public getLayer(layer: PropertyLayer): PropertyData {
+    return this.store.get(layer);
+  }
+
   public setLayer(layer: PropertyLayer, data: PropertyData) {
     this.store.set(layer, data);
   }
@@ -70,6 +75,47 @@ export class PropertyStore {
 
   public setValue(layer: PropertyLayer, setValueFunc: (data: PropertyData) => void): void {
     setValueFunc(this.store.get(layer));
+  }
+
+  // Serialization
+  public getState(): any {
+    const csc: any = this.getLayer(PropertyLayer.CSC);
+    const action: any = this.getLayer(PropertyLayer.Action);
+    const control: any = this.getLayer(PropertyLayer.Control);
+
+    const json: any = {};
+
+    if (!JsonUtil.isEmptyObject(csc)) {
+      json.csc = csc;
+    }
+
+    if (!JsonUtil.isEmptyObject(action)) {
+      json.action = action;
+    }
+
+    if (!JsonUtil.isEmptyObject(control)) {
+      json.control = control;
+    }
+
+    return json;
+  }
+
+  public setState(json: any): void {
+    if (!json) {
+      return;
+    }
+
+    if (json.control) {
+      this.setLayer(PropertyLayer.Control, json.control);
+    }
+
+    if (json.action) {
+      this.setLayer(PropertyLayer.Action, json.action);
+    }
+
+    if (json.csc) {
+      this.setLayer(PropertyLayer.CSC, json.csc);
+    }
   }
 
   // MeasureText

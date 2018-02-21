@@ -3,6 +3,7 @@ import { Component, HostListener } from '@angular/core';
 import { FocusService } from 'app/services/focus.service';
 import { LocaleService } from 'app/services/locale.service';
 import { KeyboardService } from 'app/services/keyboard.service';
+import { SerializeService } from './services/serialize.service';
 
 @Component({
   selector: 'hc-app',
@@ -14,10 +15,12 @@ export class AppComponent {
   constructor(
     private focusService: FocusService,
     private localeService: LocaleService,
-    private keyboardService: KeyboardService
+    private keyboardService: KeyboardService,
+    private serializeService: SerializeService
   ) {
     this.localeService.setMomentLocaleGlobally();
     this.keyboardService.attachScrollHandler();
+    this.serializeService.attachHandlers();
   }
 
   @HostListener('window:keydown', ['$event'])

@@ -15,4 +15,31 @@ export class ControlStyleService {
   public getBaseControlStyle(): PropertyData {
     return this.controlStyles.get('BaseControl');
   }
+
+  public getState(): Array<any> {
+    const json: Array<any> = new Array<any>();
+
+    this.controlStyles.forEach((value, key) => {
+      json.push({
+        name: key,
+        style: value
+      });
+    });
+
+    return json;
+  }
+
+  public setState(json: Array<any>): void {
+    if (!json || !json.length) {
+      return;
+    }
+
+    const styles: Map<string, PropertyData> = new Map<string, PropertyData>();
+
+    json.forEach(entry => {
+      styles.set(entry.name, entry.style);
+    });
+
+    this.controlStyles = styles;
+  }
 }

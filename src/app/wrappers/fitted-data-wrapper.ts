@@ -131,4 +131,21 @@ export abstract class FittedDataWrapper extends FittedWrapper {
     }
     return this.maxHeight;
   }
+
+  public getState(): any {
+    const json: any = super.getState();
+    json.minWidth = this.minWidth;
+    json.maxWidth = this.maxWidth;
+    json.minHeight = this.minHeight;
+    json.maxHeight = this.maxHeight;
+    return json;
+  }
+
+  protected setState(json: any): void {
+    super.setState(json);
+    this.minWidth = json.minWidth;
+    this.maxWidth = json.maxWidth;
+    this.minHeight = json.minHeight;
+    this.maxHeight = json.maxHeight;
+  }
 }

@@ -8,13 +8,13 @@
   "readme": "readme.md",
   "scripts": {
     "build": "ng build",
-    "buildProd": "npm run lint && ng build --prod --output-hashing none",
+    "buildProd": "ng build --prod --output-hashing none",
     "lint": "ng lint",
     "test": "ng test",
     "serve": "ng serve",
     "servePublic": "ng serve --host=0.0.0.0 --disable-host-check",
     "cdBuild": "npm run buildProd && npm run cdClean && npm run cdCopy && npm run cdInject && npm run cdPlatform && npm run cdPrepare",
-    "cdEmulate": "npm run cdPrepare && cd \"dist/cordova\" && cordova emulate android",
+    "cdEmulate": "cd \"dist/cordova\" && cordova emulate android",
     "cdClean": "del-cli \"dist/cordova\"",
     "cdCopy": "mkdirp \"dist/cordova/www\" && ncp \"dist/web\" \"dist/cordova/www\" && cpy \"platforms/cordova/**/*.*\" \"!platforms/cordova/cordova.js\" \"dist/cordova\"",
     "cdInject": "ncp \"dist/cordova/www/index.html\" \"dist/cordova/www/index_inject.html\" && postbuild -i \"dist/cordova/www/index_inject.html\" -o \"dist/cordova/www/index.html\" -j \"platforms/cordova/cordova.js\" -g \"platforms/cordova/\" && del-cli \"dist/cordova/www/index_inject.html\"",
@@ -35,13 +35,13 @@
   },
   "dependencies": {
     "@angular/animations": "5.2.5",
-    "@angular/cdk": "5.2.0",
+    "@angular/cdk": "5.2.2",
     "@angular/common": "5.2.5",
     "@angular/compiler": "5.2.5",
     "@angular/core": "5.2.5",
     "@angular/forms": "5.2.5",
     "@angular/http": "5.2.5",
-    "@angular/material": "5.2.0",
+    "@angular/material": "5.2.2",
     "@angular/platform-browser": "5.2.5",
     "@angular/platform-browser-dynamic": "5.2.5",
     "@angular/router": "5.2.5",
@@ -59,7 +59,7 @@
     "zone.js": "0.8.20"
   },
   "devDependencies": {
-    "@angular/cli": "1.7.0",
+    "@angular/cli": "~1.6.8",
     "@angular/compiler-cli": "5.2.5",
     "@angular/language-service": "5.2.5",
     "@types/cordova": "0.0.34",
@@ -68,7 +68,6 @@
     "@types/moment": "2.13.0",
     "@types/moment-timezone": "0.5.4",
     "@types/node": "9.4.6",
-    "ajv": "6.1.1",
     "bestzip": "1.1.4",
     "codelyzer": "4.1.0",
     "cordova": "8.0.0",
@@ -88,8 +87,8 @@
     "node-sass": "4.7.2",
     "postbuild": "2.1.0",
     "remove-html-comments": "1.0.2",
-    "ts-node": "4.1.0",
+    "ts-node": "5.0.0",
     "tslint": "5.9.1",
-    "typescript": "~2.6.0"
+    "typescript": "~2.6.2"
   }
 }

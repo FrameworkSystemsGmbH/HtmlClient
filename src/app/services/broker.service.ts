@@ -11,6 +11,7 @@ import { ActionsService } from 'app/services/actions.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
+import { LocaleService } from './locale.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
 import { LoginBroker } from 'app/common/login-broker';
@@ -21,7 +22,6 @@ import { UrlUtil } from 'app/util/url-util';
 
 import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
-import { LocaleService } from './locale.service';
 
 @Injectable()
 export class BrokerService {
@@ -243,5 +243,20 @@ export class BrokerService {
         this.textsService.setText(textJson.id, textJson.value);
       }
     }
+  }
+
+  public getState(): any {
+    return {
+      requestCounter: this.requestCounter,
+      browserLanguage: this.browserLanguage
+    };
+  }
+  public setState(json: any): void {
+    if (!json) {
+      return;
+    }
+
+    this.requestCounter = json.requestCounter;
+    this.browserLanguage = json.browserLanguage;
   }
 }
