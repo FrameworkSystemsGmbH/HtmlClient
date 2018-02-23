@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 
 import { IBrokerState } from 'app/store/broker.reducers';
@@ -23,6 +24,7 @@ export class SerializeService {
   private brokerState: IBrokerState;
 
   constructor(
+    private zone: NgZone,
     private brokerService: BrokerService,
     private controlStyleService: ControlStyleService,
     private formsService: FormsService,
@@ -30,7 +32,8 @@ export class SerializeService {
     private routingService: RoutingService,
     private storageService: StorageService,
     private store: Store<fromAppReducers.IAppState>,
-    private textsService: TextsService
+    private textsService: TextsService,
+    private titleService: Title
   ) {
     this.store.select(appState => appState.broker).subscribe(brokerState => {
       this.brokerState = brokerState;
@@ -45,97 +48,118 @@ export class SerializeService {
   }
 
   public onPause(event: any): void {
-    // Serialize client only if logged on to a broker
-    if (this.brokerState.activeBrokerName == null) {
-      return;
-    }
+    this.zone.run(() => {
+      // Serialize client only if logged on to a broker
+      if (this.brokerState.activeBrokerName == null) {
+        // Delete existing client session just in case
+        this.storageService.delete(SESSION_STORAGE_KEY);
+        return;
+      }
 
-    const stateJson: any = {};
+      const stateJson: any = {};
 
-    // Serialize Store
-    stateJson.store = {
-      activeBrokerName: this.brokerState.activeBrokerName,
-      activeBrokerToken: this.brokerState.activeBrokerToken,
-      activeBrokerUrl: this.brokerState.activeBrokerUrl,
-      activeBrokerFilesUrl: this.brokerState.activeBrokerFilesUrl,
-      activeBrokerImageUrl: this.brokerState.activeBrokerImageUrl,
-      activeBrokerRequestUrl: this.brokerState.activeBrokerRequestUrl
-    };
+      // Common Properties
+      const title: string = this.titleService.getTitle();
 
-    // Serialize Services
-    const controlStyleServiceJson: any = this.controlStyleService.getState();
-    const textsServiceJson: any = this.textsService.getState();
-    const brokerServiceJson: any = this.brokerService.getState();
-    const formsServiceJson: any = this.formsService.getState();
+      if (!String.isNullOrWhiteSpace(title)) {
+        stateJson.title = title;
+      }
 
-    const servicesJson: any = {};
+      // Store
+      stateJson.store = {
+        activeBrokerName: this.brokerState.activeBrokerName,
+        activeBrokerToken: this.brokerState.activeBrokerToken,
+        activeBrokerUrl: this.brokerState.activeBrokerUrl,
+        activeBrokerFilesUrl: this.brokerState.activeBrokerFilesUrl,
+        activeBrokerImageUrl: this.brokerState.activeBrokerImageUrl,
+        activeBrokerRequestUrl: this.brokerState.activeBrokerRequestUrl
+      };
 
-    if (!JsonUtil.isEmptyObject(controlStyleServiceJson)) {
-      servicesJson.controlStyleService = controlStyleServiceJson;
-    }
+      // Services
+      const controlStyleServiceJson: any = this.controlStyleService.getState();
+      const textsServiceJson: any = this.textsService.getState();
+      const brokerServiceJson: any = this.brokerService.getState();
+      const formsServiceJson: any = this.formsService.getState();
 
-    if (!JsonUtil.isEmptyObject(textsServiceJson)) {
-      servicesJson.textsService = textsServiceJson;
-    }
+      const servicesJson: any = {};
 
-    if (!JsonUtil.isEmptyObject(brokerServiceJson)) {
-      servicesJson.brokerService = brokerServiceJson;
-    }
+      if (!JsonUtil.isEmptyObject(controlStyleServiceJson)) {
+        servicesJson.controlStyleService = controlStyleServiceJson;
+      }
 
-    if (!JsonUtil.isEmptyObject(formsServiceJson)) {
-      servicesJson.formsService = formsServiceJson;
-    }
+      if (!JsonUtil.isEmptyObject(textsServiceJson)) {
+        servicesJson.textsService = textsServiceJson;
+      }
 
-    if (!JsonUtil.isEmptyObject(servicesJson)) {
-      stateJson.services = servicesJson;
-    }
+      if (!JsonUtil.isEmptyObject(brokerServiceJson)) {
+        servicesJson.brokerService = brokerServiceJson;
+      }
 
-    if (!JsonUtil.isEmptyObject(stateJson)) {
-      this.storageService.saveData(SESSION_STORAGE_KEY, JSON.stringify(stateJson));
-    }
+      if (!JsonUtil.isEmptyObject(formsServiceJson)) {
+        servicesJson.formsService = formsServiceJson;
+      }
+
+      if (!JsonUtil.isEmptyObject(servicesJson)) {
+        stateJson.services = servicesJson;
+      }
+
+      if (!JsonUtil.isEmptyObject(stateJson)) {
+        this.storageService.saveData(SESSION_STORAGE_KEY, JSON.stringify(stateJson));
+      }
+    });
   }
 
   public onResume(event: any): void {
-    const stateJson: any = JSON.parse(this.storageService.loadData(SESSION_STORAGE_KEY));
+    setTimeout(() => {
+      this.zone.run(() => {
+        const stateJson: any = JSON.parse(this.storageService.loadData(SESSION_STORAGE_KEY));
 
-    if (JsonUtil.isEmptyObject(stateJson)) {
-      return;
-    }
+        // Clean up storage
+        this.storageService.delete(SESSION_STORAGE_KEY);
 
-    // Deserialize Store
-    const store: any = stateJson.store;
-    this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(store.activeBrokerName));
-    this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(store.activeBrokerToken));
-    this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(store.activeBrokerUrl));
-    this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(store.activeBrokerFilesUrl));
-    this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(store.activeBrokerImageUrl));
-    this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(store.activeBrokerRequestUrl));
+        // Deserialize state only if there is no active broker session
+        if (this.brokerState.activeBrokerName != null || JsonUtil.isEmptyObject(stateJson)) {
+          return;
+        }
 
-    // Deserialize Services
-    if (stateJson.services) {
-      const servicesJson: any = stateJson.services;
+        // Common Properties
+        if (!String.isNullOrWhiteSpace(stateJson.title)) {
+          this.titleService.setTitle(stateJson.title);
+        }
 
-      if (servicesJson.controlStyleService) {
-        this.controlStyleService.setState(servicesJson.controlStyleService);
-      }
+        // Store
+        const store: any = stateJson.store;
+        this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(store.activeBrokerName));
+        this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(store.activeBrokerToken));
+        this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(store.activeBrokerUrl));
+        this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(store.activeBrokerFilesUrl));
+        this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(store.activeBrokerImageUrl));
+        this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(store.activeBrokerRequestUrl));
 
-      if (servicesJson.textsService) {
-        this.textsService.setState(servicesJson.textsService);
-      }
+        // Services
+        if (stateJson.services) {
+          const servicesJson: any = stateJson.services;
 
-      if (servicesJson.brokerService) {
-        this.brokerService.setState(servicesJson.brokerService);
-      }
+          if (servicesJson.controlStyleService) {
+            this.controlStyleService.setState(servicesJson.controlStyleService);
+          }
 
-      if (servicesJson.formsService) {
-        this.formsService.setState(servicesJson.formsService);
-      }
-    }
+          if (servicesJson.textsService) {
+            this.textsService.setState(servicesJson.textsService);
+          }
 
-    // Clean up storage
-    this.storageService.delete(SESSION_STORAGE_KEY);
+          if (servicesJson.brokerService) {
+            this.brokerService.setState(servicesJson.brokerService);
+          }
 
-    // Redirect to the viewer
-    this.routingService.showViewer();
+          if (servicesJson.formsService) {
+            this.formsService.setState(servicesJson.formsService);
+          }
+        }
+
+        // Redirect to the viewer
+        this.routingService.showViewer();
+      });
+    });
   }
 }

@@ -25,7 +25,7 @@ export class FrameComponent implements OnInit, OnDestroy {
     private formsService: FormsService) { }
 
   public ngOnInit(): void {
-    this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.showForm(form); });
+    this.selectedFormSub = this.formsService.formSelected.subscribe(form => this.showForm(form));
     this.formsService.fireSelectCurrentForm();
   }
 
