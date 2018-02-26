@@ -33,6 +33,13 @@ export class LoginService {
     this.logins.next(logins);
   }
 
+  public updateBroker(index: number, broker: LoginBroker): void {
+    const brokers: Array<LoginBroker> = this.logins.getValue();
+    brokers[index] = broker;
+    this.saveBrokers(brokers);
+    this.logins.next(brokers);
+  }
+
   public deleteBroker(index: number): void {
     const brokers: Array<LoginBroker> = this.logins.getValue();
     brokers.splice(index, 1);

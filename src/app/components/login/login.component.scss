@@ -73,7 +73,7 @@
         min-width: auto !important;
         min-height: auto !important;
         line-height: 0 !important;
-        padding: 0.4rem 0.5rem !important;
+        padding: 0.4rem !important;
       }
     }
 
@@ -122,14 +122,18 @@
             white-space: nowrap;
           }
 
-          .broker-action {
+          .broker-actions {
             flex: 0 0 auto;
 
             button {
               min-width: auto !important;
               min-height: auto !important;
               line-height: 0 !important;
-              padding: 0.4rem 0.5rem !important;
+              padding: 0.4rem !important;
+            }
+
+            button:not(:last-child) {
+              margin-right: 0.5rem;
             }
           }
         }
