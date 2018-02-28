@@ -66,6 +66,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getLastRequestTimeLocalString(): string {
+    return this.lastSessionInfo != null ? this.lastSessionInfo.getLastRequestTime().local().format('L LTS') : null;
+  }
+
   public continueSession(): void {
     this.serializeService.onResume();
   }

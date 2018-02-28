@@ -5,7 +5,8 @@ export class LastSessionInfo {
   constructor(
     private _lastBroker: string,
     private _lastBrokerDev: boolean,
-    private _lastRequestTime: Moment.Moment
+    private _lastRequestTime: Moment.Moment,
+    private _stateJson: any
   ) { }
 
   public getLastBroker(): string {
@@ -16,7 +17,11 @@ export class LastSessionInfo {
     return this._lastBrokerDev;
   }
 
-  public getLastRequestTimeString(): string {
-    return this._lastRequestTime.format('L LTS');
+  public getLastRequestTime(): Moment.Moment {
+    return this._lastRequestTime;
+  }
+
+  public getStateJson(): any {
+    return this._stateJson;
   }
 }

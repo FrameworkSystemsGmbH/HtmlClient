@@ -8,8 +8,6 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from 'app/app.component';
-import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
-import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
 
 import { ErrorService } from 'app/services/error.service';
 

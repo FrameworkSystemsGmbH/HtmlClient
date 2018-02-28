@@ -20,6 +20,7 @@ import * as fromBrokerActions from 'app/store/broker.actions';
 import * as Moment from 'moment-timezone';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
+const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
 
 @Injectable()
 export class SerializeService {
@@ -58,10 +59,20 @@ export class SerializeService {
     const stateJson: any = JSON.parse(this.storageService.loadData(SESSION_STORAGE_KEY));
 
     if (!JsonUtil.isEmptyObject(stateJson)) {
-      return new LastSessionInfo(
-        stateJson.meta.lastBroker,
-        stateJson.meta.lastBrokerDev,
-        Moment(stateJson.meta.lastRequestTime, 'x', true));
+      const lastRequestTime: Moment.Moment = Moment(stateJson.meta.lastRequestTime, 'x', true);
+
+      // Check if stored session is valid
+      if (lastRequestTime.isAfter(Moment().subtract(Moment.duration(SESSION_TIMEOUT, 'minutes')))) {
+        return new LastSessionInfo(
+          stateJson.meta.lastBroker,
+          stateJson.meta.lastBrokerDev,
+          lastRequestTime,
+          stateJson
+        );
+      } else {
+        // Delete invalid session
+        this.storageService.delete(SESSION_STORAGE_KEY);
+      }
     }
 
     return null;
@@ -139,15 +150,17 @@ export class SerializeService {
   public onResume(): void {
     setTimeout(() => {
       this.zone.run(() => {
-        const stateJson: any = JSON.parse(this.storageService.loadData(SESSION_STORAGE_KEY));
+        const lastSessionInfo: LastSessionInfo = this.getLastSessionInfo();
 
         // Clean up storage
         this.storageService.delete(SESSION_STORAGE_KEY);
 
         // Deserialize state only if there is no active broker session
-        if (this.brokerState.activeBrokerName != null || JsonUtil.isEmptyObject(stateJson)) {
+        if (this.brokerState.activeBrokerName != null || lastSessionInfo == null) {
           return;
         }
+
+        const stateJson: any = lastSessionInfo.getStateJson();
 
         // Common Properties
         if (!String.isNullOrWhiteSpace(stateJson.title)) {

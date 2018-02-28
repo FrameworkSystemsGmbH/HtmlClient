@@ -5,7 +5,7 @@
 
   <mat-card class="last-session" *ngIf="lastSessionInfo != null" (click)="continueSession()">
     <h3 class="session-name">{{ lastSessionInfo.getLastBrokerDev() ? lastSessionInfo.getLastBroker() + ' (Development)' : lastSessionInfo.getLastBroker() }}</h3>
-    <div class="session-date">{{ lastSessionInfo.getLastRequestTimeString() }}</div>
+    <div class="session-date">{{ getLastRequestTimeLocalString() }}</div>
   </mat-card>
 
   <div class="headline">
