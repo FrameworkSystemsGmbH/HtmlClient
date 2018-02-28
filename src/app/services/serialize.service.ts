@@ -59,10 +59,10 @@ export class SerializeService {
     const stateJson: any = JSON.parse(this.storageService.loadData(SESSION_STORAGE_KEY));
 
     if (!JsonUtil.isEmptyObject(stateJson)) {
-      const lastRequestTime: Moment.Moment = Moment(stateJson.meta.lastRequestTime, 'x', true);
+      const lastRequestTime: Moment.Moment = Moment.utc(stateJson.meta.lastRequestTime);
 
       // Check if stored session is valid
-      if (lastRequestTime.isAfter(Moment().subtract(Moment.duration(SESSION_TIMEOUT, 'minutes')))) {
+      if (lastRequestTime.isAfter(Moment.utc().subtract(Moment.duration(SESSION_TIMEOUT, 'minutes')))) {
         return new LastSessionInfo(
           stateJson.meta.lastBroker,
           stateJson.meta.lastBrokerDev,
@@ -99,7 +99,7 @@ export class SerializeService {
       stateJson.meta = {
         lastBroker: this.brokerState.activeBrokerName,
         lastBrokerDev: this.brokerState.activeBrokerDev,
-        lastRequestTime: this.brokerService.getLastRequestTime().format('x')
+        lastRequestTime: this.brokerService.getLastRequestTime().toJSON()
       };
 
       // Store

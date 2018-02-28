@@ -146,7 +146,7 @@ export class BrokerService {
   }
 
   private doRequest(requestJson: any): Observable<any> {
-    this.lastRequestTime = Moment();
+    this.lastRequestTime = Moment.utc();
     // console.log(JSON.stringify(requestJson, null, 2));
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson);
     // .do(response => {
@@ -274,7 +274,7 @@ export class BrokerService {
     return {
       requestCounter: this.requestCounter,
       browserLanguage: this.browserLanguage,
-      lastRequestTime: this.lastRequestTime.format('x')
+      lastRequestTime: this.lastRequestTime.toJSON()
     };
   }
   public setState(json: any): void {
@@ -284,6 +284,6 @@ export class BrokerService {
 
     this.requestCounter = json.requestCounter;
     this.browserLanguage = json.browserLanguage;
-    this.lastRequestTime = Moment(json.lastRequestTime, 'x', true);
+    this.lastRequestTime = Moment.utc(json.lastRequestTime);
   }
 }
