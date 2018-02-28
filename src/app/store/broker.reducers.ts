@@ -4,6 +4,7 @@ export interface IBrokerState {
   activeBrokerName: string;
   activeBrokerToken: string;
   activeBrokerUrl: string;
+  activeBrokerDev: boolean;
   activeBrokerFilesUrl: string;
   activeBrokerImageUrl: string;
   activeBrokerRequestUrl: string;
@@ -13,6 +14,7 @@ const initialBrokerState: IBrokerState = {
   activeBrokerName: null,
   activeBrokerToken: String.empty(),
   activeBrokerUrl: null,
+  activeBrokerDev: null,
   activeBrokerFilesUrl: null,
   activeBrokerImageUrl: null,
   activeBrokerRequestUrl: null
@@ -34,6 +36,11 @@ export function brokerStateReducer(state = initialBrokerState, action: fromBroke
       return {
         ...state,
         activeBrokerUrl: action.payload
+      };
+    case fromBrokerActions.SET_BROKER_DEV:
+      return {
+        ...state,
+        activeBrokerDev: action.payload
       };
     case fromBrokerActions.SET_BROKER_FILE_URL:
       return {

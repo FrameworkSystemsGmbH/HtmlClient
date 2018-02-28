@@ -11,10 +11,13 @@ import { PlatformService } from 'app/services/platform.service';
 import { StorageService } from 'app/services/storage.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
+import { LastSessionInfo } from 'app/common/last-session-info';
 import { JsonUtil } from 'app/util/json-util';
 
 import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
+
+import * as Moment from 'moment-timezone';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
 
@@ -35,6 +38,10 @@ export class SerializeService {
     private textsService: TextsService,
     private titleService: Title
   ) {
+    this.brokerService.onLoginComplete.subscribe(() => {
+      this.storageService.delete(SESSION_STORAGE_KEY);
+    });
+
     this.store.select(appState => appState.broker).subscribe(brokerState => {
       this.brokerState = brokerState;
     });
@@ -47,7 +54,20 @@ export class SerializeService {
     }
   }
 
-  public onPause(event: any): void {
+  public getLastSessionInfo(): LastSessionInfo {
+    const stateJson: any = JSON.parse(this.storageService.loadData(SESSION_STORAGE_KEY));
+
+    if (!JsonUtil.isEmptyObject(stateJson)) {
+      return new LastSessionInfo(
+        stateJson.meta.lastBroker,
+        stateJson.meta.lastBrokerDev,
+        Moment(stateJson.meta.lastRequestTime, 'x', true));
+    }
+
+    return null;
+  }
+
+  public onPause(): void {
     this.zone.run(() => {
       // Serialize client only if logged on to a broker
       if (this.brokerState.activeBrokerName == null) {
@@ -58,18 +78,25 @@ export class SerializeService {
 
       const stateJson: any = {};
 
-      // Common Properties
+      // App Title
       const title: string = this.titleService.getTitle();
-
       if (!String.isNullOrWhiteSpace(title)) {
         stateJson.title = title;
       }
+
+      // Meta
+      stateJson.meta = {
+        lastBroker: this.brokerState.activeBrokerName,
+        lastBrokerDev: this.brokerState.activeBrokerDev,
+        lastRequestTime: this.brokerService.getLastRequestTime().format('x')
+      };
 
       // Store
       stateJson.store = {
         activeBrokerName: this.brokerState.activeBrokerName,
         activeBrokerToken: this.brokerState.activeBrokerToken,
         activeBrokerUrl: this.brokerState.activeBrokerUrl,
+        activeBrokerDev: this.brokerState.activeBrokerDev,
         activeBrokerFilesUrl: this.brokerState.activeBrokerFilesUrl,
         activeBrokerImageUrl: this.brokerState.activeBrokerImageUrl,
         activeBrokerRequestUrl: this.brokerState.activeBrokerRequestUrl
@@ -109,7 +136,7 @@ export class SerializeService {
     });
   }
 
-  public onResume(event: any): void {
+  public onResume(): void {
     setTimeout(() => {
       this.zone.run(() => {
         const stateJson: any = JSON.parse(this.storageService.loadData(SESSION_STORAGE_KEY));
@@ -132,6 +159,7 @@ export class SerializeService {
         this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(store.activeBrokerName));
         this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(store.activeBrokerToken));
         this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(store.activeBrokerUrl));
+        this.store.dispatch(new fromBrokerActions.SetBrokerDevAction(store.activeBrokerDev));
         this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(store.activeBrokerFilesUrl));
         this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(store.activeBrokerImageUrl));
         this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(store.activeBrokerRequestUrl));

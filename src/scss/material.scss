@@ -10,6 +10,14 @@
 .mat-raised-button {
   min-width: 70px !important;
   padding: 0px !important;
+
+  &[disabled] {
+    cursor: no-drop !important;
+  }
+}
+
+.mat-card {
+  padding: 1.25rem !important;
 }
 
 .cdk-overlay-pane {

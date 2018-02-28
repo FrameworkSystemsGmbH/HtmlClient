@@ -3,51 +3,71 @@
 :host {
   display: flex;
   flex-direction: column;
+  height: 100%;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  overflow: auto;
   user-select: none;
 
   .wrapper {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
-    border: 1px solid $grey2;
-    border-radius: 5px;
-    @include gradient-silver();
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 0 0 1rem;
+    }
 
     .headline {
       flex: 0 0 auto;
+      display: flex;
+      align-items: center;
 
       h3 {
+        flex: 1;
         font-weight: bold;
-        padding-bottom: 0.25rem;
         margin-bottom: 0;
-        border-bottom: 1px solid lightgray;
+      }
+
+      .actions {
+        flex: 0 0 auto;
+      }
+    }
+
+    .last-session {
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+
+      .session-name {
+        flex: 1;
+        margin-bottom: 0;
+      }
+
+      .session-date {
+        flex: 0 0 auto;
       }
     }
 
     .editor {
       display: flex;
       flex-direction: column;
+      flex: 0 0 auto;
+      margin-top: 1rem;
 
       form {
         display: flex;
         flex-direction: column;
-        margin-top: 0.5rem;
-
-        .form-inputs {
-          display: flex;
-          flex-direction: column;
-          overflow: auto;
-          overflow-x: hidden;
-        }
 
         .form-actions {
           flex: 0 0 auto;
           display: flex;
           justify-content: flex-end;
-          margin-top: 0.5rem;
+          margin-top: 1rem;
 
           button:not(:last-child) {
             margin-right: 0.5rem;
@@ -56,88 +76,63 @@
       }
     }
 
-    .broker-list-header {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      margin-top: 1rem;
-
-      h4 {
-        flex: 1;
-        margin: 0;
-        padding: 0;
-      }
-
-      button {
-        flex: 0 0 auto;
-        min-width: auto !important;
-        min-height: auto !important;
-        line-height: 0 !important;
-        padding: 0.4rem !important;
-      }
-    }
-
     .broker-list {
       display: flex;
       flex-direction: column;
-      overflow: auto;
-      overflow-x: hidden;
-      margin-top: 0.5rem;
-
-      .no-broker {
-        padding: 0.5rem 0;
-      }
+      flex: 0 0 auto;
+      margin-top: 1rem;
 
       .broker-list-wrapper {
         flex: 0 0 auto;
         display: flex;
         flex-direction: column;
 
-        .broker {
-          display: flex;
-          align-items: center;
-          padding: 0.5rem 0;
-          overflow: hidden;
-          transition: padding-left 200ms;
+        mat-card {
           cursor: pointer;
 
-          &:hover,
-          &:active {
-            padding-left: 1rem;
+          &.active {
+            background-color: #ff9999;
           }
 
-          .broker-name {
-            flex: 0 0 auto;
-
-            span.active {
-              color: red;
-            }
+          &:not(:last-child) {
+            margin-bottom: 0.5rem;
           }
 
-          .broker-url {
-            flex: 1;
-            padding: 0 1rem;
+          .broker {
+            display: flex;
+            align-items: center;
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
 
-          .broker-actions {
-            flex: 0 0 auto;
-
-            button {
-              min-width: auto !important;
-              min-height: auto !important;
-              line-height: 0 !important;
-              padding: 0.4rem !important;
+            .broker-name {
+              flex: 1;
+              margin-bottom: 0;
             }
 
-            button:not(:last-child) {
-              margin-right: 0.5rem;
+            .broker-actions {
+              flex: 0 0 auto;
+
+              button {
+                min-width: auto !important;
+                min-height: auto !important;
+                line-height: 0 !important;
+                padding: 0.5rem !important;
+              }
+
+              button:not(:last-child) {
+                margin-right: 0.5rem;
+              }
             }
           }
         }
       }
+    }
+
+    .broker-list-actions {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 1rem;
     }
   }
 }

@@ -1,27 +1,41 @@
-<div class="wrapper" hcDialogResize [maxWidth]="600">
+<div class="wrapper" hcDialogResize [minWidth]="600" [maxWidth]="600" [ignoreHeight]="true">
+  <div class="headline" *ngIf="lastSessionInfo != null">
+    <h3>Continue Session</h3>
+  </div>
+
+  <mat-card class="last-session" *ngIf="lastSessionInfo != null" (click)="continueSession()">
+    <h3 class="session-name">{{ lastSessionInfo.getLastBrokerDev() ? lastSessionInfo.getLastBroker() + ' (Development)' : lastSessionInfo.getLastBroker() }}</h3>
+    <div class="session-date">{{ lastSessionInfo.getLastRequestTimeString() }}</div>
+  </mat-card>
+
   <div class="headline">
     <h3>{{ editorShown ? editingIndex != null && editingIndex >= 0 ? 'Edit Broker' : 'Add Broker' : 'Login' }}</h3>
+    <div class="actions" *ngIf="!editorShown">
+      <button mat-button color="primary" (click)="openEditorNew()">
+        <span class="fas fa-fw fa-plus"></span>
+        <span> New</span>
+      </button>
+    </div>
   </div>
 
   <div class="editor" *ngIf="editorShown">
     <form [formGroup]="addForm" (ngSubmit)="saveBroker()">
-      <div class="form-inputs">
-        <mat-form-field>
-          <input matInput [readonly]="editingIndex != null && editingIndex >= 0" placeholder="Name" formControlName="name" />
-          <mat-error *ngIf="nameControl.hasError('broker') && !nameControl.hasError('required')">
-            Name already in use
-          </mat-error>
-          <mat-error *ngIf="nameControl.hasError('required')">
-            Name is required
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Url" formControlName="url" />
-          <mat-error *ngIf="urlControl.hasError('required')">
-            Url is required
-          </mat-error>
-        </mat-form-field>
-      </div>
+      <mat-form-field>
+        <input matInput [readonly]="editingIndex != null && editingIndex >= 0" placeholder="Name" formControlName="name" />
+        <mat-error *ngIf="nameControl.hasError('broker') && !nameControl.hasError('required')">
+          Name already in use
+        </mat-error>
+        <mat-error *ngIf="nameControl.hasError('required')">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Url" formControlName="url" />
+        <mat-error *ngIf="urlControl.hasError('required')">
+          Url is required
+        </mat-error>
+      </mat-form-field>
+      <mat-checkbox formControlName="dev">Development Broker</mat-checkbox>
       <div class="form-actions">
         <button type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingIndex != null && editingIndex >= 0 ? 'Save' : 'Add' }}</button>
         <button type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
@@ -29,35 +43,24 @@
     </form>
   </div>
 
-  <div class="broker-list-header" *ngIf="!editorShown">
-    <h4>Available Brokers</h4>
-    <button mat-raised-button color="primary" (click)="openEditorNew()">
-      <span class="fas fa-fw fa-plus"></span>
-    </button>
-  </div>
-
   <div class="broker-list" *ngIf="!editorShown">
-    <div class="no-broker" *ngIf="(brokers$ | async) == null || !(brokers$ | async).length">
-      <span>No Brokers defined...</span>
-    </div>
+    <mat-card *ngIf="(brokers$ | async) == null || !(brokers$ | async).length">
+      <span>No brokers defined...</span>
+    </mat-card>
     <div class="broker-list-wrapper" *ngIf="(brokers$ | async) && (brokers$ | async).length">
-      <div class="broker" *ngFor="let broker of (brokers$ | async); index as i" (click)="loadBroker($event, broker)">
-        <div class="broker-name">
-          <span *ngIf="broker.name === activeBrokerName" class="active">(Active) </span>
-          <span>{{ broker.name }}</span>
+      <mat-card *ngFor="let broker of (brokers$ | async); index as i" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
+        <div class="broker">
+          <h3 class="broker-name">{{ broker.dev ? broker.name + ' (Development)' : broker.name }}</h3>
+          <div class="broker-actions">
+            <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(i, broker)">
+              <span class="fas fa-fw fa-edit"></span>
+            </button>
+            <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="warn" (click)="deleteBroker(i, broker)">
+              <span class="fas fa-fw fa-trash"></span>
+            </button>
+          </div>
         </div>
-        <div class="broker-url">
-          {{ broker.url }}
-        </div>
-        <div class="broker-actions">
-          <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(i, broker)">
-            <span class="fas fa-fw fa-edit"></span>
-          </button>
-          <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="warn" (click)="deleteBroker(i, broker)">
-            <span class="fas fa-fw fa-trash"></span>
-          </button>
-        </div>
-      </div>
+      </mat-card>
     </div>
   </div>
 </div>

@@ -10,6 +10,9 @@ export class DialogResizeDirective implements OnInit {
   @Input()
   public maxWidth: number = 900;
 
+  @Input()
+  public ignoreHeight: boolean;
+
   constructor(
     private elRef: ElementRef,
     private renderer: Renderer2,
@@ -42,7 +45,10 @@ export class DialogResizeDirective implements OnInit {
 
       this.renderer.setStyle(this.elRef.nativeElement, 'min-width', (maxRespWidth < this.minWidth ? maxRespWidth : this.minWidth) + 'px');
       this.renderer.setStyle(this.elRef.nativeElement, 'max-width', (Math.min(this.maxWidth, maxRespWidth)) + 'px');
-      this.renderer.setStyle(this.elRef.nativeElement, 'max-height', maxRespHeight + 'px');
+
+      if (!this.ignoreHeight) {
+        this.renderer.setStyle(this.elRef.nativeElement, 'max-height', maxRespHeight + 'px');
+      }
     });
   }
 }

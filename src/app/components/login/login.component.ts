@@ -9,6 +9,8 @@ import { IAppState } from 'app/app.reducers';
 import { LoginBroker } from 'app/common/login-broker';
 import { LoginService } from 'app/services/login.service';
 import { BrokerService } from 'app/services/broker.service';
+import { SerializeService } from 'app/services/serialize.service';
+import { LastSessionInfo } from 'app/common/last-session-info';
 import { DomUtil } from 'app/util/dom-util';
 
 @Component({
@@ -19,20 +21,22 @@ import { DomUtil } from 'app/util/dom-util';
 export class LoginComponent implements OnInit, OnDestroy {
 
   public brokers$: Observable<Array<LoginBroker>>;
+  public lastSessionInfo: LastSessionInfo;
   public activeBrokerName: string;
   public addForm: FormGroup;
   public nameControl: FormControl;
   public urlControl: FormControl;
+  public devControl: FormControl;
   public editorShown: boolean;
   public editingIndex: number;
 
   private brokerValidator: any;
-
   private activeBrokerNameSub: ISubscription;
 
   constructor(
     private loginService: LoginService,
     private brokerService: BrokerService,
+    private serializeService: SerializeService,
     private store: Store<IAppState>) { }
 
   public ngOnInit(): void {
@@ -45,17 +49,25 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.nameControl = new FormControl(null);
     this.urlControl = new FormControl(null, Validators.required);
+    this.devControl = new FormControl(null);
 
     this.addForm = new FormGroup({
       name: this.nameControl,
-      url: this.urlControl
+      url: this.urlControl,
+      dev: this.devControl
     });
+
+    this.lastSessionInfo = this.serializeService.getLastSessionInfo();
   }
 
   public ngOnDestroy(): void {
     if (this.activeBrokerNameSub) {
       this.activeBrokerNameSub.unsubscribe();
     }
+  }
+
+  public continueSession(): void {
+    this.serializeService.onResume();
   }
 
   public openEditorNew(): void {
@@ -75,6 +87,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.editingIndex = index;
     this.nameControl.setValue(broker.name);
     this.urlControl.setValue(broker.url);
+    this.devControl.setValue(broker.dev);
     this.editorShown = true;
   }
 
@@ -88,6 +101,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const broker: LoginBroker = new LoginBroker();
     broker.name = this.nameControl.value;
     broker.url = this.urlControl.value;
+    broker.dev = this.devControl.value;
 
     if (this.editingIndex != null && this.editingIndex >= 0) {
       this.loginService.updateBroker(this.editingIndex, broker);

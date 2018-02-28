@@ -6,13 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
-import { A11yModule } from '@angular/cdk/a11y';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material';
-
 import { AppComponent } from 'app/app.component';
 import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
 import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
@@ -27,6 +20,16 @@ import { ALL_CONTROLS } from 'app/controls/_all.controls';
 import { ALL_DIRECTIVES } from 'app/directives/_all.direcives';
 import { ALL_SERVICES } from 'app/services/_all.services';
 import { ALL_FORMATTERS } from 'app/services/formatter/_all.formatters';
+
+import { A11yModule } from '@angular/cdk/a11y';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material';
 
 @NgModule({
   entryComponents: [
@@ -46,6 +49,9 @@ import { ALL_FORMATTERS } from 'app/services/formatter/_all.formatters';
     FormsModule,
     HttpClientModule,
     MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDividerModule,
     MatDialogModule,
     MatExpansionModule,
     MatFormFieldModule,

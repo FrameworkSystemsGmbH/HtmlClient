@@ -36,17 +36,6 @@ fa.library.add(
   faTrash
 );
 
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/fromEvent';
-
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/buffer';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/concatMap';
-import 'rxjs/add/operator/debounceTime';
-
 const bootstrap: () => void = () => {
   if (environment.production) {
     enableProdMode();

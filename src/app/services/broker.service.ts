@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
 import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
@@ -23,14 +24,20 @@ import { UrlUtil } from 'app/util/url-util';
 import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
 
+import * as Moment from 'moment-timezone';
+
 @Injectable()
 export class BrokerService {
+
+  private _onLoginComplete: Subject<any>;
+  private _onLoginComplete$: Observable<any>;
 
   private activeBrokerName: string;
   private activeBrokerToken: string;
   private activeBrokerRequestUrl: string;
   private requestCounter: number;
   private browserLanguage: string;
+  private lastRequestTime: Moment.Moment;
 
   constructor(
     private dialog: MatDialog,
@@ -45,6 +52,9 @@ export class BrokerService {
     private localeService: LocaleService,
     private store: Store<fromAppReducers.IAppState>
   ) {
+    this._onLoginComplete = new Subject<any>();
+    this._onLoginComplete$ = this._onLoginComplete.asObservable();
+
     this.store.select(appState => appState.broker).subscribe(brokerState => {
       this.activeBrokerName = brokerState.activeBrokerName;
       this.activeBrokerToken = brokerState.activeBrokerToken;
@@ -75,6 +85,10 @@ export class BrokerService {
     this.resetActiveBroker();
   }
 
+  public get onLoginComplete() {
+    return this._onLoginComplete$;
+  }
+
   public getActiveBrokerName(): string {
     return this.activeBrokerName;
   }
@@ -89,12 +103,14 @@ export class BrokerService {
 
       const name = broker.name;
       const url: string = broker.url;
-      const fileUrl: string = url.trimCharsRight('/') + '/files';
-      const imageUrl: string = url.trimCharsRight('/') + '/api/image';
-      const requestUrl: string = url.trimCharsRight('/') + '/api/process';
+      const dev: boolean = broker.dev;
+      const fileUrl: string = url.trimCharsRight('/') + (dev ? '/files' : '/');
+      const imageUrl: string = url.trimCharsRight('/') + (dev ? '/api/image' : '/ImageHandler.ashx');
+      const requestUrl: string = url.trimCharsRight('/') + (dev ? '/api/process' : '/JsonRequest.ashx');
 
       this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(name));
       this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(url));
+      this.store.dispatch(new fromBrokerActions.SetBrokerDevAction(dev));
       this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(fileUrl));
       this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(imageUrl));
       this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(requestUrl));
@@ -106,6 +122,9 @@ export class BrokerService {
         error => {
           this.resetActiveBroker();
           throw error;
+        },
+        () => {
+          this._onLoginComplete.next();
         });
     }
   }
@@ -115,6 +134,7 @@ export class BrokerService {
     this.store.dispatch(new fromBrokerActions.ResetBrokerAction());
     this.requestCounter = 0;
     this.browserLanguage = this.localeService.getLocale().substring(0, 2);
+    this.lastRequestTime = null;
   }
 
   public sendInitRequest(): Observable<any> {
@@ -126,6 +146,7 @@ export class BrokerService {
   }
 
   private doRequest(requestJson: any): Observable<any> {
+    this.lastRequestTime = Moment.utc();
     // console.log(JSON.stringify(requestJson, null, 2));
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson);
     // .do(response => {
@@ -245,10 +266,15 @@ export class BrokerService {
     }
   }
 
+  public getLastRequestTime(): Moment.Moment {
+    return this.lastRequestTime;
+  }
+
   public getState(): any {
     return {
       requestCounter: this.requestCounter,
-      browserLanguage: this.browserLanguage
+      browserLanguage: this.browserLanguage,
+      lastRequestTime: this.lastRequestTime.format('x')
     };
   }
   public setState(json: any): void {
@@ -258,5 +284,6 @@ export class BrokerService {
 
     this.requestCounter = json.requestCounter;
     this.browserLanguage = json.browserLanguage;
+    this.lastRequestTime = Moment(json.lastRequestTime, 'x', true);
   }
 }
