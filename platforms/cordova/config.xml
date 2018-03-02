@@ -8,7 +8,7 @@
   <!-- /Phonegap Exclusive -->
 
   <!-- Metadata -->
-	<name>Framework Studio Mobile Client</name>
+	<name>Mobile Client</name>
 	<description>Mobile Client for Framework Studio Applications</description>
 	<author email="apps@framework-systems.de" href="http://www.framework-systems.de">Framework Systems GmbH</author>
 	<content src="index.html" />
