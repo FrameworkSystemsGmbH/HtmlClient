@@ -47,8 +47,5 @@
   },
   "defaults": {
     "styleExt": "scss"
-  },
-  "warnings": {
-    "typescriptMismatch": false
   }
 }
