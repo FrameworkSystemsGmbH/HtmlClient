@@ -1,31 +1,58 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 
 import { StorageService } from 'app/services/storage.service';
 
 @Injectable()
 export class LocalStorageService extends StorageService {
 
-  public saveData(key: string, value: string): void {
-    if (String.isNullOrWhiteSpace(key) || String.isNullOrWhiteSpace(value) || !window.localStorage) {
-      return;
-    }
-
-    window.localStorage.setItem(key, value);
+  public saveData(key: string, value: string): Observable<boolean> {
+    return Observable.create((observer: Observer<boolean>) => {
+      try {
+        if (!String.isNullOrWhiteSpace(key) && window.localStorage) {
+          if (!String.isNullOrWhiteSpace(value)) {
+            window.localStorage.setItem(key, value);
+          } else {
+            window.localStorage.removeItem(key);
+          }
+          observer.next(true);
+        } else {
+          observer.next(false);
+        }
+        observer.complete();
+      } catch (error) {
+        observer.error(error);
+      }
+    });
   }
 
-  public loadData(key: string): string {
-    if (String.isNullOrWhiteSpace(key) || !window.localStorage) {
-      return null;
-    }
-
-    return window.localStorage.getItem(key);
+  public loadData(key: string): Observable<string> {
+    return Observable.create((observer: Observer<string>) => {
+      try {
+        if (!String.isNullOrWhiteSpace(key) && window.localStorage) {
+          observer.next(window.localStorage.getItem(key));
+        }
+        observer.complete();
+      } catch (error) {
+        observer.error(error);
+      }
+    });
   }
 
-  public delete(key: string): void {
-    if (String.isNullOrWhiteSpace(key) || !window.localStorage) {
-      return;
-    }
-
-    window.localStorage.removeItem(key);
+  public delete(key: string): Observable<boolean> {
+    return Observable.create((observer: Observer<boolean>) => {
+      try {
+        if (!String.isNullOrWhiteSpace(key) && window.localStorage) {
+          window.localStorage.removeItem(key);
+          observer.next(true);
+        } else {
+          observer.next(false);
+        }
+        observer.complete();
+      } catch (error) {
+        observer.error(error);
+      }
+    });
   }
 }

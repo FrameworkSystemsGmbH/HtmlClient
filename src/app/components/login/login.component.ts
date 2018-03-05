@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private brokerValidator: any;
   private activeBrokerNameSub: ISubscription;
+  private lastSessionInfoSub: ISubscription;
 
   constructor(
     private loginService: LoginService,
@@ -57,12 +58,18 @@ export class LoginComponent implements OnInit, OnDestroy {
       dev: this.devControl
     });
 
-    this.lastSessionInfo = this.serializeService.getLastSessionInfo();
+    this.lastSessionInfoSub = this.serializeService.getLastSessionInfo().subscribe(lastSessionInfo => {
+      this.lastSessionInfo = lastSessionInfo;
+    });
   }
 
   public ngOnDestroy(): void {
     if (this.activeBrokerNameSub) {
       this.activeBrokerNameSub.unsubscribe();
+    }
+
+    if (this.lastSessionInfoSub) {
+      this.lastSessionInfoSub.unsubscribe();
     }
   }
 
