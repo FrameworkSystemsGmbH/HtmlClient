@@ -1,6 +1,7 @@
 @import '../../../scss/variables.scss';
 
 @mixin navbar-list {
+  display: inline-flex;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -82,47 +83,60 @@
   cursor: default;
 
   .hc-navbar-left {
-    flex: 0 0 auto;
+    flex: 1;
     display: flex;
-    align-items: center;
-    padding: 0 0.75em;
+
+    @media (min-width: $breakpoint) {
+      flex: 0 0 auto;
+    }
+
+    .hc-navbar-tools-list {
+      display: inline-flex;
+      @include navbar-list();
+
+      @media (min-width: $breakpoint) {
+        display: none;
+      }
+    }
 
     .hc-navbar-title {
-      display: block;
-      line-height: $navbar-brand-fontsize;
+      flex: 0.95;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: $navbar-brand-fontsize;
       font-weight: bold;
+
+      @media (min-width: $breakpoint) {
+        flex: 0 0 auto;
+        margin-left: $navbar-height / 4;
+      }
     }
   }
 
   .hc-navbar-center {
     flex: 1;
-    display: flex;
+    display: none;
     overflow: hidden;
+
+    @media (min-width: $breakpoint) {
+      display: flex;
+    }
 
     .hc-navbar-tabs-center {
       flex: 1;
+      display: flex;
       overflow: hidden;
-      display: none;
 
       .hc-navbar-tabs-list {
         display: inline-flex;
         @include navbar-list();
-      }
-
-      @media (min-width: $breakpoint) {
-        display: inherit;
       }
     }
 
     .hc-navbar-tabs-left,
     .hc-navbar-tabs-right {
       flex: 0 0 auto;
-      display: none;
-
-      @media (min-width: $breakpoint) {
-        display: inherit;
-      }
 
       span {
         line-height: $navbar-brand-fontsize;
@@ -137,26 +151,15 @@
 
   .hc-navbar-right {
     flex: 0 0 auto;
-    display: flex;
+    display: none;
 
-    .hc-navbar-tools-list {
-      display: none;
-      margin-left: $navbar-height / 4;
-      @include navbar-list();
-
-      @media (min-width: $breakpoint) {
-        display: inline-flex;
-      }
+    @media (min-width: $breakpoint) {
+      display: flex;
     }
 
-    .hc-navbar-menu-toggle {
-      display: inline-flex;
+    .hc-navbar-tools-list {
       margin-left: $navbar-height / 4;
       @include navbar-list();
-
-      @media (min-width: $breakpoint) {
-        display: none;
-      }
     }
   }
 }

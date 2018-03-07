@@ -3,6 +3,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit, HostListener, OnInit, 
 import { ISubscription } from 'rxjs/Subscription';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { TitleService } from 'app/services/title.service';
 import { FormsService } from 'app/services/forms.service';
 import { RoutingService } from 'app/services/routing.service';
 import { DomUtil } from 'app/util/dom-util';
@@ -71,6 +72,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   private selectedFormSub: ISubscription;
 
   constructor(
+    private titleService: TitleService,
     private routingService: RoutingService,
     private formsService: FormsService) { }
 
@@ -93,6 +95,14 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (!this.sidebarEnabled && this.sidebarVisible) {
       this.toggleSidebar();
+    }
+  }
+
+  public getTitle(): string {
+    if (!this.sidebarEnabled || this.selectedForm == null) {
+      return this.titleService.getTitle();
+    } else {
+      return this.selectedForm.getTitle();
     }
   }
 
