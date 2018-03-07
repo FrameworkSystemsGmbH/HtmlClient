@@ -1,5 +1,4 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -12,6 +11,7 @@ import { PlatformService } from 'app/services/platform.service';
 import { StorageService } from 'app/services/storage/storage.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
+import { TitleService } from 'app/services/title.service';
 import { LastSessionInfo } from 'app/common/last-session-info';
 import { JsonUtil } from 'app/util/json-util';
 
@@ -38,7 +38,7 @@ export class SerializeService {
     private storageService: StorageService,
     private store: Store<fromAppReducers.IAppState>,
     private textsService: TextsService,
-    private titleService: Title
+    private titleService: TitleService
   ) {
     this.brokerService.onLoginComplete
       .switchMap(event => this.storageService.delete(SESSION_STORAGE_KEY).map(deleted => event))

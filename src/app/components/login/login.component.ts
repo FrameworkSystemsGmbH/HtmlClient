@@ -9,6 +9,7 @@ import { IAppState } from 'app/app.reducers';
 import { LoginBroker } from 'app/common/login-broker';
 import { LoginService } from 'app/services/login.service';
 import { BrokerService } from 'app/services/broker.service';
+import { TitleService } from 'app/services/title.service';
 import { SerializeService } from 'app/services/serialize.service';
 import { LastSessionInfo } from 'app/common/last-session-info';
 import { DomUtil } from 'app/util/dom-util';
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private lastSessionInfoSub: ISubscription;
 
   constructor(
+    private titleService: TitleService,
     private loginService: LoginService,
     private brokerService: BrokerService,
     private serializeService: SerializeService,
@@ -62,6 +64,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.lastSessionInfoSub = this.serializeService.getLastSessionInfo().subscribe(lastSessionInfo => {
       this.lastSessionInfo = lastSessionInfo;
     });
+
+    if (String.isNullOrWhiteSpace(this.activeBrokerName)) {
+      this.titleService.setDefault();
+    }
   }
 
   public ngOnDestroy(): void {

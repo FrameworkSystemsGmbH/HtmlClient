@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { EventsService } from 'app/services/events.service';
+import { TitleService } from 'app/services/title.service';
 import { MsgBoxButtons } from 'app/enums/msgbox-buttons';
 import { MsgBoxIcon } from 'app/enums/msgbox-icon';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
@@ -31,7 +31,7 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   private afterOpenSub: ISubscription;
 
   constructor(
-    private titleService: Title,
+    private titleService: TitleService,
     private eventsService: EventsService,
     private dialogRef: MatDialogRef<MsgBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
@@ -15,6 +14,7 @@ import { FormsService } from 'app/services/forms.service';
 import { LocaleService } from './locale.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
+import { TitleService } from 'app/services/title.service';
 import { LoginBroker } from 'app/common/login-broker';
 import { ClientEvent } from 'app/common/events/client-event';
 import { RequestType } from 'app/enums/request-type';
@@ -41,7 +41,7 @@ export class BrokerService {
 
   constructor(
     private dialog: MatDialog,
-    private titleService: Title,
+    private titleService: TitleService,
     private httpClient: HttpClient,
     private actionsService: ActionsService,
     private controlStyleSerivce: ControlStyleService,
@@ -148,10 +148,10 @@ export class BrokerService {
   private doRequest(requestJson: any): Observable<any> {
     this.lastRequestTime = Moment.utc();
     // console.log(JSON.stringify(requestJson, null, 2));
-    return this.httpClient.post(this.activeBrokerRequestUrl, requestJson);
-    // .do(response => {
-    //   console.log(JSON.stringify(response, null, 2));
-    // });
+    return this.httpClient.post(this.activeBrokerRequestUrl, requestJson)
+      .do(response => {
+        console.log(JSON.stringify(response, null, 2));
+      });
   }
 
   private getMetaJson(requestType: RequestType): any {
