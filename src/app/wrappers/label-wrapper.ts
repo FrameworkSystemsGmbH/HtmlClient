@@ -6,6 +6,7 @@ import { LabelComponent } from 'app/controls/label/label.component';
 import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
 import { TextAlign } from 'app/enums/text-align';
 import { ControlType } from 'app/enums/control-type';
+import { PropertyLayer } from 'app/common/property-layer';
 
 export class LabelWrapper extends FittedWrapper {
 
@@ -16,6 +17,18 @@ export class LabelWrapper extends FittedWrapper {
   public getTextAlign(): TextAlign {
     const textAlign: TextAlign = this.getPropertyStore().getTextAlign();
     return textAlign != null ? textAlign : TextAlign.Center;
+  }
+
+  protected setDataJson(dataJson: any): void {
+    super.setDataJson(dataJson);
+
+    if (!dataJson) {
+      return;
+    }
+
+    if (dataJson.text && dataJson.text.value !== undefined) {
+      this.getPropertyStore().setCaption(PropertyLayer.Control, dataJson.text.value != null ? decodeURIComponent(dataJson.text.value) : String.empty());
+    }
   }
 
   protected getComponentRef(): ComponentRef<LabelComponent> {

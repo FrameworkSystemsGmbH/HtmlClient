@@ -12,7 +12,7 @@ export namespace StyleUtil {
   }
 
   export function getForeColor(isEditable: boolean, color: string): string {
-    return isEditable ? color : '#707070';
+    return isEditable ? color : '#333333';
   }
 
   export function getBackgroundColor(isEditable: boolean, color: string): string {
