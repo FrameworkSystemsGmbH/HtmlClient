@@ -129,8 +129,12 @@ export class FormsService {
             this.setControlsJson(form, formJson.controls, false);
           }
 
-          if (!this.selectedForm || formJson.meta.focused) {
-            this.selectForm(form);
+          if (formJson.meta.action === 'Close') {
+            this.closeForm(form);
+          } else {
+            if (!this.selectedForm || formJson.meta.focused) {
+              this.selectForm(form);
+            }
           }
         }
       }
@@ -213,7 +217,7 @@ export class FormsService {
   public setState(json: any): void {
     if (json.forms) {
       json.forms.forEach(formJson => {
-        const form: FormWrapper = new FormWrapper(this.injector, { state: formJson});
+        const form: FormWrapper = new FormWrapper(this.injector, { state: formJson });
 
         if (formJson.controls && formJson.controls.length) {
           this.setControlsState(form, formJson.controls);

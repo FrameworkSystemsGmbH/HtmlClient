@@ -15,6 +15,8 @@ import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { JsonUtil } from 'app/util/json-util';
 
+const DEFAULT_FONT: string = 'Roboto, Arial, Helvetica, Verdana';
+
 export class PropertyStore {
 
   private store: Map<PropertyLayer, PropertyData>;
@@ -614,11 +616,11 @@ export class PropertyStore {
 
   // FontFamily
   public getFontFamily(): string {
-    return this.getValue<string>((data: PropertyData) => data.fontFamily);
+    return this.getValue<string>((data: PropertyData) => DEFAULT_FONT);
   }
 
   public getFontFamilyForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.fontFamily);
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => DEFAULT_FONT);
   }
 
   public setFontFamily(layer: PropertyLayer, value: string): void {
