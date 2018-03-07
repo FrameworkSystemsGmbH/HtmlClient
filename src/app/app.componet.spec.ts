@@ -18,7 +18,6 @@ import { ALL_COMPONENTS } from 'app/components/_all.components';
 import { ALL_CONTROLS } from 'app/controls/_all.controls';
 import { ALL_DIRECTIVES } from 'app/directives/_all.direcives';
 import { ALL_SERVICES } from 'app/services/_all.services';
-import { ALL_FORMATTERS } from 'app/services/formatter/_all.formatters';
 
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';
@@ -60,8 +59,7 @@ describe('AppComponent', () => {
       ],
       providers: [
         { provide: ErrorHandler, useClass: ErrorService },
-        ALL_SERVICES,
-        ALL_FORMATTERS
+        ALL_SERVICES
       ]
     }).compileComponents();
   }));

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, ViewContainerRef, OnInit, OnDestroy, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, ViewContainerRef, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { FormsService } from 'app/services/forms.service';
@@ -20,17 +20,20 @@ export class FrameComponent implements OnInit, OnDestroy {
   private selectedForm: FormWrapper;
   private selectedFormSub: ISubscription;
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private formsService: FormsService) { }
+  constructor(private formsService: FormsService) { }
 
   public ngOnInit(): void {
-    this.selectedFormSub = this.formsService.formSelected.subscribe(form => this.showForm(form));
+    this.selectedFormSub = this.formsService.formSelected.subscribe(form => {
+      this.showForm(form);
+    });
+
     this.formsService.fireSelectCurrentForm();
   }
 
   public ngOnDestroy(): void {
-    this.selectedFormSub.unsubscribe();
+    if (this.selectedFormSub) {
+      this.selectedFormSub.unsubscribe();
+    }
   }
 
   @HostListener('window:resize')
@@ -38,8 +41,6 @@ export class FrameComponent implements OnInit, OnDestroy {
     if (this.selectedForm) {
       this.selectedForm.doLayout(this.frame.nativeElement.clientWidth, this.frame.nativeElement.clientHeight);
     }
-
-    this.cd.detectChanges();
   }
 
   private showForm(form: FormWrapper): void {

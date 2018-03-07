@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.brokerValidator = this.createBrokerValidator(this.loginService);
 
     this.brokers$ = this.loginService.getBrokers();
+
     this.activeBrokerNameSub = this.store.select(appState => appState.broker.activeBrokerName).subscribe(name => {
       this.activeBrokerName = name;
     });

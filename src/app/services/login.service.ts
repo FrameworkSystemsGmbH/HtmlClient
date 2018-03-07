@@ -4,31 +4,31 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { LoginBroker } from 'app/common/login-broker';
-import { StorageService } from 'app/services/storage.service';
+import { StorageService } from 'app/services/storage/storage.service';
 
 const BROKER_STORAGE_KEY: string = 'brokerList';
 
 @Injectable()
 export class LoginService {
 
-  private brokers: BehaviorSubject<Array<LoginBroker>>;
+  private onBrokersChanged: BehaviorSubject<Array<LoginBroker>>;
 
   constructor(private storageService: StorageService) {
-    this.brokers = new BehaviorSubject<Array<LoginBroker>>(null);
+    this.onBrokersChanged = new BehaviorSubject<Array<LoginBroker>>(new Array<LoginBroker>());
 
     this.storageService.loadData(BROKER_STORAGE_KEY)
       .map(data => JSON.parse(data))
       .subscribe(logins => {
-        this.brokers.next(logins);
+        this.onBrokersChanged.next(logins);
       });
   }
 
   public getBrokers(): Observable<Array<LoginBroker>> {
-    return this.brokers.asObservable();
+    return this.onBrokersChanged.asObservable();
   }
 
   public addBroker(broker: LoginBroker): void {
-    let brokers: Array<LoginBroker> = this.brokers.getValue();
+    let brokers: Array<LoginBroker> = this.onBrokersChanged.getValue();
 
     if (!brokers) {
       brokers = new Array<LoginBroker>();
@@ -38,27 +38,27 @@ export class LoginService {
 
     this.saveBrokers(brokers).subscribe(saved => {
       if (saved) {
-        this.brokers.next(brokers);
+        this.onBrokersChanged.next(brokers);
       }
     });
   }
 
   public updateBroker(index: number, broker: LoginBroker): void {
-    const brokers: Array<LoginBroker> = this.brokers.getValue();
+    const brokers: Array<LoginBroker> = this.onBrokersChanged.getValue();
     brokers[index] = broker;
     this.saveBrokers(brokers).subscribe(saved => {
       if (saved) {
-        this.brokers.next(brokers);
+        this.onBrokersChanged.next(brokers);
       }
     });
   }
 
   public deleteBroker(index: number): void {
-    const brokers: Array<LoginBroker> = this.brokers.getValue();
+    const brokers: Array<LoginBroker> = this.onBrokersChanged.getValue();
     brokers.splice(index, 1);
     this.saveBrokers(brokers).subscribe(saved => {
       if (saved) {
-        this.brokers.next(brokers);
+        this.onBrokersChanged.next(brokers);
       }
     });
   }

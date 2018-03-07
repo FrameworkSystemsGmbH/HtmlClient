@@ -103,7 +103,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:keyboardDidShow')
-  public onKeyboardShownBla(): void {
+  public onKeyboardShown(): void {
     this.zone.run(() => {
       setTimeout(() => {
         this.scrollSelectedEntryIntoView();
@@ -112,7 +112,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:keyboardDidHide')
-  public onKeyboardHiddenBla(): void {
+  public onKeyboardHidden(): void {
     this.zone.run(() => {
       setTimeout(() => {
         this.scrollSelectedEntryIntoView();

@@ -6,8 +6,7 @@ export class LastSessionInfo {
     private _lastBroker: string,
     private _lastBrokerDev: boolean,
     private _lastRequestTime: Moment.Moment,
-    private _stateJson: any,
-    private _isValid: boolean
+    private _stateJson: any
   ) { }
 
   public getLastBroker(): string {
@@ -24,9 +23,5 @@ export class LastSessionInfo {
 
   public getStateJson(): any {
     return this._stateJson;
-  }
-
-  public getIsValid(): Boolean {
-    return this._isValid;
   }
 }

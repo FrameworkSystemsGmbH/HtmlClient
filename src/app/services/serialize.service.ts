@@ -9,7 +9,7 @@ import { BrokerService } from 'app/services/broker.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { FormsService } from 'app/services/forms.service';
 import { PlatformService } from 'app/services/platform.service';
-import { StorageService } from 'app/services/storage.service';
+import { StorageService } from 'app/services/storage/storage.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
 import { LastSessionInfo } from 'app/common/last-session-info';
@@ -58,30 +58,27 @@ export class SerializeService {
 
   public getLastSessionInfo(): Observable<LastSessionInfo> {
     return this.storageService.loadData(SESSION_STORAGE_KEY)
-      .map(data => {
+      .switchMap(data => {
         const stateJson: any = JSON.parse(data);
 
         if (!JsonUtil.isEmptyObject(stateJson)) {
           const lastRequestTime: Moment.Moment = Moment.utc(stateJson.meta.lastRequestTime);
           const isValid: boolean = lastRequestTime.isAfter(Moment.utc().subtract(Moment.duration(SESSION_TIMEOUT, 'minutes')));
 
-          return new LastSessionInfo(
-            stateJson.meta.lastBroker,
-            stateJson.meta.lastBrokerDev,
-            lastRequestTime,
-            stateJson,
-            isValid
-          );
+          if (isValid) {
+            return Observable.of(new LastSessionInfo(
+              stateJson.meta.lastBroker,
+              stateJson.meta.lastBrokerDev,
+              lastRequestTime,
+              stateJson
+            ));
+          } else {
+            return this.storageService.delete(SESSION_STORAGE_KEY)
+              .map(deleted => null as LastSessionInfo);
+          }
         }
 
-        return null;
-      })
-      .switchMap(lastSessionInfo => {
-        if (lastSessionInfo && lastSessionInfo.getIsValid()) {
-          return Observable.of(lastSessionInfo);
-        } else {
-          return this.storageService.delete(SESSION_STORAGE_KEY).map(deleted => lastSessionInfo);
-        }
+        return Observable.of(null as LastSessionInfo);
       });
   }
 
@@ -156,7 +153,11 @@ export class SerializeService {
     setTimeout(() => {
       this.zone.run(() => {
         this.getLastSessionInfo()
-          .switchMap(lastSessionInfo => this.storageService.delete(SESSION_STORAGE_KEY).map(deleted => lastSessionInfo))
+          .switchMap(lastSessionInfo => {
+            return this.storageService.delete(SESSION_STORAGE_KEY).map(deleted => {
+              return lastSessionInfo;
+            });
+          })
           .subscribe(lastSessionInfo => {
             // Deserialize state only if there is no active broker session
             if (this.brokerState.activeBrokerName != null || lastSessionInfo == null) {
