@@ -1,9 +1,9 @@
 <div class="wrapper" hcDialogResize [minWidth]="600" [maxWidth]="600" [ignoreHeight]="true">
-  <div class="headline" *ngIf="lastSessionInfo != null">
+  <div class="headline" *ngIf="!editorShown && lastSessionInfo != null">
     <h3>Continue Session</h3>
   </div>
 
-  <mat-card class="last-session" *ngIf="lastSessionInfo != null" (click)="continueSession()">
+  <mat-card class="last-session" *ngIf="!editorShown && lastSessionInfo != null" (click)="continueSession()">
     <h3 class="session-name">{{ lastSessionInfo.getLastBrokerDev() ? lastSessionInfo.getLastBroker() + ' (Development)' : lastSessionInfo.getLastBroker() }}</h3>
     <div class="session-date">{{ getLastRequestTimeLocalString() }}</div>
   </mat-card>
