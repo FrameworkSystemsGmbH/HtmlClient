@@ -41,6 +41,9 @@
 </nav>
 
 <nav [@sidebar] class="hc-navbar-side" *ngIf="sidebarEnabled && sidebarVisible">
+  <div class="hc-navbar-side-top">
+      <span>{{ getSidebarTitle() }}</span>
+  </div>
   <div #tabs class="hc-navbar-side-middle">
     <ul class="hc-navbar-side-tabs-list">
       <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">

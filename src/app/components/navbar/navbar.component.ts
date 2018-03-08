@@ -113,6 +113,10 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
+  public getSidebarTitle(): string {
+    return this.titleService.getTitle();
+  }
+
   public startScrollingLeft(event: any): void {
     if (event.button === 0) {
       this.scrollTabs(this.clickScrollDelta);
