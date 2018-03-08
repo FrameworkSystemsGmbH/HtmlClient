@@ -23,7 +23,8 @@ export class FormsService {
   constructor(
     private injector: Injector,
     private eventsService: EventsService,
-    private controlsService: ControlsService) {
+    private controlsService: ControlsService
+  ) {
     this.formSelected = new EventEmitter<FormWrapper>();
   }
 

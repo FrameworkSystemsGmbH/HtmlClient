@@ -7,6 +7,7 @@
   margin: 0;
 
   li {
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     padding: 0 0.75em;
@@ -118,6 +119,7 @@
     flex: 1;
     display: none;
     overflow: hidden;
+    margin-left: $navbar-height / 4;
 
     @media (min-width: $breakpoint) {
       display: flex;
@@ -137,14 +139,30 @@
     .hc-navbar-tabs-left,
     .hc-navbar-tabs-right {
       flex: 0 0 auto;
+      display: flex;
 
-      span {
-        line-height: $navbar-brand-fontsize;
+      div {
+        display: inline-flex;
+        align-items: center;
         cursor: pointer;
 
         &:hover {
           color: $navbar-color-highlight;
         }
+      }
+    }
+
+    .hc-navbar-tabs-left {
+      div {
+        border-right: 1px solid $grey1;
+        margin-right: 0.3rem;
+      }
+    }
+
+    .hc-navbar-tabs-right {
+      div {
+        border-left: 1px solid $grey1;
+        margin-left: 0.3rem;
       }
     }
   }

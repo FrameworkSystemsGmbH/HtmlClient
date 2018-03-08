@@ -1,5 +1,5 @@
 import { animate, transition, trigger, style } from '@angular/animations';
-import { Component, ViewChild, ElementRef, AfterViewInit, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewChecked, HostListener, OnInit, OnDestroy, NgZone, Renderer2 } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
@@ -7,6 +7,7 @@ import { TitleService } from 'app/services/title.service';
 import { FormsService } from 'app/services/forms.service';
 import { RoutingService } from 'app/services/routing.service';
 import { DomUtil } from 'app/util/dom-util';
+import { StyleUtil } from 'app/util/style-util';
 
 @Component({
   selector: 'hc-navbar',
@@ -47,7 +48,7 @@ import { DomUtil } from 'app/util/dom-util';
     ])
   ]
 })
-export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
+export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChild('center')
   public center: ElementRef;
@@ -55,14 +56,18 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('tabs')
   public tabs: ElementRef;
 
+  @ViewChild('arrowLeft')
+  public arrowLeft: ElementRef;
+
+  @ViewChild('arrowRight')
+  public arrowRight: ElementRef;
+
   public forms: Array<FormWrapper>;
   public selectedForm: FormWrapper;
-  public tabScrollPosition: number = 0;
-  public leftScrollerVisible: boolean = false;
-  public rightScrollerVisible: boolean = false;
   public sidebarEnabled: boolean = false;
   public sidebarVisible: boolean = false;
 
+  private tabScrollPosition: number = 0;
   private clickScrollDelta: number = 100;
   private panStartX: number;
   private leftInterval: any;
@@ -72,6 +77,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   private selectedFormSub: ISubscription;
 
   constructor(
+    private zone: NgZone,
+    private renderer: Renderer2,
     private titleService: TitleService,
     private routingService: RoutingService,
     private formsService: FormsService) { }
@@ -81,8 +88,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.selectedForm = form; });
   }
 
-  public ngAfterViewInit(): void {
-    setTimeout(() => this.refreshScroller());
+  public ngAfterViewChecked(): void {
+    this.refreshScroller();
   }
 
   public ngOnDestroy(): void {
@@ -107,8 +114,10 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public startScrollingLeft(event: any): void {
-    this.scrollTabs(this.clickScrollDelta);
-    this.leftInterval = setInterval(() => { this.scrollTabs(this.clickScrollDelta); }, 100);
+    if (event.button === 0) {
+      this.scrollTabs(this.clickScrollDelta);
+      this.leftInterval = setInterval(() => { this.scrollTabs(this.clickScrollDelta); }, 100);
+    }
   }
 
   public stopScrollingLeft(event: any): void {
@@ -116,8 +125,10 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public startScrollingRight(event: any): void {
-    this.scrollTabs(-this.clickScrollDelta);
-    this.rightInterval = setInterval(() => { this.scrollTabs(-this.clickScrollDelta); }, 100);
+    if (event.button === 0) {
+      this.scrollTabs(-this.clickScrollDelta);
+      this.rightInterval = setInterval(() => { this.scrollTabs(-this.clickScrollDelta); }, 100);
+    }
   }
 
   public stopScrollingRight(event: any): void {
@@ -140,7 +151,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private scrollTabs(deltaX: number, absolute: boolean = false): void {
-    const divWidth: number = this.center.nativeElement.width;
+    const divWidth: number = this.center.nativeElement.clientWidth;
     const ulWidth: number = this.tabs.nativeElement.scrollWidth;
     const maxScroll: number = Math.max(0, ulWidth - divWidth);
     this.tabScrollPosition = Math.min(Math.max(-maxScroll, (absolute ? 0 : this.tabScrollPosition) + deltaX), 0);
@@ -175,19 +186,22 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:resize')
   public refreshScroller(): void {
-    const divWidth: number = this.center.nativeElement.width;
-    const ulWidth: number = this.tabs.nativeElement.scrollWidth;
-    const maxScroll: number = Math.max(0, ulWidth - divWidth);
+    this.zone.runOutsideAngular(() => {
+      const divWidth: number = this.center.nativeElement.clientWidth;
+      const ulWidth: number = this.tabs.nativeElement.scrollWidth;
+      const maxScroll: number = Math.max(0, ulWidth - divWidth);
 
-    this.tabScrollPosition = Math.min(Math.max(-maxScroll, this.tabScrollPosition), 0);
+      this.tabScrollPosition = Math.min(Math.max(-maxScroll, this.tabScrollPosition), 0);
+      this.renderer.setStyle(this.tabs.nativeElement, 'margin-left', StyleUtil.getValue('px', this.tabScrollPosition));
 
-    if (maxScroll) {
-      this.leftScrollerVisible = this.tabScrollPosition === 0;
-      this.rightScrollerVisible = !(this.tabScrollPosition <= -maxScroll);
-    } else {
-      this.leftScrollerVisible = false;
-      this.rightScrollerVisible = false;
-    }
+      if (maxScroll) {
+        this.renderer.setStyle(this.arrowLeft.nativeElement, 'visibility', this.tabScrollPosition !== 0 ? 'visible' : 'hidden');
+        this.renderer.setStyle(this.arrowRight.nativeElement, 'visibility', !(this.tabScrollPosition <= -maxScroll) ? 'visible' : 'hidden');
+      } else {
+        this.renderer.setStyle(this.arrowLeft.nativeElement, 'visibility', 'hidden');
+        this.renderer.setStyle(this.arrowRight.nativeElement, 'visibility', 'hidden');
+      }
+    });
   }
 
   @HostListener('body:swipeleft')
