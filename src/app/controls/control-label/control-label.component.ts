@@ -29,7 +29,7 @@ export class ControlLabelComponent extends LayoutableComponent {
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight(),
       'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
-      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
+      'background-color': wrapper.getBackColor(),
       'border-style': 'none',
       'margin': StyleUtil.getFourValue('px',
         wrapper.getMarginTop(),
