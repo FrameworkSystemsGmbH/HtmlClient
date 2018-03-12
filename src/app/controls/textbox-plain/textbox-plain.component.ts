@@ -11,13 +11,11 @@ import { StringFormatService } from 'app/services/formatter/string-format.servic
 })
 export class TextBoxPlainComponent extends TextBoxComponent implements OnInit {
 
-  @ViewChild('input')
-  public input: ElementRef;
+  @ViewChild('input') public input: ElementRef;
 
   public value: string;
 
-  constructor(
-    private stringFormatService: StringFormatService) {
+  constructor(private stringFormatService: StringFormatService) {
     super();
   }
 
@@ -43,6 +41,10 @@ export class TextBoxPlainComponent extends TextBoxComponent implements OnInit {
 
   public getWrapper(): TextBoxPlainWrapper {
     return super.getWrapper() as TextBoxPlainWrapper;
+  }
+
+  public isPasswordField(): boolean {
+    return this.getWrapper().isPasswordField();
   }
 
   public setFocus(): void {

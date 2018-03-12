@@ -1,1 +1,2 @@
-<input #input type="text" [(ngModel)]="value" [ngStyle]="getStyles()" (input)="onInput($event)" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" [attr.tabindex]="getTabStop()" [attr.readonly]="getIsReadonly()" />
+<input #input type="{{ isPasswordField() ? 'password' : 'text' }}" [(ngModel)]="value" [ngStyle]="getStyles()" (input)="onInput($event)" (focusin)="callOnEnter($event)"
+  (focusout)="callOnLeave($event)" [attr.tabindex]="getTabStop()" [attr.readonly]="getIsReadonly()" />

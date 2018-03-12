@@ -27,6 +27,11 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
     return this.stringFormatService;
   }
 
+  public isPasswordField(): boolean {
+    const pwChar: string = this.getPropertyStore().getPasswordChar();
+    return !String.isNullOrWhiteSpace(pwChar);
+  }
+
   public getValue(): string {
     return this.value;
   }
