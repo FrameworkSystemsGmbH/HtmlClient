@@ -63,7 +63,7 @@ export class LabelComponent extends ControlComponent {
       'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
       'font-size.px': wrapper.getFontSize(),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
-      'line-height.px': wrapper.getFontSize(),
+      'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };

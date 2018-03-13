@@ -387,6 +387,14 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return Boolean.falseIfNull(this.getPropertyStore().getFontUnderline());
   }
 
+  public getLineHeight(): number {
+    return this.getFontSize();
+  }
+
+  public getLineHeightMultiline(): number {
+    return Math.roundDec(this.getFontSize() * 1.2, 0);
+  }
+
   public providesControlLabelWrapper(): boolean {
     return !!this.getCaption();
   }

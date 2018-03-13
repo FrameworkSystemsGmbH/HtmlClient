@@ -52,7 +52,8 @@ export class TextBoxPlainComponent extends TextBoxComponent implements OnInit {
   }
 
   private formatValue(value: string): string {
-    return this.stringFormatService.formatString(value, this.getWrapper().getFormat());
+    const wrapper: TextBoxPlainWrapper = this.getWrapper();
+    return wrapper.isPasswordField() ? value : this.stringFormatService.formatString(value, this.getWrapper().getFormat());
   }
 
   public updateComponent(): void {

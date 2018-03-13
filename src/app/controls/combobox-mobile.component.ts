@@ -84,7 +84,7 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
         wrapper.getPaddingLeft()),
       'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
-      'line-height.px': wrapper.getFontSize(),
+      'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
 

@@ -10,6 +10,7 @@ import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
 import { EditStyle } from 'app/enums/edit-style';
 import { TextFormat } from 'app/enums/text-format';
 import { TextAlign } from 'app/enums/text-align';
+import { ScrollBars } from 'app/enums/scrollbars';
 import { ControlVisibility } from 'app/enums/control-visibility';
 import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
@@ -1121,6 +1122,19 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.optimizeGeneratedLabels = value; });
   }
 
+  // ScrollBars
+  public getScrollBars(): ScrollBars {
+    return this.getValue<ScrollBars>((data: PropertyData) => data.scrollBars);
+  }
+
+  public getScrollBarsForLayer(layer: PropertyLayer): ScrollBars {
+    return this.getValueForLayer<ScrollBars>(layer, (data: PropertyData) => data.scrollBars);
+  }
+
+  public setScrollBars(layer: PropertyLayer, value: ScrollBars): void {
+    this.setValue(layer, (data: PropertyData) => { data.scrollBars = value; });
+  }
+
   // ShowCaption
   public getShowCaption(): boolean {
     return this.getValue<boolean>((data: PropertyData) => data.showCaption);
@@ -1210,6 +1224,19 @@ export class PropertyStore {
 
   public setIsVisible(layer: PropertyLayer, value: boolean): void {
     this.setValue(layer, (data: PropertyData) => { data.isVisible = value; });
+  }
+
+  // WordWrap
+  public getWordWrap(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => data.wordWrap);
+  }
+
+  public getWordWrapForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.wordWrap);
+  }
+
+  public setWordWrap(layer: PropertyLayer, value: boolean): void {
+    this.setValue(layer, (data: PropertyData) => { data.wordWrap = value; });
   }
 
   // WrapArrangement

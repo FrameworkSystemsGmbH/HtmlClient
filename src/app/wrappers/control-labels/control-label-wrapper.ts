@@ -274,6 +274,10 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
     return Boolean.falseIfNull(this.getLabelTemplate().getFontUnderline());
   }
 
+  public getLineHeight(): number {
+    return this.getFontSize();
+  }
+
   public updateFittedWidth(): void {
     this.setFittedContentWidth(this.getFontService().measureText(this.getDisplayCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
   }

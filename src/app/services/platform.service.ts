@@ -10,6 +10,8 @@ export class PlatformService {
   private _isAndroid: boolean;
   private _isIos: boolean;
 
+  private _isIE: boolean;
+
   constructor() {
     this.guessPlatform();
   }
@@ -34,6 +36,10 @@ export class PlatformService {
     return this._isIos;
   }
 
+  public isIE(): boolean {
+    return this._isIE;
+  }
+
   private guessPlatform(): void {
     const userAgent: string = window.navigator.userAgent;
 
@@ -43,5 +49,7 @@ export class PlatformService {
 
     this._isAndroid = this._isMobile && userAgent.match(/Android/) !== null;
     this._isIos = this._isMobile && (userAgent.match(/iPhone/) !== null || userAgent.match(/iPad/) !== null);
+
+    this._isIE = userAgent.match(/Trident/) !== null;
   }
 }

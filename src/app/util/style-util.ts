@@ -1,5 +1,6 @@
 import { TextAlign } from 'app/enums/text-align';
 import { ContentAlignment } from 'app/enums/content-alignment';
+import { ScrollBars } from 'app/enums/scrollbars';
 
 export namespace StyleUtil {
 
@@ -41,6 +42,30 @@ export namespace StyleUtil {
         return 'right';
       default:
         return 'left';
+    }
+  }
+
+  export function getWordWrap(wordWrap: boolean): string {
+    return wordWrap ? 'normal' : 'nowrap';
+  }
+
+  export function getOverflowX(scrollBars: ScrollBars): string {
+    switch (scrollBars) {
+      case ScrollBars.Both:
+      case ScrollBars.Horizontal:
+        return 'auto';
+      default:
+        return 'hidden';
+    }
+  }
+
+  export function getOverflowY(scrollBars: ScrollBars): string {
+    switch (scrollBars) {
+      case ScrollBars.Both:
+      case ScrollBars.Vertical:
+        return 'auto';
+      default:
+        return 'hidden';
     }
   }
 

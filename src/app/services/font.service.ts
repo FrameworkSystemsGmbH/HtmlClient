@@ -4,6 +4,7 @@ import * as Moment from 'moment-timezone';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { NumberFormatService } from 'app/services/formatter/number-format.service';
 import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
+import { PlatformService } from 'app/services/platform.service';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
 import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
 import { PropertyStore } from 'app/common/property-store';
@@ -41,6 +42,7 @@ export class FontService {
   private baseControlStyle: PropertyStore;
 
   constructor(
+    private platformService: PlatformService,
     private controlStyleService: ControlStyleService,
     private numberFormatService: NumberFormatService,
     private dateTimeFormatService: DateTimeFormatService) {
@@ -207,8 +209,8 @@ export class FontService {
   }
 
   private measureLinesHeight(wrapper: FittedDataWrapper, lines: number): number {
-    const fontSize: number = wrapper.getFontSize();
-    return fontSize * lines;
+    const lineHeight: number = wrapper.getLineHeight();
+    return lineHeight * lines;
   }
 
   private measureStringWidth(wrapper: FittedDataWrapper, length: number, format: TextFormat) {
@@ -373,7 +375,14 @@ export class FontService {
       return 0;
     } else {
       this.context.font = (isBold ? 'bold' : String.empty()) + (isItalic ? ' italic' : String.empty()) + ' ' + size + 'px' + ' ' + font;
-      return this.context.measureText(text).width;
+      let width: number = Math.ceilDec(this.context.measureText(text).width, 0);
+
+      // IE canvas doesn't measure subpixels, so 42.24 would result in 42
+      if (this.platformService.isIE()) {
+        width += 1;
+      }
+
+      return width;
     }
   }
 }

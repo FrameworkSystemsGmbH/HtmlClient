@@ -14,6 +14,7 @@ import { FieldPanelComponent } from 'app/controls/field-panel/field-panel.compon
 import { FormComponent } from 'app/controls/form/form.component';
 import { LabelComponent } from 'app/controls/label/label.component';
 import { TextBoxDateTimeComponent } from 'app/controls/textbox-datetime/textbox-datetime.component';
+import { TextBoxMultilineComponent } from 'app/controls/textbox-multiline/textbox-multiline.component';
 import { TextBoxNumberComponent } from 'app/controls/textbox-number/textbox-number.component';
 import { TextBoxPlainComponent } from 'app/controls/textbox-plain/textbox-plain.component';
 import { VariantComponent } from 'app/controls/variant/variant.component';
@@ -36,6 +37,7 @@ export const ALL_CONTROLS = [
   FormComponent,
   LabelComponent,
   TextBoxDateTimeComponent,
+  TextBoxMultilineComponent,
   TextBoxNumberComponent,
   TextBoxPlainComponent,
   VariantComponent,

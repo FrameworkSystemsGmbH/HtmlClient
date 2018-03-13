@@ -19,6 +19,7 @@ import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LabelWrapper } from 'app/wrappers/label-wrapper';
 import { TextBoxNumberWrapper } from 'app/wrappers/textbox-number-wrapper';
 import { TextBoxDateTimeWrapper } from 'app/wrappers/textbox-datetime-wrapper';
+import { TextBoxMultilineWrapper } from '../wrappers/textbox-multiline-wrapper';
 import { TextBoxPlainWrapper } from 'app/wrappers/textbox-plain-wrapper';
 import { VariantWrapper } from 'app/wrappers/variant-wrapper';
 import { WrapPanelWrapper } from 'app/wrappers/wrap-panel-wrapper';
@@ -69,6 +70,8 @@ export class ControlsService {
             return new TextBoxNumberWrapper(this.injector, options);
           case TextBoxType.Date:
             return new TextBoxDateTimeWrapper(this.injector, options);
+          case TextBoxType.Multiline:
+            return new TextBoxMultilineWrapper(this.injector, options);
           default:
             return new TextBoxPlainWrapper(this.injector, options);
         }
@@ -79,6 +82,10 @@ export class ControlsService {
 
   public getTextBoxTypeFromControlJson(controlJson: any): TextBoxType {
     const propertyStore: PropertyStore = this.createPropertyStoreFromControlJson(controlJson);
+
+    if (propertyStore.getIsMultiline()) {
+      return TextBoxType.Multiline;
+    }
 
     switch (propertyStore.getFormat()) {
       case TextFormat.Decimal:
