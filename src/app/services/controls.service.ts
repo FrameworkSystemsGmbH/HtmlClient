@@ -12,6 +12,7 @@ import { PropertyData } from 'app/common/property-data';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ButtonImageWrapper } from 'app/wrappers/button-image-wrapper';
 import { ButtonPlainWrapper } from 'app/wrappers/button-plain-wrapper';
+import { CheckBoxWrapper } from 'app/wrappers/checkbox-wrapper';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { DockPanelWrapper } from 'app/wrappers/dock-panel-wrapper';
@@ -48,6 +49,8 @@ export class ControlsService {
         return new ButtonPlainWrapper(this.injector, options);
       case ControlType.ImageButton:
         return new ButtonImageWrapper(this.injector, options);
+      case ControlType.CheckBox:
+        return new CheckBoxWrapper(this.injector, options);
       case ControlType.ComboBox:
         return new ComboBoxWrapper(this.injector, options);
       case ControlType.DockPanel:

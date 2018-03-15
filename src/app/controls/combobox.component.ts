@@ -13,12 +13,12 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
   public isEditable: boolean;
   public selectedIndex: number;
 
-  public ngDoCheck(): void {
-    this.updateStyles(this.getWrapper());
-  }
-
   public ngOnInit(): void {
     this.updateComponent();
+  }
+
+  public ngDoCheck(): void {
+    this.updateStyles(this.getWrapper());
   }
 
   public abstract getSelectedPk(): string;
@@ -73,7 +73,7 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
   }
 
   protected updateProperties(wrapper: ComboBoxWrapper): void {
-    this.isEditable = this.getWrapper().getIsEditable();
+    this.isEditable = wrapper.getIsEditable();
     this.entries = wrapper.getEntries();
   }
 

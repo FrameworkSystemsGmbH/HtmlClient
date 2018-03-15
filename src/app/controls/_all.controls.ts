@@ -1,5 +1,6 @@
 import { ButtonImageComponent } from 'app/controls/button-image/button-image.component';
 import { ButtonPlainComponent } from 'app/controls/button-plain/button-plain.component';
+import { CheckBoxComponent } from 'app/controls/checkbox/checkbox.component';
 import { ComboBoxFreeComponent } from 'app/controls/combobox-free/combobox-free.component';
 import { ComboBoxFreeMobileComponent } from 'app/controls/combobox-free-mobile/combobox-free-mobile.component';
 import { ComboBoxFreeMobileOverlayComponent } from 'app/controls/combobox-free-mobile/combobox-free-mobile-overlay.component';
@@ -23,6 +24,7 @@ import { WrapPanelComponent } from 'app/controls/wrap-panel/wrap-panel.component
 export const ALL_CONTROLS = [
   ButtonImageComponent,
   ButtonPlainComponent,
+  CheckBoxComponent,
   ComboBoxFreeComponent,
   ComboBoxFreeMobileComponent,
   ComboBoxFreeMobileOverlayComponent,

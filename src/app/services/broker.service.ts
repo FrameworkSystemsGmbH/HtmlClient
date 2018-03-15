@@ -147,7 +147,7 @@ export class BrokerService {
 
   private doRequest(requestJson: any): Observable<any> {
     this.lastRequestTime = Moment.utc();
-    // console.log(JSON.stringify(requestJson, null, 2));
+    console.log(JSON.stringify(requestJson, null, 2));
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson);
     // .do(response => {
     //   console.log(JSON.stringify(response, null, 2));

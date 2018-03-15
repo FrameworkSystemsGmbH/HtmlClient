@@ -1,0 +1,4 @@
+<div class="wrapper" [ngStyle]="wrapperStyle" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" (mousedown)="onWrapperMouseDown($event)">
+  <mat-checkbox #checkBox [(ngModel)]="value" (change)="callOnClick($event)" [disabled]="!isEditable"></mat-checkbox>
+  <span *ngIf="showCaption" [ngStyle]="labelStyle" (click)="onLabelClick($event)" tabindex="-1">{{ caption }}</span>
+</div>

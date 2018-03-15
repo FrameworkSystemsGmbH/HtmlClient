@@ -12,11 +12,6 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
 
   private onClickSub: ISubscription;
 
-  public getCaption(): string {
-    const caption: string = this.getPropertyStore().getCaption();
-    return caption != null ? caption : null;
-  }
-
   public showCaption(): boolean {
     return Boolean.trueIfNull(this.getPropertyStore().getShowCaption());
   }
@@ -85,5 +80,4 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
       this.setFittedContentWidth(null);
     }
   }
-
 }
