@@ -36,6 +36,7 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
 
   public ngDoCheck(): void {
     this.updateStyles(this.getWrapper());
+    this.updateInput();
   }
 
   public callOnClick(event: any): void {
@@ -68,6 +69,12 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
 
     if (wrapper.hasOnClickEvent()) {
       this.onClick = new EventEmitter<any>();
+    }
+  }
+
+  protected updateInput(): void {
+    if (this.checkBox) {
+      (this.checkBox._inputElement.nativeElement as HTMLInputElement).tabIndex = this.tabIndexAttr;
     }
   }
 
