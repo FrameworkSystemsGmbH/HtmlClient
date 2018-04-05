@@ -10,10 +10,23 @@
     .hc-msgbox-header {
       flex: 0 0 auto;
       display: flex;
+      margin-bottom: 1em;
+
+      .hc-msgbox-header-title {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+
+        span {
+          font-size: 1.5em;
+          font-weight: bold;
+        }
+      }
 
       .hc-msgbox-header-icon {
         flex: 0 0 auto;
-        margin-right: 0.5em;
+        margin-left: 0.5em;
 
         .fa-exclamation-circle {
           color: red;
@@ -28,27 +41,13 @@
           color: #3faeff;
         }
       }
-
-      .hc-msgbox-header-title {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-
-        span {
-          font-size: 1.5em;
-          font-weight: bold;
-        }
-      }
     }
 
     .hc-msgbox-message {
-      flex: 1;
+      flex: 1 1 auto;
       display: flex;
       overflow: auto;
       overflow-x: hidden;
-      margin-top: 1em;
-      margin-left: 0.5em;
 
       span {
         user-select: text;
@@ -59,7 +58,7 @@
     .hc-msgbox-footer {
       flex: 0 0 auto;
       display: flex;
-      margin-top: 1.25em;
+      margin-top: 1em;
       justify-content: center;
 
       button:not(:last-child) {

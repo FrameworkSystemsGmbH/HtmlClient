@@ -10,12 +10,7 @@
     .hc-errorbox-header {
       flex: 0 0 auto;
       display: flex;
-
-      .hc-errorbox-header-icon {
-        flex: 0 0 auto;
-        margin-right: 0.5em;
-        color: red;
-      }
+      margin-bottom: 1em;
 
       .hc-errorbox-header-title {
         flex: 1;
@@ -28,15 +23,19 @@
           font-weight: bold;
         }
       }
+
+      .hc-errorbox-header-icon {
+        flex: 0 0 auto;
+        margin-left: 0.5em;
+        color: red;
+      }
     }
 
     .hc-errorbox-message {
-      flex: 1;
+      flex: 1 1 auto;
       display: flex;
       overflow: auto;
       overflow-x: hidden;
-      margin-top: 1em;
-      margin-left: 0.5em;
 
       span {
         user-select: text;
@@ -45,7 +44,7 @@
     }
 
     .hc-errorbox-stacktrace {
-      flex: 1;
+      flex: 1 1 auto;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -67,7 +66,7 @@
     .hc-errorbox-footer {
       flex: 0 0 auto;
       display: flex;
-      margin-top: 1.25em;
+      margin-top: 1em;
       justify-content: center;
 
       button:not(:last-child) {
