@@ -1,10 +1,10 @@
 // Place your settings in this file to overwrite default and user settings.
 {
   "editor.wordWrap": "wordWrapColumn",
-  "editor.wordWrapColumn": 140,
+  "editor.wordWrapColumn": 500,
   "editor.wrappingIndent": "indent",
 
-  "html.format.wrapLineLength": 140,
+  "html.format.wrapLineLength": 500,
   "html.format.maxPreserveNewLines": 1,
   "html.suggest.angular1": false,
   "html.suggest.ionic": false,
