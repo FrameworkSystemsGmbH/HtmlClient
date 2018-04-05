@@ -5,9 +5,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 
 import { CheckBoxComponent } from 'app/controls/checkbox/checkbox.component';
 import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
-import { TextAlign } from 'app/enums/text-align';
 import { ControlType } from 'app/enums/control-type';
-import { PropertyLayer } from 'app/common/property-layer';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ControlEvent } from 'app/enums/control-event';

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, Output, EventEmitter, OnInit, DoCheck } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, OnInit, DoCheck } from '@angular/core';
 import { MatCheckbox } from '@angular/material';
 
 import { ControlComponent } from 'app/controls/control.component';
