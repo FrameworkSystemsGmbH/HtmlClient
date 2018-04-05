@@ -16,7 +16,11 @@ export class KeyboardService {
 
   private scrollToFocusOnOpen(event: any): void {
     if (document.activeElement) {
-      DomUtil.scrollIntoView(document.body, document.activeElement as HTMLElement);
+      const activeHtmlElement: HTMLElement = document.activeElement as HTMLElement;
+      const scroller: HTMLElement = DomUtil.getNearestParent(activeHtmlElement, 'hc-form-scroller');
+      if (activeHtmlElement != null && scroller != null) {
+        DomUtil.scrollIntoView(scroller, activeHtmlElement);
+      }
     }
   }
 }

@@ -105,4 +105,22 @@ export namespace DomUtil {
 
     return false;
   }
+
+  export function getNearestParent(element: HTMLElement, className: string): HTMLElement {
+    if (!element) {
+      return null;
+    }
+
+    const parent: HTMLElement = element.parentElement;
+
+    if (!parent) {
+      return null;
+    }
+
+    if (parent.classList.contains(className)) {
+      return parent;
+    } else {
+      return getNearestParent(parent, className);
+    }
+  }
 }
