@@ -35,7 +35,7 @@
           Url is required
         </mat-error>
       </mat-form-field>
-      <mat-checkbox formControlName="dev">Development Broker</mat-checkbox>
+      <mat-checkbox formControlName="dev" color="primary">Development Broker</mat-checkbox>
       <div class="form-actions">
         <button type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingIndex != null && editingIndex >= 0 ? 'Save' : 'Add' }}</button>
         <button type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
