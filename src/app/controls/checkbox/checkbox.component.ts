@@ -55,6 +55,7 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
   public onLabelClick(event: any): void {
     this.setFocus();
     if (this.isEditable) {
+      this.checkBox.ripple.launch(null);
       this.value = !this.value;
       this.callOnClick(event);
     }
