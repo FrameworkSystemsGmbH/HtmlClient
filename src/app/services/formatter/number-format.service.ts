@@ -102,6 +102,7 @@ export class NumberFormatService {
       case TextFormat.NegativeInteger:
         return this.adjustNumberNegativeInteger(value).toString();
       case TextFormat.Decimal:
+      case TextFormat.UserDefined:
         if (formatPattern) {
           return this.formatNumberPattern(value, formatPattern);
         } else {

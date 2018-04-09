@@ -95,6 +95,7 @@ export class ControlsService {
       case TextFormat.Integer:
       case TextFormat.PositiveInteger:
       case TextFormat.NegativeInteger:
+      case TextFormat.UserDefined:
         return TextBoxType.Number;
       case TextFormat.DateTimeShort:
       case TextFormat.DateTimeMedium:

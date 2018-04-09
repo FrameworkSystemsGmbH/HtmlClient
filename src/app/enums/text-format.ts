@@ -14,5 +14,6 @@ export enum TextFormat {
   PositiveInteger = 12,
   NegativeInteger = 13,
   LowerCase = 14,
-  UpperCase = 15
+  UpperCase = 15,
+  UserDefined = 16
 }
