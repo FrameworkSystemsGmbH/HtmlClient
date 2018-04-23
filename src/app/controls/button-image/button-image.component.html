@@ -1,4 +1,4 @@
 <button #focus [ngStyle]="getStyles()" (click)="callOnClick($event)" (focus)="callOnFocus($event)" (blur)="callOnBlur($event)" (mouseenter)="callOnMouseEnter($event)" (mouseleave)="callOnMouseLeave($event)" (mousedown)="callOnMouseDown($event)" (mouseup)="callOnMouseUp($event)" [attr.tabindex]="getTabStop()" [attr.disabled]="getIsDisabled()">
-  <img [src]="getImageUrl()" draggable="false" />
+  <img  *ngIf="getImageUrl()" [src]="getImageUrl()" draggable="false" />
   <span *ngIf="showCaption()" [ngStyle]="getTextStyles()">{{ getCaption() }}</span>
 </button>
