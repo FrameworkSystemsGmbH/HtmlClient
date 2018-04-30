@@ -5,7 +5,6 @@ import { LocaleService } from 'app/services/locale.service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { PlatformService } from 'app/services/platform.service';
 import { SerializeService } from './services/serialize.service';
-import { StyleUtil } from 'app/util/style-util';
 
 @Component({
   selector: 'hc-app',

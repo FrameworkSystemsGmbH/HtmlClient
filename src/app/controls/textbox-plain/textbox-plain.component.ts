@@ -1,26 +1,26 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 import { TextBoxComponent } from 'app/controls/textbox.component';
 import { TextBoxPlainWrapper } from 'app/wrappers/textbox-plain-wrapper';
 import { StringFormatService } from 'app/services/formatter/string-format.service';
+import { TextFormat } from 'app/enums/text-format';
 
 @Component({
   selector: 'hc-txt-plain',
   templateUrl: './textbox-plain.component.html',
   styleUrls: ['./textbox-plain.component.scss']
 })
-export class TextBoxPlainComponent extends TextBoxComponent implements OnInit {
+export class TextBoxPlainComponent extends TextBoxComponent {
 
   @ViewChild('input') public input: ElementRef;
 
   public value: string;
+  public isPasswordField: boolean;
+
+  private format: TextFormat;
 
   constructor(private stringFormatService: StringFormatService) {
     super();
-  }
-
-  public ngOnInit(): void {
-    this.updateComponent();
   }
 
   public getInput(): ElementRef {
@@ -32,8 +32,7 @@ export class TextBoxPlainComponent extends TextBoxComponent implements OnInit {
   }
 
   public callOnLeave(event: any): void {
-    const wrapper: TextBoxPlainWrapper = this.getWrapper();
-    if (wrapper.getIsEditable()) {
+    if (this.isEditable) {
       this.updateWrapper();
       super.callOnLeave(event);
     }
@@ -43,24 +42,18 @@ export class TextBoxPlainComponent extends TextBoxComponent implements OnInit {
     return super.getWrapper() as TextBoxPlainWrapper;
   }
 
-  public isPasswordField(): boolean {
-    return this.getWrapper().isPasswordField();
-  }
-
-  public setFocus(): void {
-    this.input.nativeElement.focus();
-  }
-
   private formatValue(value: string): string {
-    const wrapper: TextBoxPlainWrapper = this.getWrapper();
-    return wrapper.isPasswordField() ? value : this.stringFormatService.formatString(value, this.getWrapper().getFormat());
-  }
-
-  public updateComponent(): void {
-    this.value = this.formatValue(this.getWrapper().getValue());
+    return this.isPasswordField ? value : this.stringFormatService.formatString(value, this.format);
   }
 
   private updateWrapper(): void {
     this.getWrapper().setValue(this.value);
+  }
+
+  protected updateProperties(wrapper: TextBoxPlainWrapper): void {
+    super.updateProperties(wrapper);
+    this.format = wrapper.getFormat();
+    this.isPasswordField = wrapper.isPasswordField();
+    this.value = this.formatValue(wrapper.getValue());
   }
 }

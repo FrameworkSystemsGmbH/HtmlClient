@@ -2,13 +2,20 @@ import { EventEmitter, Output } from '@angular/core';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { StyleUtil } from 'app/util/style-util';
 
 export abstract class ButtonComponent extends ControlComponent {
 
   @Output()
   public onClick: EventEmitter<any>;
+
+  public caption: string;
+  public showCaption: boolean;
+  public isVisible: boolean;
+  public tabIndexAttr: number;
+  public disabledAttr: boolean;
+  public buttonStyle: any;
 
   public callOnClick(event: any): void {
     if (this.getWrapper().hasOnClickEvent()) {
@@ -28,33 +35,27 @@ export abstract class ButtonComponent extends ControlComponent {
     }
   }
 
-  public getIsDisabled(): boolean {
-    return Boolean.nullIfFalse(!this.getWrapper().getIsEditable());
+  protected updateProperties(wrapper: ButtonBaseWrapper): void {
+    super.updateProperties(wrapper);
+    this.caption = wrapper.getCaption();
+    this.showCaption = wrapper.showCaption();
+    this.isVisible = wrapper.getVisibility() === Visibility.Visible;
+    this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
+    this.disabledAttr = Boolean.nullIfFalse(!this.isEditable);
   }
 
-  public getCaption(): string {
-    return this.getWrapper().getCaption();
+  protected updateStyles(wrapper: ButtonBaseWrapper): void {
+    this.buttonStyle = this.createButtonStyle(wrapper);
   }
 
-  public showCaption(): boolean {
-    return this.getWrapper().showCaption();
-  }
-
-  public getTabStop(): number {
-    const wrapper: ButtonBaseWrapper = this.getWrapper();
-    return (wrapper.getIsEditable() && wrapper.getTabStop()) ? null : -1;
-  }
-
-  public getStyles(): any {
-    const wrapper: ButtonBaseWrapper = this.getWrapper();
-
-    const styles: any = {
+  protected createButtonStyle(wrapper: ButtonBaseWrapper): any {
+    return {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight(),
-      'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
-      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
+      'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
+      'background-color': StyleUtil.getBackgroundColor(this.isEditable, wrapper.getBackColor()),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
       'border-radius': StyleUtil.getFourValue('px',
@@ -85,11 +86,5 @@ export abstract class ButtonComponent extends ControlComponent {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': 'center'
     };
-
-    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
-      styles['display'] = 'none';
-    }
-
-    return styles;
   }
 }

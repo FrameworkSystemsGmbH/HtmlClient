@@ -1,5 +1,5 @@
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 
 export class ControlLabelSeparatorWrapper extends ControlLabelWrapper {
 
@@ -15,7 +15,7 @@ export class ControlLabelSeparatorWrapper extends ControlLabelWrapper {
     return this.getLabelProvider().getIsEditable();
   }
 
-  public getVisibility(): ControlVisibility {
+  public getVisibility(): Visibility {
     return this.getLabelProvider().getVisibility();
   }
 }

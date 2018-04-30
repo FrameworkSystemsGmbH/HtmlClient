@@ -1,35 +1,30 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 import { TextBoxComponent } from 'app/controls/textbox.component';
 import { TextBoxMultilineWrapper } from 'app/wrappers/textbox-multiline-wrapper';
 import { StyleUtil } from 'app/util/style-util';
 import { ScrollBars } from 'app/enums/scrollbars';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
-import { ControlVisibility } from 'app/enums/control-visibility';
 
 @Component({
   selector: 'hc-txt-multiline',
   templateUrl: './textbox-multiline.component.html',
   styleUrls: ['./textbox-multiline.component.scss']
 })
-export class TextBoxMultilineComponent extends TextBoxComponent implements OnInit {
+export class TextBoxMultilineComponent extends TextBoxComponent {
 
   @ViewChild('textarea')
   public textarea: ElementRef;
 
   public value: string;
-
-  public ngOnInit(): void {
-    this.updateComponent();
-  }
+  public wrapperStyle: any;
 
   public getInput(): ElementRef {
     return this.textarea;
   }
 
   public callOnLeave(event: any): void {
-    const wrapper: TextBoxMultilineWrapper = this.getWrapper();
-    if (wrapper.getIsEditable()) {
+    if (this.isEditable) {
       this.updateWrapper();
       super.callOnLeave(event);
     }
@@ -39,27 +34,28 @@ export class TextBoxMultilineComponent extends TextBoxComponent implements OnIni
     return super.getWrapper() as TextBoxMultilineWrapper;
   }
 
-  public setFocus(): void {
-    this.textarea.nativeElement.focus();
-  }
-
   public onAfterEnter(): void {
-    // Override selection on focus
-  }
-
-  public updateComponent(): void {
-    this.value = this.getWrapper().getValue();
+    // Overwritten to prevent text selection on focus
   }
 
   private updateWrapper(): void {
     this.getWrapper().setValue(this.value);
   }
 
-  public getWrapperStyles(): any {
-    const wrapper: TextBoxMultilineWrapper = this.getWrapper();
+  protected updateProperties(wrapper: TextBoxMultilineWrapper): void {
+    super.updateProperties(wrapper);
+    this.value = wrapper.getValue();
+  }
+
+  protected updateStyles(wrapper: TextBoxMultilineWrapper): void {
+    super.updateStyles(wrapper);
+    this.wrapperStyle = this.createWrapperStyle(wrapper);
+  }
+
+  protected createWrapperStyle(wrapper: TextBoxMultilineWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
-    const styles: any = {
+    return {
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
       'min-width.px': 0,
@@ -84,21 +80,14 @@ export class TextBoxMultilineComponent extends TextBoxComponent implements OnIni
         wrapper.getMarginBottom(),
         wrapper.getMarginLeft())
     };
-
-    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
-      styles['display'] = 'none';
-    }
-
-    return styles;
   }
 
-  public getTextAreaStyles(): any {
-    const wrapper: TextBoxMultilineWrapper = this.getWrapper();
+  protected createInputStyle(wrapper: TextBoxMultilineWrapper): any {
     const scrollBars: ScrollBars = wrapper.getScrollBars();
 
-    const styles: any = {
-      'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
-      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
+    return {
+      'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
+      'background-color': StyleUtil.getBackgroundColor(this.isEditable, wrapper.getBackColor()),
       'border': 'none',
       'padding': StyleUtil.getFourValue('px',
         wrapper.getPaddingTop(),
@@ -116,7 +105,5 @@ export class TextBoxMultilineComponent extends TextBoxComponent implements OnIni
       'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign()),
       'white-space': StyleUtil.getWordWrap(wrapper.getWordWrap())
     };
-
-    return styles;
   }
 }

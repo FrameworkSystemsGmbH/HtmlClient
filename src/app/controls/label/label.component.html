@@ -1,1 +1,1 @@
-<span #focus [ngStyle]="getStyles()" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" [attr.tabindex]="getTabStop()">{{ getCaption() }}</span>
+<span [ngStyle]="labelStyle" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" [attr.tabindex]="tabIndexAttr">{{ caption }}</span>

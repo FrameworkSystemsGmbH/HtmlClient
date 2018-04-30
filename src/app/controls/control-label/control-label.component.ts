@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { LayoutableComponent } from 'app/controls/layoutable.component';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
-import { ControlVisibility } from 'app/enums/control-visibility';
 import { StyleUtil } from 'app/util/style-util';
 
 @Component({
@@ -12,18 +11,23 @@ import { StyleUtil } from 'app/util/style-util';
 })
 export class ControlLabelComponent extends LayoutableComponent {
 
+  public caption: string;
+  public labelStyle: any;
+
   public getWrapper(): ControlLabelWrapper {
     return super.getWrapper() as ControlLabelWrapper;
   }
 
-  public getCaption(): string {
-    return this.getWrapper().getDisplayCaption();
+  protected updateProperties(wrapper: ControlLabelWrapper): void {
+    this.caption = wrapper.getDisplayCaption();
   }
 
-  public getStyles(): any {
-    const wrapper: ControlLabelWrapper = this.getWrapper();
+  protected updateStyles(wrapper: ControlLabelWrapper): void {
+    this.labelStyle = this.createLabelStyle(wrapper);
+  }
 
-    const styles: any = {
+  protected createLabelStyle(wrapper: ControlLabelWrapper): any {
+    return {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
@@ -49,11 +53,5 @@ export class ControlLabelComponent extends LayoutableComponent {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };
-
-    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
-      styles['display'] = 'none';
-    }
-
-    return styles;
   }
 }

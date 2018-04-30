@@ -5,7 +5,7 @@ import { IFieldRowControl } from 'app/layout/field-layout/field-row-control.inte
 import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper';
 import { FieldLayoutCell } from 'app/layout/field-layout/field-layout-cell';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 
 export class FieldLayoutRow {
@@ -31,7 +31,7 @@ export class FieldLayoutRow {
     const controlWrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
 
     for (const control of fieldRow.getLayoutableControls()) {
-      if (control.getVisibility() !== ControlVisibility.Collapsed || includeInvisibleControls) {
+      if (control.getVisibility() !== Visibility.Collapsed || includeInvisibleControls) {
         controlWrappers.push(new LayoutableControlWrapper(control));
       }
     }

@@ -10,7 +10,7 @@ import { EditStyle } from 'app/enums/edit-style';
 import { PictureScaleMode } from 'app/enums/picture-scale-mode';
 import { ScrollBars } from 'app/enums/scrollbars';
 import { TextAlign } from 'app/enums/text-align';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 
@@ -134,7 +134,7 @@ export class PropertyData {
   public tabStop: boolean;
   public textAlign: TextAlign;
   public title: string;
-  public visibility: ControlVisibility;
+  public visibility: Visibility;
   public width: number;
   public wordWrap: boolean;
   public wrapArrangement: WrapArrangement;

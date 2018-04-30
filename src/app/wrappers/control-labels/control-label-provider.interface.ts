@@ -1,5 +1,5 @@
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 
 export interface IControlLabelProvider {
 
@@ -9,7 +9,7 @@ export interface IControlLabelProvider {
 
   getIsEditable(): boolean;
 
-  getVisibility(): ControlVisibility;
+  getVisibility(): Visibility;
 
   getLabelTemplate(): ControlLabelTemplate;
 

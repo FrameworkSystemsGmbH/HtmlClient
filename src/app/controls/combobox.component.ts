@@ -1,21 +1,16 @@
-import { Output, EventEmitter, OnInit, DoCheck } from '@angular/core';
+import { Output, EventEmitter, DoCheck } from '@angular/core';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { DataList } from 'app/common/data-list';
 
-export abstract class ComboBoxComponent extends ControlComponent implements OnInit, DoCheck {
+export abstract class ComboBoxComponent extends ControlComponent implements DoCheck {
 
   @Output()
   public onSelectionChanged: EventEmitter<any>;
 
   public entries: DataList;
-  public isEditable: boolean;
   public selectedIndex: number;
-
-  public ngOnInit(): void {
-    this.updateComponent();
-  }
 
   public ngDoCheck(): void {
     this.updateStyles(this.getWrapper());
@@ -38,7 +33,7 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
   }
 
   public callOnLeave(event: any): void {
-    if (this.getWrapper().getIsEditable()) {
+    if (this.isEditable) {
       this.updateWrapper();
       super.callOnLeave(event);
     }
@@ -62,20 +57,12 @@ export abstract class ComboBoxComponent extends ControlComponent implements OnIn
     }
   }
 
-  public updateComponent(): void {
-    const wrapper: ComboBoxWrapper = this.getWrapper();
-    this.updateProperties(wrapper);
-    this.updateStyles(wrapper);
-  }
-
   protected updateWrapper(): void {
     this.getWrapper().setValue(this.getSelectedPk());
   }
 
   protected updateProperties(wrapper: ComboBoxWrapper): void {
-    this.isEditable = wrapper.getIsEditable();
+    super.updateProperties(wrapper);
     this.entries = wrapper.getEntries();
   }
-
-  protected abstract updateStyles(wrapper: ComboBoxWrapper): void;
 }

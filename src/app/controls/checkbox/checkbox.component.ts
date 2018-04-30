@@ -3,7 +3,6 @@ import { MatCheckbox } from '@angular/material';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { CheckBoxWrapper } from 'app/wrappers/checkbox-wrapper';
-import { ControlVisibility } from 'app/enums/control-visibility';
 import { StyleUtil } from 'app/util/style-util';
 import { DomUtil } from 'app/util/dom-util';
 
@@ -24,7 +23,6 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
   public caption: string;
   public showCaption: boolean;
   public isEditable: boolean;
-
   public tabIndexAttr: number;
 
   public wrapperStyle: any;
@@ -79,22 +77,17 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
     }
   }
 
-  public updateComponent(): void {
-    const wrapper: CheckBoxWrapper = this.getWrapper();
-    this.updateProperties(wrapper);
-    this.updateStyles(wrapper);
-  }
-
   protected updateWrapper(): void {
     this.getWrapper().setValue(this.value);
   }
 
   protected updateProperties(wrapper: CheckBoxWrapper): void {
-    this.value = wrapper.getValue();
+    super.updateProperties(wrapper);
     this.caption = wrapper.getCaption();
     this.showCaption = wrapper.showCaption();
     this.isEditable = wrapper.getIsEditable();
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
+    this.value = wrapper.getValue();
   }
 
   protected updateStyles(wrapper: CheckBoxWrapper): void {
@@ -102,13 +95,14 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
     this.labelStyle = this.createLabelStyle(wrapper);
   }
 
-  public createWrapperStyle(wrapper: CheckBoxWrapper): any {
-    const style: any = {
+  protected createWrapperStyle(wrapper: CheckBoxWrapper): any {
+    return {
+      'cursor': !this.isEditable ? 'not-allowed' : null,
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight(),
-      'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
+      'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': wrapper.getBackColor(),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
@@ -139,25 +133,19 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
       'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
-
-    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
-      style['display'] = 'none';
-    }
-
-    return style;
   }
 
-  public createLabelStyle(wrapper: CheckBoxWrapper): any {
-    const style: any = {
+  protected createLabelStyle(wrapper: CheckBoxWrapper): any {
+    return {
       'padding-left.px': wrapper.getLabelGap(),
-      'cursor': this.isEditable ? 'pointer' : 'default'
+      'cursor': !this.isEditable ? 'not-allowed' : 'pointer'
     };
-
-    return style;
   }
 
-  public setFocus(): void {
-    this.checkBox.focus();
-    this.checkBox.ripple.fadeOutAll();
+  protected setFocus(): void {
+    if (this.checkBox) {
+      this.checkBox.focus();
+      this.checkBox.ripple.fadeOutAll();
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { ILayoutableContainer } from 'app/layout/layoutable-container.interface';
@@ -45,7 +45,7 @@ export class LayoutableControlWrapper {
     this.dockItemSize = control.getDockItemSize();
     this.hAlign = control.getHorizontalAlignment();
     this.vAlign = control.getVerticalAlignment();
-    this.isVisible = control.getVisibility() !== ControlVisibility.Collapsed;
+    this.isVisible = control.getVisibility() !== Visibility.Collapsed;
 
     const container: ILayoutableContainer = control as ILayoutableContainer;
     if (container) {

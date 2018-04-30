@@ -21,7 +21,7 @@ import { VchControl } from 'app/vch/vch-control';
 import { PropertyStore } from 'app/common/property-store';
 import { PropertyData } from 'app/common/property-data';
 import { PropertyLayer } from 'app/common/property-layer';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
@@ -45,6 +45,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private labelTemplate: ControlLabelTemplate;
   private componentRef: ComponentRef<ControlComponent>;
   private events: ControlEvent;
+  private isEditableParent: boolean;
+  private visibilityParent: Visibility;
 
   private controlLabel: ILayoutableControlWrapper;
 
@@ -63,6 +65,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     options?: IWrapperCreationOptions
   ) {
     this.injector = injector;
+    this.isEditableParent = true;
 
     this.init();
 
@@ -78,6 +81,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
     this.setControlStyle();
     this.addToParent();
+    this.updateRecursiveProperties();
   }
 
   protected init(): void {
@@ -86,6 +90,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     this.eventsService = this.injector.get(EventsService);
     this.focusService = this.injector.get(FocusService);
     this.platformService = this.injector.get(PlatformService);
+  }
+
+  protected updateRecursiveProperties(): void {
+    this.updateVisibilityParent();
+    this.updateIsEditableParent();
   }
 
   public abstract getControlType(): ControlType;
@@ -179,6 +188,14 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return compRef ? compRef.instance : undefined;
   }
 
+  public updateComponent(): void {
+    const comp: ControlComponent = this.getComponent();
+
+    if (comp) {
+      comp.updateComponent();
+    }
+  }
+
   protected getEvents(): ControlEvent {
     return this.events;
   }
@@ -194,9 +211,29 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return caption != null ? caption : null;
   }
 
-  public getVisibility(): ControlVisibility {
-    const visibility: ControlVisibility = this.getPropertyStore().getVisibility();
-    return visibility != null ? visibility : ControlVisibility.Visible;
+  public getVisibility(): Visibility {
+    if (this.visibilityParent !== Visibility.Visible) {
+      return this.visibilityParent;
+    } else {
+      const visibility: Visibility = this.getPropertyStore().getVisibility();
+      return visibility != null ? visibility : Visibility.Visible;
+    }
+  }
+
+  public setVisibilityAction(visibility: Visibility): void {
+    this.getPropertyStore().setVisibility(PropertyLayer.Action, visibility);
+  }
+
+  public updateVisibilityParent(): void {
+    // Check the actual parent not the VCH parent
+    // Otherwise one could work around business logic
+    if (this.parent != null) {
+      this.visibilityParent = this.parent.getVisibility();
+    } else {
+      this.visibilityParent = Visibility.Visible;
+    }
+
+    this.updateComponent();
   }
 
   public getTabStop(): boolean {
@@ -204,7 +241,23 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public getIsEditable(): boolean {
-    return Boolean.trueIfNull(this.getPropertyStore().getIsEditable());
+    return Boolean.trueIfNull(this.getPropertyStore().getIsEditable()) && this.isEditableParent;
+  }
+
+  public setIsEditableAction(value: boolean): void {
+    this.getPropertyStore().setIsEditable(PropertyLayer.Action, value);
+  }
+
+  public updateIsEditableParent(): void {
+    // Check the actual parent not the VCH parent
+    // Otherwise one could work around business logic
+    if (this.parent != null) {
+      this.isEditableParent = this.parent.getIsEditable();
+    } else {
+      this.isEditableParent = true;
+    }
+
+    this.updateComponent();
   }
 
   public getForeColor(): string {
@@ -461,11 +514,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       }
     }
 
-    const comp: ControlComponent = this.getComponent();
-
-    if (comp) {
-      comp.updateComponent();
-    }
+    this.updateComponent();
   }
 
   protected setMetaJson(metaJson: any): void {
@@ -498,10 +547,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       const controlStyleData: PropertyData = this.controlStyleService.getControlStyle(this.controlStyle);
       this.getPropertyStore().setLayer(PropertyLayer.ControlStyle, controlStyleData);
     }
-  }
-
-  public setFocus(): void {
-    this.getComponent().setFocus();
   }
 
   protected abstract createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlComponent>;
@@ -590,7 +635,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected canExecuteEnter(originalEvent: any, clientEvent: ClientEnterEvent): boolean {
-    return this.hasOnEnterEvent() && this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
+    return this.hasOnEnterEvent() && this.getIsEditable() && this.getVisibility() === Visibility.Visible;
   }
 
   protected onEnterExecuted(originalEvent: any, clientEvent: ClientEnterEvent): void {
@@ -621,7 +666,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected canExecuteLeave(originalEvent: any, clientEvent: ClientLeaveEvent): boolean {
-    return this.hasOnLeaveEvent() && this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
+    return this.hasOnLeaveEvent() && this.getIsEditable() && this.getVisibility() === Visibility.Visible;
   }
 
   protected onLeaveExecuted(originalEvent: any, clientEvent: ClientLeaveEvent): void {
@@ -635,7 +680,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   public getState(): any {
     const json: any = {
       controlType: this.getControlType(),
-      name: this.name
+      name: this.name,
+      isParentEditable: this.isEditableParent
     };
 
     if (this.parent) {
@@ -661,6 +707,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected setState(json: any): void {
     this.name = json.name;
+    this.isEditableParent = json.isParentEditable;
 
     if (json.propertyStore) {
       this.getPropertyStore().setState(json.propertyStore);

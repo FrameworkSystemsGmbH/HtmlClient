@@ -3,7 +3,7 @@ import { ISubscription } from 'rxjs/Subscription';
 import { ButtonComponent } from 'app/controls/button.component';
 import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
 import { PropertyLayer } from 'app/common/property-layer';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { ControlEvent } from 'app/enums/control-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
@@ -14,6 +14,10 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
 
   public showCaption(): boolean {
     return Boolean.trueIfNull(this.getPropertyStore().getShowCaption());
+  }
+
+  public providesControlLabelWrapper(): boolean {
+    return false;
   }
 
   protected setDataJson(dataJson: any): void {
@@ -62,7 +66,7 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
   }
 
   protected canExecuteClick(originalEvent: any, clientEvent: ClientClickEvent): boolean {
-    return this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
+    return this.getIsEditable() && this.getVisibility() === Visibility.Visible;
   }
 
   protected onClickExecuted(originalEvent: any, clientEvent: ClientClickEvent): void {

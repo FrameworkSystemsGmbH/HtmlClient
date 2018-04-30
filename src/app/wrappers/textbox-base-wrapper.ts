@@ -7,7 +7,7 @@ import { InternalEventCallbacks } from 'app/common/events/internal/internal-even
 import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientValidatedEvent } from 'app/common/events/client-validated-event';
 import { ControlEvent } from 'app/enums/control-event';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { TextBoxType } from 'app/enums/textbox-type';
 import { ControlType } from 'app/enums/control-type';
 
@@ -137,7 +137,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   protected canExecuteValidated(originalEvent: any, clientEvent: ClientValidatedEvent): boolean {
-    return this.hasOnValidatedEvent() && this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
+    return this.hasOnValidatedEvent() && this.getIsEditable() && this.getVisibility() === Visibility.Visible;
   }
 
   protected onValidatedExecuted(originalEvent: any, clientEvent: ClientValidatedEvent): void {

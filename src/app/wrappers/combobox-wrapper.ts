@@ -13,7 +13,7 @@ import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ControlEvent } from 'app/enums/control-event';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { EditStyle } from 'app/enums/edit-style';
 import { DataSourceType } from 'app/enums/datasource-type';
 import { DataList } from 'app/common/data-list';
@@ -209,7 +209,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   protected canExecuteSelectionChanged(originalEvent: any, clientEvent: ClientSelectionChangedEvent): boolean {
-    return this.hasOnSelectionChangedEvent() && this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
+    return this.hasOnSelectionChangedEvent() && this.getIsEditable() && this.getVisibility() === Visibility.Visible;
   }
 
   protected onSelectionChangedExecuted(originalEvent: any, clientEvent: ClientSelectionChangedEvent): void {

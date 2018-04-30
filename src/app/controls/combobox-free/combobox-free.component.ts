@@ -166,8 +166,10 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
-  public setFocus(): void {
-    this.input.nativeElement.focus();
+  protected setFocus(): void {
+    if (this.input) {
+      this.input.nativeElement.focus();
+    }
   }
 
   protected updateWrapper(): void {
@@ -176,10 +178,10 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
 
   protected updateProperties(wrapper: ComboBoxWrapper): void {
     super.updateProperties(wrapper);
+    this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
+    this.isReadOnlyAttr = Boolean.nullIfFalse(!this.isEditable);
     this.setInputValue(wrapper.getValue());
     this.setSelectedIndex(this.entries.findIndexOnValue(wrapper.getValue()));
-    this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
-    this.isReadOnlyAttr = Boolean.nullIfFalse(!this.getWrapper().getIsEditable());
   }
 
   protected updateStyles(wrapper: ComboBoxWrapper): void {
@@ -189,27 +191,23 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   }
 
   protected createInputStyle(wrapper: ComboBoxWrapper): any {
-    const styles: any = {
+    return {
       'border': 'none',
       'padding': StyleUtil.getFourValue('px',
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft()),
-      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
+      'background-color': StyleUtil.getBackgroundColor(this.isEditable, wrapper.getBackColor()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
-
-    return styles;
   }
 
   protected createArrowStyle(wrapper: ComboBoxWrapper): any {
-    const styles: any = {
+    return {
       'border-left': '1px solid ' + (this.arrowHover ? wrapper.getBorderColor() : 'transparent')
     };
-
-    return styles;
   }
 }

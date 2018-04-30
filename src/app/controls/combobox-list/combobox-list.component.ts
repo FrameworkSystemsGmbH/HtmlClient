@@ -182,8 +182,8 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
 
   protected updateProperties(wrapper: ComboBoxWrapper): void {
     super.updateProperties(wrapper);
-    this.setSelectedIndex(this.entries.findIndexOnPk(wrapper.getValue()));
     this.tabIndexAttr = (wrapper.getIsEditable() && wrapper.getTabStop()) ? 0 : -1;
+    this.setSelectedIndex(this.entries.findIndexOnPk(wrapper.getValue()));
   }
 
   protected updateStyles(wrapper: ComboBoxWrapper): void {
@@ -192,18 +192,16 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   }
 
   protected createValueStyle(wrapper: ComboBoxWrapper): any {
-    const styles: any = {
+    return {
       'margin': StyleUtil.getFourValue('px',
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft()),
-      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
+      'background-color': StyleUtil.getBackgroundColor(this.isEditable, wrapper.getBackColor()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
-
-    return styles;
   }
 }

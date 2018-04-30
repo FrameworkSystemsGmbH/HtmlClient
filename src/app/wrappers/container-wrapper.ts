@@ -10,6 +10,7 @@ import { LayoutContainerBase } from 'app/layout/layout-container-base';
 import { ContainerLayout } from 'app/layout/container-layout/container-layout';
 import { VchControl } from 'app/vch/vch-control';
 import { VchContainer } from 'app/vch/vch-container';
+import { Visibility } from 'app/enums/visibility';
 import { JsonUtil } from 'app/util/json-util';
 
 export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainerWrapper {
@@ -53,6 +54,34 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   public addChild(control: ControlWrapper): void {
     this.controls.push(control);
+  }
+
+  public setVisibilityAction(value: Visibility): void {
+    super.setVisibilityAction(value);
+    this.updateVisibilityParent();
+  }
+
+  public updateVisibilityParent(): void {
+    super.updateVisibilityParent();
+    if (this.controls && this.controls.length) {
+      this.controls.forEach(control => {
+        control.updateVisibilityParent();
+      });
+    }
+  }
+
+  public setIsEditableAction(value: boolean): void {
+    super.setIsEditableAction(value);
+    this.updateIsEditableParent();
+  }
+
+  public updateIsEditableParent(): void {
+    super.updateIsEditableParent();
+    if (this.controls && this.controls.length) {
+      this.controls.forEach(control => {
+        control.updateIsEditableParent();
+      });
+    }
   }
 
   public getControlsJson(controlsJson: Array<any>): void {

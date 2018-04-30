@@ -19,6 +19,10 @@ export class LabelWrapper extends FittedWrapper {
     return textAlign != null ? textAlign : TextAlign.Center;
   }
 
+  public providesControlLabelWrapper(): boolean {
+    return false;
+  }
+
   protected setDataJson(dataJson: any): void {
     super.setDataJson(dataJson);
 

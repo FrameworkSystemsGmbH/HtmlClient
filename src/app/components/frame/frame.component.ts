@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, ViewContainerRef, OnInit, OnDestroy, 
 import { ISubscription } from 'rxjs/Subscription';
 
 import { FormsService } from 'app/services/forms.service';
+import { FramesService } from 'app/services/frames.service';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 
 @Component({
@@ -22,10 +23,13 @@ export class FrameComponent implements OnInit, OnDestroy {
 
   constructor(
     private zone: NgZone,
-    private formsService: FormsService
+    private formsService: FormsService,
+    private framesService: FramesService
   ) { }
 
   public ngOnInit(): void {
+    this.framesService.registerFrame(this);
+
     this.selectedFormSub = this.formsService.formSelected.subscribe(form => {
       this.showForm(form);
     });
@@ -40,7 +44,7 @@ export class FrameComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:resize')
-  private layout(): void {
+  public layout(): void {
     this.zone.run(() => {
       if (this.selectedForm) {
         this.selectedForm.doLayout(this.frame.nativeElement.clientWidth, this.frame.nativeElement.clientHeight);

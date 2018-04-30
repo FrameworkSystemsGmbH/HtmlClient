@@ -2,7 +2,6 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { ContainerComponent } from 'app/controls/container.component';
 import { DockPanelWrapper } from 'app/wrappers/dock-panel-wrapper';
-import { ControlVisibility } from 'app/enums/control-visibility';
 import { StyleUtil } from 'app/util/style-util';
 
 @Component({
@@ -15,6 +14,8 @@ export class DockPanelComponent extends ContainerComponent {
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
 
+  public wrapperStyle: any;
+
   public getWrapper(): DockPanelWrapper {
     return super.getWrapper() as DockPanelWrapper;
   }
@@ -23,10 +24,12 @@ export class DockPanelComponent extends ContainerComponent {
     return this.anchor;
   }
 
-  public getStyles(): any {
-    const wrapper: DockPanelWrapper = this.getWrapper();
+  protected updateStyles(wrapper: DockPanelWrapper): void {
+    this.wrapperStyle = this.createWrapperStyle(wrapper);
+  }
 
-    const styles: any = {
+  protected createWrapperStyle(wrapper: DockPanelWrapper): any {
+    return {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
@@ -55,12 +58,5 @@ export class DockPanelComponent extends ContainerComponent {
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft())
     };
-
-    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
-      styles['display'] = 'none';
-    }
-
-    return styles;
   }
-
 }

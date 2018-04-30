@@ -8,7 +8,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
 import { VchControl } from 'app/vch/vch-control';
 import { TextAlign } from 'app/enums/text-align';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { VchContainer } from 'app/vch/vch-container';
@@ -127,8 +127,8 @@ export class ControlLabelContainerWrapper implements ILayoutableControlWrapper, 
     throw new Error(this.propError);
   }
 
-  public getVisibility(): ControlVisibility {
-    return ControlVisibility.Visible;
+  public getVisibility(): Visibility {
+    return Visibility.Visible;
   }
 
   public getMinLayoutWidth(): number {

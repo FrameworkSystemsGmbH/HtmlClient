@@ -1,8 +1,7 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { LabelWrapper } from 'app/wrappers/label-wrapper';
-import { ControlVisibility } from 'app/enums/control-visibility';
 import { StyleUtil } from 'app/util/style-util';
 
 @Component({
@@ -12,25 +11,27 @@ import { StyleUtil } from 'app/util/style-util';
 })
 export class LabelComponent extends ControlComponent {
 
-  @ViewChild('focus')
-  public focus: ElementRef;
+  public caption: string;
+  public tabIndex: boolean;
+
+  public labelStyle: any;
 
   public getWrapper(): LabelWrapper {
     return super.getWrapper() as LabelWrapper;
   }
 
-  public getCaption(): string {
-    return this.getWrapper().getCaption();
+  protected updateProperties(wrapper: LabelWrapper): void {
+    super.updateProperties(wrapper);
+    this.caption = wrapper.getCaption();
+    this.tabIndex = wrapper.getTabStop();
   }
 
-  public getTabStop(): boolean {
-    return this.getWrapper().getTabStop();
+  protected updateStyles(wrapper: LabelWrapper): void {
+    this.labelStyle = this.createLabelStyle(wrapper);
   }
 
-  public getStyles(): any {
-    const wrapper: LabelWrapper = this.getWrapper();
-
-    const styles: any = {
+  protected createLabelStyle(wrapper: LabelWrapper): any {
+    return {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
@@ -67,15 +68,5 @@ export class LabelComponent extends ControlComponent {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };
-
-    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
-      styles['display'] = 'none';
-    }
-
-    return styles;
-  }
-
-  public setFocus(): void {
-    this.focus.nativeElement.focus();
   }
 }

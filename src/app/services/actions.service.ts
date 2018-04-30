@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { ControlAction } from 'app/enums/control-action';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { FormsService } from 'app/services/forms.service';
 
 @Injectable()
@@ -15,25 +15,21 @@ export class ActionsService {
     }
 
     for (const actionJson of actionsJson) {
-      const form: FormWrapper = this.formsService.findFormByName(actionJson.form);
+      const form: FormWrapper = this.formsService.findFormById(actionJson.form);
+      const control: ControlWrapper = form.findControlRecursive(actionJson.control);
 
-      if (!form) {
-        continue;
-      }
-
-      switch (ControlAction[actionJson.action as string]) {
-        case ControlAction.SetEnabled:
-
+      switch (actionJson.name) {
+        case 'SetEnabled':
+          control.setIsEditableAction(actionJson.value);
           break;
-        case ControlAction.SetVisible:
-
-          break;
-        case ControlAction.SetFocus:
-          form.setFocusControl(actionJson.control);
+        case 'SetVisible':
+          control.setVisibilityAction(actionJson.value);
           break;
         default:
           throw new Error('Unsupported action \'' + actionJson.action + '\'!');
       }
+
+      control.updateComponent();
     }
   }
 }

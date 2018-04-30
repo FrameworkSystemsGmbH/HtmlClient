@@ -9,7 +9,7 @@ import { ControlType } from 'app/enums/control-type';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ControlEvent } from 'app/enums/control-event';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 
 export class CheckBoxWrapper extends FittedWrapper {
 
@@ -47,6 +47,10 @@ export class CheckBoxWrapper extends FittedWrapper {
 
   public showCaption(): boolean {
     return Boolean.trueIfNull(this.getPropertyStore().getShowCaption());
+  }
+
+  public providesControlLabelWrapper(): boolean {
+    return super.providesControlLabelWrapper() && !this.showCaption();
   }
 
   protected hasChanges(): boolean {
@@ -140,7 +144,7 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   protected canExecuteClick(originalEvent: any, clientEvent: ClientClickEvent): boolean {
-    return this.getIsEditable() && this.getVisibility() === ControlVisibility.Visible;
+    return this.getIsEditable() && this.getVisibility() === Visibility.Visible;
   }
 
   protected onClickExecuted(originalEvent: any, clientEvent: ClientClickEvent): void {

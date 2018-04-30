@@ -2,7 +2,6 @@ import { ComponentRef, ComponentFactory, ViewContainerRef } from '@angular/core'
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { VariantWrapper } from 'app/wrappers/variant-wrapper';
 import { ControlComponent } from 'app/controls/control.component';
@@ -73,14 +72,6 @@ export class FormWrapper extends ContainerWrapper {
   protected setMetaJson(metaJson: any): void {
     this.id = metaJson.id;
     this.fullName = metaJson.fullName;
-  }
-
-  public setFocusControl(name: string): void {
-    const control: ControlWrapper = this.findControlRecursive(name);
-
-    if (control) {
-      control.setFocus();
-    }
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlComponent> {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ButtonComponent } from 'app/controls/button.component';
 import { ButtonImageWrapper } from 'app/wrappers/button-image-wrapper';
@@ -11,22 +11,28 @@ import { StyleUtil } from 'app/util/style-util';
 })
 export class ButtonImageComponent extends ButtonComponent {
 
-  @ViewChild('focus')
-  public focus: ElementRef;
-
+  public currentImageUrl: string;
   public isFocused: boolean;
   public isHovered: boolean;
   public isMouseDown: boolean;
   public wasMouseDownOnLeave: boolean;
+  public textStyle: any;
+
+  private normaleImageUrl: string;
+  private disabledImageUrl: string;
+  private mouseOverImageUrl: string;
+  private pressedImageUrl: string;
 
   public callOnFocus(event: any): void {
     this.isFocused = true;
+    this.updateImageUrl();
     super.callOnEnter(event);
   }
 
   public callOnBlur(event: any): void {
     super.callOnLeave(event);
     this.isFocused = false;
+    this.updateImageUrl();
   }
 
   public callOnMouseEnter(event: MouseEvent): void {
@@ -35,53 +41,62 @@ export class ButtonImageComponent extends ButtonComponent {
     if (event.buttons === 1 && this.wasMouseDownOnLeave) {
       this.isMouseDown = true;
     }
+
+    this.updateImageUrl();
   }
 
   public callOnMouseLeave(event: MouseEvent): void {
     this.isHovered = false;
     this.isMouseDown = false;
     this.wasMouseDownOnLeave = event.buttons === 1;
+    this.updateImageUrl();
   }
 
   public callOnMouseDown(event: MouseEvent): void {
     if (event.buttons === 1) {
       this.isMouseDown = true;
+      this.updateImageUrl();
     }
   }
 
   public callOnMouseUp(event: MouseEvent): void {
     this.isMouseDown = false;
+    this.updateImageUrl();
   }
 
   public getWrapper(): ButtonImageWrapper {
     return super.getWrapper() as ButtonImageWrapper;
   }
 
-  public getImageUrl(): string {
-    const wrapper: ButtonImageWrapper = this.getWrapper();
+  protected updateImageUrl(): void {
+    this.currentImageUrl = null;
 
-    let imageUrl: string = '';
-
-    if (!wrapper.getIsEditable()) {
-      imageUrl = wrapper.getDisabledImageUrl();
+    if (!this.isEditable) {
+      this.currentImageUrl = this.disabledImageUrl;
     } else if (this.isMouseDown) {
-      imageUrl = wrapper.getPressedImageUrl();
+      this.currentImageUrl = this.pressedImageUrl;
     } else if (this.isFocused || this.isHovered) {
-      imageUrl = wrapper.getMouseOverImageUrl();
+      this.currentImageUrl = this.mouseOverImageUrl;
     } else {
-      imageUrl = wrapper.getImageUrl();
+      this.currentImageUrl = this.normaleImageUrl;
     }
-
-    return imageUrl;
   }
 
-  public getTextStyles(): any {
-    const wrapper: ButtonImageWrapper = this.getWrapper();
-    const styles: any = StyleUtil.getCaptionAlignStyles(wrapper.getCaptionAlign(), wrapper.getPaddingLeft(), wrapper.getPaddingTop(), wrapper.getPaddingRight(), wrapper.getPaddingBottom());
-    return styles;
+  protected updateProperties(wrapper: ButtonImageWrapper): void {
+    super.updateProperties(wrapper);
+    this.normaleImageUrl = wrapper.getImageUrl();
+    this.disabledImageUrl = wrapper.getDisabledImageUrl();
+    this.mouseOverImageUrl = wrapper.getMouseOverImageUrl();
+    this.pressedImageUrl = wrapper.getPressedImageUrl();
+    this.updateImageUrl();
   }
 
-  public setFocus(): void {
-    this.focus.nativeElement.focus();
+  protected updateStyles(wrapper: ButtonImageWrapper): void {
+    super.updateStyles(wrapper);
+    this.textStyle = this.createTextStyle(wrapper);
+  }
+
+  protected createTextStyle(wrapper: ButtonImageWrapper): any {
+    return StyleUtil.getCaptionAlignStyles(wrapper.getCaptionAlign(), wrapper.getPaddingLeft(), wrapper.getPaddingTop(), wrapper.getPaddingRight(), wrapper.getPaddingBottom());
   }
 }

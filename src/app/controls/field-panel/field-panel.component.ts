@@ -3,7 +3,6 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from 'app/controls/container.component';
 import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { StyleUtil } from 'app/util/style-util';
-import { ControlVisibility } from 'app/enums/control-visibility';
 
 @Component({
   selector: 'hc-field-panel',
@@ -15,6 +14,8 @@ export class FieldPanelComponent extends ContainerComponent {
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
 
+  public wrapperStyle: any;
+
   public getWrapper(): FieldPanelWrapper {
     return super.getWrapper() as FieldPanelWrapper;
   }
@@ -23,10 +24,12 @@ export class FieldPanelComponent extends ContainerComponent {
     return this.anchor;
   }
 
-  public getStyles(): any {
-    const wrapper: FieldPanelWrapper = this.getWrapper();
+  protected updateStyles(wrapper: FieldPanelWrapper): void {
+    this.wrapperStyle = this.createWrapperStyle(wrapper);
+  }
 
-    const styles: any = {
+  protected createWrapperStyle(wrapper: FieldPanelWrapper): any {
+    return {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
@@ -55,11 +58,5 @@ export class FieldPanelComponent extends ContainerComponent {
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft())
     };
-
-    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
-      styles['display'] = 'none';
-    }
-
-    return styles;
   }
 }

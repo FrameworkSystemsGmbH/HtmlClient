@@ -4,11 +4,16 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 
 import { ControlComponent } from 'app/controls/control.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
-import { ControlVisibility } from 'app/enums/control-visibility';
 import { StyleUtil } from 'app/util/style-util';
 import { DomUtil } from 'app/util/dom-util';
 
 export abstract class TextBoxComponent extends ControlComponent {
+
+  public readOnlyAttr: boolean;
+  public tabIndexAttr: number;
+  public inputStyle: any;
+
+  protected abstract getInput(): ElementRef;
 
   public callOnEnter(event: any): void {
     if (this.getWrapper().hasOnEnterEvent()) {
@@ -18,34 +23,40 @@ export abstract class TextBoxComponent extends ControlComponent {
     }
   }
 
-  protected abstract getInput(): ElementRef;
+  public onAfterEnter(): void {
+    const input: ElementRef = this.getInput();
+
+    if (input) {
+      setTimeout(() => DomUtil.setSelection(input.nativeElement));
+    }
+  }
 
   public getWrapper(): TextBoxBaseWrapper {
     return super.getWrapper() as TextBoxBaseWrapper;
   }
 
-  public getIsReadonly(): boolean {
-    return Boolean.nullIfFalse(!this.getWrapper().getIsEditable());
+  protected updateProperties(wrapper: TextBoxBaseWrapper): void {
+    super.updateProperties(wrapper);
+    this.readOnlyAttr = Boolean.nullIfFalse(!this.isEditable);
+    this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
   }
 
-  public getTabStop(): number {
-    const wrapper: TextBoxBaseWrapper = this.getWrapper();
-    return (wrapper.getIsEditable() && wrapper.getTabStop()) ? null : -1;
+  protected updateStyles(wrapper: TextBoxBaseWrapper): void {
+    this.inputStyle = this.createInputStyle(wrapper);
   }
 
-  public getStyles(): any {
-    const wrapper: TextBoxBaseWrapper = this.getWrapper();
+  protected createInputStyle(wrapper: TextBoxBaseWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
-    const styles: any = {
+    return {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'min-width.px': 0,
       'min-height.px': 0,
       'width.px': layoutableProperties.getWidth(),
       'height.px': layoutableProperties.getHeight(),
-      'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
-      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
+      'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
+      'background-color': StyleUtil.getBackgroundColor(this.isEditable, wrapper.getBackColor()),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
       'border-radius': StyleUtil.getFourValue('px',
@@ -76,19 +87,5 @@ export abstract class TextBoxComponent extends ControlComponent {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };
-
-    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
-      styles['display'] = 'none';
-    }
-
-    return styles;
-  }
-
-  public onAfterEnter(): void {
-    const input: ElementRef = this.getInput();
-
-    if (input) {
-      setTimeout(() => DomUtil.setSelection(input.nativeElement));
-    }
   }
 }

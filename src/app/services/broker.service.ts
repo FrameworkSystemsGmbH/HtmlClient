@@ -11,6 +11,7 @@ import { ActionsService } from 'app/services/actions.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
+import { FramesService } from 'app/services/frames.service';
 import { LocaleService } from './locale.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
@@ -47,6 +48,7 @@ export class BrokerService {
     private controlStyleSerivce: ControlStyleService,
     private eventsService: EventsService,
     private formsService: FormsService,
+    private framesService: FramesService,
     private routingService: RoutingService,
     private textsService: TextsService,
     private localeService: LocaleService,
@@ -229,6 +231,7 @@ export class BrokerService {
       });
     }
 
+    this.framesService.layout();
     this.routingService.showViewer();
   }
 

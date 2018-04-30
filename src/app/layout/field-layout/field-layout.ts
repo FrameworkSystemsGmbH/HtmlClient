@@ -6,7 +6,7 @@ import { FieldLayoutRow } from 'app/layout/field-layout/field-layout-row';
 import { FieldLayoutCell } from 'app/layout/field-layout/field-layout-cell';
 import { FieldLayoutColumn } from 'app/layout/field-layout/field-layout-column';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { LinkedListOneWay } from 'app/util/linked-list-one-way';
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
@@ -35,14 +35,13 @@ export class FieldLayout extends LayoutContainerBase {
       // check, if at least one control of this row is visible
       let isRowVisible: boolean = false;
       for (const rowChild of row.getLayoutableControls()) {
-
-        if (rowChild.getVisibility() !== ControlVisibility.Collapsed) {
+        if (rowChild.getVisibility() !== Visibility.Collapsed) {
           isRowVisible = true;
           break;
         }
       }
 
-      if (isRowVisible && row.getVisibility() !== ControlVisibility.Collapsed) {
+      if (isRowVisible && row.getVisibility() !== Visibility.Collapsed) {
         this.rows.push(new FieldLayoutRow(row));
       }
     }

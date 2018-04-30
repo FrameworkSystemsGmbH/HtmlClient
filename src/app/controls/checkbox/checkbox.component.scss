@@ -6,3 +6,7 @@
   display: flex;
   align-items: center;
 }
+
+.mat-checkbox-disabled {
+  cursor: not-allowed !important;
+}

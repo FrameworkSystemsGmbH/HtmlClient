@@ -11,7 +11,7 @@ import { EditStyle } from 'app/enums/edit-style';
 import { TextFormat } from 'app/enums/text-format';
 import { TextAlign } from 'app/enums/text-align';
 import { ScrollBars } from 'app/enums/scrollbars';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { JsonUtil } from 'app/util/json-util';
@@ -1201,15 +1201,15 @@ export class PropertyStore {
   }
 
   // Visibility
-  public getVisibility(): ControlVisibility {
-    return this.getValue<ControlVisibility>((data: PropertyData) => data.visibility);
+  public getVisibility(): Visibility {
+    return this.getValue<Visibility>((data: PropertyData) => data.visibility);
   }
 
-  public getVisibilityForLayer(layer: PropertyLayer): ControlVisibility {
-    return this.getValueForLayer<ControlVisibility>(layer, (data: PropertyData) => data.visibility);
+  public getVisibilityForLayer(layer: PropertyLayer): Visibility {
+    return this.getValueForLayer<Visibility>(layer, (data: PropertyData) => data.visibility);
   }
 
-  public setVisibility(layer: PropertyLayer, value: ControlVisibility): void {
+  public setVisibility(layer: PropertyLayer, value: Visibility): void {
     this.setValue(layer, (data: PropertyData) => { data.visibility = value; });
   }
 

@@ -1,8 +1,14 @@
+import { OnInit } from '@angular/core';
+
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 
-export abstract class LayoutableComponent {
+export abstract class LayoutableComponent implements OnInit {
 
   private wrapper: ILayoutableControlWrapper;
+
+  public ngOnInit(): void {
+    this.updateComponent();
+  }
 
   public getWrapper(): ILayoutableControlWrapper {
     return this.wrapper;
@@ -12,7 +18,13 @@ export abstract class LayoutableComponent {
     this.wrapper = wrapper;
   }
 
-  public getName(): string {
-    return this.getWrapper().getName();
+  public updateComponent(): void {
+    const wrapper: ILayoutableControlWrapper = this.getWrapper();
+    this.updateProperties(wrapper);
+    this.updateStyles(wrapper);
   }
+
+  protected abstract updateProperties(wrapper: ILayoutableControlWrapper): void;
+
+  protected abstract updateStyles(wrapper: ILayoutableControlWrapper): void;
 }

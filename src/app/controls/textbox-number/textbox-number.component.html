@@ -1,1 +1,1 @@
-<input #input type="text" [(ngModel)]="value" [ngStyle]="getStyles()" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" [attr.tabindex]="getTabStop()" [attr.readonly]="getIsReadonly()" />
+<input #input type="text" [(ngModel)]="value" [ngStyle]="inputStyle" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" [attr.tabindex]="tabIndexAttr" [attr.readonly]="readOnlyAttr" />

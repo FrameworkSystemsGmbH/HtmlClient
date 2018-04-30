@@ -3,7 +3,6 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 import { ComboBoxComponent } from 'app/controls/combobox.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { StyleUtil } from 'app/util/style-util';
-import { ControlVisibility } from 'app/enums/control-visibility';
 
 export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
 
@@ -14,7 +13,7 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
 
   protected updateProperties(wrapper: ComboBoxWrapper): void {
     super.updateProperties(wrapper);
-    this.tabIndexAttr = (wrapper.getIsEditable() && wrapper.getTabStop()) ? 0 : -1;
+    this.tabIndexAttr = (this.isEditable && wrapper.getTabStop()) ? 0 : -1;
   }
 
   protected updateStyles(wrapper: ComboBoxWrapper): void {
@@ -26,27 +25,25 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
   protected createContainerStyle(wrapper: ComboBoxWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
-    const styles: any = {
+    return {
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
       'font-family': wrapper.getFontFamily(),
       'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
       'font-size.px': wrapper.getFontSize()
     };
-
-    return styles;
   }
 
   protected createControlStyle(wrapper: ComboBoxWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
-    const styles: any = {
+    return {
       'min-width.px': 0,
       'min-height.px': 0,
       'width.px': layoutableProperties.getWidth(),
       'height.px': layoutableProperties.getHeight(),
-      'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
-      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
+      'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
+      'background-color': StyleUtil.getBackgroundColor(this.isEditable, wrapper.getBackColor()),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
       'border-radius': StyleUtil.getFourValue('px',
@@ -66,28 +63,20 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
         wrapper.getMarginLeft()),
       'cursor': 'pointer'
     };
-
-    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
-      styles['display'] = 'none';
-    }
-
-    return styles;
   }
 
   protected createValueStyle(wrapper: ComboBoxWrapper): any {
-    const styles: any = {
+    return {
       'border': 'none',
       'padding': StyleUtil.getFourValue('px',
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft()),
-      'background-color': StyleUtil.getBackgroundColor(wrapper.getIsEditable(), wrapper.getBackColor()),
+      'background-color': StyleUtil.getBackgroundColor(this.isEditable, wrapper.getBackColor()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
-
-    return styles;
   }
 }

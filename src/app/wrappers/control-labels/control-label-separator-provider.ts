@@ -1,7 +1,7 @@
 import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
 
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 
 export class ControlLabelSeparatorProvider implements IControlLabelProvider {
 
@@ -23,8 +23,8 @@ export class ControlLabelSeparatorProvider implements IControlLabelProvider {
     return this.rowLabelTemplate;
   }
 
-  public getVisibility(): ControlVisibility {
-    return ControlVisibility.Visible;
+  public getVisibility(): Visibility {
+    return Visibility.Visible;
   }
 
   public getIsEditable(): boolean {

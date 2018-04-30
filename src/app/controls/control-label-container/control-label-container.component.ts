@@ -13,6 +13,8 @@ export class ControlLabelContainerComponent extends LayoutableComponent {
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
 
+  public wrapperStyle: any;
+
   public getWrapper(): ControlLabelContainerWrapper {
     return super.getWrapper() as ControlLabelContainerWrapper;
   }
@@ -21,16 +23,20 @@ export class ControlLabelContainerComponent extends LayoutableComponent {
     return this.anchor;
   }
 
-  public getStyles(): any {
-    const wrapper: ControlLabelContainerWrapper = this.getWrapper();
+  protected updateProperties(wrapper: ControlLabelContainerWrapper): void {
+    // No properties to set
+  }
 
-    const styles: any = {
+  protected updateStyles(wrapper: ControlLabelContainerWrapper): void {
+    this.wrapperStyle = this.createWrapperStyle(wrapper);
+  }
+
+  protected createWrapperStyle(wrapper: ControlLabelContainerWrapper): any {
+    return {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
       'height.px': wrapper.getLayoutableProperties().getHeight()
     };
-
-    return styles;
   }
 }

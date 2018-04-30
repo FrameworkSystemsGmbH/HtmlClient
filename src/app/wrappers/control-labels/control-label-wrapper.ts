@@ -12,7 +12,7 @@ import { ControlLayout } from 'app/layout/control-layout/control-layout';
 import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
 import { VchControl } from 'app/vch/vch-control';
 import { TextAlign } from 'app/enums/text-align';
-import { ControlVisibility } from 'app/enums/control-visibility';
+import { Visibility } from 'app/enums/visibility';
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 
@@ -141,8 +141,8 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
     return backColor != null ? backColor : '#FFFFFF';
   }
 
-  public getVisibility(): ControlVisibility {
-    return this.getLabelTemplate().getIsVisible() ? this.getLabelProvider().getVisibility() : ControlVisibility.Collapsed;
+  public getVisibility(): Visibility {
+    return this.getLabelTemplate().getIsVisible() ? this.getLabelProvider().getVisibility() : Visibility.Collapsed;
   }
 
   public getMinLayoutWidth(): number {

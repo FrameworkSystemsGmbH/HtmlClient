@@ -14,6 +14,9 @@ export class FormComponent extends ContainerComponent {
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
 
+  public scrollerStyle: any;
+  public contentStyle: any;
+
   public getWrapper(): FormWrapper {
     return super.getWrapper() as FormWrapper;
   }
@@ -22,25 +25,23 @@ export class FormComponent extends ContainerComponent {
     return this.anchor;
   }
 
-  public getScrollerStyles(): any {
-    const wrapper: FormWrapper = this.getWrapper();
+  protected updateStyles(wrapper: FormWrapper): void {
+    this.scrollerStyle = this.createScrollerStyle(wrapper);
+    this.contentStyle = this.createContentStyle(wrapper);
+  }
+
+  protected createScrollerStyle(wrapper: FormWrapper): any {
     const layoutableProperties: LayoutablePropertiesScrollable = wrapper.getLayoutableProperties();
 
-    const styles: any = {
+    return {
       'overflow-x': layoutableProperties.getHBarNeeded() ? 'scroll' : 'hidden',
       'overflow-y': 'auto'
     };
-
-    return styles;
   }
 
-  public getContentStyles(): any {
-    const wrapper: FormWrapper = this.getWrapper();
-
-    const styles: any = {
+  protected createContentStyle(wrapper: FormWrapper): any {
+    return {
       'backgroundColor': wrapper.getBackColor()
     };
-
-    return styles;
   }
 }

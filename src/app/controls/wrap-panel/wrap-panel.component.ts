@@ -2,7 +2,6 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { ContainerComponent } from 'app/controls/container.component';
 import { WrapPanelWrapper } from 'app/wrappers/wrap-panel-wrapper';
-import { ControlVisibility } from 'app/enums/control-visibility';
 import { StyleUtil } from 'app/util/style-util';
 
 @Component({
@@ -15,6 +14,8 @@ export class WrapPanelComponent extends ContainerComponent {
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
 
+  public wrapperStyle: any;
+
   public getWrapper(): WrapPanelWrapper {
     return super.getWrapper() as WrapPanelWrapper;
   }
@@ -23,10 +24,12 @@ export class WrapPanelComponent extends ContainerComponent {
     return this.anchor;
   }
 
-  public getStyles(): any {
-    const wrapper: WrapPanelWrapper = this.getWrapper();
+  protected updateStyles(wrapper: WrapPanelWrapper): void {
+    this.wrapperStyle = this.createWrapperStyle(wrapper);
+  }
 
-    const styles: any = {
+  protected createWrapperStyle(wrapper: WrapPanelWrapper): any {
+    return {
       'left.px': wrapper.getLayoutableProperties().getX(),
       'top.px': wrapper.getLayoutableProperties().getY(),
       'width.px': wrapper.getLayoutableProperties().getWidth(),
@@ -55,12 +58,5 @@ export class WrapPanelComponent extends ContainerComponent {
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft())
     };
-
-    if (wrapper.getVisibility() === ControlVisibility.Collapsed) {
-      styles['display'] = 'none';
-    }
-
-    return styles;
   }
-
 }
