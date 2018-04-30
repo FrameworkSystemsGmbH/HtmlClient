@@ -131,7 +131,8 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
       'font-size.px': wrapper.getFontSize(),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
-      'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
+      'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
+      'display': !this.isVisible ? 'none' : null
     };
   }
 

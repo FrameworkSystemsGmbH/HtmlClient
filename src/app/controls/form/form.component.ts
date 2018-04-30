@@ -35,7 +35,8 @@ export class FormComponent extends ContainerComponent {
 
     return {
       'overflow-x': layoutableProperties.getHBarNeeded() ? 'scroll' : 'hidden',
-      'overflow-y': 'auto'
+      'overflow-y': 'auto',
+      'display': !this.isVisible ? 'none' : null
     };
   }
 

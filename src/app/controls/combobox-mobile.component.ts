@@ -30,7 +30,8 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
       'top.px': layoutableProperties.getY(),
       'font-family': wrapper.getFontFamily(),
       'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
-      'font-size.px': wrapper.getFontSize()
+      'font-size.px': wrapper.getFontSize(),
+      'display': !this.isVisible ? 'none' : null
     };
   }
 

@@ -56,7 +56,8 @@ export class FieldPanelComponent extends ContainerComponent {
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
-        wrapper.getPaddingLeft())
+        wrapper.getPaddingLeft()),
+      'display': !this.isVisible ? 'none' : null
     };
   }
 }

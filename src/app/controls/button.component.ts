@@ -84,7 +84,8 @@ export abstract class ButtonComponent extends ControlComponent {
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
-      'text-align': 'center'
+      'text-align': 'center',
+      'display': !this.isVisible ? 'none' : null
     };
   }
 }

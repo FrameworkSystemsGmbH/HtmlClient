@@ -78,7 +78,8 @@ export class TextBoxMultilineComponent extends TextBoxComponent {
         wrapper.getMarginTop(),
         wrapper.getMarginRight(),
         wrapper.getMarginBottom(),
-        wrapper.getMarginLeft())
+        wrapper.getMarginLeft()),
+      'display': !this.isVisible ? 'none' : null
     };
   }
 
