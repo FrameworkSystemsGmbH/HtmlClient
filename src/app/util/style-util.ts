@@ -46,14 +46,18 @@ export namespace StyleUtil {
   }
 
   export function getWordWrap(wordWrap: boolean): string {
-    return wordWrap ? 'normal' : 'nowrap';
+    return wordWrap ? 'break-word' : 'normal';
   }
 
-  export function getOverflowX(scrollBars: ScrollBars): string {
+  export function getWhiteSpace(wordWrap: boolean): string {
+    return wordWrap ? 'pre-wrap' : 'pre';
+  }
+
+  export function getOverflowX(scrollBars: ScrollBars, wordWrap?: boolean): string {
     switch (scrollBars) {
       case ScrollBars.Both:
       case ScrollBars.Horizontal:
-        return 'auto';
+        return wordWrap === true ? 'hidden' : 'auto';
       default:
         return 'hidden';
     }

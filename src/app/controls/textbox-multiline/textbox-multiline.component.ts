@@ -100,11 +100,12 @@ export class TextBoxMultilineComponent extends TextBoxComponent {
       'font-size.px': wrapper.getFontSize(),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
-      'overflow-x': StyleUtil.getOverflowX(scrollBars),
+      'overflow-x': StyleUtil.getOverflowX(scrollBars, wrapper.getWordWrap()),
       'overflow-y': StyleUtil.getOverflowY(scrollBars),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign()),
-      'white-space': StyleUtil.getWordWrap(wrapper.getWordWrap())
+      'word-wrap': StyleUtil.getWordWrap(wrapper.getWordWrap()),
+      'white-space': StyleUtil.getWhiteSpace(wrapper.getWordWrap())
     };
   }
 }
