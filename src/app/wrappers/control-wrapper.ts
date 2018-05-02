@@ -290,16 +290,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return Number.zeroIfNull(this.getPropertyStore().getMinWidth());
   }
 
-  public isMinWidthSet(): boolean {
-    return this.getPropertyStore().getMinWidth() != null;
-  }
-
   public getMinHeight(): number {
     return Number.zeroIfNull(this.getPropertyStore().getMinHeight());
-  }
-
-  public isMinHeightSet(): boolean {
-    return this.getPropertyStore().getMinHeight() != null;
   }
 
   public getMaxWidth(): number {

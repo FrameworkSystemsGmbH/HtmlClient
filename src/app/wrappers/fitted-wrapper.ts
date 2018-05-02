@@ -18,11 +18,11 @@ export abstract class FittedWrapper extends ControlWrapper {
   }
 
   public getMinWidth(): number {
-    return Number.zeroIfNull(this.isMinWidthSet() ? super.getMinWidth() : this.fittedWidth);
+    return Math.max(Number.zeroIfNull(super.getMinWidth()), Number.zeroIfNull(this.fittedWidth));
   }
 
   public getMinHeight(): number {
-    return Number.zeroIfNull(this.isMinHeightSet() ? super.getMinHeight() : this.fittedHeight);
+    return Math.max(Number.zeroIfNull(super.getMinHeight()), Number.zeroIfNull(this.fittedHeight));
   }
 
   public setJson(json: any, isNew: boolean): void {
