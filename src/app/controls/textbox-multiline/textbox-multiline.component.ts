@@ -42,8 +42,8 @@ export class TextBoxMultilineComponent extends TextBoxComponent {
     this.getWrapper().setValue(this.value);
   }
 
-  protected updateProperties(wrapper: TextBoxMultilineWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: TextBoxMultilineWrapper): void {
+    super.updateData(wrapper);
     this.value = wrapper.getValue();
   }
 

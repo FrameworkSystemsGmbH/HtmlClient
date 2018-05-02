@@ -43,7 +43,8 @@ export abstract class ControlComponent extends LayoutableComponent {
     }
   }
 
-  protected updateProperties(wrapper: ControlWrapper): void {
+  protected updateData(wrapper: ControlWrapper): void {
+    super.updateData(wrapper);
     this.isVisible = wrapper.getVisibility() === Visibility.Visible;
     this.isEditable = wrapper.getIsEditable();
   }

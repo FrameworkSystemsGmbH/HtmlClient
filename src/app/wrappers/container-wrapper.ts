@@ -36,6 +36,14 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     return compRef ? compRef.instance : undefined;
   }
 
+  public updateComponentRecursively(): void {
+    super.updateComponentRecursively();
+
+    this.controls.forEach(controlWrp => {
+      controlWrp.updateComponentRecursively();
+    });
+  }
+
   public getInvertFlowDirection(): boolean {
     return this.getPropertyStore().getInvertFlowDirection();
   }

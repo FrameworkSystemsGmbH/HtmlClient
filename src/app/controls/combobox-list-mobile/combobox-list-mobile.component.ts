@@ -88,8 +88,8 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
     }
   }
 
-  protected updateProperties(wrapper: ComboBoxWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: ComboBoxWrapper): void {
+    super.updateData(wrapper);
     this.setSelectedIndex(this.entries.findIndexOnPk(wrapper.getValue()));
   }
 }

@@ -102,8 +102,8 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
     }
   }
 
-  protected updateProperties(wrapper: ComboBoxWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: ComboBoxWrapper): void {
+    super.updateData(wrapper);
     this.setInputValue(wrapper.getValue());
     this.setSelectedIndex(this.entries.findIndexOnValue(wrapper.getValue()));
   }

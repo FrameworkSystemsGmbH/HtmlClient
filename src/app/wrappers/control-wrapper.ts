@@ -196,6 +196,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     }
   }
 
+  public updateComponentRecursively(): void {
+    this.updateComponent();
+  }
+
   protected getEvents(): ControlEvent {
     return this.events;
   }
@@ -232,8 +236,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     } else {
       this.visibilityParent = Visibility.Visible;
     }
-
-    this.updateComponent();
   }
 
   public getTabStop(): boolean {
@@ -256,8 +258,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     } else {
       this.isEditableParent = true;
     }
-
-    this.updateComponent();
   }
 
   public getForeColor(): string {
@@ -513,8 +513,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
         this.setDataJson(json.data);
       }
     }
-
-    this.updateComponent();
   }
 
   protected setMetaJson(metaJson: any): void {

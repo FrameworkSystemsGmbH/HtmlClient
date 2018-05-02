@@ -57,8 +57,8 @@ export class TextBoxNumberComponent extends TextBoxComponent {
     this.getWrapper().setValue(this.numberFormatService.parseString(this.value, this.format, this.formatPattern));
   }
 
-  protected updateProperties(wrapper: TextBoxNumberWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: TextBoxNumberWrapper): void {
+    super.updateData(wrapper);
     this.format = wrapper.getFormat();
     this.formatPattern = wrapper.getFormatPattern();
     this.value = this.numberFormatService.formatNumber(wrapper.getValue(), this.format, this.formatPattern);

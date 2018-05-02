@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+
 import { ControlComponent } from 'app/controls/control.component';
 import { LabelWrapper } from 'app/wrappers/label-wrapper';
 import { StyleUtil } from 'app/util/style-util';
@@ -20,23 +22,26 @@ export class LabelComponent extends ControlComponent {
     return super.getWrapper() as LabelWrapper;
   }
 
-  protected updateProperties(wrapper: LabelWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: LabelWrapper): void {
+    super.updateData(wrapper);
     this.caption = wrapper.getCaption();
     this.tabIndex = wrapper.getTabStop();
   }
 
   protected updateStyles(wrapper: LabelWrapper): void {
+    super.updateStyles(wrapper);
     this.labelStyle = this.createLabelStyle(wrapper);
   }
 
   protected createLabelStyle(wrapper: LabelWrapper): any {
+    const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+
     return {
-      'left.px': wrapper.getLayoutableProperties().getX(),
-      'top.px': wrapper.getLayoutableProperties().getY(),
-      'width.px': wrapper.getLayoutableProperties().getWidth(),
-      'height.px': wrapper.getLayoutableProperties().getHeight(),
-      'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
+      'left.px': layoutableProperties.getX(),
+      'top.px': layoutableProperties.getY(),
+      'width.px': layoutableProperties.getWidth(),
+      'height.px': layoutableProperties.getHeight(),
+      'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': wrapper.getBackColor(),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),

@@ -12,6 +12,7 @@ import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignment';
 import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
+import { Visibility } from 'app/enums/visibility';
 
 export class WrapLayout extends LayoutContainerBase {
 
@@ -50,6 +51,10 @@ export class WrapLayout extends LayoutContainerBase {
   public measureMinWidth(): number {
     const container: IWrapContainer = this.getControl();
 
+    if (container.getVisibility() === Visibility.Collapsed) {
+      return 0;
+    }
+
     this.initWrappers();
 
     // Iterate wrappers to calculate total content min width (maximum of all min widths)
@@ -75,7 +80,13 @@ export class WrapLayout extends LayoutContainerBase {
   }
 
   public measureMinHeight(width: number): number {
-    if (this.getControl().getWrapArrangement() === WrapArrangement.Horizontal) {
+    const container: IWrapContainer = this.getControl();
+
+    if (container.getVisibility() === Visibility.Collapsed || width <= 0) {
+      return 0;
+    }
+
+    if (container.getWrapArrangement() === WrapArrangement.Horizontal) {
       return this.measureMinHeightHorizontally(width);
     } else {
       return this.measureMinimumHeightVertically(width);

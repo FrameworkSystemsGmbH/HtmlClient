@@ -176,8 +176,8 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     this.getWrapper().setValue(this.getSelectedValue());
   }
 
-  protected updateProperties(wrapper: ComboBoxWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: ComboBoxWrapper): void {
+    super.updateData(wrapper);
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
     this.isReadOnlyAttr = Boolean.nullIfFalse(!this.isEditable);
     this.setInputValue(wrapper.getValue());

@@ -7,6 +7,7 @@ import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper'
 import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
+import { Visibility } from 'app/enums/visibility';
 
 export class DockLayout extends LayoutContainerBase {
 
@@ -35,6 +36,10 @@ export class DockLayout extends LayoutContainerBase {
 
   public measureMinWidth(): number {
     const container: IDockContainer = this.getControl();
+
+    if (container.getVisibility() === Visibility.Collapsed) {
+      return 0;
+    }
 
     this.initWrappers();
 
@@ -77,6 +82,11 @@ export class DockLayout extends LayoutContainerBase {
 
   public measureMinHeight(width: number): number {
     const container: IDockContainer = this.getControl();
+
+    if (container.getVisibility() === Visibility.Collapsed || width <= 0) {
+      return 0;
+    }
+
     const orientation: DockOrientation = container.getDockOrientation();
 
     const insetsLeft: number = container.getInsetsLeft();

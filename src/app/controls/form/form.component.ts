@@ -26,6 +26,7 @@ export class FormComponent extends ContainerComponent {
   }
 
   protected updateStyles(wrapper: FormWrapper): void {
+    super.updateStyles(wrapper);
     this.scrollerStyle = this.createScrollerStyle(wrapper);
     this.contentStyle = this.createContentStyle(wrapper);
   }

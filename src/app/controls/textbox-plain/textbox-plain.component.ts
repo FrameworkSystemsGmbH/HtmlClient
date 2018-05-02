@@ -50,8 +50,8 @@ export class TextBoxPlainComponent extends TextBoxComponent {
     this.getWrapper().setValue(this.value);
   }
 
-  protected updateProperties(wrapper: TextBoxPlainWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: TextBoxPlainWrapper): void {
+    super.updateData(wrapper);
     this.format = wrapper.getFormat();
     this.isPasswordField = wrapper.isPasswordField();
     this.value = this.formatValue(wrapper.getValue());

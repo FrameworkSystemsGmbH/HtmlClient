@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+
 import { LayoutableComponent } from 'app/controls/layoutable.component';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { StyleUtil } from 'app/util/style-util';
@@ -18,20 +20,24 @@ export class ControlLabelComponent extends LayoutableComponent {
     return super.getWrapper() as ControlLabelWrapper;
   }
 
-  protected updateProperties(wrapper: ControlLabelWrapper): void {
+  protected updateData(wrapper: ControlLabelWrapper): void {
+    super.updateData(wrapper);
     this.caption = wrapper.getDisplayCaption();
   }
 
   protected updateStyles(wrapper: ControlLabelWrapper): void {
+    super.updateStyles(wrapper);
     this.labelStyle = this.createLabelStyle(wrapper);
   }
 
   protected createLabelStyle(wrapper: ControlLabelWrapper): any {
+    const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+
     return {
-      'left.px': wrapper.getLayoutableProperties().getX(),
-      'top.px': wrapper.getLayoutableProperties().getY(),
-      'width.px': wrapper.getLayoutableProperties().getWidth(),
-      'height.px': wrapper.getLayoutableProperties().getHeight(),
+      'left.px': layoutableProperties.getX(),
+      'top.px': layoutableProperties.getY(),
+      'width.px': layoutableProperties.getWidth(),
+      'height.px': layoutableProperties.getHeight(),
       'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
       'background-color': wrapper.getBackColor(),
       'border-style': 'none',

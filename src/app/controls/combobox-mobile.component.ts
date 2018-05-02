@@ -11,12 +11,13 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
   public controlStyle: any;
   public valueStyle: any;
 
-  protected updateProperties(wrapper: ComboBoxWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: ComboBoxWrapper): void {
+    super.updateData(wrapper);
     this.tabIndexAttr = (this.isEditable && wrapper.getTabStop()) ? 0 : -1;
   }
 
   protected updateStyles(wrapper: ComboBoxWrapper): void {
+    super.updateStyles(wrapper);
     this.containerStyle = this.createContainerStyle(wrapper);
     this.controlStyle = this.createControlStyle(wrapper);
     this.valueStyle = this.createValueStyle(wrapper);

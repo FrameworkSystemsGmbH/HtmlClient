@@ -28,8 +28,6 @@ export class ActionsService {
         default:
           throw new Error('Unsupported action \'' + actionJson.action + '\'!');
       }
-
-      control.updateComponent();
     }
   }
 }

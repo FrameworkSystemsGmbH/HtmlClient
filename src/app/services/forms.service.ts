@@ -76,6 +76,12 @@ export class FormsService {
     };
   }
 
+  public updateAllComponents(): void {
+    this.forms.forEach(formWrp => {
+      formWrp.updateComponentRecursively();
+    });
+  }
+
   public resetViews(): void {
     this.forms = new Array<FormWrapper>();
     this.selectForm(null);

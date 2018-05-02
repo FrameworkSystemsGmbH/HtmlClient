@@ -1,8 +1,9 @@
 import { EventEmitter, Output } from '@angular/core';
 
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+
 import { ControlComponent } from 'app/controls/control.component';
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
-import { Visibility } from 'app/enums/visibility';
 import { StyleUtil } from 'app/util/style-util';
 
 export abstract class ButtonComponent extends ControlComponent {
@@ -12,7 +13,6 @@ export abstract class ButtonComponent extends ControlComponent {
 
   public caption: string;
   public showCaption: boolean;
-  public isVisible: boolean;
   public tabIndexAttr: number;
   public disabledAttr: boolean;
   public buttonStyle: any;
@@ -35,25 +35,27 @@ export abstract class ButtonComponent extends ControlComponent {
     }
   }
 
-  protected updateProperties(wrapper: ButtonBaseWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: ButtonBaseWrapper): void {
+    super.updateData(wrapper);
     this.caption = wrapper.getCaption();
     this.showCaption = wrapper.showCaption();
-    this.isVisible = wrapper.getVisibility() === Visibility.Visible;
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
     this.disabledAttr = Boolean.nullIfFalse(!this.isEditable);
   }
 
   protected updateStyles(wrapper: ButtonBaseWrapper): void {
+    super.updateStyles(wrapper);
     this.buttonStyle = this.createButtonStyle(wrapper);
   }
 
   protected createButtonStyle(wrapper: ButtonBaseWrapper): any {
+    const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+
     return {
-      'left.px': wrapper.getLayoutableProperties().getX(),
-      'top.px': wrapper.getLayoutableProperties().getY(),
-      'width.px': wrapper.getLayoutableProperties().getWidth(),
-      'height.px': wrapper.getLayoutableProperties().getHeight(),
+      'left.px': layoutableProperties.getX(),
+      'top.px': layoutableProperties.getY(),
+      'width.px': layoutableProperties.getWidth(),
+      'height.px': layoutableProperties.getHeight(),
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': StyleUtil.getBackgroundColor(this.isEditable, wrapper.getBackColor()),
       'border-style': 'solid',

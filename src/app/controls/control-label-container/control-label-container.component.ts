@@ -1,5 +1,7 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+
 import { LayoutableComponent } from 'app/controls/layoutable.component';
 import { ControlLabelContainerWrapper } from 'app/wrappers/control-labels/control-label-container-wrapper';
 
@@ -23,20 +25,19 @@ export class ControlLabelContainerComponent extends LayoutableComponent {
     return this.anchor;
   }
 
-  protected updateProperties(wrapper: ControlLabelContainerWrapper): void {
-    // No properties to set
-  }
-
   protected updateStyles(wrapper: ControlLabelContainerWrapper): void {
+    super.updateStyles(wrapper);
     this.wrapperStyle = this.createWrapperStyle(wrapper);
   }
 
   protected createWrapperStyle(wrapper: ControlLabelContainerWrapper): any {
+    const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+
     return {
-      'left.px': wrapper.getLayoutableProperties().getX(),
-      'top.px': wrapper.getLayoutableProperties().getY(),
-      'width.px': wrapper.getLayoutableProperties().getWidth(),
-      'height.px': wrapper.getLayoutableProperties().getHeight()
+      'left.px': layoutableProperties.getX(),
+      'top.px': layoutableProperties.getY(),
+      'width.px': layoutableProperties.getWidth(),
+      'height.px': layoutableProperties.getHeight()
     };
   }
 }

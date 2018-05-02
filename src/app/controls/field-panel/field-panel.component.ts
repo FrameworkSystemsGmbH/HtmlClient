@@ -1,5 +1,7 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+
 import { ContainerComponent } from 'app/controls/container.component';
 import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { StyleUtil } from 'app/util/style-util';
@@ -25,15 +27,18 @@ export class FieldPanelComponent extends ContainerComponent {
   }
 
   protected updateStyles(wrapper: FieldPanelWrapper): void {
+    super.updateStyles(wrapper);
     this.wrapperStyle = this.createWrapperStyle(wrapper);
   }
 
   protected createWrapperStyle(wrapper: FieldPanelWrapper): any {
+    const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+
     return {
-      'left.px': wrapper.getLayoutableProperties().getX(),
-      'top.px': wrapper.getLayoutableProperties().getY(),
-      'width.px': wrapper.getLayoutableProperties().getWidth(),
-      'height.px': wrapper.getLayoutableProperties().getHeight(),
+      'left.px': layoutableProperties.getX(),
+      'top.px': layoutableProperties.getY(),
+      'width.px': layoutableProperties.getWidth(),
+      'height.px': layoutableProperties.getHeight(),
       'background-color': wrapper.getBackColor(),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),

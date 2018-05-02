@@ -35,13 +35,14 @@ export abstract class TextBoxComponent extends ControlComponent {
     return super.getWrapper() as TextBoxBaseWrapper;
   }
 
-  protected updateProperties(wrapper: TextBoxBaseWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: TextBoxBaseWrapper): void {
+    super.updateData(wrapper);
     this.readOnlyAttr = Boolean.nullIfFalse(!this.isEditable);
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
   }
 
   protected updateStyles(wrapper: TextBoxBaseWrapper): void {
+    super.updateStyles(wrapper);
     this.inputStyle = this.createInputStyle(wrapper);
   }
 
@@ -49,8 +50,8 @@ export abstract class TextBoxComponent extends ControlComponent {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
     return {
-      'left.px': wrapper.getLayoutableProperties().getX(),
-      'top.px': wrapper.getLayoutableProperties().getY(),
+      'left.px': layoutableProperties.getX(),
+      'top.px': layoutableProperties.getY(),
       'min-width.px': 0,
       'min-height.px': 0,
       'width.px': layoutableProperties.getWidth(),

@@ -1,5 +1,7 @@
-import { Component, ViewChild, Output, EventEmitter, OnInit, DoCheck } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MatCheckbox } from '@angular/material';
+
+import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { CheckBoxWrapper } from 'app/wrappers/checkbox-wrapper';
@@ -11,7 +13,7 @@ import { DomUtil } from 'app/util/dom-util';
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss']
 })
-export class CheckBoxComponent extends ControlComponent implements OnInit, DoCheck {
+export class CheckBoxComponent extends ControlComponent {
 
   @ViewChild('checkBox')
   public checkBox: MatCheckbox;
@@ -27,15 +29,6 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
 
   public wrapperStyle: any;
   public labelStyle: any;
-
-  public ngOnInit(): void {
-    this.updateComponent();
-  }
-
-  public ngDoCheck(): void {
-    this.updateStyles(this.getWrapper());
-    this.updateInput();
-  }
 
   public callOnClick(event: any): void {
     this.updateWrapper();
@@ -71,18 +64,12 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
     }
   }
 
-  protected updateInput(): void {
-    if (this.checkBox) {
-      (this.checkBox._inputElement.nativeElement as HTMLInputElement).tabIndex = this.tabIndexAttr;
-    }
-  }
-
   protected updateWrapper(): void {
     this.getWrapper().setValue(this.value);
   }
 
-  protected updateProperties(wrapper: CheckBoxWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: CheckBoxWrapper): void {
+    super.updateData(wrapper);
     this.caption = wrapper.getCaption();
     this.showCaption = wrapper.showCaption();
     this.isEditable = wrapper.getIsEditable();
@@ -91,17 +78,24 @@ export class CheckBoxComponent extends ControlComponent implements OnInit, DoChe
   }
 
   protected updateStyles(wrapper: CheckBoxWrapper): void {
+    super.updateStyles(wrapper);
     this.wrapperStyle = this.createWrapperStyle(wrapper);
     this.labelStyle = this.createLabelStyle(wrapper);
+
+    if (this.checkBox) {
+      (this.checkBox._inputElement.nativeElement as HTMLInputElement).tabIndex = this.tabIndexAttr;
+    }
   }
 
   protected createWrapperStyle(wrapper: CheckBoxWrapper): any {
+    const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+
     return {
       'cursor': !this.isEditable ? 'not-allowed' : null,
-      'left.px': wrapper.getLayoutableProperties().getX(),
-      'top.px': wrapper.getLayoutableProperties().getY(),
-      'width.px': wrapper.getLayoutableProperties().getWidth(),
-      'height.px': wrapper.getLayoutableProperties().getHeight(),
+      'left.px': layoutableProperties.getX(),
+      'top.px': layoutableProperties.getY(),
+      'width.px': layoutableProperties.getWidth(),
+      'height.px': layoutableProperties.getHeight(),
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': wrapper.getBackColor(),
       'border-style': 'solid',

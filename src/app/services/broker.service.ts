@@ -231,6 +231,7 @@ export class BrokerService {
       });
     }
 
+    this.formsService.updateAllComponents();
     this.framesService.layout();
     this.routingService.showViewer();
   }

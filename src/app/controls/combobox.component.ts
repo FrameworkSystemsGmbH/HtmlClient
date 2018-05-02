@@ -1,20 +1,16 @@
-import { Output, EventEmitter, DoCheck } from '@angular/core';
+import { Output, EventEmitter } from '@angular/core';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { DataList } from 'app/common/data-list';
 
-export abstract class ComboBoxComponent extends ControlComponent implements DoCheck {
+export abstract class ComboBoxComponent extends ControlComponent {
 
   @Output()
   public onSelectionChanged: EventEmitter<any>;
 
   public entries: DataList;
   public selectedIndex: number;
-
-  public ngDoCheck(): void {
-    this.updateStyles(this.getWrapper());
-  }
 
   public abstract getSelectedPk(): string;
 
@@ -61,8 +57,8 @@ export abstract class ComboBoxComponent extends ControlComponent implements DoCh
     this.getWrapper().setValue(this.getSelectedPk());
   }
 
-  protected updateProperties(wrapper: ComboBoxWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: ComboBoxWrapper): void {
+    super.updateData(wrapper);
     this.entries = wrapper.getEntries();
   }
 }

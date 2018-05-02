@@ -57,8 +57,8 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
     this.getWrapper().setValue(this.dateTimeFormatService.parseString(this.value, this.format, this.formatPattern));
   }
 
-  protected updateProperties(wrapper: TextBoxDateTimeWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: TextBoxDateTimeWrapper): void {
+    super.updateData(wrapper);
     this.format = wrapper.getFormat();
     this.formatPattern = wrapper.getFormatPattern();
     this.value = this.dateTimeFormatService.formatDate(wrapper.getValue(), this.format, this.formatPattern);

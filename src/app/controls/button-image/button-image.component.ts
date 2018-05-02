@@ -82,8 +82,8 @@ export class ButtonImageComponent extends ButtonComponent {
     }
   }
 
-  protected updateProperties(wrapper: ButtonImageWrapper): void {
-    super.updateProperties(wrapper);
+  protected updateData(wrapper: ButtonImageWrapper): void {
+    super.updateData(wrapper);
     this.normaleImageUrl = wrapper.getImageUrl();
     this.disabledImageUrl = wrapper.getDisabledImageUrl();
     this.mouseOverImageUrl = wrapper.getMouseOverImageUrl();
