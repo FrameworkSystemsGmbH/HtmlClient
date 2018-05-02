@@ -8,6 +8,7 @@ import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
 import { ControlType } from 'app/enums/control-type';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
+import { DataSourceType } from 'app/enums/datasource-type';
 import { ControlEvent } from 'app/enums/control-event';
 import { Visibility } from 'app/enums/visibility';
 
@@ -17,6 +18,7 @@ export class CheckBoxWrapper extends FittedWrapper {
 
   private value: boolean;
   private orgValue: boolean;
+  private dataSourceType: DataSourceType;
 
   public getControlType(): ControlType {
     return ControlType.CheckBox;
@@ -58,11 +60,52 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   protected getValueJson(): string {
-    return this.value == null ? 'false' : encodeURIComponent(this.value === true ? 'true' : 'false');
+    let val: string;
+
+    switch (this.dataSourceType) {
+      case DataSourceType.Bool:
+        val = this.value == null ? 'flase' : encodeURIComponent(this.value === true ? 'true' : 'false');
+        break;
+
+      case DataSourceType.Decimal:
+      case DataSourceType.Double:
+      case DataSourceType.Float:
+      case DataSourceType.Int:
+      case DataSourceType.Long:
+      case DataSourceType.Short:
+      case DataSourceType.String:
+        val = this.value == null ? '0' : encodeURIComponent(this.value === true ? '1' : '0');
+        break;
+
+      default:
+        throw new Error('Incompatible datasource type \'dataSourceType\' for checkbox control!');
+    }
+
+    return val;
   }
 
   protected setValueJson(value: string): void {
-    const val: boolean = value != null ? decodeURIComponent(value) === 'true' : false;
+    let val: boolean = false;
+
+    switch (this.dataSourceType) {
+      case DataSourceType.Bool:
+        val = value != null ? decodeURIComponent(value) === 'true' : false;
+        break;
+
+      case DataSourceType.Decimal:
+      case DataSourceType.Double:
+      case DataSourceType.Float:
+      case DataSourceType.Int:
+      case DataSourceType.Long:
+      case DataSourceType.Short:
+      case DataSourceType.String:
+        val = value != null ? decodeURIComponent(value) !== '0' : false;
+        break;
+
+      default:
+        throw new Error('Incompatible datasource type \'dataSourceType\' for checkbox control!');
+    }
+
     this.orgValue = val;
     this.setValue(val);
   }
@@ -91,7 +134,8 @@ export class CheckBoxWrapper extends FittedWrapper {
       return;
     }
 
-    if (dataJson.text && dataJson.text.value !== undefined) {
+    if (dataJson.text && dataJson.text.type !== undefined && dataJson.text.value !== undefined) {
+      this.dataSourceType = dataJson.text.type;
       this.setValueJson(dataJson.text.value);
     }
   }
@@ -169,12 +213,14 @@ export class CheckBoxWrapper extends FittedWrapper {
 
   public getState(): any {
     const json: any = super.getState();
+    json.type = this.dataSourceType;
     json.value = this.getValueJson();
     return json;
   }
 
   protected setState(json: any): void {
     super.setState(json);
+    this.dataSourceType = json.type;
     this.setValueJson(json.value);
   }
 }
