@@ -428,9 +428,6 @@ export class DockLayout extends LayoutContainerBase {
           layoutableProperties.setLayoutWidth(resultWidth);
           layoutableProperties.setLayoutHeight(wrapper.getResultHeight());
 
-          console.log(wrapper.getName());
-          console.log(layoutableProperties);
-
           yPos += wrapper.getResultHeight();
 
           wrapper.arrangeContainer();
