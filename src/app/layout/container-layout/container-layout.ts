@@ -7,6 +7,7 @@ import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper'
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { LinkedListOneWay } from 'app/util/linked-list-one-way';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
+import { Visibility } from 'app/enums/visibility';
 
 export class ContainerLayout extends LayoutContainerBase {
 
@@ -35,6 +36,10 @@ export class ContainerLayout extends LayoutContainerBase {
   public measureMinWidth(): number {
     const container: ILayoutableContainer = this.getControl();
 
+    if (container.getVisibility() === Visibility.Collapsed) {
+      return 0;
+    }
+
     this.initWrappers();
 
     // Iterate wrappers to calculate total content min width (maximum of all min widths)
@@ -61,6 +66,10 @@ export class ContainerLayout extends LayoutContainerBase {
 
   public measureMinHeight(width: number): number {
     const container: ILayoutableContainer = this.getControl();
+
+    if (container.getVisibility() === Visibility.Collapsed || width <= 0) {
+      return 0;
+    }
 
     this.width = width;
 
@@ -90,6 +99,10 @@ export class ContainerLayout extends LayoutContainerBase {
 
   public arrange(): void {
     const container: ILayoutableContainer = this.getControl();
+
+    if (container.getVisibility() === Visibility.Collapsed) {
+      return;
+    }
 
     const containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
     const containerHeight: number = container.getLayoutableProperties().getLayoutHeight();

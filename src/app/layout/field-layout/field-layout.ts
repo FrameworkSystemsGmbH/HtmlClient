@@ -50,6 +50,10 @@ export class FieldLayout extends LayoutContainerBase {
   public measureMinWidth(): number {
     const container: IFieldContainer = this.getControl();
 
+    if (container.getVisibility() === Visibility.Collapsed) {
+      return 0;
+    }
+
     // init rows
     this.initRows();
 
@@ -113,9 +117,13 @@ export class FieldLayout extends LayoutContainerBase {
   }
 
   public measureMinHeight(width: number): number {
-    this.width = width;
-
     const container: IFieldContainer = this.getControl();
+
+    if (container.getVisibility() === Visibility.Collapsed || width <= 0) {
+      return 0;
+    }
+
+    this.width = width;
 
     // include insets (padding + border + margin) of the container
     const insetsLeft: number = container.getInsetsLeft();
@@ -333,6 +341,10 @@ export class FieldLayout extends LayoutContainerBase {
 
   public arrange(): void {
     const container: IFieldContainer = this.getControl();
+
+    if (container.getVisibility() === Visibility.Collapsed) {
+      return;
+    }
 
     const containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
     const containerHeight: number = container.getLayoutableProperties().getLayoutHeight();

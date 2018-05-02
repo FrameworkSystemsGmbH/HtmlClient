@@ -571,6 +571,10 @@ export class WrapLayout extends LayoutContainerBase {
   public arrange(): void {
     const container: IWrapContainer = this.getControl();
 
+    if (container.getVisibility() === Visibility.Collapsed) {
+      return;
+    }
+
     if (container.getWrapArrangement() === WrapArrangement.Horizontal) {
       this.arrangeHorizontally();
     } else {

@@ -279,6 +279,10 @@ export class DockLayout extends LayoutContainerBase {
   public arrange(): void {
     const container: IDockContainer = this.getControl();
 
+    if (container.getVisibility() === Visibility.Collapsed) {
+      return;
+    }
+
     const containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
     const containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
@@ -423,6 +427,9 @@ export class DockLayout extends LayoutContainerBase {
           layoutableProperties.setY(yPos);
           layoutableProperties.setLayoutWidth(resultWidth);
           layoutableProperties.setLayoutHeight(wrapper.getResultHeight());
+
+          console.log(wrapper.getName());
+          console.log(layoutableProperties);
 
           yPos += wrapper.getResultHeight();
 
