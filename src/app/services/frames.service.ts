@@ -5,7 +5,7 @@ export class FramesService {
   private frames: Array<FrameComponent> = new Array<FrameComponent>();
 
   public registerFrame(frame: FrameComponent): void {
-    if (!this.frames.includes(frame)) {
+    if (this.frames.filter(frameComp => frameComp === frame).length === 0) {
       this.frames.push(frame);
     }
   }
