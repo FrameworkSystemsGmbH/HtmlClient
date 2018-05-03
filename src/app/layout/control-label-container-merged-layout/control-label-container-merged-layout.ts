@@ -1,4 +1,4 @@
-import { IControlLabelContainerMerged } from 'app/layout/control-label-merged-layout/control-label-container-merged.interface';
+import { IControlLabelContainerMerged } from 'app/layout/control-label-container-merged-layout/control-label-container-merged.interface';
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 

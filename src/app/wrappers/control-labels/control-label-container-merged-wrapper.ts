@@ -1,6 +1,6 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory, ViewContainerRef, Injector } from '@angular/core';
 
-import { IControlLabelContainerMerged } from 'app/layout/control-label-merged-layout/control-label-container-merged.interface';
+import { IControlLabelContainerMerged } from 'app/layout/control-label-container-merged-layout/control-label-container-merged.interface';
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
@@ -13,7 +13,7 @@ import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { VchContainer } from 'app/vch/vch-container';
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
-import { ControlLabelContainerMergedLayout } from 'app/layout/control-label-merged-layout/control-label-container-merged-layout';
+import { ControlLabelContainerMergedLayout } from 'app/layout/control-label-container-merged-layout/control-label-container-merged-layout';
 import { ControlLabelContainerMergedComponent } from 'app/controls/control-labels/control-label-container-merged/control-label-container-merged.component';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelSeparatorWrapper } from './control-label-separator-wrapper';
