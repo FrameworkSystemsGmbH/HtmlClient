@@ -117,6 +117,10 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
     }
   }
 
+  public updateComponentRecursively(): void {
+    this.updateComponent();
+  }
+
   public getName(): string {
     return this.name;
   }

@@ -135,6 +135,14 @@ export class ControlLabelContainerMergedWrapper implements ILayoutableControlWra
     }
   }
 
+  public updateComponentRecursively(): void {
+    this.updateComponent();
+
+    this.labelWrappers.forEach(labelWrp => {
+      labelWrp.updateComponentRecursively();
+    });
+  }
+
   public getViewContainerRef(): ViewContainerRef {
     return this.getComponent().anchor;
   }

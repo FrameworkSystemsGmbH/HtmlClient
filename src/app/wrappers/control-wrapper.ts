@@ -194,16 +194,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     if (comp) {
       comp.updateComponent();
     }
-
-    const labelComp: ILayoutableControlWrapper = this.getControlLabelWrapper();
-
-    if (labelComp) {
-      labelComp.updateComponent();
-    }
   }
 
   public updateComponentRecursively(): void {
     this.updateComponent();
+    this.updateControlLabelComponentRecursively();
   }
 
   protected getEvents(): ControlEvent {
@@ -223,7 +218,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public getVisibility(): Visibility {
     const visibility: Visibility = this.getPropertyStore().getVisibility();
-      return visibility != null ? visibility : Visibility.Visible;
+    return visibility != null ? visibility : Visibility.Visible;
   }
 
   public getCurrentVisibility(): Visibility {
@@ -467,6 +462,14 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected createControlLabelWrapper(): ILayoutableControlWrapper {
     return new ControlLabelWrapper(this.injector, this);
+  }
+
+  protected updateControlLabelComponentRecursively(): void {
+    const labelComp: ILayoutableControlWrapper = this.getControlLabelWrapper();
+
+    if (labelComp) {
+      labelComp.updateComponentRecursively();
+    }
   }
 
   public getLabelTemplate(): ControlLabelTemplate {

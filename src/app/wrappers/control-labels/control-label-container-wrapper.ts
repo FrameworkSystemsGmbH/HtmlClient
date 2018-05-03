@@ -111,6 +111,14 @@ export class ControlLabelContainerWrapper implements ILayoutableControlWrapper, 
     }
   }
 
+  public updateComponentRecursively(): void {
+    this.updateComponent();
+
+    this.labelWrappers.forEach(labelWrp => {
+      labelWrp.updateComponentRecursively();
+    });
+  }
+
   public getViewContainerRef(): ViewContainerRef {
     return this.getComponent().anchor;
   }
