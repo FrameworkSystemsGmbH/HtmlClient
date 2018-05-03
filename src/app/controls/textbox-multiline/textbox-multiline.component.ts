@@ -54,14 +54,18 @@ export class TextBoxMultilineComponent extends TextBoxComponent {
 
   protected createWrapperStyle(wrapper: TextBoxMultilineWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+    const layoutWidth: number = layoutableProperties.getWidth();
+    const layoutHeight: number = layoutableProperties.getHeight();
+    const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {
+      'display': this.isVisible && isSizeVisible ? null : 'none',
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
       'min-width.px': 0,
       'min-height.px': 0,
-      'width.px': layoutableProperties.getWidth(),
-      'height.px': layoutableProperties.getHeight(),
+      'width.px': layoutWidth,
+      'height.px': layoutHeight,
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
       'border-radius': StyleUtil.getFourValue('px',
@@ -78,8 +82,7 @@ export class TextBoxMultilineComponent extends TextBoxComponent {
         wrapper.getMarginTop(),
         wrapper.getMarginRight(),
         wrapper.getMarginBottom(),
-        wrapper.getMarginLeft()),
-      'display': !this.isVisible ? 'none' : null
+        wrapper.getMarginLeft())
     };
   }
 

@@ -89,13 +89,16 @@ export class CheckBoxComponent extends ControlComponent {
 
   protected createWrapperStyle(wrapper: CheckBoxWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+    const layoutWidth: number = layoutableProperties.getWidth();
+    const layoutHeight: number = layoutableProperties.getHeight();
+    const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {
-      'cursor': !this.isEditable ? 'not-allowed' : null,
+      'display': this.isVisible && isSizeVisible ? null : 'none',
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
-      'width.px': layoutableProperties.getWidth(),
-      'height.px': layoutableProperties.getHeight(),
+      'width.px': layoutWidth,
+      'height.px': layoutHeight,
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': wrapper.getBackColor(),
       'border-style': 'solid',
@@ -126,7 +129,7 @@ export class CheckBoxComponent extends ControlComponent {
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
-      'display': !this.isVisible ? 'none' : null
+      'cursor': !this.isEditable ? 'not-allowed' : null
     };
   }
 

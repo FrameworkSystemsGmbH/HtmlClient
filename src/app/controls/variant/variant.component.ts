@@ -33,12 +33,16 @@ export class VariantComponent extends ContainerComponent {
 
   protected createWrapperStyle(wrapper: VariantWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+    const layoutWidth: number = layoutableProperties.getWidth();
+    const layoutHeight: number = layoutableProperties.getHeight();
+    const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {
+      'display': this.isVisible && isSizeVisible ? null : 'none',
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
-      'width.px': layoutableProperties.getWidth(),
-      'height.px': layoutableProperties.getHeight(),
+      'width.px': layoutWidth,
+      'height.px': layoutHeight,
       'background-color': wrapper.getBackColor(),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
@@ -61,8 +65,7 @@ export class VariantComponent extends ContainerComponent {
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
-        wrapper.getPaddingLeft()),
-      'display': !this.isVisible ? 'none' : null
+        wrapper.getPaddingLeft())
     };
   }
 }

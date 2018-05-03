@@ -37,12 +37,16 @@ export class ControlLabelComponent extends LayoutableComponent {
 
   protected createLabelStyle(wrapper: ControlLabelWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+    const layoutWidth: number = layoutableProperties.getWidth();
+    const layoutHeight: number = layoutableProperties.getHeight();
+    const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {
+      'display': this.isVisible && isSizeVisible ? null : 'none',
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
-      'width.px': layoutableProperties.getWidth(),
-      'height.px': layoutableProperties.getHeight(),
+      'width.px': layoutWidth,
+      'height.px': layoutHeight,
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': wrapper.getBackColor(),
       'border-style': 'none',
@@ -62,8 +66,7 @@ export class ControlLabelComponent extends LayoutableComponent {
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
-      'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign()),
-      'display': !this.isVisible ? 'none' : null
+      'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };
   }
 }

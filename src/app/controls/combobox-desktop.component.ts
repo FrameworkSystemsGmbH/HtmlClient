@@ -141,14 +141,17 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
 
   protected createContainerStyle(wrapper: ComboBoxWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+    const layoutWidth: number = layoutableProperties.getWidth();
+    const layoutHeight: number = layoutableProperties.getHeight();
+    const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {
+      'display': this.isVisible && isSizeVisible ? null : 'none',
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
       'font-family': wrapper.getFontFamily(),
       'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
-      'font-size.px': wrapper.getFontSize(),
-      'display': !this.isVisible ? 'none' : null
+      'font-size.px': wrapper.getFontSize()
     };
   }
 

@@ -33,11 +33,14 @@ export class FormComponent extends ContainerComponent {
 
   protected createScrollerStyle(wrapper: FormWrapper): any {
     const layoutableProperties: LayoutablePropertiesScrollable = wrapper.getLayoutableProperties();
+    const layoutWidth: number = layoutableProperties.getWidth();
+    const layoutHeight: number = layoutableProperties.getHeight();
+    const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {
+      'display': this.isVisible && isSizeVisible ? null : 'none',
       'overflow-x': layoutableProperties.getHBarNeeded() ? 'scroll' : 'hidden',
-      'overflow-y': 'auto',
-      'display': !this.isVisible ? 'none' : null
+      'overflow-y': 'auto'
     };
   }
 

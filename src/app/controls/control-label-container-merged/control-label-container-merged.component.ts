@@ -32,12 +32,16 @@ export class ControlLabelContainerMergedComponent extends LayoutableComponent {
 
   protected createWrapperStyle(wrapper: ControlLabelContainerMergedWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+    const layoutWidth: number = layoutableProperties.getWidth();
+    const layoutHeight: number = layoutableProperties.getHeight();
+    const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {
+      'display': isSizeVisible ? null : 'none',
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
-      'width.px': layoutableProperties.getWidth(),
-      'height.px': layoutableProperties.getHeight()
+      'width.px': layoutWidth,
+      'height.px': layoutHeight
     };
   }
 }
