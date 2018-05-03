@@ -51,7 +51,7 @@ export class WrapLayout extends LayoutContainerBase {
   public measureMinWidth(): number {
     const container: IWrapContainer = this.getControl();
 
-    if (container.getVisibility() === Visibility.Collapsed) {
+    if (container.getCurrentVisibility() === Visibility.Collapsed) {
       return 0;
     }
 
@@ -82,7 +82,7 @@ export class WrapLayout extends LayoutContainerBase {
   public measureMinHeight(width: number): number {
     const container: IWrapContainer = this.getControl();
 
-    if (container.getVisibility() === Visibility.Collapsed || width <= 0) {
+    if (container.getCurrentVisibility() === Visibility.Collapsed || width <= 0) {
       return 0;
     }
 
@@ -571,7 +571,7 @@ export class WrapLayout extends LayoutContainerBase {
   public arrange(): void {
     const container: IWrapContainer = this.getControl();
 
-    if (container.getVisibility() === Visibility.Collapsed) {
+    if (container.getCurrentVisibility() === Visibility.Collapsed) {
       return;
     }
 

@@ -216,11 +216,15 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public getVisibility(): Visibility {
+    const visibility: Visibility = this.getPropertyStore().getVisibility();
+      return visibility != null ? visibility : Visibility.Visible;
+  }
+
+  public getCurrentVisibility(): Visibility {
     if (this.visibilityParent !== Visibility.Visible) {
       return this.visibilityParent;
     } else {
-      const visibility: Visibility = this.getPropertyStore().getVisibility();
-      return visibility != null ? visibility : Visibility.Visible;
+      return this.getVisibility();
     }
   }
 
@@ -232,7 +236,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     // Check the actual parent not the VCH parent
     // Otherwise one could work around business logic
     if (this.parent != null) {
-      this.visibilityParent = this.parent.getVisibility();
+      this.visibilityParent = this.parent.getCurrentVisibility();
     } else {
       this.visibilityParent = Visibility.Visible;
     }
@@ -243,7 +247,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public getIsEditable(): boolean {
-    return Boolean.trueIfNull(this.getPropertyStore().getIsEditable()) && this.isEditableParent;
+    return Boolean.trueIfNull(this.getPropertyStore().getIsEditable());
+  }
+
+  public getCurrentIsEditable(): boolean {
+    return this.isEditableParent && this.getIsEditable();
   }
 
   public setIsEditableAction(value: boolean): void {
@@ -254,7 +262,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     // Check the actual parent not the VCH parent
     // Otherwise one could work around business logic
     if (this.parent != null) {
-      this.isEditableParent = this.parent.getIsEditable();
+      this.isEditableParent = this.parent.getCurrentIsEditable();
     } else {
       this.isEditableParent = true;
     }
@@ -625,7 +633,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected canExecuteEnter(originalEvent: any, clientEvent: ClientEnterEvent): boolean {
-    return this.hasOnEnterEvent() && this.getIsEditable() && this.getVisibility() === Visibility.Visible;
+    return this.hasOnEnterEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
   protected onEnterExecuted(originalEvent: any, clientEvent: ClientEnterEvent): void {
@@ -656,7 +664,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected canExecuteLeave(originalEvent: any, clientEvent: ClientLeaveEvent): boolean {
-    return this.hasOnLeaveEvent() && this.getIsEditable() && this.getVisibility() === Visibility.Visible;
+    return this.hasOnLeaveEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
   protected onLeaveExecuted(originalEvent: any, clientEvent: ClientLeaveEvent): void {

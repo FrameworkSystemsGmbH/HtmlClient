@@ -109,7 +109,7 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
   }
 
   public getIsEditable(): boolean {
-    return this.getLabelProvider().getIsEditable();
+    return this.getLabelProvider().getCurrentIsEditable();
   }
 
   public getCaption(): string {
@@ -141,8 +141,8 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
     return backColor != null ? backColor : '#FFFFFF';
   }
 
-  public getVisibility(): Visibility {
-    return this.getLabelTemplate().getIsVisible() ? this.getLabelProvider().getVisibility() : Visibility.Collapsed;
+  public getCurrentVisibility(): Visibility {
+    return this.getLabelTemplate().getIsVisible() ? this.getLabelProvider().getCurrentVisibility() : Visibility.Collapsed;
   }
 
   public getMinLayoutWidth(): number {

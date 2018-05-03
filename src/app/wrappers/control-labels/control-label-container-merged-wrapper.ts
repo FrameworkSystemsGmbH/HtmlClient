@@ -151,7 +151,7 @@ export class ControlLabelContainerMergedWrapper implements ILayoutableControlWra
     throw new Error(this.propError);
   }
 
-  public getVisibility(): Visibility {
+  public getCurrentVisibility(): Visibility {
     return Visibility.Visible;
   }
 

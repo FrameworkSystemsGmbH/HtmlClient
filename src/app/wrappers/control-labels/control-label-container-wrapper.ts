@@ -127,7 +127,7 @@ export class ControlLabelContainerWrapper implements ILayoutableControlWrapper, 
     throw new Error(this.propError);
   }
 
-  public getVisibility(): Visibility {
+  public getCurrentVisibility(): Visibility {
     return Visibility.Visible;
   }
 

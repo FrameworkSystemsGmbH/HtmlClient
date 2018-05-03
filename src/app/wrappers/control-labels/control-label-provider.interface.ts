@@ -7,9 +7,9 @@ export interface IControlLabelProvider {
 
   getCaption(): string;
 
-  getIsEditable(): boolean;
+  getCurrentIsEditable(): boolean;
 
-  getVisibility(): Visibility;
+  getCurrentVisibility(): Visibility;
 
   getLabelTemplate(): ControlLabelTemplate;
 

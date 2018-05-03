@@ -72,7 +72,7 @@ export class CheckBoxComponent extends ControlComponent {
     super.updateData(wrapper);
     this.caption = wrapper.getCaption();
     this.showCaption = wrapper.showCaption();
-    this.isEditable = wrapper.getIsEditable();
+    this.isEditable = wrapper.getCurrentIsEditable();
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
     this.value = wrapper.getValue();
   }

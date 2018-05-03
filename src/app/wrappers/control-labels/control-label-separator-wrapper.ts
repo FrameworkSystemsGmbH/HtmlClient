@@ -12,10 +12,10 @@ export class ControlLabelSeparatorWrapper extends ControlLabelWrapper {
   }
 
   public getIsEditable(): boolean {
-    return this.getLabelProvider().getIsEditable();
+    return this.getLabelProvider().getCurrentIsEditable();
   }
 
-  public getVisibility(): Visibility {
-    return this.getLabelProvider().getVisibility();
+  public getCurrentVisibility(): Visibility {
+    return this.getLabelProvider().getCurrentVisibility();
   }
 }

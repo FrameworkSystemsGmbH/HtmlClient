@@ -66,7 +66,7 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
   }
 
   protected canExecuteClick(originalEvent: any, clientEvent: ClientClickEvent): boolean {
-    return this.getIsEditable() && this.getVisibility() === Visibility.Visible;
+    return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
   protected onClickExecuted(originalEvent: any, clientEvent: ClientClickEvent): void {

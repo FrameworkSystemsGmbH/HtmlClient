@@ -209,7 +209,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   protected canExecuteSelectionChanged(originalEvent: any, clientEvent: ClientSelectionChangedEvent): boolean {
-    return this.hasOnSelectionChangedEvent() && this.getIsEditable() && this.getVisibility() === Visibility.Visible;
+    return this.hasOnSelectionChangedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
   protected onSelectionChangedExecuted(originalEvent: any, clientEvent: ClientSelectionChangedEvent): void {

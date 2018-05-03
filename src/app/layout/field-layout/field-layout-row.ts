@@ -31,7 +31,7 @@ export class FieldLayoutRow {
     const controlWrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
 
     for (const control of fieldRow.getLayoutableControls()) {
-      if (control.getVisibility() !== Visibility.Collapsed || includeInvisibleControls) {
+      if (control.getCurrentVisibility() !== Visibility.Collapsed || includeInvisibleControls) {
         controlWrappers.push(new LayoutableControlWrapper(control));
       }
     }

@@ -8,7 +8,7 @@ export class ControlLayout extends LayoutBase {
   public measureMinWidth(): number {
     const control: ILayoutableControl = this.getControl();
 
-    if (control.getVisibility() === Visibility.Collapsed) {
+    if (control.getCurrentVisibility() === Visibility.Collapsed) {
       return 0;
     }
 
@@ -20,7 +20,7 @@ export class ControlLayout extends LayoutBase {
   public measureMinHeight(width: number): number {
     const control: ILayoutableControl = this.getControl();
 
-    if (control.getVisibility() === Visibility.Collapsed) {
+    if (control.getCurrentVisibility() === Visibility.Collapsed) {
       return 0;
     }
 

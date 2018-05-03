@@ -182,7 +182,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
 
   protected updateData(wrapper: ComboBoxWrapper): void {
     super.updateData(wrapper);
-    this.tabIndexAttr = (wrapper.getIsEditable() && wrapper.getTabStop()) ? 0 : -1;
+    this.tabIndexAttr = (wrapper.getCurrentIsEditable() && wrapper.getTabStop()) ? 0 : -1;
     this.setSelectedIndex(this.entries.findIndexOnPk(wrapper.getValue()));
   }
 

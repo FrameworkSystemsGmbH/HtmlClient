@@ -8,7 +8,7 @@ export interface ILayoutableControl {
 
   getName(): string;
 
-  getVisibility(): Visibility;
+  getCurrentVisibility(): Visibility;
 
   getLayoutableProperties(): ILayoutableProperties;
 

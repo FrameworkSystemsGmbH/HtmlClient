@@ -45,7 +45,7 @@ export class LayoutableControlWrapper {
     this.dockItemSize = control.getDockItemSize();
     this.hAlign = control.getHorizontalAlignment();
     this.vAlign = control.getVerticalAlignment();
-    this.isVisible = control.getVisibility() !== Visibility.Collapsed;
+    this.isVisible = control.getCurrentVisibility() !== Visibility.Collapsed;
 
     const container: ILayoutableContainer = control as ILayoutableContainer;
     if (container) {

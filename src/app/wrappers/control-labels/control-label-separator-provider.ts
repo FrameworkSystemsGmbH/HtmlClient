@@ -23,11 +23,11 @@ export class ControlLabelSeparatorProvider implements IControlLabelProvider {
     return this.rowLabelTemplate;
   }
 
-  public getVisibility(): Visibility {
+  public getCurrentVisibility(): Visibility {
     return Visibility.Visible;
   }
 
-  public getIsEditable(): boolean {
+  public getCurrentIsEditable(): boolean {
     return true;
   }
 }

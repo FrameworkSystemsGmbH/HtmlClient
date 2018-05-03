@@ -137,7 +137,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   protected canExecuteValidated(originalEvent: any, clientEvent: ClientValidatedEvent): boolean {
-    return this.hasOnValidatedEvent() && this.getIsEditable() && this.getVisibility() === Visibility.Visible;
+    return this.hasOnValidatedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
   protected onValidatedExecuted(originalEvent: any, clientEvent: ClientValidatedEvent): void {

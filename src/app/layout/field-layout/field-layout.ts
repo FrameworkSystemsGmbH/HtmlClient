@@ -35,13 +35,13 @@ export class FieldLayout extends LayoutContainerBase {
       // check, if at least one control of this row is visible
       let isRowVisible: boolean = false;
       for (const rowChild of row.getLayoutableControls()) {
-        if (rowChild.getVisibility() !== Visibility.Collapsed) {
+        if (rowChild.getCurrentVisibility() !== Visibility.Collapsed) {
           isRowVisible = true;
           break;
         }
       }
 
-      if (isRowVisible && row.getVisibility() !== Visibility.Collapsed) {
+      if (isRowVisible && row.getCurrentVisibility() !== Visibility.Collapsed) {
         this.rows.push(new FieldLayoutRow(row));
       }
     }
@@ -50,7 +50,7 @@ export class FieldLayout extends LayoutContainerBase {
   public measureMinWidth(): number {
     const container: IFieldContainer = this.getControl();
 
-    if (container.getVisibility() === Visibility.Collapsed) {
+    if (container.getCurrentVisibility() === Visibility.Collapsed) {
       return 0;
     }
 
@@ -119,7 +119,7 @@ export class FieldLayout extends LayoutContainerBase {
   public measureMinHeight(width: number): number {
     const container: IFieldContainer = this.getControl();
 
-    if (container.getVisibility() === Visibility.Collapsed || width <= 0) {
+    if (container.getCurrentVisibility() === Visibility.Collapsed || width <= 0) {
       return 0;
     }
 
@@ -342,7 +342,7 @@ export class FieldLayout extends LayoutContainerBase {
   public arrange(): void {
     const container: IFieldContainer = this.getControl();
 
-    if (container.getVisibility() === Visibility.Collapsed) {
+    if (container.getCurrentVisibility() === Visibility.Collapsed) {
       return;
     }
 
