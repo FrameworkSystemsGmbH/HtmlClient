@@ -1,6 +1,6 @@
 import { ISubscription } from 'rxjs/Subscription';
 
-import { ButtonComponent } from 'app/controls/button.component';
+import { ButtonComponent } from 'app/controls/buttons/button.component';
 import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
 import { PropertyLayer } from 'app/common/property-layer';
 import { Visibility } from 'app/enums/visibility';

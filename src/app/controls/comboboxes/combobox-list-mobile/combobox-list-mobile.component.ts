@@ -1,17 +1,17 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
-import { ComboBoxMobileComponent } from 'app/controls/combobox-mobile.component';
-import { ComboBoxFreeMobileOverlayComponent } from 'app/controls/combobox-free-mobile/combobox-free-mobile-overlay.component';
+import { ComboBoxMobileComponent } from 'app/controls/comboboxes/combobox-mobile.component';
+import { ComboBoxListMobileOverlayComponent } from 'app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile-overlay.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { DomUtil } from 'app/util/dom-util';
 
 @Component({
-  selector: 'hc-cmb-free-mobile',
-  templateUrl: './combobox-free-mobile.component.html',
-  styleUrls: ['./combobox-free-mobile.component.scss']
+  selector: 'hc-cmb-list-mobile',
+  templateUrl: './combobox-list-mobile.component.html',
+  styleUrls: ['./combobox-list-mobile.component.scss']
 })
-export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
+export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
   @ViewChild('control')
   public control: ElementRef;
@@ -19,7 +19,6 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
   @ViewChild('arrow')
   public arrow: ElementRef;
 
-  private inputValue: string;
   private overlayShown: boolean;
 
   constructor(private dialog: MatDialog) {
@@ -30,22 +29,19 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
     return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width : 0;
   }
 
-  protected getInputValue(): string {
-    return this.inputValue;
-  }
-
-  protected setInputValue(value: string): void {
-    this.inputValue = value;
-  }
-
   public getSelectedPk(): string {
-    return this.getSelectedValue();
+    const selectedIndex: number = this.getSelectedIndex();
+    if (selectedIndex == null || selectedIndex < 0) {
+      return this.getWrapper().getValue();
+    } else {
+      return this.entries[selectedIndex].getPk();
+    }
   }
 
   public getSelectedValue(): string {
     const selectedIndex: number = this.getSelectedIndex();
     if (selectedIndex == null || selectedIndex < 0) {
-      return this.getInputValue();
+      return '## ' + this.getWrapper().getValue() + ' ##';
     } else {
       return this.entries[selectedIndex].getValue();
     }
@@ -61,15 +57,11 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
     if (this.isEditable) {
       this.overlayShown = true;
 
-      const dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent> = this.dialog.open(ComboBoxFreeMobileOverlayComponent, {
+      const dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent> = this.dialog.open(ComboBoxListMobileOverlayComponent, {
         backdropClass: 'hc-backdrop',
-        minWidth: 300,
-        maxWidth: '90%',
-        maxHeight: '90%',
         data: {
           entries: this.entries,
-          selectedIndex: this.getSelectedIndex(),
-          value: this.getInputValue()
+          selectedIndex: this.getSelectedIndex()
         }
       });
 
@@ -77,13 +69,7 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
         this.control.nativeElement.focus();
         this.overlayShown = false;
         if (data.selected) {
-          if (data.index != null) {
-            this.setSelectedIndex(data.index);
-            this.setInputValue(null);
-          } else if (data.value != null) {
-            this.setInputValue(data.value);
-            this.setSelectedIndex(null);
-          }
+          this.setSelectedIndex(data.index);
           this.callOnSelectionChanged(event);
         }
       });
@@ -104,7 +90,6 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
 
   protected updateData(wrapper: ComboBoxWrapper): void {
     super.updateData(wrapper);
-    this.setInputValue(wrapper.getValue());
-    this.setSelectedIndex(this.entries.findIndexOnValue(wrapper.getValue()));
+    this.setSelectedIndex(this.entries.findIndexOnPk(wrapper.getValue()));
   }
 }

@@ -2,7 +2,7 @@ import { ComponentRef, ComponentFactory } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { TextBoxNumberComponent } from 'app/controls/textbox-number/textbox-number.component';
+import { TextBoxNumberComponent } from 'app/controls/textboxes/textbox-number/textbox-number.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
 import { TextBoxType } from 'app/enums/textbox-type';
 

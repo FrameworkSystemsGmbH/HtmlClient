@@ -3,11 +3,11 @@ import { ISubscription } from 'rxjs/Subscription';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ComboBoxComponent } from 'app/controls/combobox.component';
-import { ComboBoxFreeComponent } from 'app/controls/combobox-free/combobox-free.component';
-import { ComboBoxFreeMobileComponent } from 'app/controls/combobox-free-mobile/combobox-free-mobile.component';
-import { ComboBoxListComponent } from 'app/controls/combobox-list/combobox-list.component';
-import { ComboBoxListMobileComponent } from 'app/controls/combobox-list-mobile/combobox-list-mobile.component';
+import { ComboBoxComponent } from 'app/controls/comboboxes/combobox.component';
+import { ComboBoxFreeComponent } from 'app/controls/comboboxes/combobox-free/combobox-free.component';
+import { ComboBoxFreeMobileComponent } from 'app/controls/comboboxes/combobox-free-mobile/combobox-free-mobile.component';
+import { ComboBoxListComponent } from 'app/controls/comboboxes/combobox-list/combobox-list.component';
+import { ComboBoxListMobileComponent } from 'app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile.component';
 import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
 import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';

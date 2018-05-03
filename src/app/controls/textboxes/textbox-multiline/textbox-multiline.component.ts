@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import { TextBoxComponent } from 'app/controls/textbox.component';
+import { TextBoxComponent } from 'app/controls/textboxes/textbox.component';
 import { TextBoxMultilineWrapper } from 'app/wrappers/textbox-multiline-wrapper';
 import { StyleUtil } from 'app/util/style-util';
 import { ScrollBars } from 'app/enums/scrollbars';

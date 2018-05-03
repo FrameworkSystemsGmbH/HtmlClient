@@ -6,7 +6,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 
 import { LayoutBase } from 'app/layout/layout-base';
 import { FieldLayout } from 'app/layout/field-layout/field-layout';
-import { FieldPanelComponent } from 'app/controls/field-panel/field-panel.component';
+import { FieldPanelComponent } from 'app/controls/layouts/field-panel/field-panel.component';
 import { ContainerWrapperSpaceable } from 'app/wrappers/container-wrapper-spaceable';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { ControlType } from 'app/enums/control-type';

@@ -5,7 +5,7 @@ import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-contro
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
 import { FontService } from 'app/services/font.service';
-import { ControlLabelComponent } from 'app/controls/control-label/control-label.component';
+import { ControlLabelComponent } from 'app/controls/control-labels/control-label/control-label.component';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { LayoutBase } from 'app/layout/layout-base';
 import { ControlLayout } from 'app/layout/control-layout/control-layout';

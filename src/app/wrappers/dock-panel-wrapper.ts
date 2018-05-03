@@ -6,7 +6,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { ContainerWrapperSpaceable } from 'app/wrappers/container-wrapper-spaceable';
 import { LayoutBase } from 'app/layout/layout-base';
 import { DockLayout } from 'app/layout/dock-layout/dock-layout';
-import { DockPanelComponent } from 'app/controls/dock-panel/dock-panel.component';
+import { DockPanelComponent } from 'app/controls/layouts/dock-panel/dock-panel.component';
 import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
 import { ControlType } from 'app/enums/control-type';
 

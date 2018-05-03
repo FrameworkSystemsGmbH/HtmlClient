@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 
-import { TextBoxComponent } from 'app/controls/textbox.component';
+import { TextBoxComponent } from 'app/controls/textboxes/textbox.component';
 import { TextBoxNumberWrapper } from 'app/wrappers/textbox-number-wrapper';
 import { NumberFormatService } from 'app/services/formatter/number-format.service';
 import { TextFormat } from 'app/enums/text-format';

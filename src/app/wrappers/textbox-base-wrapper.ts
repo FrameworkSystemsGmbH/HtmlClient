@@ -1,5 +1,5 @@
 import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
-import { TextBoxComponent } from 'app/controls/textbox.component';
+import { TextBoxComponent } from 'app/controls/textboxes/textbox.component';
 import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
 import { TextAlign } from 'app/enums/text-align';
 import { TextFormat } from 'app/enums/text-format';

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ButtonComponent } from 'app/controls/button.component';
+import { ButtonComponent } from 'app/controls/buttons/button.component';
 
 @Component({
   selector: 'hc-btn-plain',

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ButtonComponent } from 'app/controls/button.component';
+import { ButtonComponent } from 'app/controls/buttons/button.component';
 import { ButtonImageWrapper } from 'app/wrappers/button-image-wrapper';
 import { StyleUtil } from 'app/util/style-util';
 

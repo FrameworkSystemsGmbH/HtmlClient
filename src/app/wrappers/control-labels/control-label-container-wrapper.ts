@@ -13,7 +13,7 @@ import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { VchContainer } from 'app/vch/vch-container';
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
-import { ControlLabelContainerComponent } from 'app/controls/control-label-container/control-label-container.component';
+import { ControlLabelContainerComponent } from 'app/controls/control-labels/control-label-container/control-label-container.component';
 import { ControlLabelContainerLayout } from 'app/layout/control-label-layout/control-label-container-layout';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';

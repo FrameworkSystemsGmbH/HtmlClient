@@ -14,7 +14,7 @@ import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { VchContainer } from 'app/vch/vch-container';
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
 import { ControlLabelContainerMergedLayout } from 'app/layout/control-label-merged-layout/control-label-container-merged-layout';
-import { ControlLabelContainerMergedComponent } from 'app/controls/control-label-container-merged/control-label-container-merged.component';
+import { ControlLabelContainerMergedComponent } from 'app/controls/control-labels/control-label-container-merged/control-label-container-merged.component';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelSeparatorWrapper } from './control-label-separator-wrapper';
 import { ControlLabelSeparatorProvider } from 'app/wrappers/control-labels/control-label-separator-provider';

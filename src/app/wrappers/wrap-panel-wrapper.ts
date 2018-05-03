@@ -3,7 +3,7 @@ import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core'
 import { IWrapContainer } from 'app/layout/wrap-layout/wrap-container.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { WrapPanelComponent } from 'app/controls/wrap-panel/wrap-panel.component';
+import { WrapPanelComponent } from 'app/controls/layouts/wrap-panel/wrap-panel.component';
 import { ContainerWrapperSpaceable } from 'app/wrappers/container-wrapper-spaceable';
 import { LayoutBase } from 'app/layout/layout-base';
 import { WrapLayout } from 'app/layout/wrap-layout/wrap-layout';
