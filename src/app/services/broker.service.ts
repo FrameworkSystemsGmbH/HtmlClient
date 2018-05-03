@@ -209,6 +209,7 @@ export class BrokerService {
         minWidth: 300,
         maxWidth: '90%',
         maxHeight: '90%',
+        disableClose: true,
         data: {
           message: UrlUtil.urlDecode(json.error.message),
           stackTrace: UrlUtil.urlDecode(json.error.stackTrace)
@@ -221,6 +222,7 @@ export class BrokerService {
         minWidth: 300,
         maxWidth: '90%',
         maxHeight: '90%',
+        disableClose: true,
         data: {
           formId: msgBoxJson.formId,
           id: msgBoxJson.id,
