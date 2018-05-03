@@ -104,11 +104,24 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
     this.componentRef = componentRef;
   }
 
+  protected getComponent(): ControlLabelComponent {
+    const compRef: ComponentRef<ControlLabelComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
+  }
+
+  public updateComponent(): void {
+    const comp: ControlLabelComponent = this.getComponent();
+
+    if (comp) {
+      comp.updateComponent();
+    }
+  }
+
   public getName(): string {
     return this.name;
   }
 
-  public getIsEditable(): boolean {
+  public getCurrentIsEditable(): boolean {
     return this.getLabelProvider().getCurrentIsEditable();
   }
 
@@ -162,19 +175,11 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
   }
 
   public getMinWidth(): number {
-    return Number.zeroIfNull(this.isMinWidthSet() ? this.getLabelTemplate().getMinWidth() : this.fittedWidth);
-  }
-
-  public isMinWidthSet(): boolean {
-    return this.getLabelTemplate().getMinWidth() != null;
+    return Math.max(Number.zeroIfNull(this.getLabelTemplate().getMinWidth()), Number.zeroIfNull(this.fittedWidth));
   }
 
   public getMinHeight(): number {
-    return Number.zeroIfNull(this.isMinHeightSet() ? this.getLabelTemplate().getMinHeight() : this.fittedHeight);
-  }
-
-  public isMinHeightSet(): boolean {
-    return this.getLabelTemplate().getMinHeight() != null;
+    return Math.max(Number.zeroIfNull(this.getLabelTemplate().getMinHeight()), Number.zeroIfNull(this.fittedHeight));
   }
 
   public getMaxWidth(): number {

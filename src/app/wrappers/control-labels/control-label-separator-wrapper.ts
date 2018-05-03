@@ -3,15 +3,7 @@ import { Visibility } from 'app/enums/visibility';
 
 export class ControlLabelSeparatorWrapper extends ControlLabelWrapper {
 
-  public isMinWidthSet(): boolean {
-    return false;
-  }
-
-  public isMinheightSet(): boolean {
-    return false;
-  }
-
-  public getIsEditable(): boolean {
+  public getCurrentIsEditable(): boolean {
     return this.getLabelProvider().getCurrentIsEditable();
   }
 

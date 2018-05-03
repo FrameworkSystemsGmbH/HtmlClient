@@ -194,6 +194,12 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     if (comp) {
       comp.updateComponent();
     }
+
+    const labelComp: ILayoutableControlWrapper = this.getControlLabelWrapper();
+
+    if (labelComp) {
+      labelComp.updateComponent();
+    }
   }
 
   public updateComponentRecursively(): void {

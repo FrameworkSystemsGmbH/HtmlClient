@@ -4,6 +4,7 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 
 import { LayoutableComponent } from 'app/controls/layoutable.component';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
+import { Visibility } from 'app/enums/visibility';
 import { StyleUtil } from 'app/util/style-util';
 
 @Component({
@@ -14,6 +15,8 @@ import { StyleUtil } from 'app/util/style-util';
 export class ControlLabelComponent extends LayoutableComponent {
 
   public caption: string;
+  public isEditable: boolean;
+  public isVisible: boolean;
   public labelStyle: any;
 
   public getWrapper(): ControlLabelWrapper {
@@ -23,6 +26,8 @@ export class ControlLabelComponent extends LayoutableComponent {
   protected updateData(wrapper: ControlLabelWrapper): void {
     super.updateData(wrapper);
     this.caption = wrapper.getDisplayCaption();
+    this.isEditable = wrapper.getCurrentIsEditable();
+    this.isVisible = wrapper.getCurrentVisibility() === Visibility.Visible;
   }
 
   protected updateStyles(wrapper: ControlLabelWrapper): void {
@@ -38,7 +43,7 @@ export class ControlLabelComponent extends LayoutableComponent {
       'top.px': layoutableProperties.getY(),
       'width.px': layoutableProperties.getWidth(),
       'height.px': layoutableProperties.getHeight(),
-      'color': StyleUtil.getForeColor(wrapper.getIsEditable(), wrapper.getForeColor()),
+      'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': wrapper.getBackColor(),
       'border-style': 'none',
       'margin': StyleUtil.getFourValue('px',
@@ -57,7 +62,8 @@ export class ControlLabelComponent extends LayoutableComponent {
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
-      'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
+      'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign()),
+      'display': !this.isVisible ? 'none' : null
     };
   }
 }

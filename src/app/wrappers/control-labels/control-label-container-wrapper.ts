@@ -103,6 +103,14 @@ export class ControlLabelContainerWrapper implements ILayoutableControlWrapper, 
     return compRef ? compRef.instance : undefined;
   }
 
+  public updateComponent(): void {
+    const comp: ControlLabelContainerComponent = this.getComponent();
+
+    if (comp) {
+      comp.updateComponent();
+    }
+  }
+
   public getViewContainerRef(): ViewContainerRef {
     return this.getComponent().anchor;
   }

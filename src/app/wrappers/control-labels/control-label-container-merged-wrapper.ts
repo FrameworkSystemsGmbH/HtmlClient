@@ -127,6 +127,14 @@ export class ControlLabelContainerMergedWrapper implements ILayoutableControlWra
     return compRef ? compRef.instance : undefined;
   }
 
+  public updateComponent(): void {
+    const comp: ControlLabelContainerMergedComponent = this.getComponent();
+
+    if (comp) {
+      comp.updateComponent();
+    }
+  }
+
   public getViewContainerRef(): ViewContainerRef {
     return this.getComponent().anchor;
   }
