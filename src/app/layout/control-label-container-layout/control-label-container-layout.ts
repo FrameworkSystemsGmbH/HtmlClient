@@ -1,4 +1,4 @@
-import { IControlLabelContainer } from 'app/layout/control-label-layout/control-label-container.interface';
+import { IControlLabelContainer } from 'app/layout/control-label-container-layout/control-label-container.interface';
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 

@@ -1,6 +1,6 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory, ViewContainerRef, Injector } from '@angular/core';
 
-import { IControlLabelContainer } from 'app/layout/control-label-layout/control-label-container.interface';
+import { IControlLabelContainer } from 'app/layout/control-label-container-layout/control-label-container.interface';
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
@@ -14,7 +14,7 @@ import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { VchContainer } from 'app/vch/vch-container';
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
 import { ControlLabelContainerComponent } from 'app/controls/control-labels/control-label-container/control-label-container.component';
-import { ControlLabelContainerLayout } from 'app/layout/control-label-layout/control-label-container-layout';
+import { ControlLabelContainerLayout } from 'app/layout/control-label-container-layout/control-label-container-layout';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 
