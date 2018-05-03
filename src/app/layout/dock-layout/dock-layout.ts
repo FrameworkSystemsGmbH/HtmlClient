@@ -400,6 +400,8 @@ export class DockLayout extends LayoutContainerBase {
       let yPos: number = 0;
 
       for (const wrapper of this.wrappers) {
+        const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+
         if (wrapper.getIsVisible() && wrapper.getMinLayoutHeightBuffered() > 0) {
           if (addSpacing) {
             yPos += vSpacing;
@@ -422,7 +424,6 @@ export class DockLayout extends LayoutContainerBase {
             xOffset = (contentWidth - resultWidth) / 2;
           }
 
-          const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
           layoutableProperties.setX(xOffset);
           layoutableProperties.setY(yPos);
           layoutableProperties.setLayoutWidth(resultWidth);
@@ -431,6 +432,11 @@ export class DockLayout extends LayoutContainerBase {
           yPos += wrapper.getResultHeight();
 
           wrapper.arrangeContainer();
+        } else {
+          layoutableProperties.setX(0);
+          layoutableProperties.setY(0);
+          layoutableProperties.setLayoutWidth(0);
+          layoutableProperties.setLayoutHeight(0);
         }
       }
     } else {
@@ -441,6 +447,8 @@ export class DockLayout extends LayoutContainerBase {
       let xPos: number = 0;
 
       for (const wrapper of this.wrappers) {
+        const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+
         if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
           if (addSpacing) {
             xPos += hSpacing;
@@ -463,7 +471,6 @@ export class DockLayout extends LayoutContainerBase {
             yOffset = (contentHeight - resultHeight) / 2;
           }
 
-          const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
           layoutableProperties.setX(xPos);
           layoutableProperties.setY(yOffset);
           layoutableProperties.setLayoutWidth(wrapper.getResultWidth());
@@ -472,6 +479,11 @@ export class DockLayout extends LayoutContainerBase {
           xPos += wrapper.getResultWidth();
 
           wrapper.arrangeContainer();
+        } else {
+          layoutableProperties.setX(0);
+          layoutableProperties.setY(0);
+          layoutableProperties.setLayoutWidth(0);
+          layoutableProperties.setLayoutHeight(0);
         }
       }
     }

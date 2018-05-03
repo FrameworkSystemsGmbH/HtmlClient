@@ -597,6 +597,10 @@ export class WrapLayout extends LayoutContainerBase {
       return;
     }
 
+    // not arranged wrappers need to be reset
+    const notArrangedWrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
+    notArrangedWrappers.pushAll(this.wrappers);
+
     // include insets (padding + border + margin) of the container
     const insetsLeft: number = container.getInsetsLeft();
     const insetsRight: number = container.getInsetsRight();
@@ -733,10 +737,20 @@ export class WrapLayout extends LayoutContainerBase {
         xPos += wrapper.getResultWidth();
 
         wrapper.arrangeContainer();
+
+        notArrangedWrappers.remove(wrapper);
       }
 
       yPos += resultRowHeight;
     }
+
+    notArrangedWrappers.forEach(wrapper => {
+      const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+      layoutableProperties.setX(0);
+      layoutableProperties.setY(0);
+      layoutableProperties.setLayoutWidth(0);
+      layoutableProperties.setLayoutHeight(0);
+    });
   }
 
   private arrangeVertically(): void {
@@ -753,6 +767,10 @@ export class WrapLayout extends LayoutContainerBase {
     if (!this.wrapColumns || !this.wrapColumns.length) {
       return;
     }
+
+    // not arranged wrappers need to be reset
+    const notArrangedWrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
+    notArrangedWrappers.pushAll(this.wrappers);
 
     // include insets (padding + border + margin) of the container
     const insetsLeft: number = container.getInsetsLeft();
@@ -882,9 +900,19 @@ export class WrapLayout extends LayoutContainerBase {
         yPos += wrapper.getResultHeight();
 
         wrapper.arrangeContainer();
+
+        notArrangedWrappers.remove(wrapper);
       }
 
       columnXPos += wrapColumn.getResultColumnWidth();
     }
+
+    notArrangedWrappers.forEach(wrapper => {
+      const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
+      layoutableProperties.setX(0);
+      layoutableProperties.setY(0);
+      layoutableProperties.setLayoutWidth(0);
+      layoutableProperties.setLayoutHeight(0);
+    });
   }
 }
