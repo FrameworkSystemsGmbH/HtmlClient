@@ -9,7 +9,6 @@ import { ComboBoxListMobileComponent } from 'app/controls/comboboxes/combobox-li
 import { ComboBoxListMobileOverlayComponent } from 'app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile-overlay.component';
 import { ControlLabelComponent } from 'app/controls/control-labels/control-label/control-label.component';
 import { ControlLabelContainerComponent } from 'app/controls/control-labels/control-label-container/control-label-container.component';
-import { ControlLabelContainerMergedComponent } from 'app/controls/control-labels/control-label-container-merged/control-label-container-merged.component';
 import { DockPanelComponent } from 'app/controls/layouts/dock-panel/dock-panel.component';
 import { FieldPanelComponent } from 'app/controls/layouts/field-panel/field-panel.component';
 import { FormComponent } from 'app/controls/form/form.component';
@@ -33,7 +32,6 @@ export const ALL_CONTROLS = [
   ComboBoxListMobileOverlayComponent,
   ControlLabelComponent,
   ControlLabelContainerComponent,
-  ControlLabelContainerMergedComponent,
   DockPanelComponent,
   FieldPanelComponent,
   FormComponent,

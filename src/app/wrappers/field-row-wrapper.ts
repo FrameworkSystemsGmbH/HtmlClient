@@ -9,7 +9,7 @@ import { ControlComponent } from 'app/controls/control.component';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
-import { ControlLabelContainerWrapper } from 'app/wrappers/control-labels/control-label-container-wrapper';
+import { ControlLabelContainerSingleWrapper } from 'app/wrappers/control-labels/control-label-container-single-wrapper';
 import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { ControlLabelContainerMergedWrapper } from './control-labels/control-label-container-merged-wrapper';
@@ -119,7 +119,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
           }
           if (i === 0) {
             this.hasFirstColumnControl = true;
-            const controlLabelContainerWrapper: ControlLabelContainerWrapper = new ControlLabelContainerWrapper(
+            const controlLabelContainerWrapper: ControlLabelContainerSingleWrapper = new ControlLabelContainerSingleWrapper(
               this.getInjector(), controlLabelWrapper, this.getParent().getRowLabelTemplate());
             controlLabelContainerWrapper.attachComponent(uiContainer, vchContainer);
           } else {

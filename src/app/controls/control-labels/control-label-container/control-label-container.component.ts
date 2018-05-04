@@ -3,7 +3,7 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
 import { LayoutableComponent } from 'app/controls/layoutable.component';
-import { ControlLabelContainerWrapper } from 'app/wrappers/control-labels/control-label-container-wrapper';
+import { ControlLabelContainerBaseWrapper } from 'app/wrappers/control-labels/control-label-container-base-wrapper';
 
 @Component({
   selector: 'hc-ctrl-lbl-cont',
@@ -17,20 +17,20 @@ export class ControlLabelContainerComponent extends LayoutableComponent {
 
   public wrapperStyle: any;
 
-  public getWrapper(): ControlLabelContainerWrapper {
-    return super.getWrapper() as ControlLabelContainerWrapper;
+  public getWrapper(): ControlLabelContainerBaseWrapper {
+    return super.getWrapper() as ControlLabelContainerBaseWrapper;
   }
 
   public getViewContainerRef(): ViewContainerRef {
     return this.anchor;
   }
 
-  protected updateStyles(wrapper: ControlLabelContainerWrapper): void {
+  protected updateStyles(wrapper: ControlLabelContainerBaseWrapper): void {
     super.updateStyles(wrapper);
     this.wrapperStyle = this.createWrapperStyle(wrapper);
   }
 
-  protected createWrapperStyle(wrapper: ControlLabelContainerWrapper): any {
+  protected createWrapperStyle(wrapper: ControlLabelContainerBaseWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
     const layoutWidth: number = layoutableProperties.getWidth();
     const layoutHeight: number = layoutableProperties.getHeight();

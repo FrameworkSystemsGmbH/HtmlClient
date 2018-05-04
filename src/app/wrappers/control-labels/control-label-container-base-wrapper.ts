@@ -18,9 +18,9 @@ import { ControlLabelContainerLayout } from 'app/layout/control-label-container-
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 
-export class ControlLabelContainerWrapper implements ILayoutableControlWrapper, IControlLabelContainer {
+export abstract class ControlLabelContainerBaseWrapper implements ILayoutableControlWrapper, IControlLabelContainer {
 
-  private readonly propError: string = 'This property should not get called!';
+  protected readonly propError: string = 'This property should not get called!';
 
   private name: string;
   private vchControl: VchControl;
@@ -34,19 +34,31 @@ export class ControlLabelContainerWrapper implements ILayoutableControlWrapper, 
 
   constructor(
     injector: Injector,
-    labelWrapper: ControlLabelWrapper,
+    labelWrappers: Array<ControlLabelWrapper>,
     rowLabelTemplate: ControlLabelTemplate
   ) {
-    this.labelWrappers = new Array<ControlLabelWrapper>();
+    this.labelWrappers = labelWrappers;
     this.resolver = injector.get(ComponentFactoryResolver);
     this.rowLabelTemplate = rowLabelTemplate;
-    this.name = labelWrapper.getName() + '_ControlLabelContainer';
-
-    this.labelWrappers.push(labelWrapper);
+    this.name = this.createName();
   }
+
+  protected abstract createName(): string;
 
   protected getResolver(): ComponentFactoryResolver {
     return this.resolver;
+  }
+
+  protected getLabelWrappers(): Array<ControlLabelWrapper> {
+    return this.labelWrappers;
+  }
+
+  protected setLabelWrappers(labelWrappers: Array<ControlLabelWrapper>): void {
+    this.labelWrappers = labelWrappers;
+  }
+
+  protected getRowLabelTemplate(): ControlLabelTemplate {
+    return this.rowLabelTemplate;
   }
 
   public getVchControl(): VchControl {
