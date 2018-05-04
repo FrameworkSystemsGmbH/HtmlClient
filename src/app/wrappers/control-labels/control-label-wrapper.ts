@@ -1,11 +1,12 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
 
+import { IControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper.interface';
 import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
-import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
 import { FontService } from 'app/services/font.service';
 import { ControlLabelComponent } from 'app/controls/control-labels/control-label/control-label.component';
+import { ControlLabelContainerBaseWrapper } from './control-label-container-base-wrapper';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { LayoutBase } from 'app/layout/layout-base';
 import { ControlLayout } from 'app/layout/control-layout/control-layout';
@@ -16,7 +17,7 @@ import { Visibility } from 'app/enums/visibility';
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 
-export class ControlLabelWrapper implements ILayoutableControlWrapper {
+export class ControlLabelWrapper implements IControlLabelWrapper {
 
   private name: string;
   private displayCaption: string;
@@ -26,6 +27,7 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
   private layout: LayoutBase;
   private layoutableProperties: LayoutablePropertiesDefault;
   private componentRef: ComponentRef<ControlLabelComponent>;
+  private labelContainer: ControlLabelContainerBaseWrapper;
 
   private readonly resolver: ComponentFactoryResolver;
   private readonly fontService: FontService;
@@ -96,6 +98,14 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
     return new LayoutablePropertiesDefault(this);
   }
 
+  protected getLabelContainer(): ControlLabelContainerBaseWrapper {
+    return this.labelContainer;
+  }
+
+  public setLabelContainer(labelContainer: ControlLabelContainerBaseWrapper): void {
+    this.labelContainer = labelContainer;
+  }
+
   protected getComponentRef(): ComponentRef<ControlLabelComponent> {
     return this.componentRef;
   }
@@ -160,6 +170,13 @@ export class ControlLabelWrapper implements ILayoutableControlWrapper {
 
   public getCurrentVisibility(): Visibility {
     return this.getLabelTemplate().getIsVisible() ? this.getLabelProvider().getCurrentVisibility() : Visibility.Collapsed;
+  }
+
+  public onWrapperVisibilityChanged(): void {
+    const labelContainer: ControlLabelContainerBaseWrapper = this.getLabelContainer();
+    if (labelContainer) {
+      labelContainer.onWrapperVisibilityChanged();
+    }
   }
 
   public getMinLayoutWidth(): number {

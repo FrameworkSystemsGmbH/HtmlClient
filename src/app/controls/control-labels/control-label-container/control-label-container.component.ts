@@ -4,6 +4,7 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 
 import { LayoutableComponent } from 'app/controls/layoutable.component';
 import { ControlLabelContainerBaseWrapper } from 'app/wrappers/control-labels/control-label-container-base-wrapper';
+import { Visibility } from 'app/enums/visibility';
 
 @Component({
   selector: 'hc-ctrl-lbl-cont',
@@ -15,6 +16,7 @@ export class ControlLabelContainerComponent extends LayoutableComponent {
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
 
+  public isVisible: boolean;
   public wrapperStyle: any;
 
   public getWrapper(): ControlLabelContainerBaseWrapper {
@@ -23,6 +25,11 @@ export class ControlLabelContainerComponent extends LayoutableComponent {
 
   public getViewContainerRef(): ViewContainerRef {
     return this.anchor;
+  }
+
+  protected updateData(wrapper: ControlLabelContainerBaseWrapper): void {
+    super.updateData(wrapper);
+    this.isVisible = wrapper.getCurrentVisibility() === Visibility.Visible;
   }
 
   protected updateStyles(wrapper: ControlLabelContainerBaseWrapper): void {
@@ -37,7 +44,7 @@ export class ControlLabelContainerComponent extends LayoutableComponent {
     const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {
-      'display': isSizeVisible ? null : 'none',
+      'display': this.isVisible && isSizeVisible ? null : 'none',
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
       'width.px': layoutWidth,

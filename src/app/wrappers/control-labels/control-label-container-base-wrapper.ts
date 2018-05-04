@@ -1,8 +1,8 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory, ViewContainerRef, Injector } from '@angular/core';
 
+import { IControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper.interface';
 import { IControlLabelContainer } from 'app/layout/control-label-container-layout/control-label-container.interface';
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
-import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
 import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
@@ -17,8 +17,9 @@ import { ControlLabelContainerComponent } from 'app/controls/control-labels/cont
 import { ControlLabelContainerLayout } from 'app/layout/control-label-container-layout/control-label-container-layout';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
+import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 
-export abstract class ControlLabelContainerBaseWrapper implements ILayoutableControlWrapper, IControlLabelContainer {
+export abstract class ControlLabelContainerBaseWrapper implements IControlLabelWrapper, IControlLabelContainer {
 
   protected readonly propError: string = 'This property should not get called!';
 
@@ -28,6 +29,7 @@ export abstract class ControlLabelContainerBaseWrapper implements ILayoutableCon
   private layoutableProperties: LayoutablePropertiesDefault;
   private componentRef: ComponentRef<ControlLabelContainerComponent>;
   private labelWrappers: Array<ControlLabelWrapper>;
+  private fieldRowWrp: FieldRowWrapper;
   private rowLabelTemplate: ControlLabelTemplate;
 
   private readonly resolver: ComponentFactoryResolver;
@@ -35,18 +37,32 @@ export abstract class ControlLabelContainerBaseWrapper implements ILayoutableCon
   constructor(
     injector: Injector,
     labelWrappers: Array<ControlLabelWrapper>,
+    fieldRowWrp: FieldRowWrapper,
     rowLabelTemplate: ControlLabelTemplate
   ) {
     this.labelWrappers = labelWrappers;
     this.resolver = injector.get(ComponentFactoryResolver);
+    this.fieldRowWrp = fieldRowWrp;
     this.rowLabelTemplate = rowLabelTemplate;
     this.name = this.createName();
+
+    this.setWrappersLabelContainer();
   }
 
   protected abstract createName(): string;
 
+  protected setWrappersLabelContainer(): void {
+    this.labelWrappers.forEach(labelWrapper => {
+      labelWrapper.setLabelContainer(this);
+    });
+  }
+
   protected getResolver(): ComponentFactoryResolver {
     return this.resolver;
+  }
+
+  protected getFieldRowWrapper(): FieldRowWrapper {
+    return this.fieldRowWrp;
   }
 
   protected getLabelWrappers(): Array<ControlLabelWrapper> {
@@ -156,7 +172,11 @@ export abstract class ControlLabelContainerBaseWrapper implements ILayoutableCon
   }
 
   public getCurrentVisibility(): Visibility {
-    return Visibility.Visible;
+    return this.fieldRowWrp.getCurrentVisibility();
+  }
+
+  public onWrapperVisibilityChanged(): void {
+    // Override in subclasses
   }
 
   public getMinLayoutWidth(): number {

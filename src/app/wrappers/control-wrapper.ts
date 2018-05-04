@@ -3,6 +3,7 @@ import { ISubscription } from 'rxjs/Subscription';
 
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper.interface';
 import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
 import { IWrapperCreationOptions } from 'app/services/controls.service';
 
@@ -48,7 +49,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private isEditableParent: boolean;
   private visibilityParent: Visibility;
 
-  private controlLabel: ILayoutableControlWrapper;
+  private controlLabel: IControlLabelWrapper;
 
   private injector: Injector;
   private resolver: ComponentFactoryResolver;
@@ -231,6 +232,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public setVisibilityAction(visibility: Visibility): void {
     this.getPropertyStore().setVisibility(PropertyLayer.Action, visibility);
+    this.onWrapperVisibilityChanged();
   }
 
   public updateVisibilityParent(): void {
@@ -240,6 +242,14 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       this.visibilityParent = this.parent.getCurrentVisibility();
     } else {
       this.visibilityParent = Visibility.Visible;
+    }
+
+    this.onWrapperVisibilityChanged();
+  }
+
+  protected onWrapperVisibilityChanged(): void {
+    if (this.controlLabel) {
+      this.controlLabel.onWrapperVisibilityChanged();
     }
   }
 
@@ -453,22 +463,20 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return !!this.getCaption();
   }
 
-  public getControlLabelWrapper(): ILayoutableControlWrapper {
+  public getControlLabelWrapper(): IControlLabelWrapper {
     if (!this.controlLabel) {
       this.controlLabel = this.createControlLabelWrapper();
     }
     return this.controlLabel;
   }
 
-  protected createControlLabelWrapper(): ILayoutableControlWrapper {
+  protected createControlLabelWrapper(): IControlLabelWrapper {
     return new ControlLabelWrapper(this.injector, this);
   }
 
   protected updateControlLabelComponentRecursively(): void {
-    const labelComp: ILayoutableControlWrapper = this.getControlLabelWrapper();
-
-    if (labelComp) {
-      labelComp.updateComponentRecursively();
+    if (this.controlLabel) {
+      this.controlLabel.updateComponentRecursively();
     }
   }
 

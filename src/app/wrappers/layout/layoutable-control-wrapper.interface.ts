@@ -9,6 +9,4 @@ export interface ILayoutableControlWrapper extends ILayoutableControl {
 
   attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void;
 
-  updateComponentRecursively(): void;
-
 }
