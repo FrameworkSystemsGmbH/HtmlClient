@@ -14,8 +14,6 @@ import { StyleUtil } from 'app/util/style-util';
 export class LabelComponent extends ControlComponent {
 
   public caption: string;
-  public tabIndex: boolean;
-
   public labelStyle: any;
 
   public getWrapper(): LabelWrapper {
@@ -25,7 +23,6 @@ export class LabelComponent extends ControlComponent {
   protected updateData(wrapper: LabelWrapper): void {
     super.updateData(wrapper);
     this.caption = wrapper.getCaption();
-    this.tabIndex = wrapper.getTabStop();
   }
 
   protected updateStyles(wrapper: LabelWrapper): void {
