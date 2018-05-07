@@ -169,7 +169,14 @@ export class ControlLabelWrapper implements IControlLabelWrapper {
   }
 
   public getCurrentVisibility(): Visibility {
-    return this.getLabelTemplate().getIsVisible() ? this.getLabelProvider().getCurrentVisibility() : Visibility.Collapsed;
+    if (this.getLabelTemplate().getIsVisible()) {
+      // Control labels cannot be shown as hidden
+      return this.getLabelProvider().getCurrentVisibility() === Visibility.Visible
+        ? Visibility.Visible
+        : Visibility.Collapsed;
+    } else {
+      return Visibility.Collapsed;
+    }
   }
 
   public onWrapperVisibilityChanged(): void {

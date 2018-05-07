@@ -47,6 +47,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
     }
 
     this.setLabelWrappers(labelsWithSeparators);
+    this.adjustSeparators();
   }
 
   public onWrapperVisibilityChanged(): void {
@@ -59,7 +60,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
       this.setAllSeperatorsVisibility(fieldRowWrpVis);
     } else {
       this.setAllSeperatorsVisibility(Visibility.Visible);
-      this.hideUnusedSeparators();
+      this.adjustSeparators();
     }
   }
 
@@ -74,7 +75,47 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
     });
   }
 
-  protected hideUnusedSeparators(): void {
+  protected adjustSeparators(): void {
+    const visibleWrappers: Array<ControlLabelWrapper> = this.getLabelWrappers().filter(labelWrp => {
+      return labelWrp.getCurrentVisibility() === Visibility.Visible;
+    });
 
+    // Trim separators from start
+    for (let i = 0; i < visibleWrappers.length; i++) {
+      const visibleWrp: ControlLabelWrapper = visibleWrappers[i];
+      if (visibleWrp instanceof ControlLabelSeparatorWrapper) {
+        const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp as ControlLabelSeparatorWrapper;
+        separatorWrp.setVisibility(Visibility.Collapsed);
+      } else {
+        break;
+      }
+    }
+
+    // Trim separators from end
+    for (let i = visibleWrappers.length - 1; i >= 0; i--) {
+      const visibleWrp: ControlLabelWrapper = visibleWrappers[i];
+      if (visibleWrp instanceof ControlLabelSeparatorWrapper) {
+        const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp as ControlLabelSeparatorWrapper;
+        separatorWrp.setVisibility(Visibility.Collapsed);
+      } else {
+        break;
+      }
+    }
+
+    // Limit separator count between labels to one
+    let separatorFound: boolean = false;
+    for (let i = 0; i < visibleWrappers.length; i++) {
+      const visibleWrp: ControlLabelWrapper = visibleWrappers[i];
+      if (visibleWrp instanceof ControlLabelSeparatorWrapper) {
+        if (separatorFound) {
+          const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp as ControlLabelSeparatorWrapper;
+          separatorWrp.setVisibility(Visibility.Collapsed);
+        } else {
+          separatorFound = true;
+        }
+      } else {
+        separatorFound = false;
+      }
+    }
   }
 }
