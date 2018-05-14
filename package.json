@@ -8,7 +8,7 @@
   "readme": "readme.md",
   "scripts": {
     "build": "ng build",
-    "buildProd": "ng build --prod --output-hashing none",
+    "buildProd": "ng build --prod --output-hashing none && del-cli \"dist/webzip\" && mkdirp \"dist/webzip\" && bestzip \"dist/webzip/HtmlClient.zip\" \"dist/web/*\"",
     "lint": "ng lint",
     "test": "ng test",
     "serve": "ng serve",
