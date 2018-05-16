@@ -4,8 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 
-import { IAppState } from 'app/app.reducers';
-
 import { LoginBroker } from 'app/common/login-broker';
 import { LoginService } from 'app/services/login.service';
 import { BrokerService } from 'app/services/broker.service';
@@ -13,6 +11,8 @@ import { TitleService } from 'app/services/title.service';
 import { SerializeService } from 'app/services/serialize.service';
 import { LastSessionInfo } from 'app/common/last-session-info';
 import { DomUtil } from 'app/util/dom-util';
+
+import * as fromAppReducers from 'app/app.reducers';
 
 @Component({
   selector: 'hc-login',
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private brokerService: BrokerService,
     private serializeService: SerializeService,
-    private store: Store<IAppState>) { }
+    private store: Store<fromAppReducers.IAppState>) { }
 
   public ngOnInit(): void {
     this.brokerValidator = this.createBrokerValidator(this.loginService);
@@ -142,7 +142,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.brokerService.login(broker);
+    this.brokerService.login(broker, false);
   }
 
   private createBrokerValidator(ls: LoginService): any {

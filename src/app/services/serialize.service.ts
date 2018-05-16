@@ -2,7 +2,10 @@ import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import { IBrokerState } from 'app/store/broker.reducers';
+import * as Moment from 'moment-timezone';
+import * as fromAppReducers from 'app/app.reducers';
+import * as fromBrokerReducers from 'app/store/broker.reducers';
+import * as fromBrokerActions from 'app/store/broker.actions';
 
 import { BrokerService } from 'app/services/broker.service';
 import { ControlStyleService } from 'app/services/control-style.service';
@@ -15,18 +18,13 @@ import { TitleService } from 'app/services/title.service';
 import { LastSessionInfo } from 'app/common/last-session-info';
 import { JsonUtil } from 'app/util/json-util';
 
-import * as fromAppReducers from 'app/app.reducers';
-import * as fromBrokerActions from 'app/store/broker.actions';
-
-import * as Moment from 'moment-timezone';
-
 const SESSION_STORAGE_KEY: string = 'clientSession';
 const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
 
 @Injectable()
 export class SerializeService {
 
-  private brokerState: IBrokerState;
+  private brokerState: fromBrokerReducers.IBrokerState;
 
   constructor(
     private zone: NgZone,
@@ -110,6 +108,7 @@ export class SerializeService {
         activeBrokerToken: this.brokerState.activeBrokerToken,
         activeBrokerUrl: this.brokerState.activeBrokerUrl,
         activeBrokerDev: this.brokerState.activeBrokerDev,
+        activeBrokerDirect: this.brokerState.activeBrokerDirect,
         activeBrokerFilesUrl: this.brokerState.activeBrokerFilesUrl,
         activeBrokerImageUrl: this.brokerState.activeBrokerImageUrl,
         activeBrokerRequestUrl: this.brokerState.activeBrokerRequestUrl
@@ -177,6 +176,7 @@ export class SerializeService {
             this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(store.activeBrokerToken));
             this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(store.activeBrokerUrl));
             this.store.dispatch(new fromBrokerActions.SetBrokerDevAction(store.activeBrokerDev));
+            this.store.dispatch(new fromBrokerActions.SetBrokerDirectAction(store.activeBrokerDirect));
             this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(store.activeBrokerFilesUrl));
             this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(store.activeBrokerImageUrl));
             this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(store.activeBrokerRequestUrl));

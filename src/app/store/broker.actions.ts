@@ -4,6 +4,7 @@ export const SET_BROKER_NAME = 'SET_BROKER_NAME';
 export const SET_BROKER_TOKEN = 'SET_BROKER_TOKEN';
 export const SET_BROKER_URL = 'SET_BROKER_URL';
 export const SET_BROKER_DEV = 'SET_BROKER_DEV';
+export const SET_BROKER_DIRECT = 'SET_BROKER_DIRECT';
 export const SET_BROKER_FILE_URL = 'SET_BROKER_FILE_URL';
 export const SET_BROKER_IMAGE_URL = 'SET_BROKER_IMAGE_URL';
 export const SET_BROKER_REQUEST_URL = 'SET_BROKER_REQUEST_URL';
@@ -30,6 +31,11 @@ export class SetBrokerDevAction implements Action {
   constructor(public payload: boolean) { }
 }
 
+export class SetBrokerDirectAction implements Action {
+  public readonly type = SET_BROKER_DIRECT;
+  constructor(public payload: boolean) { }
+}
+
 export class SetBrokerFilesUrlAction implements Action {
   public readonly type = SET_BROKER_FILE_URL;
   constructor(public payload: string) { }
@@ -49,4 +55,4 @@ export class ResetBrokerAction implements Action {
   public readonly type = RESET_BROKER;
 }
 
-export type BrokerActions = SetBrokerNameAction | SetBrokerTokenAction | SetBrokerUrlAction | SetBrokerDevAction | SetBrokerRequestUrlAction | SetBrokerFilesUrlAction | SetBrokerImageUrlAction | ResetBrokerAction;
+export type BrokerActions = SetBrokerNameAction | SetBrokerTokenAction | SetBrokerUrlAction | SetBrokerDevAction | SetBrokerDirectAction | SetBrokerRequestUrlAction | SetBrokerFilesUrlAction | SetBrokerImageUrlAction | ResetBrokerAction;

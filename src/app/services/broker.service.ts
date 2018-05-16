@@ -17,6 +17,7 @@ import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 import { LoginBroker } from 'app/common/login-broker';
+import { LoginOptions } from 'app/common/login-options';
 import { ClientEvent } from 'app/common/events/client-event';
 import { RequestType } from 'app/enums/request-type';
 import { JsonUtil } from 'app/util/json-util';
@@ -37,7 +38,7 @@ export class BrokerService {
   private activeBrokerToken: string;
   private activeBrokerRequestUrl: string;
   private requestCounter: number;
-  private browserLanguage: string;
+  private clientLanguages: string;
   private lastRequestTime: Moment.Moment;
 
   constructor(
@@ -95,7 +96,7 @@ export class BrokerService {
     return this.activeBrokerName;
   }
 
-  public login(broker: LoginBroker): void {
+  public login(broker: LoginBroker, direct: boolean, options?: LoginOptions): void {
     if (this.activeBrokerName === broker.name) {
       this.routingService.showViewer();
     } else {
@@ -110,9 +111,14 @@ export class BrokerService {
       const imageUrl: string = url.trimCharsRight('/') + (dev ? '/api/image' : '/ImageHandler.ashx');
       const requestUrl: string = url.trimCharsRight('/') + (dev ? '/api/process' : '/JsonRequest.ashx');
 
+      if (options != null && !String.isNullOrWhiteSpace(options.languages)) {
+        this.clientLanguages = options.languages;
+      }
+
       this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(name));
       this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(url));
       this.store.dispatch(new fromBrokerActions.SetBrokerDevAction(dev));
+      this.store.dispatch(new fromBrokerActions.SetBrokerDirectAction(direct));
       this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(fileUrl));
       this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(imageUrl));
       this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(requestUrl));
@@ -135,7 +141,7 @@ export class BrokerService {
     this.formsService.resetViews();
     this.store.dispatch(new fromBrokerActions.ResetBrokerAction());
     this.requestCounter = 0;
-    this.browserLanguage = this.localeService.getLocale().substring(0, 2);
+    this.clientLanguages = this.localeService.getLocale().substring(0, 2);
     this.lastRequestTime = null;
   }
 
@@ -160,7 +166,7 @@ export class BrokerService {
     const metaJson: any = {
       token: this.activeBrokerToken,
       requCounter: ++this.requestCounter,
-      languages: [this.browserLanguage],
+      languages: [this.clientLanguages],
       type: RequestType[requestType]
     };
 
@@ -279,7 +285,7 @@ export class BrokerService {
   public getState(): any {
     return {
       requestCounter: this.requestCounter,
-      browserLanguage: this.browserLanguage,
+      clientLanguages: this.clientLanguages,
       lastRequestTime: this.lastRequestTime.toJSON()
     };
   }
@@ -289,7 +295,7 @@ export class BrokerService {
     }
 
     this.requestCounter = json.requestCounter;
-    this.browserLanguage = json.browserLanguage;
+    this.clientLanguages = json.clientLanguages;
     this.lastRequestTime = Moment.utc(json.lastRequestTime);
   }
 }

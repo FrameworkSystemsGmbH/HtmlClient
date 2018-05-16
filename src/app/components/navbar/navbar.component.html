@@ -31,7 +31,7 @@
       </div>
     </div>
   </div>
-  <div class="hc-navbar-right">
+  <div *ngIf="!directMode" class="hc-navbar-right">
     <ul class="hc-navbar-tools-list">
       <li (click)="switchBroker()">
         <span class="fas fa-fw fa-sign-out-alt fa-lg"></span>
@@ -56,7 +56,7 @@
       </li>
     </ul>
   </div>
-  <div class="hc-navbar-side-bottom">
+  <div *ngIf="!directMode" class="hc-navbar-side-bottom">
     <ul class="hc-navbar-side-tools-list">
       <li (click)="switchBroker()">
         <span>

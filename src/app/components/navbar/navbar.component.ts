@@ -1,6 +1,9 @@
 import { animate, transition, trigger, style } from '@angular/animations';
 import { Component, ViewChild, ElementRef, AfterViewChecked, HostListener, OnInit, OnDestroy, NgZone, Renderer2 } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { ISubscription } from 'rxjs/Subscription';
+
+import * as fromAppReducers from 'app/app.reducers';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { TitleService } from 'app/services/title.service';
@@ -64,6 +67,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   public forms: Array<FormWrapper>;
   public selectedForm: FormWrapper;
+  public directMode: boolean;
   public sidebarEnabled: boolean = false;
   public sidebarVisible: boolean = false;
 
@@ -73,6 +77,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   private leftInterval: any;
   private rightInterval: any;
 
+  private storeSub: ISubscription;
   private formsSub: ISubscription;
   private selectedFormSub: ISubscription;
 
@@ -81,9 +86,11 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
     private renderer: Renderer2,
     private titleService: TitleService,
     private routingService: RoutingService,
-    private formsService: FormsService) { }
+    private formsService: FormsService,
+    private store: Store<fromAppReducers.IAppState>) { }
 
   public ngOnInit(): void {
+    this.storeSub = this.store.select(state => state.broker.activeBrokerDirect).subscribe(direct => this.directMode = direct);
     this.formsSub = this.formsService.getForms().subscribe(forms => { this.forms = forms; });
     this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.selectedForm = form; });
   }
@@ -93,6 +100,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public ngOnDestroy(): void {
+    this.storeSub.unsubscribe();
     this.formsSub.unsubscribe();
     this.selectedFormSub.unsubscribe();
   }
