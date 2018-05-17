@@ -8,7 +8,9 @@
   "readme": "readme.md",
   "scripts": {
     "build": "ng build",
-    "buildProd": "ng build --prod --output-hashing none && del-cli \"dist/webzip\" && mkdirp \"dist/webzip\" && bestzip \"dist/webzip/HtmlClient.zip\" \"dist/web/*\"",
+    "buildProd": "npm run buildProdClean && ng build --prod --output-hashing none && npm run buildProdPack",
+    "buildProdClean": "del-cli \"dist/webzip\"",
+    "buildProdPack": "mkdirp \"dist/webzip\" && bestzip \"dist/webzip/HtmlClient.zip\" \"dist/web/*\"",
     "lint": "ng lint",
     "test": "ng test",
     "serve": "ng serve",
