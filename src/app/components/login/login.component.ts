@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   public addForm: FormGroup;
   public nameControl: FormControl;
   public urlControl: FormControl;
-  public devControl: FormControl;
   public editorShown: boolean;
   public editingIndex: number;
 
@@ -53,12 +52,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.nameControl = new FormControl(null);
     this.urlControl = new FormControl(null, Validators.required);
-    this.devControl = new FormControl(null);
 
     this.addForm = new FormGroup({
       name: this.nameControl,
-      url: this.urlControl,
-      dev: this.devControl
+      url: this.urlControl
     });
 
     this.lastSessionInfoSub = this.serializeService.getLastSessionInfo().subscribe(lastSessionInfo => {
@@ -105,7 +102,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.editingIndex = index;
     this.nameControl.setValue(broker.name);
     this.urlControl.setValue(broker.url);
-    this.devControl.setValue(broker.dev);
     this.editorShown = true;
   }
 
@@ -119,7 +115,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     const broker: LoginBroker = new LoginBroker();
     broker.name = this.nameControl.value;
     broker.url = this.urlControl.value;
-    broker.dev = this.devControl.value;
 
     if (this.editingIndex != null && this.editingIndex >= 0) {
       this.loginService.updateBroker(this.editingIndex, broker);

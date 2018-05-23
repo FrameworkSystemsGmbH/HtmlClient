@@ -66,7 +66,6 @@ export class SerializeService {
           if (isValid) {
             return Observable.of(new LastSessionInfo(
               stateJson.meta.lastBroker,
-              stateJson.meta.lastBrokerDev,
               lastRequestTime,
               stateJson
             ));
@@ -98,7 +97,6 @@ export class SerializeService {
       // Meta
       stateJson.meta = {
         lastBroker: this.brokerState.activeBrokerName,
-        lastBrokerDev: this.brokerState.activeBrokerDev,
         lastRequestTime: this.brokerService.getLastRequestTime().toJSON()
       };
 
@@ -107,7 +105,6 @@ export class SerializeService {
         activeBrokerName: this.brokerState.activeBrokerName,
         activeBrokerToken: this.brokerState.activeBrokerToken,
         activeBrokerUrl: this.brokerState.activeBrokerUrl,
-        activeBrokerDev: this.brokerState.activeBrokerDev,
         activeBrokerDirect: this.brokerState.activeBrokerDirect,
         activeBrokerFilesUrl: this.brokerState.activeBrokerFilesUrl,
         activeBrokerImageUrl: this.brokerState.activeBrokerImageUrl,
@@ -175,7 +172,6 @@ export class SerializeService {
             this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(store.activeBrokerName));
             this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(store.activeBrokerToken));
             this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(store.activeBrokerUrl));
-            this.store.dispatch(new fromBrokerActions.SetBrokerDevAction(store.activeBrokerDev));
             this.store.dispatch(new fromBrokerActions.SetBrokerDirectAction(store.activeBrokerDirect));
             this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(store.activeBrokerFilesUrl));
             this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(store.activeBrokerImageUrl));

@@ -106,10 +106,9 @@ export class BrokerService {
 
       const name = broker.name;
       const url: string = broker.url;
-      const dev: boolean = broker.dev;
-      const fileUrl: string = url.trimCharsRight('/') + (dev ? '/files' : '/');
-      const imageUrl: string = url.trimCharsRight('/') + (dev ? '/api/image' : '/ImageHandler.ashx');
-      const requestUrl: string = url.trimCharsRight('/') + (dev ? '/api/process' : '/JsonRequest.ashx');
+      const fileUrl: string = url.trimCharsRight('/') + '/';
+      const imageUrl: string = url.trimCharsRight('/') + '/api/image';
+      const requestUrl: string = url.trimCharsRight('/') + '/api/process';
 
       if (options != null && !String.isNullOrWhiteSpace(options.languages)) {
         this.clientLanguages = options.languages;
@@ -117,7 +116,6 @@ export class BrokerService {
 
       this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(name));
       this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(url));
-      this.store.dispatch(new fromBrokerActions.SetBrokerDevAction(dev));
       this.store.dispatch(new fromBrokerActions.SetBrokerDirectAction(direct));
       this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(fileUrl));
       this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(imageUrl));

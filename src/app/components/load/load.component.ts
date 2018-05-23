@@ -1,6 +1,5 @@
-import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { BrokerService } from 'app/services/broker.service';
@@ -17,7 +16,6 @@ export class LoadComponent implements OnInit, OnDestroy {
   private queryParamsSub: ISubscription;
 
   constructor(
-    private location: Location,
     private route: ActivatedRoute,
     private brokerService: BrokerService) { }
 
@@ -27,7 +25,6 @@ export class LoadComponent implements OnInit, OnDestroy {
 
       const loginBroker: LoginBroker = new LoginBroker();
       loginBroker.name = 'External';
-      loginBroker.dev = params.dev === '1';
       loginBroker.url = url;
 
       let loginOptions: LoginOptions = null;

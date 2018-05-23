@@ -4,7 +4,7 @@
   </div>
 
   <mat-card class="last-session" *ngIf="!editorShown && lastSessionInfo != null" (click)="continueSession()">
-    <h3 class="session-name">{{ lastSessionInfo.getLastBrokerDev() ? lastSessionInfo.getLastBroker() + ' (Development)' : lastSessionInfo.getLastBroker() }}</h3>
+    <h3 class="session-name">{{ lastSessionInfo.getLastBroker() }}</h3>
     <div class="session-date">{{ getLastRequestTimeLocalString() }}</div>
   </mat-card>
 
@@ -35,7 +35,6 @@
           Url is required
         </mat-error>
       </mat-form-field>
-      <mat-checkbox formControlName="dev" color="primary">Development Broker</mat-checkbox>
       <div class="form-actions">
         <button type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingIndex != null && editingIndex >= 0 ? 'Save' : 'Add' }}</button>
         <button type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
@@ -50,7 +49,7 @@
     <div class="broker-list-wrapper" *ngIf="(brokers$ | async) && (brokers$ | async).length">
       <mat-card *ngFor="let broker of (brokers$ | async); index as i" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
         <div class="broker">
-          <h3 class="broker-name">{{ broker.dev ? broker.name + ' (Development)' : broker.name }}</h3>
+          <h3 class="broker-name">{{ broker.name }}</h3>
           <div class="broker-actions">
             <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(i, broker)">
               <span class="fas fa-fw fa-edit"></span>
