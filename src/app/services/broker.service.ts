@@ -14,6 +14,7 @@ import { FormsService } from 'app/services/forms.service';
 import { FramesService } from 'app/services/frames.service';
 import { LocaleService } from './locale.service';
 import { RoutingService } from 'app/services/routing.service';
+import { StorageService } from 'app/services/storage/storage.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 import { LoginBroker } from 'app/common/login-broker';
@@ -30,6 +31,9 @@ import * as Moment from 'moment-timezone';
 
 @Injectable()
 export class BrokerService {
+
+  private static readonly SESSION_DATA = 'SessionData';
+  private static readonly SESSION_DATA_DISCARD = 'DISCARD';
 
   private _onLoginComplete: Subject<any>;
   private _onLoginComplete$: Observable<any>;
@@ -51,6 +55,7 @@ export class BrokerService {
     private formsService: FormsService,
     private framesService: FramesService,
     private routingService: RoutingService,
+    private storageService: StorageService,
     private textsService: TextsService,
     private localeService: LocaleService,
     private store: Store<fromAppReducers.IAppState>
@@ -68,9 +73,9 @@ export class BrokerService {
       .concatMap(event => Observable.of(event)
         .mergeMap(() => {
           if (!event.callbacks || event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
-            return this.doRequest(this.createRequest(event.clientEvent))
-              .map(responseJson => this.processResponse(responseJson))
-              .map(() => true);
+            return this.createRequest(event.clientEvent)
+              .flatMap(requestJson => this.doRequest(requestJson))
+              .flatMap(responseJson => this.processResponse(responseJson));
           } else {
             return Observable.of(false);
           }
@@ -121,17 +126,18 @@ export class BrokerService {
       this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(imageUrl));
       this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(requestUrl));
 
-      this.sendInitRequest().subscribe(
-        responseJson => {
-          this.processResponse(responseJson);
-        },
-        error => {
-          this.resetActiveBroker();
-          throw error;
-        },
-        () => {
-          this._onLoginComplete.next();
-        });
+      const onError: (error: any) => void = error => {
+        this.resetActiveBroker();
+        throw error;
+      };
+
+      const onComplete: () => void = () => {
+        this._onLoginComplete.next();
+      };
+
+      this.sendInitRequest()
+        .flatMap(responseJson => this.processResponse(responseJson))
+        .subscribe(null, onError, onComplete);
     }
   }
 
@@ -144,11 +150,13 @@ export class BrokerService {
   }
 
   public sendInitRequest(): Observable<any> {
-    const requestJson: any = {
-      meta: this.getMetaJson(RequestType.Request)
-    };
-
-    return this.doRequest(requestJson);
+    return this.getMetaJson(true)
+      .map(metaJson => {
+        return {
+          meta: metaJson
+        };
+      })
+      .flatMap(requestJson => this.doRequest(requestJson));
   }
 
   private doRequest(requestJson: any): Observable<any> {
@@ -160,94 +168,126 @@ export class BrokerService {
     // });
   }
 
-  private getMetaJson(requestType: RequestType): any {
+  private getMetaJson(initRequest: boolean): Observable<any> {
     const metaJson: any = {
       token: this.activeBrokerToken,
       requCounter: ++this.requestCounter,
       languages: [this.clientLanguages],
-      type: RequestType[requestType]
+      type: RequestType.Request
     };
 
-    return metaJson;
-  }
-
-  private createRequest(event: ClientEvent): any {
-    const requestJson: any = {
-      meta: this.getMetaJson(RequestType.Request),
-      event
-    };
-
-    const formsJson: any = this.formsService.getFormsJson();
-
-    if (!JsonUtil.isEmptyObject(formsJson)) {
-      requestJson.forms = formsJson;
+    if (initRequest) {
+      return this.storageService.loadData(BrokerService.SESSION_DATA)
+        .map(sessionData => {
+          if (!String.isNullOrWhiteSpace(sessionData)) {
+            metaJson.sessionData = sessionData;
+          }
+          return metaJson;
+        });
+    } else {
+      return Observable.of(metaJson);
     }
-
-    return requestJson;
   }
 
-  public processResponse(json: any) {
+  private createRequest(event: ClientEvent): Observable<any> {
+    return this.getMetaJson(false)
+      .map(metaJson => {
+        const requestJson: any = {
+          meta: metaJson,
+          event
+        };
+
+        const formsJson: any = this.formsService.getFormsJson();
+
+        if (!JsonUtil.isEmptyObject(formsJson)) {
+          requestJson.forms = formsJson;
+        }
+
+        return requestJson;
+      });
+  }
+
+  public processResponse(json: any): Observable<boolean> {
     if (!json) {
       throw new Error('Response JSON is null or empty!');
     }
 
-    this.processMeta(json.meta);
-
-    if (json.start && !JsonUtil.isEmptyObject(json.start)) {
-      this.processApplication(json.start.application);
-      this.processControlStyles(json.start.controlStyles);
-      this.processTexts(json.start.texts);
-    }
-
-    if (json.forms && json.forms.length) {
-      this.formsService.setJson(json.forms);
-    }
-
-    if (json.actions && json.actions.length) {
-      this.actionsService.processActions(json.actions);
-    }
-
-    if (json.error) {
-      this.dialog.open(ErrorBoxComponent, {
-        backdropClass: 'hc-backdrop',
-        minWidth: 300,
-        maxWidth: '90%',
-        maxHeight: '90%',
-        disableClose: true,
-        data: {
-          message: UrlUtil.urlDecode(json.error.message),
-          stackTrace: UrlUtil.urlDecode(json.error.stackTrace)
+    return this.processMeta(json.meta)
+      .map(saved => {
+        if (!saved) {
+          throw new Error('SessionData could not be saved to storage!');
         }
-      });
-    } else if (json.msgBoxes) {
-      const msgBoxJson: any = json.msgBoxes[0];
-      this.dialog.open(MsgBoxComponent, {
-        backdropClass: 'hc-backdrop',
-        minWidth: 300,
-        maxWidth: '90%',
-        maxHeight: '90%',
-        disableClose: true,
-        data: {
-          formId: msgBoxJson.formId,
-          id: msgBoxJson.id,
-          message: UrlUtil.urlDecode(msgBoxJson.message),
-          icon: msgBoxJson.icon,
-          buttons: msgBoxJson.buttons
-        }
-      });
-    }
 
-    this.formsService.updateAllComponents();
-    this.framesService.layout();
-    this.routingService.showViewer();
+        if (json.start && !JsonUtil.isEmptyObject(json.start)) {
+          this.processApplication(json.start.application);
+          this.processControlStyles(json.start.controlStyles);
+          this.processTexts(json.start.texts);
+        }
+
+        if (json.forms && json.forms.length) {
+          this.formsService.setJson(json.forms);
+        }
+
+        if (json.actions && json.actions.length) {
+          this.actionsService.processActions(json.actions);
+        }
+
+        if (json.error) {
+          this.dialog.open(ErrorBoxComponent, {
+            backdropClass: 'hc-backdrop',
+            minWidth: 300,
+            maxWidth: '90%',
+            maxHeight: '90%',
+            disableClose: true,
+            data: {
+              message: UrlUtil.urlDecode(json.error.message),
+              stackTrace: UrlUtil.urlDecode(json.error.stackTrace)
+            }
+          });
+        } else if (json.msgBoxes) {
+          const msgBoxJson: any = json.msgBoxes[0];
+          this.dialog.open(MsgBoxComponent, {
+            backdropClass: 'hc-backdrop',
+            minWidth: 300,
+            maxWidth: '90%',
+            maxHeight: '90%',
+            disableClose: true,
+            data: {
+              formId: msgBoxJson.formId,
+              id: msgBoxJson.id,
+              message: UrlUtil.urlDecode(msgBoxJson.message),
+              icon: msgBoxJson.icon,
+              buttons: msgBoxJson.buttons
+            }
+          });
+        }
+
+        this.formsService.updateAllComponents();
+        this.framesService.layout();
+        this.routingService.showViewer();
+
+        return true;
+      });
   }
 
-  private processMeta(metaJson: any): void {
+  private processMeta(metaJson: any): Observable<boolean> {
     if (!metaJson) {
       throw new Error('Could not find property \'meta\' in response JSON!');
     }
 
     this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(metaJson.token));
+
+    const sessionData: string = metaJson.sessionData;
+
+    if (!String.isNullOrWhiteSpace(sessionData)) {
+      if (sessionData === BrokerService.SESSION_DATA_DISCARD) {
+        return this.storageService.delete(BrokerService.SESSION_DATA);
+      } else {
+        return this.storageService.saveData(BrokerService.SESSION_DATA, sessionData);
+      }
+    } else {
+      return Observable.of(true);
+    }
   }
 
   private processApplication(applicationJson: any): void {
