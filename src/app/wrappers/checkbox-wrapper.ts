@@ -20,6 +20,11 @@ export class CheckBoxWrapper extends FittedWrapper {
   private orgValue: boolean;
   private dataSourceType: DataSourceType;
 
+  protected init(): void {
+    super.init();
+    this.dataSourceType = DataSourceType.Bool;
+  }
+
   public getControlType(): ControlType {
     return ControlType.CheckBox;
   }
@@ -64,7 +69,7 @@ export class CheckBoxWrapper extends FittedWrapper {
 
     switch (this.dataSourceType) {
       case DataSourceType.Bool:
-        val = this.value == null ? 'flase' : encodeURIComponent(this.value === true ? 'true' : 'false');
+        val = this.value == null ? 'false' : encodeURIComponent(this.value === true ? 'true' : 'false');
         break;
 
       case DataSourceType.Decimal:
@@ -103,7 +108,7 @@ export class CheckBoxWrapper extends FittedWrapper {
         break;
 
       default:
-        throw new Error('Incompatible datasource type \'dataSourceType\' for checkbox control!');
+        throw new Error('Incompatible datasource type \'' + this.dataSourceType + '\' for checkbox control!');
     }
 
     this.orgValue = val;

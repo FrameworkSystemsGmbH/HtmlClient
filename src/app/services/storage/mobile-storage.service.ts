@@ -21,31 +21,41 @@ export class MobileStorageService extends StorageService {
     return this.getStorageDirectory()
       .switchMap(storageDirEntry => {
         return Observable.create((observer: Observer<string>) => {
-          try {
-            storageDirEntry.getFile(key + '.json', { create: false },
-              storageFileEntry => {
-                storageFileEntry.file(storageFile => {
-                  const reader: FileReader = new FileReader();
-                  reader.onloadend = e => {
-                    this.zone.run(() => {
-                      observer.next(reader.result);
-                      observer.complete();
-                    });
-                  };
-                  reader.onerror = e => {
-                    this.zone.run(() => {
-                      observer.error(e);
-                    });
-                  };
-                  reader.readAsText(storageFile);
-                });
-              }
-            );
-          } catch (error) {
-            this.zone.run(() => {
-              observer.error(error);
-            });
-          }
+          storageDirEntry.getFile(key + '.json', { create: false },
+            storageFileEntry => {
+              storageFileEntry.file(storageFile => {
+                const reader: FileReader = new FileReader();
+                reader.onloadend = e => {
+                  this.zone.run(() => {
+                    observer.next(reader.result);
+                    observer.complete();
+                  });
+                };
+                reader.onerror = e => {
+                  this.zone.run(() => {
+                    observer.error(e);
+                  });
+                };
+                reader.readAsText(storageFile);
+              },
+                error => {
+                  this.zone.run(() => {
+                    observer.error(error);
+                  });
+                }
+              );
+            },
+            error => {
+              this.zone.run(() => {
+                if (error.code === 1) {
+                  observer.next(null);
+                  observer.complete();
+                } else {
+                  observer.error(error);
+                }
+              });
+            }
+          );
         });
       });
   }
@@ -58,32 +68,36 @@ export class MobileStorageService extends StorageService {
     return this.getStorageDirectory()
       .switchMap(storageDirEntry => {
         return Observable.create((observer: Observer<boolean>) => {
-          try {
-            storageDirEntry.getFile(key + '.json', { create: true, exclusive: false },
-              storageFileEntry => {
-                storageFileEntry.createWriter(writer => {
-                  writer.onwriteend = e => {
-                    this.zone.run(() => {
-                      observer.next(true);
-                      observer.complete();
-                    });
-                  };
-                  writer.onerror = e => {
-                    this.zone.run(() => {
-                      observer.error(e);
-                    });
-                  };
-                  const data: Blob = new Blob([value], { type: 'text/plain' });
-                  writer.write(data);
-                });
-
-              }
-            );
-          } catch (error) {
-            this.zone.run(() => {
-              observer.error(error);
-            });
-          }
+          storageDirEntry.getFile(key + '.json', { create: true, exclusive: false },
+            storageFileEntry => {
+              storageFileEntry.createWriter(writer => {
+                writer.onwriteend = e => {
+                  this.zone.run(() => {
+                    observer.next(true);
+                    observer.complete();
+                  });
+                };
+                writer.onerror = e => {
+                  this.zone.run(() => {
+                    observer.error(e);
+                  });
+                };
+                const data: Blob = new Blob([value], { type: 'text/plain' });
+                writer.write(data);
+              },
+                error => {
+                  this.zone.run(() => {
+                    observer.error(error);
+                  });
+                }
+              );
+            },
+            error => {
+              this.zone.run(() => {
+                observer.error(error);
+              });
+            }
+          );
         });
       });
   }
@@ -96,46 +110,58 @@ export class MobileStorageService extends StorageService {
     return this.getStorageDirectory()
       .switchMap(storageDirEntry => {
         return Observable.create((observer: Observer<boolean>) => {
-          try {
-            storageDirEntry.getFile(key + '.json', { create: false },
-              storageFileEntry => {
-                storageFileEntry.remove(() => {
-                  this.zone.run(() => {
-                    observer.next(true);
-                    observer.complete();
-                  });
+          storageDirEntry.getFile(key + '.json', { create: false },
+            storageFileEntry => {
+              storageFileEntry.remove(() => {
+                this.zone.run(() => {
+                  observer.next(true);
+                  observer.complete();
                 });
-              }
-            );
-          } catch (error) {
-            this.zone.run(() => {
-              observer.error(error);
-            });
-          }
+              },
+                error => {
+                  observer.error(error);
+                }
+              );
+            },
+            error => {
+              this.zone.run(() => {
+                if (error.code === 1) {
+                  observer.next(false);
+                  observer.complete();
+                } else {
+                  observer.error(error);
+                }
+              });
+            }
+          );
         });
       });
   }
 
   private getStorageDirectory(): Observable<DirectoryEntry> {
     return Observable.create((observer: Observer<DirectoryEntry>) => {
-      try {
-        window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
-          dataDirEntry => {
-            (dataDirEntry as DirectoryEntry).getDirectory('storage', { create: true, exclusive: false },
-              storageDirEntry => {
-                this.zone.run(() => {
-                  observer.next(storageDirEntry);
-                  observer.complete();
-                });
-              }
-            );
-          }
-        );
-      } catch (error) {
-        this.zone.run(() => {
-          observer.error(error);
-        });
-      }
+      window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
+        dataDirEntry => {
+          (dataDirEntry as DirectoryEntry).getDirectory('storage', { create: true, exclusive: false },
+            storageDirEntry => {
+              this.zone.run(() => {
+                observer.next(storageDirEntry);
+                observer.complete();
+              });
+            },
+            error => {
+              this.zone.run(() => {
+                observer.error(error);
+              });
+            }
+          );
+        },
+        error => {
+          this.zone.run(() => {
+            observer.error(error);
+          });
+        }
+      );
     });
   }
 }
