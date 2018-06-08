@@ -1,65 +1,76 @@
 <div class="wrapper" hcDialogResize [minWidth]="600" [maxWidth]="600" [ignoreHeight]="true">
-  <div class="headline" *ngIf="!editorShown && lastSessionInfo != null">
-    <h3>Continue Session</h3>
-  </div>
-
-  <mat-card class="last-session" *ngIf="!editorShown && lastSessionInfo != null" (click)="continueSession()">
-    <h3 class="session-name">{{ lastSessionInfo.getLastBroker() }}</h3>
-    <div class="session-date">{{ getLastRequestTimeLocalString() }}</div>
-  </mat-card>
-
-  <div class="headline">
-    <h3>{{ editorShown ? editingIndex != null && editingIndex >= 0 ? 'Edit Broker' : 'Add Broker' : 'Login' }}</h3>
-    <div class="actions" *ngIf="!editorShown">
-      <button mat-button color="primary" (click)="openEditorNew()">
-        <span class="fas fa-fw fa-plus"></span>
-        <span> New</span>
-      </button>
+  <div class="title">
+    <div class="icon">
+      <img width="55" src="assets/logo.png" />
     </div>
+    <h2>Mobile Client (Beta)</h2>
   </div>
 
-  <div class="editor" *ngIf="editorShown">
-    <form [formGroup]="addForm" (ngSubmit)="saveBroker()">
-      <mat-form-field>
-        <input matInput [readonly]="editingIndex != null && editingIndex >= 0" placeholder="Name" formControlName="name" />
-        <mat-error *ngIf="nameControl.hasError('broker') && !nameControl.hasError('required')">
-          Name already in use
-        </mat-error>
-        <mat-error *ngIf="nameControl.hasError('required')">
-          Name is required
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Url" formControlName="url" />
-        <mat-error *ngIf="urlControl.hasError('required')">
-          Url is required
-        </mat-error>
-      </mat-form-field>
-      <div class="form-actions">
-        <button type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingIndex != null && editingIndex >= 0 ? 'Save' : 'Add' }}</button>
-        <button type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
+  <div class="content">
+    <div class="contentWrapper">
+      <div class="headline" *ngIf="!editorShown && lastSessionInfo != null">
+        <h3>Continue Session</h3>
       </div>
-    </form>
-  </div>
 
-  <div class="broker-list" *ngIf="!editorShown">
-    <mat-card *ngIf="(brokers$ | async) == null || !(brokers$ | async).length">
-      <span>No brokers defined...</span>
-    </mat-card>
-    <div class="broker-list-wrapper" *ngIf="(brokers$ | async) && (brokers$ | async).length">
-      <mat-card *ngFor="let broker of (brokers$ | async); index as i" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
-        <div class="broker">
-          <h3 class="broker-name">{{ broker.name }}</h3>
-          <div class="broker-actions">
-            <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(i, broker)">
-              <span class="fas fa-fw fa-edit"></span>
-            </button>
-            <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="warn" (click)="deleteBroker(i, broker)">
-              <span class="fas fa-fw fa-trash"></span>
-            </button>
-          </div>
-        </div>
+      <mat-card class="last-session" *ngIf="!editorShown && lastSessionInfo != null" (click)="continueSession()">
+        <h3 class="session-name">{{ lastSessionInfo.getLastBroker() }}</h3>
+        <div class="session-date">{{ getLastRequestTimeLocalString() }}</div>
       </mat-card>
+
+      <div class="headline">
+        <h3>{{ editorShown ? editingIndex != null && editingIndex >= 0 ? 'Edit Broker' : 'Add Broker' : 'Login' }}</h3>
+        <div class="actions" *ngIf="!editorShown">
+          <button mat-button color="primary" (click)="openEditorNew()">
+            <span class="fas fa-fw fa-plus"></span>
+            <span> New</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="editor" *ngIf="editorShown">
+        <form [formGroup]="addForm" (ngSubmit)="saveBroker()">
+          <mat-form-field>
+            <input matInput [readonly]="editingIndex != null && editingIndex >= 0" placeholder="Name" formControlName="name" />
+            <mat-error *ngIf="nameControl.hasError('broker') && !nameControl.hasError('required')">
+              Name already in use
+            </mat-error>
+            <mat-error *ngIf="nameControl.hasError('required')">
+              Name is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Url" formControlName="url" />
+            <mat-error *ngIf="urlControl.hasError('required')">
+              Url is required
+            </mat-error>
+          </mat-form-field>
+          <div class="form-actions">
+            <button type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingIndex != null && editingIndex >= 0 ? 'Save' : 'Add' }}</button>
+            <button type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="broker-list" *ngIf="!editorShown">
+        <mat-card *ngIf="(brokers$ | async) == null || !(brokers$ | async).length">
+          <span>No brokers defined...</span>
+        </mat-card>
+        <div class="broker-list-wrapper" *ngIf="(brokers$ | async) && (brokers$ | async).length">
+          <mat-card *ngFor="let broker of (brokers$ | async); index as i" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
+            <div class="broker">
+              <h3 class="broker-name">{{ broker.name }}</h3>
+              <div class="broker-actions">
+                <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(i, broker)">
+                  <span class="fas fa-fw fa-edit"></span>
+                </button>
+                <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="warn" (click)="deleteBroker(i, broker)">
+                  <span class="fas fa-fw fa-trash"></span>
+                </button>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
     </div>
   </div>
 </div>

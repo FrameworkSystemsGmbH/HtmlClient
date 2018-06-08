@@ -7,6 +7,7 @@
       "root": "src",
       "outDir": "dist/web",
       "assets": [
+        "assets",
         "favicon.ico"
       ],
       "index": "index.html",

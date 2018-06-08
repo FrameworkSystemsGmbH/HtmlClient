@@ -5,118 +5,95 @@
   flex-direction: column;
   height: 100%;
   align-items: center;
-  justify-content: center;
   overflow: auto;
   user-select: none;
 
   .wrapper {
+    flex: 1;
     display: flex;
     flex-direction: column;
 
-    &::before,
-    &::after {
-      content: "";
-      flex: 0 0 1rem;
-    }
-
-    .headline {
+    .title {
       flex: 0 0 auto;
       display: flex;
+      flex-direction: row;
       align-items: center;
-
-      h3 {
-        flex: 1;
-        font-weight: bold;
-        margin-bottom: 0;
-      }
-
-      .actions {
-        flex: 0 0 auto;
-      }
-    }
-
-    .last-session {
-      display: flex;
-      align-items: center;
-      overflow: hidden;
       margin-top: 1rem;
-      margin-bottom: 1.5rem;
-      cursor: pointer;
 
-      .session-name {
-        flex: 1;
+      h2 {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-left: 1rem;
         margin-bottom: 0;
-      }
-
-      .session-date {
-        flex: 0 0 auto;
       }
     }
 
-    .editor {
+    .content {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      flex: 0 0 auto;
-      margin-top: 1rem;
 
-      form {
+      .contentWrapper {
+        margin-top: auto;
+        margin-bottom: auto;
         display: flex;
         flex-direction: column;
 
-        .form-actions {
+        &::before,
+        &::after {
+          content: "";
+          flex: 0 0 1rem;
+        }
+
+        .headline {
           flex: 0 0 auto;
           display: flex;
-          justify-content: flex-end;
-          margin-top: 1rem;
+          align-items: center;
 
-          button:not(:last-child) {
-            margin-right: 0.5rem;
+          h3 {
+            flex: 1;
+            font-weight: bold;
+            margin-bottom: 0;
+          }
+
+          .actions {
+            flex: 0 0 auto;
           }
         }
-      }
-    }
 
-    .broker-list {
-      display: flex;
-      flex-direction: column;
-      flex: 0 0 auto;
-      margin-top: 1rem;
-
-      .broker-list-wrapper {
-        flex: 0 0 auto;
-        display: flex;
-        flex-direction: column;
-
-        mat-card {
+        .last-session {
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+          margin-top: 1rem;
+          margin-bottom: 1.5rem;
           cursor: pointer;
 
-          &.active {
-            background-color: #ff9999;
+          .session-name {
+            flex: 1;
+            margin-bottom: 0;
           }
 
-          &:not(:last-child) {
-            margin-bottom: 0.5rem;
+          .session-date {
+            flex: 0 0 auto;
           }
+        }
 
-          .broker {
+        .editor {
+          display: flex;
+          flex-direction: column;
+          flex: 0 0 auto;
+          margin-top: 1rem;
+
+          form {
             display: flex;
-            align-items: center;
-            overflow: hidden;
+            flex-direction: column;
 
-            .broker-name {
-              flex: 1;
-              margin-bottom: 0;
-            }
-
-            .broker-actions {
+            .form-actions {
               flex: 0 0 auto;
-
-              button {
-                min-width: auto !important;
-                min-height: auto !important;
-                line-height: 0 !important;
-                padding: 0.5rem !important;
-              }
+              display: flex;
+              justify-content: flex-end;
+              margin-top: 1rem;
 
               button:not(:last-child) {
                 margin-right: 0.5rem;
@@ -124,15 +101,66 @@
             }
           }
         }
-      }
-    }
 
-    .broker-list-actions {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-top: 1rem;
+        .broker-list {
+          display: flex;
+          flex-direction: column;
+          flex: 0 0 auto;
+          margin-top: 1rem;
+
+          .broker-list-wrapper {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+
+            mat-card {
+              cursor: pointer;
+
+              &.active {
+                background-color: #ff9999;
+              }
+
+              &:not(:last-child) {
+                margin-bottom: 0.5rem;
+              }
+
+              .broker {
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+
+                .broker-name {
+                  flex: 1;
+                  margin-bottom: 0;
+                }
+
+                .broker-actions {
+                  flex: 0 0 auto;
+
+                  button {
+                    min-width: auto !important;
+                    min-height: auto !important;
+                    line-height: 0 !important;
+                    padding: 0.5rem !important;
+                  }
+
+                  button:not(:last-child) {
+                    margin-right: 0.5rem;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .broker-list-actions {
+          flex: 0 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          margin-top: 1rem;
+        }
+      }
     }
   }
 }
