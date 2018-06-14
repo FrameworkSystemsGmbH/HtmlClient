@@ -4,23 +4,19 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { LoginBroker } from 'app/common/login-broker';
-import { StorageService } from 'app/services/storage/storage.service';
-
-const BROKER_STORAGE_KEY: string = 'brokerList';
+import { ClientDataService } from 'app/services/client-data.service';
 
 @Injectable()
 export class LoginService {
 
   private onBrokersChanged: BehaviorSubject<Array<LoginBroker>>;
 
-  constructor(private storageService: StorageService) {
+  constructor(private clientDataService: ClientDataService) {
     this.onBrokersChanged = new BehaviorSubject<Array<LoginBroker>>(new Array<LoginBroker>());
 
-    this.storageService.loadData(BROKER_STORAGE_KEY)
-      .map(data => JSON.parse(data))
-      .subscribe(logins => {
-        this.onBrokersChanged.next(logins);
-      });
+    this.clientDataService.loadBrokerList().subscribe(brokerList => {
+      this.onBrokersChanged.next(brokerList);
+    });
   }
 
   public getBrokers(): Observable<Array<LoginBroker>> {
@@ -36,7 +32,7 @@ export class LoginService {
 
     brokers.push(broker);
 
-    this.saveBrokers(brokers).subscribe(saved => {
+    this.clientDataService.saveBrokerList(brokers).subscribe(saved => {
       if (saved) {
         this.onBrokersChanged.next(brokers);
       }
@@ -46,7 +42,7 @@ export class LoginService {
   public updateBroker(index: number, broker: LoginBroker): void {
     const brokers: Array<LoginBroker> = this.onBrokersChanged.getValue();
     brokers[index] = broker;
-    this.saveBrokers(brokers).subscribe(saved => {
+    this.clientDataService.saveBrokerList(brokers).subscribe(saved => {
       if (saved) {
         this.onBrokersChanged.next(brokers);
       }
@@ -56,14 +52,10 @@ export class LoginService {
   public deleteBroker(index: number): void {
     const brokers: Array<LoginBroker> = this.onBrokersChanged.getValue();
     brokers.splice(index, 1);
-    this.saveBrokers(brokers).subscribe(saved => {
+    this.clientDataService.saveBrokerList(brokers).subscribe(saved => {
       if (saved) {
         this.onBrokersChanged.next(brokers);
       }
     });
-  }
-
-  private saveBrokers(brokers: Array<LoginBroker>): Observable<boolean> {
-    return this.storageService.saveData(BROKER_STORAGE_KEY, JSON.stringify(brokers));
   }
 }

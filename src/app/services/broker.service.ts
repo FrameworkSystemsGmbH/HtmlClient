@@ -8,13 +8,13 @@ import { Store } from '@ngrx/store';
 import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
 import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
 import { ActionsService } from 'app/services/actions.service';
+import { ClientDataService } from 'app/services/client-data.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
 import { FramesService } from 'app/services/frames.service';
 import { LocaleService } from './locale.service';
 import { RoutingService } from 'app/services/routing.service';
-import { StorageService } from 'app/services/storage/storage.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 import { LoginBroker } from 'app/common/login-broker';
@@ -32,8 +32,7 @@ import * as Moment from 'moment-timezone';
 @Injectable()
 export class BrokerService {
 
-  private static readonly SESSION_DATA = 'SessionData';
-  private static readonly SESSION_DATA_DISCARD = 'DISCARD';
+  private static readonly SESSION_DATA_DISCARD: string = 'DISCARD';
 
   private _onLoginComplete: Subject<any>;
   private _onLoginComplete$: Observable<any>;
@@ -50,12 +49,12 @@ export class BrokerService {
     private titleService: TitleService,
     private httpClient: HttpClient,
     private actionsService: ActionsService,
+    private clientDataService: ClientDataService,
     private controlStyleSerivce: ControlStyleService,
     private eventsService: EventsService,
     private formsService: FormsService,
     private framesService: FramesService,
     private routingService: RoutingService,
-    private storageService: StorageService,
     private textsService: TextsService,
     private localeService: LocaleService,
     private store: Store<fromAppReducers.IAppState>
@@ -177,11 +176,21 @@ export class BrokerService {
     };
 
     if (initRequest) {
-      return this.storageService.loadData(BrokerService.SESSION_DATA)
-        .map(sessionData => {
+      return Observable.forkJoin(
+        this.clientDataService.loadSessionData(),
+        this.clientDataService.getDeviceUuid())
+        .map(res => {
+          const sessionData: string = res[0];
+          const clientId: string = res[1];
+
           if (!String.isNullOrWhiteSpace(sessionData)) {
             metaJson.sessionData = sessionData;
           }
+
+          if (!String.isNullOrWhiteSpace(clientId)) {
+            metaJson.clientInfos = { clientId };
+          }
+
           return metaJson;
         });
     } else {
@@ -281,9 +290,9 @@ export class BrokerService {
 
     if (!String.isNullOrWhiteSpace(sessionData)) {
       if (sessionData === BrokerService.SESSION_DATA_DISCARD) {
-        return this.storageService.delete(BrokerService.SESSION_DATA);
+        return this.clientDataService.deleteSessionData();
       } else {
-        return this.storageService.saveData(BrokerService.SESSION_DATA, sessionData);
+        return this.clientDataService.saveSessionData(sessionData);
       }
     } else {
       return Observable.of(true);

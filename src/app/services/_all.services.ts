@@ -2,6 +2,7 @@ import { NgZone } from '@angular/core';
 
 import { ActionsService } from 'app/services/actions.service';
 import { BrokerService } from 'app/services/broker.service';
+import { ClientDataService } from 'app/services/client-data.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { ControlsService } from 'app/services/controls.service';
 import { EventsService } from 'app/services/events.service';
@@ -47,6 +48,7 @@ const formatterServices = [
 const services = [
   ActionsService,
   BrokerService,
+  ClientDataService,
   ControlStyleService,
   ControlsService,
   EventsService,
