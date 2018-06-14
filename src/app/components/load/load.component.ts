@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { BrokerService } from 'app/services/broker.service';
 import { LoginBroker } from 'app/common/login-broker';
@@ -13,7 +13,7 @@ import { LoginOptions } from 'app/common/login-options';
 })
 export class LoadComponent implements OnInit, OnDestroy {
 
-  private queryParamsSub: ISubscription;
+  private queryParamsSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,

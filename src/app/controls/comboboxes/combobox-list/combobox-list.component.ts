@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, NgZone, AfterViewInit, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Observable } from 'rxjs/Observable';
-import { ISubscription } from 'rxjs/Subscription';
+import { Observable, Subscription, fromEvent } from 'rxjs';
+import { debounceTime, buffer, map, share } from 'rxjs/operators';
 
 import { ComboBoxDesktopComponent } from 'app/controls/comboboxes/combobox-desktop.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
@@ -38,8 +38,8 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   public tabIndexAttr: number;
   public valueStyle: any;
 
-  private keyDownSub: ISubscription;
-  private inputSub: ISubscription;
+  private keyDownSub: Subscription;
+  private inputSub: Subscription;
 
   private regEx: RegExp = /([a-z]|\d)/i;
 
@@ -50,16 +50,15 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   public ngAfterViewInit(): void {
     this.regEx.compile();
 
-    const keyDownObs: Observable<any> = Observable.fromEvent(this.control.nativeElement, 'keydown').share();
-    const inputIdleObs: Observable<any> = keyDownObs.debounceTime(250).share();
+    const keyDownObs: Observable<any> = fromEvent(this.control.nativeElement, 'keydown').pipe(share());
+    const inputIdleObs: Observable<any> = keyDownObs.pipe(debounceTime(250), share());
 
-    this.keyDownSub = keyDownObs
-      .subscribe(event => this.onKeyDown(event));
+    this.keyDownSub = keyDownObs.subscribe(event => this.onKeyDown(event));
 
-    this.inputSub = keyDownObs
-      .map(event => event.key)
-      .buffer(inputIdleObs)
-      .subscribe(events => this.onInput(events));
+    this.inputSub = keyDownObs.pipe(
+      map(event => event.key),
+      buffer(inputIdleObs)
+    ).subscribe(events => this.onInput(events));
   }
 
   public ngOnDestroy(): void {

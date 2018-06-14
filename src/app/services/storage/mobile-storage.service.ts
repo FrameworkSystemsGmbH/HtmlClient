@@ -1,8 +1,8 @@
 /// <reference path="../../../../node_modules/cordova-plugin-file/types/index.d.ts" />
 
 import { Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { Observable, Observer, empty as obsEmpty, of as obsOf } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { StorageService } from 'app/services/storage/storage.service';
 
@@ -15,11 +15,11 @@ export class MobileStorageService extends StorageService {
 
   public loadData(key: string): Observable<string> {
     if (String.isNullOrWhiteSpace(key)) {
-      return Observable.empty();
+      return obsEmpty();
     }
 
-    return this.getStorageDirectory()
-      .switchMap(storageDirEntry => {
+    return this.getStorageDirectory().pipe(
+      switchMap(storageDirEntry => {
         return Observable.create((observer: Observer<string>) => {
           storageDirEntry.getFile(key + '.json', { create: false },
             storageFileEntry => {
@@ -57,16 +57,17 @@ export class MobileStorageService extends StorageService {
             }
           );
         });
-      });
+      })
+    );
   }
 
   public saveData(key: string, value: string): Observable<boolean> {
     if (String.isNullOrWhiteSpace(key) || String.isNullOrWhiteSpace(value)) {
-      return Observable.of(false);
+      return obsOf(false);
     }
 
-    return this.getStorageDirectory()
-      .switchMap(storageDirEntry => {
+    return this.getStorageDirectory().pipe(
+      switchMap(storageDirEntry => {
         return Observable.create((observer: Observer<boolean>) => {
           storageDirEntry.getFile(key + '.json', { create: true, exclusive: false },
             storageFileEntry => {
@@ -99,16 +100,17 @@ export class MobileStorageService extends StorageService {
             }
           );
         });
-      });
+      })
+    );
   }
 
   public delete(key: string): Observable<boolean> {
     if (String.isNullOrWhiteSpace(key)) {
-      return Observable.of(false);
+      return obsOf(false);
     }
 
-    return this.getStorageDirectory()
-      .switchMap(storageDirEntry => {
+    return this.getStorageDirectory().pipe(
+      switchMap(storageDirEntry => {
         return Observable.create((observer: Observer<boolean>) => {
           storageDirEntry.getFile(key + '.json', { create: false },
             storageFileEntry => {
@@ -135,7 +137,8 @@ export class MobileStorageService extends StorageService {
             }
           );
         });
-      });
+      })
+    );
   }
 
   private getStorageDirectory(): Observable<DirectoryEntry> {

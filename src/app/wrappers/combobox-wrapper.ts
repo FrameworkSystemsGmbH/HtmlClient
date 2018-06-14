@@ -1,5 +1,5 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
@@ -27,7 +27,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
 
   private dataList: DataList;
 
-  private onSelectionChangedSub: ISubscription;
+  private onSelectionChangedSub: Subscription;
 
   public getControlType(): ControlType {
     return ControlType.ComboBox;

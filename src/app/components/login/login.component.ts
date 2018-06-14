@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { ISubscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { LoginBroker } from 'app/common/login-broker';
@@ -31,8 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   public editingIndex: number;
 
   private brokerValidator: any;
-  private activeBrokerNameSub: ISubscription;
-  private lastSessionInfoSub: ISubscription;
+  private activeBrokerNameSub: Subscription;
+  private lastSessionInfoSub: Subscription;
 
   constructor(
     private titleService: TitleService,

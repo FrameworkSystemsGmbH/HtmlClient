@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { LoginBroker } from 'app/common/login-broker';
 import { ClientDataService } from 'app/services/client-data.service';

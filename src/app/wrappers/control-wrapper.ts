@@ -1,5 +1,5 @@
 import { ComponentFactoryResolver, ComponentRef, Injector } from '@angular/core';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
@@ -58,8 +58,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private focusService: FocusService;
   private platformService: PlatformService;
 
-  private onEnterSub: ISubscription;
-  private onLeaveSub: ISubscription;
+  private onEnterSub: Subscription;
+  private onLeaveSub: Subscription;
 
   constructor(
     injector: Injector,

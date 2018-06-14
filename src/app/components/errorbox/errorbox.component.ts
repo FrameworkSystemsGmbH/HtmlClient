@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { TitleService } from 'app/services/title.service';
 
@@ -19,7 +19,7 @@ export class ErrorBoxComponent implements OnInit, OnDestroy {
   public stackTrace: string;
   public showStackTrace: boolean;
 
-  private afterOpenSub: ISubscription;
+  private afterOpenSub: Subscription;
 
   constructor(
     private titleService: TitleService,

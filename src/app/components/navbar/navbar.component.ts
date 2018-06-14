@@ -1,7 +1,7 @@
 import { animate, transition, trigger, style } from '@angular/animations';
 import { Component, ViewChild, ElementRef, AfterViewChecked, HostListener, OnInit, OnDestroy, NgZone, Renderer2 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import * as fromAppReducers from 'app/app.reducers';
 
@@ -77,9 +77,9 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   private leftInterval: any;
   private rightInterval: any;
 
-  private storeSub: ISubscription;
-  private formsSub: ISubscription;
-  private selectedFormSub: ISubscription;
+  private storeSub: Subscription;
+  private formsSub: Subscription;
+  private selectedFormSub: Subscription;
 
   constructor(
     private zone: NgZone,

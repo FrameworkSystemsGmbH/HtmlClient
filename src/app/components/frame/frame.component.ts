@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, ViewContainerRef, OnInit, OnDestroy, HostListener, NgZone } from '@angular/core';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { FormsService } from 'app/services/forms.service';
 import { FramesService } from 'app/services/frames.service';
@@ -19,7 +19,7 @@ export class FrameComponent implements OnInit, OnDestroy {
   public anchor: ViewContainerRef;
 
   private selectedForm: FormWrapper;
-  private selectedFormSub: ISubscription;
+  private selectedFormSub: Subscription;
 
   constructor(
     private zone: NgZone,

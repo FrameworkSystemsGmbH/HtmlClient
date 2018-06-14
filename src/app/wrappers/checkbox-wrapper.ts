@@ -1,5 +1,5 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
@@ -14,7 +14,7 @@ import { Visibility } from 'app/enums/visibility';
 
 export class CheckBoxWrapper extends FittedWrapper {
 
-  private onClickSub: ISubscription;
+  private onClickSub: Subscription;
 
   private value: boolean;
   private orgValue: boolean;

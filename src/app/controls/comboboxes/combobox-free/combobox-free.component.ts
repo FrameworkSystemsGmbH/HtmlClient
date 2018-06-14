@@ -1,7 +1,6 @@
 import { Component, ElementRef, ViewChild, NgZone, AfterViewInit, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Observable } from 'rxjs/Observable';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription, fromEvent } from 'rxjs';
 
 import { ComboBoxDesktopComponent } from 'app/controls/comboboxes/combobox-desktop.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
@@ -41,7 +40,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   public arrowStyle: any;
 
   private inputValue: string;
-  private keyDownSub: ISubscription;
+  private keyDownSub: Subscription;
   private arrowHover: boolean;
 
   private regEx: RegExp = /([a-z]|\d)/i;
@@ -53,9 +52,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   public ngAfterViewInit(): void {
     this.regEx.compile();
 
-    this.keyDownSub = Observable
-      .fromEvent(this.input.nativeElement, 'keydown')
-      .subscribe(event => this.onKeyDown(event));
+    this.keyDownSub = fromEvent(this.input.nativeElement, 'keydown').subscribe(event => this.onKeyDown(event));
   }
 
   public ngOnDestroy(): void {

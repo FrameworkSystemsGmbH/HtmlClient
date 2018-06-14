@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject, of as obsOf, forkJoin } from 'rxjs';
+import { concatMap, flatMap, mergeMap, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
@@ -68,18 +68,19 @@ export class BrokerService {
       this.activeBrokerRequestUrl = brokerState.activeBrokerRequestUrl;
     });
 
-    this.eventsService.onHandleEvent
-      .concatMap(event => Observable.of(event)
-        .mergeMap(() => {
+    this.eventsService.onHandleEvent.pipe(
+      concatMap(event => obsOf(event).pipe(
+        mergeMap(() => {
           if (!event.callbacks || event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
-            return this.createRequest(event.clientEvent)
-              .flatMap(requestJson => this.doRequest(requestJson))
-              .flatMap(responseJson => this.processResponse(responseJson));
+            return this.createRequest(event.clientEvent).pipe(
+              flatMap(requestJson => this.doRequest(requestJson)),
+              flatMap(responseJson => this.processResponse(responseJson))
+            );
           } else {
-            return Observable.of(false);
+            return obsOf(false);
           }
-        })
-        .map(executed => {
+        }),
+        map(executed => {
           if (executed && event.callbacks && event.callbacks.onExecuted) {
             event.callbacks.onExecuted(event.originalEvent, event.clientEvent);
           }
@@ -87,7 +88,8 @@ export class BrokerService {
             event.callbacks.onCompleted(event.originalEvent, event.clientEvent);
           }
         })
-      ).subscribe();
+      ))
+    ).subscribe();
 
     this.resetActiveBroker();
   }
@@ -134,9 +136,9 @@ export class BrokerService {
         this._onLoginComplete.next();
       };
 
-      this.sendInitRequest()
-        .flatMap(responseJson => this.processResponse(responseJson))
-        .subscribe(null, onError, onComplete);
+      this.sendInitRequest().pipe(
+        flatMap(responseJson => this.processResponse(responseJson))
+      ).subscribe(null, onError, onComplete);
     }
   }
 
@@ -149,13 +151,14 @@ export class BrokerService {
   }
 
   public sendInitRequest(): Observable<any> {
-    return this.getMetaJson(true)
-      .map(metaJson => {
+    return this.getMetaJson(true).pipe(
+      map(metaJson => {
         return {
           meta: metaJson
         };
-      })
-      .flatMap(requestJson => this.doRequest(requestJson));
+      }),
+      flatMap(requestJson => this.doRequest(requestJson))
+    );
   }
 
   private doRequest(requestJson: any): Observable<any> {
@@ -176,31 +179,32 @@ export class BrokerService {
     };
 
     if (initRequest) {
-      return Observable.forkJoin(
+      return forkJoin(
         this.clientDataService.loadSessionData(),
-        this.clientDataService.getDeviceUuid())
-        .map(res => {
-          const sessionData: string = res[0];
-          const clientId: string = res[1];
+        this.clientDataService.getDeviceUuid()).pipe(
+          map(res => {
+            const sessionData: string = res[0];
+            const clientId: string = res[1];
 
-          if (!String.isNullOrWhiteSpace(sessionData)) {
-            metaJson.sessionData = sessionData;
-          }
+            if (!String.isNullOrWhiteSpace(sessionData)) {
+              metaJson.sessionData = sessionData;
+            }
 
-          if (!String.isNullOrWhiteSpace(clientId)) {
-            metaJson.clientInfos = { clientId };
-          }
+            if (!String.isNullOrWhiteSpace(clientId)) {
+              metaJson.clientInfos = { clientId };
+            }
 
-          return metaJson;
-        });
+            return metaJson;
+          })
+        );
     } else {
-      return Observable.of(metaJson);
+      return obsOf(metaJson);
     }
   }
 
   private createRequest(event: ClientEvent): Observable<any> {
-    return this.getMetaJson(false)
-      .map(metaJson => {
+    return this.getMetaJson(false).pipe(
+      map(metaJson => {
         const requestJson: any = {
           meta: metaJson,
           event
@@ -213,7 +217,8 @@ export class BrokerService {
         }
 
         return requestJson;
-      });
+      })
+    );
   }
 
   public processResponse(json: any): Observable<boolean> {
@@ -221,8 +226,8 @@ export class BrokerService {
       throw new Error('Response JSON is null or empty!');
     }
 
-    return this.processMeta(json.meta)
-      .map(saved => {
+    return this.processMeta(json.meta).pipe(
+      map(saved => {
         if (!saved) {
           throw new Error('SessionData could not be saved to storage!');
         }
@@ -276,7 +281,8 @@ export class BrokerService {
         this.routingService.showViewer();
 
         return true;
-      });
+      })
+    );
   }
 
   private processMeta(metaJson: any): Observable<boolean> {
@@ -295,7 +301,7 @@ export class BrokerService {
         return this.clientDataService.saveSessionData(sessionData);
       }
     } else {
-      return Observable.of(true);
+      return obsOf(true);
     }
   }
 

@@ -1,4 +1,4 @@
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { ButtonComponent } from 'app/controls/buttons/button.component';
 import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
@@ -10,7 +10,7 @@ import { ClientClickEvent } from 'app/common/events/client-click-event';
 
 export abstract class ButtonBaseWrapper extends FittedWrapper {
 
-  private onClickSub: ISubscription;
+  private onClickSub: Subscription;
 
   public showCaption(): boolean {
     return Boolean.trueIfNull(this.getPropertyStore().getShowCaption());

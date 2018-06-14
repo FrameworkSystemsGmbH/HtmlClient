@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Injector } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of as obsOf } from 'rxjs';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { ControlsService, IWrapperCreationOptions } from 'app/services/controls.service';
@@ -29,7 +29,7 @@ export class FormsService {
   }
 
   public getForms(): Observable<Array<FormWrapper>> {
-    return Observable.of(this.forms);
+    return obsOf(this.forms);
   }
 
   public selectForm(form: FormWrapper): void {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of as obsOf } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators';
 
 import { LoginBroker } from 'app/common/login-broker';
 import { StorageService } from 'app/services/storage/storage.service';
@@ -14,8 +15,9 @@ export class ClientDataService {
   constructor(private storageService: StorageService) { }
 
   public loadBrokerList(): Observable<Array<LoginBroker>> {
-    return this.storageService.loadData(ClientDataService.BROKER_LIST)
-      .map(brokerListStr => JSON.parse(brokerListStr));
+    return this.storageService.loadData(ClientDataService.BROKER_LIST).pipe(
+      map(brokerListStr => JSON.parse(brokerListStr))
+    );
   }
 
   public saveBrokerList(brokerList: Array<LoginBroker>): Observable<boolean> {
@@ -37,19 +39,21 @@ export class ClientDataService {
   public getDeviceUuid(): Observable<string> {
     const device: any = (window as any).device;
     if (device && !String.isNullOrWhiteSpace(device.uuid)) {
-      return Observable.of(device.uuid);
+      return obsOf(device.uuid);
     } else {
-      return this.storageService.loadData(ClientDataService.CLIENT_ID)
-        .map(clientId => {
+      return this.storageService.loadData(ClientDataService.CLIENT_ID).pipe(
+        map(clientId => {
           if (String.isNullOrWhiteSpace(clientId)) {
             const newClientId = this.generateUuid();
-            return this.storageService.saveData(ClientDataService.CLIENT_ID, newClientId)
-              .map(saved => newClientId);
+            return this.storageService.saveData(ClientDataService.CLIENT_ID, newClientId).pipe(
+              map(saved => newClientId)
+            );
           } else {
-            return Observable.of(clientId);
+            return obsOf(clientId);
           }
-        })
-        .flatMap(clientId => clientId);
+        }),
+        flatMap(clientId => clientId)
+      );
     }
   }
 

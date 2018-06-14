@@ -1,6 +1,6 @@
 import { Component, Inject, HostListener, OnInit, OnDestroy, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { DataList } from 'app/common/data-list';
 import { DomUtil } from 'app/util/dom-util';
@@ -25,8 +25,8 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   public selectedIndex: number;
   public inputValue: string;
 
-  private afterOpenSub: ISubscription;
-  private backdropClickSub: ISubscription;
+  private afterOpenSub: Subscription;
+  private backdropClickSub: Subscription;
 
   constructor(
     private zone: NgZone,
