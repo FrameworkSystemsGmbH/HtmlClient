@@ -9,6 +9,7 @@ import { Visibility } from 'app/enums/visibility';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 
 export class FieldLayoutRow {
+
   private cells: Array<FieldLayoutCell>;
   private size: number;
   private labelMode: FieldRowLabelMode;
@@ -40,7 +41,7 @@ export class FieldLayoutRow {
     const rowLabelTemplate: ILayoutableControlLabelTemplate = fieldContainer.getRowLabelTemplate();
     const firstControl: LayoutableControlWrapper = controlWrappers[0];
 
-    if (this.labelMode === FieldRowLabelMode.None) {
+    if (this.labelMode === FieldRowLabelMode.None || (this.labelMode === FieldRowLabelMode.Generated && !this.hasFirstColumnControl)) {
       // Add empty cell
       this.cells.push(new FieldLayoutCell(null, rowLabelTemplate));
     }
