@@ -1,11 +1,16 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-  "editor.wordWrap": "wordWrapColumn",
-  "editor.wordWrapColumn": 500,
+  "editor.smoothScrolling": true,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "off",
   "editor.wrappingIndent": "indent",
 
-  "html.format.wrapLineLength": 500,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  "html.format.endWithNewline": true,
   "html.format.maxPreserveNewLines": 1,
+  "html.format.wrapLineLength": 0,
   "html.suggest.angular1": false,
   "html.suggest.ionic": false,
 
