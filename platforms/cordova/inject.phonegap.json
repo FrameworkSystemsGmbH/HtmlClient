@@ -1,0 +1,5 @@
+{
+  "files": "dist/phonegap/web/index.html",
+  "from": "<script type=\"text/javascript\" src=\"polyfills.js\"></script>",
+  "to": "<script type=\"text/javascript\" src=\"polyfills.js\"></script><script type=\"text/javascript\" src=\"cordova.js\"></script>"
+}

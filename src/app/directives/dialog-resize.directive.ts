@@ -39,16 +39,14 @@ export class DialogResizeDirective implements OnInit {
   }
 
   private setStyles(): void {
-    this.zone.run(() => {
-      const maxRespWidth: number = DomUtil.getViewportWidth() * 0.9;
-      const maxRespHeight: number = DomUtil.getViewportHeight() * 0.9;
+    const maxRespWidth: number = DomUtil.getViewportWidth() * 0.9;
+    const maxRespHeight: number = DomUtil.getViewportHeight() * 0.9;
 
-      this.renderer.setStyle(this.elRef.nativeElement, 'min-width', (maxRespWidth < this.minWidth ? maxRespWidth : this.minWidth) + 'px');
-      this.renderer.setStyle(this.elRef.nativeElement, 'max-width', (Math.max(Math.min(this.maxWidth, maxRespWidth), this.minWidth)) + 'px');
+    this.renderer.setStyle(this.elRef.nativeElement, 'min-width', (maxRespWidth < this.minWidth ? maxRespWidth : this.minWidth) + 'px');
+    this.renderer.setStyle(this.elRef.nativeElement, 'max-width', (Math.max(Math.min(this.maxWidth, maxRespWidth), this.minWidth)) + 'px');
 
-      if (!this.ignoreHeight) {
-        this.renderer.setStyle(this.elRef.nativeElement, 'max-height', maxRespHeight + 'px');
-      }
-    });
+    if (!this.ignoreHeight) {
+      this.renderer.setStyle(this.elRef.nativeElement, 'max-height', maxRespHeight + 'px');
+    }
   }
 }

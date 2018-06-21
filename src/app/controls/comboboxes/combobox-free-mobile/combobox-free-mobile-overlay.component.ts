@@ -104,19 +104,15 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
 
   @HostListener('window:keyboardDidShow')
   public onKeyboardShown(): void {
-    this.zone.run(() => {
-      setTimeout(() => {
-        this.scrollSelectedEntryIntoView();
-      });
+    setTimeout(() => {
+      this.scrollSelectedEntryIntoView();
     });
   }
 
   @HostListener('window:keyboardDidHide')
   public onKeyboardHidden(): void {
-    this.zone.run(() => {
-      setTimeout(() => {
-        this.scrollSelectedEntryIntoView();
-      });
+    setTimeout(() => {
+      this.scrollSelectedEntryIntoView();
     });
   }
 }

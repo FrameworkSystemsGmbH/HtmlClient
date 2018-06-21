@@ -45,11 +45,9 @@ export class FrameComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize')
   public layout(): void {
-    this.zone.run(() => {
-      if (this.selectedForm) {
-        this.selectedForm.doLayout(this.frame.nativeElement.clientWidth, this.frame.nativeElement.clientHeight);
-      }
-    });
+    if (this.selectedForm) {
+      this.selectedForm.doLayout(this.frame.nativeElement.clientWidth, this.frame.nativeElement.clientHeight);
+    }
   }
 
   private showForm(form: FormWrapper): void {
