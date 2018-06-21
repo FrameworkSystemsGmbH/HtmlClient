@@ -32,8 +32,8 @@ export class ControlLabelWrapper implements IControlLabelWrapper {
   private readonly resolver: ComponentFactoryResolver;
   private readonly fontService: FontService;
 
-  private fittedWidth: number;
-  private fittedHeight: number;
+  protected fittedWidth: number;
+  protected fittedHeight: number;
 
   constructor(
     injector: Injector,

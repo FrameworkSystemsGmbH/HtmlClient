@@ -16,4 +16,12 @@ export class ControlLabelSeparatorWrapper extends ControlLabelWrapper {
   public setVisibility(visibility: Visibility): void {
     this.visibility = visibility;
   }
+
+  public getMinWidth(): number {
+    return Number.zeroIfNull(this.fittedWidth);
+  }
+
+  public getMinHeight(): number {
+    return Number.zeroIfNull(this.fittedHeight);
+  }
 }
