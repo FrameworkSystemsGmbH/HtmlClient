@@ -1,4 +1,4 @@
-import { Component, Inject, HostListener, OnInit, OnDestroy, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, Inject, HostListener, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subscription } from 'rxjs';
 
@@ -29,7 +29,6 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   private backdropClickSub: Subscription;
 
   constructor(
-    private zone: NgZone,
     private dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {

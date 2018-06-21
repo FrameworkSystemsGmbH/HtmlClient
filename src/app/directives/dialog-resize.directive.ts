@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, ElementRef, Renderer2, NgZone, HostListener } from '@angular/core';
+import { Directive, Input, OnInit, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { DomUtil } from 'app/util/dom-util';
 
 @Directive({ selector: '[hcDialogResize]' })
@@ -15,8 +15,7 @@ export class DialogResizeDirective implements OnInit {
 
   constructor(
     private elRef: ElementRef,
-    private renderer: Renderer2,
-    private zone: NgZone
+    private renderer: Renderer2
   ) { }
 
   public ngOnInit(): void {
