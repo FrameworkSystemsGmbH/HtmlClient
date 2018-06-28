@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef } from '@an
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subscription } from 'rxjs';
 
-import { TitleService } from 'app/services/title.service';
+import { IErrorBoxData } from 'app/components/errorbox/errorbox-data.interface';
 
 @Component({
   selector: 'hc-errorbox',
@@ -22,11 +22,10 @@ export class ErrorBoxComponent implements OnInit, OnDestroy {
   private afterOpenSub: Subscription;
 
   constructor(
-    private titleService: TitleService,
     private dialogRef: MatDialogRef<ErrorBoxComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: IErrorBoxData
   ) {
-    this.title = this.titleService.getTitle();
+    this.title = data.title;
     this.message = data.message;
     this.stackTrace = data.stackTrace;
   }

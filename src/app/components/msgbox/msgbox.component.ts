@@ -2,8 +2,8 @@ import { Component, Inject, OnInit, OnDestroy, ElementRef, ViewChild } from '@an
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subscription } from 'rxjs';
 
-import { EventsService } from 'app/services/events.service';
-import { TitleService } from 'app/services/title.service';
+import { IMsgBoxData } from 'app/components/msgbox/msgbox-data.interface';
+
 import { MsgBoxButtons } from 'app/enums/msgbox-buttons';
 import { MsgBoxIcon } from 'app/enums/msgbox-icon';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
@@ -25,20 +25,13 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   public buttons: MsgBoxButtons;
   public buttonsType: typeof MsgBoxButtons = MsgBoxButtons;
 
-  private formId: string;
-  private id: string;
-
   private afterOpenSub: Subscription;
 
   constructor(
-    private titleService: TitleService,
-    private eventsService: EventsService,
     private dialogRef: MatDialogRef<MsgBoxComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: IMsgBoxData
   ) {
-    this.formId = data.formId;
-    this.id = data.id;
-    this.title = this.titleService.getTitle();
+    this.title = data.title;
     this.message = data.message;
     this.icon = data.icon;
     this.buttons = data.buttons;
@@ -57,37 +50,30 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   }
 
   public onYesClick(event: any): void {
-    this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Yes, event);
-    this.dialogRef.close();
+    this.dialogRef.close(MsgBoxResult.Yes);
   }
 
   public onNoClick(event: any): void {
-    this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.No, event);
-    this.dialogRef.close();
+    this.dialogRef.close(MsgBoxResult.No);
   }
 
   public onOkClick(event: any): void {
-    this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Ok, event);
-    this.dialogRef.close();
+    this.dialogRef.close(MsgBoxResult.Ok);
   }
 
   public onAbortClick(event: any): void {
-    this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Abort, event);
-    this.dialogRef.close();
+    this.dialogRef.close(MsgBoxResult.Abort);
   }
 
   public onRetryClick(event: any): void {
-    this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Retry, event);
-    this.dialogRef.close();
+    this.dialogRef.close(MsgBoxResult.Retry);
   }
 
   public onIgnoreClick(event: any): void {
-    this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Ignore, event);
-    this.dialogRef.close();
+    this.dialogRef.close(MsgBoxResult.Ignore);
   }
 
   public onCancelClick(event: any): void {
-    this.eventsService.fireMsgBox(this.formId, this.id, MsgBoxResult.Cancel, event);
-    this.dialogRef.close();
+    this.dialogRef.close(MsgBoxResult.Cancel);
   }
 }

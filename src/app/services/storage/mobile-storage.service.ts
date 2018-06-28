@@ -2,7 +2,7 @@
 
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, Observer, empty as obsEmpty, of as obsOf } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { flatMap } from 'rxjs/operators';
 
 import { StorageService } from 'app/services/storage/storage.service';
 
@@ -19,7 +19,7 @@ export class MobileStorageService extends StorageService {
     }
 
     return this.getStorageDirectory().pipe(
-      switchMap(storageDirEntry => {
+      flatMap(storageDirEntry => {
         return Observable.create((observer: Observer<string>) => {
           storageDirEntry.getFile(key + '.json', { create: false },
             storageFileEntry => {
@@ -67,7 +67,7 @@ export class MobileStorageService extends StorageService {
     }
 
     return this.getStorageDirectory().pipe(
-      switchMap(storageDirEntry => {
+      flatMap(storageDirEntry => {
         return Observable.create((observer: Observer<boolean>) => {
           storageDirEntry.getFile(key + '.json', { create: true, exclusive: false },
             storageFileEntry => {
@@ -110,7 +110,7 @@ export class MobileStorageService extends StorageService {
     }
 
     return this.getStorageDirectory().pipe(
-      switchMap(storageDirEntry => {
+      flatMap(storageDirEntry => {
         return Observable.create((observer: Observer<boolean>) => {
           storageDirEntry.getFile(key + '.json', { create: false },
             storageFileEntry => {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of as obsOf } from 'rxjs';
-import { map, flatMap } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
 
 import { LoginBroker } from 'app/common/login-broker';
 import { StorageService } from 'app/services/storage/storage.service';

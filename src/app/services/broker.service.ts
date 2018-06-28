@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material';
 import { Observable, Subject, of as obsOf, forkJoin } from 'rxjs';
-import { concatMap, flatMap, mergeMap, map } from 'rxjs/operators';
+import { concatMap, flatMap, map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
-import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
 import { ActionsService } from 'app/services/actions.service';
 import { ClientDataService } from 'app/services/client-data.service';
 import { ControlStyleService } from 'app/services/control-style.service';
+import { DialogService } from 'app/services/dialog.service';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
 import { FramesService } from 'app/services/frames.service';
@@ -19,9 +17,12 @@ import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 import { LoginBroker } from 'app/common/login-broker';
 import { LoginOptions } from 'app/common/login-options';
+import { InternalEvent } from '../common/events/internal/internal-event';
 import { ClientEvent } from 'app/common/events/client-event';
+import { ClientMsgBoxEvent } from '../common/events/client-msgbox-event';
 import { RequestType } from 'app/enums/request-type';
 import { JsonUtil } from 'app/util/json-util';
+import { RxJsUtil } from 'app/util/rxjs-util';
 import { UrlUtil } from 'app/util/url-util';
 
 import * as fromAppReducers from 'app/app.reducers';
@@ -45,18 +46,18 @@ export class BrokerService {
   private lastRequestTime: Moment.Moment;
 
   constructor(
-    private dialog: MatDialog,
-    private titleService: TitleService,
     private httpClient: HttpClient,
     private actionsService: ActionsService,
     private clientDataService: ClientDataService,
     private controlStyleSerivce: ControlStyleService,
+    private dialogService: DialogService,
     private eventsService: EventsService,
     private formsService: FormsService,
     private framesService: FramesService,
+    private localeService: LocaleService,
     private routingService: RoutingService,
     private textsService: TextsService,
-    private localeService: LocaleService,
+    private titleService: TitleService,
     private store: Store<fromAppReducers.IAppState>
   ) {
     this._onLoginComplete = new Subject<any>();
@@ -68,30 +69,34 @@ export class BrokerService {
       this.activeBrokerRequestUrl = brokerState.activeBrokerRequestUrl;
     });
 
-    this.eventsService.onHandleEvent.pipe(
-      concatMap(event => obsOf(event).pipe(
-        mergeMap(() => {
-          if (!event.callbacks || event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
-            return this.createRequest(event.clientEvent).pipe(
-              flatMap(requestJson => this.doRequest(requestJson)),
-              flatMap(responseJson => this.processResponse(responseJson))
-            );
-          } else {
-            return obsOf(false);
-          }
-        }),
-        map(executed => {
-          if (executed && event.callbacks && event.callbacks.onExecuted) {
-            event.callbacks.onExecuted(event.originalEvent, event.clientEvent);
-          }
-          if (event.callbacks && event.callbacks.onCompleted) {
-            event.callbacks.onCompleted(event.originalEvent, event.clientEvent);
-          }
-        })
-      ))
+    this.eventsService.eventFired.pipe(
+      concatMap(event => this.handleEvent(event))
     ).subscribe();
 
     this.resetActiveBroker();
+  }
+
+  private handleEvent(event: InternalEvent<ClientEvent>): Observable<void> {
+    return obsOf(event).pipe(
+      flatMap(() => {
+        if (!event.callbacks || event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
+          return this.createRequest(event.clientEvent).pipe(
+            flatMap(requestJson => this.doRequest(requestJson)),
+            flatMap(responseJson => this.processResponse(responseJson))
+          );
+        } else {
+          return obsOf(false);
+        }
+      }),
+      map(executed => {
+        if (executed && event.callbacks && event.callbacks.onExecuted) {
+          event.callbacks.onExecuted(event.originalEvent, event.clientEvent);
+        }
+        if (event.callbacks && event.callbacks.onCompleted) {
+          event.callbacks.onCompleted(event.originalEvent, event.clientEvent);
+        }
+      })
+    );
   }
 
   public get onLoginComplete() {
@@ -221,71 +226,30 @@ export class BrokerService {
     );
   }
 
-  public processResponse(json: any): Observable<boolean> {
-    if (!json) {
+  public processResponse(json: any): Observable<void> {
+    if (!json || JsonUtil.isEmptyObject(json)) {
       throw new Error('Response JSON is null or empty!');
     }
 
-    return this.processMeta(json.meta).pipe(
-      map(saved => {
-        if (!saved) {
-          throw new Error('SessionData could not be saved to storage!');
+    return RxJsUtil.voidObs().pipe(
+      flatMap(() => this.processMeta(json.meta)),
+      flatMap(() => this.processStart(json.start)),
+      flatMap(() => this.processForms(json.forms)),
+      flatMap(() => this.processActions(json.actions)),
+      flatMap(() => this.processError(json.error)),
+      flatMap(() => this.processMsgBox(json.msgBoxes)),
+      flatMap(() => this.processClose(json.meta)),
+      map(close => {
+        if (close) {
+          this.closeApplication();
+        } else {
+          this.onAfterResponse();
         }
-
-        if (json.start && !JsonUtil.isEmptyObject(json.start)) {
-          this.processApplication(json.start.application);
-          this.processControlStyles(json.start.controlStyles);
-          this.processTexts(json.start.texts);
-        }
-
-        if (json.forms && json.forms.length) {
-          this.formsService.setJson(json.forms);
-        }
-
-        if (json.actions && json.actions.length) {
-          this.actionsService.processActions(json.actions);
-        }
-
-        if (json.error) {
-          this.dialog.open(ErrorBoxComponent, {
-            backdropClass: 'hc-backdrop',
-            minWidth: 300,
-            maxWidth: '90%',
-            maxHeight: '90%',
-            disableClose: true,
-            data: {
-              message: UrlUtil.urlDecode(json.error.message),
-              stackTrace: UrlUtil.urlDecode(json.error.stackTrace)
-            }
-          });
-        } else if (json.msgBoxes) {
-          const msgBoxJson: any = json.msgBoxes[0];
-          this.dialog.open(MsgBoxComponent, {
-            backdropClass: 'hc-backdrop',
-            minWidth: 300,
-            maxWidth: '90%',
-            maxHeight: '90%',
-            disableClose: true,
-            data: {
-              formId: msgBoxJson.formId,
-              id: msgBoxJson.id,
-              message: UrlUtil.urlDecode(msgBoxJson.message),
-              icon: msgBoxJson.icon,
-              buttons: msgBoxJson.buttons
-            }
-          });
-        }
-
-        this.formsService.updateAllComponents();
-        this.framesService.layout();
-        this.routingService.showViewer();
-
-        return true;
       })
     );
   }
 
-  private processMeta(metaJson: any): Observable<boolean> {
+  private processMeta(metaJson: any): Observable<void> {
     if (!metaJson) {
       throw new Error('Could not find property \'meta\' in response JSON!');
     }
@@ -296,39 +260,140 @@ export class BrokerService {
 
     if (!String.isNullOrWhiteSpace(sessionData)) {
       if (sessionData === BrokerService.SESSION_DATA_DISCARD) {
-        return this.clientDataService.deleteSessionData();
+        return this.clientDataService.deleteSessionData().pipe(
+          flatMap(() => RxJsUtil.voidObs())
+        );
       } else {
-        return this.clientDataService.saveSessionData(sessionData);
+        return this.clientDataService.saveSessionData(sessionData).pipe(
+          flatMap(() => RxJsUtil.voidObs())
+        );
       }
     } else {
-      return obsOf(true);
+      return RxJsUtil.voidObs();
     }
   }
 
-  private processApplication(applicationJson: any): void {
-    if (!applicationJson) {
-      throw new Error('Could not find property \'application\' in start JSON!');
-    }
-
-    if (applicationJson.title) {
-      this.titleService.setTitle(applicationJson.title);
+  private processStart(startJson: any): Observable<void> {
+    if (startJson && !JsonUtil.isEmptyObject(startJson)) {
+      return RxJsUtil.voidObs().pipe(
+        flatMap(() => this.processApplication(startJson.application)),
+        flatMap(() => this.processControlStyles(startJson.controlStyles)),
+        flatMap(() => this.processTexts(startJson.texts))
+      );
+    } else {
+      return RxJsUtil.voidObs();
     }
   }
 
-  private processControlStyles(controlStylesJson: any): void {
+  private processApplication(applicationJson: any): Observable<void> {
+    if (applicationJson && !String.isNullOrWhiteSpace(applicationJson.title)) {
+      return RxJsUtil.voidObs().pipe(
+        tap(() => this.titleService.setTitle(applicationJson.title))
+      );
+    } else {
+      return RxJsUtil.voidObs();
+    }
+  }
+
+  private processControlStyles(controlStylesJson: any): Observable<void> {
     if (controlStylesJson && controlStylesJson.length) {
-      for (const controlStyleJson of controlStylesJson) {
-        this.controlStyleSerivce.addControlStyle(controlStyleJson.name, controlStyleJson.properties);
-      }
+      return RxJsUtil.voidObs().pipe(
+        tap(() => {
+          for (const controlStyleJson of controlStylesJson) {
+            this.controlStyleSerivce.addControlStyle(controlStyleJson.name, controlStyleJson.properties);
+          }
+        })
+      );
+    } else {
+      return RxJsUtil.voidObs();
     }
   }
 
-  private processTexts(textsJson: any): void {
+  private processTexts(textsJson: any): Observable<void> {
     if (textsJson && textsJson.length) {
-      for (const textJson of textsJson) {
-        this.textsService.setText(textJson.id, textJson.value);
-      }
+      return RxJsUtil.voidObs().pipe(
+        tap(() => {
+          for (const textJson of textsJson) {
+            this.textsService.setText(textJson.id, textJson.value);
+          }
+        })
+      );
+    } else {
+      return RxJsUtil.voidObs();
     }
+  }
+
+  private processForms(formsJson: any): Observable<void> {
+    if (formsJson && formsJson.length) {
+      return RxJsUtil.voidObs().pipe(
+        tap(() => this.formsService.setJson(formsJson))
+      );
+    } else {
+      return RxJsUtil.voidObs();
+    }
+  }
+
+  private processActions(actionsJson: any): Observable<void> {
+    if (actionsJson && actionsJson.length) {
+      return RxJsUtil.voidObs().pipe(
+        tap(() => this.actionsService.processActions(actionsJson))
+      );
+    } else {
+      return RxJsUtil.voidObs();
+    }
+  }
+
+  private processError(errorJson: any): Observable<void> {
+    if (errorJson && !JsonUtil.isEmptyObject(errorJson)) {
+      return this.dialogService.showErrorBox({
+        title: this.titleService.getTitle(),
+        message: UrlUtil.urlDecode(errorJson.message),
+        stackTrace: UrlUtil.urlDecode(errorJson.stackTrace)
+      });
+    } else {
+      return RxJsUtil.voidObs();
+    }
+  }
+
+  private processMsgBox(msgBoxesJson: any): Observable<void> {
+    if (msgBoxesJson && msgBoxesJson.length) {
+      const msgBoxJson: any = msgBoxesJson[0];
+      const formId: string = msgBoxJson.formId;
+      const id: string = msgBoxJson.id;
+
+      return this.dialogService.showMsgBoxBox({
+        title: this.titleService.getTitle(),
+        message: UrlUtil.urlDecode(msgBoxJson.message),
+        icon: msgBoxJson.icon,
+        buttons: msgBoxJson.buttons
+      }).pipe(
+        flatMap(result => this.handleEvent({
+          originalEvent: null,
+          clientEvent: new ClientMsgBoxEvent(formId, id, result)
+        }))
+      );
+    } else {
+      return RxJsUtil.voidObs();
+    }
+  }
+
+  private processClose(metaJson: any): Observable<boolean> {
+    if (metaJson && metaJson.closeApplication === true) {
+      return obsOf(true);
+    } else {
+      return obsOf(false);
+    }
+  }
+
+  private closeApplication(): void {
+    this.resetActiveBroker();
+    this.routingService.showLogin();
+  }
+
+  private onAfterResponse(): void {
+    this.formsService.updateAllComponents();
+    this.framesService.layout();
+    this.routingService.showViewer();
   }
 
   public getLastRequestTime(): Moment.Moment {

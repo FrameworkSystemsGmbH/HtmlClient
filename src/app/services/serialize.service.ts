@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, of as obsOf } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as Moment from 'moment-timezone';
@@ -40,9 +40,7 @@ export class SerializeService {
     private titleService: TitleService
   ) {
     this.brokerService.onLoginComplete.pipe(
-      switchMap(event => this.storageService.delete(SESSION_STORAGE_KEY).pipe(
-        map(deleted => event)
-      ))
+      flatMap(() => this.storageService.delete(SESSION_STORAGE_KEY))
     ).subscribe();
 
     this.store.select(appState => appState.broker).subscribe(brokerState => {
@@ -59,7 +57,7 @@ export class SerializeService {
 
   public getLastSessionInfo(): Observable<LastSessionInfo> {
     return this.storageService.loadData(SESSION_STORAGE_KEY).pipe(
-      switchMap(data => {
+      flatMap(data => {
         const stateJson: any = JSON.parse(data);
 
         if (!JsonUtil.isEmptyObject(stateJson)) {
@@ -74,7 +72,7 @@ export class SerializeService {
             ));
           } else {
             return this.storageService.delete(SESSION_STORAGE_KEY).pipe(
-              map(deleted => null as LastSessionInfo)
+              map(() => null as LastSessionInfo)
             );
           }
         }
@@ -154,13 +152,9 @@ export class SerializeService {
     setTimeout(() => {
       this.zone.run(() => {
         this.getLastSessionInfo().pipe(
-          switchMap(lastSessionInfo => {
-            return this.storageService.delete(SESSION_STORAGE_KEY).pipe(
-              map(deleted => {
-                return lastSessionInfo;
-              })
-            );
-          })
+          flatMap(lastSessionInfo => this.storageService.delete(SESSION_STORAGE_KEY).pipe(
+            map(() => lastSessionInfo)
+          ))
         ).subscribe(lastSessionInfo => {
           // Deserialize state only if there is no active broker session
           if (this.brokerState.activeBrokerName != null || lastSessionInfo == null) {

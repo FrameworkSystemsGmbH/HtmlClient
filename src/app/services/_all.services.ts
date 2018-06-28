@@ -5,6 +5,7 @@ import { BrokerService } from 'app/services/broker.service';
 import { ClientDataService } from 'app/services/client-data.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { ControlsService } from 'app/services/controls.service';
+import { DialogService } from 'app/services/dialog.service';
 import { EventsService } from 'app/services/events.service';
 import { FocusService } from 'app/services/focus.service';
 import { FontService } from 'app/services/font.service';
@@ -51,6 +52,7 @@ const services = [
   ClientDataService,
   ControlStyleService,
   ControlsService,
+  DialogService,
   EventsService,
   FocusService,
   FontService,

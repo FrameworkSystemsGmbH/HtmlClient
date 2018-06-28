@@ -18,15 +18,15 @@ export class ActionsService {
       const form: FormWrapper = this.formsService.findFormById(actionJson.form);
       const control: ControlWrapper = form.findControlRecursive(actionJson.control);
 
-      switch (actionJson.name) {
-        case 'SetEnabled':
-          control.setIsEditableAction(actionJson.value);
-          break;
-        case 'SetVisible':
-          control.setVisibilityAction(actionJson.value);
-          break;
-        default:
-          throw new Error('Unsupported action \'' + actionJson.action + '\'!');
+      if (control) {
+        switch (actionJson.name) {
+          case 'SetEnabled':
+            control.setIsEditableAction(actionJson.value);
+            break;
+          case 'SetVisible':
+            control.setVisibilityAction(actionJson.value);
+            break;
+        }
       }
     }
   }
