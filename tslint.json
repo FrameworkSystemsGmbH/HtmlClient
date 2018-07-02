@@ -224,13 +224,8 @@
     "no-forward-ref": true,
     "no-input-rename": true,
     "no-output-rename": true,
-    "no-unused-css": true,
+    "no-unused-css": false,
     "pipe-impure": true,
-    "pipe-naming": [
-      true,
-      "camelCase",
-      "hc"
-    ],
     "templates-no-negated-async": true,
     "use-input-property-decorator": true,
     "use-host-property-decorator": true,

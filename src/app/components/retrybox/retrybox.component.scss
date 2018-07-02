@@ -1,0 +1,76 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  .hc-retrybox-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+
+    .hc-retrybox-header {
+      flex: 0 0 auto;
+      display: flex;
+      margin-bottom: 1em;
+
+      .hc-retrybox-header-title {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+
+        span {
+          font-size: 1.5em;
+          font-weight: bold;
+        }
+      }
+
+      .hc-retrybox-header-icon {
+        flex: 0 0 auto;
+        margin-left: 0.5em;
+        color: red;
+      }
+    }
+
+    .hc-retrybox-message {
+      flex: 1 1 auto;
+      display: flex;
+      overflow: auto;
+      overflow-x: hidden;
+
+      span {
+        user-select: text;
+        white-space: pre-wrap;
+      }
+    }
+
+    .hc-retrybox-stacktrace {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+
+      .hc-retrybox-stacktrace-scroller {
+        overflow: auto;
+        padding: 0.5em;
+
+        span {
+          user-select: text;
+          white-space: pre;
+        }
+      }
+    }
+
+    .hc-retrybox-footer {
+      flex: 0 0 auto;
+      display: flex;
+      margin-top: 1em;
+      justify-content: center;
+
+      button:not(:last-child) {
+        margin-right: 1em;
+      }
+    }
+  }
+}

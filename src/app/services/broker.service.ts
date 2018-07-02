@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, of as obsOf, forkJoin } from 'rxjs';
-import { concatMap, flatMap, map, tap } from 'rxjs/operators';
+import { Observable, Subject, of as obsOf, forkJoin, Observer, Subscription } from 'rxjs';
+import { concatMap, flatMap, map, retryWhen, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
+import { RetryBoxResult } from '../enums/retrybox-result';
 import { ActionsService } from 'app/services/actions.service';
 import { ClientDataService } from 'app/services/client-data.service';
 import { ControlStyleService } from 'app/services/control-style.service';
@@ -38,6 +39,9 @@ export class BrokerService {
   private _onLoginComplete: Subject<any>;
   private _onLoginComplete$: Observable<any>;
 
+  private storeSub: Subscription;
+  private eventFiredSub: Subscription;
+
   private activeBrokerName: string;
   private activeBrokerToken: string;
   private activeBrokerRequestUrl: string;
@@ -63,17 +67,21 @@ export class BrokerService {
     this._onLoginComplete = new Subject<any>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();
 
-    this.store.select(appState => appState.broker).subscribe(brokerState => {
+    this.resetActiveBroker();
+  }
+
+  private subscribeToStore(): Subscription {
+    return this.store.select(appState => appState.broker).subscribe(brokerState => {
       this.activeBrokerName = brokerState.activeBrokerName;
       this.activeBrokerToken = brokerState.activeBrokerToken;
       this.activeBrokerRequestUrl = brokerState.activeBrokerRequestUrl;
     });
+  }
 
-    this.eventsService.eventFired.pipe(
+  private subscribeToEventFired(): Subscription {
+    return this.eventsService.eventFired.pipe(
       concatMap(event => this.handleEvent(event))
     ).subscribe();
-
-    this.resetActiveBroker();
   }
 
   private handleEvent(event: InternalEvent<ClientEvent>): Observable<void> {
@@ -148,11 +156,22 @@ export class BrokerService {
   }
 
   private resetActiveBroker(): void {
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
+
+    if (this.eventFiredSub) {
+      this.eventFiredSub.unsubscribe();
+    }
+
     this.formsService.resetViews();
     this.store.dispatch(new fromBrokerActions.ResetBrokerAction());
     this.requestCounter = 0;
     this.clientLanguages = this.localeService.getLocale().substring(0, 2);
     this.lastRequestTime = null;
+
+    this.storeSub = this.subscribeToStore();
+    this.eventFiredSub = this.subscribeToEventFired();
   }
 
   public sendInitRequest(): Observable<any> {
@@ -168,7 +187,39 @@ export class BrokerService {
 
   private doRequest(requestJson: any): Observable<any> {
     this.lastRequestTime = Moment.utc();
-    return this.httpClient.post(this.activeBrokerRequestUrl, requestJson);
+    return this.httpClient.post(this.activeBrokerRequestUrl, requestJson).pipe(
+      retryWhen(attempts => attempts.pipe(
+        flatMap(error => {
+          return this.createRequestRetryBox(error);
+        })
+      ))
+    );
+  }
+
+  private createRequestRetryBox(error: any): Observable<void> {
+    return Observable.create((observer: Observer<void>) => {
+      try {
+        const title: string = this.titleService.getTitle();
+        const message: string = error && error.status === 0 ? 'Request could not be sent because of a network error!' : error.message;
+        const stackTrace = error && error.stack ? error.stack : null;
+
+        this.dialogService.showRetryBoxBox({
+          title,
+          message,
+          stackTrace
+        }).subscribe(result => {
+          if (result === RetryBoxResult.Retry) {
+            observer.next(null);
+          } else {
+            this.closeApplication();
+          }
+        },
+          err => observer.error(err),
+          () => observer.complete());
+      } catch (err) {
+        observer.error(err);
+      }
+    });
   }
 
   private getMetaJson(initRequest: boolean): Observable<any> {

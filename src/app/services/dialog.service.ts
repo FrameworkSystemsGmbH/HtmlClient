@@ -5,10 +5,13 @@ import { map } from 'rxjs/operators';
 
 import { IErrorBoxData } from 'app/components/errorbox/errorbox-data.interface';
 import { IMsgBoxData } from 'app/components/msgbox/msgbox-data.interface';
+import { IRetryBoxData } from 'app/components/retrybox/retrybox-data.interface';
 
 import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
 import { MsgBoxComponent } from '../components/msgbox/msgbox.component';
+import { RetryBoxResult } from 'app/enums/retrybox-result';
+import { RetryBoxComponent } from 'app/components/retrybox/retrybox.component';
 
 @Injectable()
 export class DialogService {
@@ -40,6 +43,21 @@ export class DialogService {
 
     return msgBoxRef.afterClosed().pipe(
       map(msgBoxResult => msgBoxResult as MsgBoxResult)
+    );
+  }
+
+  public showRetryBoxBox(data: IRetryBoxData): Observable<RetryBoxResult> {
+    const retryBoxRef: MatDialogRef<RetryBoxComponent, any> = this.dialog.open(RetryBoxComponent, {
+      backdropClass: 'hc-backdrop',
+      minWidth: 300,
+      maxWidth: '90%',
+      maxHeight: '90%',
+      disableClose: true,
+      data
+    });
+
+    return retryBoxRef.afterClosed().pipe(
+      map(retryBoxResult => retryBoxResult as RetryBoxResult)
     );
   }
 }

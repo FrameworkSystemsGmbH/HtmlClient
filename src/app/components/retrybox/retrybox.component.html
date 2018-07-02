@@ -1,0 +1,23 @@
+<div class="hc-retrybox-wrapper" hcDialogResize>
+  <div class="hc-retrybox-header">
+    <div class="hc-retrybox-header-title">
+      <span>{{ title }}</span>
+    </div>
+    <div class="hc-retrybox-header-icon">
+      <i class="fas fa-exclamation-circle fa-2x"></i>
+    </div>
+  </div>
+  <div class="hc-retrybox-message" *ngIf="!showStackTrace">
+    <span>{{ message }}</span>
+  </div>
+  <div class="hc-retrybox-stacktrace" *ngIf="showStackTrace && stackTrace">
+    <div class="hc-retrybox-stacktrace-scroller">
+      <span>{{ stackTrace }}</span>
+    </div>
+  </div>
+  <div #footer class="hc-retrybox-footer" tabindex="-1" cdkTrapFocus>
+    <button mat-raised-button (click)="onDetailsClick($event)" *ngIf="stackTrace">Details</button>
+    <button mat-raised-button (click)="onAbortClick($event)">Abort</button>
+    <button mat-raised-button (click)="onRetryClick($event)">Retry</button>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { AppComponent } from 'app/app.component';
 import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
 import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
+import { RetryBoxComponent } from 'app/components/retrybox/retrybox.component';
 
 import { ErrorService } from 'app/services/error.service';
 
@@ -34,6 +35,7 @@ import { MatInputModule } from '@angular/material';
   entryComponents: [
     ErrorBoxComponent,
     MsgBoxComponent,
+    RetryBoxComponent,
     ALL_CONTROLS
   ],
   declarations: [
