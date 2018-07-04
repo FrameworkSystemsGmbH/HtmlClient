@@ -6,9 +6,10 @@ import { Subscription } from 'rxjs';
 import * as fromAppReducers from 'app/app.reducers';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { TitleService } from 'app/services/title.service';
 import { FormsService } from 'app/services/forms.service';
+import { BrokerService } from 'app/services/broker.service';
 import { RoutingService } from 'app/services/routing.service';
+import { TitleService } from 'app/services/title.service';
 import { DomUtil } from 'app/util/dom-util';
 import { StyleUtil } from 'app/util/style-util';
 
@@ -70,6 +71,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   public directMode: boolean;
   public sidebarEnabled: boolean = false;
   public sidebarVisible: boolean = false;
+  public isLoading: boolean = false;
 
   private tabScrollPosition: number = 0;
   private clickScrollDelta: number = 100;
@@ -80,19 +82,22 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   private storeSub: Subscription;
   private formsSub: Subscription;
   private selectedFormSub: Subscription;
+  private loadingChangedSub: Subscription;
 
   constructor(
     private zone: NgZone,
     private renderer: Renderer2,
-    private titleService: TitleService,
-    private routingService: RoutingService,
+    private brokerService: BrokerService,
     private formsService: FormsService,
+    private routingService: RoutingService,
+    private titleService: TitleService,
     private store: Store<fromAppReducers.IAppState>) { }
 
   public ngOnInit(): void {
     this.storeSub = this.store.select(state => state.broker.activeBrokerDirect).subscribe(direct => this.directMode = direct);
     this.formsSub = this.formsService.getForms().subscribe(forms => { this.forms = forms; });
     this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.selectedForm = form; });
+    this.loadingChangedSub = this.brokerService.onLoadingChanged.subscribe(loading => this.isLoading = loading);
   }
 
   public ngAfterViewChecked(): void {
@@ -103,6 +108,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.storeSub.unsubscribe();
     this.formsSub.unsubscribe();
     this.selectedFormSub.unsubscribe();
+    this.loadingChangedSub.unsubscribe();
   }
 
   public mediaQueryChanged(mq: MediaQueryList) {

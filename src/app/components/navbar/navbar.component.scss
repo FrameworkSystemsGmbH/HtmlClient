@@ -75,6 +75,7 @@
 }
 
 .hc-navbar {
+  position: relative;
   display: flex;
   height: $navbar-height;
   color: $navbar-color;
@@ -179,6 +180,12 @@
       margin-left: $navbar-height / 4;
       @include navbar-list();
     }
+  }
+
+  .loader {
+    position: absolute;
+    width: 100%;
+    bottom: -1px;
   }
 }
 

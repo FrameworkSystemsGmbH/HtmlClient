@@ -39,6 +39,9 @@ export class BrokerService {
   private _onLoginComplete: Subject<any>;
   private _onLoginComplete$: Observable<any>;
 
+  private _onLoadingChanged: Subject<boolean>;
+  private _onLoadingChanged$: Observable<boolean>;
+
   private storeSub: Subscription;
   private eventFiredSub: Subscription;
 
@@ -67,7 +70,14 @@ export class BrokerService {
     this._onLoginComplete = new Subject<any>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();
 
+    this._onLoadingChanged = new Subject<boolean>();
+    this._onLoadingChanged$ = this._onLoadingChanged.asObservable();
+
     this.resetActiveBroker();
+  }
+
+  public get onLoadingChanged(): Observable<boolean> {
+    return this._onLoadingChanged$;
   }
 
   private subscribeToStore(): Subscription {
@@ -86,11 +96,13 @@ export class BrokerService {
 
   private handleEvent(event: InternalEvent<ClientEvent>): Observable<void> {
     return obsOf(event).pipe(
+      tap(() => this._onLoadingChanged.next(true)),
       flatMap(() => {
         if (!event.callbacks || event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
           return this.createRequest(event.clientEvent).pipe(
             flatMap(requestJson => this.doRequest(requestJson)),
-            flatMap(responseJson => this.processResponse(responseJson))
+            flatMap(responseJson => this.processResponse(responseJson)),
+            tap(() => this._onLoadingChanged.next(false))
           );
         } else {
           return obsOf(false);
@@ -103,7 +115,8 @@ export class BrokerService {
         if (event.callbacks && event.callbacks.onCompleted) {
           event.callbacks.onCompleted(event.originalEvent, event.clientEvent);
         }
-      })
+      }),
+      tap(() => this._onLoadingChanged.next(false))
     );
   }
 
