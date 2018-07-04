@@ -1,16 +1,13 @@
 @import '../../../scss/variables.scss';
 
-$loader-height: 2px;
-
 .wrapper {
   width: 100%;
-  height: $loader-height;
 
   .loader {
-    height: $loader-height;
+    height: $loading-bar-height;
     position: relative;
     overflow: hidden;
-    background-color: #ddd;
+    background-color: transparent;
   }
 
   .loader:before {
@@ -19,7 +16,7 @@ $loader-height: 2px;
     content: "";
     left: -100%;
     width: 100%;
-    height: $loader-height;
+    height: $loading-bar-height;
     background-color: $loading-bar-color;
     animation: loading 1.5s ease-in-out infinite;
   }
