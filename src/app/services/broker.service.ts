@@ -193,9 +193,11 @@ export class BrokerService {
     this.lastRequestTime = Moment.utc();
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson).pipe(
       retryWhen(attempts => attempts.pipe(
+        tap(() => this.loaderService.fireLoadingChanged(false)),
         flatMap(error => {
           return this.createRequestRetryBox(error);
-        })
+        }),
+        tap(() => this.loaderService.fireLoadingChanged(true))
       ))
     );
   }
