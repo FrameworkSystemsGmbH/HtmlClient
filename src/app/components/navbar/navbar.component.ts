@@ -7,7 +7,7 @@ import * as fromAppReducers from 'app/app.reducers';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { FormsService } from 'app/services/forms.service';
-import { BrokerService } from 'app/services/broker.service';
+import { LoaderService } from 'app/services/loader.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TitleService } from 'app/services/title.service';
 import { DomUtil } from 'app/util/dom-util';
@@ -87,7 +87,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   constructor(
     private zone: NgZone,
     private renderer: Renderer2,
-    private brokerService: BrokerService,
+    private loaderService: LoaderService,
     private formsService: FormsService,
     private routingService: RoutingService,
     private titleService: TitleService,
@@ -97,7 +97,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.storeSub = this.store.select(state => state.broker.activeBrokerDirect).subscribe(direct => this.directMode = direct);
     this.formsSub = this.formsService.getForms().subscribe(forms => { this.forms = forms; });
     this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.selectedForm = form; });
-    this.loadingChangedSub = this.brokerService.onLoadingChanged.subscribe(loading => this.isLoading = loading);
+    this.loadingChangedSub = this.loaderService.onLoadingChanged.subscribe(loading => this.isLoading = loading);
   }
 
   public ngAfterViewChecked(): void {

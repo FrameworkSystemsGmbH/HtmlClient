@@ -13,6 +13,7 @@ import { FormsService } from 'app/services/forms.service';
 import { FramesService } from 'app/services/frames.service';
 import { ImageService } from 'app/services/image.service';
 import { KeyboardService } from 'app/services/keyboard.service';
+import { LoaderService } from 'app/services/loader.service';
 import { LoginService } from 'app/services/login.service';
 import { LogService } from 'app/services/log.service';
 import { LocaleService } from 'app/services/locale.service';
@@ -60,6 +61,7 @@ const services = [
   FramesService,
   ImageService,
   KeyboardService,
+  LoaderService,
   LocalStorageService,
   LoginService,
   LogService,

@@ -4,7 +4,7 @@ import { Observable, Subject, of as obsOf, forkJoin, Observer, Subscription } fr
 import { concatMap, flatMap, map, retryWhen, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import { RetryBoxResult } from '../enums/retrybox-result';
+import { RetryBoxResult } from 'app/enums/retrybox-result';
 import { ActionsService } from 'app/services/actions.service';
 import { ClientDataService } from 'app/services/client-data.service';
 import { ControlStyleService } from 'app/services/control-style.service';
@@ -12,15 +12,16 @@ import { DialogService } from 'app/services/dialog.service';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
 import { FramesService } from 'app/services/frames.service';
-import { LocaleService } from './locale.service';
+import { LoaderService } from 'app/services/loader.service';
+import { LocaleService } from 'app/services/locale.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 import { LoginBroker } from 'app/common/login-broker';
 import { LoginOptions } from 'app/common/login-options';
-import { InternalEvent } from '../common/events/internal/internal-event';
+import { InternalEvent } from 'app/common/events/internal/internal-event';
 import { ClientEvent } from 'app/common/events/client-event';
-import { ClientMsgBoxEvent } from '../common/events/client-msgbox-event';
+import { ClientMsgBoxEvent } from 'app/common/events/client-msgbox-event';
 import { RequestType } from 'app/enums/request-type';
 import { JsonUtil } from 'app/util/json-util';
 import { RxJsUtil } from 'app/util/rxjs-util';
@@ -38,9 +39,6 @@ export class BrokerService {
 
   private _onLoginComplete: Subject<any>;
   private _onLoginComplete$: Observable<any>;
-
-  private _onLoadingChanged: Subject<boolean>;
-  private _onLoadingChanged$: Observable<boolean>;
 
   private storeSub: Subscription;
   private eventFiredSub: Subscription;
@@ -61,6 +59,7 @@ export class BrokerService {
     private eventsService: EventsService,
     private formsService: FormsService,
     private framesService: FramesService,
+    private loaderService: LoaderService,
     private localeService: LocaleService,
     private routingService: RoutingService,
     private textsService: TextsService,
@@ -70,14 +69,7 @@ export class BrokerService {
     this._onLoginComplete = new Subject<any>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();
 
-    this._onLoadingChanged = new Subject<boolean>();
-    this._onLoadingChanged$ = this._onLoadingChanged.asObservable();
-
     this.resetActiveBroker();
-  }
-
-  public get onLoadingChanged(): Observable<boolean> {
-    return this._onLoadingChanged$;
   }
 
   private subscribeToStore(): Subscription {
@@ -96,13 +88,12 @@ export class BrokerService {
 
   private handleEvent(event: InternalEvent<ClientEvent>): Observable<void> {
     return obsOf(event).pipe(
-      tap(() => this._onLoadingChanged.next(true)),
+      tap(() => this.loaderService.fireLoadingChanged(true)),
       flatMap(() => {
         if (!event.callbacks || event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
           return this.createRequest(event.clientEvent).pipe(
             flatMap(requestJson => this.doRequest(requestJson)),
-            flatMap(responseJson => this.processResponse(responseJson)),
-            tap(() => this._onLoadingChanged.next(false))
+            flatMap(responseJson => this.processResponse(responseJson))
           );
         } else {
           return obsOf(false);
@@ -116,7 +107,7 @@ export class BrokerService {
           event.callbacks.onCompleted(event.originalEvent, event.clientEvent);
         }
       }),
-      tap(() => this._onLoadingChanged.next(false))
+      tap(() => this.loaderService.fireLoadingChanged(false))
     );
   }
 
@@ -405,11 +396,15 @@ export class BrokerService {
 
   private processError(errorJson: any): Observable<void> {
     if (errorJson && !JsonUtil.isEmptyObject(errorJson)) {
-      return this.dialogService.showErrorBox({
-        title: this.titleService.getTitle(),
-        message: UrlUtil.urlDecode(errorJson.message),
-        stackTrace: UrlUtil.urlDecode(errorJson.stackTrace)
-      });
+      return RxJsUtil.voidObs().pipe(
+        tap(() => this.loaderService.fireLoadingChanged(false)),
+        flatMap(() => this.dialogService.showErrorBox({
+          title: this.titleService.getTitle(),
+          message: UrlUtil.urlDecode(errorJson.message),
+          stackTrace: UrlUtil.urlDecode(errorJson.stackTrace)
+        })),
+        tap(() => this.loaderService.fireLoadingChanged(true))
+      );
     } else {
       return RxJsUtil.voidObs();
     }
@@ -421,16 +416,20 @@ export class BrokerService {
       const formId: string = msgBoxJson.formId;
       const id: string = msgBoxJson.id;
 
-      return this.dialogService.showMsgBoxBox({
-        title: this.titleService.getTitle(),
-        message: UrlUtil.urlDecode(msgBoxJson.message),
-        icon: msgBoxJson.icon,
-        buttons: msgBoxJson.buttons
-      }).pipe(
-        flatMap(result => this.handleEvent({
-          originalEvent: null,
-          clientEvent: new ClientMsgBoxEvent(formId, id, result)
-        }))
+      return RxJsUtil.voidObs().pipe(
+        tap(() => this.loaderService.fireLoadingChanged(false)),
+        flatMap(() => this.dialogService.showMsgBoxBox({
+          title: this.titleService.getTitle(),
+          message: UrlUtil.urlDecode(msgBoxJson.message),
+          icon: msgBoxJson.icon,
+          buttons: msgBoxJson.buttons
+        }).pipe(
+          flatMap(result => this.handleEvent({
+            originalEvent: null,
+            clientEvent: new ClientMsgBoxEvent(formId, id, result)
+          }))
+        )),
+        tap(() => this.loaderService.fireLoadingChanged(true))
       );
     } else {
       return RxJsUtil.voidObs();
