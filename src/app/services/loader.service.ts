@@ -1,17 +1,40 @@
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, merge } from 'rxjs';
+import { auditTime, distinctUntilChanged, filter, repeat, takeUntil, tap } from 'rxjs/operators';
 
 export class LoaderService {
 
+  private static readonly LOADER_DELAY: number = 100;
+
   private _onLoadingChanged: Subject<boolean>;
   private _onLoadingChanged$: Observable<boolean>;
+  private _onLoadingChangedDelayed$: Observable<boolean>;
 
   constructor() {
     this._onLoadingChanged = new Subject<boolean>();
     this._onLoadingChanged$ = this._onLoadingChanged.asObservable();
+
+    const onLoadingChangedOff: Observable<boolean> = this._onLoadingChanged$.pipe(
+      filter(loading => loading === false)
+    );
+
+    this._onLoadingChangedDelayed$ = merge(
+      this._onLoadingChanged$.pipe(
+        auditTime(LoaderService.LOADER_DELAY),
+        takeUntil(onLoadingChangedOff),
+        repeat()
+      ),
+      onLoadingChangedOff
+    ).pipe(
+      distinctUntilChanged()
+    );
   }
 
   public get onLoadingChanged(): Observable<boolean> {
     return this._onLoadingChanged$;
+  }
+
+  public get onLoadingChangedDelayed(): Observable<boolean> {
+    return this._onLoadingChangedDelayed$;
   }
 
   public fireLoadingChanged(loading: boolean): void {

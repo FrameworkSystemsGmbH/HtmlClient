@@ -97,7 +97,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.storeSub = this.store.select(state => state.broker.activeBrokerDirect).subscribe(direct => this.directMode = direct);
     this.formsSub = this.formsService.getForms().subscribe(forms => { this.forms = forms; });
     this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.selectedForm = form; });
-    this.loadingChangedSub = this.loaderService.onLoadingChanged.subscribe(loading => this.isLoading = loading);
+    this.loadingChangedSub = this.loaderService.onLoadingChangedDelayed.subscribe(loading => this.isLoading = loading);
   }
 
   public ngAfterViewChecked(): void {
