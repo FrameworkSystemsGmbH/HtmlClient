@@ -2,9 +2,9 @@ import { Component, Input } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
-  selector: 'hc-loading',
-  templateUrl: './loading.component.html',
-  styleUrls: ['./loading.component.scss'],
+  selector: 'hc-loader',
+  templateUrl: './loader.component.html',
+  styleUrls: ['./loader.component.scss'],
   animations: [
     trigger('loaderState', [
       transition(':enter', [
@@ -18,7 +18,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ])
   ]
 })
-export class LoadingComponent {
+export class LoaderComponent {
 
   @Input()
   public active: boolean = false;

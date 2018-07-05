@@ -1,7 +1,7 @@
 import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
 import { FrameComponent } from 'app/components/frame/frame.component';
 import { LoadComponent } from 'app/components/load/load.component';
-import { LoadingComponent } from 'app/components/loading/loading.component';
+import { LoaderComponent } from 'app/components/loader/loader.component';
 import { LoginComponent } from 'app/components/login/login.component';
 import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
 import { NavbarComponent } from 'app/components/navbar/navbar.component';
@@ -12,7 +12,7 @@ export const ALL_COMPONENTS = [
   ErrorBoxComponent,
   FrameComponent,
   LoadComponent,
-  LoadingComponent,
+  LoaderComponent,
   LoginComponent,
   MsgBoxComponent,
   NavbarComponent,

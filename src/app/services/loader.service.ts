@@ -1,5 +1,5 @@
 import { Subject, Observable, merge } from 'rxjs';
-import { auditTime, distinctUntilChanged, filter, repeat, takeUntil, tap } from 'rxjs/operators';
+import { auditTime, distinctUntilChanged, filter, repeat, takeUntil } from 'rxjs/operators';
 
 export class LoaderService {
 
