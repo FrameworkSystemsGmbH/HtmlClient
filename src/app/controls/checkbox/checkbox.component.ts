@@ -1,5 +1,5 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { MatCheckbox } from '@angular/material';
+import { MatCheckbox, RippleRef } from '@angular/material';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -30,6 +30,8 @@ export class CheckBoxComponent extends ControlComponent {
   public wrapperStyle: any;
   public labelStyle: any;
 
+  public rippleRef: RippleRef;
+
   public callOnClick(event: any): void {
     this.updateWrapper();
     if (this.getWrapper().hasOnClickEvent()) {
@@ -43,12 +45,17 @@ export class CheckBoxComponent extends ControlComponent {
     }
   }
 
-  public onLabelClick(event: any): void {
-    this.setFocus();
+  public onLabelMouseDown(event: any): void {
     if (this.isEditable) {
-      this.checkBox.ripple.launch(null);
-      this.value = !this.value;
-      this.callOnClick(event);
+      this.rippleRef = this.checkBox.ripple.launch({
+        persistent: true
+      });
+    }
+  }
+
+  public onLabelMouseUp(event: any): void {
+    if (this.rippleRef) {
+      this.rippleRef.fadeOut();
     }
   }
 
