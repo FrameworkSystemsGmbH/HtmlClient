@@ -39,6 +39,11 @@ export class CheckBoxComponent extends ControlComponent {
     }
   }
 
+  public callOnLeave(event: any): void {
+    super.callOnLeave(event);
+    this.closeRipple();
+  }
+
   public onWrapperMouseDown(event: any): void {
     if (!event.target || !DomUtil.isDescentantOrSelf(this.checkBox._inputElement.nativeElement, event.target)) {
       event.preventDefault();
@@ -46,6 +51,7 @@ export class CheckBoxComponent extends ControlComponent {
   }
 
   public onLabelMouseDown(event: any): void {
+    this.setFocus();
     if (this.isEditable) {
       this.rippleRef = this.checkBox.ripple.launch({
         persistent: true
@@ -54,9 +60,7 @@ export class CheckBoxComponent extends ControlComponent {
   }
 
   public onLabelMouseUp(event: any): void {
-    if (this.rippleRef) {
-      this.rippleRef.fadeOut();
-    }
+    this.closeRipple();
   }
 
   public getWrapper(): CheckBoxWrapper {
@@ -145,6 +149,13 @@ export class CheckBoxComponent extends ControlComponent {
       'padding-left.px': wrapper.getLabelGap(),
       'cursor': !this.isEditable ? 'not-allowed' : 'pointer'
     };
+  }
+
+  protected closeRipple(): void {
+    if (this.rippleRef) {
+      this.rippleRef.fadeOut();
+      this.rippleRef = null;
+    }
   }
 
   protected setFocus(): void {
