@@ -1,5 +1,7 @@
 import { Injector } from '@angular/core';
 
+import { LayoutContainerBase } from 'app/layout/layout-container-base';
+import { ControlLabelContainerMergedLayout } from 'app/layout/control-label-container-layout/control-label-container-merged-layout';
 import { ControlLabelContainerBaseWrapper } from 'app/wrappers/control-labels/control-label-container-base-wrapper';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelSeparatorWrapper } from 'app/wrappers/control-labels/control-label-separator-wrapper';
@@ -21,6 +23,10 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
     super(injector, labelWrappers, fieldRowWrp, rowLabelTemplate);
     this.injector = injector;
     this.initLabels();
+  }
+
+  protected createLayout(): LayoutContainerBase {
+    return new ControlLabelContainerMergedLayout(this);
   }
 
   protected createName(): string {

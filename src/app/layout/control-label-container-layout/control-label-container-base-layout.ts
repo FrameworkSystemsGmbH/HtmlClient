@@ -6,7 +6,7 @@ import { LayoutContainerBase } from 'app/layout/layout-container-base';
 import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper';
 import { TextAlign } from 'app/enums/text-align';
 
-export class ControlLabelContainerLayout extends LayoutContainerBase {
+export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBase {
 
   private width: number = -1;
   private wrappers: Array<LayoutableControlWrapper>;
@@ -30,6 +30,8 @@ export class ControlLabelContainerLayout extends LayoutContainerBase {
     }
   }
 
+  protected abstract checkWrapperVisibility(wrapper: LayoutableControlWrapper): boolean;
+
   public measureMinWidth(): number {
     this.initWrappers();
 
@@ -38,7 +40,7 @@ export class ControlLabelContainerLayout extends LayoutContainerBase {
 
     for (const wrapper of this.wrappers) {
       // Ignore invisible items (items with min width = 0 do not have an impact)
-      if (wrapper.getIsVisible()) {
+      if (this.checkWrapperVisibility(wrapper)) {
         minWidth += wrapper.getMinLayoutWidth();
       }
     }
@@ -53,7 +55,7 @@ export class ControlLabelContainerLayout extends LayoutContainerBase {
     let minHeight: number = 0;
 
     for (const wrapper of this.wrappers) {
-      if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
+      if (this.checkWrapperVisibility(wrapper) && wrapper.getMinLayoutWidth() > 0) {
         minHeight = Math.max(minHeight, wrapper.getMinLayoutHeight(width));
       }
     }
@@ -62,6 +64,10 @@ export class ControlLabelContainerLayout extends LayoutContainerBase {
   }
 
   public arrange(): void {
+    if (!this.wrappers) {
+      return;
+    }
+
     const container: IControlLabelContainer = this.getControl();
 
     const containerWidth: number = container.getLayoutableProperties().getLayoutWidth();
@@ -74,12 +80,14 @@ export class ControlLabelContainerLayout extends LayoutContainerBase {
       this.measureMinHeight(containerWidth);
     }
 
-    if (!this.wrappers || !this.wrappers.length) {
+    const visibleWrappers: Array<LayoutableControlWrapper> = this.wrappers.filter(wrapper => this.checkWrapperVisibility(wrapper));
+
+    if (!visibleWrappers.length) {
       return;
     }
 
-    for (const wrapper of this.wrappers) {
-      wrapper.setResultWidth(Math.max(wrapper.getMinLayoutWidth(), containerWidth));
+    for (const wrapper of visibleWrappers) {
+      wrapper.setResultWidth(wrapper.getMinLayoutWidth());
       wrapper.setResultHeight(wrapper.getMinLayoutHeightBuffered());
       availableWidth -= wrapper.getResultWidth();
     }
@@ -94,7 +102,7 @@ export class ControlLabelContainerLayout extends LayoutContainerBase {
     }
 
     // Do alignment
-    for (const wrapper of this.wrappers) {
+    for (const wrapper of visibleWrappers) {
       const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
       layoutableProperties.setX(xPos);
       layoutableProperties.setY(0);

@@ -11,7 +11,6 @@ export class LayoutableControlWrapper {
 
   private name: string;
 
-  private isVisible: boolean;
   private minLayoutWidth: number;
   private minLayoutHeight: number;
   private maxLayoutWidth: number;
@@ -21,6 +20,9 @@ export class LayoutableControlWrapper {
   private marginTop: number;
   private marginBottom: number;
   private dockItemSize: number;
+
+  private visibility: Visibility;
+  private isVisible: boolean;
 
   private hAlign: HorizontalAlignment;
   private vAlign: VerticalAlignment;
@@ -45,7 +47,9 @@ export class LayoutableControlWrapper {
     this.dockItemSize = control.getDockItemSize();
     this.hAlign = control.getHorizontalAlignment();
     this.vAlign = control.getVerticalAlignment();
-    this.isVisible = control.getCurrentVisibility() !== Visibility.Collapsed;
+    this.visibility = control.getCurrentVisibility();
+
+    this.isVisible = this.visibility !== Visibility.Collapsed;
 
     const container: ILayoutableContainer = control as ILayoutableContainer;
     if (container) {
@@ -111,6 +115,10 @@ export class LayoutableControlWrapper {
 
   public getVerticalAlignment(): VerticalAlignment {
     return this.vAlign;
+  }
+
+  public getVisibility(): Visibility {
+    return this.visibility;
   }
 
   public getIsVisible(): boolean {

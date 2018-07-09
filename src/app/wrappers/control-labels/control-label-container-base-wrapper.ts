@@ -14,7 +14,7 @@ import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { VchContainer } from 'app/vch/vch-container';
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
 import { ControlLabelContainerComponent } from 'app/controls/control-labels/control-label-container/control-label-container.component';
-import { ControlLabelContainerLayout } from 'app/layout/control-label-container-layout/control-label-container-layout';
+import { ControlLabelContainerSingleLayout } from 'app/layout/control-label-container-layout/control-label-container-single-layout';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
@@ -100,7 +100,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   protected createLayout(): LayoutContainerBase {
-    return new ControlLabelContainerLayout(this);
+    return new ControlLabelContainerSingleLayout(this);
   }
 
   public getLayoutableProperties(): LayoutablePropertiesDefault {
