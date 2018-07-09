@@ -79,7 +79,7 @@ export class ControlLabelContainerLayout extends LayoutContainerBase {
     }
 
     for (const wrapper of this.wrappers) {
-      wrapper.setResultWidth(wrapper.getMinLayoutWidth());
+      wrapper.setResultWidth(Math.max(wrapper.getMinLayoutWidth(), containerWidth));
       wrapper.setResultHeight(wrapper.getMinLayoutHeightBuffered());
       availableWidth -= wrapper.getResultWidth();
     }
