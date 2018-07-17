@@ -8,6 +8,7 @@ import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { LayoutBase } from 'app/layout/layout-base';
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
 import { ContainerLayout } from 'app/layout/container-layout/container-layout';
+import { ButtonGroup } from 'app/wrappers/button-group/button-group';
 import { VchControl } from 'app/vch/vch-control';
 import { VchContainer } from 'app/vch/vch-container';
 import { Visibility } from 'app/enums/visibility';
@@ -16,6 +17,8 @@ import { JsonUtil } from 'app/util/json-util';
 export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainerWrapper {
 
   protected controls: Array<ControlWrapper> = new Array<ControlWrapper>();
+
+  private buttonGroup: ButtonGroup;
 
   public getLayout(): LayoutContainerBase {
     return super.getLayout() as LayoutContainerBase;
@@ -46,6 +49,22 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   public getInvertFlowDirection(): boolean {
     return this.getPropertyStore().getInvertFlowDirection();
+  }
+
+  public getButtonGroup(): ButtonGroup {
+    if (!this.supportsButtonGroup()) {
+      return null;
+    }
+
+    if (!this.buttonGroup) {
+      this.buttonGroup = new ButtonGroup(this.getName());
+    }
+
+    return this.buttonGroup;
+  }
+
+  public supportsButtonGroup(): boolean {
+    return false;
   }
 
   protected createVchControl(): VchControl {
@@ -92,6 +111,27 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     }
   }
 
+  public getJson(): any {
+    if (!this.supportsButtonGroup()) {
+      return null;
+    }
+
+    const dataJson: any = this.getButtonGroup().getDataJson();
+
+    if (JsonUtil.isEmptyObject(dataJson)) {
+      return null;
+    }
+
+    const controlJson: any = {
+      meta: {
+        name: this.getName()
+      },
+      data: dataJson
+    };
+
+    return controlJson;
+  }
+
   public getControlsJson(controlsJson: Array<any>): void {
     this.controls.forEach((controlWrp: ControlWrapper) => {
       const controlJson: any = controlWrp.getJson();
@@ -104,6 +144,14 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
         (controlWrp as ContainerWrapper).getControlsJson(controlsJson);
       }
     });
+  }
+
+  protected setDataJson(dataJson: any): void {
+    super.setDataJson(dataJson);
+
+    if (this.supportsButtonGroup() && dataJson) {
+      this.getButtonGroup().setDataJson(dataJson);
+    }
   }
 
   public attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {

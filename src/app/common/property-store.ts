@@ -823,6 +823,19 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.captionAlign = value; });
   }
 
+  // DatasourceOnValue
+  public getDatasourceOnValue(): string {
+    return this.getValue<string>((data: PropertyData) => data.datasourceOnValue);
+  }
+
+  public getDatasourceOnValueForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.datasourceOnValue);
+  }
+
+  public setDatasourceOnValue(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.datasourceOnValue = value; });
+  }
+
   // DataSourceType
   public getDataSourceType(): DataSourceType {
     return this.getValue<DataSourceType>((data: PropertyData) => data.dataSourceTypeID);

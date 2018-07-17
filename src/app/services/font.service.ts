@@ -331,13 +331,6 @@ export class FontService {
     return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMinLength(), null, null, null, this.getMinWidthRaster());
   }
 
-  // public getMeasuredMinWidthListBox(wrapper: ListBoxWrapper): number {
-  //   DevProperties devProperties = uiList.GetDevProperties();
-  //   return getMeasuredWidthUs(uiList, devProperties.getListType(), devProperties.getListDisplayMinLength(),
-  //     devProperties.getListMaxScale(), devProperties.getListFormat(),
-  //     devProperties.getListFormatPattern(), getMinWidthRasterUs());
-  // }
-
   public getDataMaxWidthTextBox(wrapper: TextBoxBaseWrapper): number {
     return this.getMeasuredWidth(wrapper, wrapper.getDataSourceType(), wrapper.getDisplayMaxLength(),
       wrapper.getMaxScale(), wrapper.getFormat(), wrapper.getFormatPattern(), this.getMaxWidthRaster());
@@ -347,13 +340,6 @@ export class FontService {
     return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMaxLength(), null, null, null, this.getMaxWidthRaster());
   }
 
-  // public getMeasuredMaxWidthListBox(wrapper: ListBoxWrapper): number {
-  //   DevProperties devProperties = uiList.GetDevProperties();
-  //   return getMeasuredWidthUs(uiList, devProperties.getListType(), devProperties.getListDisplayMaxLength(), devProperties.getListMaxScale()
-  //     , devProperties.getListFormat(), devProperties.getListFormatPattern(),
-  //     getMaxWidthRasterUs());
-  // }
-
   public getDataMinHeightTextBox(wrapper: TextBoxBaseWrapper): number {
     return this.getMeasuredHeight(wrapper, wrapper.getDisplayMinLines());
   }
@@ -361,14 +347,6 @@ export class FontService {
   public getDataMaxHeightTextBox(wrapper: TextBoxBaseWrapper): number {
     return this.getMeasuredHeight(wrapper, wrapper.getDisplayMaxLines());
   }
-
-  // public getMeasuredMinWidth(UIJideTable uiTable, ColDesc colDesc): number {
-  //   DevProperties devProperties = colDesc.getProperties();
-  //   int width = colDesc.Caption() != null ? colDesc.Caption().length() : 0;
-  //   return getMeasuredWidthUs(uiTable, colDesc.ColumnType(), Math.max(width, colDesc.DisplayMinLength()),
-  //     devProperties.getMaxScale(), devProperties.getFormat(),
-  //     devProperties.getFormatPattern(), null);
-  // }
 
   public measureText(text: string, font: string, size: number, isBold: boolean, isItalic: boolean): number {
     if (!text) {

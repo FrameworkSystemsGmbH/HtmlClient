@@ -100,6 +100,7 @@ export class PropertyData {
 
   public caption: string;
   public captionAlign: ContentAlignment;
+  public datasourceOnValue: string;
   public dataSourceTypeID: DataSourceType;
   public dockPanel_ItemSize: number;
   public dockPanelOrientation: DockOrientation;

@@ -41,7 +41,9 @@ export class FieldLayoutRow {
     const rowLabelTemplate: ILayoutableControlLabelTemplate = fieldContainer.getRowLabelTemplate();
     const firstControl: LayoutableControlWrapper = controlWrappers[0];
 
-    if (this.labelMode === FieldRowLabelMode.None || (this.labelMode === FieldRowLabelMode.Generated && !this.hasFirstColumnControl)) {
+    if (this.labelMode === FieldRowLabelMode.None
+      || (this.labelMode === FieldRowLabelMode.Generated && !this.hasFirstColumnControl)
+      || (this.labelMode === FieldRowLabelMode.GeneratedMerged && !this.hasFirstColumnControl)) {
       // Add empty cell
       this.cells.push(new FieldLayoutCell(null, rowLabelTemplate));
     }

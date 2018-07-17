@@ -13,6 +13,7 @@ import { DockPanelComponent } from 'app/controls/layouts/dock-panel/dock-panel.c
 import { FieldPanelComponent } from 'app/controls/layouts/field-panel/field-panel.component';
 import { FormComponent } from 'app/controls/form/form.component';
 import { LabelComponent } from 'app/controls/label/label.component';
+import { RadioButtonComponent } from 'app/controls/radio-button/radio-button.component';
 import { TextBoxDateTimeComponent } from 'app/controls/textboxes/textbox-datetime/textbox-datetime.component';
 import { TextBoxMultilineComponent } from 'app/controls/textboxes/textbox-multiline/textbox-multiline.component';
 import { TextBoxNumberComponent } from 'app/controls/textboxes/textbox-number/textbox-number.component';
@@ -36,6 +37,7 @@ export const ALL_CONTROLS = [
   FieldPanelComponent,
   FormComponent,
   LabelComponent,
+  RadioButtonComponent,
   TextBoxDateTimeComponent,
   TextBoxMultilineComponent,
   TextBoxNumberComponent,

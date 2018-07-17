@@ -18,6 +18,7 @@ import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { DockPanelWrapper } from 'app/wrappers/dock-panel-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LabelWrapper } from 'app/wrappers/label-wrapper';
+import { RadioButtonWrapper } from 'app/wrappers/radio-button-wrapper';
 import { TextBoxNumberWrapper } from 'app/wrappers/textbox-number-wrapper';
 import { TextBoxDateTimeWrapper } from 'app/wrappers/textbox-datetime-wrapper';
 import { TextBoxMultilineWrapper } from 'app/wrappers/textbox-multiline-wrapper';
@@ -51,6 +52,8 @@ export class ControlsService {
         return new ButtonImageWrapper(this.injector, options);
       case ControlType.CheckBox:
         return new CheckBoxWrapper(this.injector, options);
+      case ControlType.RadioButton:
+        return new RadioButtonWrapper(this.injector, options);
       case ControlType.ComboBox:
         return new ComboBoxWrapper(this.injector, options);
       case ControlType.DockPanel:

@@ -15,6 +15,10 @@ export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFie
 
   private rowLabelTemplate: ControlLabelTemplate;
 
+  public supportsButtonGroup(): boolean {
+    return true;
+  }
+
   public getControlType(): ControlType {
     return ControlType.FieldPanel;
   }

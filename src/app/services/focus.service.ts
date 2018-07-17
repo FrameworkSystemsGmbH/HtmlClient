@@ -18,11 +18,15 @@ export class FocusService {
         case 'ENTER':
           return 'KeyboardEnter';
         case 'UP':
+        case 'LEFT':
           return 'KeyboardUp';
         case 'DOWN':
+        case 'RIGHT':
           return 'KeyboardDown';
         case 'F2':
           return 'KeyboardF2';
+        default:
+          return 'Undefined';
       }
     } else {
       return 'Mouse';

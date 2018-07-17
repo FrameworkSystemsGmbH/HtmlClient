@@ -27,6 +27,18 @@ html, body {
   font-size: 2rem;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  border: 0;
+  margin: -1px;
+  padding: 0;
+  outline: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
 .scrollbar-measure {
   width: 100px;
   height: 100px;

@@ -1,0 +1,7 @@
+<div class="wrapper" [ngStyle]="wrapperStyle">
+  <input #input class="input visually-hidden" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" [attr.id]="id" type="radio" [name]="groupName" [value]="checkedValue" [(ngModel)]="value" (change)="callOnClick($event)" [attr.tabindex]="tabIndexAttr" [disabled]="!isEditable">
+  <label class="label" [attr.for]="id" [ngStyle]="labelStyle">
+    <span class="button"></span>
+    <span *ngIf="caption" [ngStyle]="captionStyle">{{ caption }}</span>
+  </label>
+</div>

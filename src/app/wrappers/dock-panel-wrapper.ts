@@ -12,6 +12,10 @@ import { ControlType } from 'app/enums/control-type';
 
 export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDockContainer {
 
+  public supportsButtonGroup(): boolean {
+    return true;
+  }
+
   public getControlType(): ControlType {
     return ControlType.DockPanel;
   }

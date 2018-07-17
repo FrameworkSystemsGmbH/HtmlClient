@@ -14,6 +14,10 @@ import { ControlType } from 'app/enums/control-type';
 
 export class WrapPanelWrapper extends ContainerWrapperSpaceable implements IWrapContainer {
 
+  public supportsButtonGroup(): boolean {
+    return true;
+  }
+
   public getControlType(): ControlType {
     return ControlType.WrapPanel;
   }
