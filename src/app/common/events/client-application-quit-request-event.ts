@@ -3,7 +3,7 @@ import { ControlEvent } from 'app/enums/control-event';
 
 export class ClientApplicationQuitRequestEvent extends ClientEvent {
 
-  constructor(controlName: string) {
+  constructor() {
     super(ControlEvent[ControlEvent.OnApplicationQuitRequest], 'Application');
   }
 }

@@ -3,6 +3,8 @@ import { Observable, Subject } from 'rxjs';
 
 import { InternalEvent } from 'app/common/events/internal/internal-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
+import { ClientApplicationQuitEvent } from 'app/common/events/client-application-quit-event';
+import { ClientApplicationQuitRequestEvent } from 'app/common/events/client-application-quit-request-event';
 import { ClientEvent } from 'app/common/events/client-event';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
 import { ClientValidatedEvent } from 'app/common/events/client-validated-event';
@@ -106,6 +108,20 @@ export class EventsService {
       originalEvent: null,
       clientEvent: new ClientDisposeEvent(formId),
       callbacks
+    });
+  }
+
+  public fireApplicationQuitRequest(): void {
+    this._eventFired.next({
+      originalEvent: null,
+      clientEvent: new ClientApplicationQuitRequestEvent()
+    });
+  }
+
+  public fireApplicationQuit(restartRequested: boolean): void {
+    this._eventFired.next({
+      originalEvent: null,
+      clientEvent: new ClientApplicationQuitEvent(restartRequested)
     });
   }
 }

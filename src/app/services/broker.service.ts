@@ -22,7 +22,11 @@ import { LoginOptions } from 'app/common/login-options';
 import { InternalEvent } from 'app/common/events/internal/internal-event';
 import { ClientEvent } from 'app/common/events/client-event';
 import { ClientMsgBoxEvent } from 'app/common/events/client-msgbox-event';
+import { MsgBoxIcon } from 'app/enums/msgbox-icon';
+import { MsgBoxButtons } from '../enums/msgbox-buttons';
+import { MsgBoxResult } from '../enums/msgbox-result';
 import { RequestType } from 'app/enums/request-type';
+import { ResponseResult } from 'app/enums/response-result';
 import { JsonUtil } from 'app/util/json-util';
 import { RxJsUtil } from 'app/util/rxjs-util';
 import { UrlUtil } from 'app/util/url-util';
@@ -43,6 +47,9 @@ export class BrokerService {
   private storeSub: Subscription;
   private eventFiredSub: Subscription;
 
+  private activeLoginBroker: LoginBroker;
+  private activeLoginOptions: LoginOptions;
+  private activeBrokerDirect: boolean;
   private activeBrokerName: string;
   private activeBrokerToken: string;
   private activeBrokerRequestUrl: string;
@@ -96,18 +103,26 @@ export class BrokerService {
             flatMap(responseJson => this.processResponse(responseJson))
           );
         } else {
-          return obsOf(false);
+          return obsOf(ResponseResult.NotExecuted);
         }
       }),
-      map(executed => {
-        if (executed && event.callbacks && event.callbacks.onExecuted) {
+      tap(responseResult => {
+        if (responseResult === ResponseResult.Executed && event.callbacks && event.callbacks.onExecuted) {
           event.callbacks.onExecuted(event.originalEvent, event.clientEvent);
         }
         if (event.callbacks && event.callbacks.onCompleted) {
           event.callbacks.onCompleted(event.originalEvent, event.clientEvent);
         }
       }),
-      tap(() => this.loaderService.fireLoadingChanged(false))
+      map(responseResult => {
+        this.loaderService.fireLoadingChanged(false);
+
+        if (responseResult === ResponseResult.CloseApplication) {
+          this.closeApplication();
+        } else if (responseResult === ResponseResult.RestartApplication) {
+          this.restartApplication();
+        }
+      })
     );
   }
 
@@ -126,6 +141,10 @@ export class BrokerService {
       if (this.activeBrokerName) {
         this.resetActiveBroker();
       }
+
+      this.activeLoginBroker = broker;
+      this.activeLoginOptions = options;
+      this.activeBrokerDirect = direct;
 
       const name = broker.name;
       const url: string = broker.url;
@@ -173,6 +192,9 @@ export class BrokerService {
     this.requestCounter = 0;
     this.clientLanguages = this.localeService.getLocale().substring(0, 2);
     this.lastRequestTime = null;
+    this.activeLoginBroker = null;
+    this.activeLoginOptions = null;
+    this.activeBrokerDirect = null;
 
     this.storeSub = this.subscribeToStore();
     this.eventFiredSub = this.subscribeToEventFired();
@@ -280,27 +302,45 @@ export class BrokerService {
     );
   }
 
-  public processResponse(json: any): Observable<void> {
+  public processResponse(json: any): Observable<ResponseResult> {
     if (!json || JsonUtil.isEmptyObject(json)) {
       throw new Error('Response JSON is null or empty!');
     }
 
-    return RxJsUtil.voidObs().pipe(
-      flatMap(() => this.processMeta(json.meta)),
+    if (!json.meta) {
+      throw new Error('Could not find property \'meta\' in response JSON!');
+    }
+
+    const metaJson: any = json.meta;
+
+    const responseObs: Observable<void> = RxJsUtil.voidObs().pipe(
+      flatMap(() => this.processMeta(metaJson)),
       flatMap(() => this.processStart(json.start)),
       flatMap(() => this.processForms(json.forms)),
       flatMap(() => this.processActions(json.actions)),
       flatMap(() => this.processError(json.error)),
-      flatMap(() => this.processMsgBox(json.msgBoxes)),
-      flatMap(() => this.processClose(json.meta)),
-      map(close => {
-        if (close) {
-          this.closeApplication();
-        } else {
-          this.onAfterResponse();
-        }
-      })
-    );
+      flatMap(() => this.processMsgBox(json.msgBoxes)));
+
+    if (metaJson.applicationQuitMessages === true) {
+      return responseObs.pipe(
+        flatMap(() => this.processQuitMsg(metaJson.restartRequested, json.quitMessages)),
+        flatMap(() => this.onAfterResponse()),
+        map(() => ResponseResult.Executed)
+      );
+    } else if (metaJson.restartApplication === true) {
+      return responseObs.pipe(
+        map(() => ResponseResult.RestartApplication)
+      );
+    } else if (metaJson.closeApplication === true) {
+      return responseObs.pipe(
+        map(() => ResponseResult.CloseApplication)
+      );
+    } else {
+      return responseObs.pipe(
+        flatMap(() => this.onAfterResponse()),
+        map(() => ResponseResult.Executed)
+      );
+    }
   }
 
   private processMeta(metaJson: any): Observable<void> {
@@ -308,7 +348,9 @@ export class BrokerService {
       throw new Error('Could not find property \'meta\' in response JSON!');
     }
 
-    this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(metaJson.token));
+    if (metaJson.restartApplication !== true) {
+      this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(metaJson.token));
+    }
 
     const sessionData: string = metaJson.sessionData;
 
@@ -439,12 +481,98 @@ export class BrokerService {
     }
   }
 
-  private processClose(metaJson: any): Observable<boolean> {
-    if (metaJson && metaJson.closeApplication === true) {
-      return obsOf(true);
-    } else {
-      return obsOf(false);
+  private processQuitMsg(restartRequested: boolean, quitMessages: any): Observable<void> {
+    let partsStr: string = '';
+
+    const type: string = quitMessages.type;
+    const parts: Array<string> = quitMessages.parts;
+
+    if (parts && parts.length) {
+      partsStr = parts.join('\n');
     }
+
+    if (type === 'Warning') {
+      let msg: string = '';
+
+      if (restartRequested) {
+        msg = 'Do you want to restart the session?';
+      } else {
+        msg = 'Do you want to close the session?';
+      }
+
+      let msgBoxIcon: MsgBoxIcon = MsgBoxIcon.Question;
+
+      if (!String.isNullOrWhiteSpace(partsStr)) {
+        msg = `${partsStr}\n\n${msg}`;
+        msgBoxIcon = MsgBoxIcon.Exclamation;
+      }
+
+      return RxJsUtil.voidObs().pipe(
+        tap(() => this.loaderService.fireLoadingChanged(false)),
+        flatMap(() => this.dialogService.showMsgBoxBox({
+          title: this.titleService.getTitle(),
+          message: msg,
+          icon: msgBoxIcon,
+          buttons: MsgBoxButtons.YesNo
+        }).pipe(
+          flatMap(msgBoxResult => {
+            if (msgBoxResult === MsgBoxResult.Yes) {
+              this.eventsService.fireApplicationQuit(restartRequested);
+            }
+
+            return RxJsUtil.voidObs();
+          })
+        )),
+        tap(() => this.loaderService.fireLoadingChanged(true))
+      );
+    } else if (type === 'Cancel') {
+      let msg: string = '';
+
+      if (restartRequested) {
+        msg = 'The session cannot be restartet!';
+      } else {
+        msg = 'The session cannot be closed!';
+      }
+
+      if (!String.isNullOrWhiteSpace(partsStr)) {
+        msg = `${partsStr}\n\n${msg}`;
+      }
+
+      return RxJsUtil.voidObs().pipe(
+        tap(() => this.loaderService.fireLoadingChanged(false)),
+        flatMap(() => this.dialogService.showErrorBox({
+          title: this.titleService.getTitle(),
+          message: msg
+        })),
+        tap(() => this.loaderService.fireLoadingChanged(true))
+      );
+    } else if (type === 'Close' && !String.isNullOrWhiteSpace(partsStr)) {
+      return RxJsUtil.voidObs().pipe(
+        tap(() => this.loaderService.fireLoadingChanged(false)),
+        flatMap(() => this.dialogService.showMsgBoxBox({
+          title: this.titleService.getTitle(),
+          message: partsStr,
+          icon: MsgBoxIcon.Exclamation,
+          buttons: MsgBoxButtons.Ok
+        }).pipe(
+          flatMap(() => RxJsUtil.voidObs())
+        )),
+        tap(() => this.loaderService.fireLoadingChanged(true))
+      );
+    }
+
+    return RxJsUtil.voidObs();
+  }
+
+  private restartApplication(): void {
+    const broker: LoginBroker = this.activeLoginBroker;
+    const options: LoginOptions = this.activeLoginOptions;
+    const direct: boolean = this.activeBrokerDirect;
+    const token: string = this.activeBrokerToken;
+
+    this.resetActiveBroker();
+    this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(token));
+    this.login(broker, direct, options);
   }
 
   private closeApplication(): void {
@@ -452,10 +580,14 @@ export class BrokerService {
     this.routingService.showLogin();
   }
 
-  private onAfterResponse(): void {
-    this.formsService.updateAllComponents();
-    this.framesService.layout();
-    this.routingService.showViewer();
+  private onAfterResponse(): Observable<void> {
+    return RxJsUtil.voidObs().pipe(
+      tap(() => {
+        this.formsService.updateAllComponents();
+        this.framesService.layout();
+        this.routingService.showViewer();
+      })
+    );
   }
 
   public getLastRequestTime(): Moment.Moment {
@@ -466,9 +598,13 @@ export class BrokerService {
     return {
       requestCounter: this.requestCounter,
       clientLanguages: this.clientLanguages,
-      lastRequestTime: this.lastRequestTime.toJSON()
+      lastRequestTime: this.lastRequestTime.toJSON(),
+      loginBroker: this.activeLoginBroker,
+      loginOptions: this.activeLoginOptions,
+      loginDirect: this.activeBrokerDirect
     };
   }
+
   public setState(json: any): void {
     if (!json) {
       return;
@@ -477,5 +613,8 @@ export class BrokerService {
     this.requestCounter = json.requestCounter;
     this.clientLanguages = json.clientLanguages;
     this.lastRequestTime = Moment.utc(json.lastRequestTime);
+    this.activeLoginBroker = json.loginBroker;
+    this.activeLoginOptions = json.loginOptions;
+    this.activeBrokerDirect = json.loginDirect;
   }
 }

@@ -12,28 +12,37 @@ import { ControlType } from 'app/enums/control-type';
 
 export class FormWrapper extends ContainerWrapper {
 
-  private id: string;
-  private fullName: string;
-  private variant: VariantWrapper;
+  private _id: string;
+  private _fullName: string;
+  private _variant: VariantWrapper;
+  private _closing: boolean;
+
+  public get closing(): boolean {
+    return this._closing;
+  }
+
+  public set closing(closing: boolean) {
+    this._closing = closing;
+  }
 
   public getControlType(): ControlType {
     return ControlType.Form;
   }
 
   public getId(): string {
-    return this.id;
+    return this._id;
   }
 
   public getTitle(): string {
     const title: string = this.getDefaultVariant().getTitle();
-    return title ? title : this.fullName;
+    return title ? title : this._fullName;
   }
 
   private getDefaultVariant(): VariantWrapper {
-    if (!this.variant) {
-      this.variant = this.controls.filter(wrapper => wrapper instanceof VariantWrapper)[0] as VariantWrapper;
+    if (!this._variant) {
+      this._variant = this.controls.filter(wrapper => wrapper instanceof VariantWrapper)[0] as VariantWrapper;
     }
-    return this.variant;
+    return this._variant;
   }
 
   public getLayoutableProperties(): LayoutablePropertiesScrollable {
@@ -70,8 +79,8 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   protected setMetaJson(metaJson: any): void {
-    this.id = metaJson.id;
-    this.fullName = metaJson.fullName;
+    this._id = metaJson.id;
+    this._fullName = metaJson.fullName;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlComponent> {
@@ -132,8 +141,9 @@ export class FormWrapper extends ContainerWrapper {
   public getState(): any {
     const json: any = super.getState();
 
-    json.id = this.id;
-    json.fullName = this.fullName;
+    json.id = this._id;
+    json.fullName = this._fullName;
+    json.closing = this._closing;
 
     const controlsJson: Array<any> = new Array<any>();
     this.getControlsState(controlsJson);
@@ -147,7 +157,8 @@ export class FormWrapper extends ContainerWrapper {
 
   protected setState(json: any): void {
     super.setState(json);
-    this.id = json.id;
-    this.fullName = json.fullName;
+    this._id = json.id;
+    this._fullName = json.fullName;
+    this._closing = json.closing;
   }
 }

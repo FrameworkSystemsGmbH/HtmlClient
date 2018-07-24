@@ -6,9 +6,9 @@ import { Subscription } from 'rxjs';
 import * as fromAppReducers from 'app/app.reducers';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
+import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
 import { LoaderService } from 'app/services/loader.service';
-import { RoutingService } from 'app/services/routing.service';
 import { TitleService } from 'app/services/title.service';
 import { DomUtil } from 'app/util/dom-util';
 import { StyleUtil } from 'app/util/style-util';
@@ -87,16 +87,16 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   constructor(
     private zone: NgZone,
     private renderer: Renderer2,
+    private eventsService: EventsService,
     private loaderService: LoaderService,
     private formsService: FormsService,
-    private routingService: RoutingService,
     private titleService: TitleService,
     private store: Store<fromAppReducers.IAppState>) { }
 
   public ngOnInit(): void {
     this.storeSub = this.store.select(state => state.broker.activeBrokerDirect).subscribe(direct => this.directMode = direct);
-    this.formsSub = this.formsService.getForms().subscribe(forms => { this.forms = forms; });
-    this.selectedFormSub = this.formsService.formSelected.subscribe(form => { this.selectedForm = form; });
+    this.formsSub = this.formsService.getForms().subscribe(forms => this.forms = forms);
+    this.selectedFormSub = this.formsService.getSelectedForm().subscribe(form => this.selectedForm = form);
     this.loadingChangedSub = this.loaderService.onLoadingChangedDelayed.subscribe(loading => this.isLoading = loading);
   }
 
@@ -181,7 +181,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public switchBroker(): void {
-    this.routingService.showLogin();
+    this.eventsService.fireApplicationQuitRequest();
   }
 
   public selectForm(event: any, form: FormWrapper): void {

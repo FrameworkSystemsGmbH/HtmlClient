@@ -14,7 +14,7 @@ export class LoaderService {
     this._onLoadingChanged$ = this._onLoadingChanged.asObservable();
 
     const onLoadingChangedOff: Observable<boolean> = this._onLoadingChanged$.pipe(
-      filter(loading => loading === false)
+      filter(loading => loading !== true)
     );
 
     this._onLoadingChangedDelayed$ = merge(

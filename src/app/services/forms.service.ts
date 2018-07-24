@@ -1,5 +1,5 @@
-import { EventEmitter, Injectable, Injector } from '@angular/core';
-import { Observable, of as obsOf } from 'rxjs';
+import { Injectable, Injector } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { ControlsService, IWrapperCreationOptions } from 'app/services/controls.service';
@@ -15,29 +15,44 @@ import { ControlType } from 'app/enums/control-type';
 @Injectable()
 export class FormsService {
 
-  public formSelected: EventEmitter<FormWrapper>;
+  private _forms: Array<FormWrapper> = new Array<FormWrapper>();
 
-  private forms: Array<FormWrapper> = new Array<FormWrapper>();
-  private selectedForm: FormWrapper;
+  private _forms$$: BehaviorSubject<Array<FormWrapper>>;
+  private _forms$: Observable<Array<FormWrapper>>;
+
+  private _selectedForm$$: BehaviorSubject<FormWrapper>;
+  private _selectedForm$: Observable<FormWrapper>;
 
   constructor(
     private injector: Injector,
     private eventsService: EventsService,
     private controlsService: ControlsService
   ) {
-    this.formSelected = new EventEmitter<FormWrapper>();
+    this._forms$$ = new BehaviorSubject<Array<FormWrapper>>(null);
+    this._forms$ = this._forms$$.asObservable();
+
+    this._selectedForm$$ = new BehaviorSubject<FormWrapper>(null);
+    this._selectedForm$ = this._selectedForm$$.asObservable();
   }
 
   public getForms(): Observable<Array<FormWrapper>> {
-    return obsOf(this.forms);
+    return this._forms$;
+  }
+
+  private fireFormsChanged(): void {
+    this._forms$$.next(this._forms);
   }
 
   public selectForm(form: FormWrapper): void {
-    this.selectedForm = form;
-    this.formSelected.emit(form);
+    this._selectedForm$$.next(form);
+  }
+
+  public getSelectedForm(): Observable<FormWrapper> {
+    return this._selectedForm$;
   }
 
   public closeForm(form: FormWrapper): void {
+    form.closing = true;
     const formId: string = form.getId();
     this.eventsService.fireClose(formId,
       new InternalEventCallbacks<ClientCloseEvent>(
@@ -62,13 +77,14 @@ export class FormsService {
 
   protected getOnDisposeCompletedCallback(form: FormWrapper): () => void {
     return () => {
-      const index: number = this.forms.indexOf(form);
-      this.forms.remove(form);
-      if (form === this.selectedForm) {
-        if (index < this.forms.length && index >= 0) {
-          this.selectForm(this.forms[index]);
-        } else if (this.forms.length) {
-          this.selectForm(this.forms[0]);
+      const index: number = this._forms.indexOf(form);
+      this._forms.remove(form);
+      this.fireFormsChanged();
+      if (form === this._selectedForm$$.getValue()) {
+        if (index <  this._forms.length && index >= 0) {
+          this.selectForm(this._forms[index]);
+        } else if (this._forms.length) {
+          this.selectForm(this._forms[0]);
         } else {
           this.selectForm(null);
         }
@@ -77,24 +93,25 @@ export class FormsService {
   }
 
   public updateAllComponents(): void {
-    this.forms.forEach(formWrp => {
+    this._forms.forEach(formWrp => {
       formWrp.updateComponentRecursively();
     });
   }
 
   public resetViews(): void {
-    this.forms = new Array<FormWrapper>();
+    this._forms = new Array<FormWrapper>();
+    this.fireFormsChanged();
     this.selectForm(null);
   }
 
   public fireSelectCurrentForm(): void {
-    this.selectForm(this.selectedForm ? this.selectedForm : null);
+    this.selectForm(this._selectedForm$$.getValue());
   }
 
   public getFormsJson(): any {
     const formsJson: Array<any> = new Array<any>();
 
-    this.forms.forEach((formWrp: FormWrapper) => {
+    this._forms.forEach((formWrp: FormWrapper) => {
       const controlsJson: Array<any> = new Array<any>();
 
       formWrp.getControlsJson(controlsJson);
@@ -119,14 +136,15 @@ export class FormsService {
           this.setControlsJson(form, formJson.controls, true);
         }
 
-        this.forms.push(form);
+        this._forms.push(form);
+        this.fireFormsChanged();
 
-        if (!this.selectedForm || formJson.meta.focused) {
+        if (!this._selectedForm$$.getValue() || formJson.meta.focused) {
           this.selectForm(form);
         }
       } else {
         const formId: string = formJson.meta.id;
-        const formWrps: Array<FormWrapper> = this.forms.filter((formWrp: FormWrapper) => formWrp.getId() === formId);
+        const formWrps: Array<FormWrapper> = this._forms.filter((formWrp: FormWrapper) => formWrp.getId() === formId);
 
         if (formWrps && formWrps.length) {
           const form: FormWrapper = formWrps[0];
@@ -136,10 +154,10 @@ export class FormsService {
             this.setControlsJson(form, formJson.controls, false);
           }
 
-          if (formJson.meta.action === 'Close') {
+          if (formJson.meta.action === 'Close' && !form.closing) {
             this.closeForm(form);
           } else {
-            if (!this.selectedForm || formJson.meta.focused) {
+            if (!this._selectedForm$$.getValue() || formJson.meta.focused) {
               this.selectForm(form);
             }
           }
@@ -186,7 +204,7 @@ export class FormsService {
   }
 
   public findFormById(id: string): FormWrapper {
-    for (const form of this.forms) {
+    for (const form of this._forms) {
       if (form.getId() === id) {
         return form;
       }
@@ -195,7 +213,7 @@ export class FormsService {
   }
 
   public findFormByName(name: string): FormWrapper {
-    for (const form of this.forms) {
+    for (const form of this._forms) {
       if (form.getName() === name) {
         return form;
       }
@@ -204,13 +222,15 @@ export class FormsService {
   }
 
   public getState(): any {
+    const selectedForm: FormWrapper = this._selectedForm$$.getValue();
+
     const json: any = {
-      selectedForm: this.selectedForm ? this.selectedForm.getId() : null
+      selectedForm: selectedForm ? selectedForm.getId() : null
     };
 
     const forms: Array<any> = new Array<any>();
 
-    this.forms.forEach(form => {
+    this._forms.forEach(form => {
       forms.push(form.getState());
     });
 
@@ -230,8 +250,10 @@ export class FormsService {
           this.setControlsState(form, formJson.controls);
         }
 
-        this.forms.push(form);
+        this._forms.push(form);
       });
+
+      this.fireFormsChanged();
     }
 
     if (json.selectedForm) {
