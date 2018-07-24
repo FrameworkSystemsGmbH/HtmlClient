@@ -24,7 +24,6 @@ export class CheckBoxComponent extends ControlComponent {
   public value: boolean;
   public caption: string;
   public showCaption: boolean;
-  public isEditable: boolean;
   public tabIndexAttr: number;
 
   public wrapperStyle: any;
@@ -83,7 +82,6 @@ export class CheckBoxComponent extends ControlComponent {
     super.updateData(wrapper);
     this.caption = wrapper.getCaption();
     this.showCaption = wrapper.showCaption();
-    this.isEditable = wrapper.getCurrentIsEditable();
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
     this.value = wrapper.getValue();
   }

@@ -25,7 +25,7 @@ export class RadioButtonComponent extends ControlComponent {
   public checkedValue: string;
   public groupName: string;
   public caption: string;
-  public isEditable: boolean;
+  public disabledAttr: boolean;
   public tabIndexAttr: number;
 
   public wrapperStyle: any;
@@ -58,7 +58,7 @@ export class RadioButtonComponent extends ControlComponent {
     this.checkedValue = wrapper.getCheckedValue();
     this.groupName = wrapper.getButtonGroupName();
     this.caption = wrapper.getCaption();
-    this.isEditable = wrapper.getCurrentIsEditable();
+    this.disabledAttr = Boolean.nullIfFalse(!this.isEditable);
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
   }
 
