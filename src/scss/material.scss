@@ -20,6 +20,10 @@
   padding: 1.25rem !important;
 }
 
+.cdk-overlay-container {
+  z-index: 4000 !important;
+}
+
 .cdk-overlay-pane {
   max-width: 100% !important;
 }
