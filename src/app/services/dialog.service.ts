@@ -19,7 +19,7 @@ export class DialogService {
   constructor(private dialog: MatDialog) { }
 
   public showErrorBox(data: IErrorBoxData): Observable<void> {
-    const dialogRef: MatDialogRef<ErrorBoxComponent, any> = this.dialog.open(ErrorBoxComponent, {
+    const dialogRef: MatDialogRef<ErrorBoxComponent> = this.dialog.open(ErrorBoxComponent, {
       backdropClass: 'hc-backdrop',
       minWidth: 300,
       maxWidth: '90%',
@@ -32,7 +32,7 @@ export class DialogService {
   }
 
   public showMsgBoxBox(data: IMsgBoxData): Observable<MsgBoxResult> {
-    const msgBoxRef: MatDialogRef<MsgBoxComponent, any> = this.dialog.open(MsgBoxComponent, {
+    const msgBoxRef: MatDialogRef<MsgBoxComponent> = this.dialog.open(MsgBoxComponent, {
       backdropClass: 'hc-backdrop',
       minWidth: 300,
       maxWidth: '90%',
@@ -47,7 +47,7 @@ export class DialogService {
   }
 
   public showRetryBoxBox(data: IRetryBoxData): Observable<RetryBoxResult> {
-    const retryBoxRef: MatDialogRef<RetryBoxComponent, any> = this.dialog.open(RetryBoxComponent, {
+    const retryBoxRef: MatDialogRef<RetryBoxComponent> = this.dialog.open(RetryBoxComponent, {
       backdropClass: 'hc-backdrop',
       minWidth: 300,
       maxWidth: '90%',
