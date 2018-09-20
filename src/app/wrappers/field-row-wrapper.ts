@@ -11,9 +11,9 @@ import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelContainerSingleWrapper } from 'app/wrappers/control-labels/control-label-container-single-wrapper';
+import { ControlLabelContainerMergedWrapper } from 'app/wrappers/control-labels/control-label-container-merged-wrapper';
 import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
-import { ControlLabelContainerMergedWrapper } from './control-labels/control-label-container-merged-wrapper';
 import { ControlType } from 'app/enums/control-type';
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {

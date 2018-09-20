@@ -8,10 +8,10 @@ import { IMsgBoxData } from 'app/components/msgbox/msgbox-data.interface';
 import { IRetryBoxData } from 'app/components/retrybox/retrybox-data.interface';
 
 import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
+import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
-import { MsgBoxComponent } from '../components/msgbox/msgbox.component';
-import { RetryBoxResult } from 'app/enums/retrybox-result';
 import { RetryBoxComponent } from 'app/components/retrybox/retrybox.component';
+import { RetryBoxResult } from 'app/enums/retrybox-result';
 
 @Injectable()
 export class DialogService {

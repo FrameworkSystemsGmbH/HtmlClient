@@ -16,6 +16,7 @@ import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LayoutBase } from 'app/layout/layout-base';
 import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
+import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { ControlLayout } from 'app/layout/control-layout/control-layout';
 import { VchControl } from 'app/vch/vch-control';
@@ -29,7 +30,6 @@ import { InternalEventCallbacks } from 'app/common/events/internal/internal-even
 import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
 import { ControlEvent } from 'app/enums/control-event';
-import { ControlLabelWrapper } from './control-labels/control-label-wrapper';
 import { JsonUtil } from 'app/util/json-util';
 import { ControlType } from 'app/enums/control-type';
 

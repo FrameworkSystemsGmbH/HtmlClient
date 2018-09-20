@@ -6,7 +6,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 
 import { FontService } from 'app/services/font.service';
 import { ControlLabelComponent } from 'app/controls/control-labels/control-label/control-label.component';
-import { ControlLabelContainerBaseWrapper } from './control-label-container-base-wrapper';
+import { ControlLabelContainerBaseWrapper } from 'app/wrappers/control-labels/control-label-container-base-wrapper';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { LayoutBase } from 'app/layout/layout-base';
 import { ControlLayout } from 'app/layout/control-layout/control-layout';

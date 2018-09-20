@@ -5,13 +5,13 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 
 import { RadioButtonComponent } from 'app/controls/radio-button/radio-button.component';
 import { ButtonGroup } from 'app/wrappers/button-group/button-group';
+import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
 import { ControlType } from 'app/enums/control-type';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ControlEvent } from 'app/enums/control-event';
 import { Visibility } from 'app/enums/visibility';
-import { ContainerWrapper } from './container-wrapper';
 
 export class RadioButtonWrapper extends FittedWrapper {
 

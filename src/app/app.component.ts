@@ -4,7 +4,7 @@ import { FocusService } from 'app/services/focus.service';
 import { LocaleService } from 'app/services/locale.service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { PlatformService } from 'app/services/platform.service';
-import { SerializeService } from './services/serialize.service';
+import { SerializeService } from 'app/services/serialize.service';
 
 @Component({
   selector: 'hc-app',
