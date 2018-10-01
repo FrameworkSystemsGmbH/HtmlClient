@@ -9,6 +9,7 @@
 
     .scroller {
       overflow: auto;
+      -webkit-overflow-scrolling: touch;
 
       .list {
         display: inline-block;

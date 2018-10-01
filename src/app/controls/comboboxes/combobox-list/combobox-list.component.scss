@@ -48,6 +48,7 @@
 
 .hc-cmb-list-list-scroller {
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 
   ul {
     display: inline-block;

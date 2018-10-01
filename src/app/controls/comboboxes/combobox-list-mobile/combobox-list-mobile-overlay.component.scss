@@ -7,8 +7,9 @@
     flex-direction: column;
 
     .scroller {
-      overflow: auto;
       padding: 1em;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
 
       .list {
         display: inline-block;

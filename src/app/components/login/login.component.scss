@@ -5,8 +5,9 @@
   flex-direction: column;
   height: 100%;
   align-items: center;
-  overflow: auto;
   user-select: none;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 
   .wrapper {
     flex: 1;
