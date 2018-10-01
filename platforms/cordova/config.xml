@@ -7,6 +7,12 @@
   <preference name="phonegap-version" value="cli-8.0.0" />
   <!-- /Phonegap Exclusive -->
 
+  <!-- Engines -->
+  <engine name="ios" spec="4.5.4" />
+  <engine name="android" spec="7.1.1" />
+  <engine name="windows" spec="6.0.0" />
+  <!-- /Engines -->
+
   <!-- Metadata -->
 	<name>Mobile Client</name>
 	<description>Mobile Client for Framework Studio Applications</description>
@@ -15,14 +21,14 @@
   <!-- /Metadata -->
 
   <!-- Plugins -->
-  <plugin name="cordova-plugin-device" spec="^2.0.2" />
-  <plugin name="cordova-plugin-file" spec="^6.0.1" />
-  <plugin name="cordova-plugin-ionic-keyboard" spec="^2.1.2" />
-  <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
-  <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+  <plugin name="cordova-plugin-device" spec="2.0.2" />
+  <plugin name="cordova-plugin-file" spec="6.0.1" />
+  <plugin name="cordova-plugin-ionic-keyboard" spec="2.1.3" />
+  <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
+  <plugin name="cordova-plugin-whitelist" spec="1.3.3" />
 
   <platform name="ios">
-    <plugin name="cordova-plugin-ionic-webview" spec="^2.1.4" />
+    <plugin name="cordova-plugin-ionic-webview" spec="2.1.4" />
   </platform>
   <!-- /Plugins -->
 
