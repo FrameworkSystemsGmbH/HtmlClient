@@ -125,6 +125,7 @@ export class PropertyData {
   public maxPrec: number;
   public maxScale: number;
   public multiline: boolean;
+  public multiselect: boolean;
   public optimizeGeneratedLabels: boolean;
   public passwordChar: string;
   public scaleMode: PictureScaleMode;
