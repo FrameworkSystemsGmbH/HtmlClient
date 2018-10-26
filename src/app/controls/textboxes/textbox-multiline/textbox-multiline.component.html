@@ -1,4 +1,4 @@
 <div [ngStyle]="wrapperStyle">
-  <textarea #textarea [(ngModel)]="value" [ngStyle]="inputStyle" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" [attr.tabindex]="tabIndexAttr"
+  <textarea #textarea [(ngModel)]="value" [ngStyle]="inputStyle" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" (keydown)="callKeyDown($event)" [attr.tabindex]="tabIndexAttr"
     [attr.readonly]="readOnlyAttr"></textarea>
 </div>

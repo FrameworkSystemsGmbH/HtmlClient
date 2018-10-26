@@ -1,2 +1,2 @@
 <input #input type="{{ isPasswordField ? 'password' : 'text' }}" [(ngModel)]="value" [ngStyle]="inputStyle" (input)="onInput($event)" (focusin)="callOnEnter($event)"
-  (focusout)="callOnLeave($event)" [attr.tabindex]="tabIndexAttr" [attr.readonly]="readOnlyAttr" />
+  (focusout)="callOnLeave($event)" (keydown)="callKeyDown($event)" [attr.tabindex]="tabIndexAttr" [attr.readonly]="readOnlyAttr" />

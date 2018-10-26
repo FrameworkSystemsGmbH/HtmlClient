@@ -1,4 +1,4 @@
-import { Output, EventEmitter } from '@angular/core';
+import { Output, EventEmitter, ElementRef } from '@angular/core';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
@@ -11,6 +11,8 @@ export abstract class ComboBoxComponent extends ControlComponent {
 
   public entries: DataList;
   public selectedIndex: number;
+
+  public abstract getControl(): ElementRef;
 
   public abstract getSelectedPk(): string;
 
@@ -60,5 +62,13 @@ export abstract class ComboBoxComponent extends ControlComponent {
   protected updateData(wrapper: ComboBoxWrapper): void {
     super.updateData(wrapper);
     this.entries = wrapper.getEntries();
+  }
+
+  public setFocus(): void {
+    const control: ElementRef = this.getControl();
+
+    if (control) {
+      control.nativeElement.focus();
+    }
   }
 }

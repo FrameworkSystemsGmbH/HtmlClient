@@ -13,12 +13,17 @@ import { VchControl } from 'app/vch/vch-control';
 import { VchContainer } from 'app/vch/vch-container';
 import { Visibility } from 'app/enums/visibility';
 import { JsonUtil } from 'app/util/json-util';
+import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 
 export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainerWrapper {
 
   protected controls: Array<ControlWrapper> = new Array<ControlWrapper>();
 
   private buttonGroup: ButtonGroup;
+
+  public isLayoutableContainerWrapperInterface(): void {
+    // Interface Marker
+  }
 
   public getLayout(): LayoutContainerBase {
     return super.getLayout() as LayoutContainerBase;
@@ -205,5 +210,17 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
         (controlWrp as ContainerWrapper).getControlsState(controlsJson);
       }
     });
+  }
+
+  public canReceiveKeyboardFocus(): boolean {
+    return false;
+  }
+
+  public setFocus(): void {
+    const focusableControl: ILayoutableControlWrapper = this.getFocusService().findFirstFocusableControlInContainerRecursive(this);
+
+    if (focusableControl) {
+      focusableControl.setFocus();
+    }
   }
 }

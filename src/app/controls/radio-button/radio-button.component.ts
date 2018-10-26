@@ -39,6 +39,18 @@ export class RadioButtonComponent extends ControlComponent {
     }
   }
 
+  public callKeyDown(event: KeyboardEvent): void {
+    if (event.keyCode === 9 || event.keyCode === 13) {
+      if (event.shiftKey) {
+        this.getWrapper().focusKeyboardPrevious();
+      } else {
+        this.getWrapper().focusKeyboardNext();
+      }
+
+      event.preventDefault();
+    }
+  }
+
   public getWrapper(): RadioButtonWrapper {
     return super.getWrapper() as RadioButtonWrapper;
   }
@@ -121,19 +133,13 @@ export class RadioButtonComponent extends ControlComponent {
     };
   }
 
-  protected createButtonStyle(wrapper: CheckBoxWrapper): any {
-    return {
-
-    };
-  }
-
   protected createCaptionStyle(wrapper: CheckBoxWrapper): any {
     return {
       'padding-left.px': wrapper.getLabelGap()
     };
   }
 
-  protected setFocus(): void {
+  public setFocus(): void {
     if (this.input) {
       this.input.nativeElement.focus();
     }

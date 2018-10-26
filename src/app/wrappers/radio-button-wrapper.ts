@@ -178,4 +178,8 @@ export class RadioButtonWrapper extends FittedWrapper {
     super.setState(json);
     this.value = json.value;
   }
+
+  public canReceiveKeyboardFocus(): boolean {
+    return super.canReceiveKeyboardFocus() && this.getCheckedValue() !== this.getValue();
+  }
 }

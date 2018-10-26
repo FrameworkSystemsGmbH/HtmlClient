@@ -43,6 +43,18 @@ export class CheckBoxComponent extends ControlComponent {
     this.closeRipple();
   }
 
+  public callKeyDown(event: KeyboardEvent): void {
+    if (event.keyCode === 9 || event.keyCode === 13) {
+      if (event.shiftKey) {
+        this.getWrapper().focusKeyboardPrevious();
+      } else {
+        this.getWrapper().focusKeyboardNext();
+      }
+
+      event.preventDefault();
+    }
+  }
+
   public onWrapperMouseDown(event: any): void {
     if (!event.target || !DomUtil.isDescentantOrSelf(this.checkBox._inputElement.nativeElement, event.target)) {
       event.preventDefault();
@@ -156,7 +168,7 @@ export class CheckBoxComponent extends ControlComponent {
     }
   }
 
-  protected setFocus(): void {
+  public setFocus(): void {
     if (this.checkBox) {
       this.checkBox.focus();
       this.checkBox.ripple.fadeOutAll();

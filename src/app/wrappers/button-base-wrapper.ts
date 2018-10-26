@@ -12,6 +12,10 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
 
   private onClickSub: Subscription;
 
+  public mapEnterToTab(): boolean {
+    return Boolean.falseIfNull(this.getPropertyStore().getMapEnterToTab());
+  }
+
   public showCaption(): boolean {
     return Boolean.trueIfNull(this.getPropertyStore().getShowCaption());
   }

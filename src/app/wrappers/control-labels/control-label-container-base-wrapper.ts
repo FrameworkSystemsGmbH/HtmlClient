@@ -19,7 +19,7 @@ import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-w
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 
-export abstract class ControlLabelContainerBaseWrapper implements IControlLabelWrapper, IControlLabelContainer {
+export abstract class ControlLabelContainerBaseWrapper implements IControlLabelWrapper, IControlLabelContainer, ILayoutableContainerWrapper {
 
   protected readonly propError: string = 'This property should not get called!';
 
@@ -50,6 +50,10 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   protected abstract createName(): string;
+
+  public isLayoutableContainerWrapperInterface(): void {
+    // Interface Marker
+  }
 
   protected setWrappersLabelContainer(): void {
     this.labelWrappers.forEach(labelWrapper => {
@@ -306,5 +310,17 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
 
     // Clear the Angular Component reference
     this.componentRef = null;
+  }
+
+  public canReceiveFocus(): boolean {
+    return false;
+  }
+
+  public canReceiveKeyboardFocus(): boolean {
+    return false;
+  }
+
+  public setFocus(): void {
+    // Cannot receive focus
   }
 }

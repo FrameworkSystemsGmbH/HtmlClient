@@ -69,6 +69,10 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     this.inputValue = value;
   }
 
+  public getControl(): ElementRef {
+    return this.input;
+  }
+
   public getArrowWidth(): number {
     return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width : 0;
   }
@@ -163,7 +167,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
-  protected setFocus(): void {
+  public setFocus(): void {
     if (this.input) {
       this.input.nativeElement.focus();
     }

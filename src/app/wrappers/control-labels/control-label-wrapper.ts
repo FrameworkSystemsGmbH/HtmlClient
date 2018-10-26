@@ -376,4 +376,16 @@ export class ControlLabelWrapper implements IControlLabelWrapper {
     // Clear the Angular Component reference
     this.componentRef = null;
   }
+
+  public canReceiveFocus(): boolean {
+    return false;
+  }
+
+  public canReceiveKeyboardFocus(): boolean {
+    return false;
+  }
+
+  public setFocus(): void {
+    // Cannot receive focus
+  }
 }

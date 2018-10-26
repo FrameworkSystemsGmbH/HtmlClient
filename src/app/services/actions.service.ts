@@ -23,6 +23,9 @@ export class ActionsService {
           case 'SetEnabled':
             control.setIsEditableAction(actionJson.value);
             break;
+          case 'SetFocus':
+            control.setFocus();
+            break;
           case 'SetVisible':
             control.setVisibilityAction(actionJson.value);
             break;

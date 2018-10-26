@@ -732,4 +732,38 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       this.events = json.events;
     }
   }
+
+  public canReceiveFocus(): boolean {
+    return this.getCurrentIsEditable();
+  }
+
+  public canReceiveKeyboardFocus(): boolean {
+    return this.canReceiveFocus() && this.getTabStop();
+  }
+
+  public focusKeyboardPrevious(): void {
+    const previousControl: ILayoutableControlWrapper = this.focusService.findPreviousKeyboardFocusableControl(this);
+
+    if (previousControl) {
+      previousControl.setFocus();
+    }
+  }
+
+  public focusKeyboardNext(): void {
+    const nextControl: ILayoutableControlWrapper = this.focusService.findNextKeyboardFocusableControl(this);
+
+    if (nextControl) {
+      nextControl.setFocus();
+    }
+  }
+
+  public setFocus(): void {
+    if (this.canReceiveFocus()) {
+      const comp: ControlComponent = this.getComponent();
+
+      if (comp) {
+        comp.setFocus();
+      }
+    }
+  }
 }

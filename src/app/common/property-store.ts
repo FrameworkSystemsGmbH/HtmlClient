@@ -1031,6 +1031,19 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.listType = value; });
   }
 
+  // MapEnterToTab
+  public getMapEnterToTab(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => data.mapEnterToTab);
+  }
+
+  public getMapEnterToTabForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.mapEnterToTab);
+  }
+
+  public setMapEnterToTab(layer: PropertyLayer, value: boolean): void {
+    this.setValue(layer, (data: PropertyData) => { data.mapEnterToTab = value; });
+  }
+
   // MaxDropDownWidth
   public getMaxDropDownWidth(): number {
     return this.getValue<number>((data: PropertyData) => data.maxDropDownWidth);

@@ -71,15 +71,36 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
         this.selectPrevious();
         break;
 
+      // Tab
+      case 9:
+        this.onFocusKey(event, this.dropDownVisible);
+        break;
+
       // Enter
       case 13:
+        const open: boolean = this.dropDownVisible;
         this.onEnterKey(event);
+        this.onFocusKey(event, open);
         break;
 
       // Escape
       case 27:
         this.hideList();
         break;
+    }
+  }
+
+  protected onFocusKey(event: KeyboardEvent, open: boolean): void {
+    if (event.keyCode === 9 || event.keyCode === 13 && !open) {
+      this.hideList();
+
+      if (event.shiftKey) {
+        this.getWrapper().focusKeyboardPrevious();
+      } else {
+        this.getWrapper().focusKeyboardNext();
+      }
+
+      event.preventDefault();
     }
   }
 

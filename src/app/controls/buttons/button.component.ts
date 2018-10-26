@@ -1,4 +1,4 @@
-import { EventEmitter, Output } from '@angular/core';
+import { EventEmitter, Output, ElementRef } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -12,14 +12,29 @@ export abstract class ButtonComponent extends ControlComponent {
   public onClick: EventEmitter<any>;
 
   public caption: string;
+  public mapEnterToTab: boolean;
   public showCaption: boolean;
   public tabIndexAttr: number;
   public disabledAttr: boolean;
   public buttonStyle: any;
 
+  protected abstract getButton(): ElementRef;
+
   public callOnClick(event: any): void {
     if (this.getWrapper().hasOnClickEvent()) {
       this.onClick.emit(event);
+    }
+  }
+
+  public callKeyDown(event: KeyboardEvent): void {
+    if (event.keyCode === 9 || (event.keyCode === 13 && this.mapEnterToTab)) {
+      if (event.shiftKey) {
+        this.getWrapper().focusKeyboardPrevious();
+      } else {
+        this.getWrapper().focusKeyboardNext();
+      }
+
+      event.preventDefault();
     }
   }
 
@@ -38,6 +53,7 @@ export abstract class ButtonComponent extends ControlComponent {
   protected updateData(wrapper: ButtonBaseWrapper): void {
     super.updateData(wrapper);
     this.caption = wrapper.getCaption();
+    this.mapEnterToTab = wrapper.mapEnterToTab();
     this.showCaption = wrapper.showCaption();
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
     this.disabledAttr = Boolean.nullIfFalse(!this.isEditable);
@@ -92,5 +108,13 @@ export abstract class ButtonComponent extends ControlComponent {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': 'center'
     };
+  }
+
+  public setFocus(): void {
+    const button: ElementRef = this.getButton();
+
+    if (button) {
+      button.nativeElement.focus();
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { EventEmitter, Output } from '@angular/core';
+import { EventEmitter, Output, ElementRef } from '@angular/core';
 
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { LayoutableComponent } from 'app/controls/layoutable.component';
@@ -47,5 +47,9 @@ export abstract class ControlComponent extends LayoutableComponent {
     super.updateData(wrapper);
     this.isEditable = wrapper.getCurrentIsEditable();
     this.isVisible = wrapper.getCurrentVisibility() === Visibility.Visible;
+  }
+
+  public setFocus(): void {
+    // Override in subclasses
   }
 }

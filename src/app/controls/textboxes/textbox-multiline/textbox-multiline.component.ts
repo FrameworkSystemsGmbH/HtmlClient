@@ -23,6 +23,10 @@ export class TextBoxMultilineComponent extends TextBoxComponent {
     return this.textarea;
   }
 
+  protected mapEnterToTab(): boolean {
+    return false;
+  }
+
   public callOnLeave(event: any): void {
     if (this.isEditable) {
       this.updateWrapper();

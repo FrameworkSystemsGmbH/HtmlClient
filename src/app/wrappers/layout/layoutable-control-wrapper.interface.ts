@@ -9,4 +9,10 @@ export interface ILayoutableControlWrapper extends ILayoutableControl {
 
   attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void;
 
+  canReceiveFocus(): boolean;
+
+  canReceiveKeyboardFocus(): boolean;
+
+  setFocus(): void;
+
 }

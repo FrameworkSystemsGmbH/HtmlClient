@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 import { ButtonComponent } from 'app/controls/buttons/button.component';
 import { ButtonImageWrapper } from 'app/wrappers/button-image-wrapper';
@@ -11,6 +11,9 @@ import { StyleUtil } from 'app/util/style-util';
 })
 export class ButtonImageComponent extends ButtonComponent {
 
+  @ViewChild('button')
+  public button: ElementRef;
+
   public currentImageUrl: string;
   public isFocused: boolean;
   public isHovered: boolean;
@@ -22,6 +25,10 @@ export class ButtonImageComponent extends ButtonComponent {
   private disabledImageUrl: string;
   private mouseOverImageUrl: string;
   private pressedImageUrl: string;
+
+  protected getButton(): ElementRef {
+    return this.button;
+  }
 
   public callOnFocus(event: any): void {
     this.isFocused = true;

@@ -15,6 +15,10 @@ export abstract class TextBoxComponent extends ControlComponent {
 
   protected abstract getInput(): ElementRef;
 
+  protected mapEnterToTab(): boolean {
+    return true;
+  }
+
   public callOnEnter(event: any): void {
     if (this.getWrapper().hasOnEnterEvent()) {
       this.onEnter.emit(event);
@@ -28,6 +32,18 @@ export abstract class TextBoxComponent extends ControlComponent {
 
     if (input) {
       setTimeout(() => DomUtil.setSelection(input.nativeElement));
+    }
+  }
+
+  public callKeyDown(event: KeyboardEvent): void {
+    if (event.keyCode === 9 || (event.keyCode === 13 && this.mapEnterToTab())) {
+      if (event.shiftKey) {
+        this.getWrapper().focusKeyboardPrevious();
+      } else {
+        this.getWrapper().focusKeyboardNext();
+      }
+
+      event.preventDefault();
     }
   }
 
@@ -92,5 +108,13 @@ export abstract class TextBoxComponent extends ControlComponent {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': StyleUtil.getTextAlign(wrapper.getTextAlign())
     };
+  }
+
+  public setFocus(): void {
+    const input: ElementRef = this.getInput();
+
+    if (input) {
+      input.nativeElement.focus();
+    }
   }
 }
