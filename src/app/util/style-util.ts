@@ -16,8 +16,18 @@ export namespace StyleUtil {
     return isEditable ? color : '#333333';
   }
 
-  export function getBackgroundColor(isEditable: boolean, color: string): string {
-    return isEditable ? color : '#E8E8E8';
+  export function getBackgroundColor(color: string, isEditable: boolean): string {
+    return isEditable ? color : 'E8E8E8';
+  }
+
+  export function getBackgroundColorTextInput(color: string, isEditable: boolean, isFocused: boolean): string {
+    if (!isEditable) {
+      return '#E8E8E8';
+    } else if (isFocused) {
+      return '#FFFFE1';
+    } else {
+      return color;
+    }
   }
 
   export function getFontWeight(bold: boolean): string {
