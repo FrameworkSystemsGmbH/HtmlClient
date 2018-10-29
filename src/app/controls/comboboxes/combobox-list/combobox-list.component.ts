@@ -201,7 +201,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft()),
-      'background-color': StyleUtil.getBackgroundColor(this.isEditable, wrapper.getBackColor()),
+      'background-color': StyleUtil.getBackgroundColor(wrapper.getBackColor(), this.isEditable),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
