@@ -107,7 +107,11 @@ export class FocusService {
       const child: ILayoutableControlWrapper = siblings[i];
 
       if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
-        return this.findPreviousKeyboardFocusableControlRecursive(child);
+        const containerChild: ILayoutableControlWrapper = this.findPreviousKeyboardFocusableControlRecursive(child);
+
+        if (containerChild) {
+          return containerChild;
+        }
       }
 
       if (child.canReceiveKeyboardFocus()) {
@@ -129,7 +133,11 @@ export class FocusService {
       const child: ILayoutableControlWrapper = children[i];
 
       if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
-        return this.findPreviousKeyboardFocusableControlRecursive(child);
+        const containerChild: ILayoutableControlWrapper = this.findPreviousKeyboardFocusableControlRecursive(child);
+
+        if (containerChild) {
+          return containerChild;
+        }
       }
 
       if (child.canReceiveKeyboardFocus()) {
@@ -192,7 +200,11 @@ export class FocusService {
       }
 
       if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
-        return this.findNextKeyboardFocusableControlRecursive(child);
+        const containerChild: ILayoutableControlWrapper = this.findNextKeyboardFocusableControlRecursive(child);
+
+        if (containerChild) {
+          return containerChild;
+        }
       }
     }
 
@@ -218,7 +230,11 @@ export class FocusService {
       }
 
       if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
-        return this.findNextKeyboardFocusableControlRecursive(child);
+        const containerChild: ILayoutableControlWrapper = this.findNextKeyboardFocusableControlRecursive(child);
+
+        if (containerChild) {
+          return containerChild;
+        }
       }
     }
 
@@ -236,7 +252,11 @@ export class FocusService {
       const child: ILayoutableControlWrapper = children[i];
 
       if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
-        return this.findFirstFocusableControlInContainerRecursive(child);
+        const containerChild: ILayoutableControlWrapper = this.findFirstFocusableControlInContainerRecursive(child);
+
+        if (containerChild) {
+          return containerChild;
+        }
       }
 
       if (child.canReceiveFocus()) {
