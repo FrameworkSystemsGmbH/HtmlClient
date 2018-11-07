@@ -22,8 +22,8 @@ export abstract class ControlComponent extends LayoutableComponent {
   }
 
   public onFocusOut(event: FocusEvent): void {
-    this.callOnLeave(event);
     this.isFocused = false;
+    this.callOnLeave(event);
   }
 
   public callOnEnter(event: FocusEvent): void {
