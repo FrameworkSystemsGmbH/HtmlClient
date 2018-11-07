@@ -14,14 +14,25 @@ export abstract class ControlComponent extends LayoutableComponent {
 
   public isVisible: boolean;
   public isEditable: boolean;
+  public isFocused: boolean;
 
-  public callOnEnter(event: any): void {
+  public onFocusIn(event: FocusEvent): void {
+    this.isFocused = true;
+    this.callOnEnter(event);
+  }
+
+  public onFocusOut(event: FocusEvent): void {
+    this.callOnLeave(event);
+    this.isFocused = false;
+  }
+
+  public callOnEnter(event: FocusEvent): void {
     if (this.isEditable && this.getWrapper().hasOnEnterEvent()) {
       this.onEnter.emit(event);
     }
   }
 
-  public callOnLeave(event: any): void {
+  public callOnLeave(event: FocusEvent): void {
     if (this.isEditable && this.getWrapper().hasOnLeaveEvent()) {
       this.onLeave.emit(event);
     }

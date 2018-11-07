@@ -8,6 +8,7 @@ $grey1: #e7e7e7;
 $grey2: #bbb;
 $grey3: #333;
 $error: #d9534f;
+$outline: #333;
 
 // Navbar
 $navbar-height: 40px;
@@ -42,4 +43,18 @@ $breakpoint: 768px;
   background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 240, 1) 100%);
   /* W3C */
   background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 240, 1) 100%);
+}
+
+@mixin focused-outline {
+  outline-color: $outline !important;
+  outline-offset: 1px  !important;
+  outline-style: dashed  !important;
+  outline-width: 1px  !important;
+}
+
+@mixin focused-outline-inset {
+  outline-color: $outline  !important;
+  outline-offset: -4px  !important;
+  outline-style: dashed  !important;
+  outline-width: 1px !important;
 }

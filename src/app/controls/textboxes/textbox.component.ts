@@ -77,7 +77,7 @@ export abstract class TextBoxComponent extends ControlComponent {
       'width.px': layoutWidth,
       'height.px': layoutHeight,
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
-      'background-color': StyleUtil.getBackgroundColor(wrapper.getBackColor(), this.isEditable),
+      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isFocused),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
       'border-radius': StyleUtil.getFourValue('px',

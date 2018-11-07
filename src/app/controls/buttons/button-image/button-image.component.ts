@@ -15,7 +15,6 @@ export class ButtonImageComponent extends ButtonComponent {
   public button: ElementRef;
 
   public currentImageUrl: string;
-  public isFocused: boolean;
   public isHovered: boolean;
   public isMouseDown: boolean;
   public wasMouseDownOnLeave: boolean;
@@ -30,15 +29,13 @@ export class ButtonImageComponent extends ButtonComponent {
     return this.button;
   }
 
-  public callOnFocus(event: any): void {
-    this.isFocused = true;
+  public callOnEnter(event: FocusEvent): void {
     this.updateImageUrl();
     super.callOnEnter(event);
   }
 
-  public callOnBlur(event: any): void {
+  public callOnLeave(event: FocusEvent): void {
     super.callOnLeave(event);
-    this.isFocused = false;
     this.updateImageUrl();
   }
 

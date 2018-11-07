@@ -1,3 +1,5 @@
+@import 'scss/_variables.scss';
+
 :host, .wrapper {
   position: absolute;
 }
@@ -21,6 +23,7 @@
   background-color: #fff;
   border: 3px solid #4d4d4d;
   border-radius: 50%;
+  transition: all 100ms ease-in-out;
 
   &::after {
     content: "";
@@ -33,7 +36,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 100ms ease-in-out;
+    transition: all 100ms ease-in-out;
   }
 }
 
@@ -47,4 +50,8 @@
   &::after {
     background-color: #aaaaaa;
   }
+}
+
+.outline {
+  @include focused-outline();
 }

@@ -21,10 +21,10 @@ export namespace StyleUtil {
   }
 
   export function getBackgroundColorTextInput(color: string, isEditable: boolean, isFocused: boolean): string {
-    if (!isEditable) {
-      return '#E8E8E8';
-    } else if (isFocused) {
+    if (isFocused) {
       return '#FFFFE1';
+    } else if (!isEditable) {
+      return '#E8E8E8';
     } else {
       return color;
     }

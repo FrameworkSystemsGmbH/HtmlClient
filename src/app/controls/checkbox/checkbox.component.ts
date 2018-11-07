@@ -1,5 +1,4 @@
-import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { MatCheckbox, RippleRef } from '@angular/material';
+import { Component, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -15,8 +14,8 @@ import { DomUtil } from 'app/util/dom-util';
 })
 export class CheckBoxComponent extends ControlComponent {
 
-  @ViewChild('checkBox')
-  public checkBox: MatCheckbox;
+  @ViewChild('input')
+  public input: ElementRef;
 
   @Output()
   public onClick: EventEmitter<any>;
@@ -24,23 +23,18 @@ export class CheckBoxComponent extends ControlComponent {
   public value: boolean;
   public caption: string;
   public showCaption: boolean;
+  public disabledAttr: boolean;
   public tabIndexAttr: number;
 
   public wrapperStyle: any;
   public labelStyle: any;
-
-  public rippleRef: RippleRef;
+  public captionStyle: any;
 
   public callOnClick(event: any): void {
     this.updateWrapper();
     if (this.getWrapper().hasOnClickEvent()) {
       this.onClick.emit(event);
     }
-  }
-
-  public callOnLeave(event: any): void {
-    super.callOnLeave(event);
-    this.closeRipple();
   }
 
   public callKeyDown(event: KeyboardEvent): void {
@@ -56,22 +50,13 @@ export class CheckBoxComponent extends ControlComponent {
   }
 
   public onWrapperMouseDown(event: any): void {
-    if (!event.target || !DomUtil.isDescentantOrSelf(this.checkBox._inputElement.nativeElement, event.target)) {
+    if (!event.target || !DomUtil.isDescentantOrSelf(this.input.nativeElement, event.target)) {
       event.preventDefault();
     }
   }
 
   public onLabelMouseDown(event: any): void {
     this.setFocus();
-    if (this.isEditable) {
-      this.rippleRef = this.checkBox.ripple.launch({
-        persistent: true
-      });
-    }
-  }
-
-  public onLabelMouseUp(event: any): void {
-    this.closeRipple();
   }
 
   public getWrapper(): CheckBoxWrapper {
@@ -94,6 +79,7 @@ export class CheckBoxComponent extends ControlComponent {
     super.updateData(wrapper);
     this.caption = wrapper.getCaption();
     this.showCaption = wrapper.showCaption();
+    this.disabledAttr = Boolean.nullIfFalse(!this.isEditable);
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
     this.value = wrapper.getValue();
   }
@@ -102,9 +88,10 @@ export class CheckBoxComponent extends ControlComponent {
     super.updateStyles(wrapper);
     this.wrapperStyle = this.createWrapperStyle(wrapper);
     this.labelStyle = this.createLabelStyle(wrapper);
+    this.captionStyle = this.createCaptionStyle(wrapper);
 
-    if (this.checkBox) {
-      (this.checkBox._inputElement.nativeElement as HTMLInputElement).tabIndex = this.tabIndexAttr;
+    if (this.input) {
+      (this.input.nativeElement as HTMLInputElement).tabIndex = this.tabIndexAttr;
     }
   }
 
@@ -156,22 +143,19 @@ export class CheckBoxComponent extends ControlComponent {
 
   protected createLabelStyle(wrapper: CheckBoxWrapper): any {
     return {
-      'padding-left.px': wrapper.getLabelGap(),
       'cursor': !this.isEditable ? 'not-allowed' : 'pointer'
     };
   }
 
-  protected closeRipple(): void {
-    if (this.rippleRef) {
-      this.rippleRef.fadeOut();
-      this.rippleRef = null;
-    }
+  protected createCaptionStyle(wrapper: CheckBoxWrapper): any {
+    return {
+      'padding-left.px': wrapper.getLabelGap()
+    };
   }
 
   public setFocus(): void {
-    if (this.checkBox) {
-      this.checkBox.focus();
-      this.checkBox.ripple.fadeOutAll();
+    if (this.input) {
+      this.input.nativeElement.focus();
     }
   }
 }

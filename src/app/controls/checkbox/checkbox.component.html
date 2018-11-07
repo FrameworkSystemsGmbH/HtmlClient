@@ -1,4 +1,16 @@
-<div class="wrapper" [ngStyle]="wrapperStyle" (focusin)="callOnEnter($event)" (focusout)="callOnLeave($event)" (keydown)="callKeyDown($event)" (mousedown)="onWrapperMouseDown($event)">
-  <mat-checkbox #checkBox [(ngModel)]="value" (change)="callOnClick($event)" [disabled]="!isEditable" color="primary"></mat-checkbox>
-  <label *ngIf="showCaption" for="{{ checkBox.id }}-input" [ngStyle]="labelStyle" (mousedown)="onLabelMouseDown($event)" (mouseup)="onLabelMouseUp($event)" tabindex="-1">{{ caption }}</label>
+<div class="wrapper" [ngStyle]="wrapperStyle" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (keydown)="callKeyDown($event)" (mousedown)="onWrapperMouseDown($event)">
+  <label class="label" tabindex="-1" [attr.for]="id" [ngStyle]="labelStyle" (mousedown)="onLabelMouseDown($event)">
+    <input #input class="input visually-hidden" [attr.id]="id" type="checkbox" [(ngModel)]="value" (change)="callOnClick($event)" [attr.tabindex]="tabIndexAttr" [attr.disabled]="disabledAttr">
+    <div class="checkbox-container">
+      <div class="checkbox-frame"></div>
+      <div class="checkbox-checked">
+        <svg xml:space="preserve" class="checkbox-checkmark" focusable="false" version="1.1" viewBox="0 0 24 24">
+          <path class="checkbox-checkmark-path" d="M4.1,12.7 9,17.6 20.3,6.3" fill="none" stroke="white"></path>
+        </svg>
+      </div>
+    </div>
+    <div *ngIf="caption" [ngStyle]="captionStyle">
+      <span [ngClass]="{ outline: isFocused }">{{ caption }}</span>
+    </div>
+  </label>
 </div>

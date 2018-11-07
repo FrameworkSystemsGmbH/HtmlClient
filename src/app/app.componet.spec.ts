@@ -22,10 +22,7 @@ import { ALL_SERVICES } from 'app/services/_all.services';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
 
@@ -45,10 +42,7 @@ describe('AppComponent', () => {
         HttpClientModule,
         MatButtonModule,
         MatCardModule,
-        MatCheckboxModule,
-        MatDividerModule,
         MatDialogModule,
-        MatExpansionModule,
         MatFormFieldModule,
         MatInputModule,
         RouterModule,
