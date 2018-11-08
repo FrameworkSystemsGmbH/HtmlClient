@@ -1,3 +1,5 @@
+@import 'scss/_variables.scss';
+
 :host, button {
   position: absolute;
 }
@@ -15,4 +17,8 @@ button {
     position: absolute;
     white-space: nowrap;
   }
+}
+
+.outline {
+  @include focused-outline-inset;
 }
