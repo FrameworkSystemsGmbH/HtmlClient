@@ -20,6 +20,7 @@ export class CheckBoxComponent extends ControlComponent {
   @Output()
   public onClick: EventEmitter<any>;
 
+  public id: string;
   public value: boolean;
   public caption: string;
   public showCaption: boolean;
@@ -82,6 +83,7 @@ export class CheckBoxComponent extends ControlComponent {
     this.disabledAttr = Boolean.nullIfFalse(!this.isEditable);
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
     this.value = wrapper.getValue();
+    this.id = wrapper.getName() + '-id';
   }
 
   protected updateStyles(wrapper: CheckBoxWrapper): void {
