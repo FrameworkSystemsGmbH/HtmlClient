@@ -83,7 +83,7 @@ export class CheckBoxComponent extends ControlComponent {
     this.disabledAttr = Boolean.nullIfFalse(!this.isEditable);
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
     this.value = wrapper.getValue();
-    this.id = wrapper.getName() + '-id';
+    this.id = wrapper.getName();
   }
 
   protected updateStyles(wrapper: CheckBoxWrapper): void {
