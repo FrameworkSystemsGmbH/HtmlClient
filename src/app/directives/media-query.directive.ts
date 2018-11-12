@@ -7,16 +7,18 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
   public mediaQuery: string;
 
   @Output()
-  public onMediaQueryChanged = new EventEmitter<MediaQueryList>();
+  public onMediaQueryChanged = new EventEmitter<boolean>();
 
   private mediaQueryList: MediaQueryList;
-  private mediaQueryListener: (mediaQueryList: MediaQueryList) => void;
+  private mediaQueryListener: (mqle: MediaQueryListEvent) => any;
 
   public ngOnInit(): void {
-    this.mediaQueryListener = mq => { this.onMediaQueryChanged.emit(mq); };
+    this.mediaQueryListener = mqle => this.onMediaQueryChanged.emit(mqle.matches);
+
     this.mediaQueryList = window.matchMedia(this.mediaQuery);
     this.mediaQueryList.addListener(this.mediaQueryListener);
-    this.onMediaQueryChanged.emit(this.mediaQueryList);
+
+    this.onMediaQueryChanged.emit(this.mediaQueryList.matches);
   }
 
   public ngOnDestroy(): void {

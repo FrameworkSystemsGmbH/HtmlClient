@@ -111,8 +111,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.loadingChangedSub.unsubscribe();
   }
 
-  public mediaQueryChanged(mq: MediaQueryList) {
-    this.sidebarEnabled = !mq.matches;
+  public mediaQueryChanged(matches: boolean) {
+    this.sidebarEnabled = !matches;
 
     if (!this.sidebarEnabled && this.sidebarVisible) {
       this.toggleSidebar();

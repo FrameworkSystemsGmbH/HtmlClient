@@ -1,14 +1,17 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "defaultProject": "HtmlClient",
-  "newProjectRoot": "projects",
   "projects": {
     "HtmlClient": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "hc",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -70,10 +73,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "karmaConfig": "./karma.conf.js",
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
+            "karmaConfig": "./karma.conf.js",
             "assets": [
               "src/assets",
               "src/favicon.ico"
@@ -100,11 +103,6 @@
           }
         }
       }
-    }
-  },
-  "schematics": {
-    "@schematics/angular:component": {
-      "styleext": "scss"
     }
   }
 }

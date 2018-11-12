@@ -27,7 +27,10 @@ export class MobileStorageService extends StorageService {
                 const reader: FileReader = new FileReader();
                 reader.onloadend = e => {
                   this.zone.run(() => {
-                    observer.next(reader.result);
+                    const result: string | ArrayBuffer = reader.result;
+                    if (typeof result === 'string') {
+                      observer.next(result);
+                    }
                     observer.complete();
                   });
                 };
