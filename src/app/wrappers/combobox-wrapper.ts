@@ -258,4 +258,8 @@ export class ComboBoxWrapper extends FittedDataWrapper {
       this.dataList = entries;
     }
   }
+
+  public isOutlineVisible(isFocused: boolean): boolean {
+    return isFocused;
+  }
 }

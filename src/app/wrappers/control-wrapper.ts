@@ -766,4 +766,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       }
     }
   }
+
+  public isOutlineVisible(isFocused: boolean): boolean {
+    return isFocused && !this.getPlatformService().isMobile();
+  }
 }

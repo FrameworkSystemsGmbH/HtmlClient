@@ -179,4 +179,8 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
       this.setValueJson(json.value);
     }
   }
+
+  public isOutlineVisible(isFocused: boolean): boolean {
+    return isFocused;
+  }
 }

@@ -48,7 +48,7 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
       'width.px': layoutableProperties.getWidth(),
       'height.px': layoutableProperties.getHeight(),
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
-      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isFocused),
+      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
       'border-radius': StyleUtil.getFourValue('px',
@@ -78,7 +78,7 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft()),
-      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isFocused),
+      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())

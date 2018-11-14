@@ -60,6 +60,10 @@ export abstract class ControlComponent extends LayoutableComponent {
     this.isVisible = wrapper.getCurrentVisibility() === Visibility.Visible;
   }
 
+  public isOutlineVisible(): boolean {
+    return this.getWrapper().isOutlineVisible(this.isFocused);
+  }
+
   public setFocus(): void {
     // Override in subclasses
   }
