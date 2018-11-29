@@ -73,6 +73,14 @@
 	</platform>
   <!-- /Preferences -->
 
+  <!-- Config File Changes -->
+  <platform name="ios">
+    <config-file platform="ios" target="*-Info.plist" parent="ITSAppUsesNonExemptEncryption">
+      <false/>
+    </config-file>
+  </platform>
+  <!-- /Config File Changes -->
+
   <!-- Icons & Splashscreens -->
   <icon width="1024" height="1024" src="icon.png" />>
 
