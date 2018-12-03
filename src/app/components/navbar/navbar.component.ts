@@ -221,19 +221,4 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
     });
   }
-
-  @HostListener('body:swipeleft')
-  public swipeLeft(): void {
-    if (this.sidebarVisible) {
-      this.toggleSidebar();
-    }
-  }
-
-  @HostListener('body:swiperight', ['$event'])
-  public swipeRight(event: any): void {
-    const startX: number = event.center.x - event.deltaX;
-    if (startX < 20 && this.sidebarEnabled && !this.sidebarVisible) {
-      this.toggleSidebar();
-    }
-  }
 }
