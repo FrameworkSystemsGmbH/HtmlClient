@@ -54,7 +54,7 @@ export class FrameComponent implements OnInit, OnDestroy {
     if (form) {
       this.selectedForm = form;
       this.selectedForm.attachComponentToFrame(this.anchor);
-      this.layout();
+      setTimeout(() => this.layout());
     } else {
       this.selectedForm = null;
     }
