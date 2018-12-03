@@ -5,6 +5,7 @@ import { LocaleService } from 'app/services/locale.service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { PlatformService } from 'app/services/platform.service';
 import { SerializeService } from 'app/services/serialize.service';
+import { StyleUtil } from 'app/util/style-util';
 
 @Component({
   selector: 'hc-app',
@@ -35,7 +36,7 @@ export class AppComponent implements OnInit {
 
   private createIosStyle(): any {
     return {
-      'padding-top.px': 20
+      'padding-top.px': StyleUtil.iosMenubarHeight
     };
   }
 

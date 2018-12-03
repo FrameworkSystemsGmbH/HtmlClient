@@ -41,7 +41,7 @@
   <hc-loader class="loader" [active]="isLoading"></hc-loader>
 </nav>
 
-<nav [@sidebar] class="hc-navbar-side" *ngIf="sidebarEnabled && sidebarVisible">
+<nav [@sidebar] class="hc-navbar-side" [ngStyle]="navbarSideStyle" *ngIf="sidebarEnabled && sidebarVisible">
   <div class="hc-navbar-side-top">
       <span>{{ getSidebarTitle() }}</span>
   </div>
@@ -67,4 +67,4 @@
   </div>
 </nav>
 
-<div [@overlay] class="hc-navbar-side-overlay" (click)="toggleSidebar()" *ngIf="sidebarEnabled && sidebarVisible"></div>
+<div [@overlay] class="hc-navbar-side-overlay" [ngStyle]="navbarSideOverlayStyle" (click)="toggleSidebar()" *ngIf="sidebarEnabled && sidebarVisible"></div>

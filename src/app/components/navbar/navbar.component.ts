@@ -9,6 +9,7 @@ import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
 import { LoaderService } from 'app/services/loader.service';
+import { PlatformService } from 'app/services/platform.service';
 import { TitleService } from 'app/services/title.service';
 import { DomUtil } from 'app/util/dom-util';
 import { StyleUtil } from 'app/util/style-util';
@@ -84,12 +85,16 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   private selectedFormSub: Subscription;
   private loadingChangedSub: Subscription;
 
+  public navbarSideStyle: any;
+  public navbarSideOverlayStyle: any;
+
   constructor(
     private zone: NgZone,
     private renderer: Renderer2,
     private eventsService: EventsService,
     private loaderService: LoaderService,
     private formsService: FormsService,
+    private platformService: PlatformService,
     private titleService: TitleService,
     private store: Store<fromAppReducers.IAppState>) { }
 
@@ -98,6 +103,9 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.formsSub = this.formsService.getForms().subscribe(forms => this.forms = forms);
     this.selectedFormSub = this.formsService.getSelectedForm().subscribe(form => this.selectedForm = form);
     this.loadingChangedSub = this.loaderService.onLoadingChangedDelayed.subscribe(loading => this.isLoading = loading);
+
+    this.navbarSideStyle = this.createNavbarSideStyle();
+    this.navbarSideOverlayStyle = this.createNavbarSideOverlayStyle();
   }
 
   public ngAfterViewChecked(): void {
@@ -117,6 +125,18 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (!this.sidebarEnabled && this.sidebarVisible) {
       this.toggleSidebar();
     }
+  }
+
+  private createNavbarSideStyle(): any {
+    return {
+      'top.px': this.platformService.isIos() ? (StyleUtil.navbarHeight + StyleUtil.iosMenubarHeight) : StyleUtil.navbarHeight
+    };
+  }
+
+  private createNavbarSideOverlayStyle(): any {
+    return {
+      'top.px': this.platformService.isIos() ? (StyleUtil.navbarHeight + StyleUtil.iosMenubarHeight) : StyleUtil.navbarHeight
+    };
   }
 
   public getTitle(): string {

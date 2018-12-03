@@ -4,6 +4,9 @@ import { ScrollBars } from 'app/enums/scrollbars';
 
 export namespace StyleUtil {
 
+  export const navbarHeight: number = 40;
+  export const iosMenubarHeight: number = 20;
+
   export function getValue(unit: string, value: number): string {
     return Number.zeroIfNull(value) + unit;
   }
