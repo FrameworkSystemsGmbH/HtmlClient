@@ -13,6 +13,8 @@ import { TextAlign } from 'app/enums/text-align';
 import { Visibility } from 'app/enums/visibility';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
+import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
+import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 
 export class PropertyData {
 
@@ -114,6 +116,11 @@ export class PropertyData {
   public isEditable: boolean;
   public isEnabled: boolean;
   public isVisible: boolean;
+  public itemArrangement: ListViewItemArrangement;
+  public itemMinWidth: number;
+  public itemMinHeight: number;
+  public itemMaxWidth: number;
+  public itemMaxHeight: number;
   public labelMode: FieldRowLabelMode;
   public listDisplayMinLength: number;
   public listDisplayMaxLength: number;
@@ -130,6 +137,7 @@ export class PropertyData {
   public passwordChar: string;
   public scaleMode: PictureScaleMode;
   public scrollBars: ScrollBars;
+  public selectionMode: ListViewSelectionMode;
   public shortcut: string;
   public showCaption: boolean;
   public synchronizeColumns: boolean;

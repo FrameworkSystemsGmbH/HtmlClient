@@ -20,6 +20,7 @@ import { TextBoxNumberComponent } from 'app/controls/textboxes/textbox-number/te
 import { TextBoxPlainComponent } from 'app/controls/textboxes/textbox-plain/textbox-plain.component';
 import { VariantComponent } from 'app/controls/variant/variant.component';
 import { WrapPanelComponent } from 'app/controls/layouts/wrap-panel/wrap-panel.component';
+import { ListViewComponent } from 'app/controls/listview/listview.component';
 
 export const ALL_CONTROLS = [
   ButtonImageComponent,
@@ -37,6 +38,7 @@ export const ALL_CONTROLS = [
   FieldPanelComponent,
   FormComponent,
   LabelComponent,
+  ListViewComponent,
   RadioButtonComponent,
   TextBoxDateTimeComponent,
   TextBoxMultilineComponent,

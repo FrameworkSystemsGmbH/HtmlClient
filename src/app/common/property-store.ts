@@ -14,6 +14,8 @@ import { ScrollBars } from 'app/enums/scrollbars';
 import { Visibility } from 'app/enums/visibility';
 import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
+import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
+import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { JsonUtil } from 'app/util/json-util';
 
 const DEFAULT_FONT: string = 'Roboto, Arial, Helvetica, Verdana';
@@ -940,6 +942,19 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.invertFlowDirection = value; });
   }
 
+  // ItemArrangement
+  public getItemArrangement(): ListViewItemArrangement {
+    return this.getValue<ListViewItemArrangement>((data: PropertyData) => data.itemArrangement);
+  }
+
+  public getListViewItemArrangementForLayer(layer: PropertyLayer): ListViewItemArrangement {
+    return this.getValueForLayer<ListViewItemArrangement>(layer, (data: PropertyData) => data.itemArrangement);
+  }
+
+  public setListViewItemArrangement(layer: PropertyLayer, value: ListViewItemArrangement): void {
+    this.setValue(layer, (data: PropertyData) => { data.itemArrangement = value; });
+  }
+
   // IsCloseIconVisible
   public getIsCloseIconVisible(): boolean {
     return this.getValue<boolean>((data: PropertyData) => data.isCloseIconVisible);
@@ -1159,6 +1174,19 @@ export class PropertyStore {
 
   public setScrollBars(layer: PropertyLayer, value: ScrollBars): void {
     this.setValue(layer, (data: PropertyData) => { data.scrollBars = value; });
+  }
+
+  // SelectionMode
+  public getSelectionMode(): ListViewSelectionMode {
+    return this.getValue<ListViewSelectionMode>((data: PropertyData) => data.selectionMode);
+  }
+
+  public getListViewSelectionModeForLayer(layer: PropertyLayer): ListViewSelectionMode {
+    return this.getValueForLayer<ListViewSelectionMode>(layer, (data: PropertyData) => data.selectionMode);
+  }
+
+  public setListViewSelectionMode(layer: PropertyLayer, value: ListViewSelectionMode): void {
+    this.setValue(layer, (data: PropertyData) => { data.selectionMode = value; });
   }
 
   // ShowCaption

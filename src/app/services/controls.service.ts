@@ -27,6 +27,7 @@ import { VariantWrapper } from 'app/wrappers/variant-wrapper';
 import { WrapPanelWrapper } from 'app/wrappers/wrap-panel-wrapper';
 import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
 import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
+import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 
 export interface IWrapperCreationOptions {
   form?: FormWrapper;
@@ -64,6 +65,8 @@ export class ControlsService {
         return new FieldRowWrapper(this.injector, options);
       case ControlType.Label:
         return new LabelWrapper(this.injector, options);
+      case ControlType.ListView:
+        return new ListViewWrapper(this.injector, options);
       case ControlType.Form:
         return new FormWrapper(this.injector, options);
       case ControlType.Variant:

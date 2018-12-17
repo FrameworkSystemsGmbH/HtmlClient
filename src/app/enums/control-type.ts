@@ -11,5 +11,6 @@ export enum ControlType {
   DockPanel = 29,
   FieldPanel = 31,
   FieldRow = 32,
+  ListView = 34,
   Variant = 101
 }
