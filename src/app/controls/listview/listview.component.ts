@@ -1,19 +1,17 @@
-import { Component, ViewChild, ViewContainerRef, Compiler, AfterViewInit, NgModule } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, Compiler, AfterViewInit, NgModule, OnInit } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { StyleUtil } from 'app/util/style-util';
-import { DomUtil } from 'app/util/dom-util';
-import { ListViewItem } from 'app/controls/listview/listview-item';
 
 @Component({
   selector: 'hc-listview',
   templateUrl: './listview.component.html',
   styleUrls: ['./listview.component.scss']
 })
-export class ListViewComponent extends ControlComponent implements AfterViewInit {
+export class ListViewComponent extends ControlComponent implements OnInit {
 
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
@@ -22,28 +20,6 @@ export class ListViewComponent extends ControlComponent implements AfterViewInit
 
   constructor(private compiler: Compiler) {
     super();
-  }
-
-  public ngAfterViewInit(): void {
-
-    // console.log((ListViewItem as any).__annotations__);
-
-    // (ListViewItem as any).__annotations__[0].template = 'Changed! {{ name }}';
-
-    // console.log((ListViewItem as any).__annotations__);
-
-    // const template = '<span>generated on the fly: {{name}}</span>';
-
-    // const tmpModule = NgModule({ declarations: [ListViewItem] })(class {
-    // });
-
-    // this.compiler.compileModuleAndAllComponentsAsync(tmpModule)
-    //   .then((factories) => {
-    //     const f = factories.componentFactories[0];
-    //     const cmpRef = this.anchor.createComponent(f);
-    //     // cmpRef.instance.name = 'Trololol';
-    //   })
-
   }
 
   public getWrapper(): ListViewWrapper {

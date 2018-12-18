@@ -142,6 +142,8 @@ export class PropertyData {
   public showCaption: boolean;
   public synchronizeColumns: boolean;
   public tabStop: boolean;
+  public templateCss: string;
+  public templateHtml: string;
   public textAlign: TextAlign;
   public title: string;
   public visibility: Visibility;

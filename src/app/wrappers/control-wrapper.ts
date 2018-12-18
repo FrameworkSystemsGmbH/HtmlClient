@@ -525,10 +525,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       if (json.data) {
         this.setDataJson(json.data);
       }
-    } else {
-      if (json.data) {
-        this.setDataJson(json.data);
-      }
+    } else if (json.data) {
+      this.setDataJson(json.data);
     }
   }
 

@@ -955,6 +955,58 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.itemArrangement = value; });
   }
 
+  // ItemMinWidth
+  public getItemMinWidth(): number {
+    return this.getValue<number>((data: PropertyData) => data.itemMinWidth);
+  }
+
+  public getItemMinWidthForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemMinWidth);
+  }
+
+  public setItemMinWidth(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.itemMinWidth = value; });
+  }
+
+  // ItemMinHeight
+  public getItemMinHeight(): number {
+    return this.getValue<number>((data: PropertyData) => data.itemMinHeight);
+  }
+
+  public getItemMinHeightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemMinHeight);
+  }
+
+  public setItemMinHeight(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.itemMinHeight = value; });
+  }
+
+  // ItemMaxWidth
+  public getItemMaxWidth(): number {
+    return this.getValue<number>((data: PropertyData) => data.itemMaxWidth);
+  }
+
+  public getItemMaxWidthForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemMaxWidth);
+  }
+
+  public setItemMaxWidth(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.itemMaxWidth = value; });
+  }
+
+  // ItemMaxHeight
+  public getItemMaxHeight(): number {
+    return this.getValue<number>((data: PropertyData) => data.itemMaxHeight);
+  }
+
+  public getItemMaxHeightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemMaxHeight);
+  }
+
+  public setItemMaxHeight(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.itemMaxHeight = value; });
+  }
+
   // IsCloseIconVisible
   public getIsCloseIconVisible(): boolean {
     return this.getValue<boolean>((data: PropertyData) => data.isCloseIconVisible);
@@ -1226,6 +1278,32 @@ export class PropertyStore {
 
   public setTabStop(layer: PropertyLayer, value: boolean): void {
     this.setValue(layer, (data: PropertyData) => { data.tabStop = value; });
+  }
+
+  // TemplateCss
+  public getTemplateCss(): string {
+    return this.getValue<string>((data: PropertyData) => data.templateCss);
+  }
+
+  public getTemplateCssForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.templateCss);
+  }
+
+  public setTemplateCss(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.templateCss = value; });
+  }
+
+  // TemplateHtml
+  public getTemplateHtml(): string {
+    return this.getValue<string>((data: PropertyData) => data.templateHtml);
+  }
+
+  public getTemplateHtmlForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.templateHtml);
+  }
+
+  public setTemplateHtml(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.templateHtml = value; });
   }
 
   // TextAlign

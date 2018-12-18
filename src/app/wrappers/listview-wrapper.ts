@@ -9,8 +9,22 @@ import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignment';
 import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
+import { ListViewTemplateVariableWrapper, IListViewTemplateVariableOptions } from 'app/wrappers/listview-template-variable-wrapper';
+import { DataSourceType } from 'app/enums/datasource-type';
+import { TextFormat } from 'app/enums/text-format';
+import { ListViewItemValue } from 'app/wrappers/listview-item-value-wrapper';
+import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 
 export class ListViewWrapper extends ControlWrapper {
+
+  private dataLoaded: boolean = false;
+
+  private static readonly PART_DST: string = 'dst:';
+  private static readonly PART_F: string = 'f:';
+  private static readonly PART_FP: string = 'fp:';
+
+  private templateVars: Array<ListViewTemplateVariableWrapper> = new Array<ListViewTemplateVariableWrapper>();
+  private items: Array<ListViewItemWrapper> = new Array<ListViewItemWrapper>();
 
   public getControlType(): ControlType {
     return ControlType.ListView;
@@ -45,8 +59,169 @@ export class ListViewWrapper extends ControlWrapper {
     return verticalContentAlignment != null ? verticalContentAlignment : VerticalContentAlignment.Top;
   }
 
+  public getItemMinWidth(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getItemMinWidth());
+  }
+
+  public getItemMinHeight(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getItemMinHeight());
+  }
+
+  public getItemMaxWidth(): number {
+    return Number.maxIfNull(this.getPropertyStore().getItemMaxWidth());
+  }
+
+  public getItemMaxHeight(): number {
+    return Number.maxIfNull(this.getPropertyStore().getItemMaxHeight());
+  }
+
+  public getTemplateHtml(): string {
+    return this.getPropertyStore().getTemplateHtml();
+  }
+
+  public getTemplateCss(): string {
+    return this.getPropertyStore().getTemplateCss();
+  }
+
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ListViewComponent> {
     const factory: ComponentFactory<ListViewComponent> = this.getResolver().resolveComponentFactory(ListViewComponent);
     return factory.create(container.getViewContainerRef().injector);
+  }
+
+  protected setPropertiesJson(propertiesJson: any): void {
+    super.setPropertiesJson(propertiesJson);
+    this.parseTemplateVars();
+  }
+
+  public setJson(json: any, isNew: boolean): void {
+    json.data = {};
+    super.setJson(json, isNew);
+  }
+
+  protected setDataJson(dataJson: any): void {
+    super.setDataJson(dataJson);
+
+    if (!this.dataLoaded) {
+      this.dataLoaded = true;
+      dataJson = {
+        listViewData: this.createListViewData()
+      }
+    }
+
+    if (!dataJson || !dataJson.listViewData || !dataJson.listViewData.items) {
+      return;
+    }
+
+    for (const item of dataJson.listViewData.items) {
+      const id: string = item.id;
+      const values: Array<ListViewItemValue> = new Array<ListViewItemValue>();
+
+      if (item.values && item.values.length) {
+        for (const value of item.values) {
+          values.push(new ListViewItemValue(value.index, decodeURIComponent(value.value)));
+        }
+      }
+
+      this.items.push(new ListViewItemWrapper(id, values));
+    }
+  }
+
+  private parseTemplateVars(): void {
+    const template: string = this.getTemplateHtml();
+
+    if (String.isNullOrWhiteSpace(template)) {
+      return;
+    }
+
+    const regEx: RegExp = /{{2}[^{{|}}].*}{2}/gm;
+    const matches: RegExpMatchArray = template.match(regEx);
+
+    if (!matches || !matches.length) {
+      return;
+    }
+
+    for (let i = 0; i < matches.length; i++) {
+      const matchTrimmed: string = matches[i].trimStringLeft('{{').trimCharsRight('}}').trim();
+      const parts: Array<string> = matchTrimmed.split('|');
+
+      let dataSourceType: DataSourceType;
+      let format: TextFormat;
+      let formatPattern: string;
+
+      for (const part of parts) {
+        const partTrimmed = part.trim();
+
+        if (String.isNullOrWhiteSpace(partTrimmed)) {
+          continue;
+        }
+
+        let index: number = partTrimmed.indexOf(ListViewWrapper.PART_DST);
+
+        if (index >= 0) {
+          const dst: string = partTrimmed.substr(index + ListViewWrapper.PART_DST.length);
+          dataSourceType = DataSourceType[dst];
+          continue;
+        }
+
+        index = partTrimmed.indexOf(ListViewWrapper.PART_F);
+
+        if (index >= 0) {
+          const f: string = partTrimmed.substr(index + ListViewWrapper.PART_F.length);
+          format = TextFormat[f];
+          continue;
+        }
+
+        index = partTrimmed.indexOf(ListViewWrapper.PART_FP);
+
+        if (index >= 0) {
+          formatPattern = partTrimmed.substr(index + ListViewWrapper.PART_FP.length);
+          continue;
+        }
+      }
+
+      let options: IListViewTemplateVariableOptions = null;
+
+      if (format || !String.isNullOrWhiteSpace(formatPattern)) {
+        options = {
+          format,
+          formatPattern
+        };
+      }
+
+      const templateVar: ListViewTemplateVariableWrapper = new ListViewTemplateVariableWrapper(i, dataSourceType, options);
+
+      this.templateVars.push(templateVar);
+    }
+  }
+
+  private createListViewData(): any {
+    const listViewData: any = {
+      count: 10,
+      items: []
+    }
+
+    for (let i = 0; i < 10; i++) {
+      const itemJson: any = {
+        id: i.toString(),
+        values: [
+          {
+            index: 0,
+            value: 'Text 1'
+          },
+          {
+            index: 1,
+            value: 'Text 2'
+          },
+          {
+            index: 2,
+            value: 3
+          }
+        ]
+      }
+
+      listViewData.items.push(itemJson);
+    }
+
+    return listViewData;
   }
 }
