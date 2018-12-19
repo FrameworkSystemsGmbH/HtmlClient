@@ -1,10 +1,14 @@
+import { DataSourceType } from 'app/enums/datasource-type';
+
 export class ListViewItemValue {
 
   private index: number;
-  private value: string;
+  private dataSourceType: DataSourceType;
+  private value: any;
 
-  constructor(index: number, value: string) {
+  constructor(index: number, dataSourceType: DataSourceType, value: any) {
     this.index = index;
+    this.dataSourceType = dataSourceType;
     this.value = value;
   }
 
@@ -12,7 +16,11 @@ export class ListViewItemValue {
     return this.index;
   }
 
-  public getValue(): string {
+  public getDataSourceType(): DataSourceType {
+    return this.dataSourceType;
+  }
+
+  public getValue(): any {
     return this.value;
   }
 }

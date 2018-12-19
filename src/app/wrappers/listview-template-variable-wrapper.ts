@@ -38,7 +38,7 @@ export class ListViewTemplateVariableWrapper {
     return this.formatPattern;
   }
 
-  public getDataSourceTpye(): DataSourceType {
+  public getDataSourceType(): DataSourceType {
     return this.dataSourceType;
   }
 }

@@ -1,10 +1,14 @@
-import { Component, ViewChild, ViewContainerRef, Compiler, AfterViewInit, NgModule, OnInit } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, Compiler, OnInit, ComponentFactory, ComponentRef } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { StyleUtil } from 'app/util/style-util';
+import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
+import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
+import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
+import { ListViewItemComponent } from 'app/controls/listview/listview-item.component';
 
 @Component({
   selector: 'hc-listview',
@@ -17,6 +21,16 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   public anchor: ViewContainerRef;
 
   public wrapperStyle: any;
+
+  private itemFactory: ComponentFactory<ListViewItemComponent>;
+  private selectionMode: ListViewSelectionMode;
+  private itemArrangement: ListViewItemArrangement;
+  private spacingHorizontal: number;
+  private spacingVertical: number;
+  private itemMinWidth: number;
+  private itemMinHeight: number;
+  private itemMaxWidth: number;
+  private itemMaxHeight: number;
 
   constructor(private compiler: Compiler) {
     super();
@@ -32,6 +46,18 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
   protected updateData(wrapper: ListViewWrapper): void {
     super.updateData(wrapper);
+
+    this.itemFactory = wrapper.getItemFactory();
+    this.selectionMode = wrapper.getSelectionMode();
+    this.itemArrangement = wrapper.getItemArrangement();
+    this.spacingHorizontal = wrapper.getSpacingHorizontal();
+    this.spacingVertical = wrapper.getSpacingVertical();
+    this.itemMinWidth = wrapper.getItemMinWidth();
+    this.itemMinHeight = wrapper.getItemMinHeight();
+    this.itemMaxWidth = wrapper.getItemMaxWidth();
+    this.itemMaxHeight = wrapper.getItemMaxHeight();
+
+    this.createItems(wrapper);
   }
 
   protected updateStyles(wrapper: ListViewWrapper): void {
@@ -43,10 +69,17 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
     const layoutWidth: number = layoutableProperties.getWidth();
     const layoutHeight: number = layoutableProperties.getHeight();
-    const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
+    const isVisible: boolean = this.isVisible && layoutWidth > 0 && layoutHeight > 0;
+    const itemArrangement: ListViewItemArrangement = wrapper.getItemArrangement();
+    const itemMinWidth: number = wrapper.getItemMinWidth();
+    const spacingHorizontal: number = wrapper.getSpacingHorizontal();
+    const spacingVertical: number = wrapper.getSpacingVertical();
 
-    return {
-      'display': this.isVisible && isSizeVisible ? null : 'none',
+    let wrapperStyle: any = {
+      'display': isVisible ? 'grid' : 'none',
+      'overflow': 'auto',
+      'column-gap': StyleUtil.getValue('px', spacingHorizontal),
+      'row-gap': StyleUtil.getValue('px', spacingVertical),
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
       'width.px': layoutWidth,
@@ -83,5 +116,37 @@ export class ListViewComponent extends ControlComponent implements OnInit {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'cursor': !this.isEditable ? 'not-allowed' : null
     };
+
+    if (itemArrangement === ListViewItemArrangement.List) {
+      wrapperStyle = {...wrapperStyle,
+        'grid-template-columns': '1fr'
+      };
+    } else {
+      wrapperStyle = {...wrapperStyle,
+        'grid-template-columns': `repeat(auto-fit, minmax(${StyleUtil.getValue('px', itemMinWidth)}, 1fr)`,
+        'align-content': 'flex-start'
+      };
+    }
+
+    return wrapperStyle;
+  }
+
+  private createItems(wrapper: ListViewWrapper): void {
+    const items: Array<ListViewItemWrapper> = wrapper.getItems();
+
+    if (!items || !items.length) {
+      return;
+    }
+
+    for(const item of items) {
+      const itemRef: ComponentRef<ListViewItemComponent> = this.anchor.createComponent(this.itemFactory);
+      const itemInstance: ListViewItemComponent = itemRef.instance;
+
+      itemInstance.id = item.getId();
+
+      for (const value of item.getValues()) {
+        itemInstance.values.push(value.getValue());
+      }
+    }
   }
 }
