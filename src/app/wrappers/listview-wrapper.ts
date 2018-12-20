@@ -145,18 +145,20 @@ export class ListViewWrapper extends ControlWrapper {
   protected setDataJson(dataJson: any): void {
     super.setDataJson(dataJson);
 
+    let tempDataJson: any = dataJson;
+
     if (!this.dataLoaded) {
       this.dataLoaded = true;
-      dataJson = {
+      tempDataJson = {
         listViewData: this.createListViewData()
       };
     }
 
-    if (!dataJson || !dataJson.listViewData || !dataJson.listViewData.items) {
+    if (!tempDataJson || !tempDataJson.listViewData || !tempDataJson.listViewData.items) {
       return;
     }
 
-    for (const item of dataJson.listViewData.items) {
+    for (const item of tempDataJson.listViewData.items) {
       const id: string = item.id;
       const values: Array<ListViewItemValue> = new Array<ListViewItemValue>();
 

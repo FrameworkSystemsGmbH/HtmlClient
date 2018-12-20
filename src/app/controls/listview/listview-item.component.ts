@@ -5,7 +5,7 @@ export class ListViewItemComponent {
   public static readonly htmlSelector: string = 'fs-listview-item';
 
   public static readonly contentPlaceholder: string = '{{ content }}';
-  public static readonly containerHtml: string = `<div class="item-container">${ListViewItemComponent.contentPlaceholder}</div>`
+  public static readonly containerHtml: string = `<div class="item-container">${ListViewItemComponent.contentPlaceholder}</div>`;
   public static readonly containerCss: string = `:host, ${ListViewItemComponent.htmlSelector}, .item-container { display: flex; flex-direction: column; } .item-container { overflow: hidden; }`;
 
   public static readonly hostMinWidthPlaceholder: string = '{{ min-width }}';

@@ -118,11 +118,13 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     };
 
     if (itemArrangement === ListViewItemArrangement.List) {
-      wrapperStyle = {...wrapperStyle,
+      wrapperStyle = {
+        ...wrapperStyle,
         'grid-template-columns': '1fr'
       };
     } else {
-      wrapperStyle = {...wrapperStyle,
+      wrapperStyle = {
+        ...wrapperStyle,
         'grid-template-columns': `repeat(auto-fit, minmax(${StyleUtil.getValue('px', itemMinWidth)}, 1fr)`,
         'align-content': 'flex-start'
       };
@@ -138,7 +140,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
       return;
     }
 
-    for(const item of items) {
+    for (const item of items) {
       const itemRef: ComponentRef<ListViewItemComponent> = this.anchor.createComponent(this.itemFactory);
       const itemInstance: ListViewItemComponent = itemRef.instance;
 
