@@ -10,8 +10,6 @@
   "html.format.endWithNewline": true,
   "html.format.maxPreserveNewLines": 1,
   "html.format.wrapLineLength": 0,
-  "html.suggest.angular1": false,
-  "html.suggest.ionic": false,
 
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.preferences.quoteStyle": "single",

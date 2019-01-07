@@ -303,6 +303,8 @@ export class NumberFormatService {
         }
         break;
     }
+
+    return null;
   }
 
   private adjustNumberInteger(value: number): number {

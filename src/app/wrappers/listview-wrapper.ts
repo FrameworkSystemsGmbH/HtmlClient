@@ -1,4 +1,4 @@
-import { ComponentRef, ComponentFactory, Injector, Compiler, Component, NgModule } from '@angular/core';
+import { ComponentRef, ComponentFactory, Component, NgModule, Compiler } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 

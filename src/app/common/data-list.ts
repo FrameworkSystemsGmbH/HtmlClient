@@ -22,16 +22,15 @@ export class DataList extends Array<DataListEntry> {
 
     const index: number = this.findIndex(entry => {
       const value: string = entry.getValue();
+
       if (String.isNullOrWhiteSpace(value) || value.length === 0) {
         return false;
-      } else {
-        const valueLower: string = value.toLowerCase();
-        const termLower: string = term.toLowerCase();
-
-        if (valueLower.startsWith(termLower)) {
-          return true;
-        }
       }
+
+      const valueLower: string = value.toLowerCase();
+      const termLower: string = term.toLowerCase();
+
+      return valueLower.startsWith(termLower);
     });
 
     return index;

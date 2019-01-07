@@ -1,5 +1,3 @@
-import { Renderer2, ElementRef } from '@angular/core';
-
 export class ListViewItemComponent {
 
   public static readonly htmlSelector: string = 'fs-listview-item';

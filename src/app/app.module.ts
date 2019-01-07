@@ -1,6 +1,7 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, COMPILER_OPTIONS, CompilerFactory, Compiler } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -59,6 +60,21 @@ import { MatInputModule } from '@angular/material';
   ],
   providers: [
     { provide: ErrorHandler, useClass: ErrorService },
+    {
+      provide: COMPILER_OPTIONS,
+      useValue: {},
+      multi: true
+    },
+    {
+      provide: CompilerFactory,
+      useClass: JitCompilerFactory,
+      deps: [COMPILER_OPTIONS]
+    },
+    {
+      provide: Compiler,
+      useFactory: (factory: CompilerFactory) => factory.createCompiler(),
+      deps: [CompilerFactory]
+    },
     ALL_SERVICES
   ],
   bootstrap: [AppComponent]

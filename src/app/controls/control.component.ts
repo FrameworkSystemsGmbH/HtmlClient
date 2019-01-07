@@ -1,4 +1,4 @@
-import { EventEmitter, Output, ElementRef } from '@angular/core';
+import { EventEmitter, Output } from '@angular/core';
 
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { LayoutableComponent } from 'app/controls/layoutable.component';

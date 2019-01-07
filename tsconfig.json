@@ -8,6 +8,8 @@
       "dom"
     ],
     "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
     "removeComments": true,
     "sourceMap": true,
     "target": "es5"

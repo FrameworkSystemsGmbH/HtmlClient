@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, Compiler, OnInit, ComponentFactory, ComponentRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, ComponentFactory, ComponentRef } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -31,10 +31,6 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   private itemMinHeight: number;
   private itemMaxWidth: number;
   private itemMaxHeight: number;
-
-  constructor(private compiler: Compiler) {
-    super();
-  }
 
   public getWrapper(): ListViewWrapper {
     return super.getWrapper() as ListViewWrapper;
