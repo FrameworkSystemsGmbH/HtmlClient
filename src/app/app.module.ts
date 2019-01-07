@@ -59,7 +59,10 @@ import { MatInputModule } from '@angular/material';
     StoreModule.forRoot(APP_REDUCERS)
   ],
   providers: [
-    { provide: ErrorHandler, useClass: ErrorService },
+    {
+      provide: ErrorHandler,
+      useClass: ErrorService
+    },
     {
       provide: COMPILER_OPTIONS,
       useValue: {},
