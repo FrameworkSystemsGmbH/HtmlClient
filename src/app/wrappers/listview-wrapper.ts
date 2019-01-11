@@ -10,28 +10,23 @@ import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignme
 import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { ListViewTemplateVariableWrapper, IListViewTemplateVariableOptions } from 'app/wrappers/listview-template-variable-wrapper';
-import { DataSourceType } from 'app/enums/datasource-type';
-import { TextFormat } from 'app/enums/text-format';
 import { ListViewItemValue } from 'app/wrappers/listview-item-value-wrapper';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
-import { ListViewItemComponent } from 'app/controls/listview/listview-item.component';
-import { ListViewItemModule } from 'app/controls/listview/listview-item.module';
+import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
+import { ListViewItemContentModule } from 'app/controls/listview/listview-item-content.module';
 import { StyleUtil } from 'app/util/style-util';
 
 export class ListViewWrapper extends ControlWrapper {
 
-  private static readonly PART_DST: string = 'dst:';
-  private static readonly PART_F: string = 'f:';
-  private static readonly PART_FP: string = 'fp:';
-
+  private propertiesLoaded: boolean = false;
   private dataLoaded: boolean = false;
 
   private compiler: Compiler;
-  private viewTemplateHtml: string;
-  private viewTemplateCss: string;
+  private templateHtml: string;
+  private templateCss: string;
   private templateVars: Array<ListViewTemplateVariableWrapper> = new Array<ListViewTemplateVariableWrapper>();
   private items: Array<ListViewItemWrapper> = new Array<ListViewItemWrapper>();
-  private itemFactory: ComponentFactory<ListViewItemComponent>;
+  private itemFactory: ComponentFactory<ListViewItemContentComponent>;
 
   protected init(): void {
     super.init();
@@ -104,14 +99,14 @@ export class ListViewWrapper extends ControlWrapper {
   }
 
   public getViewTemplate(): string {
-    return this.viewTemplateHtml;
+    return this.templateHtml;
   }
 
   public getViewTemplateCss(): string {
-    return this.viewTemplateCss;
+    return this.templateCss;
   }
 
-  public getItemFactory(): ComponentFactory<ListViewItemComponent> {
+  public getItemFactory(): ComponentFactory<ListViewItemContentComponent> {
     return this.itemFactory;
   }
 
@@ -126,11 +121,37 @@ export class ListViewWrapper extends ControlWrapper {
 
   protected setPropertiesJson(propertiesJson: any): void {
     super.setPropertiesJson(propertiesJson);
-    this.viewTemplateHtml = this.parseViewTemplate();
-    this.viewTemplateCss = this.getPropertyStore().getTemplateCss();
-    this.templateVars = this.parseTemplateVars();
+    this.templateHtml = this.parseViewTemplate();
+    this.templateCss = this.getPropertyStore().getTemplateCss();
 
-    if (String.isNullOrWhiteSpace(this.viewTemplateHtml)) {
+    if (!this.propertiesLoaded) {
+      this.propertiesLoaded = true;
+      propertiesJson.templateVars =
+        [
+          {
+            index: 0,
+            dsType: 1,
+            format: 15
+          },
+          {
+            index: 1,
+            dsType: 1,
+            format: 15
+          },
+          {
+            index: 2,
+            dsType: 8,
+            format: 10,
+            pattern: '#.##0.00'
+          }
+        ];
+    }
+
+    if (propertiesJson.templateVars && propertiesJson.templateVars.length) {
+      this.templateVars = this.parseTemplateVars(propertiesJson.templateVars);
+    }
+
+    if (String.isNullOrWhiteSpace(this.templateHtml)) {
       this.setErrorTemplate();
     }
 
@@ -163,8 +184,8 @@ export class ListViewWrapper extends ControlWrapper {
       const values: Array<ListViewItemValue> = new Array<ListViewItemValue>();
 
       if (item.values && item.values.length) {
-        for (const value of item.values) {
-          values.push(new ListViewItemValue(value.index, this.templateVars[value.index].getDataSourceType(), decodeURIComponent(value.value)));
+        for (let i = 0; i < item.values.length; i++) {
+          values.push(new ListViewItemValue(this.templateVars[i].getDataSourceType(), decodeURIComponent(item.values[i])));
         }
       }
 
@@ -179,7 +200,7 @@ export class ListViewWrapper extends ControlWrapper {
       return null;
     }
 
-    const regEx: RegExp = /{{2}[^{{|}}].*}{2}/gm;
+    const regEx: RegExp = /\{{2}([^}]|}[^}])*\}{2}/gm;
     const matches: RegExpMatchArray = template.match(regEx);
 
     if (!matches || !matches.length) {
@@ -193,138 +214,59 @@ export class ListViewWrapper extends ControlWrapper {
     return template;
   }
 
-  private parseTemplateVars(): Array<ListViewTemplateVariableWrapper> {
-    const template: string = this.getTemplateHtml();
+  private parseTemplateVars(templateVarsJson: Array<any>): Array<ListViewTemplateVariableWrapper> {
+    if (!templateVarsJson || !templateVarsJson.length) {
+      return null;
+    }
+
     const templateVars: Array<ListViewTemplateVariableWrapper> = new Array<ListViewTemplateVariableWrapper>();
 
-    if (String.isNullOrWhiteSpace(template)) {
-      return templateVars;
-    }
+    for (let templateVarJson of templateVarsJson) {
+      let varOptions: IListViewTemplateVariableOptions = null;
 
-    const regEx: RegExp = /{{2}[^{{|}}].*}{2}/gm;
-    const matches: RegExpMatchArray = template.match(regEx);
-
-    if (!matches || !matches.length) {
-      return templateVars;
-    }
-
-    for (let i = 0; i < matches.length; i++) {
-      const matchTrimmed: string = matches[i].trimStringLeft('{{').trimCharsRight('}}').trim();
-      const parts: Array<string> = matchTrimmed.split('|');
-
-      let dataSourceType: DataSourceType;
-      let format: TextFormat;
-      let formatPattern: string;
-
-      for (const part of parts) {
-        const partTrimmed = part.trim();
-
-        if (String.isNullOrWhiteSpace(partTrimmed)) {
-          continue;
-        }
-
-        let index: number = partTrimmed.indexOf(ListViewWrapper.PART_DST);
-
-        if (index >= 0) {
-          const dst: string = partTrimmed.substr(index + ListViewWrapper.PART_DST.length);
-          dataSourceType = DataSourceType[dst];
-          continue;
-        }
-
-        index = partTrimmed.indexOf(ListViewWrapper.PART_F);
-
-        if (index >= 0) {
-          const f: string = partTrimmed.substr(index + ListViewWrapper.PART_F.length);
-          format = TextFormat[f];
-          continue;
-        }
-
-        index = partTrimmed.indexOf(ListViewWrapper.PART_FP);
-
-        if (index >= 0) {
-          formatPattern = partTrimmed.substr(index + ListViewWrapper.PART_FP.length);
-          continue;
+      if (templateVarJson.format || String.isNullOrWhiteSpace(templateVarJson.pattern)) {
+        varOptions = {
+          format: templateVarJson.format,
+          formatPattern: templateVarJson.pattern
         }
       }
 
-      let options: IListViewTemplateVariableOptions = null;
-
-      if (format || !String.isNullOrWhiteSpace(formatPattern)) {
-        options = {
-          format,
-          formatPattern
-        };
-      }
-
-      const templateVar: ListViewTemplateVariableWrapper = new ListViewTemplateVariableWrapper(i, dataSourceType, options);
-
-      templateVars.push(templateVar);
+      templateVars.push(new ListViewTemplateVariableWrapper(templateVarJson.index, templateVarJson.dsType, varOptions));
     }
 
     return templateVars;
   }
 
   private setErrorTemplate(): void {
-    this.viewTemplateHtml = '<div class="wrapper">Template NULL</div>';
-    this.viewTemplateCss = '.wrapper { display: flex; justify-content: center; align-items: center; }';
+    this.templateHtml = '<div class="wrapper">Template NULL</div>';
+    this.templateCss = '.wrapper { display: flex; justify-content: center; align-items: center; }';
   }
 
-  private compileListViewItemComponent(): ComponentFactory<ListViewItemComponent> {
-    const styles: Array<any> = new Array<any>();
+  private compileListViewItemComponent(): ComponentFactory<ListViewItemContentComponent> {
+    const listVIewItemComp = Component({ selector: ListViewItemContentComponent.SELECTOR, template: this.templateHtml, styles:[this.templateCss] })(ListViewItemContentComponent);
+    const listVIewItemMod = NgModule({ declarations: [listVIewItemComp] })(ListViewItemContentModule);
 
-    styles.push(ListViewItemComponent.containerCss);
-
-    const itemMinWidth: number = this.getItemMinWidth();
-    const itemMinHeight: number = this.getItemMinHeight();
-
-    const itemMinSizeCss: string = ListViewItemComponent.hostMinSizeCss
-      .replace(ListViewItemComponent.hostMinWidthPlaceholder, StyleUtil.getValue('px', itemMinWidth))
-      .replace(ListViewItemComponent.hostMinHeightPlaceholder, StyleUtil.getValue('px', itemMinHeight));
-
-    styles.push(itemMinSizeCss);
-
-    const template: string = ListViewItemComponent.containerHtml.replace(ListViewItemComponent.contentPlaceholder, this.viewTemplateHtml);
-
-    if (!String.isNullOrWhiteSpace(this.viewTemplateCss)) {
-      styles.push(this.viewTemplateCss);
-    }
-
-    const listVIewItemComp = Component({ selector: ListViewItemComponent.htmlSelector, template, styles })(ListViewItemComponent);
-    const listVIewItemMod = NgModule({ declarations: [listVIewItemComp] })(ListViewItemModule);
-
-    const factory: ComponentFactory<ListViewItemComponent> = this.compiler.compileModuleAndAllComponentsSync(listVIewItemMod).componentFactories[0];
+    const factory: ComponentFactory<ListViewItemContentComponent> = this.compiler.compileModuleAndAllComponentsSync(listVIewItemMod).componentFactories[0];
 
     return factory;
   }
 
   private createListViewData(): any {
-    const listViewData: any = {
-      count: 10,
-      items: []
-    };
+    const items: Array<any> = new Array<any>();
 
     for (let i = 0; i < 10; i++) {
       const itemJson: any = {
         id: i.toString(),
         values: [
-          {
-            index: 0,
-            value: 'Text 1'
-          },
-          {
-            index: 1,
-            value: 'Text 2'
-          },
-          {
-            index: 2,
-            value: 3
-          }
+          `Test ${i}`,
+          `Text ${i}`,
+          i
         ]
       };
 
-      listViewData.items.push(itemJson);
+      items.push(itemJson);
     }
 
-    return listViewData;
+    return { items };
   }
 }

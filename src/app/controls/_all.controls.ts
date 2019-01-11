@@ -13,6 +13,8 @@ import { DockPanelComponent } from 'app/controls/layouts/dock-panel/dock-panel.c
 import { FieldPanelComponent } from 'app/controls/layouts/field-panel/field-panel.component';
 import { FormComponent } from 'app/controls/form/form.component';
 import { LabelComponent } from 'app/controls/label/label.component';
+import { ListViewComponent } from 'app/controls/listview/listview.component';
+import { ListViewItemComponent } from 'app/controls/listview/listview-item.component';
 import { RadioButtonComponent } from 'app/controls/radio-button/radio-button.component';
 import { TextBoxDateTimeComponent } from 'app/controls/textboxes/textbox-datetime/textbox-datetime.component';
 import { TextBoxMultilineComponent } from 'app/controls/textboxes/textbox-multiline/textbox-multiline.component';
@@ -20,7 +22,6 @@ import { TextBoxNumberComponent } from 'app/controls/textboxes/textbox-number/te
 import { TextBoxPlainComponent } from 'app/controls/textboxes/textbox-plain/textbox-plain.component';
 import { VariantComponent } from 'app/controls/variant/variant.component';
 import { WrapPanelComponent } from 'app/controls/layouts/wrap-panel/wrap-panel.component';
-import { ListViewComponent } from 'app/controls/listview/listview.component';
 
 export const ALL_CONTROLS = [
   ButtonImageComponent,
@@ -39,6 +40,7 @@ export const ALL_CONTROLS = [
   FormComponent,
   LabelComponent,
   ListViewComponent,
+  ListViewItemComponent,
   RadioButtonComponent,
   TextBoxDateTimeComponent,
   TextBoxMultilineComponent,

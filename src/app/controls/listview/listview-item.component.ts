@@ -1,16 +1,70 @@
-export class ListViewItemComponent {
+import { Component, ViewChild, ViewContainerRef, ComponentFactory, OnInit, ComponentRef } from '@angular/core';
+import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
+import { IListViewItemInfo } from 'app/controls/listview/listview-item-info';
 
-  public static readonly htmlSelector: string = 'fs-listview-item';
+@Component({
+  selector: 'hc-listview-item',
+  templateUrl: './listview-item.component.html',
+  styleUrls: ['./listview-item.component.scss']
+})
+export class ListViewItemComponent implements OnInit {
 
-  public static readonly contentPlaceholder: string = '{{ content }}';
-  public static readonly containerHtml: string = `<div class="item-container">${ListViewItemComponent.contentPlaceholder}</div>`;
-  public static readonly containerCss: string = `:host, ${ListViewItemComponent.htmlSelector}, .item-container { display: flex; flex-direction: column; } .item-container { overflow: hidden; }`;
+  @ViewChild('anchor', { read: ViewContainerRef })
+  public anchor: ViewContainerRef;
 
-  public static readonly hostMinWidthPlaceholder: string = '{{ min-width }}';
-  public static readonly hostMinHeightPlaceholder: string = '{{ min-height }}';
-  public static readonly hostMinSizeCss: string = `:host { min-width: ${ListViewItemComponent.hostMinWidthPlaceholder}; min-height: ${ListViewItemComponent.hostMinHeightPlaceholder}; }`;
+  public containerStyle: any;
 
-  public id: string;
-  public values: Array<string> = new Array<string>();
+  private id: string;
+  private values: Array<string>;
+  private minWidth: number;
+  private minHeight: number;
+  private itemContentFactory: ComponentFactory<ListViewItemContentComponent>;
+  private compRef: ComponentRef<ListViewItemContentComponent>;
+  private compInstance: ListViewItemContentComponent
 
+  public ngOnInit(): void {
+    this.attachContentComponent();
+  }
+
+  private setContainerStyle(): any {
+    this.containerStyle = {
+      'min-width.px': this.minWidth,
+      'min-height.px': this.minHeight
+    };
+  }
+
+  public setItemInfo(info: IListViewItemInfo): void {
+    this.id = info.id;
+    this.setMinSize(info.minWidth, info.minHeight);
+    this.itemContentFactory = info.itemContentFactory;
+  }
+
+  public setValues(values: Array<string>): void {
+    this.values = values;
+    this.setInstanceValues();
+  }
+
+  private setMinSize(minWidth: number, minHeight: number): void {
+    this.minWidth = minWidth;
+    this.minHeight = minHeight;
+    this.setContainerStyle();
+  }
+
+  public getId(): string {
+    return this.id;
+  }
+
+  private attachContentComponent(): void {
+    this.compRef = this.anchor.createComponent(this.itemContentFactory);
+    this.compInstance = this.compRef.instance;
+    this.setInstanceValues();
+  }
+
+  private setInstanceValues(): void {
+    if (!this.compInstance) {
+      return;
+    }
+
+    this.compInstance.values = this.values;
+  }
 }
