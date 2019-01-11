@@ -13,6 +13,18 @@ export class ListViewItemComponent implements OnInit {
   public anchor: ViewContainerRef;
 
   public containerStyle: any;
+  public isHover: boolean;
+
+  public selectedVal: boolean;
+
+  get selected() {
+    return this.selectedVal;
+  }
+
+  set selected(val) {
+    console.log(val);
+    this.selectedVal = val;
+  }
 
   private id: string;
   private values: Array<string>;
@@ -66,5 +78,9 @@ export class ListViewItemComponent implements OnInit {
     }
 
     this.compInstance.values = this.values;
+  }
+
+  public getSelectorVisible(): boolean {
+    return this.selected || this.isHover;
   }
 }

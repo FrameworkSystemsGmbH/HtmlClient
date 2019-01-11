@@ -254,7 +254,7 @@ export class ListViewWrapper extends ControlWrapper {
   private createListViewData(): any {
     const items: Array<any> = new Array<any>();
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 20; i++) {
       const itemJson: any = {
         id: i.toString(),
         values: [

@@ -1,6 +1,13 @@
 :host, .item-container {
+  position: relative;
   display: flex;
   flex-direction: column;
+}
+
+hc-selector{
+  position: absolute;
+  top: 5px;
+  left: 5px;
 }
 
 .item-container {

@@ -21,6 +21,8 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
   public wrapperStyle: any;
 
+  private itemsInitialized: boolean;
+
   constructor(private cfr: ComponentFactoryResolver) {
     super();
   }
@@ -112,6 +114,12 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   }
 
   private createItems(wrapper: ListViewWrapper): void {
+    if (this.itemsInitialized) {
+      return;
+    }
+
+    this.itemsInitialized = true;
+
     const items: Array<ListViewItemWrapper> = wrapper.getItems();
 
     if (!items || !items.length) {
