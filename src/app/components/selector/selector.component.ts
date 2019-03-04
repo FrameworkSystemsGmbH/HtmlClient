@@ -42,7 +42,7 @@ export class SelectorComponent implements OnInit {
   }
 
   public set checked(val: boolean) {
-    if (this.checked == val) {
+    if (this.checked === val) {
       return;
     }
 
@@ -67,8 +67,7 @@ export class SelectorComponent implements OnInit {
   public setWrapperStyle(): any {
     if (this.visible) {
       this.wrapperStyle = null;
-    }
-    else {
+    } else {
       this.wrapperStyle = {
         'display': 'none'
       };

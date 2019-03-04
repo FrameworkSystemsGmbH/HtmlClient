@@ -23,6 +23,7 @@ import { SerializeService } from 'app/services/serialize.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 
+import { BaseFormatService } from 'app/services/formatter/base-format.service';
 import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
 import { NumberFormatService } from 'app/services/formatter/number-format.service';
 import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
@@ -41,6 +42,7 @@ const storageServiceProvider = {
 };
 
 const formatterServices = [
+  BaseFormatService,
   DateTimeFormatService,
   NumberFormatService,
   PatternFormatService,

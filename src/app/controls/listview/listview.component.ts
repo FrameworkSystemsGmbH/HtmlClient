@@ -8,6 +8,8 @@ import { StyleUtil } from 'app/util/style-util';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewItemComponent } from 'app/controls/listview/listview-item.component';
+import { ListViewItemValueWrapper } from 'app/wrappers/listview-item-value-wrapper';
+import { BaseFormatService } from 'app/services/formatter/base-format.service';
 
 @Component({
   selector: 'hc-listview',
@@ -23,7 +25,9 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
   private itemsInitialized: boolean;
 
-  constructor(private cfr: ComponentFactoryResolver) {
+  constructor(
+    private cfr: ComponentFactoryResolver,
+    private baseFormatService: BaseFormatService) {
     super();
   }
 
@@ -139,7 +143,10 @@ export class ListViewComponent extends ControlComponent implements OnInit {
         itemContentFactory: wrapper.getItemFactory()
       });
 
-      itemInstance.setValues(item.getValues().map(val => val.getValue()));
+      // Format individual template values
+      const values: Array<string> = item.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern()));
+
+      itemInstance.setValues(values);
     }
   }
 }

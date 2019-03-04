@@ -214,7 +214,7 @@ export class BrokerService {
   private doRequest(requestJson: any): Observable<any> {
     this.lastRequestTime = Moment.utc();
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson).pipe(
-      // tap(responseJson => console.log(JSON.stringify(responseJson, null, 2))),
+      // tap(responseJson => console.log(responseJson)),
       retryWhen(attempts => attempts.pipe(
         tap(() => this.loaderService.fireLoadingChanged(false)),
         flatMap(error => {

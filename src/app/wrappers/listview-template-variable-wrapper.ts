@@ -1,21 +1,19 @@
 import { TextFormat } from 'app/enums/text-format';
-import { DataSourceType } from 'app/enums/datasource-type';
+import { ListViewTemplateDataSourceWrapper } from 'app/wrappers/listview-template-datasource-wrapper';
 
-export interface IListViewTemplateVariableOptions {
+export interface IListViewTemplateVariableWrapperOptions {
   format?: TextFormat;
   formatPattern?: string;
 }
 
 export class ListViewTemplateVariableWrapper {
 
-  private index: number;
+  private dataSource: ListViewTemplateDataSourceWrapper;
   private format: TextFormat;
   private formatPattern: string;
-  private dataSourceType: DataSourceType;
 
-  constructor(index: number, dataSourceType: DataSourceType, options?: IListViewTemplateVariableOptions) {
-    this.index = index;
-    this.dataSourceType = dataSourceType;
+  constructor(dataSource: ListViewTemplateDataSourceWrapper, options?: IListViewTemplateVariableWrapperOptions) {
+    this.dataSource = dataSource;
 
     if (options && options.format) {
       this.format = options.format;
@@ -26,19 +24,15 @@ export class ListViewTemplateVariableWrapper {
     }
   }
 
-  public getIndex(): number {
-    return this.index;
+  public getDataSource(): ListViewTemplateDataSourceWrapper {
+    return this.dataSource;
   }
 
   public getFormat(): TextFormat {
     return this.format;
   }
 
-  public getFormatpattern(): string {
+  public getFormatPattern(): string {
     return this.formatPattern;
-  }
-
-  public getDataSourceType(): DataSourceType {
-    return this.dataSourceType;
   }
 }

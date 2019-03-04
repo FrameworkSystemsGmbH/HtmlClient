@@ -22,7 +22,6 @@ export class ListViewItemComponent implements OnInit {
   }
 
   set selected(val) {
-    console.log(val);
     this.selectedVal = val;
   }
 
@@ -32,7 +31,7 @@ export class ListViewItemComponent implements OnInit {
   private minHeight: number;
   private itemContentFactory: ComponentFactory<ListViewItemContentComponent>;
   private compRef: ComponentRef<ListViewItemContentComponent>;
-  private compInstance: ListViewItemContentComponent
+  private compInstance: ListViewItemContentComponent;
 
   public ngOnInit(): void {
     this.attachContentComponent();
