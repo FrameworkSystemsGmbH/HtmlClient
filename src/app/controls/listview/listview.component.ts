@@ -23,7 +23,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
   public wrapperStyle: any;
 
-  private itemsInitialized: boolean;
+  private itemRefs: Array<ComponentRef<ListViewItemComponent>> = new Array<ComponentRef<ListViewItemComponent>>();
 
   constructor(
     private cfr: ComponentFactoryResolver,
@@ -41,7 +41,30 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
   protected updateData(wrapper: ListViewWrapper): void {
     super.updateData(wrapper);
-    this.createItems(wrapper);
+
+    const itemWrappers: Array<ListViewItemWrapper> = wrapper.getItems();
+
+    if (!itemWrappers || !itemWrappers.length) {
+      return;
+    }
+
+    let posChange: boolean = false;
+
+    for (const itemWrapper of itemWrappers) {
+      if (itemWrapper.hasPosChanged()) {
+        posChange = true;
+      }
+
+      if (itemWrapper.getIsNew()) {
+        this.createItem(wrapper, itemWrapper);
+      } else if (itemWrapper.getHasUiChanges()) {
+        this.updateItem(itemWrapper);
+      }
+    }
+
+    if (posChange) {
+      this.sortItems(itemWrappers);
+    }
   }
 
   protected updateStyles(wrapper: ListViewWrapper): void {
@@ -117,36 +140,43 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     return wrapperStyle;
   }
 
-  private createItems(wrapper: ListViewWrapper): void {
-    if (this.itemsInitialized) {
-      return;
-    }
-
-    this.itemsInitialized = true;
-
-    const items: Array<ListViewItemWrapper> = wrapper.getItems();
-
-    if (!items || !items.length) {
-      return;
-    }
-
+  private createItem(listViewWrapper: ListViewWrapper, itemWrapper: ListViewItemWrapper): void {
     const itemFactory: ComponentFactory<ListViewItemComponent> = this.cfr.resolveComponentFactory(ListViewItemComponent);
+    const itemRef: ComponentRef<ListViewItemComponent> = this.anchor.createComponent(itemFactory, itemWrapper.getPos());
+    const itemInstance: ListViewItemComponent = itemRef.instance;
 
-    for (const item of items) {
-      const itemRef: ComponentRef<ListViewItemComponent> = this.anchor.createComponent(itemFactory);
-      const itemInstance: ListViewItemComponent = itemRef.instance;
+    this.itemRefs.push(itemRef);
 
-      itemInstance.setItemInfo({
-        id: item.getId(),
-        minWidth: wrapper.getItemMinWidth(),
-        minHeight: wrapper.getItemMinHeight(),
-        itemContentFactory: wrapper.getItemFactory()
-      });
+    itemInstance.setItemInfo({
+      id: itemWrapper.getId(),
+      minWidth: listViewWrapper.getItemMinWidth(),
+      minHeight: listViewWrapper.getItemMinHeight(),
+      itemContentFactory: listViewWrapper.getItemFactory()
+    });
 
-      // Format individual template values
-      const values: Array<string> = item.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern()));
+    itemInstance.setValues(this.getItemValues(itemWrapper));
+    itemWrapper.setUiUpdated();
+  }
 
-      itemInstance.setValues(values);
+  private updateItem(itemWrapper: ListViewItemWrapper): void {
+    const itemRef: ComponentRef<ListViewItemComponent> = this.itemRefs.find(ir => ir.instance.getId() === itemWrapper.getId());
+    itemRef.instance.setValues(this.getItemValues(itemWrapper));
+    itemWrapper.setUiUpdated();
+  }
+
+  private getItemValues(itemWrapper: ListViewItemWrapper): Array<string> {
+    return itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern()));
+  }
+
+  private sortItems(itemWrappers: Array<ListViewItemWrapper>): void {
+    for (let i = 0; i < itemWrappers.length; i++) {
+      const itemWrapper: ListViewItemWrapper = itemWrappers[i];
+      const itemRef: ComponentRef<ListViewItemComponent> = this.itemRefs.find(ir => ir.instance.getId() === itemWrapper.getId());
+      const viewIndex: number = this.anchor.indexOf(itemRef.hostView);
+
+      if (viewIndex !== i) {
+        this.anchor.move(itemRef.hostView, i);
+      }
     }
   }
 }

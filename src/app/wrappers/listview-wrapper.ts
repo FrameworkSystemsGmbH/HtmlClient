@@ -160,6 +160,7 @@ export class ListViewWrapper extends ControlWrapper {
     for (const itemJson of itemsJson) {
       const id: string = itemJson.id;
       const isNew: boolean = itemJson.new;
+      const pos: number = itemJson.pos;
       const valueMap: Map<string, string> = new Map<string, string>();
 
       if (itemJson.values && itemJson.values.length) {
@@ -168,22 +169,51 @@ export class ListViewWrapper extends ControlWrapper {
         }
       }
 
+      const values: Array<ListViewItemValueWrapper> = this.getValueList(valueMap);
+
       if (isNew) {
-        const values: Array<ListViewItemValueWrapper> = new Array<ListViewItemValueWrapper>();
-        for (const templateVar of this.templateVariables) {
-          const valueStr: string = valueMap.get(templateVar.getDataSource().getName());
-          values.push(new ListViewItemValueWrapper(valueStr, templateVar.getFormat(), templateVar.getFormatPattern()));
-        }
-
-        this.items.push(new ListViewItemWrapper(id, values));
+        this.items.push(new ListViewItemWrapper(id, pos, values));
       } else {
-
+        const item: ListViewItemWrapper = this.items.find(i => i.getId() === id);
+        if (item) {
+          item.setPosJson(pos);
+          item.setValues(values);
+        }
       }
     }
+
+    this.items = this.items.sort((a, b) => {
+      const aPos: number = a.getPos();
+      const bPos: number = b.getPos();
+      if (aPos > bPos) {
+        return 1;
+      } else if (aPos < bPos) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  private getValueList(valueMap: Map<string, string>): Array<ListViewItemValueWrapper> {
+    const values: Array<ListViewItemValueWrapper> = new Array<ListViewItemValueWrapper>();
+
+    for (const templateVar of this.templateVariables) {
+      const valueStr: string = valueMap.get(templateVar.getDataSource().getName());
+      values.push(new ListViewItemValueWrapper(valueStr, templateVar.getFormat(), templateVar.getFormatPattern()));
+    }
+
+    return values;
   }
 
   protected setSelectedItemsJson(selectedItemsJson: any): void {
-
+    for (const selectedItemJson of selectedItemsJson) {
+      const id: string = selectedItemJson.id;
+      const item: ListViewItemWrapper = this.items.find(i => i.getId() === id);
+      if (item) {
+        item.setSelectedJson(true);
+      }
+    }
   }
 
   private parseViewTemplate(): string {
@@ -232,14 +262,14 @@ export class ListViewWrapper extends ControlWrapper {
 
         if (index >= 0) {
           const formatStr: string = partTrimmed.substr(index + ListViewWrapper.PART_F.length);
-          format = parseInt(formatStr);
+          format = parseInt(formatStr, 10);
           continue;
         }
 
         index = partTrimmed.indexOf(ListViewWrapper.PART_FP);
 
         if (index >= 0) {
-          const formatPatternStr:string = partTrimmed.substr(index + ListViewWrapper.PART_FP.length);
+          const formatPatternStr: string = partTrimmed.substr(index + ListViewWrapper.PART_FP.length);
           formatPattern = this.patternFormatService.javaToMoment(formatPatternStr);
           continue;
         }
@@ -282,7 +312,7 @@ export class ListViewWrapper extends ControlWrapper {
   }
 
   private compileListViewItemComponent(): ComponentFactory<ListViewItemContentComponent> {
-    const listViewItemHostCss: string = ':host { flex: 1; display: flex; flex-direction: column; }'
+    const listViewItemHostCss: string = ':host { flex: 1; display: flex; flex-direction: column; }';
 
     const listViewItemComp = Component({ selector: ListViewItemContentComponent.SELECTOR, template: this.templateHtml, styles: [listViewItemHostCss, this.templateCss] })(ListViewItemContentComponent);
     const listViewItemMod = NgModule({ declarations: [listViewItemComp] })(ListViewItemContentModule);
