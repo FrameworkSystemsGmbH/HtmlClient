@@ -99,6 +99,7 @@ export class BrokerService {
       flatMap(() => {
         if (!event.callbacks || event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
           return this.createRequest(event.clientEvent).pipe(
+            // tap(requestJson => console.log(requestJson)),
             flatMap(requestJson => this.doRequest(requestJson)),
             flatMap(responseJson => this.processResponse(responseJson))
           );

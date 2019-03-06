@@ -1,4 +1,7 @@
 import { ListViewItemValueWrapper } from 'app/wrappers/listview-item-value-wrapper';
+import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
+import { ListViewItemComponent } from 'app/controls/listview/listview-item.component';
+import { ViewContainerRef, Injector, ComponentFactoryResolver, ComponentRef, ViewRef } from '@angular/core';
 
 export class ListViewItemWrapper {
 
@@ -6,17 +9,22 @@ export class ListViewItemWrapper {
   private _pos: number;
   private _selected: boolean;
   private _selectedOrg: boolean;
+  private _listViewWrapper: ListViewWrapper;
   private _values: Array<ListViewItemValueWrapper>;
+  private _cfr: ComponentFactoryResolver;
+  private _componentRef: ComponentRef<ListViewItemComponent>;
 
   private _isNew: boolean;
   private _hasPosChanged: boolean;
   private _hasContentChanged: boolean;
 
-  constructor(id: string, pos: number, values: Array<ListViewItemValueWrapper>) {
+  constructor(id: string, pos: number, listViewWrapper: ListViewWrapper, values: Array<ListViewItemValueWrapper>, injector: Injector) {
     this._id = id;
     this._pos = pos;
+    this._listViewWrapper = listViewWrapper;
     this._values = values;
     this._isNew = true;
+    this._cfr = injector.get(ComponentFactoryResolver);
   }
 
   public getId(): string {
@@ -37,6 +45,85 @@ export class ListViewItemWrapper {
 
   public getValues(): Array<ListViewItemValueWrapper> {
     return this._values;
+  }
+
+  public getListViewWrapper(): ListViewWrapper {
+    return this._listViewWrapper;
+  }
+
+  public notifySingleSelectionChanged(): void {
+    this.getListViewWrapper().ensureSingleSelection(this);
+  }
+
+  private createComponent(listViewAnchor: ViewContainerRef): ComponentRef<ListViewItemComponent> {
+    return this._cfr.resolveComponentFactory(ListViewItemComponent).create(listViewAnchor.injector);
+  }
+
+  private getComponentRef(): ComponentRef<ListViewItemComponent> {
+    return this._componentRef;
+  }
+
+  private setComponentRef(componentRef: ComponentRef<ListViewItemComponent>): void {
+    this._componentRef = componentRef;
+  }
+
+  private getComponent(): ListViewItemComponent {
+    const compRef: ComponentRef<ListViewItemComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
+  }
+
+  private getHostView(): ViewRef {
+    return this.getComponentRef().hostView;
+  }
+
+  public updateComponent(): void {
+    const comp: ListViewItemComponent = this.getComponent();
+
+    if (comp) {
+      comp.updateComponent();
+    }
+  }
+
+  public attachComponent(listViewAnchor: ViewContainerRef): void {
+    // If this wrapper is already attached -> detach and destroy old Angular Component
+    const oldCompRef: ComponentRef<ListViewItemComponent> = this.getComponentRef();
+
+    if (oldCompRef != null) {
+      oldCompRef.destroy();
+    }
+
+    // Create the Angular Component
+    const compRef: ComponentRef<ListViewItemComponent> = this.createComponent(listViewAnchor);
+    const compInstance: ListViewItemComponent = compRef.instance;
+
+    // Link wrapper with component
+    this.setComponentRef(compRef);
+
+    // Link component with wrapper
+    compInstance.setWrapper(this);
+
+    // Register onDestroy handler of the Angular component
+    compRef.onDestroy(this.detachComponent.bind(this));
+
+    // Insert the Angular Component into the DOM
+    listViewAnchor.insert(compRef.hostView);
+  }
+
+  protected detachComponent(): void {
+    // Clear the Angular Component reference
+    this._componentRef = null;
+  }
+
+  public ensureItemPos(listViewAnchor: ViewContainerRef): void {
+    const hostView: ViewRef = this.getHostView();
+    const wrapperPos = this.getPos();
+    const viewPos: number = listViewAnchor.indexOf(hostView);
+
+    if (wrapperPos !== viewPos) {
+      listViewAnchor.move(hostView, wrapperPos);
+    }
+
+    this.confirmPosUpdate();
   }
 
   public setPosJson(pos: number): void {
@@ -75,7 +162,7 @@ export class ListViewItemWrapper {
     return this._selected !== this._selectedOrg;
   }
 
-  public confirmPosUpdate(): void {
+  private confirmPosUpdate(): void {
     this._hasPosChanged = false;
   }
 

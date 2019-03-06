@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ComponentFactory, ComponentRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -7,9 +7,6 @@ import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { StyleUtil } from 'app/util/style-util';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
-import { ListViewItemComponent } from 'app/controls/listview/listview-item.component';
-import { ListViewItemValueWrapper } from 'app/wrappers/listview-item-value-wrapper';
-import { BaseFormatService } from 'app/services/formatter/base-format.service';
 
 @Component({
   selector: 'hc-listview',
@@ -22,14 +19,6 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   public anchor: ViewContainerRef;
 
   public wrapperStyle: any;
-
-  private itemRefs: Array<ComponentRef<ListViewItemComponent>> = new Array<ComponentRef<ListViewItemComponent>>();
-
-  constructor(
-    private cfr: ComponentFactoryResolver,
-    private baseFormatService: BaseFormatService) {
-    super();
-  }
 
   public getWrapper(): ListViewWrapper {
     return super.getWrapper() as ListViewWrapper;
@@ -56,14 +45,14 @@ export class ListViewComponent extends ControlComponent implements OnInit {
       }
 
       if (itemWrapper.isNew()) {
-        this.createItem(wrapper, itemWrapper);
+        itemWrapper.attachComponent(this.anchor);
       } else if (itemWrapper.hasContentChanged()) {
-        this.updateItem(itemWrapper);
+        itemWrapper.updateComponent();
       }
     }
 
     if (posChange) {
-      this.sortItems(itemWrappers);
+      itemWrappers.forEach(i => i.ensureItemPos(this.anchor));
     }
   }
 
@@ -138,47 +127,5 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     }
 
     return wrapperStyle;
-  }
-
-  private createItem(listViewWrapper: ListViewWrapper, itemWrapper: ListViewItemWrapper): void {
-    const itemFactory: ComponentFactory<ListViewItemComponent> = this.cfr.resolveComponentFactory(ListViewItemComponent);
-    const itemRef: ComponentRef<ListViewItemComponent> = this.anchor.createComponent(itemFactory, itemWrapper.getPos());
-    const itemInstance: ListViewItemComponent = itemRef.instance;
-
-    this.itemRefs.push(itemRef);
-
-    itemInstance.setItemInfo({
-      id: itemWrapper.getId(),
-      minWidth: listViewWrapper.getItemMinWidth(),
-      minHeight: listViewWrapper.getItemMinHeight(),
-      itemContentFactory: listViewWrapper.getItemFactory()
-    });
-
-    this.setItemInstanceProperties(itemInstance, itemWrapper);
-  }
-
-  private updateItem(itemWrapper: ListViewItemWrapper): void {
-    const itemRef: ComponentRef<ListViewItemComponent> = this.itemRefs.find(ir => ir.instance.getId() === itemWrapper.getId());
-    this.setItemInstanceProperties(itemRef.instance, itemWrapper);
-  }
-
-  private setItemInstanceProperties(instance: ListViewItemComponent, itemWrapper: ListViewItemWrapper): void {
-    instance.setValues(itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern())));
-    instance.selected = itemWrapper.getSelected();
-    itemWrapper.confirmContentUpdate();
-  }
-
-  private sortItems(itemWrappers: Array<ListViewItemWrapper>): void {
-    for (let i = 0; i < itemWrappers.length; i++) {
-      const itemWrapper: ListViewItemWrapper = itemWrappers[i];
-      const itemRef: ComponentRef<ListViewItemComponent> = this.itemRefs.find(ir => ir.instance.getId() === itemWrapper.getId());
-      const viewIndex: number = this.anchor.indexOf(itemRef.hostView);
-
-      if (viewIndex !== i) {
-        this.anchor.move(itemRef.hostView, i);
-      }
-
-      itemWrapper.confirmPosUpdate();
-    }
   }
 }

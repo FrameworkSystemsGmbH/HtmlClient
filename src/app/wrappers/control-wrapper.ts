@@ -507,10 +507,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return null; // Override in derived classes
   }
 
-  public getMetaJson(): any {
-    return { controlName: this.getName() };
-  }
-
   public setJson(json: any, isNew: boolean): void {
     if (isNew) {
       if (json.meta) {

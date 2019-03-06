@@ -120,9 +120,43 @@ export class ListViewWrapper extends ControlWrapper {
     return this.items;
   }
 
+  public ensureSingleSelection(itemWrapper: ListViewItemWrapper): void {
+    for (const item of this.items) {
+      if (item !== itemWrapper) {
+        item.setSelected(false);
+        item.updateComponent();
+      }
+    }
+  }
+
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ListViewComponent> {
     const factory: ComponentFactory<ListViewComponent> = this.getResolver().resolveComponentFactory(ListViewComponent);
     return factory.create(container.getViewContainerRef().injector);
+  }
+
+  private hasChanges(): boolean {
+    return this.items.filter(i => i.hasSelectionChanged()).length > 0;
+  }
+
+  public getJson(): any {
+    if (!this.hasChanges()) {
+      return null;
+    }
+
+    const controlJson: any = {
+      meta: {
+        name: this.getName()
+      },
+      data: {
+        selectedItems: this.getSelectedItemsJson()
+      }
+    };
+
+    return controlJson;
+  }
+
+  public getSelectedItemsJson(): Array<string> {
+    return this.items.filter(i => i.getSelected()).map(i => i.getId());
   }
 
   protected setPropertiesJson(propertiesJson: any): void {
@@ -170,7 +204,7 @@ export class ListViewWrapper extends ControlWrapper {
       const values: Array<ListViewItemValueWrapper> = this.getValueList(valueMap);
 
       if (isNew) {
-        this.items.push(new ListViewItemWrapper(id, pos, values));
+        this.items.push(new ListViewItemWrapper(id, pos, this, values, this.getInjector()));
       } else {
         const item: ListViewItemWrapper = this.items.find(i => i.getId() === id);
         if (item) {
@@ -205,8 +239,14 @@ export class ListViewWrapper extends ControlWrapper {
   }
 
   private setSelectedItemsJson(selectedItemsJson: any): void {
+    let selectedIds: Array<string> = selectedItemsJson && selectedItemsJson.length ? selectedItemsJson : new Array<string>();
+
+    if (this.getSelectionMode() === ListViewSelectionMode.Single && selectedIds.length > 1) {
+      selectedIds = new Array<string>(selectedIds[0]);
+    }
+
     for (const item of this.items) {
-      if (selectedItemsJson && selectedItemsJson.find(id => id === item.getId())) {
+      if (selectedIds.find(id => id === item.getId())) {
         item.setSelectedJson(true);
       } else {
         item.setSelectedJson(false);
