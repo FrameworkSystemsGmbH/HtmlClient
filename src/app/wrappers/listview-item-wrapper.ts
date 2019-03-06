@@ -4,21 +4,19 @@ export class ListViewItemWrapper {
 
   private _id: string;
   private _pos: number;
-  private _posOld: number;
-  private _isNew: boolean;
+  private _selected: boolean;
+  private _selectedOrg: boolean;
   private _values: Array<ListViewItemValueWrapper>;
 
-  private _selected: boolean;
-  private _orgSelected: boolean;
-
-  private _hasUiChanges: boolean;
+  private _isNew: boolean;
+  private _hasPosChanged: boolean;
+  private _hasContentChanged: boolean;
 
   constructor(id: string, pos: number, values: Array<ListViewItemValueWrapper>) {
     this._id = id;
     this._pos = pos;
-    this._posOld = pos;
-    this._isNew = true;
     this._values = values;
+    this._isNew = true;
   }
 
   public getId(): string {
@@ -29,56 +27,60 @@ export class ListViewItemWrapper {
     return this._pos;
   }
 
-  public hasPosChanged(): boolean {
-    return this._pos !== this._posOld;
-  }
-
-  public getIsNew(): boolean {
-    return this._isNew;
-  }
-
-  public getValues(): Array<ListViewItemValueWrapper> {
-    return this._values;
-  }
-
-  public setValues(values: Array<ListViewItemValueWrapper>): void {
-    this._values = values;
-    this._hasUiChanges = true;
-  }
-
   public getSelected(): boolean {
     return this._selected;
   }
 
   public setSelected(selected: boolean): void {
     this._selected = selected;
-    this._hasUiChanges = true;
   }
 
-  public getHasUiChanges(): boolean {
-    return this._hasUiChanges;
-  }
-
-  public hasChanges(): boolean {
-    return this._selected !== this._orgSelected;
-  }
-
-  public getSelectedJson(): boolean {
-    return this._selected;
-  }
-
-  public setSelectedJson(selected: boolean): void {
-    this._selected = selected;
-    this._orgSelected = selected;
+  public getValues(): Array<ListViewItemValueWrapper> {
+    return this._values;
   }
 
   public setPosJson(pos: number): void {
-    this._posOld = this._pos;
+    if (this._pos !== pos) {
+      this._hasPosChanged = true;
+    }
     this._pos = pos;
   }
 
-  public setUiUpdated(): void {
+  public setSelectedJson(selected: boolean): void {
+    if (this._selected !== selected) {
+      this._hasContentChanged = true;
+    }
+    this._selected = selected;
+    this._selectedOrg = selected;
+  }
+
+  public setValuesJson(values: Array<ListViewItemValueWrapper>): void {
+    this._values = values;
+    this._hasContentChanged = true;
+  }
+
+  public isNew(): boolean {
+    return this._isNew;
+  }
+
+  public hasPosChanged(): boolean {
+    return this._hasPosChanged;
+  }
+
+  public hasContentChanged(): boolean {
+    return this._hasContentChanged;
+  }
+
+  public hasSelectionChanged(): boolean {
+    return this._selected !== this._selectedOrg;
+  }
+
+  public confirmPosUpdate(): void {
+    this._hasPosChanged = false;
+  }
+
+  public confirmContentUpdate(): void {
     this._isNew = false;
-    this._hasUiChanges = false;
+    this._hasContentChanged = false;
   }
 }

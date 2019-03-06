@@ -20,20 +20,6 @@ export class SelectorComponent implements OnInit {
     this.setWrapperStyle();
   }
 
-  // private checkedInternalValue: boolean;
-
-  // public get checkedInternal(): boolean {
-  //   return this.checkedInternalValue;
-  // }
-
-  // public set checkedInternal(val: boolean) {
-  //   this.checkedInternalValue = val;
-
-  //   if (this.checked != val) {
-  //     this.checked = val;
-  //   }
-  // }
-
   private checkedValue: boolean;
 
   @Input()
@@ -47,11 +33,6 @@ export class SelectorComponent implements OnInit {
     }
 
     this.checkedValue = val;
-
-    // if (this.checkedInternal != val) {
-    //   this.checkedInternal = val;
-    // }
-
     this.checkedChange.emit(val);
   }
 

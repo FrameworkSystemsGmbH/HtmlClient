@@ -150,9 +150,7 @@ export class ListViewWrapper extends ControlWrapper {
         this.setItemsJson(dataJson.listViewData.items);
       }
 
-      if (dataJson.selectedItems && dataJson.selectedItems.length) {
-        this.setSelectedItemsJson(dataJson.selectedItems);
-      }
+      this.setSelectedItemsJson(dataJson.selectedItems);
     }
   }
 
@@ -177,7 +175,7 @@ export class ListViewWrapper extends ControlWrapper {
         const item: ListViewItemWrapper = this.items.find(i => i.getId() === id);
         if (item) {
           item.setPosJson(pos);
-          item.setValues(values);
+          item.setValuesJson(values);
         }
       }
     }
@@ -206,12 +204,12 @@ export class ListViewWrapper extends ControlWrapper {
     return values;
   }
 
-  protected setSelectedItemsJson(selectedItemsJson: any): void {
-    for (const selectedItemJson of selectedItemsJson) {
-      const id: string = selectedItemJson.id;
-      const item: ListViewItemWrapper = this.items.find(i => i.getId() === id);
-      if (item) {
+  private setSelectedItemsJson(selectedItemsJson: any): void {
+    for (const item of this.items) {
+      if (selectedItemsJson && selectedItemsJson.find(id => id === item.getId())) {
         item.setSelectedJson(true);
+      } else {
+        item.setSelectedJson(false);
       }
     }
   }

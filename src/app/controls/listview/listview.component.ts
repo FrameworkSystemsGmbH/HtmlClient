@@ -55,9 +55,9 @@ export class ListViewComponent extends ControlComponent implements OnInit {
         posChange = true;
       }
 
-      if (itemWrapper.getIsNew()) {
+      if (itemWrapper.isNew()) {
         this.createItem(wrapper, itemWrapper);
-      } else if (itemWrapper.getHasUiChanges()) {
+      } else if (itemWrapper.hasContentChanged()) {
         this.updateItem(itemWrapper);
       }
     }
@@ -154,18 +154,18 @@ export class ListViewComponent extends ControlComponent implements OnInit {
       itemContentFactory: listViewWrapper.getItemFactory()
     });
 
-    itemInstance.setValues(this.getItemValues(itemWrapper));
-    itemWrapper.setUiUpdated();
+    this.setItemInstanceProperties(itemInstance, itemWrapper);
   }
 
   private updateItem(itemWrapper: ListViewItemWrapper): void {
     const itemRef: ComponentRef<ListViewItemComponent> = this.itemRefs.find(ir => ir.instance.getId() === itemWrapper.getId());
-    itemRef.instance.setValues(this.getItemValues(itemWrapper));
-    itemWrapper.setUiUpdated();
+    this.setItemInstanceProperties(itemRef.instance, itemWrapper);
   }
 
-  private getItemValues(itemWrapper: ListViewItemWrapper): Array<string> {
-    return itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern()));
+  private setItemInstanceProperties(instance: ListViewItemComponent, itemWrapper: ListViewItemWrapper): void {
+    instance.setValues(itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern())));
+    instance.selected = itemWrapper.getSelected();
+    itemWrapper.confirmContentUpdate();
   }
 
   private sortItems(itemWrappers: Array<ListViewItemWrapper>): void {
@@ -177,6 +177,8 @@ export class ListViewComponent extends ControlComponent implements OnInit {
       if (viewIndex !== i) {
         this.anchor.move(itemRef.hostView, i);
       }
+
+      itemWrapper.confirmPosUpdate();
     }
   }
 }
