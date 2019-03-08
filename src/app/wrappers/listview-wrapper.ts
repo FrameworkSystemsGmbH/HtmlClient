@@ -180,8 +180,14 @@ export class ListViewWrapper extends ControlWrapper {
     super.setDataJson(dataJson);
 
     if (dataJson) {
-      if (dataJson.listViewData && dataJson.listViewData.items) {
-        this.setItemsJson(dataJson.listViewData.items);
+      if (dataJson.listViewData) {
+        if (dataJson.listViewData.allItemsDeleted) {
+          this.clearItems();
+        }
+
+        if (dataJson.listViewData.items) {
+          this.setItemsJson(dataJson.listViewData.items);
+        }
       }
 
       this.setSelectedItemsJson(dataJson.selectedItems);
@@ -191,25 +197,34 @@ export class ListViewWrapper extends ControlWrapper {
   protected setItemsJson(itemsJson: any): void {
     for (const itemJson of itemsJson) {
       const id: string = itemJson.id;
-      const isNew: boolean = itemJson.new;
-      const pos: number = itemJson.pos;
-      const valueMap: Map<string, string> = new Map<string, string>();
 
-      if (itemJson.values && itemJson.values.length) {
-        for (const value of itemJson.values) {
-          valueMap.set(decodeURIComponent(value.name), decodeURIComponent(value.value));
-        }
-      }
-
-      const values: Array<ListViewItemValueWrapper> = this.getValueList(valueMap);
-
-      if (isNew) {
-        this.items.push(new ListViewItemWrapper(id, pos, this, values, this.getInjector()));
-      } else {
+      if (itemJson.deleted) {
         const item: ListViewItemWrapper = this.items.find(i => i.getId() === id);
         if (item) {
-          item.setPosJson(pos);
-          item.setValuesJson(values);
+          item.detachComponent();
+          this.items.remove(item);
+        }
+      } else {
+        const isNew: boolean = itemJson.new;
+        const pos: number = itemJson.pos;
+        const valueMap: Map<string, string> = new Map<string, string>();
+
+        if (itemJson.values && itemJson.values.length) {
+          for (const value of itemJson.values) {
+            valueMap.set(decodeURIComponent(value.name), decodeURIComponent(value.value));
+          }
+        }
+
+        const values: Array<ListViewItemValueWrapper> = this.getValueList(valueMap);
+
+        if (isNew) {
+          this.items.push(new ListViewItemWrapper(id, pos, this, values, this.getInjector()));
+        } else {
+          const item: ListViewItemWrapper = this.items.find(i => i.getId() === id);
+          if (item) {
+            item.setPosJson(pos);
+            item.setValuesJson(values);
+          }
         }
       }
     }
@@ -347,6 +362,14 @@ export class ListViewWrapper extends ControlWrapper {
   private setErrorTemplate(): void {
     this.templateHtml = '<div class="wrapper">Template NULL</div>';
     this.templateCss = '.wrapper { display: flex; justify-content: center; align-items: center; }';
+  }
+
+  private clearItems(): void {
+    for (const item of this.items) {
+      item.detachComponent();
+    }
+
+    this.items = new Array<ListViewItemWrapper>();
   }
 
   private compileListViewItemComponent(): ComponentFactory<ListViewItemContentComponent> {

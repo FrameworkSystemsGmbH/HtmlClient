@@ -73,7 +73,8 @@ export class ListViewItemWrapper {
   }
 
   private getHostView(): ViewRef {
-    return this.getComponentRef().hostView;
+    const compRef: ComponentRef<ListViewItemComponent> = this.getComponentRef();
+    return compRef ? compRef.hostView : undefined;
   }
 
   public updateComponent(): void {
@@ -86,11 +87,7 @@ export class ListViewItemWrapper {
 
   public attachComponent(listViewAnchor: ViewContainerRef): void {
     // If this wrapper is already attached -> detach and destroy old Angular Component
-    const oldCompRef: ComponentRef<ListViewItemComponent> = this.getComponentRef();
-
-    if (oldCompRef != null) {
-      oldCompRef.destroy();
-    }
+    this.detachComponent();
 
     // Create the Angular Component
     const compRef: ComponentRef<ListViewItemComponent> = this.createComponent(listViewAnchor);
@@ -103,19 +100,32 @@ export class ListViewItemWrapper {
     compInstance.setWrapper(this);
 
     // Register onDestroy handler of the Angular component
-    compRef.onDestroy(this.detachComponent.bind(this));
+    compRef.onDestroy(this.onComponentDestroyed.bind(this));
 
     // Insert the Angular Component into the DOM
     listViewAnchor.insert(compRef.hostView);
   }
 
-  protected detachComponent(): void {
+  public detachComponent(): void {
+    const compRef: ComponentRef<ListViewItemComponent> = this.getComponentRef();
+
+    if (compRef != null) {
+      compRef.destroy();
+    }
+  }
+
+  protected onComponentDestroyed(): void {
     // Clear the Angular Component reference
     this._componentRef = null;
   }
 
   public ensureItemPos(listViewAnchor: ViewContainerRef): void {
     const hostView: ViewRef = this.getHostView();
+
+    if (!hostView) {
+      return;
+    }
+
     const wrapperPos = this.getPos();
     const viewPos: number = listViewAnchor.indexOf(hostView);
 

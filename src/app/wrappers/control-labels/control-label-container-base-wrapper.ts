@@ -283,7 +283,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
     compInstance.setWrapper(this);
 
     // Register onDestroy handler of the Angular component
-    compRef.onDestroy(this.detachComponent.bind(this));
+    compRef.onDestroy(this.onComponentDestroyed.bind(this));
 
     // Insert the Angular Component into the DOM
     uiContainer.getViewContainerRef().insert(compRef.hostView);
@@ -300,7 +300,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
     }
   }
 
-  protected detachComponent(): void {
+  protected onComponentDestroyed(): void {
     // Detach wrapper from VCH
     const vchParent: ILayoutableContainerWrapper = this.getVchControl().getParent();
 
