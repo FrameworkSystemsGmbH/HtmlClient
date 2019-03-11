@@ -89,14 +89,6 @@ export class ListViewWrapper extends ControlWrapper {
     return Number.zeroIfNull(this.getPropertyStore().getItemMinHeight());
   }
 
-  public getItemMaxWidth(): number {
-    return Number.maxIfNull(this.getPropertyStore().getItemMaxWidth());
-  }
-
-  public getItemMaxHeight(): number {
-    return Number.maxIfNull(this.getPropertyStore().getItemMaxHeight());
-  }
-
   public getTemplateHtml(): string {
     return this.getPropertyStore().getTemplateHtml();
   }

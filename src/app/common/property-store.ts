@@ -981,32 +981,6 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.itemMinHeight = value; });
   }
 
-  // ItemMaxWidth
-  public getItemMaxWidth(): number {
-    return this.getValue<number>((data: PropertyData) => data.itemMaxWidth);
-  }
-
-  public getItemMaxWidthForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemMaxWidth);
-  }
-
-  public setItemMaxWidth(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.itemMaxWidth = value; });
-  }
-
-  // ItemMaxHeight
-  public getItemMaxHeight(): number {
-    return this.getValue<number>((data: PropertyData) => data.itemMaxHeight);
-  }
-
-  public getItemMaxHeightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemMaxHeight);
-  }
-
-  public setItemMaxHeight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.itemMaxHeight = value; });
-  }
-
   // IsCloseIconVisible
   public getIsCloseIconVisible(): boolean {
     return this.getValue<boolean>((data: PropertyData) => data.isCloseIconVisible);

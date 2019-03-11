@@ -119,8 +119,6 @@ export class PropertyData {
   public itemArrangement: ListViewItemArrangement;
   public itemMinWidth: number;
   public itemMinHeight: number;
-  public itemMaxWidth: number;
-  public itemMaxHeight: number;
   public labelMode: FieldRowLabelMode;
   public listDisplayMinLength: number;
   public listDisplayMaxLength: number;
