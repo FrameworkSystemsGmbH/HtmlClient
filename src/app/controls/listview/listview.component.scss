@@ -1,3 +1,8 @@
 :host, .wrapper {
   position: absolute;
 }
+
+.wrapper {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}

@@ -73,7 +73,6 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
     let wrapperStyle: any = {
       'display': isVisible ? 'grid' : 'none',
-      'overflow': 'auto',
       'column-gap': StyleUtil.getValue('px', spacingHorizontal),
       'row-gap': StyleUtil.getValue('px', spacingVertical),
       'left.px': layoutableProperties.getX(),
