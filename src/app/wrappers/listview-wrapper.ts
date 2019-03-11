@@ -1,5 +1,6 @@
 import { ComponentRef, ComponentFactory, Component, NgModule, Compiler } from '@angular/core';
 
+import { IListViewLayoutControl } from 'app/layout/listview-layout/listview-layout-control.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 import { IListViewTemplateVariableWrapperOptions, ListViewTemplateVariableWrapper } from 'app/wrappers/listview-template-variable-wrapper';
 
@@ -17,8 +18,10 @@ import { ListViewTemplateDataSourceWrapper } from 'app/wrappers/listview-templat
 import { TextFormat } from 'app/enums/text-format';
 import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
 import { ListViewItemValueWrapper } from 'app/wrappers/listview-item-value-wrapper';
+import { LayoutBase } from 'app/layout/layout-base';
+import { ListViewLayout } from 'app/layout/listview-layout/listview-layout';
 
-export class ListViewWrapper extends ControlWrapper {
+export class ListViewWrapper extends ControlWrapper implements IListViewLayoutControl {
 
   public static readonly PART_DS: string = 'ds:';
   public static readonly PART_F: string = 'f:';
@@ -44,6 +47,10 @@ export class ListViewWrapper extends ControlWrapper {
     return ControlType.ListView;
   }
 
+  protected createLayout(): LayoutBase {
+    return new ListViewLayout(this);
+  }
+
   protected getComponentRef(): ComponentRef<ListViewComponent> {
     return super.getComponentRef() as ComponentRef<ListViewComponent>;
   }
@@ -56,6 +63,10 @@ export class ListViewWrapper extends ControlWrapper {
   public getSelectionMode(): ListViewSelectionMode {
     const selectionMode: ListViewSelectionMode = this.getPropertyStore().getSelectionMode();
     return selectionMode != null ? selectionMode : ListViewSelectionMode.None;
+  }
+
+  public getIsMobileLayout(): boolean {
+    return this.getPlatformService().isMobile();
   }
 
   public getItemArrangement(): ListViewItemArrangement {
@@ -115,6 +126,10 @@ export class ListViewWrapper extends ControlWrapper {
 
   public getSelectedItems(): Array<ListViewItemWrapper> {
     return this.items.filter(i => i.getSelected());
+  }
+
+  public getItemCount(): number {
+    return this.items.length;
   }
 
   public getMobileSelectionModeEnabled(): boolean {

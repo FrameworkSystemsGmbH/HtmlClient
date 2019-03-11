@@ -75,6 +75,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
       'display': isVisible ? 'grid' : 'none',
       'column-gap': StyleUtil.getValue('px', spacingHorizontal),
       'row-gap': StyleUtil.getValue('px', spacingVertical),
+      'align-content': 'flex-start',
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
       'width.px': layoutWidth,
@@ -120,8 +121,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     } else {
       wrapperStyle = {
         ...wrapperStyle,
-        'grid-template-columns': `repeat(auto-fit, minmax(${StyleUtil.getValue('px', itemMinWidth)}, 1fr)`,
-        'align-content': 'flex-start'
+        'grid-template-columns': `repeat(auto-fit, minmax(${StyleUtil.getValue('px', itemMinWidth)}, 1fr)`
       };
     }
 
