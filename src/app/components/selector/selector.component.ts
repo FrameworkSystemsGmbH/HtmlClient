@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
-import { InvokeFunctionExpr } from '@angular/compiler';
+import { PlatformService } from 'app/services/platform.service';
 
 @Component({
   selector: 'hc-selector',
@@ -28,7 +28,7 @@ export class SelectorComponent implements OnInit {
   }
 
   public set checked(val: boolean) {
-    if (this.checked === val) {
+    if (this.checkedValue === val) {
       return;
     }
 
@@ -39,9 +39,13 @@ export class SelectorComponent implements OnInit {
   @Output()
   public checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  public isDisabledAttr: boolean;
   public wrapperStyle: any;
 
+  constructor(private platformService: PlatformService) { }
+
   public ngOnInit(): void {
+    this.isDisabledAttr = this.platformService.isMobile() ? true : null;
     this.setWrapperStyle();
   }
 

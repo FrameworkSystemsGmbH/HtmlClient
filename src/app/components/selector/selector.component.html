@@ -1,5 +1,5 @@
 <label class="selector-wrapper" [ngStyle]="wrapperStyle">
-  <input class="input visually-hidden" type="checkbox" [(ngModel)]="checked">
+  <input class="input visually-hidden" type="checkbox" [(ngModel)]="checked" [attr.disabled]="isDisabledAttr">
   <div class="selector-frame">
     <svg xml:space="preserve" class="selector-checkmark" focusable="false" version="1.1" viewBox="0 0 24 24">
       <path class="selector-checkmark-path" d="M4.1,12.7 9,17.6 20.3,6.3" fill="none"></path>

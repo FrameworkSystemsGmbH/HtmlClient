@@ -1,10 +1,10 @@
-import { Component, ViewChild, ViewContainerRef, ComponentFactory, OnInit, ComponentRef, Output } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, ComponentRef } from '@angular/core';
 import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
-import { Subject } from 'rxjs';
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
+import { PlatformService } from 'app/services/platform.service';
 
 @Component({
   selector: 'hc-listview-item',
@@ -42,10 +42,14 @@ export class ListViewItemComponent implements OnInit {
   private minHeight: number;
   private selectionMode: ListViewSelectionMode;
   private itemWrapper: ListViewItemWrapper;
+  private listViewWrapper: ListViewWrapper;
   private contentCompRef: ComponentRef<ListViewItemContentComponent>;
   private contentCompInstance: ListViewItemContentComponent;
 
-  constructor(private baseFormatService: BaseFormatService) { }
+  constructor(
+    private baseFormatService: BaseFormatService,
+    private platformService: PlatformService
+  ) { }
 
   public ngOnInit(): void {
     this.attachContentComponent();
@@ -57,15 +61,24 @@ export class ListViewItemComponent implements OnInit {
   }
 
   public getSelectorVisible(): boolean {
-    return this.selectionMode !== ListViewSelectionMode.None && (this.selected || this.isHover);
+    if (this.selectionMode === ListViewSelectionMode.None) {
+      return false;
+    }
+
+    if (this.platformService.isMobile()) {
+      return this.selected || this.listViewWrapper.getMobileSelectionModeEnabled();
+    } else {
+      return this.selected || this.isHover;
+    }
   }
 
   public setWrapper(itemWrapper: ListViewItemWrapper) {
     this.itemWrapper = itemWrapper;
+    this.listViewWrapper = itemWrapper.getListViewWrapper();
   }
 
   private updateWrapper(): void {
-    this.itemWrapper.setSelected(this.selectedVal);
+    this.itemWrapper.setSelected(this.selected);
   }
 
   public updateComponent(): void {
@@ -74,11 +87,10 @@ export class ListViewItemComponent implements OnInit {
   }
 
   private updateData(itemWrapper: ListViewItemWrapper): void {
-    const listViewWrapper: ListViewWrapper = itemWrapper.getListViewWrapper();
     this.id = itemWrapper.getId();
-    this.minWidth = listViewWrapper.getItemMinWidth();
-    this.minHeight = listViewWrapper.getItemMinHeight();
-    this.selectionMode = listViewWrapper.getSelectionMode();
+    this.minWidth = this.listViewWrapper.getItemMinWidth();
+    this.minHeight = this.listViewWrapper.getItemMinHeight();
+    this.selectionMode = this.listViewWrapper.getSelectionMode();
     this.values = itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern()));
     this.selectedVal = itemWrapper.getSelected();
     itemWrapper.confirmContentUpdate();
@@ -107,5 +119,31 @@ export class ListViewItemComponent implements OnInit {
     }
 
     this.contentCompInstance.values = this.values;
+  }
+
+  public onPress(event: any): void {
+    if (!this.platformService.isMobile() || this.selectionMode === ListViewSelectionMode.None) {
+      return;
+    }
+
+    if (this.selectionMode === ListViewSelectionMode.Single) {
+      this.selected = !this.selected;
+    } else {
+      if (this.listViewWrapper.getMobileSelectionModeEnabled()) {
+        this.listViewWrapper.setMobileSelectionModeEnabled(false);
+      } else {
+        this.listViewWrapper.setMobileSelectionModeEnabled(true);
+
+        if (!this.selected && this.listViewWrapper.getSelectedItems().length === 0) {
+          this.selected = true;
+        }
+      }
+    }
+  }
+
+  public onTap(event: any): void {
+    if (this.platformService.isMobile() && this.listViewWrapper.getMobileSelectionModeEnabled()) {
+      this.selected = !this.selected;
+    }
   }
 }

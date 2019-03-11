@@ -32,6 +32,7 @@ export class ListViewWrapper extends ControlWrapper {
   private templateVariables: Array<ListViewTemplateVariableWrapper> = new Array<ListViewTemplateVariableWrapper>();
   private items: Array<ListViewItemWrapper> = new Array<ListViewItemWrapper>();
   private itemFactory: ComponentFactory<ListViewItemContentComponent>;
+  private mobileSelectionModeEnabled: boolean;
 
   protected init(): void {
     super.init();
@@ -120,6 +121,20 @@ export class ListViewWrapper extends ControlWrapper {
     return this.items;
   }
 
+  public getSelectedItems(): Array<ListViewItemWrapper> {
+    return this.items.filter(i => i.getSelected());
+  }
+
+  public getMobileSelectionModeEnabled(): boolean {
+    return this.getSelectionMode() !== ListViewSelectionMode.None && this.mobileSelectionModeEnabled;
+  }
+
+  public setMobileSelectionModeEnabled(enabled: boolean): void {
+    if (this.getSelectionMode() !== ListViewSelectionMode.None) {
+      this.mobileSelectionModeEnabled = enabled;
+    }
+  }
+
   public ensureSingleSelection(itemWrapper: ListViewItemWrapper): void {
     for (const item of this.items) {
       if (item !== itemWrapper) {
@@ -156,7 +171,7 @@ export class ListViewWrapper extends ControlWrapper {
   }
 
   public getSelectedItemsJson(): Array<string> {
-    return this.items.filter(i => i.getSelected()).map(i => i.getId());
+    return this.getSelectedItems().map(i => i.getId());
   }
 
   protected setPropertiesJson(propertiesJson: any): void {

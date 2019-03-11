@@ -32,7 +32,7 @@
     "elClean": "del-cli \"dist/electron/**/*\" \"!dist/electron/cache\" \"!dist/electron/cache/**/*\"",
     "elCopy": "mkdirp \"dist/electron/web\" && ncp \"dist/web\" \"dist/electron/web\" && ncp \"package.json\" \"dist/electron/web/package.json\" && ncp \"platforms/electron/index.js\" \"dist/electron/web/index.js\" && ncp \"platforms/electron/icons/icon.png\" \"dist/electron/web/icon.png\"",
     "elComment": "remove-html-comments \"dist/electron/web/index.html\" \"dist/electron/web/index.html\"",
-    "elPack": "electron-packager \"./dist/electron/web\" --asar --download.cache=\"./dist/electron/cache\" --electron-version=\"4.0.0\" --out=\"./dist/electron\" --platform=\"win32,linux,darwin\" --arch=x64 --overwrite --no-tempdir",
+    "elPack": "electron-packager \"./dist/electron/web\" --asar --download.cache=\"./dist/electron/cache\" --electron-version=\"4.0.8\" --out=\"./dist/electron\" --platform=\"win32,linux,darwin\" --arch=x64 --overwrite --no-tempdir",
     "elPurge": "del-cli \"dist/electron/web\""
   },
   "dependencies": {

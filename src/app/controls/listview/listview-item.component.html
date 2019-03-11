@@ -1,4 +1,4 @@
-<div class="item-container" [ngStyle]="containerStyle" (mouseenter)="isHover=true" (mouseleave)="isHover=false">
+<div class="item-container" [ngStyle]="containerStyle" (mouseenter)="isHover=true" (mouseleave)="isHover=false" (press)="onPress($event)" (tap)="onTap($event)">
   <hc-selector [(checked)]="selected" [visible]="getSelectorVisible()"></hc-selector>
   <ng-template #anchor></ng-template>
 </div>
