@@ -1,10 +1,11 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ComponentRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, ComponentRef, ElementRef } from '@angular/core';
 import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
 import { PlatformService } from 'app/services/platform.service';
+import { DomUtil } from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-listview-item',
@@ -12,6 +13,9 @@ import { PlatformService } from 'app/services/platform.service';
   styleUrls: ['./listview-item.component.scss']
 })
 export class ListViewItemComponent implements OnInit {
+
+  @ViewChild('selector', {read: ElementRef})
+  public selector: ElementRef;
 
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
@@ -26,14 +30,19 @@ export class ListViewItemComponent implements OnInit {
   }
 
   set selected(val) {
-    const oldValue: boolean = this.selectedVal;
+    if (this.selectedVal === val) {
+      return;
+    }
+
     this.selectedVal = val;
 
     this.updateWrapper();
 
-    if (this.selectionMode === ListViewSelectionMode.Single && val && oldValue !== val) {
+    if (this.selectionMode === ListViewSelectionMode.Single && val) {
       this.itemWrapper.notifySingleSelectionChanged();
     }
+
+    this.listViewWrapper.callOnItemSelectionChanged();
   }
 
   private id: string;
@@ -83,7 +92,7 @@ export class ListViewItemComponent implements OnInit {
 
   public updateComponent(): void {
     this.updateData(this.itemWrapper);
-    this.updateStyles(this.itemWrapper);
+    this.updateStyles(this.itemWrapper, this.listViewWrapper);
   }
 
   private updateData(itemWrapper: ListViewItemWrapper): void {
@@ -97,14 +106,15 @@ export class ListViewItemComponent implements OnInit {
     this.setContentValues();
   }
 
-  private updateStyles(itemWrapper: ListViewItemWrapper) {
-    this.containerStyle = this.createContainerStyle(itemWrapper);
+  private updateStyles(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper) {
+    this.containerStyle = this.createContainerStyle(itemWrapper, listViewWrapper);
   }
 
-  private createContainerStyle(itemWrapper: ListViewItemWrapper): any {
+  private createContainerStyle(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper): any {
     return {
       'min-width.px': this.minWidth,
-      'min-height.px': this.minHeight
+      'min-height.px': this.minHeight,
+      'cursor': listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default'
     };
   }
 
@@ -144,6 +154,8 @@ export class ListViewItemComponent implements OnInit {
   public onTap(event: any): void {
     if (this.platformService.isMobile() && this.listViewWrapper.getMobileSelectionModeEnabled()) {
       this.selected = !this.selected;
+    } else if (event.target && !DomUtil.isDescentantOrSelf(this.selector.nativeElement, event.target)) {
+      this.listViewWrapper.callOnItemActivated(this.getId());
     }
   }
 }

@@ -20,6 +20,11 @@ import { PatternFormatService } from 'app/services/formatter/pattern-format.serv
 import { ListViewItemValueWrapper } from 'app/wrappers/listview-item-value-wrapper';
 import { LayoutBase } from 'app/layout/layout-base';
 import { ListViewLayout } from 'app/layout/listview-layout/listview-layout';
+import { ControlEvent } from 'app/enums/control-event';
+import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
+import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';
+import { Visibility } from 'app/enums/visibility';
+import { ClientItemActivatedEvent } from 'app/common/events/client-item-activated-event';
 
 export class ListViewWrapper extends ControlWrapper implements IListViewLayoutControl {
 
@@ -403,5 +408,69 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     const factory: ComponentFactory<ListViewItemContentComponent> = this.compiler.compileModuleAndAllComponentsSync(listViewItemMod).componentFactories[0];
 
     return factory;
+  }
+
+  public hasOnItemSelectionChangedEvent(): boolean {
+    return (this.getEvents() & ControlEvent.OnItemSelectionChanged) ? true : false;
+  }
+
+  public callOnItemSelectionChanged(): void {
+    if (this.hasOnItemSelectionChangedEvent()) {
+      this.getEventsService().fireItemSelectionChanged(
+        this.getForm().getId(),
+        this.getName(),
+        null,
+        new InternalEventCallbacks<ClientSelectionChangedEvent>(
+          this.canExecuteItemSelectionChanged.bind(this),
+          this.onItemSelectionChangedExecuted.bind(this),
+          this.onItemSelectionChangedCompleted.bind(this)
+        )
+      );
+    }
+  }
+
+  protected canExecuteItemSelectionChanged(originalEvent: any, clientEvent: ClientSelectionChangedEvent): boolean {
+    return this.hasOnItemSelectionChangedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
+  }
+
+  protected onItemSelectionChangedExecuted(originalEvent: any, clientEvent: ClientSelectionChangedEvent): void {
+    // Override in subclasses
+  }
+
+  protected onItemSelectionChangedCompleted(originalEvent: any, clientEvent: ClientSelectionChangedEvent): void {
+    // Override in subclasses
+  }
+
+  public hasOnItemActivatedEvent(): boolean {
+    return (this.getEvents() & ControlEvent.OnItemActivated) ? true : false;
+  }
+
+  public callOnItemActivated(itemId: string): void {
+    if (this.hasOnItemActivatedEvent()) {
+      this.getEventsService().fireItemActivated(
+        this.getForm().getId(),
+        this.getName(),
+        itemId,
+        this.items.findIndex(i => i.getId() === itemId),
+        event,
+        new InternalEventCallbacks<ClientItemActivatedEvent>(
+          this.canExecuteItemActivated.bind(this),
+          this.onItemActivatedExecuted.bind(this),
+          this.onItemActivatedCompleted.bind(this)
+        )
+      );
+    }
+  }
+
+  protected canExecuteItemActivated(originalEvent: any, clientEvent: ClientItemActivatedEvent): boolean {
+    return this.hasOnItemActivatedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
+  }
+
+  protected onItemActivatedExecuted(originalEvent: any, clientEvent: ClientItemActivatedEvent): void {
+    // Override in subclasses
+  }
+
+  protected onItemActivatedCompleted(originalEvent: any, clientEvent: ClientItemActivatedEvent): void {
+    // Override in subclasses
   }
 }

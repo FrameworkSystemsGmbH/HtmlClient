@@ -13,6 +13,8 @@ import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
 import { ClientCloseEvent } from 'app/common/events/client-close-event';
 import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
+import { ClientItemActivatedEvent } from 'app/common/events/client-item-activated-event';
+import { ClientItemSelectionChangedEvent } from 'app/common/events/client-item-selection-changed-event';
 
 @Injectable()
 export class EventsService {
@@ -87,6 +89,32 @@ export class EventsService {
     this._eventFired.next({
       originalEvent,
       clientEvent: new ClientLeaveEvent(controlName, formId, activator, hasValueChanged),
+      callbacks
+    });
+  }
+
+  public fireItemSelectionChanged(
+    formId: string,
+    controlName: string,
+    originalEvent: any,
+    callbacks: InternalEventCallbacks<ClientItemSelectionChangedEvent>): void {
+    this._eventFired.next({
+      originalEvent,
+      clientEvent: new ClientItemSelectionChangedEvent(controlName, formId),
+      callbacks
+    });
+  }
+
+  public fireItemActivated(
+    formId: string,
+    controlName: string,
+    itemId: string,
+    itemIndex: number,
+    originalEvent: any,
+    callbacks: InternalEventCallbacks<ClientItemActivatedEvent>): void {
+    this._eventFired.next({
+      originalEvent,
+      clientEvent: new ClientItemActivatedEvent(controlName, formId, itemId, itemIndex),
       callbacks
     });
   }
