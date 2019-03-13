@@ -14,6 +14,10 @@ export class ImageService {
     });
   }
 
+  public getFilesUrl(): string {
+    return this.filesUrl;
+  }
+
   public getImageUrl(image: string): string {
     if (String.isNullOrWhiteSpace(image)) {
       return null;

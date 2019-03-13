@@ -25,6 +25,7 @@ import { InternalEventCallbacks } from 'app/common/events/internal/internal-even
 import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';
 import { Visibility } from 'app/enums/visibility';
 import { ClientItemActivatedEvent } from 'app/common/events/client-item-activated-event';
+import { ImageService } from 'app/services/image.service';
 
 export class ListViewWrapper extends ControlWrapper implements IListViewLayoutControl {
 
@@ -33,6 +34,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   public static readonly PART_FP: string = 'fp:';
 
   private compiler: Compiler;
+  private imageService: ImageService;
   private patternFormatService: PatternFormatService;
   private mobileSelectionModeEnabled: boolean;
   private templateHtml: string;
@@ -45,6 +47,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   protected init(): void {
     super.init();
     this.compiler = this.getInjector().get(Compiler);
+    this.imageService = this.getInjector().get(ImageService);
     this.patternFormatService = this.getInjector().get(PatternFormatService);
   }
 
@@ -368,6 +371,9 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
       template = template.replace(matches[i], `{{ values[${i}] }}`);
     }
+
+    // Replace placeholders
+    template = template.replace('%FILESURL%', this.imageService.getFilesUrl());
 
     return template;
   }
