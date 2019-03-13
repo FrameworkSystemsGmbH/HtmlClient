@@ -11,7 +11,7 @@ import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignment';
 import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
-import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
+import { ListViewItemWrapper, IListViewItemWrapperOptions } from 'app/wrappers/listview-item-wrapper';
 import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
 import { ListViewItemContentModule } from 'app/controls/listview/listview-item-content.module';
 import { ListViewTemplateDataSourceWrapper } from 'app/wrappers/listview-template-datasource-wrapper';
@@ -34,13 +34,13 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
   private compiler: Compiler;
   private patternFormatService: PatternFormatService;
+  private mobileSelectionModeEnabled: boolean;
   private templateHtml: string;
   private templateCss: string;
   private templateDataSources: Array<ListViewTemplateDataSourceWrapper> = new Array<ListViewTemplateDataSourceWrapper>();
   private templateVariables: Array<ListViewTemplateVariableWrapper> = new Array<ListViewTemplateVariableWrapper>();
   private items: Array<ListViewItemWrapper> = new Array<ListViewItemWrapper>();
   private itemFactory: ComponentFactory<ListViewItemContentComponent>;
-  private mobileSelectionModeEnabled: boolean;
 
   protected init(): void {
     super.init();
@@ -245,7 +245,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
         const values: Array<ListViewItemValueWrapper> = this.getValueList(valueMap);
 
         if (isNew) {
-          this.items.push(new ListViewItemWrapper(id, pos, this, values, this.getInjector()));
+          this.items.push(new ListViewItemWrapper(this, this.getInjector(), { id, pos, values }));
         } else {
           const item: ListViewItemWrapper = this.items.find(i => i.getId() === id);
           if (item) {
@@ -472,5 +472,93 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
   protected onItemActivatedCompleted(originalEvent: any, clientEvent: ClientItemActivatedEvent): void {
     // Override in subclasses
+  }
+
+  public getState(): any {
+    const json: any = super.getState();
+
+    json.mobileSelectionModeEnabled = this.mobileSelectionModeEnabled;
+    json.templateCss = this.templateCss;
+    json.templateHtml = this.templateHtml;
+
+    const dataSourcesJson: Array<any> = new Array<any>();
+
+    for (const templateDataSource of this.templateDataSources) {
+      dataSourcesJson.push({
+        name: templateDataSource.getName(),
+        dsType: templateDataSource.getDataSourceType()
+      });
+    }
+
+    if (dataSourcesJson.length) {
+      json.templateDataSources = dataSourcesJson;
+    }
+
+    const variablesJson: Array<any> = new Array<any>();
+
+    for (const templateVariable of this.templateVariables) {
+      variablesJson.push({
+        dsName: templateVariable.getDataSource().getName(),
+        format: templateVariable.getFormat(),
+        formatPattern: templateVariable.getFormatPattern()
+      });
+    }
+
+    if (variablesJson.length) {
+      json.templateVariables = variablesJson;
+    }
+
+    const itemsJson: Array<any> = new Array<any>();
+
+    for (const item of this.items) {
+      itemsJson.push(item.getState());
+    }
+
+    if (itemsJson.length) {
+      json.items = itemsJson;
+    }
+
+    return json;
+  }
+
+  protected setState(json: any): void {
+    super.setState(json);
+
+    this.mobileSelectionModeEnabled = json.mobileSelectionModeEnabled;
+    this.templateCss = json.templateCss;
+    this.templateHtml = json.templateHtml;
+
+    if (json.templateDataSources && json.templateDataSources.length) {
+      for (const dsJson of json.templateDataSources) {
+        this.templateDataSources.push(new ListViewTemplateDataSourceWrapper(dsJson.name, dsJson.dsType));
+      }
+    }
+
+    if (json.templateVariables && json.templateVariables.length) {
+      for (const varJson of json.templateVariables) {
+        const ds: ListViewTemplateDataSourceWrapper = this.templateDataSources.find(d => d.getName() === varJson.dsName);
+        const format: TextFormat = varJson.format;
+        const formatPattern: string = varJson.formatPattern;
+
+        let options: IListViewTemplateVariableWrapperOptions = null;
+
+        if (format || !String.isNullOrWhiteSpace(formatPattern)) {
+          options = {
+            format,
+            formatPattern
+          };
+        }
+
+        this.templateVariables.push(new ListViewTemplateVariableWrapper(ds, options));
+      }
+    }
+
+    if (json.items && json.items.length) {
+      for (const itemJson of json.items) {
+        this.items.push(new ListViewItemWrapper(this, this.getInjector(), { state: itemJson }));
+      }
+    }
+
+    this.itemFactory = this.compileListViewItemComponent();
   }
 }

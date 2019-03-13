@@ -3,6 +3,13 @@ import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { ListViewItemComponent } from 'app/controls/listview/listview-item.component';
 import { ViewContainerRef, Injector, ComponentFactoryResolver, ComponentRef, ViewRef } from '@angular/core';
 
+export interface IListViewItemWrapperOptions {
+  id?: string;
+  pos?: number;
+  values?: Array<ListViewItemValueWrapper>;
+  state?: any;
+}
+
 export class ListViewItemWrapper {
 
   private _id: string;
@@ -18,13 +25,18 @@ export class ListViewItemWrapper {
   private _hasPosChanged: boolean;
   private _hasContentChanged: boolean;
 
-  constructor(id: string, pos: number, listViewWrapper: ListViewWrapper, values: Array<ListViewItemValueWrapper>, injector: Injector) {
-    this._id = id;
-    this._pos = pos;
-    this._listViewWrapper = listViewWrapper;
-    this._values = values;
+  constructor(listViewWrapper: ListViewWrapper, injector: Injector, options: IListViewItemWrapperOptions) {
     this._isNew = true;
+    this._listViewWrapper = listViewWrapper;
     this._cfr = injector.get(ComponentFactoryResolver);
+
+    if (options.state) {
+      this.setState(options.state);
+    } else {
+      this._id = options.id;
+      this._pos = options.pos;
+      this._values = options.values;
+    }
   }
 
   public getId(): string {
@@ -179,5 +191,44 @@ export class ListViewItemWrapper {
   public confirmContentUpdate(): void {
     this._isNew = false;
     this._hasContentChanged = false;
+  }
+
+  public getState(): any {
+    const json: any = {
+      id: this._id,
+      pos: this._pos,
+      selected: this._selected,
+      selectedOrg: this._selectedOrg
+    };
+
+    const valuesJson: Array<any> = new Array<any>();
+
+    for (const value of this._values) {
+      valuesJson.push({
+        value: value.getValue(),
+        format: value.getFormat(),
+        formatPattern: value.getFormatPattern()
+      });
+    }
+
+    if (valuesJson.length) {
+      json.values = valuesJson;
+    }
+
+    return json;
+  }
+
+  protected setState(json: any): void {
+    this._id = json.id;
+    this._pos = json.pos;
+    this._selected = json.selected;
+    this._selectedOrg = json.selectedOrg;
+
+    if (json.values && json.values.length) {
+      this._values = new Array<ListViewItemValueWrapper>();
+      for (const valueJson of json.values) {
+        this._values.push(new ListViewItemValueWrapper(valueJson.value, valueJson.format, valueJson.formatPattern));
+      }
+    }
   }
 }
