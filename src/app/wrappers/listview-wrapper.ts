@@ -39,13 +39,16 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   private mobileSelectionModeEnabled: boolean;
   private templateHtml: string;
   private templateCss: string;
-  private templateDataSources: Array<ListViewTemplateDataSourceWrapper> = new Array<ListViewTemplateDataSourceWrapper>();
-  private templateVariables: Array<ListViewTemplateVariableWrapper> = new Array<ListViewTemplateVariableWrapper>();
-  private items: Array<ListViewItemWrapper> = new Array<ListViewItemWrapper>();
+  private templateDataSources: Array<ListViewTemplateDataSourceWrapper>;
+  private templateVariables: Array<ListViewTemplateVariableWrapper>;
+  private items: Array<ListViewItemWrapper>;
   private itemFactory: ComponentFactory<ListViewItemContentComponent>;
 
   protected init(): void {
     super.init();
+    this.templateDataSources = new Array<ListViewTemplateDataSourceWrapper>();
+    this.templateVariables = new Array<ListViewTemplateVariableWrapper>();
+    this.items = new Array<ListViewItemWrapper>();
     this.compiler = this.getInjector().get(Compiler);
     this.imageService = this.getInjector().get(ImageService);
     this.patternFormatService = this.getInjector().get(PatternFormatService);

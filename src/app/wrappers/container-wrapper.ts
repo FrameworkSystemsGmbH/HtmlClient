@@ -17,9 +17,14 @@ import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-contro
 
 export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainerWrapper {
 
-  protected controls: Array<ControlWrapper> = new Array<ControlWrapper>();
+  protected controls: Array<ControlWrapper>;
 
   private buttonGroup: ButtonGroup;
+
+  protected init(): void {
+    super.init();
+    this.controls = new Array<ControlWrapper>()
+  }
 
   public isLayoutableContainerWrapperInterface(): void {
     // Interface Marker
