@@ -22,6 +22,7 @@ export class ListViewItemComponent implements OnInit {
   public anchor: ViewContainerRef;
 
   public isHover: boolean;
+  public selectorSize: number;
   public containerStyle: any;
   public selectorStyle: any;
 
@@ -126,6 +127,15 @@ export class ListViewItemComponent implements OnInit {
     let selectorStyle: any = {
       'position': 'absolute'
     };
+
+    // Set selector size depending on list item height
+    if (this.minHeight >= 40) {
+      this.selectorSize = 20;
+    } else if (this.minHeight <= 20) {
+      this.selectorSize = 10;
+    } else {
+      this.selectorSize = Math.roundDec(this.minHeight / 2, 0);
+    }
 
     // Determine shorter edge of the list item
     const shortEdge: number = Math.max(1, Math.min(this.minWidth, this.minHeight));

@@ -8,6 +8,18 @@ import { PlatformService } from 'app/services/platform.service';
 })
 export class SelectorComponent implements OnInit {
 
+  private sizeValue: number;
+
+  @Input()
+  public get size(): number {
+    return this.sizeValue != null && this.sizeValue > 0 ? Math.min(20, this.sizeValue) : 20;
+  }
+
+  public set size(val: number) {
+    this.sizeValue = val;
+    this.setWrapperStyle();
+  }
+
   private visibleValue: boolean;
 
   @Input()
@@ -49,9 +61,12 @@ export class SelectorComponent implements OnInit {
     this.setWrapperStyle();
   }
 
-  public setWrapperStyle(): any {
+  private setWrapperStyle(): void {
     if (this.visible) {
-      this.wrapperStyle = null;
+      this.wrapperStyle = {
+        'width.px': this.size,
+        'height.px': this.size
+      };
     } else {
       this.wrapperStyle = {
         'display': 'none'

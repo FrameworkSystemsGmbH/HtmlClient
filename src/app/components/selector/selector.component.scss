@@ -2,11 +2,11 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 20px;
-  height: 20px;
   cursor: pointer;
 
   .selector-frame {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     left: 0;
     top: 0;
