@@ -13,8 +13,9 @@ import { TextAlign } from 'app/enums/text-align';
 import { Visibility } from 'app/enums/visibility';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
-import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
+import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
+import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 
 export class PropertyData {
 
@@ -136,6 +137,7 @@ export class PropertyData {
   public scaleMode: PictureScaleMode;
   public scrollBars: ScrollBars;
   public selectionMode: ListViewSelectionMode;
+  public selectorPosition: ListViewSelectorPosition
   public shortcut: string;
   public showCaption: boolean;
   public synchronizeColumns: boolean;

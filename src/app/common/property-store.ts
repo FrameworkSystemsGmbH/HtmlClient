@@ -17,6 +17,7 @@ import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode'
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { JsonUtil } from 'app/util/json-util';
+import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 
 const DEFAULT_FONT: string = 'Roboto, Arial, Helvetica, Verdana';
 
@@ -1207,11 +1208,24 @@ export class PropertyStore {
     return this.getValue<ListViewSelectionMode>((data: PropertyData) => data.selectionMode);
   }
 
-  public getListViewSelectionModeForLayer(layer: PropertyLayer): ListViewSelectionMode {
+  public getSelectionModeForLayer(layer: PropertyLayer): ListViewSelectionMode {
     return this.getValueForLayer<ListViewSelectionMode>(layer, (data: PropertyData) => data.selectionMode);
   }
 
-  public setListViewSelectionMode(layer: PropertyLayer, value: ListViewSelectionMode): void {
+  public setSelectionMode(layer: PropertyLayer, value: ListViewSelectionMode): void {
+    this.setValue(layer, (data: PropertyData) => { data.selectionMode = value; });
+  }
+
+  // SelectorPosition
+  public getSelectorPosition(): ListViewSelectorPosition {
+    return this.getValue<ListViewSelectorPosition>((data: PropertyData) => data.selectorPosition);
+  }
+
+  public getSelectorPositionForLayer(layer: PropertyLayer): ListViewSelectorPosition {
+    return this.getValueForLayer<ListViewSelectorPosition>(layer, (data: PropertyData) => data.selectorPosition);
+  }
+
+  public setSelectorPosition(layer: PropertyLayer, value: ListViewSelectionMode): void {
     this.setValue(layer, (data: PropertyData) => { data.selectionMode = value; });
   }
 

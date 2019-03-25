@@ -26,6 +26,7 @@ import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-
 import { Visibility } from 'app/enums/visibility';
 import { ClientItemActivatedEvent } from 'app/common/events/client-item-activated-event';
 import { ImageService } from 'app/services/image.service';
+import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 
 export class ListViewWrapper extends ControlWrapper implements IListViewLayoutControl {
 
@@ -74,6 +75,11 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   public getSelectionMode(): ListViewSelectionMode {
     const selectionMode: ListViewSelectionMode = this.getPropertyStore().getSelectionMode();
     return selectionMode != null ? selectionMode : ListViewSelectionMode.None;
+  }
+
+  public getSelectorPosition(): ListViewSelectorPosition {
+    const selectorPosition: ListViewSelectorPosition = this.getPropertyStore().getSelectorPosition();
+    return selectorPosition != null ? selectorPosition : ListViewSelectorPosition.TopRight;
   }
 
   public getIsMobileLayout(): boolean {

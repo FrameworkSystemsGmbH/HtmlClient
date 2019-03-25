@@ -6,6 +6,7 @@ import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
 import { PlatformService } from 'app/services/platform.service';
 import { DomUtil } from 'app/util/dom-util';
+import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 
 @Component({
   selector: 'hc-listview-item',
@@ -14,7 +15,7 @@ import { DomUtil } from 'app/util/dom-util';
 })
 export class ListViewItemComponent implements OnInit {
 
-  @ViewChild('selector', {read: ElementRef})
+  @ViewChild('selector', { read: ElementRef })
   public selector: ElementRef;
 
   @ViewChild('anchor', { read: ViewContainerRef })
@@ -22,8 +23,24 @@ export class ListViewItemComponent implements OnInit {
 
   public isHover: boolean;
   public containerStyle: any;
+  public selectorStyle: any;
 
+  private id: string;
+  private values: Array<string>;
+  private minWidth: number;
+  private minHeight: number;
   private selectedVal: boolean;
+  private selectionMode: ListViewSelectionMode;
+  private selectorPosition: ListViewSelectorPosition;
+  private itemWrapper: ListViewItemWrapper;
+  private listViewWrapper: ListViewWrapper;
+  private contentCompRef: ComponentRef<ListViewItemContentComponent>;
+  private contentCompInstance: ListViewItemContentComponent;
+
+  constructor(
+    private baseFormatService: BaseFormatService,
+    private platformService: PlatformService
+  ) { }
 
   get selected() {
     return this.selectedVal;
@@ -44,21 +61,6 @@ export class ListViewItemComponent implements OnInit {
 
     this.listViewWrapper.callOnItemSelectionChanged();
   }
-
-  private id: string;
-  private values: Array<string>;
-  private minWidth: number;
-  private minHeight: number;
-  private selectionMode: ListViewSelectionMode;
-  private itemWrapper: ListViewItemWrapper;
-  private listViewWrapper: ListViewWrapper;
-  private contentCompRef: ComponentRef<ListViewItemContentComponent>;
-  private contentCompInstance: ListViewItemContentComponent;
-
-  constructor(
-    private baseFormatService: BaseFormatService,
-    private platformService: PlatformService
-  ) { }
 
   public ngOnInit(): void {
     this.attachContentComponent();
@@ -100,6 +102,7 @@ export class ListViewItemComponent implements OnInit {
     this.minWidth = this.listViewWrapper.getItemMinWidth();
     this.minHeight = this.listViewWrapper.getItemMinHeight();
     this.selectionMode = this.listViewWrapper.getSelectionMode();
+    this.selectorPosition = this.listViewWrapper.getSelectorPosition();
     this.values = itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern()));
     this.selectedVal = itemWrapper.getSelected();
     itemWrapper.confirmContentUpdate();
@@ -108,6 +111,7 @@ export class ListViewItemComponent implements OnInit {
 
   private updateStyles(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper) {
     this.containerStyle = this.createContainerStyle(itemWrapper, listViewWrapper);
+    this.selectorStyle = this.createSelectorStyle();
   }
 
   private createContainerStyle(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper): any {
@@ -116,6 +120,65 @@ export class ListViewItemComponent implements OnInit {
       'min-height.px': this.minHeight,
       'cursor': listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default'
     };
+  }
+
+  private createSelectorStyle(): any {
+    let selectorStyle: any = {
+      'position': 'absolute'
+    };
+
+    // Determine shorter edge of the list item
+    const shortEdge: number = Math.max(1, Math.min(this.minWidth, this.minHeight));
+
+    // Selector margin is 10% of the length of the shorter edge (but 20px max)
+    const margin: number = Math.min(20, Math.roundDec(shortEdge * 0.1, 0));
+
+    switch (this.selectorPosition) {
+      case ListViewSelectorPosition.TopLeft:
+        selectorStyle = {
+          ...selectorStyle,
+          'top.px': margin,
+          'left.px': margin
+        };
+        break;
+      case ListViewSelectorPosition.TopRight:
+        selectorStyle = {
+          ...selectorStyle,
+          'top.px': margin,
+          'right.px': margin
+        };
+        break;
+      case ListViewSelectorPosition.MiddleLeft:
+        selectorStyle = {
+          ...selectorStyle,
+          'top.px': (this.minHeight / 2) - 10,
+          'left.px': margin
+        };
+        break;
+      case ListViewSelectorPosition.MiddleRight:
+        selectorStyle = {
+          ...selectorStyle,
+          'top.px': (this.minHeight / 2) - 10,
+          'right.px': margin
+        };
+        break;
+      case ListViewSelectorPosition.BottomLeft:
+        selectorStyle = {
+          ...selectorStyle,
+          'bottom.px': margin,
+          'left.px': margin
+        };
+        break;
+      case ListViewSelectorPosition.BottomRight:
+        selectorStyle = {
+          ...selectorStyle,
+          'bottom.px': margin,
+          'right.px': margin
+        };
+        break;
+    }
+
+    return selectorStyle;
   }
 
   private attachContentComponent(): void {
