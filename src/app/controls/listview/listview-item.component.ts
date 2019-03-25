@@ -217,7 +217,7 @@ export class ListViewItemComponent implements OnInit {
       } else {
         this.listViewWrapper.setMobileSelectionModeEnabled(true);
 
-        if (!this.selected && this.listViewWrapper.getSelectedItems().length === 0) {
+        if (!this.selected) {
           this.selected = true;
         }
       }
@@ -227,6 +227,10 @@ export class ListViewItemComponent implements OnInit {
   public onTap(event: any): void {
     if (this.platformService.isMobile() && this.listViewWrapper.getMobileSelectionModeEnabled()) {
       this.selected = !this.selected;
+
+      if (this.listViewWrapper.getSelectedItems().length === 0) {
+        this.listViewWrapper.setMobileSelectionModeEnabled(false);
+      }
     } else if (event.target && !DomUtil.isDescentantOrSelf(this.selector.nativeElement, event.target)) {
       this.listViewWrapper.callOnItemActivated(this.getId());
     }
