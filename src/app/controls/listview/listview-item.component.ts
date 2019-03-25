@@ -28,8 +28,8 @@ export class ListViewItemComponent implements OnInit {
 
   private id: string;
   private values: Array<string>;
-  private minWidth: number;
-  private minHeight: number;
+  private width: number;
+  private height: number;
   private selectedVal: boolean;
   private selectionMode: ListViewSelectionMode;
   private selectorPosition: ListViewSelectorPosition;
@@ -100,8 +100,8 @@ export class ListViewItemComponent implements OnInit {
 
   private updateData(itemWrapper: ListViewItemWrapper): void {
     this.id = itemWrapper.getId();
-    this.minWidth = this.listViewWrapper.getItemMinWidth();
-    this.minHeight = this.listViewWrapper.getItemMinHeight();
+    this.width = this.listViewWrapper.getItemWidth();
+    this.height = this.listViewWrapper.getItemHeight();
     this.selectionMode = this.listViewWrapper.getSelectionMode();
     this.selectorPosition = this.listViewWrapper.getSelectorPosition();
     this.values = itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern()));
@@ -117,8 +117,8 @@ export class ListViewItemComponent implements OnInit {
 
   private createContainerStyle(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper): any {
     return {
-      'min-width.px': this.minWidth,
-      'min-height.px': this.minHeight,
+      'min-width.px': this.width,
+      'min-height.px': this.height,
       'cursor': listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default'
     };
   }
@@ -129,16 +129,16 @@ export class ListViewItemComponent implements OnInit {
     };
 
     // Set selector size depending on list item height
-    if (this.minHeight >= 40) {
+    if (this.height >= 40) {
       this.selectorSize = 20;
-    } else if (this.minHeight <= 20) {
+    } else if (this.height <= 20) {
       this.selectorSize = 10;
     } else {
-      this.selectorSize = Math.roundDec(this.minHeight / 2, 0);
+      this.selectorSize = Math.roundDec(this.height / 2, 0);
     }
 
     // Determine shorter edge of the list item
-    const shortEdge: number = Math.max(1, Math.min(this.minWidth, this.minHeight));
+    const shortEdge: number = Math.max(1, Math.min(this.width, this.height));
 
     // Selector margin is 10% of the length of the shorter edge (but 20px max)
     const margin: number = Math.min(20, Math.roundDec(shortEdge * 0.1, 0));
@@ -161,14 +161,14 @@ export class ListViewItemComponent implements OnInit {
       case ListViewSelectorPosition.MiddleLeft:
         selectorStyle = {
           ...selectorStyle,
-          'top.px': (this.minHeight / 2) - 10,
+          'top.px': (this.height / 2) - 10,
           'left.px': margin
         };
         break;
       case ListViewSelectorPosition.MiddleRight:
         selectorStyle = {
           ...selectorStyle,
-          'top.px': (this.minHeight / 2) - 10,
+          'top.px': (this.height / 2) - 10,
           'right.px': margin
         };
         break;

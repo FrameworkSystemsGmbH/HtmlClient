@@ -67,7 +67,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     const layoutHeight: number = layoutableProperties.getHeight();
     const isVisible: boolean = this.isVisible && layoutWidth > 0 && layoutHeight > 0;
     const itemArrangement: ListViewItemArrangement = wrapper.getItemArrangement();
-    const itemMinWidth: number = wrapper.getItemMinWidth();
+    const itemWidth: number = wrapper.getItemWidth();
     const spacingHorizontal: number = wrapper.getSpacingHorizontal();
     const spacingVertical: number = wrapper.getSpacingVertical();
 
@@ -121,7 +121,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     } else {
       wrapperStyle = {
         ...wrapperStyle,
-        'grid-template-columns': `repeat(auto-fit, minmax(${StyleUtil.getValue('px', itemMinWidth)}, 1fr)`
+        'grid-template-columns': `repeat(auto-fit, minmax(${StyleUtil.getValue('px', itemWidth)}, 1fr)`
       };
     }
 

@@ -957,29 +957,29 @@ export class PropertyStore {
   }
 
   // ItemMinWidth
-  public getItemMinWidth(): number {
-    return this.getValue<number>((data: PropertyData) => data.itemMinWidth);
+  public getItemWidth(): number {
+    return this.getValue<number>((data: PropertyData) => data.itemWidth);
   }
 
-  public getItemMinWidthForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemMinWidth);
+  public getItemWidthForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemWidth);
   }
 
-  public setItemMinWidth(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.itemMinWidth = value; });
+  public setItemWidth(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.itemWidth = value; });
   }
 
   // ItemMinHeight
-  public getItemMinHeight(): number {
-    return this.getValue<number>((data: PropertyData) => data.itemMinHeight);
+  public getItemHeight(): number {
+    return this.getValue<number>((data: PropertyData) => data.itemHeight);
   }
 
-  public getItemMinHeightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemMinHeight);
+  public getItemHeightForLayer(layer: PropertyLayer): number {
+    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemHeight);
   }
 
-  public setItemMinHeight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.itemMinHeight = value; });
+  public setItemHeight(layer: PropertyLayer, value: number): void {
+    this.setValue(layer, (data: PropertyData) => { data.itemHeight = value; });
   }
 
   // IsCloseIconVisible

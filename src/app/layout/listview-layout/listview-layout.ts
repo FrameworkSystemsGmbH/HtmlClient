@@ -17,18 +17,18 @@ export class ListViewLayout extends LayoutBase {
     }
 
     // Get the minimum width of an item
-    let itemMinWidth: number = control.getItemMinWidth();
+    let itemWidth: number = control.getItemWidth();
 
-    if (itemMinWidth > 0) {
+    if (itemWidth > 0) {
       // Include horizontal insets (padding + border + margin) of the listview
-      itemMinWidth += control.getInsetsLeft() + control.getInsetsRight();
+      itemWidth += control.getInsetsLeft() + control.getInsetsRight();
     }
 
     // Determine the listview minimum width and add horizontal margins
     const listViewMinWidth: number = control.getMinWidth() + control.getMarginLeft() + control.getMarginRight();
 
     // The greater value wins: The calculated minimum width for the item or the defined listview minimum width
-    return Math.max(itemMinWidth, Number.zeroIfNull(listViewMinWidth));
+    return Math.max(itemWidth, Number.zeroIfNull(listViewMinWidth));
   }
 
   public measureMinHeight(width: number): number {
@@ -49,27 +49,27 @@ export class ListViewLayout extends LayoutBase {
 
   protected measureMinHeightDesktop(control: IListViewLayoutControl, width: number): number {
     // Get the minimum height of an item
-    let itemMinHeight: number = control.getItemMinHeight();
+    let itemHeight: number = control.getItemHeight();
 
-    if (itemMinHeight > 0) {
+    if (itemHeight > 0) {
       // Include vertical insets (padding + border + margin) of the listview
-      itemMinHeight += control.getInsetsTop() + control.getInsetsBottom();
+      itemHeight += control.getInsetsTop() + control.getInsetsBottom();
     }
 
     // Determine the listview minimum hieght and add vertical margins
     const listViewMinHeight: number = control.getMinHeight() + control.getMarginTop() + control.getMarginBottom();
 
     // The greater value wins: The calculated minimum height for the item or the defined listview minimum height
-    return Math.max(itemMinHeight, Number.zeroIfNull(listViewMinHeight));
+    return Math.max(itemHeight, Number.zeroIfNull(listViewMinHeight));
   }
 
   protected measureMinHeightMobileList(control: IListViewLayoutControl, width: number): number {
     const vSpacing: number = control.getSpacingVertical();
     const itemCount: number = control.getItemCount();
-    const itemMinHeight: number = control.getItemMinHeight();
+    const itemHeight: number = control.getItemHeight();
 
     // Get the sum of item heights including vertical spacing
-    let itemsHeight: number = (itemCount * itemMinHeight) + (Math.max(itemCount - 1, 0) * vSpacing);
+    let itemsHeight: number = (itemCount * itemHeight) + (Math.max(itemCount - 1, 0) * vSpacing);
 
     if (itemsHeight > 0) {
       // Include vertical insets (padding + border + margin) of the listview
@@ -87,8 +87,8 @@ export class ListViewLayout extends LayoutBase {
     const hSpacing: number = control.getSpacingHorizontal();
     const vSpacing: number = control.getSpacingVertical();
     const itemCount: number = control.getItemCount();
-    const itemMinWidth: number = control.getItemMinWidth();
-    const itemMinHeight: number = control.getItemMinHeight();
+    const itemWidth: number = control.getItemWidth();
+    const itemHeight: number = control.getItemHeight();
 
     // The available width is the listview width - horizontal insets
     const availableWidth: number = width - control.getInsetsLeft() - control.getInsetsRight();
@@ -96,7 +96,7 @@ export class ListViewLayout extends LayoutBase {
     // Calculate how many items fit into a single row including horizontal spacing
     let rowItemCount: number = 1;
 
-    while ((((rowItemCount + 1) * itemMinWidth) + (rowItemCount * hSpacing)) <= availableWidth) {
+    while ((((rowItemCount + 1) * itemWidth) + (rowItemCount * hSpacing)) <= availableWidth) {
       rowItemCount++;
     }
 
@@ -104,7 +104,7 @@ export class ListViewLayout extends LayoutBase {
     const rowCount = Math.ceilDec(itemCount / rowItemCount, 0);
 
     // Calculate the height of all rows including vertical spacing
-    let rowsHeight: number = (rowCount * itemMinHeight) + (Math.max(rowCount - 1, 0) * vSpacing);
+    let rowsHeight: number = (rowCount * itemHeight) + (Math.max(rowCount - 1, 0) * vSpacing);
 
     if (rowsHeight > 0) {
       // Include vertical insets (padding + border + margin) of the listview

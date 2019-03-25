@@ -13,8 +13,8 @@ export interface IListViewLayoutControl extends ILayoutableControl {
 
   getItemCount(): number;
 
-  getItemMinWidth(): number;
+  getItemWidth(): number;
 
-  getItemMinHeight(): number;
+  getItemHeight(): number;
 
 }

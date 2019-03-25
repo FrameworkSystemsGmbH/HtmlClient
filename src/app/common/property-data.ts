@@ -118,8 +118,8 @@ export class PropertyData {
   public isEnabled: boolean;
   public isVisible: boolean;
   public itemArrangement: ListViewItemArrangement;
-  public itemMinWidth: number;
-  public itemMinHeight: number;
+  public itemWidth: number;
+  public itemHeight: number;
   public labelMode: FieldRowLabelMode;
   public listDisplayMinLength: number;
   public listDisplayMaxLength: number;

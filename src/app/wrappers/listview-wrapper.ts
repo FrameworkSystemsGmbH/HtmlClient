@@ -109,12 +109,12 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     return verticalContentAlignment != null ? verticalContentAlignment : VerticalContentAlignment.Top;
   }
 
-  public getItemMinWidth(): number {
-    return Number.zeroIfNull(this.getPropertyStore().getItemMinWidth());
+  public getItemWidth(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getItemWidth());
   }
 
-  public getItemMinHeight(): number {
-    return Number.zeroIfNull(this.getPropertyStore().getItemMinHeight());
+  public getItemHeight(): number {
+    return Number.zeroIfNull(this.getPropertyStore().getItemHeight());
   }
 
   public getTemplateHtml(): string {
