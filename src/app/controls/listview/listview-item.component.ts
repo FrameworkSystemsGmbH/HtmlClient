@@ -21,6 +21,9 @@ export class ListViewItemComponent implements OnInit {
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
 
+  private static minSelectorSize: number = 12;
+  private static maxSelectorSize: number = 20;
+
   public isHover: boolean;
   public selectorSize: number;
   public containerStyle: any;
@@ -118,7 +121,7 @@ export class ListViewItemComponent implements OnInit {
   private createContainerStyle(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper): any {
     return {
       'min-width.px': this.width,
-      'min-height.px': this.height,
+      'height.px': this.height,
       'cursor': listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default'
     };
   }
@@ -130,11 +133,11 @@ export class ListViewItemComponent implements OnInit {
 
     // Set selector size depending on list item height
     if (this.height >= 40) {
-      this.selectorSize = 20;
+      this.selectorSize = ListViewItemComponent.maxSelectorSize;
     } else if (this.height <= 20) {
-      this.selectorSize = 10;
+      this.selectorSize = ListViewItemComponent.minSelectorSize;
     } else {
-      this.selectorSize = Math.roundDec(this.height / 2, 0);
+      this.selectorSize = Math.min(ListViewItemComponent.minSelectorSize, Math.roundDec(this.height / 2, 0));
     }
 
     // Determine shorter edge of the list item
@@ -161,14 +164,14 @@ export class ListViewItemComponent implements OnInit {
       case ListViewSelectorPosition.MiddleLeft:
         selectorStyle = {
           ...selectorStyle,
-          'top.px': (this.height / 2) - 10,
+          'top.px': (this.height / 2) - (this.selectorSize / 2),
           'left.px': margin
         };
         break;
       case ListViewSelectorPosition.MiddleRight:
         selectorStyle = {
           ...selectorStyle,
-          'top.px': (this.height / 2) - 10,
+          'top.px': (this.height / 2) - (this.selectorSize / 2),
           'right.px': margin
         };
         break;
