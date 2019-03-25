@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 

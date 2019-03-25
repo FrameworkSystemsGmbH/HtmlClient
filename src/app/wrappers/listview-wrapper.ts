@@ -11,7 +11,7 @@ import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignment';
 import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
-import { ListViewItemWrapper, IListViewItemWrapperOptions } from 'app/wrappers/listview-item-wrapper';
+import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
 import { ListViewItemContentModule } from 'app/controls/listview/listview-item-content.module';
 import { ListViewTemplateDataSourceWrapper } from 'app/wrappers/listview-template-datasource-wrapper';
