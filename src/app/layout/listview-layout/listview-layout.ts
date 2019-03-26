@@ -2,6 +2,7 @@ import { IListViewLayoutControl } from 'app/layout/listview-layout/listview-layo
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { Visibility } from 'app/enums/visibility';
 import { LayoutBase } from 'app/layout/layout-base';
+import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 
 export class ListViewLayout extends LayoutBase {
 
@@ -38,26 +39,31 @@ export class ListViewLayout extends LayoutBase {
       return 0;
     }
 
-    if (!control.getIsMobileLayout()) {
-      return this.measureMinHeightDesktop(control, width);
-    } else if (control.getItemArrangement() === ListViewItemArrangement.List) {
-      return this.measureMinHeightMobileList(control, width);
-    } else {
-      return this.measureMinHeightMobileWrap(control, width);
-    }
+    return this.measureMinHeightDesktop(control, width);
+
+    // if (!control.getIsMobileLayout()) {
+    //   return this.measureMinHeightDesktop(control, width);
+    // } else if (control.getItemArrangement() === ListViewItemArrangement.List) {
+    //   return this.measureMinHeightMobileList(control, width);
+    // } else {
+    //   return this.measureMinHeightMobileWrap(control, width);
+    // }
   }
 
   protected measureMinHeightDesktop(control: IListViewLayoutControl, width: number): number {
+    // Take the header height into account if selection mode is 'Multiple'
+    const headerHeight: number = control.getSelectionMode() === ListViewSelectionMode.Multiple ? control.getHeaderOptions().height : 0;
+
     // Get the minimum height of an item
     let itemHeight: number = control.getItemHeight();
 
     if (itemHeight > 0) {
       // Include vertical insets (padding + border + margin) of the listview
-      itemHeight += control.getInsetsTop() + control.getInsetsBottom();
+      itemHeight += control.getInsetsTop() + control.getInsetsBottom() + headerHeight;
     }
 
     // Determine the listview minimum hieght and add vertical margins
-    const listViewMinHeight: number = control.getMinHeight() + control.getMarginTop() + control.getMarginBottom();
+    const listViewMinHeight: number = control.getMinHeight() + control.getMarginTop() + control.getMarginBottom() + headerHeight;
 
     // The greater value wins: The calculated minimum height for the item or the defined listview minimum height
     return Math.max(itemHeight, Number.zeroIfNull(listViewMinHeight));
@@ -68,16 +74,19 @@ export class ListViewLayout extends LayoutBase {
     const itemCount: number = control.getItemCount();
     const itemHeight: number = control.getItemHeight();
 
+    // Take the header height into account if selection mode is 'Multiple'
+    const headerHeight: number = control.getMobileSelectionModeEnabled() && control.getSelectionMode() === ListViewSelectionMode.Multiple ? control.getHeaderOptions().height : 0;
+
     // Get the sum of item heights including vertical spacing
     let itemsHeight: number = (itemCount * itemHeight) + (Math.max(itemCount - 1, 0) * vSpacing);
 
     if (itemsHeight > 0) {
       // Include vertical insets (padding + border + margin) of the listview
-      itemsHeight += control.getInsetsTop() + control.getInsetsBottom();
+      itemsHeight += control.getInsetsTop() + control.getInsetsBottom() + headerHeight;
     }
 
-    // Determine the listview minimum hieght and add vertical margins
-    const listViewMinHeight: number = control.getMinHeight() + control.getMarginTop() + control.getMarginBottom();
+    // Determine the listview minimum height and add vertical margins
+    const listViewMinHeight: number = control.getMinHeight() + control.getMarginTop() + control.getMarginBottom() + headerHeight;
 
     // The greater value wins: The calculated minimum height for the item or the defined listview minimum height
     return Math.max(itemsHeight, Number.zeroIfNull(listViewMinHeight));
@@ -89,6 +98,9 @@ export class ListViewLayout extends LayoutBase {
     const itemCount: number = control.getItemCount();
     const itemWidth: number = control.getItemWidth();
     const itemHeight: number = control.getItemHeight();
+
+    // Take the header height into account if selection mode is 'Multiple'
+    const headerHeight: number = control.getMobileSelectionModeEnabled() && control.getSelectionMode() === ListViewSelectionMode.Multiple ? control.getHeaderOptions().height : 0;
 
     // The available width is the listview width - horizontal insets
     const availableWidth: number = width - control.getInsetsLeft() - control.getInsetsRight();
@@ -108,11 +120,11 @@ export class ListViewLayout extends LayoutBase {
 
     if (rowsHeight > 0) {
       // Include vertical insets (padding + border + margin) of the listview
-      rowsHeight += control.getInsetsTop() + control.getInsetsBottom();
+      rowsHeight += control.getInsetsTop() + control.getInsetsBottom() + headerHeight;
     }
 
     // Determine the listview minimum hieght and add vertical margins
-    const listViewMinHeight: number = control.getMinHeight() + control.getMarginTop() + control.getMarginBottom();
+    const listViewMinHeight: number = control.getMinHeight() + control.getMarginTop() + control.getMarginBottom() + headerHeight;
 
     // The greater value wins: The calculated minimum height for the item or the defined listview minimum height
     return Math.max(rowsHeight, Number.zeroIfNull(listViewMinHeight));

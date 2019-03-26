@@ -3,15 +3,39 @@ import { Component, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
 import { ControlComponent } from 'app/controls/control.component';
-import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
+import { ListViewWrapper, IHeaderOptions } from 'app/wrappers/listview-wrapper';
 import { StyleUtil } from 'app/util/style-util';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
+import { PlatformService } from 'app/services/platform.service';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 
 @Component({
   selector: 'hc-listview',
   templateUrl: './listview.component.html',
-  styleUrls: ['./listview.component.scss']
+  styleUrls: ['./listview.component.scss'],
+  animations: [
+    trigger('listwrapper', [
+      transition(':enter', [])
+    ]),
+    trigger('listheader', [
+      transition('void => *', [
+        style({
+          transform: 'translateY(-100%)'
+        }),
+        animate(100, style({
+          transform: 'translateY(0px)'
+        }))]),
+      transition('* => void', [
+        style({
+          transform: 'translateY(0px)'
+        }),
+        animate(100, style({
+          transform: 'translateY(-100%)'
+        }))])
+    ])
+  ]
 })
 export class ListViewComponent extends ControlComponent implements OnInit {
 
@@ -19,6 +43,26 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   public anchor: ViewContainerRef;
 
   public wrapperStyle: any;
+  public headerStyle: any;
+  public buttonStyle: any;
+  public buttonCloseStyle: any;
+  public itemContainerStyle: any;
+
+  constructor(private platformService: PlatformService) {
+    super();
+  }
+
+  public closeSelectionMode(): void {
+    this.getWrapper().setMobileSelectionModeEnabled(false);
+  }
+
+  public selectAll(): void {
+    this.getWrapper().selectAll();
+  }
+
+  public selectNone(): void {
+    this.getWrapper().selectNone();
+  }
 
   public getWrapper(): ListViewWrapper {
     return super.getWrapper() as ListViewWrapper;
@@ -59,6 +103,15 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   protected updateStyles(wrapper: ListViewWrapper): void {
     super.updateStyles(wrapper);
     this.wrapperStyle = this.createWrapperStyle(wrapper);
+    this.headerStyle = this.createHeaderStyle(wrapper);
+    this.buttonStyle = this.createButtonStyle(wrapper);
+    this.buttonCloseStyle = this.createButtonCloseStyle(wrapper);
+    this.itemContainerStyle = this.createItemContainerStyle(wrapper);
+  }
+
+  public isHeaderVisible(): boolean {
+    const wrapper: ListViewWrapper = this.getWrapper();
+    return wrapper.getSelectionMode() === ListViewSelectionMode.Multiple && (!this.platformService.isMobile() || this.getWrapper().getMobileSelectionModeEnabled());
   }
 
   protected createWrapperStyle(wrapper: ListViewWrapper): any {
@@ -66,16 +119,10 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     const layoutWidth: number = layoutableProperties.getWidth();
     const layoutHeight: number = layoutableProperties.getHeight();
     const isVisible: boolean = this.isVisible && layoutWidth > 0 && layoutHeight > 0;
-    const itemArrangement: ListViewItemArrangement = wrapper.getItemArrangement();
-    const itemWidth: number = wrapper.getItemWidth();
-    const spacingHorizontal: number = wrapper.getSpacingHorizontal();
-    const spacingVertical: number = wrapper.getSpacingVertical();
 
-    let wrapperStyle: any = {
-      'display': isVisible ? 'grid' : 'none',
-      'column-gap': StyleUtil.getValue('px', spacingHorizontal),
-      'row-gap': StyleUtil.getValue('px', spacingVertical),
-      'align-content': 'flex-start',
+    return {
+      'display': isVisible ? 'flex' : 'none',
+      'flex-direction': 'column',
       'left.px': layoutableProperties.getX(),
       'top.px': layoutableProperties.getY(),
       'width.px': layoutWidth,
@@ -99,11 +146,6 @@ export class ListViewComponent extends ControlComponent implements OnInit {
         wrapper.getMarginRight(),
         wrapper.getMarginBottom(),
         wrapper.getMarginLeft()),
-      'padding': StyleUtil.getFourValue('px',
-        wrapper.getPaddingTop(),
-        wrapper.getPaddingRight(),
-        wrapper.getPaddingBottom(),
-        wrapper.getPaddingLeft()),
       'font-family': wrapper.getFontFamily(),
       'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
       'font-size.px': wrapper.getFontSize(),
@@ -112,19 +154,64 @@ export class ListViewComponent extends ControlComponent implements OnInit {
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'cursor': !this.isEditable ? 'not-allowed' : null
     };
+  }
+
+  protected createHeaderStyle(wrapper: ListViewWrapper): any {
+    return {
+      'height.px': wrapper.getHeaderOptions().height
+    }
+  }
+
+  protected createButtonStyle(wrapper: ListViewWrapper): any {
+    const headerOptions: IHeaderOptions = wrapper.getHeaderOptions();
+
+    return {
+      'width.px': headerOptions.buttonWidth,
+      'font-size.px': headerOptions.fontSize
+    }
+  }
+
+  protected createButtonCloseStyle(wrapper: ListViewWrapper): any {
+    let buttonCloseStyle: any = this.createButtonStyle(wrapper);
+
+    buttonCloseStyle = {
+      ...buttonCloseStyle,
+      'display': this.platformService.isMobile() ? 'inline' : 'none'
+    }
+
+    return buttonCloseStyle;
+  }
+
+  protected createItemContainerStyle(wrapper: ListViewWrapper): any {
+    const itemArrangement: ListViewItemArrangement = wrapper.getItemArrangement();
+    const itemWidth: number = wrapper.getItemWidth();
+    const spacingHorizontal: number = wrapper.getSpacingHorizontal();
+    const spacingVertical: number = wrapper.getSpacingVertical();
+
+    let itemContainerStyle: any = {
+      'display': 'grid',
+      'column-gap': StyleUtil.getValue('px', spacingHorizontal),
+      'row-gap': StyleUtil.getValue('px', spacingVertical),
+      'align-content': 'flex-start',
+      'padding': StyleUtil.getFourValue('px',
+        wrapper.getPaddingTop(),
+        wrapper.getPaddingRight(),
+        wrapper.getPaddingBottom(),
+        wrapper.getPaddingLeft())
+    };
 
     if (itemArrangement === ListViewItemArrangement.List) {
-      wrapperStyle = {
-        ...wrapperStyle,
+      itemContainerStyle = {
+        ...itemContainerStyle,
         'grid-template-columns': '1fr'
       };
     } else {
-      wrapperStyle = {
-        ...wrapperStyle,
+      itemContainerStyle = {
+        ...itemContainerStyle,
         'grid-template-columns': `repeat(auto-fit, minmax(${StyleUtil.getValue('px', itemWidth)}, 1fr)`
       };
     }
 
-    return wrapperStyle;
+    return itemContainerStyle;
   }
 }

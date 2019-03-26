@@ -1,3 +1,10 @@
-<div class="wrapper" [ngStyle]="wrapperStyle">
-  <ng-template #anchor></ng-template>
+<div class="wrapper" [ngStyle]="wrapperStyle" [@listwrapper]>
+  <div *ngIf="isHeaderVisible()" class="header" [ngStyle]="headerStyle" [@listheader]>
+    <button class="btn-close" [ngStyle]="buttonCloseStyle" (click)="closeSelectionMode()"><span class="fas fa-fw fa-times"></span></button>
+    <button [ngStyle]="buttonStyle" (click)="selectAll()">All</button>
+    <button [ngStyle]="buttonStyle"(click)="selectNone()">None</button>
+  </div>
+  <div class="itemContainer" [ngStyle]="itemContainerStyle">
+    <ng-template #anchor></ng-template>
+  </div>
 </div>

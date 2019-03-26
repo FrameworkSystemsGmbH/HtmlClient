@@ -28,6 +28,12 @@ import { ClientItemActivatedEvent } from 'app/common/events/client-item-activate
 import { ImageService } from 'app/services/image.service';
 import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 
+export interface IHeaderOptions {
+  height: number;
+  buttonWidth: number;
+  fontSize: number;
+}
+
 export class ListViewWrapper extends ControlWrapper implements IListViewLayoutControl {
 
   public static readonly PART_DS: string = 'ds:';
@@ -84,6 +90,22 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
   public getIsMobileLayout(): boolean {
     return this.getPlatformService().isMobile();
+  }
+
+  public getHeaderOptions(): IHeaderOptions {
+    if (this.getPlatformService().isMobile()) {
+      return {
+        height: 40,
+        buttonWidth: 60,
+        fontSize: 14
+      };
+    } else {
+      return {
+        height: 20,
+        buttonWidth: 50,
+        fontSize: 12
+      };
+    }
   }
 
   public getItemArrangement(): ListViewItemArrangement {
@@ -150,11 +172,11 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   public getMobileSelectionModeEnabled(): boolean {
-    return this.getSelectionMode() !== ListViewSelectionMode.None && this.mobileSelectionModeEnabled;
+    return this.getSelectionMode() === ListViewSelectionMode.Multiple && this.mobileSelectionModeEnabled;
   }
 
   public setMobileSelectionModeEnabled(enabled: boolean): void {
-    if (this.getSelectionMode() !== ListViewSelectionMode.None) {
+    if (this.getSelectionMode() === ListViewSelectionMode.Multiple) {
       this.mobileSelectionModeEnabled = enabled;
     }
   }
@@ -166,6 +188,32 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
         item.updateComponent();
       }
     }
+  }
+
+  public selectAll(): void {
+    if (this.getSelectionMode() !== ListViewSelectionMode.Multiple) {
+      return;
+    }
+
+    for (const item of this.items) {
+      item.setSelected(true);
+      item.updateComponent();
+    }
+
+    this.callOnItemSelectionChanged();
+  }
+
+  public selectNone(): void {
+    if (this.getSelectionMode() === ListViewSelectionMode.None) {
+      return;
+    }
+
+    for (const item of this.items) {
+      item.setSelected(false);
+      item.updateComponent();
+    }
+
+    this.callOnItemSelectionChanged();
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ListViewComponent> {

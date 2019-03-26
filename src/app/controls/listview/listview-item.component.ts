@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ComponentRef, ElementRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, ComponentRef, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
@@ -7,6 +7,8 @@ import { BaseFormatService } from 'app/services/formatter/base-format.service';
 import { PlatformService } from 'app/services/platform.service';
 import { DomUtil } from 'app/util/dom-util';
 import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
+import { FormsService } from 'app/services/forms.service';
+import { FramesService } from 'app/services/frames.service';
 
 @Component({
   selector: 'hc-listview-item',
@@ -43,7 +45,8 @@ export class ListViewItemComponent implements OnInit {
 
   constructor(
     private baseFormatService: BaseFormatService,
-    private platformService: PlatformService
+    private platformService: PlatformService,
+    private framesService: FramesService
   ) { }
 
   get selected() {
@@ -224,6 +227,8 @@ export class ListViewItemComponent implements OnInit {
           this.selected = true;
         }
       }
+
+      this.framesService.layout();
     }
   }
 
