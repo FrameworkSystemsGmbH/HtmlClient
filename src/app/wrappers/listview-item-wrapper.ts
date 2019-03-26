@@ -22,11 +22,13 @@ export class ListViewItemWrapper {
   private _componentRef: ComponentRef<ListViewItemComponent>;
 
   private _isNew: boolean;
+  private _isAttached: boolean;
   private _hasPosChanged: boolean;
   private _hasContentChanged: boolean;
 
   constructor(listViewWrapper: ListViewWrapper, injector: Injector, options: IListViewItemWrapperOptions) {
     this._isNew = true;
+    this._isAttached = false;
     this._listViewWrapper = listViewWrapper;
     this._cfr = injector.get(ComponentFactoryResolver);
 
@@ -116,6 +118,8 @@ export class ListViewItemWrapper {
 
     // Insert the Angular Component into the DOM
     listViewAnchor.insert(compRef.hostView);
+
+    this._isAttached = true;
   }
 
   public detachComponent(): void {
@@ -129,6 +133,7 @@ export class ListViewItemWrapper {
   protected onComponentDestroyed(): void {
     // Clear the Angular Component reference
     this._componentRef = null;
+    this._isAttached = false;
   }
 
   public ensureItemPos(listViewAnchor: ViewContainerRef): void {
@@ -170,6 +175,10 @@ export class ListViewItemWrapper {
 
   public isNew(): boolean {
     return this._isNew;
+  }
+
+  public isAttached(): boolean {
+    return this._isAttached;
   }
 
   public hasPosChanged(): boolean {

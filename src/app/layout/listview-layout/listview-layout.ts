@@ -1,5 +1,4 @@
 import { IListViewLayoutControl } from 'app/layout/listview-layout/listview-layout-control.interface';
-import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { Visibility } from 'app/enums/visibility';
 import { LayoutBase } from 'app/layout/layout-base';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';

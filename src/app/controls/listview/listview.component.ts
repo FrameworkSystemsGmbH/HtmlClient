@@ -88,7 +88,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
         posChange = true;
       }
 
-      if (itemWrapper.isNew()) {
+      if (itemWrapper.isNew() || !itemWrapper.isAttached()) {
         itemWrapper.attachComponent(this.anchor);
       } else if (itemWrapper.hasContentChanged()) {
         itemWrapper.updateComponent();
