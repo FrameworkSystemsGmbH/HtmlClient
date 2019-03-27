@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -10,6 +10,7 @@ import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { PlatformService } from 'app/services/platform.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
+import { DomUtil } from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-listview',
@@ -42,6 +43,9 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
 
+  @ViewChild('wrapper')
+  public wrapperEl: ElementRef;
+
   public wrapperStyle: any;
   public headerStyle: any;
   public buttonStyle: any;
@@ -50,6 +54,19 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
   constructor(private platformService: PlatformService) {
     super();
+  }
+
+  public onFocusOut(event: FocusEvent): void {
+    if (this.platformService.isMobile()) {
+      setTimeout(() => {
+        const targetIsDescentant: boolean = DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, event.target as HTMLElement);
+        const activeIsOutside: boolean = !DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, document.activeElement as HTMLElement)
+
+        if (targetIsDescentant && activeIsOutside) {
+          this.getWrapper().setMobileSelectionModeEnabled(false);
+        }
+      }, 0);
+    }
   }
 
   public closeSelectionMode(): void {
