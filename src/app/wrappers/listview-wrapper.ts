@@ -430,7 +430,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     }
 
     // Replace placeholders
-    template = template.replace('%FILESURL%', this.imageService.getFilesUrl());
+    template = template.replace(/%FILESURL%/g, this.imageService.getFilesUrl());
 
     return template;
   }
