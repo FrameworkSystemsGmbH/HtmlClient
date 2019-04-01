@@ -363,7 +363,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       return null;
     }
 
-    const regEx: RegExp = /{{2}([^}]|[^}])*}{2}/gm;
+    const regEx: RegExp = /{{2}([^}]|[^}])*}{2}/g;
     const matches: RegExpMatchArray = template.match(regEx);
 
     if (!matches || !matches.length) {
