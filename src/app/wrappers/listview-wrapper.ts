@@ -463,9 +463,10 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   private compileListViewItemComponent(): ComponentFactory<ListViewItemContentComponent> {
-    const listViewItemHostCss: string = ':host { flex: 1; display: flex; flex-direction: column; }';
+    const listViewItemHtml: string = '<div class="listViewItem">' + this.templateHtml + '</div>';
+    const listViewItemCss: string = ':host { flex: 1; display: flex; flex-direction: column; } .listViewItem { flex: 1; }';
 
-    const listViewItemComp = Component({ selector: ListViewItemContentComponent.SELECTOR, template: this.templateHtml, styles: [listViewItemHostCss, this.templateCss] })(ListViewItemContentComponent);
+    const listViewItemComp = Component({ selector: ListViewItemContentComponent.SELECTOR, template: listViewItemHtml, styles: [listViewItemCss, this.templateCss] })(ListViewItemContentComponent);
     const listViewItemMod = NgModule({ declarations: [listViewItemComp] })(ListViewItemContentModule);
 
     const factory: ComponentFactory<ListViewItemContentComponent> = this.compiler.compileModuleAndAllComponentsSync(listViewItemMod).componentFactories[0];
