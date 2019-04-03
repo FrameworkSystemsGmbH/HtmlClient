@@ -7,3 +7,7 @@
 .item-container {
   overflow: hidden;
 }
+
+.item-active {
+  transform: translate(1px, 1px);
+}

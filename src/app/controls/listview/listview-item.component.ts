@@ -25,7 +25,7 @@ export class ListViewItemComponent implements OnInit {
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
 
-  public isHover: boolean;
+  public isMouseDown: boolean;
   public selectorSize: number;
   public containerStyle: any;
   public selectorStyle: any;
@@ -35,6 +35,7 @@ export class ListViewItemComponent implements OnInit {
   private width: number;
   private height: number;
   private selectedVal: boolean;
+  private isHover: boolean;
   private selectionMode: ListViewSelectionMode;
   private selectorPosition: ListViewSelectorPosition;
   private itemWrapper: ListViewItemWrapper;
@@ -71,6 +72,25 @@ export class ListViewItemComponent implements OnInit {
   public ngOnInit(): void {
     this.attachContentComponent();
     this.updateComponent();
+  }
+
+  public onMouseEnter(event: any): void {
+    this.isHover = true;
+  }
+
+  public onMouseLeave(event: any): void {
+    this.isHover = false;
+    this.isMouseDown = false;
+  }
+
+  public onMouseDown(event: any): void {
+    if (event.buttons === 1 && event.target && !DomUtil.isDescentantOrSelf(this.selector.nativeElement, event.target)) {
+      this.isMouseDown = true;
+    }
+  }
+
+  public onMouseUp(event: any): void {
+    this.isMouseDown = false;
   }
 
   public getId(): string {
