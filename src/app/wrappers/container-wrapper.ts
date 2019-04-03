@@ -23,7 +23,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   protected init(): void {
     super.init();
-    this.controls = new Array<ControlWrapper>()
+    this.controls = new Array<ControlWrapper>();
   }
 
   public isLayoutableContainerWrapperInterface(): void {

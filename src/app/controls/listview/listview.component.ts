@@ -60,7 +60,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     if (this.platformService.isMobile()) {
       setTimeout(() => {
         const targetIsDescentant: boolean = DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, event.target as HTMLElement);
-        const activeIsOutside: boolean = !DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, document.activeElement as HTMLElement)
+        const activeIsOutside: boolean = !DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, document.activeElement as HTMLElement);
 
         if (targetIsDescentant && activeIsOutside) {
           this.getWrapper().setMobileSelectionModeEnabled(false);
@@ -176,7 +176,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   protected createHeaderStyle(wrapper: ListViewWrapper): any {
     return {
       'height.px': wrapper.getHeaderOptions().height
-    }
+    };
   }
 
   protected createButtonStyle(wrapper: ListViewWrapper): any {
@@ -185,7 +185,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     return {
       'width.px': headerOptions.buttonWidth,
       'font-size.px': headerOptions.fontSize
-    }
+    };
   }
 
   protected createButtonCloseStyle(wrapper: ListViewWrapper): any {
@@ -194,7 +194,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     buttonCloseStyle = {
       ...buttonCloseStyle,
       'display': this.platformService.isMobile() ? 'inline' : 'none'
-    }
+    };
 
     return buttonCloseStyle;
   }

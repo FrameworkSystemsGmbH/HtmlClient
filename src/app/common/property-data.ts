@@ -137,7 +137,7 @@ export class PropertyData {
   public scaleMode: PictureScaleMode;
   public scrollBars: ScrollBars;
   public selectionMode: ListViewSelectionMode;
-  public selectorPosition: ListViewSelectorPosition
+  public selectorPosition: ListViewSelectorPosition;
   public shortcut: string;
   public showCaption: boolean;
   public synchronizeColumns: boolean;

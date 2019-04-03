@@ -16,14 +16,14 @@ import { FramesService } from 'app/services/frames.service';
 })
 export class ListViewItemComponent implements OnInit {
 
+  private static minSelectorSize: number = 12;
+  private static maxSelectorSize: number = 20;
+
   @ViewChild('selector', { read: ElementRef })
   public selector: ElementRef;
 
   @ViewChild('anchor', { read: ViewContainerRef })
   public anchor: ViewContainerRef;
-
-  private static minSelectorSize: number = 12;
-  private static maxSelectorSize: number = 20;
 
   public isHover: boolean;
   public selectorSize: number;
