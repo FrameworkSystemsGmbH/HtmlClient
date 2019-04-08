@@ -2,7 +2,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
 
   .selector-frame {
     display: flex;
@@ -32,5 +31,10 @@
     .selector-checkmark-path {
       stroke: white;
     }
+  }
+
+  .input:disabled:checked + .selector-frame {
+    background-color: #67A2FF;
+    border: 1px solid #67A2FF;
   }
 }

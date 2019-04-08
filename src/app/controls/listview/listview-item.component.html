@@ -1,4 +1,4 @@
-<div class="item-container" [ngClass]="{ 'item-active': isMouseDown }" [ngStyle]="containerStyle" (mouseenter)="onMouseEnter($event)" (mouseleave)="onMouseLeave($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)" (press)="onPress($event)" (tap)="onTap($event)">
-  <hc-selector #selector [ngStyle]="selectorStyle" [size]="selectorSize" [(checked)]="selected" [visible]="getSelectorVisible()"></hc-selector>
+<div class="item-container" [ngClass]="{ 'item-active': isEditable && isMouseDown }" [ngStyle]="containerStyle" (mouseenter)="onMouseEnter($event)" (mouseleave)="onMouseLeave($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)" (press)="onPress($event)" (tap)="onTap($event)">
+  <hc-selector #selector [ngStyle]="selectorStyle" [size]="selectorSize" [enabled]="isEditable" [(checked)]="selected" [visible]="getSelectorVisible()"></hc-selector>
   <ng-template #anchor></ng-template>
 </div>

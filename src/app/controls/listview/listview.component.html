@@ -1,8 +1,8 @@
 <div #wrapper class="wrapper" [ngStyle]="wrapperStyle" (focusout)="onFocusOut($event)" tabindex="0" [@listwrapper]>
   <div *ngIf="isHeaderVisible()" class="header" [ngStyle]="headerStyle" [@listheader]>
     <button class="btn-close" [ngStyle]="buttonCloseStyle" (click)="closeSelectionMode()"><span class="fas fa-fw fa-times"></span></button>
-    <button [ngStyle]="buttonStyle" (click)="selectAll()">All</button>
-    <button [ngStyle]="buttonStyle"(click)="selectNone()">None</button>
+    <button [ngStyle]="buttonStyle" (click)="selectAll()" [attr.disabled]="isEditable ? null : true">All</button>
+    <button [ngStyle]="buttonStyle"(click)="selectNone()" [attr.disabled]="isEditable ? null : true">None</button>
   </div>
   <div class="itemContainer" [ngStyle]="itemContainerStyle">
     <ng-template #anchor></ng-template>

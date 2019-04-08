@@ -20,6 +20,18 @@ export class SelectorComponent implements OnInit {
     this.setWrapperStyle();
   }
 
+  private enabledValue: boolean;
+
+  @Input()
+  public get enabled(): boolean {
+    return this.enabledValue;
+  }
+
+  public set enabled(val: boolean) {
+    this.enabledValue = val;
+    this.setWrapperStyle();
+  }
+
   private visibleValue: boolean;
 
   @Input()
@@ -57,7 +69,6 @@ export class SelectorComponent implements OnInit {
   constructor(private platformService: PlatformService) { }
 
   public ngOnInit(): void {
-    this.isDisabledAttr = this.platformService.isMobile() ? true : null;
     this.setWrapperStyle();
   }
 
@@ -65,12 +76,15 @@ export class SelectorComponent implements OnInit {
     if (this.visible) {
       this.wrapperStyle = {
         'width.px': this.size,
-        'height.px': this.size
+        'height.px': this.size,
+        'cursor': this.enabled ? 'pointer' : 'not-allowed'
       };
     } else {
       this.wrapperStyle = {
         'display': 'none'
       };
     }
+
+    this.isDisabledAttr = this.platformService.isMobile() || !this.enabled ? true : null;
   }
 }

@@ -189,6 +189,10 @@ export class ListViewItemWrapper {
     return this._hasContentChanged;
   }
 
+  public markAsContentChanged(): void {
+    this._hasContentChanged = true;
+  }
+
   public hasSelectionChanged(): boolean {
     return this._selected !== this._selectedOrg;
   }

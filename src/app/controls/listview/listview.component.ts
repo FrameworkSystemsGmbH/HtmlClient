@@ -168,8 +168,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
       'font-size.px': wrapper.getFontSize(),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.px': wrapper.getLineHeight(),
-      'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
-      'cursor': !this.isEditable ? 'not-allowed' : null
+      'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
   }
 

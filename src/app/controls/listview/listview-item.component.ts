@@ -36,6 +36,7 @@ export class ListViewItemComponent implements OnInit {
   private height: number;
   private selectedVal: boolean;
   private isHover: boolean;
+  private isEditable: boolean;
   private selectionMode: ListViewSelectionMode;
   private selectorPosition: ListViewSelectorPosition;
   private itemWrapper: ListViewItemWrapper;
@@ -105,7 +106,7 @@ export class ListViewItemComponent implements OnInit {
     if (this.platformService.isMobile()) {
       return this.selected || this.listViewWrapper.getMobileSelectionModeEnabled();
     } else {
-      return this.selected || this.isHover;
+      return this.selected || (this.isEditable && this.isHover);
     }
   }
 
@@ -127,6 +128,7 @@ export class ListViewItemComponent implements OnInit {
     this.id = itemWrapper.getId();
     this.width = this.listViewWrapper.getItemWidth();
     this.height = this.listViewWrapper.getItemHeight();
+    this.isEditable = this.listViewWrapper.getIsEditable();
     this.selectionMode = this.listViewWrapper.getSelectionMode();
     this.selectorPosition = this.listViewWrapper.getSelectorPosition();
     this.values = itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern()));
@@ -144,7 +146,7 @@ export class ListViewItemComponent implements OnInit {
     return {
       'min-width.px': this.width,
       'height.px': this.height,
-      'cursor': listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default'
+      'cursor': this.isEditable ? (listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default') : 'not-allowed'
     };
   }
 
@@ -226,11 +228,12 @@ export class ListViewItemComponent implements OnInit {
       return;
     }
 
+    this.contentCompInstance.enabled = this.isEditable;
     this.contentCompInstance.values = this.values;
   }
 
   public onPress(event: any): void {
-    if (!this.platformService.isMobile() || this.selectionMode === ListViewSelectionMode.None) {
+    if (!this.isEditable || !this.platformService.isMobile() || this.selectionMode === ListViewSelectionMode.None) {
       return;
     }
 
@@ -252,6 +255,10 @@ export class ListViewItemComponent implements OnInit {
   }
 
   public onTap(event: any): void {
+    if (!this.isEditable) {
+      return;
+    }
+
     if (this.platformService.isMobile() && this.listViewWrapper.getMobileSelectionModeEnabled()) {
       this.selected = !this.selected;
 
