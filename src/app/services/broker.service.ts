@@ -101,6 +101,7 @@ export class BrokerService {
           return this.createRequest(event.clientEvent).pipe(
             // tap(requestJson => console.log(requestJson)),
             flatMap(requestJson => this.doRequest(requestJson)),
+            // tap(responseJson => console.log(responseJson)),
             flatMap(responseJson => this.processResponse(responseJson))
           );
         } else {
