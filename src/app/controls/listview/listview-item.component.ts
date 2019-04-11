@@ -26,6 +26,7 @@ export class ListViewItemComponent implements OnInit {
   public anchor: ViewContainerRef;
 
   public isMouseDown: boolean;
+  public isEditable: boolean;
   public selectorSize: number;
   public containerStyle: any;
   public selectorStyle: any;
@@ -36,7 +37,6 @@ export class ListViewItemComponent implements OnInit {
   private height: number;
   private selectedVal: boolean;
   private isHover: boolean;
-  private isEditable: boolean;
   private selectionMode: ListViewSelectionMode;
   private selectorPosition: ListViewSelectorPosition;
   private itemWrapper: ListViewItemWrapper;
