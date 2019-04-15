@@ -459,7 +459,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   private compileListViewItemComponent(): ComponentFactory<ListViewItemContentComponent> {
-    const listViewItemHtml: string = '<div class="lvItem" [attr.disabled]="enabled ? null : true">' + this.templateHtml + '</div>';
+    const listViewItemHtml: string = '<div class="lvItem" [attr.lvDisabled]="enabled ? null : true">' + this.templateHtml + '</div>';
     const listViewItemCss: string = ':host { flex: 1; display: flex; flex-direction: column; } .lvItem { flex: 1; }';
 
     const listViewItemComp = Component({ selector: ListViewItemContentComponent.SELECTOR, template: listViewItemHtml, styles: [listViewItemCss, this.templateCss] })(ListViewItemContentComponent);
