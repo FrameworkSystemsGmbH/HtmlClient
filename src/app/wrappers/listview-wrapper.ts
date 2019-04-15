@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ComponentRef, ComponentFactory, Component, NgModule, Compiler } from '@angular/core';
 
 import { IListViewLayoutControl } from 'app/layout/listview-layout/listview-layout-control.interface';
@@ -9,8 +8,6 @@ import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ListViewComponent } from 'app/controls/listview/listview.component';
 import { ControlType } from 'app/enums/control-type';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
-import { HorizontalContentAlignment } from 'app/enums/horizontal-content-alignment';
-import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
@@ -120,16 +117,6 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
   public getSpacingVertical(): number {
     return Number.zeroIfNull(this.getPropertyStore().getVerticalSpacing());
-  }
-
-  public getHorizontalContentAlignment(): HorizontalContentAlignment {
-    const horizontalContentAlignment: HorizontalContentAlignment = this.getPropertyStore().getHorizontalContentAlignment();
-    return horizontalContentAlignment != null ? horizontalContentAlignment : HorizontalContentAlignment.Left;
-  }
-
-  public getVerticalContentAlignment(): VerticalContentAlignment {
-    const verticalContentAlignment: VerticalContentAlignment = this.getPropertyStore().getVerticalContentAlignment();
-    return verticalContentAlignment != null ? verticalContentAlignment : VerticalContentAlignment.Top;
   }
 
   public getItemWidth(): number {
