@@ -252,6 +252,8 @@ export class ListViewItemComponent implements OnInit {
 
       this.framesService.layout();
     }
+
+    event.preventDefault();
   }
 
   public onTap(event: any): void {
