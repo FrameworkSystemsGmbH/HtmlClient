@@ -1,8 +1,11 @@
-import { Injectable } from '@angular/core';
+import * as Moment from 'moment-timezone';
+
+import { Injectable, ModuleWithComponentFactories } from '@angular/core';
 import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
 import { NumberFormatService } from 'app/services/formatter/number-format.service';
 import { StringFormatService } from 'app/services/formatter/string-format.service';
 import { TextFormat } from 'app/enums/text-format';
+import { stringify } from '@angular/compiler/src/util';
 
 @Injectable()
 export class BaseFormatService {
@@ -30,7 +33,15 @@ export class BaseFormatService {
       case TextFormat.TimeOnlyShort:
       case TextFormat.TimeOnlyMedium:
       case TextFormat.TimeOnlyLong:
-        return this.dateTimeFormatService.formatString(value, format, formatPattern);
+        let val: any = null;
+        if (!String.isNullOrWhiteSpace(value)) {
+          val = this.dateTimeFormatService.momentFromJson(value);
+
+          if (val === null || !val.isValid()) {
+            val = null;
+          }
+        }
+        return this.dateTimeFormatService.formatDate(val, format, formatPattern);
       default:
         return this.stringFormatService.formatString(value, format);
     }
