@@ -146,6 +146,7 @@ export class ListViewItemComponent implements OnInit {
     return {
       'min-width.px': this.width,
       'height.px': this.height,
+      'max-height.px': this.height,
       'cursor': this.isEditable ? (listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default') : 'not-allowed'
     };
   }
