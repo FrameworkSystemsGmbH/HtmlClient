@@ -257,7 +257,7 @@ export class ListViewItemComponent implements OnInit {
     event.preventDefault();
   }
 
-  public onTap(event: any): void {
+  public onClick(event: any): void {
     if (!this.isEditable) {
       return;
     }
