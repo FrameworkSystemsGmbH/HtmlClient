@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.fs.htmlclient"
         xmlns="http://www.w3.org/ns/widgets"
-        version="1.0.14">
+        version="1.0.15">
 
   <!-- Phonegap Exclusive -->
   <preference name="phonegap-version" value="cli-8.0.0" />
