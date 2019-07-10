@@ -53,45 +53,45 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     this.selectedListIndex = index;
   }
 
-  public abstract onEnterKey(event: any): void;
+  public abstract onEnterKey(event: KeyboardEvent): void;
 
-  protected onKeyDown(event: any): void {
+  protected onKeyDown(event: KeyboardEvent): void {
     if (!event || !this.isEditable) {
       return;
     }
 
-    switch (event.which) {
+    switch (event.key) {
       // Down
-      case 40:
+      case 'ArrowDown':
         this.selectNext();
         break;
 
       // Up
-      case 38:
+      case 'ArrowUp':
         this.selectPrevious();
         break;
 
       // Tab
-      case 9:
+      case 'Tab':
         this.onFocusKey(event, this.dropDownVisible);
         break;
 
       // Enter
-      case 13:
+      case 'Enter':
         const open: boolean = this.dropDownVisible;
         this.onEnterKey(event);
         this.onFocusKey(event, open);
         break;
 
       // Escape
-      case 27:
+      case 'Escape':
         this.hideList();
         break;
     }
   }
 
   protected onFocusKey(event: KeyboardEvent, open: boolean): void {
-    if (event.keyCode === 9 || event.keyCode === 13 && !open) {
+    if (event.key === 'Tab' || event.key === 'Enter' && !open) {
       this.hideList();
 
       if (event.shiftKey) {

@@ -9,7 +9,7 @@ import { ButtonComponent } from 'app/controls/buttons/button.component';
 })
 export class ButtonPlainComponent extends ButtonComponent {
 
-  @ViewChild('button')
+  @ViewChild('button', { static: true })
   public button: ElementRef;
 
   protected getButton(): ElementRef {

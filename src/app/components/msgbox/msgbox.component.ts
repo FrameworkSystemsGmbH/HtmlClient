@@ -15,7 +15,7 @@ import { MsgBoxResult } from 'app/enums/msgbox-result';
 })
 export class MsgBoxComponent implements OnInit, OnDestroy {
 
-  @ViewChild('footer')
+  @ViewChild('footer', { static: true })
   public footer: ElementRef;
 
   public title: string;
@@ -38,7 +38,7 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.afterOpenSub = this.dialogRef.afterOpen().subscribe(() => {
+    this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => this.footer.nativeElement.focus());
     });
   }

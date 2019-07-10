@@ -8,25 +8,25 @@ import { FormWrapper } from 'app/wrappers/form-wrapper';
 export class FocusService {
 
   private lastInput: LastInput;
-  private lastKeyEvent: any;
-  private lastMouseEvent: any;
+  private lastKeyEvent: KeyboardEvent;
+  private lastMouseEvent: MouseEvent;
 
   public getLeaveActivator(): string {
     if (this.lastInput === LastInput.Keyboard) {
-      switch (this.lastKeyEvent.key.toUpperCase()) {
-        case 'TAB':
+      switch (this.lastKeyEvent.key) {
+        case 'Tab':
           if (this.lastKeyEvent.shiftKey) {
             return 'KeyboardTabBackward';
           } else {
             return 'KeyboardTabForward';
           }
-        case 'ENTER':
+        case 'Enter':
           return 'KeyboardEnter';
-        case 'UP':
-        case 'LEFT':
+        case 'ArrowUp':
+        case 'ArrowLeft':
           return 'KeyboardUp';
-        case 'DOWN':
-        case 'RIGHT':
+        case 'ArrowDown':
+        case 'ArrowRight':
           return 'KeyboardDown';
         case 'F2':
           return 'KeyboardF2';
@@ -42,20 +42,20 @@ export class FocusService {
     return this.lastInput;
   }
 
-  public getLastKeyEvent(): any {
+  public getLastKeyEvent(): KeyboardEvent {
     return this.lastKeyEvent;
   }
 
-  public setLastKeyEvent(lastKeyEvent: any): void {
+  public setLastKeyEvent(lastKeyEvent: KeyboardEvent): void {
     this.lastKeyEvent = lastKeyEvent;
     this.lastInput = LastInput.Keyboard;
   }
 
-  public getLastMouseEvent(): string {
+  public getLastMouseEvent(): MouseEvent {
     return this.lastMouseEvent;
   }
 
-  public setLastMouseEvent(lastMouseEvent: any): void {
+  public setLastMouseEvent(lastMouseEvent: MouseEvent): void {
     this.lastMouseEvent = lastMouseEvent;
     this.lastInput = LastInput.Mouse;
   }

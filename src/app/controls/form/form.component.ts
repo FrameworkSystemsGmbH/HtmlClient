@@ -11,7 +11,7 @@ import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-p
 })
 export class FormComponent extends ContainerComponent {
 
-  @ViewChild('anchor', { read: ViewContainerRef })
+  @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
 
   public scrollerStyle: any;

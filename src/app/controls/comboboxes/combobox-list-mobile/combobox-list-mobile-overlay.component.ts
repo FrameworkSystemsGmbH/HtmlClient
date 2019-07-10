@@ -12,13 +12,13 @@ import { DomUtil } from 'app/util/dom-util';
 })
 export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
 
-  @ViewChild('wrapper')
+  @ViewChild('wrapper', { static: true })
   public wrapper: ElementRef;
 
-  @ViewChild('scroller')
+  @ViewChild('scroller', { static: true })
   public scroller: ElementRef;
 
-  @ViewChild('list')
+  @ViewChild('list', { static: true })
   public list: ElementRef;
 
   public entries: DataList;
@@ -40,7 +40,7 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
       this.dialogRef.close({ selected: false });
     });
 
-    this.afterOpenSub = this.dialogRef.afterOpen().subscribe(() => {
+    this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => {
         this.scrollSelectedEntryIntoView();
         this.wrapper.nativeElement.focus();
@@ -75,7 +75,7 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
 
   @HostListener('document:keydown', ['$event'])
   public handleKeydown(event: KeyboardEvent): void {
-    if (event.keyCode === 27) {
+    if (event.key === 'Escape') {
       this.dialogRef.close({
         selected: false
       });

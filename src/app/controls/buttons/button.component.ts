@@ -27,7 +27,7 @@ export abstract class ButtonComponent extends ControlComponent {
   }
 
   public callKeyDown(event: KeyboardEvent): void {
-    if (event.keyCode === 9 || (event.keyCode === 13 && this.mapEnterToTab)) {
+    if (event.key === 'Tab' || (event.key === 'Enter' && this.mapEnterToTab)) {
       if (event.shiftKey) {
         this.getWrapper().focusKeyboardPrevious();
       } else {

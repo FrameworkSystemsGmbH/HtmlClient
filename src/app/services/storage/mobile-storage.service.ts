@@ -1,7 +1,7 @@
 /// <reference path="../../../../node_modules/cordova-plugin-file/types/index.d.ts" />
 
 import { Injectable, NgZone } from '@angular/core';
-import { Observable, Observer, empty as obsEmpty, of as obsOf } from 'rxjs';
+import { Observable, EMPTY as obsEmpty, of as obsOf } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
 import { StorageService } from 'app/services/storage/storage.service';
@@ -15,12 +15,12 @@ export class MobileStorageService extends StorageService {
 
   public loadData(key: string): Observable<string> {
     if (String.isNullOrWhiteSpace(key)) {
-      return obsEmpty();
+      return obsEmpty;
     }
 
     return this.getStorageDirectory().pipe(
       flatMap(storageDirEntry => {
-        return Observable.create((observer: Observer<string>) => {
+        return new Observable<string>(subscriber => {
           storageDirEntry.getFile(key + '.json', { create: false },
             storageFileEntry => {
               storageFileEntry.file(storageFile => {
@@ -29,21 +29,21 @@ export class MobileStorageService extends StorageService {
                   this.zone.run(() => {
                     const result: string | ArrayBuffer = reader.result;
                     if (typeof result === 'string') {
-                      observer.next(result);
+                      subscriber.next(result);
                     }
-                    observer.complete();
+                    subscriber.complete();
                   });
                 };
                 reader.onerror = e => {
                   this.zone.run(() => {
-                    observer.error(e);
+                    subscriber.error(e);
                   });
                 };
                 reader.readAsText(storageFile);
               },
                 error => {
                   this.zone.run(() => {
-                    observer.error(error);
+                    subscriber.error(error);
                   });
                 }
               );
@@ -51,10 +51,10 @@ export class MobileStorageService extends StorageService {
             error => {
               this.zone.run(() => {
                 if (error.code === 1) {
-                  observer.next(null);
-                  observer.complete();
+                  subscriber.next(null);
+                  subscriber.complete();
                 } else {
-                  observer.error(error);
+                  subscriber.error(error);
                 }
               });
             }
@@ -71,19 +71,19 @@ export class MobileStorageService extends StorageService {
 
     return this.getStorageDirectory().pipe(
       flatMap(storageDirEntry => {
-        return Observable.create((observer: Observer<boolean>) => {
+        return new Observable<boolean>(subscriber => {
           storageDirEntry.getFile(key + '.json', { create: true, exclusive: false },
             storageFileEntry => {
               storageFileEntry.createWriter(writer => {
                 writer.onwriteend = e => {
                   this.zone.run(() => {
-                    observer.next(true);
-                    observer.complete();
+                    subscriber.next(true);
+                    subscriber.complete();
                   });
                 };
                 writer.onerror = e => {
                   this.zone.run(() => {
-                    observer.error(e);
+                    subscriber.error(e);
                   });
                 };
                 const data: Blob = new Blob([value], { type: 'text/plain' });
@@ -91,14 +91,14 @@ export class MobileStorageService extends StorageService {
               },
                 error => {
                   this.zone.run(() => {
-                    observer.error(error);
+                    subscriber.error(error);
                   });
                 }
               );
             },
             error => {
               this.zone.run(() => {
-                observer.error(error);
+                subscriber.error(error);
               });
             }
           );
@@ -114,27 +114,27 @@ export class MobileStorageService extends StorageService {
 
     return this.getStorageDirectory().pipe(
       flatMap(storageDirEntry => {
-        return Observable.create((observer: Observer<boolean>) => {
+        return new Observable<boolean>(subscriber => {
           storageDirEntry.getFile(key + '.json', { create: false },
             storageFileEntry => {
               storageFileEntry.remove(() => {
                 this.zone.run(() => {
-                  observer.next(true);
-                  observer.complete();
+                  subscriber.next(true);
+                  subscriber.complete();
                 });
               },
                 error => {
-                  observer.error(error);
+                  subscriber.error(error);
                 }
               );
             },
             error => {
               this.zone.run(() => {
                 if (error.code === 1) {
-                  observer.next(false);
-                  observer.complete();
+                  subscriber.next(false);
+                  subscriber.complete();
                 } else {
-                  observer.error(error);
+                  subscriber.error(error);
                 }
               });
             }
@@ -145,26 +145,26 @@ export class MobileStorageService extends StorageService {
   }
 
   private getStorageDirectory(): Observable<DirectoryEntry> {
-    return Observable.create((observer: Observer<DirectoryEntry>) => {
+    return new Observable<DirectoryEntry>(subscriber => {
       window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
         dataDirEntry => {
           (dataDirEntry as DirectoryEntry).getDirectory('storage', { create: true, exclusive: false },
             storageDirEntry => {
               this.zone.run(() => {
-                observer.next(storageDirEntry);
-                observer.complete();
+                subscriber.next(storageDirEntry);
+                subscriber.complete();
               });
             },
             error => {
               this.zone.run(() => {
-                observer.error(error);
+                subscriber.error(error);
               });
             }
           );
         },
         error => {
           this.zone.run(() => {
-            observer.error(error);
+            subscriber.error(error);
           });
         }
       );

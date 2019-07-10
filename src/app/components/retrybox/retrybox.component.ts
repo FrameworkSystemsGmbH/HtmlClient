@@ -13,7 +13,7 @@ import { RetryBoxResult } from 'app/enums/retrybox-result';
 })
 export class RetryBoxComponent implements OnInit, OnDestroy {
 
-  @ViewChild('footer')
+  @ViewChild('footer', { static: true })
   public footer: ElementRef;
 
   public title: string;
@@ -33,7 +33,7 @@ export class RetryBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.afterOpenSub = this.dialogRef.afterOpen().subscribe(() => {
+    this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => this.footer.nativeElement.focus());
     });
   }

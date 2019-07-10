@@ -55,16 +55,16 @@ import { StyleUtil } from 'app/util/style-util';
 })
 export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
 
-  @ViewChild('center')
+  @ViewChild('center', { static: true })
   public center: ElementRef;
 
-  @ViewChild('tabs')
+  @ViewChild('tabs', { static: true })
   public tabs: ElementRef;
 
-  @ViewChild('arrowLeft')
+  @ViewChild('arrowLeft', { static: true })
   public arrowLeft: ElementRef;
 
-  @ViewChild('arrowRight')
+  @ViewChild('arrowRight', { static: true })
   public arrowRight: ElementRef;
 
   public forms: Array<FormWrapper>;

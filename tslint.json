@@ -23,6 +23,7 @@
       "check-space"
     ],
     "curly": true,
+    "deprecation": true,
     "encoding": true,
     "eofline": true,
     "forin": true,
@@ -108,7 +109,6 @@
     "no-unnecessary-initializer": true,
     "no-unnecessary-qualifier": true,
     "no-unused-expression": true,
-    "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-var-requires": true,
     "no-void-expression": [

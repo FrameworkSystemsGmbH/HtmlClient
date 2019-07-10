@@ -13,7 +13,7 @@ import { StyleUtil } from 'app/util/style-util';
 })
 export class FieldPanelComponent extends ContainerComponent {
 
-  @ViewChild('anchor', { read: ViewContainerRef })
+  @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
 
   public wrapperStyle: any;

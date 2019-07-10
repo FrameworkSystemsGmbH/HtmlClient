@@ -13,10 +13,10 @@ import { DomUtil } from 'app/util/dom-util';
 })
 export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
 
-  @ViewChild('control')
+  @ViewChild('control', { static: true })
   public control: ElementRef;
 
-  @ViewChild('arrow')
+  @ViewChild('arrow', { static: true })
   public arrow: ElementRef;
 
   private inputValue: string;

@@ -13,7 +13,7 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 })
 export class TextBoxMultilineComponent extends TextBoxComponent {
 
-  @ViewChild('textarea')
+  @ViewChild('textarea', { static: true })
   public textarea: ElementRef;
 
   public value: string;

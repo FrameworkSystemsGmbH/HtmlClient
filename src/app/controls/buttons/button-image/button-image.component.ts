@@ -11,7 +11,7 @@ import { StyleUtil } from 'app/util/style-util';
 })
 export class ButtonImageComponent extends ButtonComponent {
 
-  @ViewChild('button')
+  @ViewChild('button', { static: true })
   public button: ElementRef;
 
   public currentImageUrl: string;

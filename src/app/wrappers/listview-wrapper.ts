@@ -512,7 +512,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
         this.getName(),
         itemId,
         this.items.findIndex(i => i.getId() === itemId),
-        event,
+        null,
         new InternalEventCallbacks<ClientItemActivatedEvent>(
           this.canExecuteItemActivated.bind(this),
           this.onItemActivatedExecuted.bind(this),

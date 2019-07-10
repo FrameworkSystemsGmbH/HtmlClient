@@ -141,17 +141,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private createBrokerValidator(ls: LoginService): any {
     return (c: FormControl) => {
-      return new Observable<any>(
-        observer => {
-          ls.getBrokers().subscribe(brokers => {
-            if (brokers && brokers.length && brokers.find(b => String.equals(b.name, c.value, true))) {
-              observer.next({ broker: true });
-            } else {
-              observer.next(null);
-            }
-            observer.complete();
-          });
+      return new Observable<any>(subscriber => {
+        ls.getBrokers().subscribe(brokers => {
+          if (brokers && brokers.length && brokers.find(b => String.equals(b.name, c.value, true))) {
+            subscriber.next({ broker: true });
+          } else {
+            subscriber.next(null);
+          }
+          subscriber.complete();
         });
+      });
     };
   }
 }

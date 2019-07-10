@@ -13,7 +13,7 @@ import { Visibility } from 'app/enums/visibility';
 })
 export class ControlLabelContainerComponent extends LayoutableComponent {
 
-  @ViewChild('anchor', { read: ViewContainerRef })
+  @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
 
   public isVisible: boolean;

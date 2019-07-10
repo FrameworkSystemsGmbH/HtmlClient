@@ -41,12 +41,12 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('window:keydown', ['$event'])
-  public globalKeyDown(event: any): void {
+  public globalKeyDown(event: KeyboardEvent): void {
     this.focusService.setLastKeyEvent(event);
   }
 
   @HostListener('window:mousedown', ['$event'])
-  public globalMouseDown(event: any): void {
+  public globalMouseDown(event: MouseEvent): void {
     this.focusService.setLastMouseEvent(event);
   }
 }

@@ -23,16 +23,16 @@ import { DomUtil } from 'app/util/dom-util';
 })
 export class ComboBoxListComponent extends ComboBoxDesktopComponent implements AfterViewInit, OnDestroy {
 
-  @ViewChild('control')
+  @ViewChild('control', { static: true })
   public control: ElementRef;
 
-  @ViewChild('arrow')
+  @ViewChild('arrow', { static: true })
   public arrow: ElementRef;
 
-  @ViewChild('list')
+  @ViewChild('list', { static: true })
   public list: ElementRef;
 
-  @ViewChild('scroller')
+  @ViewChild('scroller', { static: true })
   public scroller: ElementRef;
 
   public tabIndexAttr: number;

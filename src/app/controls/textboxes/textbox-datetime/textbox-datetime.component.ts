@@ -12,7 +12,7 @@ import { TextFormat } from 'app/enums/text-format';
 })
 export class TextBoxDateTimeComponent extends TextBoxComponent {
 
-  @ViewChild('input')
+  @ViewChild('input', { static: true })
   public input: ElementRef;
 
   public value: string;

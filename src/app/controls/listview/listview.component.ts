@@ -40,10 +40,10 @@ import { DomUtil } from 'app/util/dom-util';
 })
 export class ListViewComponent extends ControlComponent implements OnInit {
 
-  @ViewChild('anchor', { read: ViewContainerRef })
+  @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
 
-  @ViewChild('wrapper')
+  @ViewChild('wrapper', { static: true })
   public wrapperEl: ElementRef;
 
   public wrapperStyle: any;

@@ -12,10 +12,10 @@ import { FormWrapper } from 'app/wrappers/form-wrapper';
 })
 export class FrameComponent implements OnInit, OnDestroy {
 
-  @ViewChild('frame')
+  @ViewChild('frame', { static: true })
   public frame: ElementRef;
 
-  @ViewChild('anchor', { read: ViewContainerRef })
+  @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
 
   private selectedForm: FormWrapper;

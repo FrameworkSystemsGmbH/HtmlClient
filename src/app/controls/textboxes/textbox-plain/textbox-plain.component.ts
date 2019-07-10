@@ -12,7 +12,8 @@ import { TextFormat } from 'app/enums/text-format';
 })
 export class TextBoxPlainComponent extends TextBoxComponent {
 
-  @ViewChild('input') public input: ElementRef;
+  @ViewChild('input', { static: true })
+  public input: ElementRef;
 
   public value: string;
   public isPasswordField: boolean;

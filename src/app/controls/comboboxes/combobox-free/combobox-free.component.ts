@@ -22,16 +22,16 @@ import { DomUtil } from 'app/util/dom-util';
 })
 export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements AfterViewInit, OnDestroy {
 
-  @ViewChild('input')
+  @ViewChild('input', { static: true })
   public input: ElementRef;
 
-  @ViewChild('arrow')
+  @ViewChild('arrow', { static: true })
   public arrow: ElementRef;
 
-  @ViewChild('list')
+  @ViewChild('list', { static: true })
   public list: ElementRef;
 
-  @ViewChild('scroller')
+  @ViewChild('scroller', { static: true })
   public scroller: ElementRef;
 
   public tabIndexAttr: number;
@@ -52,7 +52,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   public ngAfterViewInit(): void {
     this.regEx.compile();
 
-    this.keyDownSub = fromEvent(this.input.nativeElement, 'keydown').subscribe(event => this.onKeyDown(event));
+    this.keyDownSub = fromEvent<KeyboardEvent>(this.input.nativeElement, 'keydown').subscribe(event => this.onKeyDown(event));
   }
 
   public ngOnDestroy(): void {

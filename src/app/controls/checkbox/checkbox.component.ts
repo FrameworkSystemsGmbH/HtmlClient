@@ -14,7 +14,7 @@ import { DomUtil } from 'app/util/dom-util';
 })
 export class CheckBoxComponent extends ControlComponent {
 
-  @ViewChild('input')
+  @ViewChild('input', { static: true })
   public input: ElementRef;
 
   @Output()
@@ -39,7 +39,7 @@ export class CheckBoxComponent extends ControlComponent {
   }
 
   public callKeyDown(event: KeyboardEvent): void {
-    if (event.keyCode === 9 || event.keyCode === 13) {
+    if (event.key === 'Tab' || event.key === 'Enter') {
       if (event.shiftKey) {
         this.getWrapper().focusKeyboardPrevious();
       } else {

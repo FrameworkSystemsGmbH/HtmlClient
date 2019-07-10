@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, of as obsOf, forkJoin, Observer, Subscription } from 'rxjs';
+import { Observable, Subject, of as obsOf, forkJoin, Subscription, Observer } from 'rxjs';
 import { concatMap, flatMap, map, retryWhen, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
@@ -35,6 +35,7 @@ import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
 
 import * as Moment from 'moment-timezone';
+import { ObserversModule } from '@angular/cdk/observers';
 
 @Injectable()
 export class BrokerService {
@@ -176,7 +177,10 @@ export class BrokerService {
 
       this.sendInitRequest().pipe(
         flatMap(responseJson => this.processResponse(responseJson))
-      ).subscribe(null, onError, onComplete);
+      ).subscribe({
+        error: onError,
+        complete: onComplete
+      });
     }
   }
 
@@ -228,7 +232,7 @@ export class BrokerService {
   }
 
   private createRequestRetryBox(error: any): Observable<void> {
-    return Observable.create((observer: Observer<void>) => {
+    return new Observable<void>(subscriber => {
       try {
         const title: string = this.titleService.getTitle();
         const message: string = error && error.status === 0 ? 'Request could not be sent because of a network error!' : error.message;
@@ -240,15 +244,15 @@ export class BrokerService {
           stackTrace
         }).subscribe(result => {
           if (result === RetryBoxResult.Retry) {
-            observer.next(null);
+            subscriber.next(null);
           } else {
             this.closeApplication();
           }
         },
-          err => observer.error(err),
-          () => observer.complete());
+          err => subscriber.error(err),
+          () => subscriber.complete());
       } catch (err) {
-        observer.error(err);
+        subscriber.error(err);
       }
     });
   }

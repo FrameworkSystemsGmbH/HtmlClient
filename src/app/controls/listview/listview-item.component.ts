@@ -1,7 +1,7 @@
 import { Component, ViewChild, ViewContainerRef, OnInit, ComponentRef, ElementRef } from '@angular/core';
 import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
-import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
+import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
 import { PlatformService } from 'app/services/platform.service';
@@ -19,10 +19,10 @@ export class ListViewItemComponent implements OnInit {
   private static minSelectorSize: number = 12;
   private static maxSelectorSize: number = 20;
 
-  @ViewChild('selector', { read: ElementRef })
+  @ViewChild('selector', { read: ElementRef, static: true })
   public selector: ElementRef;
 
-  @ViewChild('anchor', { read: ViewContainerRef })
+  @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
 
   public isMouseDown: boolean;
@@ -112,7 +112,7 @@ export class ListViewItemComponent implements OnInit {
 
   public setWrapper(itemWrapper: ListViewItemWrapper) {
     this.itemWrapper = itemWrapper;
-    this.listViewWrapper = itemWrapper.getListViewWrapper();
+    this.listViewWrapper = itemWrapper.getListViewWrapper() as ListViewWrapper;
   }
 
   private updateWrapper(): void {
@@ -220,7 +220,7 @@ export class ListViewItemComponent implements OnInit {
   }
 
   private attachContentComponent(): void {
-    this.contentCompRef = this.anchor.createComponent(this.itemWrapper.getListViewWrapper().getItemFactory());
+    this.contentCompRef = this.anchor.createComponent(this.listViewWrapper.getItemFactory());
     this.contentCompInstance = this.contentCompRef.instance;
   }
 
