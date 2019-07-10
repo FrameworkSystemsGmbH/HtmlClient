@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 
 import { FocusService } from 'app/services/focus.service';
 import { LocaleService } from 'app/services/locale.service';
+import { HardwareService } from 'app/services/hardware-service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { PlatformService } from 'app/services/platform.service';
 import { SerializeService } from 'app/services/serialize.service';
@@ -19,11 +20,13 @@ export class AppComponent implements OnInit {
   constructor(
     private focusService: FocusService,
     private localeService: LocaleService,
+    private hardwareService: HardwareService,
     private keyboardService: KeyboardService,
     private platformService: PlatformService,
     private serializeService: SerializeService
   ) {
     this.localeService.setMomentLocaleGlobally();
+    this.hardwareService.attachHandlers();
     this.keyboardService.attachScrollHandler();
     this.serializeService.attachHandlers();
   }
@@ -32,6 +35,17 @@ export class AppComponent implements OnInit {
     if (this.platformService.isIos()) {
       this.style = this.createIosStyle();
     }
+
+    const m1: () => boolean = this.onTest;
+    const m2: () => boolean = this.onTest;
+
+    const check1: boolean = m1 === m2;
+    const check2: boolean = m1 == m2;
+
+  }
+
+  private onTest(): boolean {
+    return true;
   }
 
   private createIosStyle(): any {

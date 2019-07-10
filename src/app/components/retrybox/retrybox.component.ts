@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { IRetryBoxData } from 'app/components/retrybox/retrybox-data.interface';
 
 import { RetryBoxResult } from 'app/enums/retrybox-result';
+import { HardwareService } from 'app/services/hardware-service';
+import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 @Component({
   selector: 'hc-retrybox',
@@ -22,8 +24,10 @@ export class RetryBoxComponent implements OnInit, OnDestroy {
   public showStackTrace: boolean;
 
   private afterOpenSub: Subscription;
+  private onBackButtonListener: () => boolean;
 
   constructor(
+    private hardwareService: HardwareService,
     private dialogRef: MatDialogRef<RetryBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IRetryBoxData
   ) {
@@ -33,15 +37,25 @@ export class RetryBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.onBackButtonListener = this.onBackButton.bind(this);
+    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ModalDialog);
+
     this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => this.footer.nativeElement.focus());
     });
   }
 
   public ngOnDestroy(): void {
+    this.hardwareService.removeBackButtonListener(this.onBackButtonListener);
+
     if (this.afterOpenSub) {
       this.afterOpenSub.unsubscribe();
     }
+  }
+
+  private onBackButton(): boolean {
+    this.dialogRef.close(RetryBoxResult.Abort);
+    return true;
   }
 
   public onDetailsClick(event: any): void {

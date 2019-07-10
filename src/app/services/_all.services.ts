@@ -11,6 +11,7 @@ import { FocusService } from 'app/services/focus.service';
 import { FontService } from 'app/services/font.service';
 import { FormsService } from 'app/services/forms.service';
 import { FramesService } from 'app/services/frames.service';
+import { HardwareService } from 'app/services/hardware-service';
 import { ImageService } from 'app/services/image.service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { LoaderService } from 'app/services/loader.service';
@@ -61,6 +62,7 @@ const services = [
   FontService,
   FormsService,
   FramesService,
+  HardwareService,
   ImageService,
   KeyboardService,
   LoaderService,

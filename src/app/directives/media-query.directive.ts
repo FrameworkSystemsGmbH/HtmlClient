@@ -11,16 +11,19 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
 
   private mediaQueryList: MediaQueryList;
 
-  public ngOnInit(): void {
-    this.mediaQueryList = window.matchMedia(this.mediaQuery);
+  private mediaQueryListener: (event: MediaQueryListEvent) => void;
 
-    this.mediaQueryList.addListener(this.fireOnMediaQueryChanged.bind(this));
+  public ngOnInit(): void {
+    this.mediaQueryListener = this.fireOnMediaQueryChanged.bind(this);
+
+    this.mediaQueryList = window.matchMedia(this.mediaQuery);
+    this.mediaQueryList.addListener(this.mediaQueryListener);
 
     this.onMediaQueryChanged.emit(this.mediaQueryList.matches);
   }
 
   public ngOnDestroy(): void {
-    this.mediaQueryList.removeListener(this.fireOnMediaQueryChanged.bind(this));
+    this.mediaQueryList.removeListener(this.mediaQueryListener);
   }
 
   private fireOnMediaQueryChanged(event: MediaQueryListEvent) {

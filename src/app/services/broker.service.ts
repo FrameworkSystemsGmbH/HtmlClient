@@ -36,6 +36,8 @@ import * as fromBrokerActions from 'app/store/broker.actions';
 
 import * as Moment from 'moment-timezone';
 import { ObserversModule } from '@angular/cdk/observers';
+import { HardwareService } from 'app/services/hardware-service';
+import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 @Injectable()
 export class BrokerService {
@@ -47,6 +49,7 @@ export class BrokerService {
 
   private storeSub: Subscription;
   private eventFiredSub: Subscription;
+  private onBackButtonListener: () => boolean;
 
   private activeLoginBroker: LoginBroker;
   private activeLoginOptions: LoginOptions;
@@ -67,6 +70,7 @@ export class BrokerService {
     private eventsService: EventsService,
     private formsService: FormsService,
     private framesService: FramesService,
+    private hardwareService: HardwareService,
     private loaderService: LoaderService,
     private localeService: LocaleService,
     private routingService: RoutingService,
@@ -193,6 +197,10 @@ export class BrokerService {
       this.eventFiredSub.unsubscribe();
     }
 
+    if (this.onBackButtonListener) {
+      this.hardwareService.removeBackButtonListener(this.onBackButtonListener);
+    }
+
     this.formsService.resetViews();
     this.store.dispatch(new fromBrokerActions.ResetBrokerAction());
     this.requestCounter = 0;
@@ -204,6 +212,18 @@ export class BrokerService {
 
     this.storeSub = this.subscribeToStore();
     this.eventFiredSub = this.subscribeToEventFired();
+
+    this.onBackButtonListener = this.onBackButton.bind(this);
+    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ActiveBroker);
+  }
+
+  private onBackButton(): boolean {
+    if (this.activeBrokerName != null) {
+      this.eventsService.fireApplicationQuitRequest();
+      return true;
+    }
+
+    return false;
   }
 
   public sendInitRequest(): Observable<any> {

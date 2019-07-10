@@ -3,6 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subscription } from 'rxjs';
 
 import { IErrorBoxData } from 'app/components/errorbox/errorbox-data.interface';
+import { HardwareService } from 'app/services/hardware-service';
+import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 @Component({
   selector: 'hc-errorbox',
@@ -20,8 +22,10 @@ export class ErrorBoxComponent implements OnInit, OnDestroy {
   public showStackTrace: boolean;
 
   private afterOpenSub: Subscription;
+  private onBackButtonListener: () => boolean;
 
   constructor(
+    private hardwareService: HardwareService,
     private dialogRef: MatDialogRef<ErrorBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IErrorBoxData
   ) {
@@ -31,15 +35,25 @@ export class ErrorBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.onBackButtonListener = this.onBackButton.bind(this);
+    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ModalDialog);
+
     this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => this.footer.nativeElement.focus());
     });
   }
 
   public ngOnDestroy(): void {
+    this.hardwareService.removeBackButtonListener(this.onBackButtonListener);
+
     if (this.afterOpenSub) {
       this.afterOpenSub.unsubscribe();
     }
+  }
+
+  private onBackButton(): boolean {
+    this.dialogRef.close();
+    return true;
   }
 
   public onDetailsClick(event: any): void {

@@ -7,6 +7,8 @@ import { IMsgBoxData } from 'app/components/msgbox/msgbox-data.interface';
 import { MsgBoxButtons } from 'app/enums/msgbox-buttons';
 import { MsgBoxIcon } from 'app/enums/msgbox-icon';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
+import { HardwareService } from 'app/services/hardware-service';
+import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 @Component({
   selector: 'hc-msgbox',
@@ -26,8 +28,10 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   public buttonsType: typeof MsgBoxButtons = MsgBoxButtons;
 
   private afterOpenSub: Subscription;
+  private onBackButtonListener: () => boolean;
 
   constructor(
+    private hardwareService: HardwareService,
     private dialogRef: MatDialogRef<MsgBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IMsgBoxData
   ) {
@@ -38,15 +42,42 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.onBackButtonListener = this.onBackButton.bind(this);
+    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ModalDialog);
+
     this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => this.footer.nativeElement.focus());
     });
   }
 
   public ngOnDestroy(): void {
+    this.hardwareService.removeBackButtonListener(this.onBackButtonListener);
+
     if (this.afterOpenSub) {
       this.afterOpenSub.unsubscribe();
     }
+  }
+
+  private onBackButton(): boolean {
+    switch (this.buttons) {
+      case MsgBoxButtons.AbortRetryIgnore:
+        this.dialogRef.close(MsgBoxResult.Abort);
+        break;
+      case MsgBoxButtons.Ok:
+        this.dialogRef.close(MsgBoxResult.Ok);
+        break;
+      case MsgBoxButtons.OkCancel:
+        this.dialogRef.close(MsgBoxResult.Cancel);
+        break;
+      case MsgBoxButtons.RetryCancel:
+        this.dialogRef.close(MsgBoxResult.Cancel);
+        break;
+      case MsgBoxButtons.YesNoCancel:
+        this.dialogRef.close(MsgBoxResult.Cancel);
+        break;
+    }
+
+    return true;
   }
 
   public onYesClick(event: any): void {

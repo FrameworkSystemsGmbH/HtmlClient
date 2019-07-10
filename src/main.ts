@@ -45,9 +45,7 @@ const bootstrap: () => void = () => {
 };
 
 if (!!window.cordova) {
-  document.addEventListener('deviceready', () => {
-    bootstrap();
-  });
+  document.addEventListener('deviceready', () => { bootstrap(); }, false);
 } else {
   bootstrap();
 }

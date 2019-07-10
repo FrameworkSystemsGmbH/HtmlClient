@@ -50,8 +50,8 @@ export class SerializeService {
 
   public attachHandlers(): void {
     if (this.platformService.isAndroid()) {
-      document.addEventListener('pause', this.onPause.bind(this));
-      document.addEventListener('resume', this.onResume.bind(this));
+      document.addEventListener('pause', this.onPause.bind(this), false);
+      document.addEventListener('resume', this.onResume.bind(this), false);
     }
   }
 

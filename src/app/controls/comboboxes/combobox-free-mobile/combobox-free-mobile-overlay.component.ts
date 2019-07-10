@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 
 import { DataList } from 'app/common/data-list';
 import { DomUtil } from 'app/util/dom-util';
+import { HardwareService } from 'app/services/hardware-service';
+import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 @Component({
   selector: 'hc-cmb-free-mobile-overlay',
@@ -27,8 +29,10 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
 
   private afterOpenSub: Subscription;
   private backdropClickSub: Subscription;
+  private onBackButtonListener: () => boolean;
 
   constructor(
+    private hardwareService: HardwareService,
     private dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -38,6 +42,9 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.onBackButtonListener = this.onBackButton.bind(this);
+    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ModalDialog);
+
     this.backdropClickSub = this.dialogRef.backdropClick().subscribe(() => {
       this.dialogRef.close({ selected: false });
     });
@@ -52,6 +59,8 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.hardwareService.removeBackButtonListener(this.onBackButtonListener);
+
     if (this.backdropClickSub) {
       this.backdropClickSub.unsubscribe();
     }
@@ -59,6 +68,11 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
     if (this.afterOpenSub) {
       this.afterOpenSub.unsubscribe();
     }
+  }
+
+  private onBackButton(): boolean {
+    this.dialogRef.close({ selected: false });
+    return true;
   }
 
   public onEntrySelected(event: any, index: number): void {
