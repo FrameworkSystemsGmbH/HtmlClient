@@ -35,13 +35,6 @@ export class AppComponent implements OnInit {
     if (this.platformService.isIos()) {
       this.style = this.createIosStyle();
     }
-
-    const m1: () => boolean = this.onTest;
-    const m2: () => boolean = this.onTest;
-
-    const check1: boolean = m1 === m2;
-    const check2: boolean = m1 == m2;
-
   }
 
   private onTest(): boolean {
