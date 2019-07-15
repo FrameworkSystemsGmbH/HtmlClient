@@ -301,7 +301,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
         const values: Array<ListViewItemValueWrapper> = this.getValueList(valueMap);
 
         if (isNew) {
-          this.items.push(new ListViewItemWrapper(this, this.getInjector(), { id, pos, values }));
+          this.items.push(new ListViewItemWrapper(this.getInjector(), { id, listViewWrapper: this, pos, values }));
         } else {
           const item: ListViewItemWrapper = this.items.find(i => i.getId() === id);
           if (item) {
@@ -615,7 +615,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
     if (json.items && json.items.length) {
       for (const itemJson of json.items) {
-        this.items.push(new ListViewItemWrapper(this, this.getInjector(), { state: itemJson }));
+        this.items.push(new ListViewItemWrapper(this.getInjector(), { listViewWrapper: this, state: itemJson }));
       }
     }
 

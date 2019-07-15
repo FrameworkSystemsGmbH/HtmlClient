@@ -4,6 +4,7 @@ import { ListViewItemComponent } from 'app/controls/listview/listview-item.compo
 import { ViewContainerRef, Injector, ComponentFactoryResolver, ComponentRef, ViewRef } from '@angular/core';
 
 export interface IListViewItemWrapperOptions {
+  listViewWrapper: ListViewWrapper;
   id?: string;
   pos?: number;
   values?: Array<ListViewItemValueWrapper>;
@@ -26,11 +27,12 @@ export class ListViewItemWrapper {
   private _hasPosChanged: boolean;
   private _hasContentChanged: boolean;
 
-  constructor(listViewWrapper: ListViewWrapper, injector: Injector, options: IListViewItemWrapperOptions) {
+  constructor(injector: Injector, options: IListViewItemWrapperOptions) {
     this._isNew = true;
     this._isAttached = false;
-    this._listViewWrapper = listViewWrapper;
     this._cfr = injector.get(ComponentFactoryResolver);
+
+    this._listViewWrapper = options.listViewWrapper;
 
     if (options.state) {
       this.setState(options.state);
