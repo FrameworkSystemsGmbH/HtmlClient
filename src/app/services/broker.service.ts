@@ -104,9 +104,7 @@ export class BrokerService {
       flatMap(() => {
         if (!event.callbacks || event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
           return this.createRequest(event.clientEvent).pipe(
-            // tap(requestJson => console.log(requestJson)),
             flatMap(requestJson => this.doRequest(requestJson)),
-            // tap(responseJson => console.log(responseJson)),
             flatMap(responseJson => this.processResponse(responseJson))
           );
         } else {
@@ -240,7 +238,6 @@ export class BrokerService {
   private doRequest(requestJson: any): Observable<any> {
     this.lastRequestTime = Moment.utc();
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson).pipe(
-      // tap(responseJson => console.log(responseJson)),
       retryWhen(attempts => attempts.pipe(
         tap(() => this.loaderService.fireLoadingChanged(false)),
         flatMap(error => {

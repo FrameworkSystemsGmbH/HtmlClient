@@ -37,10 +37,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  private onTest(): boolean {
-    return true;
-  }
-
   private createIosStyle(): any {
     return {
       'padding-top.px': StyleUtil.iosMenubarHeight
