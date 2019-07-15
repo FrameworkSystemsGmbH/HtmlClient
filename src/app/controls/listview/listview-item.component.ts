@@ -112,7 +112,7 @@ export class ListViewItemComponent implements OnInit {
 
   public setWrapper(itemWrapper: ListViewItemWrapper) {
     this.itemWrapper = itemWrapper;
-    this.listViewWrapper = itemWrapper.getListViewWrapper() as ListViewWrapper;
+    this.listViewWrapper = itemWrapper.getListViewWrapper();
   }
 
   private updateWrapper(): void {
