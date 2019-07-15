@@ -2,11 +2,10 @@ import { Injector } from '@angular/core';
 
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
 import { ControlLabelContainerMergedLayout } from 'app/layout/control-label-container-layout/control-label-container-merged-layout';
-import { ControlLabelContainerBaseWrapper } from 'app/wrappers/control-labels/control-label-container-base-wrapper';
+import { ControlLabelContainerBaseWrapper, IControlLabelContainerBaseWrapperOptions } from 'app/wrappers/control-labels/control-label-container-base-wrapper';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelSeparatorWrapper } from 'app/wrappers/control-labels/control-label-separator-wrapper';
 import { ControlLabelSeparatorProvider } from 'app/wrappers/control-labels/control-label-separator-provider';
-import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 import { Visibility } from 'app/enums/visibility';
 
@@ -14,13 +13,8 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
 
   private injector: Injector;
 
-  constructor(
-    injector: Injector,
-    labelWrappers: Array<ControlLabelWrapper>,
-    fieldRowWrp: FieldRowWrapper,
-    rowLabelTemplate: ControlLabelTemplate
-  ) {
-    super(injector, labelWrappers, fieldRowWrp, rowLabelTemplate);
+  constructor(injector: Injector, options: IControlLabelContainerBaseWrapperOptions) {
+    super(injector, options);
     this.injector = injector;
     this.initLabels();
   }

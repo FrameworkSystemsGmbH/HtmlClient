@@ -19,6 +19,12 @@ import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-w
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 
+export interface IControlLabelContainerBaseWrapperOptions {
+  labelWrappers: Array<ControlLabelWrapper>;
+  fieldRowWrp: FieldRowWrapper;
+  rowLabelTemplate: ControlLabelTemplate;
+}
+
 export abstract class ControlLabelContainerBaseWrapper implements IControlLabelWrapper, IControlLabelContainer, ILayoutableContainerWrapper {
 
   protected readonly propError: string = 'This property should not get called!';
@@ -34,16 +40,11 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
 
   private readonly resolver: ComponentFactoryResolver;
 
-  constructor(
-    injector: Injector,
-    labelWrappers: Array<ControlLabelWrapper>,
-    fieldRowWrp: FieldRowWrapper,
-    rowLabelTemplate: ControlLabelTemplate
-  ) {
-    this.labelWrappers = labelWrappers;
+  constructor(injector: Injector, options: IControlLabelContainerBaseWrapperOptions) {
     this.resolver = injector.get(ComponentFactoryResolver);
-    this.fieldRowWrp = fieldRowWrp;
-    this.rowLabelTemplate = rowLabelTemplate;
+    this.labelWrappers = options.labelWrappers;
+    this.fieldRowWrp = options.fieldRowWrp;
+    this.rowLabelTemplate = options.rowLabelTemplate;
     this.name = this.createName();
 
     this.setWrappersLabelContainer();

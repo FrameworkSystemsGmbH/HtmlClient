@@ -57,7 +57,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
       if (this.getOptimizeGeneratedLabels()) {
         this.optimizeLabels(labelWrappers);
       }
-      return new ControlLabelContainerMergedWrapper(this.getInjector(), labelWrappers, this, this.getParent().getRowLabelTemplate());
+      return new ControlLabelContainerMergedWrapper(this.getInjector(), { labelWrappers, fieldRowWrp: this, rowLabelTemplate: this.getParent().getRowLabelTemplate() });
     } else {
       return null;
     }
@@ -121,7 +121,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
           if (i === 0) {
             this.hasFirstColumnControl = true;
             const controlLabelContainerWrapper: ControlLabelContainerSingleWrapper = new ControlLabelContainerSingleWrapper(
-              this.getInjector(), controlLabelWrapper, this, this.getParent().getRowLabelTemplate());
+              this.getInjector(), { labelWrapper: controlLabelWrapper, fieldRowWrp: this, rowLabelTemplate: this.getParent().getRowLabelTemplate() });
             controlLabelContainerWrapper.attachComponent(uiContainer, vchContainer);
           } else {
             controlLabelWrapper.attachComponent(uiContainer, vchContainer);

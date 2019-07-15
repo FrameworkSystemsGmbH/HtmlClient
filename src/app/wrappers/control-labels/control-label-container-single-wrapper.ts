@@ -5,17 +5,18 @@ import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-w
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 
+export interface IControlLabelContainerSingleWrapperOptions {
+  labelWrapper: ControlLabelWrapper;
+  fieldRowWrp: FieldRowWrapper;
+  rowLabelTemplate: ControlLabelTemplate;
+}
+
 export class ControlLabelContainerSingleWrapper extends ControlLabelContainerBaseWrapper {
 
-  constructor(
-    injector: Injector,
-    labelWrapper: ControlLabelWrapper,
-    fieldRowWrp: FieldRowWrapper,
-    rowLabelTemplate: ControlLabelTemplate
-  ) {
+  constructor(injector: Injector, options: IControlLabelContainerSingleWrapperOptions) {
     const labelWrappers: Array<ControlLabelWrapper> = new Array<ControlLabelWrapper>();
-    labelWrappers.push(labelWrapper);
-    super(injector, labelWrappers, fieldRowWrp, rowLabelTemplate);
+    labelWrappers.push(options.labelWrapper);
+    super(injector, { labelWrappers, fieldRowWrp: options.fieldRowWrp, rowLabelTemplate: options.rowLabelTemplate });
   }
 
   protected createName(): string {

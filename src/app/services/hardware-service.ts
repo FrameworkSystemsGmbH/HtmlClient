@@ -3,8 +3,8 @@ import { PlatformService } from 'app/services/platform.service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 interface IListenerInfo {
-  listener: () => boolean,
-  priority: BackButtonPriority
+  priority: BackButtonPriority;
+  listener(): boolean;
 }
 
 @Injectable()
@@ -43,7 +43,7 @@ export class HardwareService {
   }
 
   public removeBackButtonListener(listener: () => boolean): void {
-    const info: IListenerInfo = this._listeners.find(info => info.listener === listener);
+    const info: IListenerInfo = this._listeners.find(i => i.listener === listener);
 
     if (info) {
       this._listeners.remove(info);
