@@ -16,6 +16,7 @@ export class FormWrapper extends ContainerWrapper {
   private _fullName: string;
   private _variant: VariantWrapper;
   private _closing: boolean;
+  private _isModal: boolean;
 
   public get closing(): boolean {
     return this._closing;
@@ -36,6 +37,10 @@ export class FormWrapper extends ContainerWrapper {
   public getTitle(): string {
     const title: string = this.getDefaultVariant().getTitle();
     return title ? title : this._fullName;
+  }
+
+  public getIsModal(): boolean {
+    return this._isModal;
   }
 
   private getDefaultVariant(): VariantWrapper {
@@ -81,6 +86,7 @@ export class FormWrapper extends ContainerWrapper {
   protected setMetaJson(metaJson: any): void {
     this._id = metaJson.id;
     this._fullName = metaJson.fullName;
+    this._isModal = metaJson.modal;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlComponent> {
@@ -144,6 +150,7 @@ export class FormWrapper extends ContainerWrapper {
     json.id = this._id;
     json.fullName = this._fullName;
     json.closing = this._closing;
+    json.isModal = this._isModal;
 
     const controlsJson: Array<any> = new Array<any>();
     this.getControlsState(controlsJson);
@@ -160,5 +167,6 @@ export class FormWrapper extends ContainerWrapper {
     this._id = json.id;
     this._fullName = json.fullName;
     this._closing = json.closing;
+    this._isModal = json.isModal;
   }
 }

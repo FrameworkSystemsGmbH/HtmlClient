@@ -43,7 +43,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);
-    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ModalDialog);
+    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
 
     this.backdropClickSub = this.dialogRef.backdropClick().subscribe(() => {
       this.dialogRef.close({ selected: false });

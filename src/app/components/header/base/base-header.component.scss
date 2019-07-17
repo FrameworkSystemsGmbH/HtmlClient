@@ -1,4 +1,4 @@
-@import '../../../scss/variables.scss';
+@import '../../../../scss/variables.scss';
 
 @mixin header-list {
   display: inline-flex;
@@ -30,6 +30,10 @@
 
       &:hover {
         color: $header-close-hover;
+      }
+
+      &:active {
+        color: $header-close-active;
       }
     }
   }

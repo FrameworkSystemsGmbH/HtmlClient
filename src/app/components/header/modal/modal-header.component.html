@@ -1,0 +1,11 @@
+<nav class="header">
+  <div class="header-left">
+    <span class="header-title">{{ getTitle() }}</span>
+  </div>
+  <div class="header-right" *ngIf="getIsCloseIconVisible()">
+    <button id="closeButton" (click)="closeForm()">
+      <span class="fas fa-fw fa-times fa-lg"></span>
+    </button>
+  </div>
+  <hc-loader class="loader" [active]="isLoading"></hc-loader>
+</nav>

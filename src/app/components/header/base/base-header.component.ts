@@ -15,9 +15,9 @@ import { DomUtil } from 'app/util/dom-util';
 import { StyleUtil } from 'app/util/style-util';
 
 @Component({
-  selector: 'hc-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  selector: 'hc-base-header',
+  templateUrl: './base-header.component.html',
+  styleUrls: ['./base-header.component.scss'],
   animations: [
     trigger('sidebar', [
       transition('void => *', [
@@ -53,7 +53,7 @@ import { StyleUtil } from 'app/util/style-util';
     ])
   ]
 })
-export class HeaderComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChild('center', { static: true })
   public center: ElementRef;

@@ -1,2 +1,3 @@
-<hc-header></hc-header>
+<hc-base-header *ngIf="!isModal"></hc-base-header>
+<hc-modal-header *ngIf="isModal"></hc-modal-header>
 <hc-frame></hc-frame>

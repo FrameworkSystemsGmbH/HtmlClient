@@ -43,7 +43,7 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);
-    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ModalDialog);
+    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
 
     this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => this.footer.nativeElement.focus());
