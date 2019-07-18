@@ -17,8 +17,7 @@ export class PlatformService {
   }
 
   public isMobile(): boolean {
-    return true;
-    // return this._isMobile;
+    return this._isMobile;
   }
 
   public isDesktop(): boolean {
