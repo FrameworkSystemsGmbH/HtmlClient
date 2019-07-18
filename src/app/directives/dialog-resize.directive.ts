@@ -1,5 +1,6 @@
 import { Directive, Input, OnInit, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { DomUtil } from 'app/util/dom-util';
+import { StyleUtil } from 'app/util/style-util';
 
 @Directive({ selector: '[hcDialogResize]' })
 export class DialogResizeDirective implements OnInit {
@@ -41,11 +42,11 @@ export class DialogResizeDirective implements OnInit {
     const maxRespWidth: number = DomUtil.getViewportWidth() * 0.9;
     const maxRespHeight: number = DomUtil.getViewportHeight() * 0.9;
 
-    this.renderer.setStyle(this.elRef.nativeElement, 'min-width', (maxRespWidth < this.minWidth ? maxRespWidth : this.minWidth) + 'px');
-    this.renderer.setStyle(this.elRef.nativeElement, 'max-width', (Math.max(Math.min(this.maxWidth, maxRespWidth), this.minWidth)) + 'px');
+    this.renderer.setStyle(this.elRef.nativeElement, 'min-width', StyleUtil.pixToRemValueStr(maxRespWidth < this.minWidth ? maxRespWidth : this.minWidth));
+    this.renderer.setStyle(this.elRef.nativeElement, 'max-width', StyleUtil.pixToRemValueStr(Math.max(Math.min(this.maxWidth, maxRespWidth), this.minWidth)));
 
     if (!this.ignoreHeight) {
-      this.renderer.setStyle(this.elRef.nativeElement, 'max-height', maxRespHeight + 'px');
+      this.renderer.setStyle(this.elRef.nativeElement, 'max-height', StyleUtil.pixToRemValueStr(maxRespHeight));
     }
   }
 }

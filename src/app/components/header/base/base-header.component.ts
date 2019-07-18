@@ -22,17 +22,17 @@ import { StyleUtil } from 'app/util/style-util';
     trigger('sidebar', [
       transition('void => *', [
         style({
-          transform: 'translateX(-300px)'
+          transform: 'translateX(-30rem)'
         }),
         animate(200, style({
-          transform: 'translateX(0px)'
+          transform: 'translateX(0)'
         }))]),
       transition('* => void', [
         style({
-          transform: 'translateX(0px)'
+          transform: 'translateX(0)'
         }),
         animate(200, style({
-          transform: 'translateX(-300px)'
+          transform: 'translateX(-30rem)'
         }))])
     ]),
     trigger('overlay', [
@@ -129,13 +129,13 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   private createheaderSideStyle(): any {
     return {
-      'top.px': this.platformService.isIos() ? (StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.headerHeight
+      'top.rem': this.platformService.isIos() ? (StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.headerHeight
     };
   }
 
   private createheaderSideOverlayStyle(): any {
     return {
-      'top.px': this.platformService.isIos() ? (StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.headerHeight
+      'top.rem': this.platformService.isIos() ? (StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.headerHeight
     };
   }
 
@@ -230,7 +230,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
       const maxScroll: number = Math.max(0, ulWidth - divWidth);
 
       this.tabScrollPosition = Math.min(Math.max(-maxScroll, this.tabScrollPosition), 0);
-      this.renderer.setStyle(this.tabs.nativeElement, 'margin-left', StyleUtil.getValue('px', this.tabScrollPosition));
+      this.renderer.setStyle(this.tabs.nativeElement, 'margin-left', StyleUtil.pixToRemValueStr(this.tabScrollPosition));
 
       if (maxScroll) {
         this.renderer.setStyle(this.arrowLeft.nativeElement, 'visibility', this.tabScrollPosition !== 0 ? 'visible' : 'hidden');

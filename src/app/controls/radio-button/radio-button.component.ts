@@ -100,34 +100,34 @@ export class RadioButtonComponent extends ControlComponent {
 
     return {
       'display': this.isVisible && isSizeVisible ? null : 'none',
-      'left.px': layoutableProperties.getX(),
-      'top.px': layoutableProperties.getY(),
-      'width.px': layoutWidth,
-      'height.px': layoutHeight,
+      'left.rem': StyleUtil.pixToRem(layoutableProperties.getX()),
+      'top.rem': StyleUtil.pixToRem(layoutableProperties.getY()),
+      'width.rem': StyleUtil.pixToRem(layoutWidth),
+      'height.rem': StyleUtil.pixToRem(layoutHeight),
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': wrapper.getBackColor(),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
-      'border-radius': StyleUtil.getFourValue('px',
+      'border-radius': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderRadiusTopLeft(),
         wrapper.getBorderRadiusTopRight(),
         wrapper.getBorderRadiusBottomRight(),
         wrapper.getBorderRadiusBottomLeft()),
-      'border-width': StyleUtil.getFourValue('px',
+      'border-width': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderThicknessTop(),
         wrapper.getBorderThicknessRight(),
         wrapper.getBorderThicknessBottom(),
         wrapper.getBorderThicknessLeft()),
-      'margin': StyleUtil.getFourValue('px',
+      'margin': StyleUtil.pixToRemFourValueStr(
         wrapper.getMarginTop(),
         wrapper.getMarginRight(),
         wrapper.getMarginBottom(),
         wrapper.getMarginLeft()),
       'font-family': wrapper.getFontFamily(),
       'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
-      'font-size.px': wrapper.getFontSize(),
+      'font-size.rem': StyleUtil.pixToRem(wrapper.getFontSize()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
-      'line-height.px': wrapper.getLineHeight(),
+      'line-height.rem': StyleUtil.pixToRem(wrapper.getLineHeight()),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'cursor': !this.isEditable ? 'not-allowed' : null
     };
@@ -135,7 +135,7 @@ export class RadioButtonComponent extends ControlComponent {
 
   protected createLabelStyle(wrapper: CheckBoxWrapper): any {
     return {
-      'padding': StyleUtil.getFourValue('px',
+      'padding': StyleUtil.pixToRemFourValueStr(
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
@@ -146,7 +146,7 @@ export class RadioButtonComponent extends ControlComponent {
 
   protected createCaptionStyle(wrapper: CheckBoxWrapper): any {
     return {
-      'padding-left.px': wrapper.getLabelGap()
+      'padding-left.rem': StyleUtil.pixToRem(wrapper.getLabelGap())
     };
   }
 

@@ -6,7 +6,7 @@
   height: $header-height;
   color: $header-color;
   background-color: $header-background;
-  border-bottom: 1px solid $header-border-color;
+  border-bottom: 0.1rem solid $header-border-color;
   user-select: none;
   cursor: default;
 
@@ -17,8 +17,8 @@
     .header-title {
       display: flex;
       align-items: center;
-      padding-left: 10px;
-      padding-right: 10px;
+      padding-left: 1rem;
+      padding-right: 1rem;
       font-size: $header-brand-fontsize;
       font-weight: bold;
     }
@@ -31,7 +31,7 @@
     #closeButton {
       color: $header-color;
       background-color: transparent;
-      padding: 0 0.75em;
+      padding: 0 0.75rem;
       border: none;
 
       &:active,
@@ -52,7 +52,7 @@
   .loader {
     position: absolute;
     width: 100%;
-    left: 0px;
-    bottom: -1px;
+    left: 0;
+    bottom: -0.1rem;
   }
 }

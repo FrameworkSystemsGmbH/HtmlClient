@@ -5,6 +5,7 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 import { LayoutableComponent } from 'app/controls/layoutable.component';
 import { ControlLabelContainerBaseWrapper } from 'app/wrappers/control-labels/control-label-container-base-wrapper';
 import { Visibility } from 'app/enums/visibility';
+import { StyleUtil } from 'app/util/style-util';
 
 @Component({
   selector: 'hc-ctrl-lbl-cont',
@@ -45,10 +46,10 @@ export class ControlLabelContainerComponent extends LayoutableComponent {
 
     return {
       'display': this.isVisible && isSizeVisible ? null : 'none',
-      'left.px': layoutableProperties.getX(),
-      'top.px': layoutableProperties.getY(),
-      'width.px': layoutWidth,
-      'height.px': layoutHeight
+      'left.rem': StyleUtil.pixToRem(layoutableProperties.getX()),
+      'top.rem': StyleUtil.pixToRem(layoutableProperties.getY()),
+      'width.rem': StyleUtil.pixToRem(layoutWidth),
+      'height.rem': StyleUtil.pixToRem(layoutHeight)
     };
   }
 }

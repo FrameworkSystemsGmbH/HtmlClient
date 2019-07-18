@@ -8,6 +8,7 @@ import { PlatformService } from 'app/services/platform.service';
 import { DomUtil } from 'app/util/dom-util';
 import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 import { FramesService } from 'app/services/frames.service';
+import { StyleUtil } from 'app/util/style-util';
 
 @Component({
   selector: 'hc-listview-item',
@@ -144,9 +145,9 @@ export class ListViewItemComponent implements OnInit {
 
   private createContainerStyle(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper): any {
     return {
-      'min-width.px': this.width,
-      'height.px': this.height,
-      'max-height.px': this.height,
+      'min-width.rem': StyleUtil.pixToRem(this.width),
+      'height.rem': StyleUtil.pixToRem(this.height),
+      'max-height.rem': StyleUtil.pixToRem(this.height),
       'cursor': this.isEditable ? (listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default') : 'not-allowed'
     };
   }
@@ -168,50 +169,50 @@ export class ListViewItemComponent implements OnInit {
     // Determine shorter edge of the list item
     const shortEdge: number = Math.max(1, Math.min(this.width, this.height));
 
-    // Selector margin is 10% of the length of the shorter edge (but 20px max)
-    const margin: number = Math.min(20, Math.roundDec(shortEdge * 0.1, 0));
+    // Selector margin is 10% of the length of the shorter edge (but 20 size units max)
+    const margin: number = StyleUtil.pixToRem(Math.min(20, Math.roundDec(shortEdge * 0.1, 0)));
 
     switch (this.selectorPosition) {
       case ListViewSelectorPosition.TopLeft:
         selectorStyle = {
           ...selectorStyle,
-          'top.px': margin,
-          'left.px': margin
+          'top.rem': margin,
+          'left.rem': margin
         };
         break;
       case ListViewSelectorPosition.TopRight:
         selectorStyle = {
           ...selectorStyle,
-          'top.px': margin,
-          'right.px': margin
+          'top.rem': margin,
+          'right.rem': margin
         };
         break;
       case ListViewSelectorPosition.MiddleLeft:
         selectorStyle = {
           ...selectorStyle,
-          'top.px': (this.height / 2) - (this.selectorSize / 2),
-          'left.px': margin
+          'top.rem': (this.height / 2) - (this.selectorSize / 2),
+          'left.rem': margin
         };
         break;
       case ListViewSelectorPosition.MiddleRight:
         selectorStyle = {
           ...selectorStyle,
-          'top.px': (this.height / 2) - (this.selectorSize / 2),
-          'right.px': margin
+          'top.rem': (this.height / 2) - (this.selectorSize / 2),
+          'right.rem': margin
         };
         break;
       case ListViewSelectorPosition.BottomLeft:
         selectorStyle = {
           ...selectorStyle,
-          'bottom.px': margin,
-          'left.px': margin
+          'bottom.rem': margin,
+          'left.rem': margin
         };
         break;
       case ListViewSelectorPosition.BottomRight:
         selectorStyle = {
           ...selectorStyle,
-          'bottom.px': margin,
-          'right.px': margin
+          'bottom.rem': margin,
+          'right.rem': margin
         };
         break;
     }

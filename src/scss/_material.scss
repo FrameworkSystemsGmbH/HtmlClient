@@ -8,8 +8,8 @@
 .mat-icon-button,
 .mat-mini-fab,
 .mat-raised-button {
-  min-width: 70px !important;
-  padding: 0px !important;
+  min-width: 7rem !important;
+  padding: 0 !important;
 
   &[disabled] {
     cursor: no-drop !important;
@@ -17,7 +17,7 @@
 }
 
 .mat-card {
-  padding: 1.25rem !important;
+  padding: 1.5rem !important;
 }
 
 .cdk-overlay-container {
@@ -31,6 +31,6 @@
 .mat-dialog-container {
   overflow: hidden !important;
   padding: 0 !important;
-  border-radius: 5px !important;
-  box-shadow: 3px 3px 10px black !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0.3rem 0.3rem 1rem black !important;
 }

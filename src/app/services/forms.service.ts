@@ -60,8 +60,7 @@ export class FormsService {
 
     if (closeButton) {
       closeButton.fireClick();
-    }
-    else {
+    } else {
       this.closeForm(form);
     }
   }

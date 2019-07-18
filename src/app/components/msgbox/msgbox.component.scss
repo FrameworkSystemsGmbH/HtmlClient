@@ -5,12 +5,12 @@
   .hc-msgbox-wrapper {
     display: flex;
     flex-direction: column;
-    padding: 1em;
+    padding: 1.4rem;
 
     .hc-msgbox-header {
       flex: 0 0 auto;
       display: flex;
-      margin-bottom: 1em;
+      margin-bottom: 1.4rem;
 
       .hc-msgbox-header-title {
         flex: 1 1 auto;
@@ -19,14 +19,14 @@
         overflow: hidden;
 
         span {
-          font-size: 1.5em;
+          font-size: 2rem;
           font-weight: bold;
         }
       }
 
       .hc-msgbox-header-icon {
         flex: 0 0 auto;
-        margin-left: 0.5em;
+        margin-left: 0.5rem;
 
         .fa-exclamation-circle {
           color: red;
@@ -59,11 +59,11 @@
     .hc-msgbox-footer {
       flex: 0 0 auto;
       display: flex;
-      margin-top: 1em;
+      margin-top: 1.4rem;
       justify-content: center;
 
       button:not(:last-child) {
-        margin-right: 1em;
+        margin-right: 1.4rem;
       }
     }
   }

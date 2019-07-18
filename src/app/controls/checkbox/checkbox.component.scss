@@ -15,8 +15,8 @@
     .checkbox-container {
       display: flex;
       position: relative;
-      width: 20px;
-      height: 20px;
+      width: 2rem;
+      height: 2rem;
 
       & * {
         position: absolute;
@@ -24,12 +24,12 @@
         top: 0;
         right: 0;
         bottom: 0;
-        border-radius: 3px;
+        border-radius: 0.3rem;
       }
 
       .checkbox-frame {
         background-color: white;
-        border: 2px solid #636363;
+        border: 0.2rem solid #636363;
         transition: all 100ms ease-in-out;
       }
 
@@ -39,7 +39,7 @@
         transition: all 100ms ease-in-out;
 
         .checkbox-checkmark-path {
-          stroke-width: 2.5px;
+          stroke-width: 0.25rem;
         }
       }
     }

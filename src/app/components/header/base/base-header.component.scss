@@ -10,8 +10,7 @@
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    padding: 0 0.75em;
-    line-height: $header-brand-fontsize;
+    padding: 0 1rem;
     cursor: pointer;
 
     &.active {
@@ -25,7 +24,8 @@
     }
 
     span.hc-header-close-icon-span {
-      margin-left: 0.3em;
+      margin-left: 0.3rem;
+      padding-top: 0.1rem;
       color: $header-color;
 
       &:hover {
@@ -48,8 +48,7 @@
     display: flex;
     align-items: center;
     height: $header-height;
-    padding: 0 0.5em;
-    line-height: $header-brand-fontsize;
+    padding: 0 0.5rem;
     cursor: pointer;
 
     &.active {
@@ -84,7 +83,7 @@
   height: $header-height;
   color: $header-color;
   background-color: $header-background;
-  border-bottom: 1px solid $header-border-color;
+  border-bottom: 0.1rem solid $header-border-color;
   user-select: none;
   cursor: default;
 
@@ -159,14 +158,14 @@
 
     .hc-header-tabs-left {
       div {
-        border-right: 1px solid $grey1;
+        border-right: 0.1rem solid $grey1;
         margin-right: 0.3rem;
       }
     }
 
     .hc-header-tabs-right {
       div {
-        border-left: 1px solid $grey1;
+        border-left: 0.1rem solid $grey1;
         margin-left: 0.3rem;
       }
     }
@@ -189,8 +188,8 @@
   .loader {
     position: absolute;
     width: 100%;
-    left: 0px;
-    bottom: -1px;
+    left: 0;
+    bottom: -0.1rem;
   }
 }
 
@@ -201,26 +200,26 @@
   flex-direction: column;
   top: $header-height;
   bottom: 0;
-  width: 300px;
+  width: 30rem;
   color: $header-color;
   background-color: $header-background;
   user-select: none;
   cursor: default;
 
   &:after {
-    box-shadow: 10px 0 10px -10px black inset;
+    box-shadow: 1rem 0rem 1rem -1rem black inset;
     content: " ";
     height: 100%;
     position: absolute;
-    right: -10px;
-    width: 10px;
+    right: -1rem;
+    width: 1rem;
   }
 
   .hc-header-side-top {
     flex: 0 0 auto;
     display: flex;
     height: $header-height;
-    border-bottom: 1px solid $header-border-color;
+    border-bottom: 0.1rem solid $header-border-color;
     align-items: center;
     justify-content: center;
 
@@ -242,7 +241,7 @@
 
   .hc-header-side-bottom {
     flex: 0 0 auto;
-    border-top: 1px solid $header-border-color;
+    border-top: 0.1rem solid $header-border-color;
 
     .hc-header-side-tools-list {
       @include header-side-list();

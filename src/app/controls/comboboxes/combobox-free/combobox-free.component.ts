@@ -194,21 +194,21 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   protected createInputStyle(wrapper: ComboBoxWrapper): any {
     return {
       'border': 'none',
-      'padding': StyleUtil.getFourValue('px',
+      'padding': StyleUtil.pixToRemFourValueStr(
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft()),
       'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
-      'line-height.px': wrapper.getLineHeight(),
+      'line-height.rem': StyleUtil.pixToRem(wrapper.getLineHeight()),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
   }
 
   protected createArrowStyle(wrapper: ComboBoxWrapper): any {
     return {
-      'border-left': '1px solid ' + (this.arrowHover ? wrapper.getBorderColor() : 'transparent')
+      'border-left': '0.1rem solid ' + (this.arrowHover ? wrapper.getBorderColor() : 'transparent')
     };
   }
 }
