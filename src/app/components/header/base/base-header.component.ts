@@ -219,7 +219,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   public closeForm(event: any, form: FormWrapper): void {
-    this.formsService.closeForm(form);
+    this.formsService.closeFormByButton(form);
   }
 
   @HostListener('window:resize')

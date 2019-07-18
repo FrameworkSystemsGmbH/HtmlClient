@@ -7,6 +7,7 @@ import { Visibility } from 'app/enums/visibility';
 import { ControlEvent } from 'app/enums/control-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
+import { ComponentRef } from '@angular/core';
 
 export abstract class ButtonBaseWrapper extends FittedWrapper {
 
@@ -22,6 +23,15 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
 
   public providesControlLabelWrapper(): boolean {
     return false;
+  }
+
+  protected getComponentRef(): ComponentRef<ButtonComponent> {
+    return super.getComponentRef() as ComponentRef<ButtonComponent>;
+  }
+
+  protected getComponent(): ButtonComponent {
+    const compRef: ComponentRef<ButtonComponent> = this.getComponentRef();
+    return compRef ? compRef.instance : undefined;
   }
 
   protected setDataJson(dataJson: any): void {
@@ -79,6 +89,14 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
 
   protected onClickCompleted(originalEvent: any, clientEvent: ClientClickEvent): void {
     // Override in subclasses
+  }
+
+  public fireClick(): void {
+    const comp: ButtonComponent = this.getComponent();
+
+    if (comp) {
+      comp.callOnClick();
+    }
   }
 
   public updateFittedWidth(): void {

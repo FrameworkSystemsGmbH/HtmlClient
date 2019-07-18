@@ -47,6 +47,6 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
   }
 
   public closeForm(): void {
-    this.formsService.closeForm(this._form);
+    this.formsService.closeFormByButton(this._form);
   }
 }

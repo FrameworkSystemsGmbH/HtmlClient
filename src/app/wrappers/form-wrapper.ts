@@ -9,14 +9,16 @@ import { FormComponent } from 'app/controls/form/form.component';
 import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
 import { JsonUtil } from 'app/util/json-util';
 import { ControlType } from 'app/enums/control-type';
+import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
 
 export class FormWrapper extends ContainerWrapper {
 
   private _id: string;
   private _fullName: string;
-  private _variant: VariantWrapper;
   private _closing: boolean;
   private _isModal: boolean;
+  private _variant: VariantWrapper;
+  private _closeButton: ButtonBaseWrapper;
 
   public get closing(): boolean {
     return this._closing;
@@ -43,6 +45,10 @@ export class FormWrapper extends ContainerWrapper {
     return this._isModal;
   }
 
+  public getCloseButton(): ButtonBaseWrapper {
+    return this._closeButton;
+  }
+
   private getDefaultVariant(): VariantWrapper {
     if (!this._variant) {
       this._variant = this.controls.filter(wrapper => wrapper instanceof VariantWrapper)[0] as VariantWrapper;
@@ -64,6 +70,10 @@ export class FormWrapper extends ContainerWrapper {
 
   public isCloseEventAttached(): boolean {
     return this.getDefaultVariant().isCloseEventAttached();
+  }
+
+  public setCloseButtonAction(button: ButtonBaseWrapper): void {
+    this._closeButton = button;
   }
 
   protected getComponentRef(): ComponentRef<FormComponent> {
@@ -151,6 +161,7 @@ export class FormWrapper extends ContainerWrapper {
     json.fullName = this._fullName;
     json.closing = this._closing;
     json.isModal = this._isModal;
+    json.closeButton = this._closeButton.getName();
 
     const controlsJson: Array<any> = new Array<any>();
     this.getControlsState(controlsJson);
@@ -168,5 +179,6 @@ export class FormWrapper extends ContainerWrapper {
     this._fullName = json.fullName;
     this._closing = json.closing;
     this._isModal = json.isModal;
+    this._closeButton = this.findControlRecursive(json.closeButton) as ButtonBaseWrapper;
   }
 }

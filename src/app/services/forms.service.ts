@@ -11,6 +11,7 @@ import { JsonUtil } from 'app/util/json-util';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ControlType } from 'app/enums/control-type';
+import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
 
 @Injectable()
 export class FormsService {
@@ -52,6 +53,17 @@ export class FormsService {
 
   public getSelectedForm(): Observable<FormWrapper> {
     return this._selectedForm$;
+  }
+
+  public closeFormByButton(form: FormWrapper): void {
+    const closeButton: ButtonBaseWrapper = form.getCloseButton();
+
+    if (closeButton) {
+      closeButton.fireClick();
+    }
+    else {
+      this.closeForm(form);
+    }
   }
 
   public closeForm(form: FormWrapper): void {

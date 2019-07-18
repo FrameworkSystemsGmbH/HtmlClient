@@ -20,7 +20,7 @@ export abstract class ButtonComponent extends ControlComponent {
 
   protected abstract getButton(): ElementRef;
 
-  public callOnClick(event: any): void {
+  public callOnClick(event?: any): void {
     if (this.getWrapper().hasOnClickEvent()) {
       this.onClick.emit(event);
     }

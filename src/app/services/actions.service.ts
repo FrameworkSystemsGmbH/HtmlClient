@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
+import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
+import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { FormsService } from 'app/services/forms.service';
 
 @Injectable()
@@ -20,6 +21,9 @@ export class ActionsService {
 
       if (control) {
         switch (actionJson.name) {
+          case 'SetCloseButton':
+            form.setCloseButtonAction(control as ButtonBaseWrapper);
+            break;
           case 'SetEnabled':
             control.setIsEditableAction(actionJson.value);
             break;
