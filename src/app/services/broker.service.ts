@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, of as obsOf, forkJoin, Subscription, Observer } from 'rxjs';
+import { Observable, Subject, of as obsOf, forkJoin, Subscription } from 'rxjs';
 import { concatMap, flatMap, map, retryWhen, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
@@ -35,7 +35,6 @@ import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
 
 import * as Moment from 'moment-timezone';
-import { ObserversModule } from '@angular/cdk/observers';
 import { HardwareService } from 'app/services/hardware-service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
