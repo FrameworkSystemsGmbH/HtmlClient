@@ -29,7 +29,6 @@ import { RequestType } from 'app/enums/request-type';
 import { ResponseResult } from 'app/enums/response-result';
 import { JsonUtil } from 'app/util/json-util';
 import { RxJsUtil } from 'app/util/rxjs-util';
-import { UrlUtil } from 'app/util/url-util';
 
 import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
@@ -467,8 +466,8 @@ export class BrokerService {
         tap(() => this.loaderService.fireLoadingChanged(false)),
         flatMap(() => this.dialogService.showErrorBox({
           title: this.titleService.getTitle(),
-          message: UrlUtil.urlDecode(errorJson.message),
-          stackTrace: UrlUtil.urlDecode(errorJson.stackTrace)
+          message: errorJson.message,
+          stackTrace: errorJson.stackTrace
         })),
         tap(() => this.loaderService.fireLoadingChanged(true))
       );
@@ -487,7 +486,7 @@ export class BrokerService {
         tap(() => this.loaderService.fireLoadingChanged(false)),
         flatMap(() => this.dialogService.showMsgBoxBox({
           title: this.titleService.getTitle(),
-          message: UrlUtil.urlDecode(msgBoxJson.message),
+          message: msgBoxJson.message,
           icon: msgBoxJson.icon,
           buttons: msgBoxJson.buttons
         }).pipe(

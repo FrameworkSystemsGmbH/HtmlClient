@@ -42,11 +42,11 @@ export class TextBoxMultilineWrapper extends TextBoxBaseWrapper {
   }
 
   protected getValueJson(): string {
-    return this.value == null ? String.empty() : encodeURIComponent(this.value);
+    return this.value == null ? String.empty() : this.value;
   }
 
   protected setValueJson(value: string): void {
-    const val: string = value != null ? decodeURIComponent(value) : String.empty();
+    const val: string = value != null ? value : String.empty();
     this.orgValue = val;
     this.setValue(val);
   }

@@ -42,11 +42,11 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   protected getValueJson(): string {
-    return this.value == null ? String.empty() : encodeURIComponent(this.value);
+    return this.value == null ? String.empty() : this.value;
   }
 
   protected setValueJson(value: string): void {
-    const val: string = value != null ? decodeURIComponent(value) : String.empty();
+    const val: string = value != null ? value : String.empty();
     this.orgValue = val;
     this.setValue(val);
   }
@@ -175,8 +175,8 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     } else if (listCount > 0) {
       const newDataList: DataList = new DataList();
       for (const row of listJson.rows) {
-        const pk: string = row.pk != null ? decodeURIComponent(row.pk) : String.empty();
-        const value: string = row.value != null ? decodeURIComponent(row.value) : String.empty();
+        const pk: string = row.pk != null ? row.pk : String.empty();
+        const value: string = row.value != null ? row.value : String.empty();
         newDataList.push(new DataListEntry(pk, value));
       }
       this.dataList = newDataList;
