@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, of as obsOf, forkJoin, Subscription, Observer } from 'rxjs';
+import { Observable, Subject, of as obsOf, forkJoin, Subscription } from 'rxjs';
 import { concatMap, flatMap, map, retryWhen, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
@@ -29,13 +29,11 @@ import { RequestType } from 'app/enums/request-type';
 import { ResponseResult } from 'app/enums/response-result';
 import { JsonUtil } from 'app/util/json-util';
 import { RxJsUtil } from 'app/util/rxjs-util';
-import { UrlUtil } from 'app/util/url-util';
 
 import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
 
 import * as Moment from 'moment-timezone';
-import { ObserversModule } from '@angular/cdk/observers';
 import { HardwareService } from 'app/services/hardware-service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
@@ -468,8 +466,8 @@ export class BrokerService {
         tap(() => this.loaderService.fireLoadingChanged(false)),
         flatMap(() => this.dialogService.showErrorBox({
           title: this.titleService.getTitle(),
-          message: UrlUtil.urlDecode(errorJson.message),
-          stackTrace: UrlUtil.urlDecode(errorJson.stackTrace)
+          message: errorJson.message,
+          stackTrace: errorJson.stackTrace
         })),
         tap(() => this.loaderService.fireLoadingChanged(true))
       );
@@ -488,7 +486,7 @@ export class BrokerService {
         tap(() => this.loaderService.fireLoadingChanged(false)),
         flatMap(() => this.dialogService.showMsgBoxBox({
           title: this.titleService.getTitle(),
-          message: UrlUtil.urlDecode(msgBoxJson.message),
+          message: msgBoxJson.message,
           icon: msgBoxJson.icon,
           buttons: msgBoxJson.buttons
         }).pipe(

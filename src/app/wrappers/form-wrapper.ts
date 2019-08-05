@@ -9,13 +9,16 @@ import { FormComponent } from 'app/controls/form/form.component';
 import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
 import { JsonUtil } from 'app/util/json-util';
 import { ControlType } from 'app/enums/control-type';
+import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
 
 export class FormWrapper extends ContainerWrapper {
 
   private _id: string;
   private _fullName: string;
-  private _variant: VariantWrapper;
   private _closing: boolean;
+  private _isModal: boolean;
+  private _variant: VariantWrapper;
+  private _closeButton: ButtonBaseWrapper;
 
   public get closing(): boolean {
     return this._closing;
@@ -36,6 +39,14 @@ export class FormWrapper extends ContainerWrapper {
   public getTitle(): string {
     const title: string = this.getDefaultVariant().getTitle();
     return title ? title : this._fullName;
+  }
+
+  public getIsModal(): boolean {
+    return this._isModal;
+  }
+
+  public getCloseButton(): ButtonBaseWrapper {
+    return this._closeButton;
   }
 
   private getDefaultVariant(): VariantWrapper {
@@ -61,6 +72,10 @@ export class FormWrapper extends ContainerWrapper {
     return this.getDefaultVariant().isCloseEventAttached();
   }
 
+  public setCloseButtonAction(button: ButtonBaseWrapper): void {
+    this._closeButton = button;
+  }
+
   protected getComponentRef(): ComponentRef<FormComponent> {
     return super.getComponentRef() as ComponentRef<FormComponent>;
   }
@@ -81,6 +96,7 @@ export class FormWrapper extends ContainerWrapper {
   protected setMetaJson(metaJson: any): void {
     this._id = metaJson.id;
     this._fullName = metaJson.fullName;
+    this._isModal = metaJson.modal;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlComponent> {
@@ -144,6 +160,8 @@ export class FormWrapper extends ContainerWrapper {
     json.id = this._id;
     json.fullName = this._fullName;
     json.closing = this._closing;
+    json.isModal = this._isModal;
+    json.closeButton = this._closeButton.getName();
 
     const controlsJson: Array<any> = new Array<any>();
     this.getControlsState(controlsJson);
@@ -160,5 +178,7 @@ export class FormWrapper extends ContainerWrapper {
     this._id = json.id;
     this._fullName = json.fullName;
     this._closing = json.closing;
+    this._isModal = json.isModal;
+    this._closeButton = this.findControlRecursive(json.closeButton) as ButtonBaseWrapper;
   }
 }

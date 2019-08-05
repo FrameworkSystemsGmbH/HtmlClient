@@ -1,6 +1,6 @@
-@import '../../../scss/variables.scss';
+@import '../../../../scss/variables.scss';
 
-@mixin navbar-list {
+@mixin header-list {
   display: inline-flex;
   list-style: none;
   padding: 0;
@@ -10,8 +10,7 @@
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    padding: 0 0.75em;
-    line-height: $navbar-brand-fontsize;
+    padding: 0 1rem;
     cursor: pointer;
 
     &.active {
@@ -20,22 +19,27 @@
 
     &.active,
     &:hover {
-      color: $navbar-color-highlight;
-      background-color: $navbar-background-highlight;
+      color: $header-color-highlight;
+      background-color: $header-background-highlight;
     }
 
-    span.hc-navbar-close-icon-span {
-      margin-left: 0.3em;
-      color: $navbar-color;
+    span.hc-header-close-icon-span {
+      margin-left: 0.3rem;
+      padding-top: 0.1rem;
+      color: $header-color;
 
       &:hover {
-        color: $navbar-close-hover;
+        color: $header-close-hover;
+      }
+
+      &:active {
+        color: $header-close-active;
       }
     }
   }
 }
 
-@mixin navbar-side-list {
+@mixin header-side-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -43,9 +47,8 @@
   li {
     display: flex;
     align-items: center;
-    height: $navbar-height;
-    padding: 0 0.5em;
-    line-height: $navbar-brand-fontsize;
+    height: $header-height;
+    padding: 0 0.5rem;
     cursor: pointer;
 
     &.active {
@@ -54,37 +57,37 @@
 
     &.active,
     &:hover {
-      color: $navbar-color-highlight;
-      background-color: $navbar-background-highlight;
+      color: $header-color-highlight;
+      background-color: $header-background-highlight;
     }
 
-    span.hc-navbar-list-title-span {
+    span.hc-header-list-title-span {
       flex: 1;
     }
 
-    span.hc-navbar-close-icon-span {
+    span.hc-header-close-icon-span {
       flex: 0 0 auto;
       display: flex;
-      color: $navbar-color;
+      color: $header-color;
 
       &:hover {
-        color: $navbar-close-hover;
+        color: $header-close-hover;
       }
     }
   }
 }
 
-.hc-navbar {
+.hc-header {
   position: relative;
   display: flex;
-  height: $navbar-height;
-  color: $navbar-color;
-  background-color: $navbar-background;
-  border-bottom: 1px solid $navbar-border-color;
+  height: $header-height;
+  color: $header-color;
+  background-color: $header-background;
+  border-bottom: 0.1rem solid $header-border-color;
   user-select: none;
   cursor: default;
 
-  .hc-navbar-left {
+  .hc-header-left {
     flex: 1;
     display: flex;
 
@@ -92,53 +95,53 @@
       flex: 0 0 auto;
     }
 
-    .hc-navbar-tools-list {
+    .hc-header-tools-list {
       display: inline-flex;
-      @include navbar-list();
+      @include header-list();
 
       @media (min-width: $breakpoint) {
         display: none;
       }
     }
 
-    .hc-navbar-title {
+    .hc-header-title {
       flex: 0.95;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: $navbar-brand-fontsize;
+      font-size: $header-brand-fontsize;
       font-weight: bold;
 
       @media (min-width: $breakpoint) {
         flex: 0 0 auto;
-        margin-left: $navbar-height / 4;
+        margin-left: $header-height / 4;
       }
     }
   }
 
-  .hc-navbar-center {
+  .hc-header-center {
     flex: 1;
     display: none;
     overflow: hidden;
-    margin-left: $navbar-height / 4;
+    margin-left: $header-height / 4;
 
     @media (min-width: $breakpoint) {
       display: flex;
     }
 
-    .hc-navbar-tabs-center {
+    .hc-header-tabs-center {
       flex: 1;
       display: flex;
       overflow: hidden;
 
-      .hc-navbar-tabs-list {
+      .hc-header-tabs-list {
         display: inline-flex;
-        @include navbar-list();
+        @include header-list();
       }
     }
 
-    .hc-navbar-tabs-left,
-    .hc-navbar-tabs-right {
+    .hc-header-tabs-left,
+    .hc-header-tabs-right {
       flex: 0 0 auto;
       display: flex;
 
@@ -148,27 +151,27 @@
         cursor: pointer;
 
         &:hover {
-          color: $navbar-color-highlight;
+          color: $header-color-highlight;
         }
       }
     }
 
-    .hc-navbar-tabs-left {
+    .hc-header-tabs-left {
       div {
-        border-right: 1px solid $grey1;
+        border-right: 0.1rem solid $grey1;
         margin-right: 0.3rem;
       }
     }
 
-    .hc-navbar-tabs-right {
+    .hc-header-tabs-right {
       div {
-        border-left: 1px solid $grey1;
+        border-left: 0.1rem solid $grey1;
         margin-left: 0.3rem;
       }
     }
   }
 
-  .hc-navbar-right {
+  .hc-header-right {
     flex: 0 0 auto;
     display: none;
 
@@ -176,82 +179,82 @@
       display: flex;
     }
 
-    .hc-navbar-tools-list {
-      margin-left: $navbar-height / 4;
-      @include navbar-list();
+    .hc-header-tools-list {
+      margin-left: $header-height / 4;
+      @include header-list();
     }
   }
 
   .loader {
     position: absolute;
     width: 100%;
-    left: 0px;
-    bottom: -1px;
+    left: 0;
+    bottom: -0.1rem;
   }
 }
 
-.hc-navbar-side {
+.hc-header-side {
   z-index: 2000;
   position: fixed;
   display: flex;
   flex-direction: column;
-  top: $navbar-height;
+  top: $header-height;
   bottom: 0;
-  width: 300px;
-  color: $navbar-color;
-  background-color: $navbar-background;
+  width: 30rem;
+  color: $header-color;
+  background-color: $header-background;
   user-select: none;
   cursor: default;
 
   &:after {
-    box-shadow: 10px 0 10px -10px black inset;
+    box-shadow: 1rem 0rem 1rem -1rem black inset;
     content: " ";
     height: 100%;
     position: absolute;
-    right: -10px;
-    width: 10px;
+    right: -1rem;
+    width: 1rem;
   }
 
-  .hc-navbar-side-top {
+  .hc-header-side-top {
     flex: 0 0 auto;
     display: flex;
-    height: $navbar-height;
-    border-bottom: 1px solid $navbar-border-color;
+    height: $header-height;
+    border-bottom: 0.1rem solid $header-border-color;
     align-items: center;
     justify-content: center;
 
     span {
-      font-size: $navbar-brand-fontsize;
+      font-size: $header-brand-fontsize;
       font-weight: bold;
     }
   }
 
-  .hc-navbar-side-middle {
+  .hc-header-side-middle {
     flex: 1;
     overflow-x: hidden;
     overflow-y: auto;
 
-    .hc-navbar-side-tabs-list {
-      @include navbar-side-list();
+    .hc-header-side-tabs-list {
+      @include header-side-list();
     }
   }
 
-  .hc-navbar-side-bottom {
+  .hc-header-side-bottom {
     flex: 0 0 auto;
-    border-top: 1px solid $navbar-border-color;
+    border-top: 0.1rem solid $header-border-color;
 
-    .hc-navbar-side-tools-list {
-      @include navbar-side-list();
+    .hc-header-side-tools-list {
+      @include header-side-list();
     }
   }
 }
 
-.hc-navbar-side-overlay {
+.hc-header-side-overlay {
   z-index: 1000;
   position: fixed;
   left: 0;
   right: 0;
-  top: $navbar-height;
+  top: $header-height;
   bottom: 0;
   background-color: black;
   opacity: 0.75;

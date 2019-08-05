@@ -7,7 +7,7 @@
     flex-direction: column;
 
     .scroller {
-      padding: 1em;
+      padding: 1.4rem;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
 
@@ -19,11 +19,11 @@
         list-style: none;
 
         li {
-          padding: 1em;
+          padding: 1.4rem;
           cursor: pointer;
 
           &:not(:last-child) {
-            border-bottom: 1px solid lightgrey;
+            border-bottom: 0.1rem solid lightgrey;
           }
 
           &.selected {

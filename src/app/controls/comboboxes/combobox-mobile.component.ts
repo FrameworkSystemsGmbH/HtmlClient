@@ -31,11 +31,11 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
 
     return {
       'display': this.isVisible && isSizeVisible ? null : 'none',
-      'left.px': layoutableProperties.getX(),
-      'top.px': layoutableProperties.getY(),
+      'left.rem': StyleUtil.pixToRem(layoutableProperties.getX()),
+      'top.rem': StyleUtil.pixToRem(layoutableProperties.getY()),
       'font-family': wrapper.getFontFamily(),
       'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
-      'font-size.px': wrapper.getFontSize()
+      'font-size.rem': StyleUtil.pixToRem(wrapper.getFontSize())
     };
   }
 
@@ -43,25 +43,25 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
     return {
-      'min-width.px': 0,
-      'min-height.px': 0,
-      'width.px': layoutableProperties.getWidth(),
-      'height.px': layoutableProperties.getHeight(),
+      'min-width.rem': 0,
+      'min-height.rem': 0,
+      'width.rem': StyleUtil.pixToRem(layoutableProperties.getWidth()),
+      'height.rem': StyleUtil.pixToRem(layoutableProperties.getHeight()),
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
-      'border-radius': StyleUtil.getFourValue('px',
+      'border-radius': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderRadiusTopLeft(),
         wrapper.getBorderRadiusTopRight(),
         wrapper.getBorderRadiusBottomRight(),
         wrapper.getBorderRadiusBottomLeft()),
-      'border-width': StyleUtil.getFourValue('px',
+      'border-width': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderThicknessTop(),
         wrapper.getBorderThicknessRight(),
         wrapper.getBorderThicknessBottom(),
         wrapper.getBorderThicknessLeft()),
-      'margin': StyleUtil.getFourValue('px',
+      'margin': StyleUtil.pixToRemFourValueStr(
         wrapper.getMarginTop(),
         wrapper.getMarginRight(),
         wrapper.getMarginBottom(),
@@ -73,14 +73,14 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
   protected createValueStyle(wrapper: ComboBoxWrapper): any {
     return {
       'border': 'none',
-      'padding': StyleUtil.getFourValue('px',
+      'padding': StyleUtil.pixToRemFourValueStr(
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft()),
       'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
-      'line-height.px': wrapper.getLineHeight(),
+      'line-height.rem': StyleUtil.pixToRem(wrapper.getLineHeight()),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
   }

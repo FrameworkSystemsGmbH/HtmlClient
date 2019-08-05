@@ -294,7 +294,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
         if (itemJson.values && itemJson.values.length) {
           for (const value of itemJson.values) {
-            valueMap.set(decodeURIComponent(value.name), decodeURIComponent(value.value));
+            valueMap.set(value.name, value.value);
           }
         }
 

@@ -213,7 +213,7 @@ export class FontService {
     return lineHeight * lines;
   }
 
-  private measureStringWidth(wrapper: FittedDataWrapper, length: number, format: TextFormat) {
+  private measureStringWidth(wrapper: FittedDataWrapper, length: number, format: TextFormat): number {
     // 1. Get the measure text and either cut to desired length or determine the factor that is needed to achieve the desired length
     let factor: number = 1;
     let measureText: string = this.getMeasureText();
@@ -271,6 +271,7 @@ export class FontService {
         result = Math.max(result, this.measureText(measureString, fontFamily, fontSize, fontBold, fontItalic));
       }
     }
+
     return result;
   }
 

@@ -15,24 +15,24 @@ import { DomUtil } from 'app/util/dom-util';
 import { StyleUtil } from 'app/util/style-util';
 
 @Component({
-  selector: 'hc-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  selector: 'hc-base-header',
+  templateUrl: './base-header.component.html',
+  styleUrls: ['./base-header.component.scss'],
   animations: [
     trigger('sidebar', [
       transition('void => *', [
         style({
-          transform: 'translateX(-300px)'
+          transform: 'translateX(-30rem)'
         }),
         animate(200, style({
-          transform: 'translateX(0px)'
+          transform: 'translateX(0)'
         }))]),
       transition('* => void', [
         style({
-          transform: 'translateX(0px)'
+          transform: 'translateX(0)'
         }),
         animate(200, style({
-          transform: 'translateX(-300px)'
+          transform: 'translateX(-30rem)'
         }))])
     ]),
     trigger('overlay', [
@@ -53,7 +53,7 @@ import { StyleUtil } from 'app/util/style-util';
     ])
   ]
 })
-export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChild('center', { static: true })
   public center: ElementRef;
@@ -85,8 +85,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   private selectedFormSub: Subscription;
   private loadingChangedSub: Subscription;
 
-  public navbarSideStyle: any;
-  public navbarSideOverlayStyle: any;
+  public headerSideStyle: any;
+  public headerSideOverlayStyle: any;
 
   constructor(
     private zone: NgZone,
@@ -104,8 +104,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.selectedFormSub = this.formsService.getSelectedForm().subscribe(form => this.selectedForm = form);
     this.loadingChangedSub = this.loaderService.onLoadingChangedDelayed.subscribe(loading => this.isLoading = loading);
 
-    this.navbarSideStyle = this.createNavbarSideStyle();
-    this.navbarSideOverlayStyle = this.createNavbarSideOverlayStyle();
+    this.headerSideStyle = this.createheaderSideStyle();
+    this.headerSideOverlayStyle = this.createheaderSideOverlayStyle();
   }
 
   public ngAfterViewChecked(): void {
@@ -127,15 +127,15 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  private createNavbarSideStyle(): any {
+  private createheaderSideStyle(): any {
     return {
-      'top.px': this.platformService.isIos() ? (StyleUtil.navbarHeight + StyleUtil.iosMenubarHeight) : StyleUtil.navbarHeight
+      'top.rem': this.platformService.isIos() ? (StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.headerHeight
     };
   }
 
-  private createNavbarSideOverlayStyle(): any {
+  private createheaderSideOverlayStyle(): any {
     return {
-      'top.px': this.platformService.isIos() ? (StyleUtil.navbarHeight + StyleUtil.iosMenubarHeight) : StyleUtil.navbarHeight
+      'top.rem': this.platformService.isIos() ? (StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.headerHeight
     };
   }
 
@@ -207,7 +207,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   public selectForm(event: any, form: FormWrapper): void {
     const target: HTMLElement = event.target;
 
-    if (target && DomUtil.isInClass(target, 'hc-navbar-close-icon-event-span')) {
+    if (target && DomUtil.isInClass(target, 'hc-header-close-icon-event-span')) {
       return;
     }
 
@@ -219,7 +219,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public closeForm(event: any, form: FormWrapper): void {
-    this.formsService.closeForm(form);
+    this.formsService.closeFormByButton(form);
   }
 
   @HostListener('window:resize')
@@ -230,7 +230,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewChecked {
       const maxScroll: number = Math.max(0, ulWidth - divWidth);
 
       this.tabScrollPosition = Math.min(Math.max(-maxScroll, this.tabScrollPosition), 0);
-      this.renderer.setStyle(this.tabs.nativeElement, 'margin-left', StyleUtil.getValue('px', this.tabScrollPosition));
+      this.renderer.setStyle(this.tabs.nativeElement, 'margin-left', StyleUtil.pixToRemValueStr(this.tabScrollPosition));
 
       if (maxScroll) {
         this.renderer.setStyle(this.arrowLeft.nativeElement, 'visibility', this.tabScrollPosition !== 0 ? 'visible' : 'hidden');

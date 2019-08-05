@@ -4,15 +4,19 @@ import { ScrollBars } from 'app/enums/scrollbars';
 
 export namespace StyleUtil {
 
-  export const navbarHeight: number = 40;
-  export const iosMenubarHeight: number = 20;
+  export const headerHeight: number = 4;
+  export const iosMenubarHeight: number = 2;
 
-  export function getValue(unit: string, value: number): string {
-    return Number.zeroIfNull(value) + unit;
+  export function pixToRem(value: number): number {
+    return Number.zeroIfNull(value) / 10;
   }
 
-  export function getFourValue(unit: string, first: number, second: number, third: number, fourth: number): string {
-    return getValue(unit, first) + ' ' + getValue(unit, second) + ' ' + getValue(unit, third) + ' ' + getValue(unit, fourth);
+  export function pixToRemValueStr(value: number): string {
+    return pixToRem(value) + 'rem';
+  }
+
+  export function pixToRemFourValueStr(first: number, second: number, third: number, fourth: number): string {
+    return pixToRemValueStr(first) + ' ' + pixToRemValueStr(second) + ' ' + pixToRemValueStr(third) + ' ' + pixToRemValueStr(fourth);
   }
 
   export function getForeColor(isEditable: boolean, color: string): string {
@@ -91,21 +95,21 @@ export namespace StyleUtil {
 
     switch (captionAlign) {
       case ContentAlignment.TopLeft:
-        styles['top.px'] = Number.zeroIfNull(paddingTop);
-        styles['left.px'] = Number.zeroIfNull(paddingLeft);
+        styles['top.rem'] = pixToRem(paddingTop);
+        styles['left.rem'] = pixToRem(paddingLeft);
         break;
       case ContentAlignment.TopCenter:
-        styles['top.px'] = Number.zeroIfNull(paddingTop);
+        styles['top.rem'] = pixToRem(paddingTop);
         styles['left'] = '50%';
         styles['transform'] = 'translateX(-50%)';
         break;
       case ContentAlignment.TopRight:
-        styles['top.px'] = Number.zeroIfNull(paddingTop);
-        styles['right.px'] = Number.zeroIfNull(paddingRight);
+        styles['top.rem'] = pixToRem(paddingTop);
+        styles['right.rem'] = pixToRem(paddingRight);
         break;
       case ContentAlignment.MiddleLeft:
         styles['top'] = '50%';
-        styles['left.px'] = Number.zeroIfNull(paddingLeft);
+        styles['left.rem'] = pixToRem(paddingLeft);
         styles['transform'] = 'translateY(-50%)';
         break;
       case ContentAlignment.MiddleCenter:
@@ -114,22 +118,22 @@ export namespace StyleUtil {
         styles['transform'] = 'translate(-50%, -50%)';
         break;
       case ContentAlignment.MiddleRight:
-        styles['top.px'] = '50%';
-        styles['right.px'] = Number.zeroIfNull(paddingRight);
+        styles['top.rem'] = '50%';
+        styles['right.rem'] = pixToRem(paddingRight);
         styles['transform'] = 'translateY(-50%)';
         break;
       case ContentAlignment.BottomLeft:
-        styles['bottom.px'] = Number.zeroIfNull(paddingBottom);
-        styles['left.px'] = Number.zeroIfNull(paddingLeft);
+        styles['bottom.rem'] = pixToRem(paddingBottom);
+        styles['left.rem'] = pixToRem(paddingLeft);
         break;
       case ContentAlignment.BottomCenter:
-        styles['bottom.px'] = Number.zeroIfNull(paddingBottom);
+        styles['bottom.rem'] = pixToRem(paddingBottom);
         styles['left'] = '50%';
         styles['transform'] = 'translateX(-50%)';
         break;
       case ContentAlignment.BottomRight:
-        styles['bottom.px'] = Number.zeroIfNull(paddingBottom);
-        styles['right.px'] = Number.zeroIfNull(paddingRight);
+        styles['bottom.rem'] = pixToRem(paddingBottom);
+        styles['right.rem'] = pixToRem(paddingRight);
         break;
     }
 

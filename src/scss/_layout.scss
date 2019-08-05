@@ -2,10 +2,15 @@
   box-sizing: border-box;
 }
 
-html, body {
+html {
+  height: 100%;
+  font-size: 62.5%;
+  font-family: $global-font;
+}
+
+body {
   height: 100%;
   overflow: hidden;
-  font-family: $global-font;
   font-size: $global-font-size;
 }
 
@@ -20,15 +25,15 @@ html, body {
   flex: 1;
   display: flex;
   align-items: center;
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 
 .visually-hidden {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: 0.1rem;
+  height:  0.1rem;
   border: 0;
-  margin: -1px;
+  margin: -1rem;
   padding: 0;
   outline: 0;
   clip: rect(0 0 0 0);
@@ -36,7 +41,7 @@ html, body {
 }
 
 .scrollbar-measure {
-  width: 100px;
-  height: 100px;
+  width: 10rem;
+  height: 10rem;
   overflow: scroll;
 }

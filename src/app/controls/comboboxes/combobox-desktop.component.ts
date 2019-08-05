@@ -168,11 +168,11 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
 
     return {
       'display': this.isVisible && isSizeVisible ? null : 'none',
-      'left.px': layoutableProperties.getX(),
-      'top.px': layoutableProperties.getY(),
+      'left.rem': StyleUtil.pixToRem(layoutableProperties.getX()),
+      'top.rem': StyleUtil.pixToRem(layoutableProperties.getY()),
       'font-family': wrapper.getFontFamily(),
       'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
-      'font-size.px': wrapper.getFontSize()
+      'font-size.rem': StyleUtil.pixToRem(wrapper.getFontSize())
     };
   }
 
@@ -180,25 +180,25 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
     return {
-      'min-width.px': 0,
-      'min-height.px': 0,
-      'width.px': layoutableProperties.getWidth(),
-      'height.px': layoutableProperties.getHeight(),
+      'min-width.rem': 0,
+      'min-height.rem': 0,
+      'width.rem': StyleUtil.pixToRem(layoutableProperties.getWidth()),
+      'height.rem': StyleUtil.pixToRem(layoutableProperties.getHeight()),
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
-      'border-radius': StyleUtil.getFourValue('px',
+      'border-radius': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderRadiusTopLeft(),
         wrapper.getBorderRadiusTopRight(),
         wrapper.getBorderRadiusBottomRight(),
         wrapper.getBorderRadiusBottomLeft()),
-      'border-width': StyleUtil.getFourValue('px',
+      'border-width': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderThicknessTop(),
         wrapper.getBorderThicknessRight(),
         wrapper.getBorderThicknessBottom(),
         wrapper.getBorderThicknessLeft()),
-      'margin': StyleUtil.getFourValue('px',
+      'margin': StyleUtil.pixToRemFourValueStr(
         wrapper.getMarginTop(),
         wrapper.getMarginRight(),
         wrapper.getMarginBottom(),
@@ -210,14 +210,14 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
   protected createValueStyle(wrapper: ComboBoxWrapper): any {
     const styles: any = {
       'border': 'none',
-      'padding': StyleUtil.getFourValue('px',
+      'padding': StyleUtil.pixToRemFourValueStr(
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft()),
       'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
-      'line-height.px': wrapper.getLineHeight(),
+      'line-height.rem': StyleUtil.pixToRem(wrapper.getLineHeight()),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
 
@@ -228,11 +228,11 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
     return {
-      'top.px': layoutableProperties.getHeight() + wrapper.getMarginTop(),
-      'left.px': wrapper.getMarginLeft(),
-      'min-width.px': layoutableProperties.getWidth(),
-      'border': '1px solid ' + wrapper.getBorderColor(),
-      'border-radius': StyleUtil.getFourValue('px',
+      'top.rem': StyleUtil.pixToRem(layoutableProperties.getHeight() + wrapper.getMarginTop()),
+      'left.rem': StyleUtil.pixToRem(wrapper.getMarginLeft()),
+      'min-width.rem': StyleUtil.pixToRem(layoutableProperties.getWidth()),
+      'border': '0.1rem solid ' + wrapper.getBorderColor(),
+      'border-radius': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderRadiusBottomLeft(),
         wrapper.getBorderRadiusBottomRight(),
         wrapper.getBorderRadiusTopRight(),
@@ -245,8 +245,8 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     const maxHeight: number = wrapper.getMaxDropDownHeight();
 
     return {
-      'max-width.px': maxWidth > 0 ? maxWidth : null,
-      'max-height.px': maxHeight > 0 ? maxHeight : null
+      'max-width.rem': maxWidth > 0 ? StyleUtil.pixToRem(maxWidth) : null,
+      'max-height.rem': maxHeight > 0 ? StyleUtil.pixToRem(maxHeight) : null
     };
   }
 }

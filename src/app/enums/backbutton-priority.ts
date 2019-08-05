@@ -1,4 +1,5 @@
 export enum BackButtonPriority {
-  ModalDialog = 0,
-  ActiveBroker = 1
+  Overlay = 0,
+  ModalDialog = 1,
+  ActiveBroker = 2
 }

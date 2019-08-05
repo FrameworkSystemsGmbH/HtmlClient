@@ -11,6 +11,7 @@ import { JsonUtil } from 'app/util/json-util';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ControlType } from 'app/enums/control-type';
+import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
 
 @Injectable()
 export class FormsService {
@@ -22,6 +23,8 @@ export class FormsService {
 
   private _selectedForm$$: BehaviorSubject<FormWrapper>;
   private _selectedForm$: Observable<FormWrapper>;
+
+  private _lastOpenedForm: FormWrapper;
 
   constructor(
     private injector: Injector,
@@ -44,11 +47,22 @@ export class FormsService {
   }
 
   public selectForm(form: FormWrapper): void {
+    this._lastOpenedForm = this._selectedForm$$.getValue();
     this._selectedForm$$.next(form);
   }
 
   public getSelectedForm(): Observable<FormWrapper> {
     return this._selectedForm$;
+  }
+
+  public closeFormByButton(form: FormWrapper): void {
+    const closeButton: ButtonBaseWrapper = form.getCloseButton();
+
+    if (closeButton) {
+      closeButton.fireClick();
+    } else {
+      this.closeForm(form);
+    }
   }
 
   public closeForm(form: FormWrapper): void {
@@ -80,13 +94,25 @@ export class FormsService {
       const index: number = this._forms.indexOf(form);
       this._forms.remove(form);
       this.fireFormsChanged();
+
       if (form === this._selectedForm$$.getValue()) {
-        if (index <  this._forms.length && index >= 0) {
-          this.selectForm(this._forms[index]);
-        } else if (this._forms.length) {
-          this.selectForm(this._forms[0]);
-        } else {
-          this.selectForm(null);
+        let lastFound: boolean = false;
+        if (this._lastOpenedForm) {
+          const lastOpened: FormWrapper = this._forms.find(f => f.getId() === this._lastOpenedForm.getId());
+          if (lastOpened) {
+            lastFound = true;
+            this.selectForm(lastOpened);
+          }
+        }
+
+        if (!lastFound) {
+          if (index < this._forms.length && index >= 0) {
+            this.selectForm(this._forms[index]);
+          } else if (this._forms.length) {
+            this.selectForm(this._forms[this._forms.length - 1]);
+          } else {
+            this.selectForm(null);
+          }
         }
       }
     };

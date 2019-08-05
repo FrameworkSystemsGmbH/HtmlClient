@@ -39,29 +39,29 @@ export class VariantComponent extends ContainerComponent {
 
     return {
       'display': this.isVisible && isSizeVisible ? null : 'none',
-      'left.px': layoutableProperties.getX(),
-      'top.px': layoutableProperties.getY(),
-      'width.px': layoutWidth,
-      'height.px': layoutHeight,
+      'left.rem': StyleUtil.pixToRem(layoutableProperties.getX()),
+      'top.rem': StyleUtil.pixToRem(layoutableProperties.getY()),
+      'width.rem': StyleUtil.pixToRem(layoutWidth),
+      'height.rem': StyleUtil.pixToRem(layoutHeight),
       'background-color': wrapper.getBackColor(),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
-      'border-radius': StyleUtil.getFourValue('px',
+      'border-radius': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderRadiusTopLeft(),
         wrapper.getBorderRadiusTopRight(),
         wrapper.getBorderRadiusBottomRight(),
         wrapper.getBorderRadiusBottomLeft()),
-      'border-width': StyleUtil.getFourValue('px',
+      'border-width': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderThicknessTop(),
         wrapper.getBorderThicknessRight(),
         wrapper.getBorderThicknessBottom(),
         wrapper.getBorderThicknessLeft()),
-      'margin': StyleUtil.getFourValue('px',
+      'margin': StyleUtil.pixToRemFourValueStr(
         wrapper.getMarginTop(),
         wrapper.getMarginRight(),
         wrapper.getMarginBottom(),
         wrapper.getMarginLeft()),
-      'padding': StyleUtil.getFourValue('px',
+      'padding': StyleUtil.pixToRemFourValueStr(
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),

@@ -1,6 +1,6 @@
 // Font
 $global-font: Arial, Helvetica, sans-serif;
-$global-font-size: 14px;
+$global-font-size: 1.4rem;
 
 // Colors
 $white: #fff;
@@ -10,18 +10,19 @@ $grey3: #333;
 $error: #d9534f;
 $outline: #333;
 
-// Navbar
-$navbar-height: 40px;
-$navbar-brand-fontsize: 1.25em;
-$navbar-color: #555;
-$navbar-close-hover: #d9534f;
-$navbar-color-highlight: #337ab7;
-$navbar-background: #f8f8f8;
-$navbar-background-highlight: #e7e7e7;
-$navbar-border-color: #e7e7e7;
+// Header
+$header-height: 4rem;
+$header-brand-fontsize: 1.8rem;
+$header-color: #555;
+$header-close-hover: #d9534f;
+$header-close-active: #ff2721;
+$header-color-highlight: #337ab7;
+$header-background: #f8f8f8;
+$header-background-highlight: #e7e7e7;
+$header-border-color: #e7e7e7;
 
 // Loading
-$loading-bar-height: 2px;
+$loading-bar-height: 0.2rem;
 $loading-bar-color: #337ab7;
 
 // Layout
@@ -47,14 +48,14 @@ $breakpoint: 768px;
 
 @mixin focused-outline {
   outline-color: $outline !important;
-  outline-offset: 1px  !important;
+  outline-offset: 0.1rem  !important;
   outline-style: dashed  !important;
-  outline-width: 1px  !important;
+  outline-width: 0.1rem  !important;
 }
 
 @mixin focused-outline-inset {
   outline-color: $outline  !important;
-  outline-offset: -4px  !important;
+  outline-offset: -0.4rem  !important;
   outline-style: dashed  !important;
-  outline-width: 1px !important;
+  outline-width: 0.1rem !important;
 }

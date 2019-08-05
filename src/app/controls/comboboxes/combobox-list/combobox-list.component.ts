@@ -196,14 +196,14 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
 
   protected createValueStyle(wrapper: ComboBoxWrapper): any {
     return {
-      'margin': StyleUtil.getFourValue('px',
+      'margin': StyleUtil.pixToRemFourValueStr(
         wrapper.getPaddingTop(),
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft()),
       'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
-      'line-height.px': wrapper.getLineHeight(),
+      'line-height.rem': StyleUtil.pixToRem(wrapper.getLineHeight()),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
   }

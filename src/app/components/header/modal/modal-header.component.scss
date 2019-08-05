@@ -1,0 +1,58 @@
+@import '../../../../scss/variables.scss';
+
+.header {
+  position: relative;
+  display: flex;
+  height: $header-height;
+  color: $header-color;
+  background-color: $header-background;
+  border-bottom: 0.1rem solid $header-border-color;
+  user-select: none;
+  cursor: default;
+
+  .header-left {
+    flex: 1;
+    display: flex;
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      font-size: $header-brand-fontsize;
+      font-weight: bold;
+    }
+  }
+
+  .header-right {
+    flex: 0 0 auto;
+    display: flex;
+
+    #closeButton {
+      color: $header-color;
+      background-color: transparent;
+      padding: 0 0.75rem;
+      border: none;
+
+      &:active,
+      &:hover {
+        background-color: $header-background-highlight;
+      }
+
+      &:hover {
+        color: $header-close-hover;
+      }
+
+      &:active {
+        color: $header-close-active;
+      }
+    }
+  }
+
+  .loader {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: -0.1rem;
+  }
+}

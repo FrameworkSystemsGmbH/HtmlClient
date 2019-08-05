@@ -15,7 +15,7 @@ button {
 
   &:active:not([disabled]) {
     span {
-      transform: translate(calc(-50% + 1px), calc(-50% + 1px));
+      transform: translate(calc(-50% + 0.1rem), calc(-50% + 0.1rem));
     }
   }
 }

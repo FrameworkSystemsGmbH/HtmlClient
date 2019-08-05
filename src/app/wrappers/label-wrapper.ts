@@ -31,7 +31,7 @@ export class LabelWrapper extends FittedWrapper {
     }
 
     if (dataJson.text && dataJson.text.value !== undefined) {
-      this.getPropertyStore().setCaption(PropertyLayer.Control, dataJson.text.value != null ? decodeURIComponent(dataJson.text.value) : String.empty());
+      this.getPropertyStore().setCaption(PropertyLayer.Control, dataJson.text.value != null ? dataJson.text.value : String.empty());
     }
   }
 

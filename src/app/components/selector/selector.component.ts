@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { PlatformService } from 'app/services/platform.service';
+import { StyleUtil } from 'app/util/style-util';
 
 @Component({
   selector: 'hc-selector',
@@ -75,8 +76,8 @@ export class SelectorComponent implements OnInit {
   private setWrapperStyle(): void {
     if (this.visible) {
       this.wrapperStyle = {
-        'width.px': this.size,
-        'height.px': this.size,
+        'width.rem': StyleUtil.pixToRem(this.size),
+        'height.rem': StyleUtil.pixToRem(this.size),
         'cursor': this.enabled ? 'pointer' : 'not-allowed'
       };
     } else {

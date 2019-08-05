@@ -13,20 +13,20 @@
     bottom: 0;
     border-radius: 100%;
     background-color: white;
-    border: 1px solid #636363;
+    border: 0.1rem solid #636363;
     opacity: 0.5;
     transition: all 100ms ease-in-out;
 
     .selector-checkmark-path {
       stroke: #303030;
-      stroke-width: 2.5px;
+      stroke-width: 0.25rem;
     }
   }
 
   .input:checked + .selector-frame {
     opacity: 1;
     background-color: #1871FF;
-    border: 1px solid #1871FF;
+    border: 0.1rem solid #1871FF;
 
     .selector-checkmark-path {
       stroke: white;
@@ -35,6 +35,6 @@
 
   .input:disabled:checked + .selector-frame {
     background-color: #67A2FF;
-    border: 1px solid #67A2FF;
+    border: 0.1rem solid #67A2FF;
   }
 }

@@ -69,7 +69,7 @@ export class CheckBoxWrapper extends FittedWrapper {
 
     switch (this.dataSourceType) {
       case DataSourceType.Bool:
-        val = this.value == null ? 'false' : encodeURIComponent(this.value === true ? 'true' : 'false');
+        val = this.value === true ? 'true' : 'false';
         break;
 
       case DataSourceType.Decimal:
@@ -79,7 +79,7 @@ export class CheckBoxWrapper extends FittedWrapper {
       case DataSourceType.Long:
       case DataSourceType.Short:
       case DataSourceType.String:
-        val = this.value == null ? '0' : encodeURIComponent(this.value === true ? '1' : '0');
+        val = this.value === true ? '1' : '0';
         break;
 
       default:
@@ -94,7 +94,7 @@ export class CheckBoxWrapper extends FittedWrapper {
 
     switch (this.dataSourceType) {
       case DataSourceType.Bool:
-        val = value != null ? decodeURIComponent(value) === 'true' : false;
+        val = value === 'true';
         break;
 
       case DataSourceType.Decimal:
@@ -104,7 +104,7 @@ export class CheckBoxWrapper extends FittedWrapper {
       case DataSourceType.Long:
       case DataSourceType.Short:
       case DataSourceType.String:
-        val = value != null ? decodeURIComponent(value) !== '0' : false;
+        val = value !== '0';
         break;
 
       default:

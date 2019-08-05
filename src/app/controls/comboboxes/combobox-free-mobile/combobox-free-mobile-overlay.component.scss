@@ -5,7 +5,7 @@
   .wrapper {
     display: flex;
     flex-direction: column;
-    padding: 1em;
+    padding: 1.4rem;
 
     .scroller {
       overflow: auto;
@@ -19,11 +19,11 @@
         list-style: none;
 
         li {
-          padding: 1em;
+          padding: 1.4rem;
           cursor: pointer;
 
           &:not(:last-child) {
-            border-bottom: 1px solid lightgrey;
+            border-bottom: 0.1rem solid lightgrey;
           }
 
           &.selected {
@@ -42,7 +42,7 @@
       flex: 0 0 auto;
       display: flex;
       flex-direction: column;
-      margin-top: 1em;
+      margin-top: 1.4rem;
     }
 
     .footer {
