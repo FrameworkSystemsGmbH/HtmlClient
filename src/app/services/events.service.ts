@@ -15,6 +15,8 @@ import { ClientCloseEvent } from 'app/common/events/client-close-event';
 import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
 import { ClientItemActivatedEvent } from 'app/common/events/client-item-activated-event';
 import { ClientItemSelectionChangedEvent } from 'app/common/events/client-item-selection-changed-event';
+import { BarcodeFormat } from 'app/enums/barcode-format';
+import { ClientBarcodeScannedEvent } from 'app/common/events/client-barcode-scanned-event';
 
 @Injectable()
 export class EventsService {
@@ -150,6 +152,13 @@ export class EventsService {
     this._eventFired.next({
       originalEvent: null,
       clientEvent: new ClientApplicationQuitEvent(restartRequested)
+    });
+  }
+
+  public fireBarcodeScanned(cancelled: boolean, hasError: boolean, errorMessage: string, value: string, format: BarcodeFormat) {
+    this._eventFired.next({
+      originalEvent: null,
+      clientEvent: new ClientBarcodeScannedEvent(cancelled, hasError, errorMessage, value, format)
     });
   }
 }

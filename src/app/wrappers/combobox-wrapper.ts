@@ -12,7 +12,7 @@ import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
 import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 import { Visibility } from 'app/enums/visibility';
 import { EditStyle } from 'app/enums/edit-style';
 import { DataSourceType } from 'app/enums/datasource-type';
@@ -192,7 +192,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   public hasOnSelectionChangedEvent(): boolean {
-    return (this.getEvents() & ControlEvent.OnSelectionChanged) ? true : false;
+    return (this.getEvents() & ClientEventType.OnSelectionChanged) ? true : false;
   }
 
   protected getOnSelectionChangedSubscription(event: any): () => void {
@@ -223,7 +223,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   protected attachEvents(instance: ComboBoxComponent): void {
     super.attachEvents(instance);
 
-    if (this.getEvents() & ControlEvent.OnSelectionChanged) {
+    if (this.getEvents() & ClientEventType.OnSelectionChanged) {
       this.onSelectionChangedSub = instance.onSelectionChanged.subscribe(event => this.getOnSelectionChangedSubscription(event)());
     }
   }

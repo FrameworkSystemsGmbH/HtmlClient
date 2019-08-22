@@ -29,7 +29,7 @@ import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 import { JsonUtil } from 'app/util/json-util';
 import { ControlType } from 'app/enums/control-type';
 
@@ -45,7 +45,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private layoutableProperties: LayoutablePropertiesDefault;
   private labelTemplate: ControlLabelTemplate;
   private componentRef: ComponentRef<ControlComponent>;
-  private events: ControlEvent;
+  private events: ClientEventType;
   private isEditableParent: boolean;
   private visibilityParent: Visibility;
 
@@ -202,7 +202,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     this.updateControlLabelComponentRecursively();
   }
 
-  protected getEvents(): ControlEvent {
+  protected getEvents(): ClientEventType {
     return this.events;
   }
 
@@ -540,7 +540,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     }
 
     for (const eventJson of eventsJson) {
-      const event: ControlEvent = ControlEvent[eventJson as string];
+      const event: ClientEventType = ClientEventType[eventJson as string];
       if (event != null) {
         this.events |= event;
       }
@@ -627,7 +627,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public hasOnEnterEvent(): boolean {
-    return (this.events & ControlEvent.OnEnter) ? true : false;
+    return (this.events & ClientEventType.OnEnter) ? true : false;
   }
 
   protected getOnEnterSubscription(event: any): () => void {
@@ -656,7 +656,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public hasOnLeaveEvent(): boolean {
-    return (this.events & ControlEvent.OnLeave) ? true : false;
+    return (this.events & ClientEventType.OnLeave) ? true : false;
   }
 
   protected getOnLeaveSubscription(event: any): () => void {

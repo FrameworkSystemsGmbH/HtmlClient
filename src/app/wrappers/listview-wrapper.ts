@@ -18,7 +18,7 @@ import { PatternFormatService } from 'app/services/formatter/pattern-format.serv
 import { ListViewItemValueWrapper } from 'app/wrappers/listview-item-value-wrapper';
 import { LayoutBase } from 'app/layout/layout-base';
 import { ListViewLayout } from 'app/layout/listview-layout/listview-layout';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';
 import { Visibility } from 'app/enums/visibility';
@@ -471,7 +471,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   public hasOnItemSelectionChangedEvent(): boolean {
-    return (this.getEvents() & ControlEvent.OnItemSelectionChanged) ? true : false;
+    return (this.getEvents() & ClientEventType.OnItemSelectionChanged) ? true : false;
   }
 
   public callOnItemSelectionChanged(): void {
@@ -502,7 +502,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   public hasOnItemActivatedEvent(): boolean {
-    return (this.getEvents() & ControlEvent.OnItemActivated) ? true : false;
+    return (this.getEvents() & ClientEventType.OnItemActivated) ? true : false;
   }
 
   public callOnItemActivated(itemId: string): void {

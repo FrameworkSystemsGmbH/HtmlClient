@@ -1,4 +1,4 @@
-export enum ControlEvent {
+export enum ClientEventType {
   None                     = 0,
   OnEnter                  = 1 << 0,
   OnLeave                  = 1 << 1,
@@ -11,5 +11,6 @@ export enum ControlEvent {
   OnApplicationQuit        = 1 << 8,
   OnItemSelectionChanged   = 1 << 9,
   OnItemActivated          = 1 << 10,
-  MsgBox                   = 1 << 11
+  MsgBox                   = 1 << 11,
+  BarcodeScanned           = 1 << 12
 }

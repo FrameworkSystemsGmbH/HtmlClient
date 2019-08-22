@@ -1,6 +1,6 @@
-import { ClientEvent } from 'app/common/events/client-event';
+import { ClientControlEvent } from 'app/common/events/client-control-event';
 
-export abstract class ClientFormEvent extends ClientEvent {
+export abstract class ClientFormEvent extends ClientControlEvent {
 
   protected formId: string;
 

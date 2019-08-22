@@ -6,7 +6,7 @@ import { TextFormat } from 'app/enums/text-format';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientValidatedEvent } from 'app/common/events/client-validated-event';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 import { Visibility } from 'app/enums/visibility';
 import { TextBoxType } from 'app/enums/textbox-type';
 import { ControlType } from 'app/enums/control-type';
@@ -133,7 +133,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   public hasOnValidatedEvent(): boolean {
-    return (this.getEvents() & ControlEvent.OnValidated) ? true : false;
+    return (this.getEvents() & ClientEventType.OnValidated) ? true : false;
   }
 
   protected canExecuteValidated(originalEvent: any, clientEvent: ClientValidatedEvent): boolean {

@@ -4,7 +4,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { VariantComponent } from 'app/controls/variant/variant.component';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 import { ControlType } from 'app/enums/control-type';
 
 export class VariantWrapper extends ContainerWrapper {
@@ -23,7 +23,7 @@ export class VariantWrapper extends ContainerWrapper {
   }
 
   public isCloseEventAttached(): boolean {
-    return (this.getEvents() & ControlEvent.OnClose) === ControlEvent.OnClose;
+    return (this.getEvents() & ClientEventType.OnClose) === ClientEventType.OnClose;
   }
 
   protected getComponentRef(): ComponentRef<VariantComponent> {

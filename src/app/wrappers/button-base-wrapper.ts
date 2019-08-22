@@ -4,7 +4,7 @@ import { ButtonComponent } from 'app/controls/buttons/button.component';
 import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
 import { PropertyLayer } from 'app/common/property-layer';
 import { Visibility } from 'app/enums/visibility';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
 import { ComponentRef } from '@angular/core';
@@ -49,7 +49,7 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
   protected attachEvents(instance: ButtonComponent): void {
     super.attachEvents(instance);
 
-    if (this.getEvents() & ControlEvent.OnClick) {
+    if (this.getEvents() & ClientEventType.OnClick) {
       this.onClickSub = instance.onClick.subscribe(event => this.getOnClickSubscription(event)());
     }
   }
@@ -63,7 +63,7 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
   }
 
   public hasOnClickEvent(): boolean {
-    return (this.getEvents() & ControlEvent.OnClick) ? true : false;
+    return (this.getEvents() & ClientEventType.OnClick) ? true : false;
   }
 
   protected getOnClickSubscription(event: any): () => void {

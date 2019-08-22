@@ -9,7 +9,7 @@ import { ControlType } from 'app/enums/control-type';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { DataSourceType } from 'app/enums/datasource-type';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 import { Visibility } from 'app/enums/visibility';
 
 export class CheckBoxWrapper extends FittedWrapper {
@@ -162,7 +162,7 @@ export class CheckBoxWrapper extends FittedWrapper {
   protected attachEvents(instance: CheckBoxComponent): void {
     super.attachEvents(instance);
 
-    if (this.getEvents() & ControlEvent.OnClick) {
+    if (this.getEvents() & ClientEventType.OnClick) {
       this.onClickSub = instance.onClick.subscribe(event => this.getOnClickSubscription(event)());
     }
   }
@@ -176,7 +176,7 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   public hasOnClickEvent(): boolean {
-    return (this.getEvents() & ControlEvent.OnClick) ? true : false;
+    return (this.getEvents() & ClientEventType.OnClick) ? true : false;
   }
 
   protected getOnClickSubscription(event: any): () => void {

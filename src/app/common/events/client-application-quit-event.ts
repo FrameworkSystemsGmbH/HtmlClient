@@ -1,13 +1,13 @@
 import { ClientApplicationQuitEventArgs } from 'app/common/events/eventargs/client-application-quit-eventargs';
-import { ClientEvent } from 'app/common/events/client-event';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientControlEvent } from 'app/common/events/client-control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 
-export class ClientApplicationQuitEvent extends ClientEvent {
+export class ClientApplicationQuitEvent extends ClientControlEvent {
 
   protected args: ClientApplicationQuitEventArgs;
 
   constructor(restartRequested: boolean = null) {
-    super(ControlEvent[ControlEvent.OnApplicationQuit], 'Application');
+    super(ClientEventType[ClientEventType.OnApplicationQuit], 'Application');
     this.args = new ClientApplicationQuitEventArgs(restartRequested);
   }
 }

@@ -1,5 +1,5 @@
 import { ClientFormEvent } from 'app/common/events/client-form-event';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 
 export class ClientMsgBoxEvent extends ClientFormEvent {
 
@@ -7,7 +7,7 @@ export class ClientMsgBoxEvent extends ClientFormEvent {
   protected action: string;
 
   constructor(formId: string, id: string, action: string) {
-    super(ControlEvent[ControlEvent.MsgBox], 'DefaultVariant', formId);
+    super(ClientEventType[ClientEventType.MsgBox], 'DefaultVariant', formId);
     this.id = id;
     this.action = action;
   }

@@ -1,9 +1,9 @@
-import { ClientEvent } from 'app/common/events/client-event';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientControlEvent } from 'app/common/events/client-control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 
-export class ClientApplicationQuitRequestEvent extends ClientEvent {
+export class ClientApplicationQuitRequestEvent extends ClientControlEvent {
 
   constructor() {
-    super(ControlEvent[ControlEvent.OnApplicationQuitRequest], 'Application');
+    super(ClientEventType[ClientEventType.OnApplicationQuitRequest], 'Application');
   }
 }

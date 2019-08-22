@@ -161,7 +161,10 @@ export class FormWrapper extends ContainerWrapper {
     json.fullName = this._fullName;
     json.closing = this._closing;
     json.isModal = this._isModal;
-    json.closeButton = this._closeButton.getName();
+
+    if (this._closeButton != null) {
+      json.closeButton = this._closeButton.getName();
+    }
 
     const controlsJson: Array<any> = new Array<any>();
     this.getControlsState(controlsJson);
@@ -179,6 +182,9 @@ export class FormWrapper extends ContainerWrapper {
     this._fullName = json.fullName;
     this._closing = json.closing;
     this._isModal = json.isModal;
-    this._closeButton = this.findControlRecursive(json.closeButton) as ButtonBaseWrapper;
+
+    if (!String.isNullOrWhiteSpace(json.closeButton)) {
+      this._closeButton = this.findControlRecursive(json.closeButton) as ButtonBaseWrapper;
+    }
   }
 }

@@ -1,9 +1,9 @@
 import { ClientFormEvent } from 'app/common/events/client-form-event';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 
 export class ClientDisposeEvent extends ClientFormEvent {
 
   constructor(formId: string) {
-    super(ControlEvent[ControlEvent.OnDispose], 'DefaultVariant', formId);
+    super(ClientEventType[ClientEventType.OnDispose], 'DefaultVariant', formId);
   }
 }

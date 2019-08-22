@@ -10,7 +10,7 @@ import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
 import { ControlType } from 'app/enums/control-type';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
-import { ControlEvent } from 'app/enums/control-event';
+import { ClientEventType } from 'app/enums/client-event-type';
 import { Visibility } from 'app/enums/visibility';
 
 export class RadioButtonWrapper extends FittedWrapper {
@@ -102,7 +102,7 @@ export class RadioButtonWrapper extends FittedWrapper {
   protected attachEvents(instance: RadioButtonComponent): void {
     super.attachEvents(instance);
 
-    if (this.getEvents() & ControlEvent.OnClick) {
+    if (this.getEvents() & ClientEventType.OnClick) {
       this.onClickSub = instance.onClick.subscribe(event => this.getOnClickSubscription(event)());
     }
 
@@ -126,7 +126,7 @@ export class RadioButtonWrapper extends FittedWrapper {
   }
 
   public hasOnClickEvent(): boolean {
-    return (this.getEvents() & ControlEvent.OnClick) ? true : false;
+    return (this.getEvents() & ClientEventType.OnClick) ? true : false;
   }
 
   protected getOnClickSubscription(event: any): () => void {
