@@ -20,12 +20,12 @@ export class BarcodeService {
 
   public scan(format: BarcodeFormat): void {
     if (this._platformService.isMobile() && format !== BarcodeFormat.NONE) {
-      (cordova.plugins as any).barcodeScanner.scan(this.onSuccess.bind(this), this.onError.bind(this), {
-        prompt: '',
-        disableSuccessBeep: true,
-        resultDisplayDuration: 0,
-        formats: this.buildFormatString(format)
-      });
+      // (cordova.plugins as any).barcodeScanner.scan(this.onSuccess.bind(this), this.onError.bind(this), {
+      //   prompt: '',
+      //   disableSuccessBeep: true,
+      //   resultDisplayDuration: 0,
+      //   formats: this.buildFormatString(format)
+      // });
     }
   }
 
