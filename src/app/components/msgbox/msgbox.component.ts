@@ -7,7 +7,7 @@ import { IMsgBoxData } from 'app/components/msgbox/msgbox-data.interface';
 import { MsgBoxButtons } from 'app/enums/msgbox-buttons';
 import { MsgBoxIcon } from 'app/enums/msgbox-icon';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
-import { HardwareService } from 'app/services/hardware-service';
+import { BackService } from 'app/services/back-service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 @Component({
@@ -31,7 +31,7 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   private onBackButtonListener: () => boolean;
 
   constructor(
-    private hardwareService: HardwareService,
+    private backService: BackService,
     private dialogRef: MatDialogRef<MsgBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IMsgBoxData
   ) {
@@ -43,7 +43,7 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);
-    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
+    this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
 
     this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => this.footer.nativeElement.focus());
@@ -51,7 +51,7 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.hardwareService.removeBackButtonListener(this.onBackButtonListener);
+    this.backService.removeBackButtonListener(this.onBackButtonListener);
 
     if (this.afterOpenSub) {
       this.afterOpenSub.unsubscribe();

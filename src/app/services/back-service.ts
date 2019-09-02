@@ -8,7 +8,7 @@ interface IListenerInfo {
 }
 
 @Injectable()
-export class HardwareService {
+export class BackService {
 
   private _listeners: Array<IListenerInfo> = new Array<IListenerInfo>();
 

@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { IRetryBoxData } from 'app/components/retrybox/retrybox-data.interface';
 
 import { RetryBoxResult } from 'app/enums/retrybox-result';
-import { HardwareService } from 'app/services/hardware-service';
+import { BackService } from 'app/services/back-service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 @Component({
@@ -27,7 +27,7 @@ export class RetryBoxComponent implements OnInit, OnDestroy {
   private onBackButtonListener: () => boolean;
 
   constructor(
-    private hardwareService: HardwareService,
+    private backService: BackService,
     private dialogRef: MatDialogRef<RetryBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IRetryBoxData
   ) {
@@ -38,7 +38,7 @@ export class RetryBoxComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);
-    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
+    this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
 
     this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => this.footer.nativeElement.focus());
@@ -46,7 +46,7 @@ export class RetryBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.hardwareService.removeBackButtonListener(this.onBackButtonListener);
+    this.backService.removeBackButtonListener(this.onBackButtonListener);
 
     if (this.afterOpenSub) {
       this.afterOpenSub.unsubscribe();

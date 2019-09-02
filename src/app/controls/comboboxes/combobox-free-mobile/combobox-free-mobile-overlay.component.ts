@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { DataList } from 'app/common/data-list';
 import { DomUtil } from 'app/util/dom-util';
-import { HardwareService } from 'app/services/hardware-service';
+import { BackService } from 'app/services/back-service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 @Component({
@@ -32,7 +32,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   private onBackButtonListener: () => boolean;
 
   constructor(
-    private hardwareService: HardwareService,
+    private backService: BackService,
     private dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -43,7 +43,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);
-    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
+    this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
 
     this.backdropClickSub = this.dialogRef.backdropClick().subscribe(() => {
       this.dialogRef.close({ selected: false });
@@ -59,7 +59,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.hardwareService.removeBackButtonListener(this.onBackButtonListener);
+    this.backService.removeBackButtonListener(this.onBackButtonListener);
 
     if (this.backdropClickSub) {
       this.backdropClickSub.unsubscribe();

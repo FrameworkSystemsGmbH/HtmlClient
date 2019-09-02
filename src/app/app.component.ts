@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 
 import { FocusService } from 'app/services/focus.service';
 import { LocaleService } from 'app/services/locale.service';
-import { HardwareService } from 'app/services/hardware-service';
+import { BackService } from 'app/services/back-service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { PlatformService } from 'app/services/platform.service';
 import { SerializeService } from 'app/services/serialize.service';
@@ -18,15 +18,15 @@ export class AppComponent implements OnInit {
   public style: any;
 
   constructor(
+    private backService: BackService,
     private focusService: FocusService,
     private localeService: LocaleService,
-    private hardwareService: HardwareService,
     private keyboardService: KeyboardService,
     private platformService: PlatformService,
     private serializeService: SerializeService
   ) {
+    this.backService.attachHandlers();
     this.localeService.setMomentLocaleGlobally();
-    this.hardwareService.attachHandlers();
     this.keyboardService.attachScrollHandler();
     this.serializeService.attachHandlers();
   }

@@ -34,7 +34,7 @@ import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
 
 import * as Moment from 'moment-timezone';
-import { HardwareService } from 'app/services/hardware-service';
+import { BackService } from 'app/services/back-service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 @Injectable()
@@ -64,11 +64,11 @@ export class BrokerService {
     private actionsService: ActionsService,
     private clientDataService: ClientDataService,
     private controlStyleSerivce: ControlStyleService,
+    private backService: BackService,
     private dialogService: DialogService,
     private eventsService: EventsService,
     private formsService: FormsService,
     private framesService: FramesService,
-    private hardwareService: HardwareService,
     private loaderService: LoaderService,
     private localeService: LocaleService,
     private routingService: RoutingService,
@@ -194,7 +194,7 @@ export class BrokerService {
     }
 
     if (this.onBackButtonListener) {
-      this.hardwareService.removeBackButtonListener(this.onBackButtonListener);
+      this.backService.removeBackButtonListener(this.onBackButtonListener);
     }
 
     this.formsService.resetViews();
@@ -210,7 +210,7 @@ export class BrokerService {
     this.eventFiredSub = this.subscribeToEventFired();
 
     this.onBackButtonListener = this.onBackButton.bind(this);
-    this.hardwareService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ActiveBroker);
+    this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ActiveBroker);
   }
 
   private onBackButton(): boolean {
