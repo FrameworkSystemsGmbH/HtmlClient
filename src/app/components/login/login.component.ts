@@ -7,7 +7,7 @@ import { LoginBroker } from 'app/common/login-broker';
 import { LoginService } from 'app/services/login.service';
 import { BrokerService } from 'app/services/broker.service';
 import { TitleService } from 'app/services/title.service';
-import { SerializeService } from 'app/services/serialize.service';
+import { StateService } from 'app/services/state.service';
 import { LastSessionInfo } from 'app/common/last-session-info';
 import { DomUtil } from 'app/util/dom-util';
 
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private titleService: TitleService,
     private loginService: LoginService,
     private brokerService: BrokerService,
-    private serializeService: SerializeService,
+    private stateService: StateService,
     private store: Store<fromAppReducers.IAppState>) { }
 
   public ngOnInit(): void {
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       url: this.urlControl
     });
 
-    this.lastSessionInfoSub = this.serializeService.getLastSessionInfo().subscribe(lastSessionInfo => {
+    this.lastSessionInfoSub = this.stateService.getLastSessionInfo().subscribe(lastSessionInfo => {
       this.lastSessionInfo = lastSessionInfo;
     });
 
@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public continueSession(): void {
-    this.serializeService.onResume();
+    this.stateService.loadState(this.lastSessionInfo);
   }
 
   public openEditorNew(): void {

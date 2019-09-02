@@ -21,7 +21,7 @@ import { LogService } from 'app/services/log.service';
 import { LocaleService } from 'app/services/locale.service';
 import { PlatformService } from 'app/services/platform.service';
 import { RoutingService } from 'app/services/routing.service';
-import { SerializeService } from 'app/services/serialize.service';
+import { StateService } from 'app/services/state.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 
@@ -74,7 +74,7 @@ const services = [
   LocaleService,
   PlatformService,
   RoutingService,
-  SerializeService,
+  StateService,
   TextsService,
   TitleService
 ];

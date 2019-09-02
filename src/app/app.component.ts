@@ -5,7 +5,7 @@ import { LocaleService } from 'app/services/locale.service';
 import { BackService } from 'app/services/back-service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { PlatformService } from 'app/services/platform.service';
-import { SerializeService } from 'app/services/serialize.service';
+import { StateService } from 'app/services/state.service';
 import { StyleUtil } from 'app/util/style-util';
 
 @Component({
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     private localeService: LocaleService,
     private keyboardService: KeyboardService,
     private platformService: PlatformService,
-    private serializeService: SerializeService
+    private serializeService: StateService
   ) {
     this.backService.attachHandlers();
     this.localeService.setMomentLocaleGlobally();
