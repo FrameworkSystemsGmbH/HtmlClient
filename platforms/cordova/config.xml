@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.fs.htmlclient"
         xmlns="http://www.w3.org/ns/widgets"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         version="1.0.17">
 
   <!-- Phonegap Exclusive -->
-  <preference name="phonegap-version" value="cli-8.0.0" />
+  <preference name="phonegap-version" value="cli-9.0.0" />
   <!-- /Phonegap Exclusive -->
 
   <!-- Metadata -->
@@ -75,9 +76,15 @@
   <!-- /Preferences -->
 
   <!-- Config File Changes -->
+  <platform name="android">
+    <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
+      <application android:usesCleartextTraffic="true" />
+    </edit-config>
+  </platform>
+
   <platform name="ios">
-    <config-file platform="ios" target="*-Info.plist" parent="ITSAppUsesNonExemptEncryption">
-      <false/>
+    <config-file target="*-Info.plist" parent="ITSAppUsesNonExemptEncryption">
+      <false />
     </config-file>
   </platform>
   <!-- /Config File Changes -->
