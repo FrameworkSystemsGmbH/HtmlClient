@@ -19,12 +19,8 @@ export class ActionsService {
       return;
     }
 
-    let globalActions: Array<any> = new Array<any>();
-
     for (const actionJson of actionsJson) {
-      if (actionJson.priority != null) {
-        globalActions.push(actionJson);
-      } else {
+      if (actionJson.form != null && actionJson.control != null) {
         const form: FormWrapper = this._formsService.findFormById(actionJson.form);
         const control: ControlWrapper = form.findControlRecursive(actionJson.control);
 
@@ -44,26 +40,12 @@ export class ActionsService {
               break;
           }
         }
-      }
-    }
-
-    globalActions = globalActions.sort((a, b) => {
-      const aPrio: number = a.priority;
-      const bPrio: number = b.priority;
-      if (aPrio > bPrio) {
-        return 1;
-      } else if (aPrio < bPrio) {
-        return -1;
       } else {
-        return 0;
-      }
-    });
-
-    for (const globalAction of globalActions) {
-      switch (globalAction.name) {
-        case 'ScanBarcode':
-          this._barcodeService.scan(globalAction.format);
-          break;
+        switch (actionJson.name) {
+          case 'ScanBarcode':
+            this._barcodeService.scan(actionJson.format);
+            break;
+        }
       }
     }
   }
