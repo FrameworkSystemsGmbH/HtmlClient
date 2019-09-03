@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, of as obsOf } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { flatMap, map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as Moment from 'moment-timezone';
@@ -8,6 +8,8 @@ import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerReducers from 'app/store/broker.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
 
+import { BarcodeService } from 'app/services/barcode.service';
+import { BackService } from 'app/services/back-service';
 import { BrokerService } from 'app/services/broker.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { FormsService } from 'app/services/forms.service';
@@ -29,6 +31,8 @@ export class StateService {
 
   constructor(
     private zone: NgZone,
+    private barcodeService: BarcodeService,
+    private backService: BackService,
     private brokerService: BrokerService,
     private controlStyleService: ControlStyleService,
     private formsService: FormsService,
@@ -57,6 +61,9 @@ export class StateService {
 
   private onPause(): void {
     this.zone.run(() => {
+      // Detach back button handler
+      this.backService.removeHandlers();
+
       // Save state only if there is an active broker session
       if (this.brokerState.activeBrokerName != null) {
         this.saveState();
@@ -64,15 +71,29 @@ export class StateService {
     });
   }
 
-  private onResume(): void {
+  private onResume(event: any): void {
     setTimeout(() => {
       this.zone.run(() => {
-        this.getLastSessionInfo().subscribe(lastSessionInfo => {
-          // Load state only if there is no active broker session
-          if (this.brokerState.activeBrokerName == null) {
-            this.loadState(lastSessionInfo);
-          }
-        });
+        this.getLastSessionInfo().pipe(
+          tap(() => {
+            this.storageService.delete(SESSION_STORAGE_KEY).subscribe();
+          }),
+          map(lastSessionInfo => {
+            // Load state only if there is no active broker session
+            if (this.brokerState.activeBrokerName == null) {
+              this.loadState(lastSessionInfo);
+            }
+          }),
+          tap(() => {
+            if (event != null && event.pendingResult != null && event.pendingResult.pluginServiceName === 'BarcodeScanner') {
+              this.barcodeService.processPendingResult(event.pendingResult);
+            }
+          }),
+          tap(() => {
+            // Attach back button handler
+            this.backService.attachHandlers();
+          })
+        ).subscribe();
       });
     });
   }

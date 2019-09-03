@@ -120,4 +120,20 @@ export class BarcodeService {
 
     return formats.join(',');
   }
+
+  public processPendingResult(pendingResult: any): void {
+    if (pendingResult == null) {
+      this.onError('Pending resume result missing');
+    } else if (pendingResult.pluginServiceName !== 'BarcodeScanner') {
+      this.onError('Cannot handle pending resume result of plugin \'' + pendingResult.pluginServiceName + '\'');
+    } else if (pendingResult.pluginStatus == null) {
+      this.onError('Pending resume result status missing');
+    } else if (pendingResult.pluginStatus !== 'OK') {
+      this.onError(pendingResult.pluginStatus);
+    } else if (pendingResult.result == null) {
+      this.onError('Pending resume result missing');
+    } else {
+      this.onSuccess(pendingResult.result);
+    }
+  }
 }

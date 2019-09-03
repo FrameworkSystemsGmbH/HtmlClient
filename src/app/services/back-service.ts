@@ -10,16 +10,25 @@ interface IListenerInfo {
 @Injectable()
 export class BackService {
 
+  private _listener: (ev: Event) => any;
   private _listeners: Array<IListenerInfo> = new Array<IListenerInfo>();
 
   constructor(
     private _zone: NgZone,
     private _platformService: PlatformService
-  ) { }
+  ) {
+    this._listener = this.onBackButton.bind(this);
+  }
 
   public attachHandlers(): void {
     if (this._platformService.isAndroid()) {
-      document.addEventListener('backbutton', this.onBackButton.bind(this), false);
+      document.addEventListener('backbutton', this._listener, false);
+    }
+  }
+
+  public removeHandlers(): void {
+    if (this._platformService.isAndroid()) {
+      document.removeEventListener('backbutton', this._listener, false);
     }
   }
 
