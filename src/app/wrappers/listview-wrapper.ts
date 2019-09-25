@@ -462,12 +462,10 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     const listViewItemHtml: string = '<div class="lvItem" [attr.lvDisabled]="enabled ? null : true">' + this.templateHtml + '</div>';
     const listViewItemCss: string = ':host { flex: 1; display: flex; flex-direction: column; } .lvItem { flex: 1; box-sizing: border-box; }';
 
-    const listViewItemComp = Component({ selector: ListViewItemContentComponent.SELECTOR, template: listViewItemHtml, styles: [listViewItemCss, this.templateCss] })(ListViewItemContentComponent);
-    const listViewItemMod = NgModule({ declarations: [listViewItemComp] })(ListViewItemContentModule);
+    const listViewItemComp = Component({ selector: ListViewItemContentComponent.SELECTOR, template: listViewItemHtml, styles: [listViewItemCss, this.templateCss] })(class extends ListViewItemContentComponent { });
+    const listViewItemMod = NgModule({ declarations: [listViewItemComp] })(class extends ListViewItemContentModule { });
 
-    const factory: ComponentFactory<ListViewItemContentComponent> = this.compiler.compileModuleAndAllComponentsSync(listViewItemMod).componentFactories[0];
-
-    return factory;
+    return this.compiler.compileModuleAndAllComponentsSync(listViewItemMod).componentFactories[0];
   }
 
   public hasOnItemSelectionChangedEvent(): boolean {
