@@ -4,7 +4,7 @@ let isLiveReload = process.argv[2] === '--livereload';
 
 const path = require('path');
 const electron = require('electron');
-const { app, globalShortcut, BrowserWindow, Menu, shell } = electron;
+const { app, globalShortcut, BrowserWindow, Menu } = electron;
 
 
 let client;
@@ -16,7 +16,6 @@ if (isLiveReload) {
 }
 
 app.on('window-all-closed', () => {
-  //https://github.com/atom/electron/issues/2312
   app.quit();
 });
 
