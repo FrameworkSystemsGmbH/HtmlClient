@@ -2,7 +2,7 @@ import { NgZone } from '@angular/core';
 
 import { ActionsService } from 'app/services/actions.service';
 import { BackService } from 'app/services/back-service';
-import { BarcodeService } from 'app/services/barcode.service';
+import { BarcodeService } from 'app/services/actions/barcode.service';
 import { BrokerService } from 'app/services/broker.service';
 import { ClientDataService } from 'app/services/client-data.service';
 import { ControlStyleService } from 'app/services/control-style.service';
@@ -13,12 +13,14 @@ import { FocusService } from 'app/services/focus.service';
 import { FontService } from 'app/services/font.service';
 import { FormsService } from 'app/services/forms.service';
 import { FramesService } from 'app/services/frames.service';
+import { GeoLocationService } from 'app/services/actions/geolocation.service';
 import { ImageService } from 'app/services/image.service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { LoaderService } from 'app/services/loader.service';
 import { LoginService } from 'app/services/login.service';
 import { LogService } from 'app/services/log.service';
 import { LocaleService } from 'app/services/locale.service';
+import { CameraService } from 'app/services/actions/camera.service';
 import { PlatformService } from 'app/services/platform.service';
 import { RoutingService } from 'app/services/routing.service';
 import { StateService } from 'app/services/state.service';
@@ -65,6 +67,7 @@ const services = [
   FontService,
   FormsService,
   FramesService,
+  GeoLocationService,
   ImageService,
   KeyboardService,
   LoaderService,
@@ -72,6 +75,7 @@ const services = [
   LoginService,
   LogService,
   LocaleService,
+  CameraService,
   PlatformService,
   RoutingService,
   StateService,

@@ -8,11 +8,12 @@ import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerReducers from 'app/store/broker.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
 
-import { BarcodeService } from 'app/services/barcode.service';
+import { BarcodeService } from 'app/services/actions/barcode.service';
 import { BackService } from 'app/services/back-service';
 import { BrokerService } from 'app/services/broker.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { FormsService } from 'app/services/forms.service';
+import { CameraService } from 'app/services/actions/camera.service';
 import { PlatformService } from 'app/services/platform.service';
 import { StorageService } from 'app/services/storage/storage.service';
 import { RoutingService } from 'app/services/routing.service';
@@ -36,6 +37,7 @@ export class StateService {
     private brokerService: BrokerService,
     private controlStyleService: ControlStyleService,
     private formsService: FormsService,
+    private cameraService: CameraService,
     private platformService: PlatformService,
     private routingService: RoutingService,
     private storageService: StorageService,
@@ -87,6 +89,8 @@ export class StateService {
           tap(() => {
             if (event != null && event.pendingResult != null && event.pendingResult.pluginServiceName === 'BarcodeScanner') {
               this.barcodeService.processPendingResult(event.pendingResult);
+            } else if (event != null && event.pendingResult != null && event.pendingResult.pluginServiceName === 'Camera') {
+              this.cameraService.processPendingResult(event.pendingResult);
             }
           }),
           tap(() => {

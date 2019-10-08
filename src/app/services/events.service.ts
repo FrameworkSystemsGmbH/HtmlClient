@@ -6,6 +6,7 @@ import { InternalEventCallbacks } from 'app/common/events/internal/internal-even
 import { ClientApplicationQuitEvent } from 'app/common/events/client-application-quit-event';
 import { ClientApplicationQuitRequestEvent } from 'app/common/events/client-application-quit-request-event';
 import { ClientEvent } from 'app/common/events/client-event';
+import { ClientBarcodeScannedEvent } from 'app/common/events/client-barcode-scanned-event';
 import { ClientClickEvent } from 'app/common/events/client-click-event';
 import { ClientValidatedEvent } from 'app/common/events/client-validated-event';
 import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';
@@ -15,8 +16,9 @@ import { ClientCloseEvent } from 'app/common/events/client-close-event';
 import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
 import { ClientItemActivatedEvent } from 'app/common/events/client-item-activated-event';
 import { ClientItemSelectionChangedEvent } from 'app/common/events/client-item-selection-changed-event';
+import { ClientPhotoTakenEvent } from 'app/common/events/client-photo-taken-event';
 import { BarcodeFormat } from 'app/enums/barcode-format';
-import { ClientBarcodeScannedEvent } from 'app/common/events/client-barcode-scanned-event';
+import { ClientGotGeoLocationEvent } from 'app/common/events/client-got-geo-location-event';
 
 @Injectable()
 export class EventsService {
@@ -159,6 +161,20 @@ export class EventsService {
     this._eventFired.next({
       originalEvent: null,
       clientEvent: new ClientBarcodeScannedEvent(cancelled, hasError, errorMessage, value, format)
+    });
+  }
+
+  public firePhotoTaken(hasError: boolean, errorMessage: string, imageData: string) {
+    this._eventFired.next({
+      originalEvent: null,
+      clientEvent: new ClientPhotoTakenEvent(hasError, errorMessage, imageData)
+    });
+  }
+
+  public fireGotGeoLocation(hasError: boolean, errorMessage: string, latitude: number, longitude: number, altitude: number, accuracy: number, heading: number, speed: number, timestamp: number) {
+    this._eventFired.next({
+      originalEvent: null,
+      clientEvent: new ClientGotGeoLocationEvent(hasError, errorMessage, latitude, longitude, altitude, accuracy, heading, speed, timestamp)
     });
   }
 }

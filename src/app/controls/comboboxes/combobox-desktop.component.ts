@@ -44,7 +44,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     this.setSelectedListIndex(null);
   }
 
-  protected getSelectedListIndex(): number {
+  public getSelectedListIndex(): number {
     const selectedIndex: number = this.getSelectedIndex();
     return this.selectedListIndex != null ? this.selectedListIndex : (selectedIndex != null ? selectedIndex : -1);
   }
