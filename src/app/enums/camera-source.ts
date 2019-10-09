@@ -1,4 +1,4 @@
 export enum CameraSource {
-  PHOTO = 0,
+  LIBRARY = 0,
   CAMERA = 1
 }
