@@ -521,6 +521,6 @@ export class NumberFormatService {
       .replace(/[^0-9\-\.]/g, String.empty())
       .replace(/^([^.]*\.)(.*)$/, (val, left, right) => left + right.replace(/\./g, String.empty()))
       .trim()
-      .trimChars('0');
+      .trimCharsLeft('0');
   }
 }
