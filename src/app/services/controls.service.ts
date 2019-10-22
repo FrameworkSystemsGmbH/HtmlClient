@@ -18,6 +18,7 @@ import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { DockPanelWrapper } from 'app/wrappers/dock-panel-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LabelWrapper } from 'app/wrappers/label-wrapper';
+import { PictureWrapper } from 'app/wrappers/picture-wrapper';
 import { RadioButtonWrapper } from 'app/wrappers/radio-button-wrapper';
 import { TextBoxNumberWrapper } from 'app/wrappers/textbox-number-wrapper';
 import { TextBoxDateTimeWrapper } from 'app/wrappers/textbox-datetime-wrapper';
@@ -67,6 +68,8 @@ export class ControlsService {
         return new LabelWrapper(this.injector, options);
       case ControlType.ListView:
         return new ListViewWrapper(this.injector, options);
+      case ControlType.Picture:
+        return new PictureWrapper(this.injector, options);
       case ControlType.Form:
         return new FormWrapper(this.injector, options);
       case ControlType.Variant:

@@ -15,6 +15,7 @@ import { FormComponent } from 'app/controls/form/form.component';
 import { LabelComponent } from 'app/controls/label/label.component';
 import { ListViewComponent } from 'app/controls/listview/listview.component';
 import { ListViewItemComponent } from 'app/controls/listview/listview-item.component';
+import { PictureComponent } from 'app/controls/picture/picture.component';
 import { RadioButtonComponent } from 'app/controls/radio-button/radio-button.component';
 import { TextBoxDateTimeComponent } from 'app/controls/textboxes/textbox-datetime/textbox-datetime.component';
 import { TextBoxMultilineComponent } from 'app/controls/textboxes/textbox-multiline/textbox-multiline.component';
@@ -41,6 +42,7 @@ export const ALL_CONTROLS = [
   LabelComponent,
   ListViewComponent,
   ListViewItemComponent,
+  PictureComponent,
   RadioButtonComponent,
   TextBoxDateTimeComponent,
   TextBoxMultilineComponent,

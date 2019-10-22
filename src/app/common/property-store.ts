@@ -18,6 +18,7 @@ import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { JsonUtil } from 'app/util/json-util';
 import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
+import { PictureScaleMode } from 'app/enums/picture-scale-mode';
 
 const DEFAULT_FONT: string = 'Roboto, Arial, Helvetica, Verdana';
 
@@ -1188,6 +1189,19 @@ export class PropertyStore {
 
   public setOptimizeGeneratedLabels(layer: PropertyLayer, value: boolean): void {
     this.setValue(layer, (data: PropertyData) => { data.optimizeGeneratedLabels = value; });
+  }
+
+  // ScaleMode
+  public getScaleMode(): PictureScaleMode {
+    return this.getValue<PictureScaleMode>((data: PropertyData) => data.scaleMode);
+  }
+
+  public getScaleModeForLayer(layer: PropertyLayer): PictureScaleMode {
+    return this.getValueForLayer<PictureScaleMode>(layer, (data: PropertyData) => data.scaleMode);
+  }
+
+  public setScaleMode(layer: PropertyLayer, value: PictureScaleMode): void {
+    this.setValue(layer, (data: PropertyData) => { data.scaleMode = value; });
   }
 
   // ScrollBars

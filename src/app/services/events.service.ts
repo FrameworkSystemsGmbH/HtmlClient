@@ -19,6 +19,8 @@ import { ClientItemSelectionChangedEvent } from 'app/common/events/client-item-s
 import { ClientPhotoTakenEvent } from 'app/common/events/client-photo-taken-event';
 import { BarcodeFormat } from 'app/enums/barcode-format';
 import { ClientGotGeoLocationEvent } from 'app/common/events/client-got-geo-location-event';
+import { ClientPictureClickEvent } from 'app/common/events/client-picture-click-event';
+import { ClientPictureClickEventArgs } from 'app/common/events/eventargs/client-picture-click-eventargs';
 
 @Injectable()
 export class EventsService {
@@ -43,6 +45,19 @@ export class EventsService {
     this._eventFired.next({
       originalEvent,
       clientEvent: new ClientClickEvent(controlName, formId),
+      callbacks
+    });
+  }
+
+  public firePictureClick(
+    formId: string,
+    controlName: string,
+    args: ClientPictureClickEventArgs,
+    originalEvent: any,
+    callbacks: InternalEventCallbacks<ClientPictureClickEvent>): void {
+    this._eventFired.next({
+      originalEvent,
+      clientEvent: new ClientPictureClickEvent(controlName, formId, args),
       callbacks
     });
   }

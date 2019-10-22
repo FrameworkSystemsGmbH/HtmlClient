@@ -9,5 +9,4 @@ export class ClientLeaveEventArgs {
     this.nextControlName = nextControlName;
     this.hasValueChanged = hasValueChanged;
   }
-
 }

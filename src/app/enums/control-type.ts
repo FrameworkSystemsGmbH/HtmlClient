@@ -6,6 +6,7 @@ export enum ControlType {
   Label = 5,
   CheckBox = 6,
   RadioButton = 7,
+  Picture = 11,
   ImageButton = 16,
   WrapPanel = 28,
   DockPanel = 29,

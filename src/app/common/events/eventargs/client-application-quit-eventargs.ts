@@ -5,5 +5,4 @@ export class ClientApplicationQuitEventArgs {
   constructor(restartRequested: boolean) {
     this.restartRequested = restartRequested;
   }
-
 }

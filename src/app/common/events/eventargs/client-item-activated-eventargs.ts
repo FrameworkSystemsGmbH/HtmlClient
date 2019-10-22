@@ -7,5 +7,4 @@ export class ClientItemActivatedEventArgs {
     this.itemId = itemId;
     this.itemIndex = itemIndex;
   }
-
 }
