@@ -17,6 +17,7 @@
     "serve": "ng serve",
     "serveProd": "ng serve --prod",
     "servePublic": "ng serve --host=0.0.0.0 --disable-host-check",
+    "serveProdPublic": "ng serve --prod --host=0.0.0.0 --disable-host-check",
     "cdBuild": "npm run buildProd && npm run cdClean && npm run cdCopy && npm run cdInject && npm run cdPlatform && npm run cdPrepare && npm run cdCompile",
     "cdClean": "del-cli \"dist/cordova\"",
     "cdCopy": "mkdirp \"dist/cordova/www\" && ncp \"dist/web\" \"dist/cordova/www\" && cpy \"platforms/cordova/**/*.*\" \"!platforms/cordova/inject.*\" \"dist/cordova\"",
