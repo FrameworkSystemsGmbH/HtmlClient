@@ -7,6 +7,7 @@ import { KeyboardService } from 'app/services/keyboard.service';
 import { PlatformService } from 'app/services/platform.service';
 import { StateService } from 'app/services/state.service';
 import { StyleUtil } from 'app/util/style-util';
+import { ViewDocService } from 'app/services/actions/viewdoc.service';
 
 @Component({
   selector: 'hc-app',
@@ -23,12 +24,14 @@ export class AppComponent implements OnInit {
     private localeService: LocaleService,
     private keyboardService: KeyboardService,
     private platformService: PlatformService,
-    private serializeService: StateService
+    private serializeService: StateService,
+    private viewDocService: ViewDocService
   ) {
     this.backService.attachHandlers();
     this.localeService.setMomentLocaleGlobally();
     this.keyboardService.attachScrollHandler();
     this.serializeService.attachHandlers();
+    this.viewDocService.registerWindowOpen();
   }
 
   public ngOnInit(): void {

@@ -7,21 +7,27 @@ import { BarcodeService } from 'app/services/actions/barcode.service';
 import { FormsService } from 'app/services/forms.service';
 import { GeoLocationService } from 'app/services/actions/geolocation.service';
 import { CameraService } from 'app/services/actions/camera.service';
+import { ViewDocService } from 'app/services/actions/viewdoc.service';
 
 @Injectable()
 export class ActionsService {
+
+  private _viewDocumentUrl: string;
 
   constructor(
     private _barcodeService: BarcodeService,
     private _formsService: FormsService,
     private _geoLocationService: GeoLocationService,
-    private _cameraService: CameraService
+    private _cameraService: CameraService,
+    private _viewDocService: ViewDocService
   ) { }
 
   public processActions(actionsJson: any): void {
     if (!actionsJson || !actionsJson.length) {
       return;
     }
+
+    this._viewDocumentUrl = null;
 
     for (const actionJson of actionsJson) {
       if (actionJson.form != null && actionJson.control != null) {
@@ -55,8 +61,15 @@ export class ActionsService {
           case 'GetGeoLocation':
             this._geoLocationService.getGeoLocation();
             break;
+          case 'ViewDocument':
+            this._viewDocumentUrl = actionJson.url;
+            break;
         }
       }
+    }
+
+    if (!String.isNullOrWhiteSpace(this._viewDocumentUrl)) {
+      this._viewDocService.viewDocument(this._viewDocumentUrl);
     }
   }
 }

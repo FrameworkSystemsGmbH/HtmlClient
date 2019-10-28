@@ -26,6 +26,7 @@ import { RoutingService } from 'app/services/routing.service';
 import { StateService } from 'app/services/state.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
+import { ViewDocService } from 'app/services/actions/viewdoc.service';
 
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
 import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
@@ -80,7 +81,8 @@ const services = [
   RoutingService,
   StateService,
   TextsService,
-  TitleService
+  TitleService,
+  ViewDocService
 ];
 
 export const ALL_SERVICES = [

@@ -350,18 +350,12 @@ export class FontService {
   }
 
   public measureText(text: string, font: string, size: number, isBold: boolean, isItalic: boolean): number {
-    if (!text) {
+    if (text == null) {
       return 0;
-    } else {
-      this.context.font = (isBold ? 'bold' : String.empty()) + (isItalic ? ' italic' : String.empty()) + ' ' + size + 'px' + ' ' + font;
-      let width: number = Math.ceilDec(this.context.measureText(text).width, 0);
-
-      // IE canvas doesn't measure subpixels, so 42.24 would result in 42
-      if (this.platformService.isIE()) {
-        width += 1;
-      }
-
-      return width;
     }
+
+    this.context.font = (isBold ? 'bold' : String.empty()) + (isItalic ? ' italic' : String.empty()) + ' ' + size + 'px' + ' ' + font;
+
+    return Math.ceilDec(this.context.measureText(text).width, 0);
   }
 }
