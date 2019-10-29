@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { EventsService } from 'app/services/events.service';
-import { PlatformService } from 'app/services/platform.service';
+import { PlatformService } from 'app/services/platform/platform.service';
 
 @Injectable()
 export class GeoLocationService {

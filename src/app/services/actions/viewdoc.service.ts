@@ -1,7 +1,7 @@
 /// <reference types="cordova-plugin-inappbrowser" />
 
 import { Injectable } from '@angular/core';
-import { PlatformService } from 'app/services/platform.service';
+import { PlatformService } from 'app/services/platform/platform.service';
 
 @Injectable()
 export class ViewDocService {

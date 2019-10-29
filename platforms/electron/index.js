@@ -4,7 +4,7 @@ let isLiveReload = process.argv[2] === '--livereload';
 
 const path = require('path');
 const electron = require('electron');
-const { app, globalShortcut, BrowserWindow, Menu } = electron;
+const { app, globalShortcut, BrowserWindow, Menu, ipcMain } = electron;
 
 let client;
 let mainWindow;
@@ -55,6 +55,10 @@ app.on('ready', () => {
   if (process.platform == 'darwin') {
     buildNativeAppMenu();
   }
+
+  ipcMain.on('getPlatform', event => {
+    event.returnValue = process.platform;
+  });
 });
 
 let buildNativeAppMenu = () => {

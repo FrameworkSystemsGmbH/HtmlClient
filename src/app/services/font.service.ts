@@ -4,7 +4,7 @@ import * as Moment from 'moment-timezone';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { NumberFormatService } from 'app/services/formatter/number-format.service';
 import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
-import { PlatformService } from 'app/services/platform.service';
+import { PlatformService } from 'app/services/platform/platform.service';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
 import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
 import { PropertyStore } from 'app/common/property-store';

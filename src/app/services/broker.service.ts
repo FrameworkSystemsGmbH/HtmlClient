@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { RetryBoxResult } from 'app/enums/retrybox-result';
 import { ActionsService } from 'app/services/actions.service';
+import { BackService } from 'app/services/back-service';
 import { ClientDataService } from 'app/services/client-data.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -14,6 +15,7 @@ import { FormsService } from 'app/services/forms.service';
 import { FramesService } from 'app/services/frames.service';
 import { LoaderService } from 'app/services/loader.service';
 import { LocaleService } from 'app/services/locale.service';
+import { PlatformService } from 'app/services/platform/platform.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
@@ -22,6 +24,7 @@ import { LoginOptions } from 'app/common/login-options';
 import { InternalEvent } from 'app/common/events/internal/internal-event';
 import { ClientEvent } from 'app/common/events/client-event';
 import { ClientMsgBoxEvent } from 'app/common/events/client-msgbox-event';
+import { BackButtonPriority } from 'app/enums/backbutton-priority';
 import { MsgBoxIcon } from 'app/enums/msgbox-icon';
 import { MsgBoxButtons } from 'app/enums/msgbox-buttons';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
@@ -34,8 +37,6 @@ import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
 
 import * as Moment from 'moment-timezone';
-import { BackService } from 'app/services/back-service';
-import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 @Injectable()
 export class BrokerService {
@@ -71,6 +72,7 @@ export class BrokerService {
     private framesService: FramesService,
     private loaderService: LoaderService,
     private localeService: LocaleService,
+    private platformService: PlatformService,
     private routingService: RoutingService,
     private textsService: TextsService,
     private titleService: TitleService,
@@ -288,13 +290,25 @@ export class BrokerService {
             const sessionData: string = res[0];
             const clientId: string = res[1];
 
+            const platform: string = this.platformService.getPlatform();
+            const os: string = this.platformService.getOS();
+            const osversion: string = this.platformService.getOSVersion();
+
             if (!String.isNullOrWhiteSpace(sessionData)) {
               metaJson.sessionData = sessionData;
             }
 
+            let clientInfos: any = {
+              platform,
+              os,
+              osversion
+            };
+
             if (!String.isNullOrWhiteSpace(clientId)) {
-              metaJson.clientInfos = { clientId };
+              clientInfos = { ...clientInfos, clientId };
             }
+
+            metaJson.clientInfos = clientInfos;
 
             return metaJson;
           })

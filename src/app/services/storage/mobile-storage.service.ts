@@ -1,9 +1,8 @@
-/// <reference path="../../../../node_modules/cordova-plugin-file/types/index.d.ts" />
+/// <reference types="cordova-plugin-file" />
 
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, EMPTY as obsEmpty, of as obsOf } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-
 import { StorageService } from 'app/services/storage/storage.service';
 
 @Injectable()

@@ -4,7 +4,7 @@ import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
-import { PlatformService } from 'app/services/platform.service';
+import { PlatformService } from 'app/services/platform/platform.service';
 import { DomUtil } from 'app/util/dom-util';
 import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 import { FramesService } from 'app/services/frames.service';

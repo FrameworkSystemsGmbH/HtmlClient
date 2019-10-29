@@ -21,7 +21,7 @@ import { LoginService } from 'app/services/login.service';
 import { LogService } from 'app/services/log.service';
 import { LocaleService } from 'app/services/locale.service';
 import { CameraService } from 'app/services/actions/camera.service';
-import { PlatformService } from 'app/services/platform.service';
+import { PlatformService } from 'app/services/platform/platform.service';
 import { RoutingService } from 'app/services/routing.service';
 import { StateService } from 'app/services/state.service';
 import { TextsService } from 'app/services/texts.service';
@@ -37,6 +37,22 @@ import { StringFormatService } from 'app/services/formatter/string-format.servic
 import { LocalStorageService } from 'app/services/storage/local-storage.service';
 import { MobileStorageService } from 'app/services/storage/mobile-storage.service';
 import { StorageService } from 'app/services/storage/storage.service';
+import { MobilePlatformService } from 'app/services/platform/mobile-platform.service';
+import { DesktopPlatformService } from 'app/services/platform/desktop-platform.service';
+import { WebPlatformService } from 'app/services/platform/web-platform.service';
+
+const platformServiceProvider = {
+  provide: PlatformService,
+  useFactory: () => {
+    if (!!window.cordova) {
+      return new MobilePlatformService();
+    } else if (navigator.userAgent.match(/Electron/) !== null) {
+      return new DesktopPlatformService();
+    } else {
+      return new WebPlatformService();
+    }
+  }
+};
 
 const storageServiceProvider = {
   provide: StorageService,
@@ -77,7 +93,6 @@ const services = [
   LogService,
   LocaleService,
   CameraService,
-  PlatformService,
   RoutingService,
   StateService,
   TextsService,
@@ -86,6 +101,7 @@ const services = [
 ];
 
 export const ALL_SERVICES = [
+  platformServiceProvider,
   storageServiceProvider,
   formatterServices,
   services

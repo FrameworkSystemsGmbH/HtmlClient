@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { PlatformService } from 'app/services/platform.service';
+import { PlatformService } from 'app/services/platform/platform.service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 interface IListenerInfo {
