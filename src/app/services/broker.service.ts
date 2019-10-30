@@ -299,13 +299,16 @@ export class BrokerService {
             }
 
             let clientInfos: any = {
-              platform,
-              os,
-              osversion
+              Platform: platform,
+              OS: os,
+              OSVersion: osversion
             };
 
             if (!String.isNullOrWhiteSpace(clientId)) {
-              clientInfos = { ...clientInfos, clientId };
+              clientInfos = {
+                ...clientInfos,
+                ClientID: clientId
+              };
             }
 
             metaJson.clientInfos = clientInfos;
