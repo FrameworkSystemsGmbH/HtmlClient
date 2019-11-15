@@ -13,5 +13,6 @@ export enum ControlType {
   FieldPanel = 31,
   FieldRow = 32,
   ListView = 34,
+  TemplateControl = 35,
   Variant = 101
 }

@@ -345,6 +345,8 @@ export class BrokerService {
       throw new Error('Response JSON is null or empty!');
     }
 
+    console.log(JSON.stringify(json, null, 2));
+
     if (!json.meta) {
       throw new Error('Could not find property \'meta\' in response JSON!');
     }

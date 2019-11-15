@@ -16,19 +16,20 @@ import { CheckBoxWrapper } from 'app/wrappers/checkbox-wrapper';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { DockPanelWrapper } from 'app/wrappers/dock-panel-wrapper';
+import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
+import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LabelWrapper } from 'app/wrappers/label-wrapper';
+import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { PictureWrapper } from 'app/wrappers/picture-wrapper';
 import { RadioButtonWrapper } from 'app/wrappers/radio-button-wrapper';
+import { TemplateControlWrapper } from 'app/wrappers/template-control-wrapper';
 import { TextBoxNumberWrapper } from 'app/wrappers/textbox-number-wrapper';
 import { TextBoxDateTimeWrapper } from 'app/wrappers/textbox-datetime-wrapper';
 import { TextBoxMultilineWrapper } from 'app/wrappers/textbox-multiline-wrapper';
 import { TextBoxPlainWrapper } from 'app/wrappers/textbox-plain-wrapper';
 import { VariantWrapper } from 'app/wrappers/variant-wrapper';
 import { WrapPanelWrapper } from 'app/wrappers/wrap-panel-wrapper';
-import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
-import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
-import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 
 export interface IWrapperCreationOptions {
   form?: FormWrapper;
@@ -72,6 +73,8 @@ export class ControlsService {
         return new PictureWrapper(this.injector, options);
       case ControlType.Form:
         return new FormWrapper(this.injector, options);
+      case ControlType.TemplateControl:
+        return new TemplateControlWrapper(this.injector, options);
       case ControlType.Variant:
         return new VariantWrapper(this.injector, options);
       case ControlType.WrapPanel:
