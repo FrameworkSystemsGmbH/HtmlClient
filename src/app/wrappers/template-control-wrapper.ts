@@ -21,6 +21,8 @@ export class TemplateControlWrapper extends ControlWrapper {
   public static readonly PART_F: string = 'f:';
   public static readonly PART_FP: string = 'fp:';
 
+  private static _factoryBuffer: Map<string, ComponentFactory<TemplateControlContentComponent>> = new Map<string, ComponentFactory<TemplateControlContentComponent>>();
+
   private compiler: Compiler;
   private imageService: ImageService;
   private patternFormatService: PatternFormatService;
@@ -226,13 +228,24 @@ export class TemplateControlWrapper extends ControlWrapper {
   }
 
   private compileTemplateControlComponent(): ComponentFactory<TemplateControlContentComponent> {
+    const id: string = `${this.getForm().getName()}.${this.getName()}`;
+
+    // Return buffered factory if there is one
+    if (TemplateControlWrapper._factoryBuffer.has(id)) {
+      return TemplateControlWrapper._factoryBuffer.get(id);
+    }
+
     const tplHtml: string = '<div class="tpl" [attr.tplDisabled]="enabled ? null : true">' + this.templateHtml + '</div>';
     const tplCss: string = ':host { flex: 1; display: flex; flex-direction: column; } .tpl { flex: 1; box-sizing: border-box; }';
 
     const tplContentComp = Component({ selector: TemplateControlContentComponent.SELECTOR, template: tplHtml, styles: [tplCss, this.templateCss] })(class extends TemplateControlContentComponent { });
     const tplContentMod = NgModule({ declarations: [tplContentComp] })(class extends TemplateControlContentModule { });
 
-    return this.compiler.compileModuleAndAllComponentsSync(tplContentMod).componentFactories[0];
+    const factory: ComponentFactory<TemplateControlContentComponent> = this.compiler.compileModuleAndAllComponentsSync(tplContentMod).componentFactories[0];
+
+    TemplateControlWrapper._factoryBuffer.set(id, factory);
+
+    return factory;
   }
 
   public getState(): any {

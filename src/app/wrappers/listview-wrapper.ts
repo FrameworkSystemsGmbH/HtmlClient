@@ -38,6 +38,8 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   public static readonly PART_F: string = 'f:';
   public static readonly PART_FP: string = 'fp:';
 
+  private static _factoryBuffer: Map<string, ComponentFactory<ListViewItemContentComponent>> = new Map<string, ComponentFactory<ListViewItemContentComponent>>();
+
   private compiler: Compiler;
   private imageService: ImageService;
   private patternFormatService: PatternFormatService;
@@ -459,13 +461,24 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   private compileListViewItemComponent(): ComponentFactory<ListViewItemContentComponent> {
+    const id: string = `${this.getForm().getName()}.${this.getName()}`;
+
+    // Return buffered factory if there is one
+    if (ListViewWrapper._factoryBuffer.has(id)) {
+      return ListViewWrapper._factoryBuffer.get(id);
+    }
+
     const listViewItemHtml: string = '<div class="lvItem" [attr.lvDisabled]="enabled ? null : true">' + this.templateHtml + '</div>';
     const listViewItemCss: string = ':host { flex: 1; display: flex; flex-direction: column; } .lvItem { flex: 1; box-sizing: border-box; }';
 
     const listViewItemComp = Component({ selector: ListViewItemContentComponent.SELECTOR, template: listViewItemHtml, styles: [listViewItemCss, this.templateCss] })(class extends ListViewItemContentComponent { });
     const listViewItemMod = NgModule({ declarations: [listViewItemComp] })(class extends ListViewItemContentModule { });
 
-    return this.compiler.compileModuleAndAllComponentsSync(listViewItemMod).componentFactories[0];
+    const factory: ComponentFactory<ListViewItemContentComponent> = this.compiler.compileModuleAndAllComponentsSync(listViewItemMod).componentFactories[0];
+
+    ListViewWrapper._factoryBuffer.set(id, factory);
+
+    return factory;
   }
 
   public hasOnItemSelectionChangedEvent(): boolean {

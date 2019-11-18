@@ -10,6 +10,7 @@ import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-p
 import { JsonUtil } from 'app/util/json-util';
 import { ControlType } from 'app/enums/control-type';
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
+import { basename } from 'path';
 
 export class FormWrapper extends ContainerWrapper {
 
@@ -34,6 +35,10 @@ export class FormWrapper extends ContainerWrapper {
 
   public getId(): string {
     return this._id;
+  }
+
+  public getName(): string {
+    return this._fullName;
   }
 
   public getTitle(): string {
