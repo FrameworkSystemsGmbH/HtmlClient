@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
+import { PictureWrapper } from 'app/wrappers/picture-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { BarcodeService } from 'app/services/actions/barcode.service';
 import { FormsService } from 'app/services/forms.service';
@@ -47,6 +48,18 @@ export class ActionsService {
               break;
             case 'SetVisible':
               control.setVisibilityAction(actionJson.value);
+              break;
+            case 'SetImageUrl':
+              const pictureUrl: PictureWrapper = control as PictureWrapper;
+              if (pictureUrl) {
+                pictureUrl.setImageUrlAction(actionJson.value);
+              }
+              break;
+            case 'SetImageBytes':
+              const pictureBytes: PictureWrapper = control as PictureWrapper;
+              if (pictureBytes) {
+                pictureBytes.setImageBytesAction(actionJson.value);
+              }
               break;
           }
         }

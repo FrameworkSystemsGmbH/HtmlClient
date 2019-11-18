@@ -71,6 +71,16 @@ export class PictureWrapper extends ControlWrapper {
     return super.providesControlLabelWrapper() && !this.showCaption();
   }
 
+  public setImageUrlAction(url: string): void {
+    this.dataSourceType = DataSourceType.String;
+    this.imageData = url;
+  }
+
+  public setImageBytesAction(bytes: string) {
+    this.dataSourceType = DataSourceType.ByteArray;
+    this.imageData = bytes;
+  }
+
   protected setDataJson(dataJson: any): void {
     super.setDataJson(dataJson);
 
