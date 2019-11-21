@@ -7,7 +7,7 @@ import { TextFormat } from 'app/enums/text-format';
 @Injectable()
 export class NumberFormatService {
 
-  private static readonly formatDefault: string = '#.#';
+  private static readonly formatDefault: string = '#.##';
   private static readonly formatZero: string = '0';
   private static readonly formatHash: string = '#';
   private static readonly formatSeparator: string = ';';
