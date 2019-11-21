@@ -158,11 +158,9 @@ export class NumberFormatService {
       actualValue = actualValue * 1000;
     }
 
-    const hasDecimalPart: boolean = formatInfo.hasDecimalsPart();
-
-    if (hasDecimalPart && formatInfo.hasLastDecimalZero()) {
-      actualValue = Math.roundDec(actualValue, -(formatInfo.lastDecimalZeroPos + 1));
-    } else if (!hasDecimalPart) {
+    if ( formatInfo.hasDecimalsPart()) {
+      actualValue = Math.roundDec(actualValue, -formatInfo.getDecimalsCount());
+    } else {
       actualValue = Math.roundDec(actualValue, 0);
     }
 
@@ -231,7 +229,7 @@ export class NumberFormatService {
       }
     }
 
-    if ((formatInfo.hasDecimalsPart() && valueDecimalPointPos != null) || formatInfo.hasLastDecimalZero()) {
+    if ((formatInfo.hasDecimalsPart() && valueDecimalPointPos >= 0) || formatInfo.hasLastDecimalZero()) {
       resultStr += this.getDecimalSeparator();
 
       if (!String.isNullOrWhiteSpace(valueDecimalsStr)) {
@@ -298,6 +296,7 @@ export class NumberFormatService {
         valueNum = this.adjustNumberNegativeInteger(valueNum);
         break;
       case TextFormat.Decimal:
+      case TextFormat.UserDefined:
         if (formatPattern) {
           return this.adjustNumberPattern(valueNum, formatPattern);
         }
@@ -520,7 +519,6 @@ export class NumberFormatService {
       .replace(decSep, '.')
       .replace(/[^0-9\-\.]/g, String.empty())
       .replace(/^([^.]*\.)(.*)$/, (val, left, right) => left + right.replace(/\./g, String.empty()))
-      .trim()
-      .trimCharsLeft('0');
+      .trim();
   }
 }
