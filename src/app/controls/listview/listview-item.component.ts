@@ -9,6 +9,7 @@ import { DomUtil } from 'app/util/dom-util';
 import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 import { FramesService } from 'app/services/frames.service';
 import { StyleUtil } from 'app/util/style-util';
+import { ParseMethod } from 'app/enums/parse-method';
 
 @Component({
   selector: 'hc-listview-item',
@@ -132,7 +133,7 @@ export class ListViewItemComponent implements OnInit {
     this.isEditable = this.listViewWrapper.getIsEditable();
     this.selectionMode = this.listViewWrapper.getSelectionMode();
     this.selectorPosition = this.listViewWrapper.getSelectorPosition();
-    this.values = itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern()));
+    this.values = itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), ParseMethod.Server, v.getFormat(), v.getFormatPattern()));
     this.selectedVal = itemWrapper.getSelected();
     itemWrapper.confirmContentUpdate();
     this.setContentValues();

@@ -3,6 +3,7 @@ import { DateTimeFormatService } from 'app/services/formatter/datetime-format.se
 import { NumberFormatService } from 'app/services/formatter/number-format.service';
 import { StringFormatService } from 'app/services/formatter/string-format.service';
 import { TextFormat } from 'app/enums/text-format';
+import { ParseMethod } from 'app/enums/parse-method';
 
 @Injectable()
 export class BaseFormatService {
@@ -13,14 +14,14 @@ export class BaseFormatService {
     private stringFormatService: StringFormatService
   ) { }
 
-  public formatString(value: string, format: TextFormat, formatPattern: string): string {
+  public formatString(value: string, parseMethod: ParseMethod, format: TextFormat, formatPattern: string): string {
     switch (format) {
       case TextFormat.Decimal:
       case TextFormat.Integer:
       case TextFormat.PositiveInteger:
       case TextFormat.NegativeInteger:
       case TextFormat.UserDefined:
-        return this.numberFormatService.formatString(value, format, formatPattern);
+        return this.numberFormatService.formatString(value, parseMethod, format, formatPattern);
       case TextFormat.DateTimeShort:
       case TextFormat.DateTimeMedium:
       case TextFormat.DateTimeLong:

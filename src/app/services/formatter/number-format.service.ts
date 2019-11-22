@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { LocaleService } from 'app/services/locale.service';
 import { NumberFormatInfo } from 'app/common/number-format-info';
 import { TextFormat } from 'app/enums/text-format';
+import { ParseMethod } from 'app/enums/parse-method';
 
 @Injectable()
 export class NumberFormatService {
@@ -73,12 +74,12 @@ export class NumberFormatService {
     return char === NumberFormatService.formatPermilleSign;
   }
 
-  public formatString(value: string, textFormat: TextFormat, formatPattern: string): string {
+  public formatString(value: string, parseMethod: ParseMethod, textFormat: TextFormat, formatPattern: string): string {
     if (value == null) {
       return null;
     }
 
-    const valueStr: string = this.cleanNumberString(value);
+    const valueStr: string = this.cleanNumberString(value, parseMethod);
 
     if (String.isNullOrWhiteSpace(valueStr)) {
       return null;
@@ -158,7 +159,7 @@ export class NumberFormatService {
       actualValue = actualValue * 1000;
     }
 
-    if ( formatInfo.hasDecimalsPart()) {
+    if (formatInfo.hasDecimalsPart()) {
       actualValue = Math.roundDec(actualValue, -formatInfo.getDecimalsCount());
     } else {
       actualValue = Math.roundDec(actualValue, 0);
@@ -258,7 +259,7 @@ export class NumberFormatService {
     return resultStr;
   }
 
-  public parseString(value: string, textFormat: TextFormat, formatPattern: string = null): number {
+  public parseString(value: string, parseMethod: ParseMethod, textFormat: TextFormat, formatPattern: string = null): number {
     let valueStr: string = value;
 
     if (valueStr == null) {
@@ -266,7 +267,7 @@ export class NumberFormatService {
     }
 
     if (formatPattern == null) {
-      return Number(this.cleanNumberString(valueStr));
+      return Number(this.cleanNumberString(valueStr, parseMethod));
     }
 
     const formatInfo: NumberFormatInfo = this.getFormatInfo(formatPattern);
@@ -279,7 +280,7 @@ export class NumberFormatService {
       valueStr = valueStr.trimStringRight(formatInfo.suffixPart);
     }
 
-    let valueNum: number = Number(this.cleanNumberString(valueStr));
+    let valueNum: number = Number(this.cleanNumberString(valueStr, parseMethod));
 
     if (Number.isNaN(valueNum)) {
       return null;
@@ -298,12 +299,12 @@ export class NumberFormatService {
       case TextFormat.Decimal:
       case TextFormat.UserDefined:
         if (formatPattern) {
-          return this.adjustNumberPattern(valueNum, formatPattern);
+          valueNum = this.adjustNumberPattern(valueNum, formatPattern);
         }
         break;
     }
 
-    return null;
+    return valueNum;
   }
 
   private adjustNumberInteger(value: number): number {
@@ -347,11 +348,15 @@ export class NumberFormatService {
 
     const formatInfo: NumberFormatInfo = this.getFormatInfo(formatPattern);
 
-    if (formatInfo.hasDecimalsPart() && formatInfo.hasLastDecimalZero()) {
-      return Math.roundDec(value, -(formatInfo.lastDecimalZeroPos + 1));
+    let actualValue: number = value;
+
+    if (formatInfo.hasDecimalsPart()) {
+      actualValue = Math.roundDec(actualValue, -formatInfo.getDecimalsCount());
+    } else {
+      actualValue = Math.roundDec(actualValue, 0);
     }
 
-    return value;
+    return actualValue;
   }
 
   private getFormatInfo(format: string): NumberFormatInfo {
@@ -506,17 +511,17 @@ export class NumberFormatService {
     return formatInfo;
   }
 
-  private cleanNumberString(value: string): string {
+  private cleanNumberString(value: string, parseMethod: ParseMethod): string {
     if (String.isNullOrWhiteSpace(value)) {
       return null;
     }
 
-    const groupSep: string = this.getGroupingSeparator();
-    const decSep: string = this.getDecimalSeparator();
+    const groupSep: string = parseMethod === ParseMethod.Client ?  this.getGroupingSeparator() : NumberFormatService.formatGroupSeparator;
+    const decSep: string = parseMethod === ParseMethod.Client ? this.getDecimalSeparator() : NumberFormatService.formatDecimalSeparator;
 
     return value
-      .replace(groupSep, String.empty())
-      .replace(decSep, '.')
+      .replaceAll(groupSep, String.empty())
+      .replaceAll(decSep, NumberFormatService.formatDecimalSeparator)
       .replace(/[^0-9\-\.]/g, String.empty())
       .replace(/^([^.]*\.)(.*)$/, (val, left, right) => left + right.replace(/\./g, String.empty()))
       .trim();

@@ -26,6 +26,25 @@ if (!String.prototype.equals) {
   };
 }
 
+if (!String.replaceAll) {
+  String.replaceAll = function(str: string, search: string, replacement: string): string {
+    if (str == null || search == null) {
+      return str;
+    }
+    let actualReplacement: string = replacement;
+    if (actualReplacement == null) {
+      actualReplacement = '';
+    }
+    return str.split(search).join(replacement);
+  };
+}
+
+if (!String.prototype.replaceAll) {
+  String.prototype.replaceAll = function(search: string, replacement: string): string {
+    return String.replaceAll(this, search, replacement);
+  };
+}
+
 if (!String.trimCharsLeft) {
   String.trimCharsLeft = function(str: string, chars: string): string {
     let trimChars: string = chars;

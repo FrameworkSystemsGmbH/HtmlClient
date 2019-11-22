@@ -4,6 +4,7 @@ import { TextBoxComponent } from 'app/controls/textboxes/textbox.component';
 import { TextBoxNumberWrapper } from 'app/wrappers/textbox-number-wrapper';
 import { NumberFormatService } from 'app/services/formatter/number-format.service';
 import { TextFormat } from 'app/enums/text-format';
+import { ParseMethod } from 'app/enums/parse-method';
 
 @Component({
   selector: 'hc-txt-number',
@@ -35,7 +36,7 @@ export class TextBoxNumberComponent extends TextBoxComponent {
           this.value = null;
           this.updateWrapper();
         } else {
-          const formattedValue: string = this.numberFormatService.formatString(this.value, this.format, this.formatPattern);
+          const formattedValue: string = this.numberFormatService.formatString(this.value, ParseMethod.Client, this.format, this.formatPattern);
           if (formattedValue == null) {
             this.updateComponent();
           } else {
@@ -54,7 +55,7 @@ export class TextBoxNumberComponent extends TextBoxComponent {
   }
 
   private updateWrapper(): void {
-    this.getWrapper().setValue(this.numberFormatService.parseString(this.value, this.format, this.formatPattern));
+    this.getWrapper().setValue(this.numberFormatService.parseString(this.value, ParseMethod.Client, this.format, this.formatPattern));
   }
 
   protected updateData(wrapper: TextBoxNumberWrapper): void {

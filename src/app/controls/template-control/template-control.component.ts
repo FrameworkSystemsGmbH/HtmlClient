@@ -7,6 +7,7 @@ import { StyleUtil } from 'app/util/style-util';
 import { TemplateControlWrapper } from 'app/wrappers/template-control-wrapper';
 import { TemplateControlContentComponent } from 'app/controls/template-control/template-control-content.component';
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
+import { ParseMethod } from 'app/enums/parse-method';
 
 @Component({
   selector: 'hc-template-control',
@@ -51,7 +52,7 @@ export class TemplateControlComponent extends ControlComponent implements OnInit
 
   protected updateData(wrapper: TemplateControlWrapper): void {
     super.updateData(wrapper);
-    this.values = wrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), v.getFormat(), v.getFormatPattern()));
+    this.values = wrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), ParseMethod.Server, v.getFormat(), v.getFormatPattern()));
     this.setContentValues();
   }
 

@@ -12,6 +12,7 @@ import { PropertyLayer } from 'app/common/property-layer';
 import { DataSourceType } from 'app/enums/datasource-type';
 import { TextFormat } from 'app/enums/text-format';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
+import { ParseMethod } from 'app/enums/parse-method';
 
 @Injectable()
 export class FontService {
@@ -313,7 +314,7 @@ export class FontService {
         break;
     }
 
-    const measureString: string = this.numberFormatService.formatString(value, textFormat, formatPattern);
+    const measureString: string = this.numberFormatService.formatString(value, ParseMethod.Server, textFormat, formatPattern);
 
     const fontFamily: string = wrapper.getFontFamily();
     const fontSize: number = wrapper.getFontSize();

@@ -7,6 +7,8 @@ interface StringConstructor {
 
   equals(x: string, y: string, ignoreCase: boolean): boolean;
 
+  replaceAll(str: string, search: string, replacement: string): string;
+
   trimCharsLeft(str: string, chars: string): string;
 
   trimCharsRight(str: string, chars: string): string;
@@ -24,6 +26,8 @@ interface StringConstructor {
 interface String {
 
   equals(other: string, ignoreCase: boolean): boolean;
+
+  replaceAll(search: string, replacement: string): string;
 
   trimCharsLeft(chars: string): string;
 
