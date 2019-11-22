@@ -147,7 +147,7 @@ export class ListViewItemComponent implements OnInit {
   private createContainerStyle(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper): any {
     return {
       'min-width.rem': StyleUtil.pixToRem(this.width),
-      'height.rem': StyleUtil.pixToRem(this.height),
+      'min-height.rem': StyleUtil.pixToRem(this.height),
       'max-height.rem': StyleUtil.pixToRem(this.height),
       'cursor': this.isEditable ? (listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default') : 'not-allowed'
     };
