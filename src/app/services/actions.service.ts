@@ -44,6 +44,7 @@ export class ActionsService {
               control.setIsEditableAction(actionJson.value);
               break;
             case 'SetFocus':
+              form.updateComponentRecursively();
               control.setFocus();
               break;
             case 'SetVisible':
