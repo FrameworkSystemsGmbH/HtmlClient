@@ -7,6 +7,7 @@ import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
 import { ContentAlignment } from 'app/enums/content-alignment';
 import { DataSourceType } from 'app/enums/datasource-type';
 import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
+import { DockPanelScrolling } from 'app/enums/dockpanel-scrolling';
 import { EditStyle } from 'app/enums/edit-style';
 import { TextFormat } from 'app/enums/text-format';
 import { TextAlign } from 'app/enums/text-align';
@@ -877,6 +878,19 @@ export class PropertyStore {
 
   public setDockOrientation(layer: PropertyLayer, value: DockOrientation): void {
     this.setValue(layer, (data: PropertyData) => { data.dockPanelOrientation = value; });
+  }
+
+  // DockPanelScrolling
+  public getDockPanelScrolling(): DockPanelScrolling {
+    return this.getValue<DockPanelScrolling>((data: PropertyData) => data.dockPanelScrolling);
+  }
+
+  public getDockPanelScrollingForLayer(layer: PropertyLayer): DockPanelScrolling {
+    return this.getValueForLayer<DockPanelScrolling>(layer, (data: PropertyData) => data.dockPanelScrolling);
+  }
+
+  public setDockPanelScrolling(layer: PropertyLayer, value: DockPanelScrolling): void {
+    this.setValue(layer, (data: PropertyData) => { data.dockPanelScrolling = value; });
   }
 
   // EditStyle

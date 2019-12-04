@@ -8,6 +8,7 @@ import { LayoutBase } from 'app/layout/layout-base';
 import { DockLayout } from 'app/layout/dock-layout/dock-layout';
 import { DockPanelComponent } from 'app/controls/layouts/dock-panel/dock-panel.component';
 import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
+import { DockPanelScrolling } from 'app/enums/dockpanel-scrolling';
 import { ControlType } from 'app/enums/control-type';
 
 export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDockContainer {
@@ -40,6 +41,11 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDock
   public getDockOrientation(): DockOrientation {
     const dockOrientation: DockOrientation = this.getPropertyStore().getDockOrientation();
     return dockOrientation != null ? dockOrientation : DockOrientation.Vertical;
+  }
+
+  public getDockPanelScrolling(): DockPanelScrolling {
+    const dockPanelScrolling: DockPanelScrolling = this.getPropertyStore().getDockPanelScrolling();
+    return dockPanelScrolling != null ? dockPanelScrolling : DockPanelScrolling.None;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<DockPanelComponent> {

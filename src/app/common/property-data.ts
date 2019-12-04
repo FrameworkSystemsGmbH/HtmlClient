@@ -5,6 +5,7 @@ import { VerticalContentAlignment } from 'app/enums/vertical-content-alignment';
 import { ContentAlignment } from 'app/enums/content-alignment';
 import { DataSourceType } from 'app/enums/datasource-type';
 import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
+import { DockPanelScrolling } from 'app/enums/dockpanel-scrolling';
 import { TextFormat } from 'app/enums/text-format';
 import { EditStyle } from 'app/enums/edit-style';
 import { PictureScaleMode } from 'app/enums/picture-scale-mode';
@@ -107,6 +108,7 @@ export class PropertyData {
   public dataSourceTypeID: DataSourceType;
   public dockPanel_ItemSize: number;
   public dockPanelOrientation: DockOrientation;
+  public dockPanelScrolling: DockPanelScrolling;
   public editorStyle: number;
   public editStyle: EditStyle;
   public fieldRowSize: number;
