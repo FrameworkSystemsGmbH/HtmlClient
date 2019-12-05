@@ -12,10 +12,6 @@ export interface ILayoutableProperties {
 
   setHBarNeeded(value: boolean): void;
 
-  getVBarNeeded(): boolean;
-
-  setVBarNeeded(value: boolean): void;
-
   getLayoutWidth(): number;
 
   setLayoutWidth(width: number): void;

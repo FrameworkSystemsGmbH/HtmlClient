@@ -5,6 +5,7 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 import { ContainerComponent } from 'app/controls/container.component';
 import { DockPanelWrapper } from 'app/wrappers/dock-panel-wrapper';
 import { StyleUtil } from 'app/util/style-util';
+import { DockPanelScrolling } from 'app/enums/dockpanel-scrolling';
 
 @Component({
   selector: 'hc-dock-panel',
@@ -39,6 +40,8 @@ export class DockPanelComponent extends ContainerComponent {
 
     return {
       'display': this.isVisible && isSizeVisible ? null : 'none',
+      'overflow-x': layoutableProperties.getHBarNeeded() ? 'scroll' : 'hidden',
+      'overflow-y': 'auto',
       'left.rem': StyleUtil.pixToRem(layoutableProperties.getX()),
       'top.rem': StyleUtil.pixToRem(layoutableProperties.getY()),
       'width.rem': StyleUtil.pixToRem(layoutWidth),

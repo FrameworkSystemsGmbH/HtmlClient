@@ -42,14 +42,6 @@ export class LayoutableProperties implements ILayoutableProperties {
     this.hBarNeeded = value;
   }
 
-  public getVBarNeeded(): boolean {
-    return this.vBarNeeded;
-  }
-
-  public setVBarNeeded(value: boolean): void {
-    this.vBarNeeded = value;
-  }
-
   public getLayoutWidth(): number {
     return this.layoutWidth;
   }
