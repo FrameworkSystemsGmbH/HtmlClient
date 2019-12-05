@@ -32,8 +32,8 @@ export class LabelComponent extends ControlComponent {
 
   protected createLabelStyle(wrapper: LabelWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
-    const layoutWidth: number = layoutableProperties.getWidth();
-    const layoutHeight: number = layoutableProperties.getHeight();
+    const layoutWidth: number = layoutableProperties.getClientWidth();
+    const layoutHeight: number = layoutableProperties.getClientHeight();
     const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {

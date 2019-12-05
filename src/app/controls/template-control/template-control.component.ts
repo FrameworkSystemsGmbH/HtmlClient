@@ -72,8 +72,8 @@ export class TemplateControlComponent extends ControlComponent implements OnInit
 
   protected createWrapperStyle(wrapper: TemplateControlWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
-    const layoutWidth: number = layoutableProperties.getWidth();
-    const layoutHeight: number = layoutableProperties.getHeight();
+    const layoutWidth: number = layoutableProperties.getClientWidth();
+    const layoutHeight: number = layoutableProperties.getClientHeight();
     const isVisible: boolean = this.isVisible && layoutWidth > 0 && layoutHeight > 0;
 
     return {

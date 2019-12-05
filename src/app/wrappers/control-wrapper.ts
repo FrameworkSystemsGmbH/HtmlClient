@@ -15,7 +15,7 @@ import { ControlComponent } from 'app/controls/control.component';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { LayoutBase } from 'app/layout/layout-base';
-import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
+import { LayoutableProperties } from 'app/wrappers/layout/layoutable-properties-default';
 import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
 import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
 import { ControlLayout } from 'app/layout/control-layout/control-layout';
@@ -42,7 +42,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private propertyStore: PropertyStore;
   private vchControl: VchControl;
   private layout: LayoutBase;
-  private layoutableProperties: LayoutablePropertiesDefault;
+  private layoutableProperties: LayoutableProperties;
   private labelTemplate: ControlLabelTemplate;
   private componentRef: ComponentRef<ControlComponent>;
   private events: ClientEventType;
@@ -165,15 +165,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return new ControlLayout(this);
   }
 
-  public getLayoutableProperties(): LayoutablePropertiesDefault {
+  public getLayoutableProperties(): LayoutableProperties {
     if (!this.layoutableProperties) {
-      this.layoutableProperties = this.createLayoutableProperties();
+      this.layoutableProperties = new LayoutableProperties(this);
     }
     return this.layoutableProperties;
-  }
-
-  protected createLayoutableProperties(): LayoutablePropertiesDefault {
-    return new LayoutablePropertiesDefault(this);
   }
 
   protected getComponentRef(): ComponentRef<ControlComponent> {

@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { ContainerComponent } from 'app/controls/container.component';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
+import { LayoutableProperties } from 'app/wrappers/layout/layoutable-properties-default';
 
 @Component({
   selector: 'hc-form',
@@ -32,9 +32,9 @@ export class FormComponent extends ContainerComponent {
   }
 
   protected createScrollerStyle(wrapper: FormWrapper): any {
-    const layoutableProperties: LayoutablePropertiesScrollable = wrapper.getLayoutableProperties();
-    const layoutWidth: number = layoutableProperties.getWidth();
-    const layoutHeight: number = layoutableProperties.getHeight();
+    const layoutableProperties: LayoutableProperties = wrapper.getLayoutableProperties();
+    const layoutWidth: number = layoutableProperties.getClientWidth();
+    const layoutHeight: number = layoutableProperties.getClientHeight();
     const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {

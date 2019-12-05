@@ -1,50 +1,21 @@
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
-export class LayoutablePropertiesDefault implements ILayoutableProperties {
+export class LayoutableProperties implements ILayoutableProperties {
 
   private wrapper: ILayoutableControlWrapper;
-
-  private layoutWidth: number;
-  private layoutHeight: number;
 
   private x: number;
   private y: number;
 
+  private hBarNeeded: boolean;
+  private vBarNeeded: boolean;
+
+  private layoutWidth: number;
+  private layoutHeight: number;
+
   constructor(wrapper: ILayoutableControlWrapper) {
     this.wrapper = wrapper;
-  }
-
-  // This is the width that gets used in the CSS for the HTML control.
-  // Horizontal margins must be subtracted from the layout width due to HTML box-sizing.
-  public getWidth(): number {
-    return this.layoutWidth - this.wrapper.getMarginLeft() - this.wrapper.getMarginRight();
-  }
-
-  // This width includes margins and should only be used by layouts
-  // Never use this value directly in HTML or CSS
-  public getLayoutWidth(): number {
-    return this.layoutWidth;
-  }
-
-  public setLayoutWidth(layoutWidth: number): void {
-    this.layoutWidth = layoutWidth;
-  }
-
-  // This is the height that gets used in the CSS for the HTML control.
-  // Vertical margins must be subtracted from the layout height due to HTML box-sizing.
-  public getHeight(): number {
-    return this.layoutHeight - this.wrapper.getMarginTop() - this.wrapper.getMarginBottom();
-  }
-
-  // This height includes margins and should only be used by layouts
-  // Never use this value directly in HTML or CSS
-  public getLayoutHeight(): number {
-    return this.layoutHeight;
-  }
-
-  public setLayoutHeight(layoutHeight: number): void {
-    this.layoutHeight = layoutHeight;
   }
 
   public getX(): number {
@@ -61,5 +32,49 @@ export class LayoutablePropertiesDefault implements ILayoutableProperties {
 
   public setY(y: number): void {
     this.y = y;
+  }
+
+  public getHBarNeeded(): boolean {
+    return this.hBarNeeded;
+  }
+
+  public setHBarNeeded(value: boolean): void {
+    this.hBarNeeded = value;
+  }
+
+  public getVBarNeeded(): boolean {
+    return this.vBarNeeded;
+  }
+
+  public setVBarNeeded(value: boolean): void {
+    this.vBarNeeded = value;
+  }
+
+  public getLayoutWidth(): number {
+    return this.layoutWidth;
+  }
+
+  public setLayoutWidth(layoutWidth: number): void {
+    this.layoutWidth = layoutWidth;
+  }
+
+  public getLayoutHeight(): number {
+    return this.layoutHeight;
+  }
+
+  public setLayoutHeight(layoutHeight: number): void {
+    this.layoutHeight = layoutHeight;
+  }
+
+  // This width is used in the CSS of the HTML control.
+  // Due to HTML box-sizing this value does not include horizontal margins
+  public getClientWidth(): number {
+    return this.layoutWidth - this.wrapper.getMarginLeft() - this.wrapper.getMarginRight();
+  }
+
+  // This height is used in the CSS of the HTML control.
+  // Due to HTML box-sizing this value does not include vertical margins
+  public getClientHeight(): number {
+    return this.layoutHeight - this.wrapper.getMarginTop() - this.wrapper.getMarginBottom();
   }
 }

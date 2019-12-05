@@ -25,8 +25,8 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
 
   protected createContainerStyle(wrapper: ComboBoxWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
-    const layoutWidth: number = layoutableProperties.getWidth();
-    const layoutHeight: number = layoutableProperties.getHeight();
+    const layoutWidth: number = layoutableProperties.getClientWidth();
+    const layoutHeight: number = layoutableProperties.getClientHeight();
     const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {
@@ -45,8 +45,8 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
     return {
       'min-width.rem': 0,
       'min-height.rem': 0,
-      'width.rem': StyleUtil.pixToRem(layoutableProperties.getWidth()),
-      'height.rem': StyleUtil.pixToRem(layoutableProperties.getHeight()),
+      'width.rem': StyleUtil.pixToRem(layoutableProperties.getClientWidth()),
+      'height.rem': StyleUtil.pixToRem(layoutableProperties.getClientHeight()),
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
       'border-style': 'solid',

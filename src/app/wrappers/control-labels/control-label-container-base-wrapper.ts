@@ -5,7 +5,7 @@ import { IControlLabelContainer } from 'app/layout/control-label-container-layou
 import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { LayoutablePropertiesDefault } from 'app/wrappers/layout/layoutable-properties-default';
+import { LayoutableProperties } from 'app/wrappers/layout/layoutable-properties-default';
 import { VchControl } from 'app/vch/vch-control';
 import { TextAlign } from 'app/enums/text-align';
 import { Visibility } from 'app/enums/visibility';
@@ -32,7 +32,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   private name: string;
   private vchControl: VchControl;
   private layout: LayoutContainerBase;
-  private layoutableProperties: LayoutablePropertiesDefault;
+  private layoutableProperties: LayoutableProperties;
   private componentRef: ComponentRef<ControlLabelContainerComponent>;
   private labelWrappers: Array<ControlLabelWrapper>;
   private fieldRowWrp: FieldRowWrapper;
@@ -108,15 +108,15 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
     return new ControlLabelContainerSingleLayout(this);
   }
 
-  public getLayoutableProperties(): LayoutablePropertiesDefault {
+  public getLayoutableProperties(): LayoutableProperties {
     if (!this.layoutableProperties) {
       this.layoutableProperties = this.createLayoutableProperties();
     }
     return this.layoutableProperties;
   }
 
-  protected createLayoutableProperties(): LayoutablePropertiesDefault {
-    return new LayoutablePropertiesDefault(this);
+  protected createLayoutableProperties(): LayoutableProperties {
+    return new LayoutableProperties(this);
   }
 
   public getLayoutableControls(): Array<ILayoutableControl> {

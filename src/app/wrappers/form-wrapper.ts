@@ -6,10 +6,10 @@ import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { VariantWrapper } from 'app/wrappers/variant-wrapper';
 import { ControlComponent } from 'app/controls/control.component';
 import { FormComponent } from 'app/controls/form/form.component';
-import { LayoutablePropertiesScrollable } from 'app/wrappers/layout/layoutable-properties-scrollable';
-import { JsonUtil } from 'app/util/json-util';
-import { ControlType } from 'app/enums/control-type';
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
+import { LayoutableProperties } from 'app/wrappers/layout/layoutable-properties-default';
+import { ControlType } from 'app/enums/control-type';
+import { JsonUtil } from 'app/util/json-util';
 
 export class FormWrapper extends ContainerWrapper {
 
@@ -58,14 +58,6 @@ export class FormWrapper extends ContainerWrapper {
       this._variant = this.controls.filter(wrapper => wrapper instanceof VariantWrapper)[0] as VariantWrapper;
     }
     return this._variant;
-  }
-
-  public getLayoutableProperties(): LayoutablePropertiesScrollable {
-    return super.getLayoutableProperties() as LayoutablePropertiesScrollable;
-  }
-
-  protected createLayoutableProperties(): LayoutablePropertiesScrollable {
-    return new LayoutablePropertiesScrollable(this);
   }
 
   public isCloseIconVisible(): boolean {
@@ -150,7 +142,7 @@ export class FormWrapper extends ContainerWrapper {
       resultHeight = minHeight;
     }
 
-    const layoutableProperties: LayoutablePropertiesScrollable = this.getLayoutableProperties();
+    const layoutableProperties: LayoutableProperties = this.getLayoutableProperties();
     layoutableProperties.setLayoutWidth(resultWidth);
     layoutableProperties.setLayoutHeight(resultHeight);
     layoutableProperties.setHBarNeeded(hBarNeeded);

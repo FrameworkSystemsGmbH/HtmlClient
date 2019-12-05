@@ -162,8 +162,8 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
 
   protected createContainerStyle(wrapper: ComboBoxWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
-    const layoutWidth: number = layoutableProperties.getWidth();
-    const layoutHeight: number = layoutableProperties.getHeight();
+    const layoutWidth: number = layoutableProperties.getClientWidth();
+    const layoutHeight: number = layoutableProperties.getClientHeight();
     const isSizeVisible: boolean = layoutWidth > 0 && layoutHeight > 0;
 
     return {
@@ -182,8 +182,8 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     return {
       'min-width.rem': 0,
       'min-height.rem': 0,
-      'width.rem': StyleUtil.pixToRem(layoutableProperties.getWidth()),
-      'height.rem': StyleUtil.pixToRem(layoutableProperties.getHeight()),
+      'width.rem': StyleUtil.pixToRem(layoutableProperties.getClientWidth()),
+      'height.rem': StyleUtil.pixToRem(layoutableProperties.getClientHeight()),
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
       'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
       'border-style': 'solid',
@@ -228,9 +228,9 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
     return {
-      'top.rem': StyleUtil.pixToRem(layoutableProperties.getHeight() + wrapper.getMarginTop()),
+      'top.rem': StyleUtil.pixToRem(layoutableProperties.getClientHeight() + wrapper.getMarginTop()),
       'left.rem': StyleUtil.pixToRem(wrapper.getMarginLeft()),
-      'min-width.rem': StyleUtil.pixToRem(layoutableProperties.getWidth()),
+      'min-width.rem': StyleUtil.pixToRem(layoutableProperties.getClientWidth()),
       'border': '0.1rem solid ' + wrapper.getBorderColor(),
       'border-radius': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderRadiusBottomLeft(),
