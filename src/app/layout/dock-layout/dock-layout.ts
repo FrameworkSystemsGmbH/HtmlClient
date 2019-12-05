@@ -97,12 +97,11 @@ export class DockLayout extends LayoutContainerBase {
     const hSpacing: number = container.getSpacingHorizontal();
     const vSpacing: number = container.getSpacingVertical();
 
-    // If the orientation is vertical, there is nothing to do right now
-    if (orientation === DockOrientation.Vertical) {
-      this.width = width;
-      this.isVertical = true;
-    } else {
-      // Try horizontal layout
+    this.width = width;
+
+    this.isVertical = orientation === DockOrientation.Vertical;
+
+    if (orientation === DockOrientation.HorizontalOrVertical) {
       // Iterate children and add min sizes and spaces
       let neededWidth: number = 0;
       let addSpacing: boolean = false;
@@ -126,9 +125,8 @@ export class DockLayout extends LayoutContainerBase {
         neededWidth += insetsLeft + insetsRight;
       }
 
-      this.width = width;
-      // Do vertical layout if there is not enough width available and the orientation does not force horizontal layout
-      this.isVertical = width < neededWidth && orientation !== DockOrientation.Horizontal;
+      // Do vertical layout if there is not enough available space for horizontal layout
+      this.isVertical = width < neededWidth;
     }
 
     if (this.isVertical) {
