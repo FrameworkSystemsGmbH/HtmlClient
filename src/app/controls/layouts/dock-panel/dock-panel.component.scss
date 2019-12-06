@@ -1,3 +1,7 @@
 :host, .hc-dock-panel {
-    position: absolute;
+  position: absolute;
+}
+
+.hc-dock-panel {
+  -webkit-overflow-scrolling: touch;
 }
