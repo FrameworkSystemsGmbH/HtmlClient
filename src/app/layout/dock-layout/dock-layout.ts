@@ -533,7 +533,7 @@ export class DockLayout extends LayoutContainerBase {
           let resultHeight: number = Math.min(arrangeHeight, Number.maxIfNull(wrapper.getMaxLayoutHeight()));
 
           if (vAlignment !== VerticalAlignment.Stretch) {
-            resultHeight = Math.min(resultHeight, wrapper.getMinLayoutHeight(wrapper.getResultWidth()));
+            resultHeight = Math.min(resultHeight, scrolling ? wrapper.getMinLayoutHeightBuffered() : wrapper.getMinLayoutHeight(wrapper.getResultWidth()));
           }
 
           let yOffset: number = 0;
