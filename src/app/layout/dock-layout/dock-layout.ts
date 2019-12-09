@@ -81,13 +81,13 @@ export class DockLayout extends LayoutContainerBase {
     // determine at the container defined minimum size
     const containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
 
-    // If scrolling is enabled, either return the minimum container width or the fixed minimum width if the former is not set
     if (scrolling !== DockPanelScrolling.None) {
+      // If scrolling is enabled, either return the minimum container width or the fixed minimum width if the former is not set
       return Math.max(DockLayout.SCROLLING_MIN_WIDTH, containerMinWidth);
+    } else {
+      // The greater value wins: The calculated minimum width for all children or defined container minimum width
+      return Math.max(minWidth, Number.zeroIfNull(containerMinWidth));
     }
-
-    // The greater value wins: The calculated minimum width for all children or defined container minimum width
-    return Math.max(minWidth, Number.zeroIfNull(containerMinWidth));
   }
 
   public measureMinHeight(width: number): number {
@@ -174,13 +174,14 @@ export class DockLayout extends LayoutContainerBase {
       // Determine the container minimum height and add vertical margins
       const containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
 
-      // If scrolling is enabled, either return the minimum container height or the fixed minimum height if the former is not set
-      if (scrolling) {
-        return Math.max(DockLayout.SCROLLING_MIN_HEIGHT, containerMinHeight);
-      }
 
-      // The greater value wins: The calculated minimum height for all children or defined container minimum height
-      return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));
+      if (scrolling) {
+        // If scrolling is enabled, either return the minimum container height or the fixed minimum height if the former is not set
+        return Math.max(DockLayout.SCROLLING_MIN_HEIGHT, containerMinHeight);
+      } else {
+        // The greater value wins: The calculated minimum height for all children or defined container minimum height
+        return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));
+      }
     } else {
       // Horizontal layout => arrange horizontal, because the widths are needed to calculate min height
 
