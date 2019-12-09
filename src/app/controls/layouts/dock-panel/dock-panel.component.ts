@@ -5,7 +5,6 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 import { ContainerComponent } from 'app/controls/container.component';
 import { DockPanelWrapper } from 'app/wrappers/dock-panel-wrapper';
 import { StyleUtil } from 'app/util/style-util';
-import { DockPanelScrolling } from 'app/enums/dockpanel-scrolling';
 
 @Component({
   selector: 'hc-dock-panel',
