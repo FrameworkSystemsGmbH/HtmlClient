@@ -174,7 +174,6 @@ export class DockLayout extends LayoutContainerBase {
       // Determine the container minimum height and add vertical margins
       const containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
 
-
       if (scrolling) {
         // If scrolling is enabled, either return the minimum container height or the fixed minimum height if the former is not set
         return Math.max(DockLayout.SCROLLING_MIN_HEIGHT, containerMinHeight);
