@@ -185,13 +185,14 @@ export class DockLayout extends LayoutContainerBase {
     } else {
       // Horizontal layout => arrange horizontal, because the widths are needed to calculate min height
 
-      // Get sum of (visible) dock item sizes and count of visible controls
       let sumDockItemSizes: number = 0;
+      let sumMinWidths: number = 0;
       let countVisibleControls: number = 0;
 
       for (const wrapper of this.wrappers) {
         if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
           countVisibleControls++;
+          sumMinWidths += wrapper.getMinLayoutWidth();
           if (wrapper.getDockItemSize()) {
             sumDockItemSizes += wrapper.getDockItemSize();
           }
@@ -201,6 +202,11 @@ export class DockLayout extends LayoutContainerBase {
       // Calculate result width for auto sized items and remember all dynamic items to be processed later
       const todo: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
       let availableWidth: number = width - insetsLeft - insetsRight - Math.max(0, countVisibleControls - 1) * hSpacing;
+
+      // If the DockPanel scrolls and the wrappers do not fit, all wrappers get auto-sized to the minimum width
+      if (scrolling && sumMinWidths > availableWidth) {
+        availableWidth = sumMinWidths;
+      }
 
       for (const wrapper of this.wrappers) {
         if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
@@ -294,8 +300,13 @@ export class DockLayout extends LayoutContainerBase {
       // Determine the container minimum height and add vertical margins
       const containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
 
-      // The greater value wins: The calculated minimum height for all children or defined container minimum height
-      return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));
+      if (scrolling) {
+        // If scrolling is enabled, either return the minimum container height or the fixed minimum height if the former is not set
+        return Math.max(DockLayout.SCROLLING_MIN_HEIGHT, containerMinHeight);
+      } else {
+        // The greater value wins: The calculated minimum height for all children or defined container minimum height
+        return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));
+      }
     }
   }
 
@@ -323,6 +334,8 @@ export class DockLayout extends LayoutContainerBase {
     const vSpacing: number = container.getSpacingVertical();
     const scrolling: boolean = container.getDockPanelScrolling() !== DockPanelScrolling.None;
 
+    container.getLayoutableProperties().setHBarNeeded(false);
+
     if (this.isVertical) {
       const contentWidth: number = this.width - insetsLeft - insetsRight;
 
@@ -331,8 +344,6 @@ export class DockLayout extends LayoutContainerBase {
       let sumMinHeights: number = 0;
       let maxMinWidth: number = 0;
       let wrapperMeasureWidth: number = contentWidth;
-
-      container.getLayoutableProperties().setHBarNeeded(false);
 
       if (scrolling) {
         // Find the widest wrapper
@@ -487,9 +498,27 @@ export class DockLayout extends LayoutContainerBase {
     } else {
       // Layout horizontal
       const hSpacing: number = container.getSpacingHorizontal();
+      const contentWidth: number = containerWidth - insetsLeft - insetsRight;
       const contentHeight: number = containerHeight - insetsTop - insetsBottom;
+
+      let arrangeHeight: number = contentHeight;
+      let sumMinWidths: number = 0;
+      let maxMinHeight: number = 0;
       let addSpacing: boolean = false;
       let xPos: number = 0;
+
+      if (scrolling) {
+        for (const wrapper of this.wrappers) {
+          sumMinWidths += wrapper.getResultWidth();
+          maxMinHeight = Math.max(maxMinHeight, wrapper.getMinLayoutHeight(wrapper.getResultWidth()));
+        }
+        if (contentWidth < sumMinWidths) {
+          container.getLayoutableProperties().setHBarNeeded(true);
+        }
+        if (contentHeight < maxMinHeight) {
+          arrangeHeight = maxMinHeight;
+        }
+      }
 
       for (const wrapper of this.wrappers) {
         const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
@@ -502,7 +531,7 @@ export class DockLayout extends LayoutContainerBase {
           }
 
           const vAlignment: VerticalAlignment = wrapper.getVerticalAlignment();
-          let resultHeight: number = Math.min(contentHeight, Number.maxIfNull(wrapper.getMaxLayoutHeight()));
+          let resultHeight: number = Math.min(arrangeHeight, Number.maxIfNull(wrapper.getMaxLayoutHeight()));
 
           if (vAlignment !== VerticalAlignment.Stretch) {
             resultHeight = Math.min(resultHeight, wrapper.getMinLayoutHeight(wrapper.getResultWidth()));
@@ -511,9 +540,9 @@ export class DockLayout extends LayoutContainerBase {
           let yOffset: number = 0;
 
           if (vAlignment === VerticalAlignment.Bottom) {
-            yOffset = contentHeight - resultHeight;
+            yOffset = arrangeHeight - resultHeight;
           } else if (vAlignment === VerticalAlignment.Middle) {
-            yOffset = (contentHeight - resultHeight) / 2;
+            yOffset = (arrangeHeight - resultHeight) / 2;
           }
 
           layoutableProperties.setX(xPos);
