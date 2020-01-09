@@ -82,7 +82,7 @@ export class PropertyData {
   public rowLabelTemplate: PropertyData;
   public tabTemplateActive: PropertyData;
   public tabTemplateDisabled: PropertyData;
-  public TabTemplateInactive: PropertyData;
+  public tabTemplateInactive: PropertyData;
 
   public image: string;
   public imageBack: string;
