@@ -59,6 +59,11 @@ export class PropertyData {
   public paddingTop: number;
   public paddingBottom: number;
 
+  public iconPaddingLeft: number;
+  public iconPaddingRight: number;
+  public iconPaddingTop: number;
+  public iconPaddingBottom: number;
+
   public alignmentHorizontal: HorizontalAlignment;
   public alignmentVertical: VerticalAlignment;
   public horizontalContentAlignment: HorizontalContentAlignment;
@@ -75,6 +80,9 @@ export class PropertyData {
 
   public labelTemplate: PropertyData;
   public rowLabelTemplate: PropertyData;
+  public tabTemplateActive: PropertyData;
+  public tabTemplateDisabled: PropertyData;
+  public TabTemplateInactive: PropertyData;
 
   public image: string;
   public imageBack: string;
