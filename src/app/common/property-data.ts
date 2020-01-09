@@ -59,11 +59,6 @@ export class PropertyData {
   public paddingTop: number;
   public paddingBottom: number;
 
-  public iconPaddingLeft: number;
-  public iconPaddingRight: number;
-  public iconPaddingTop: number;
-  public iconPaddingBottom: number;
-
   public alignmentHorizontal: HorizontalAlignment;
   public alignmentVertical: VerticalAlignment;
   public horizontalContentAlignment: HorizontalContentAlignment;

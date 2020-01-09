@@ -529,58 +529,6 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.paddingBottom = value; });
   }
 
-  // IconPaddingLeft
-  public getIconPaddingLeft(): number {
-    return this.getValue<number>((data: PropertyData) => data.iconPaddingLeft);
-  }
-
-  public getIconPaddingLeftForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.iconPaddingLeft);
-  }
-
-  public setIconPaddingLeft(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.iconPaddingLeft = value; });
-  }
-
-  // IconPaddingRight
-  public getIconPaddingRight(): number {
-    return this.getValue<number>((data: PropertyData) => data.iconPaddingRight);
-  }
-
-  public getIconPaddingRightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.iconPaddingRight);
-  }
-
-  public setIconPaddingRight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.iconPaddingRight = value; });
-  }
-
-  // IconPaddingTop
-  public getIconPaddingTop(): number {
-    return this.getValue<number>((data: PropertyData) => data.iconPaddingTop);
-  }
-
-  public getIconPaddingTopForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.iconPaddingTop);
-  }
-
-  public setIconPaddingTop(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.iconPaddingTop = value; });
-  }
-
-  // IconPaddingBottom
-  public getIconPaddingBottom(): number {
-    return this.getValue<number>((data: PropertyData) => data.iconPaddingBottom);
-  }
-
-  public getIconPaddingBottomForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.iconPaddingBottom);
-  }
-
-  public setIconPaddingBottom(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.iconPaddingBottom = value; });
-  }
-
   // HorizontalAlignment
   public getHorizontalAlignment(): HorizontalAlignment {
     return this.getValue<HorizontalAlignment>((data: PropertyData) => data.alignmentHorizontal);
