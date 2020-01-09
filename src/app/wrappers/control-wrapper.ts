@@ -689,7 +689,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       isParentEditable: this.isEditableParent
     };
 
-    if (this.parent) {
+    // Only persist parent affiliation of nested controls
+    if (this.parent && this.parent !== this.form) {
       json.parent = this.parent.getName();
     }
 
