@@ -25,14 +25,6 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     return this.anchor;
   }
 
-  public getWrapper(): TabbedWindowWrapper {
-    return super.getWrapper() as TabbedWindowWrapper;
-  }
-
-  public setWrapper(wrapper: TabbedWindowWrapper): void {
-    super.setWrapper(wrapper);
-  }
-
   protected updateData(wrapper: TabbedWindowWrapper): void {
     super.updateData(wrapper);
   }

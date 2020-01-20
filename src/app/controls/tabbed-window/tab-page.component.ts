@@ -25,18 +25,6 @@ export class TabPageComponent extends ContainerComponent implements OnInit {
     return this.anchor;
   }
 
-  public getWrapper(): TabPageWrapper {
-    return super.getWrapper() as TabPageWrapper;
-  }
-
-  public setWrapper(wrapper: TabPageWrapper): void {
-    super.setWrapper(wrapper);
-  }
-
-  protected updateData(wrapper: TabPageWrapper): void {
-    super.updateData(wrapper);
-  }
-
   protected updateStyles(wrapper: TabPageWrapper): void {
     super.updateStyles(wrapper);
     this.wrapperStyle = this.createWrapperStyle(wrapper);

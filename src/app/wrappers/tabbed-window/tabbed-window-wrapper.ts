@@ -47,7 +47,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public getTabPages(): Array<TabPageWrapper> {
-    return this.controls as Array<TabPageWrapper>;
+    return this.getVchContainer().getChildren() as Array<TabPageWrapper>;
   }
 
   public getTabAlignment(): TabAlignment {
@@ -93,6 +93,16 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return Number.zeroIfNull(highestTabPageHeader);
   }
 
+  protected getCurrentTabPageTemplate(tabPage: TabPageWrapper): TabPageTemplate {
+    if (tabPage.getIsEditable() === false) {
+      return this.getTabPageTemplateDisabled();
+    } else if (this.selectedTabIndex !== this.getTabPages().indexOf(tabPage)) {
+      return this.getTabPageTemplateInactive();
+    } else {
+      return this.getTabPageTemplateActive();
+    }
+  }
+
   public getTabPageTemplateActive(): TabPageTemplate {
     if (!this.tabPageTemplateActive) {
       this.tabPageTemplateActive = this.createTabPageTemplateActive();
@@ -112,16 +122,6 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
       this.tabPageTemplateInactive = this.createTabPageTemplateInactive();
     }
     return this.tabPageTemplateInactive;
-  }
-
-  protected getCurrentTabPageTemplate(tabPage: TabPageWrapper): TabPageTemplate {
-    if (tabPage.getIsEditable() === false) {
-      return this.getTabPageTemplateDisabled();
-    } else if (this.selectedTabIndex !== this.getTabPages().indexOf(tabPage)) {
-      return this.getTabPageTemplateInactive();
-    } else {
-      return this.getTabPageTemplateActive();
-    }
   }
 
   protected createTabPageTemplateActive(): TabPageTemplate {
