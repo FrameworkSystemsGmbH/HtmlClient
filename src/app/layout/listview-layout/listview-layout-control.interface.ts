@@ -9,8 +9,6 @@ export interface IListViewLayoutControl extends ILayoutableControl {
 
   getSpacingVertical(): number;
 
-  getIsMobileLayout(): boolean;
-
   getSelectionMode(): ListViewSelectionMode;
 
   getMobileSelectionModeEnabled(): boolean;

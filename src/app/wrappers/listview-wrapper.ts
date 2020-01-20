@@ -1,4 +1,4 @@
-import { ComponentRef, ComponentFactory, Component, NgModule, Compiler } from '@angular/core';
+import { ComponentRef, ComponentFactory, Component, NgModule, Compiler, Injector } from '@angular/core';
 
 import { IListViewLayoutControl } from 'app/layout/listview-layout/listview-layout-control.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
@@ -53,12 +53,13 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
   protected init(): void {
     super.init();
+    const injector: Injector = this.getInjector();
     this.templateDataSources = new Array<ListViewTemplateDataSourceWrapper>();
     this.templateVariables = new Array<ListViewTemplateVariableWrapper>();
     this.items = new Array<ListViewItemWrapper>();
-    this.compiler = this.getInjector().get(Compiler);
-    this.imageService = this.getInjector().get(ImageService);
-    this.patternFormatService = this.getInjector().get(PatternFormatService);
+    this.compiler = injector.get(Compiler);
+    this.imageService = injector.get(ImageService);
+    this.patternFormatService = injector.get(PatternFormatService);
   }
 
   public getControlType(): ControlType {
@@ -86,10 +87,6 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   public getSelectorPosition(): ListViewSelectorPosition {
     const selectorPosition: ListViewSelectorPosition = this.getPropertyStore().getSelectorPosition();
     return selectorPosition != null ? selectorPosition : ListViewSelectorPosition.TopRight;
-  }
-
-  public getIsMobileLayout(): boolean {
-    return this.getPlatformService().isMobile();
   }
 
   public getHeaderOptions(): IHeaderOptions {

@@ -17,6 +17,8 @@ import { ListViewComponent } from 'app/controls/listview/listview.component';
 import { ListViewItemComponent } from 'app/controls/listview/listview-item.component';
 import { PictureComponent } from 'app/controls/picture/picture.component';
 import { RadioButtonComponent } from 'app/controls/radio-button/radio-button.component';
+import { TabbedWindowComponent } from 'app/controls/tabbed-window/tabbed-window.component';
+import { TabPageComponent } from 'app/controls/tabbed-window/tab-page.component';
 import { TemplateControlComponent } from 'app/controls/template-control/template-control.component';
 import { TextBoxDateTimeComponent } from 'app/controls/textboxes/textbox-datetime/textbox-datetime.component';
 import { TextBoxMultilineComponent } from 'app/controls/textboxes/textbox-multiline/textbox-multiline.component';
@@ -45,6 +47,8 @@ export const ALL_CONTROLS = [
   ListViewItemComponent,
   PictureComponent,
   RadioButtonComponent,
+  TabbedWindowComponent,
+  TabPageComponent,
   TemplateControlComponent,
   TextBoxDateTimeComponent,
   TextBoxMultilineComponent,

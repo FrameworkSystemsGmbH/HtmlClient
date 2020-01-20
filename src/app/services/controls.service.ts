@@ -23,6 +23,8 @@ import { LabelWrapper } from 'app/wrappers/label-wrapper';
 import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { PictureWrapper } from 'app/wrappers/picture-wrapper';
 import { RadioButtonWrapper } from 'app/wrappers/radio-button-wrapper';
+import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wrapper';
+import { TabPageWrapper } from 'app/wrappers/tabbed-window/tab-page-wrapper';
 import { TemplateControlWrapper } from 'app/wrappers/template-control-wrapper';
 import { TextBoxNumberWrapper } from 'app/wrappers/textbox-number-wrapper';
 import { TextBoxDateTimeWrapper } from 'app/wrappers/textbox-datetime-wrapper';
@@ -79,6 +81,10 @@ export class ControlsService {
         return new VariantWrapper(this.injector, options);
       case ControlType.WrapPanel:
         return new WrapPanelWrapper(this.injector, options);
+      case ControlType.TabbedWindow:
+        return new TabbedWindowWrapper(this.injector, options);
+      case ControlType.TabPage:
+        return new TabPageWrapper(this.injector, options);
       case ControlType.TextBox:
         switch (options.textBoxStyle) {
           case TextBoxType.Number:

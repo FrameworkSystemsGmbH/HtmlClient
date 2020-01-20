@@ -38,10 +38,6 @@ export class ListViewLayout extends LayoutBase {
       return 0;
     }
 
-    return this.measureMinHeightInternal(control, width);
-  }
-
-  protected measureMinHeightInternal(control: IListViewLayoutControl, width: number): number {
     // Take the header height into account if selection mode is 'Multiple'
     const headerHeight: number = control.getSelectionMode() === ListViewSelectionMode.Multiple ? control.getHeaderOptions().height : 0;
 

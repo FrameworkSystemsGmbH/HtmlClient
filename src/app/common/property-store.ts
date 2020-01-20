@@ -13,6 +13,7 @@ import { TextFormat } from 'app/enums/text-format';
 import { TextAlign } from 'app/enums/text-align';
 import { ScrollBars } from 'app/enums/scrollbars';
 import { Visibility } from 'app/enums/visibility';
+import { TabAlignment } from 'app/enums/tab-alignment';
 import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
@@ -1281,6 +1282,19 @@ export class PropertyStore {
 
   public setSynchronizeColumns(layer: PropertyLayer, value: boolean): void {
     this.setValue(layer, (data: PropertyData) => { data.synchronizeColumns = value; });
+  }
+
+  // TabAlignment
+  public getTabAlignment(): TabAlignment {
+    return this.getValue<TabAlignment>((data: PropertyData) => data.tabAlignment);
+  }
+
+  public getTabAlignmentForLayer(layer: PropertyLayer): TabAlignment {
+    return this.getValueForLayer<TabAlignment>(layer, (data: PropertyData) => data.tabAlignment);
+  }
+
+  public setTabAlignment(layer: PropertyLayer, value: TabAlignment): void {
+    this.setValue(layer, (data: PropertyData) => { data.tabAlignment = value; });
   }
 
   // TabStop

@@ -12,6 +12,7 @@ import { PictureScaleMode } from 'app/enums/picture-scale-mode';
 import { ScrollBars } from 'app/enums/scrollbars';
 import { TextAlign } from 'app/enums/text-align';
 import { Visibility } from 'app/enums/visibility';
+import { TabAlignment } from 'app/enums/tab-alignment';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
@@ -146,6 +147,7 @@ export class PropertyData {
   public shortcut: string;
   public showCaption: boolean;
   public synchronizeColumns: boolean;
+  public tabAlignment: TabAlignment;
   public tabStop: boolean;
   public templateCss: string;
   public templateHtml: string;

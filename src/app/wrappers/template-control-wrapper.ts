@@ -1,4 +1,4 @@
-import { ComponentRef, ComponentFactory, Component, NgModule, Compiler } from '@angular/core';
+import { ComponentRef, ComponentFactory, Component, NgModule, Compiler, Injector } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
@@ -35,12 +35,13 @@ export class TemplateControlWrapper extends ControlWrapper {
 
   protected init(): void {
     super.init();
+    const injector: Injector = this.getInjector();
     this.templateDataSources = new Array<TemplateControlTemplateDataSourceWrapper>();
     this.templateVariables = new Array<TemplateControlTemplateVariableWrapper>();
     this.values = new Array<TemplateControlValueWrapper>();
-    this.compiler = this.getInjector().get(Compiler);
-    this.imageService = this.getInjector().get(ImageService);
-    this.patternFormatService = this.getInjector().get(PatternFormatService);
+    this.compiler = injector.get(Compiler);
+    this.imageService = injector.get(ImageService);
+    this.patternFormatService = injector.get(PatternFormatService);
   }
 
   public getControlType(): ControlType {

@@ -558,11 +558,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {
     // If this wrapper is already attached -> detach and destroy old Angular Component
-    const oldCompRef: ComponentRef<ControlComponent> = this.getComponentRef();
-
-    if (oldCompRef != null) {
-      oldCompRef.destroy();
-    }
+    this.detachComponent();
 
     // Create the Angular Component
     const compRef: ComponentRef<ControlComponent> = this.createComponent(uiContainer);
@@ -585,6 +581,14 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
     // Insert the wrapper into the VCH
     vchContainer.getVchContainer().addChild(this);
+  }
+
+  public detachComponent(): void {
+    const compRef: ComponentRef<ControlComponent> = this.getComponentRef();
+
+    if (compRef != null) {
+      compRef.destroy();
+    }
   }
 
   protected onComponentDestroyed(): void {
