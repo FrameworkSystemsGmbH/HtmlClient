@@ -63,6 +63,10 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return this.getPropertyStore().getInactiveImage();
   }
 
+  public isTabSelected(tabPage: TabPageWrapper): boolean {
+    return this.getTabPages().indexOf(tabPage) === this.selectedTabIndex;
+  }
+
   public getWidestTabPageHeader(): number {
     const visibleTabPages: Array<TabPageWrapper> = this.getTabPages().filter(t => t.getVisibility() === Visibility.Visible);
 

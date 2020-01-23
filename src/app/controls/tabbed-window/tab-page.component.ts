@@ -35,9 +35,10 @@ export class TabPageComponent extends ContainerComponent implements OnInit {
     const layoutWidth: number = layoutableProperties.getClientWidth();
     const layoutHeight: number = layoutableProperties.getClientHeight();
     const isVisible: boolean = this.isVisible && layoutWidth > 0 && layoutHeight > 0;
+    const isSelected: boolean = wrapper.isTabSelected();
 
     return {
-      'display': isVisible ? 'flex' : 'none',
+      'display': isVisible && isSelected ? 'flex' : 'none',
       'flex-direction': 'column',
       'left.rem': StyleUtil.pixToRem(layoutableProperties.getX()),
       'top.rem': StyleUtil.pixToRem(layoutableProperties.getY()),

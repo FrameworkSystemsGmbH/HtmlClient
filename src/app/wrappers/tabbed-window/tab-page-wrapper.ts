@@ -5,6 +5,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { TabPageComponent } from 'app/controls/tabbed-window/tab-page.component';
 import { ControlType } from 'app/enums/control-type';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
+import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wrapper';
 
 export class TabPageWrapper extends ContainerWrapper implements ILayoutableContainerWrapper {
 
@@ -18,6 +19,14 @@ export class TabPageWrapper extends ContainerWrapper implements ILayoutableConta
 
   public getInactiveImage(): string {
     return this.getPropertyStore().getInactiveImage();
+  }
+
+  public isTabSelected(): boolean {
+    return this.getTabbedWindow().isTabSelected(this);
+  }
+
+  protected getTabbedWindow(): TabbedWindowWrapper {
+    return this.getParent() as TabbedWindowWrapper
   }
 
   protected getComponentRef(): ComponentRef<TabPageComponent> {
