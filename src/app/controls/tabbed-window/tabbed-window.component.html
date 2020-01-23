@@ -1,3 +1,14 @@
 <div class="wrapper" [ngStyle]="wrapperStyle">
-  <ng-template #anchor></ng-template>
+  <div class="header">
+    <div class="scroller">
+      <div class="tabs">
+        <div *ngFor="let tabPage of tabPages" class="tab" [ngStyle]="getTabStyle(tabPage)">
+          <span>{{ tabPage.getCaption() }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content" [ngStyle]="contentStyle">
+    <ng-template #anchor></ng-template>
+  </div>
 </div>

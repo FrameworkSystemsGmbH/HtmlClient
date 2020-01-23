@@ -42,32 +42,7 @@ export class TabPageComponent extends ContainerComponent implements OnInit {
       'left.rem': StyleUtil.pixToRem(layoutableProperties.getX()),
       'top.rem': StyleUtil.pixToRem(layoutableProperties.getY()),
       'width.rem': StyleUtil.pixToRem(layoutWidth),
-      'height.rem': StyleUtil.pixToRem(layoutHeight),
-      'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
-      'background-color': wrapper.getBackColor(),
-      'border-style': 'solid',
-      'border-color': wrapper.getBorderColor(),
-      'border-radius': StyleUtil.pixToRemFourValueStr(
-        wrapper.getBorderRadiusTopLeft(),
-        wrapper.getBorderRadiusTopRight(),
-        wrapper.getBorderRadiusBottomRight(),
-        wrapper.getBorderRadiusBottomLeft()),
-      'border-width': StyleUtil.pixToRemFourValueStr(
-        wrapper.getBorderThicknessTop(),
-        wrapper.getBorderThicknessRight(),
-        wrapper.getBorderThicknessBottom(),
-        wrapper.getBorderThicknessLeft()),
-      'margin': StyleUtil.pixToRemFourValueStr(
-        wrapper.getMarginTop(),
-        wrapper.getMarginRight(),
-        wrapper.getMarginBottom(),
-        wrapper.getMarginLeft()),
-      'font-family': wrapper.getFontFamily(),
-      'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
-      'font-size.rem': StyleUtil.pixToRem(wrapper.getFontSize()),
-      'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
-      'line-height.rem': StyleUtil.pixToRem(wrapper.getLineHeight()),
-      'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
+      'height.rem': StyleUtil.pixToRem(layoutHeight)
     };
   }
 }

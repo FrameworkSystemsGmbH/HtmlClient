@@ -70,7 +70,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
     for (const tabPage of visibleTabPages) {
       const tabPageTemplate: TabPageTemplate = this.getCurrentTabPageTemplate(tabPage);
-      const captionWidth: number = this.fontService.measureText(tabPage.getCaption(), tabPage.getFontFamily(), tabPage.getFontSize(), tabPage.getFontBold(), tabPage.getFontItalic());
+      const captionWidth: number = this.fontService.measureText(tabPage.getCaption(), tabPageTemplate.getFontFamily(), tabPageTemplate.getFontSize(), tabPageTemplate.getFontBold(), tabPageTemplate.getFontItalic());
       const horizontalInsets: number = tabPageTemplate.getBorderThicknessLeft() + tabPageTemplate.getPaddingLeft() + tabPageTemplate.getPaddingRight() + tabPageTemplate.getBorderThicknessRight();
       widestTabPageHeader = Math.max(widestTabPageHeader, captionWidth + horizontalInsets);
     }
@@ -85,7 +85,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
     for (const tabPage of visibleTabPages) {
       const tabPageTemplate: TabPageTemplate = this.getCurrentTabPageTemplate(tabPage);
-      const captionHeight: number = tabPage.getLineHeight();
+      const captionHeight: number = tabPageTemplate.getLineHeight();
       const verticalInsets: number = tabPageTemplate.getBorderThicknessTop() + tabPageTemplate.getPaddingTop() + tabPageTemplate.getPaddingBottom() + tabPageTemplate.getBorderThicknessBottom();
       highestTabPageHeader = Math.max(highestTabPageHeader, captionHeight + verticalInsets);
     }
@@ -93,7 +93,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return Number.zeroIfNull(highestTabPageHeader);
   }
 
-  protected getCurrentTabPageTemplate(tabPage: TabPageWrapper): TabPageTemplate {
+  public getCurrentTabPageTemplate(tabPage: TabPageWrapper): TabPageTemplate {
     if (tabPage.getIsEditable() === false) {
       return this.getTabPageTemplateDisabled();
     } else if (this.selectedTabIndex !== this.getTabPages().indexOf(tabPage)) {

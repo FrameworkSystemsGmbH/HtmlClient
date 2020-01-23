@@ -36,6 +36,14 @@ export class TabPageTemplate {
     return this.propertyStore.getFontUnderline();
   }
 
+  public getLineHeight(): number {
+    return this.propertyStore.getFontSize();
+  }
+
+  public getBorderColor(): string {
+    return this.propertyStore.getBorderColor();
+  }
+
   public getBorderRadiusTopLeft(): number {
     return this.propertyStore.getBorderRadiusTopLeft();
   }

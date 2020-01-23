@@ -5,31 +5,11 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { TabPageComponent } from 'app/controls/tabbed-window/tab-page.component';
 import { ControlType } from 'app/enums/control-type';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
-import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wrapper';
 
 export class TabPageWrapper extends ContainerWrapper implements ILayoutableContainerWrapper {
 
   public getControlType(): ControlType {
     return ControlType.TabPage;
-  }
-
-  public getBackColor(): string {
-    let backColor: string = this.getPropertyStore().getBackColor();
-
-    if (backColor != null) {
-      return backColor;
-    }
-
-    const parent: TabbedWindowWrapper = this.getParent() as TabbedWindowWrapper;
-
-    if (parent != null) {
-      backColor = parent.getBackColor();
-      if (backColor != null) {
-        return backColor;
-      }
-    }
-
-    return '#FFFFFF';
   }
 
   public getActiveImage(): string {

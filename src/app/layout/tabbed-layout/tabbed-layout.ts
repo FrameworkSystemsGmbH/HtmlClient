@@ -58,9 +58,9 @@ export class TabbedLayout extends LayoutContainerBase {
       minWidth += container.getInsetsLeft() + container.getInsetsRight();
 
       if (minWidth > 0) {
-        // If the tab alignment is either left or right, add the widest tab header to the minWidth
         const tabAlignment: TabAlignment = container.getTabAlignment();
 
+        // If the tab alignment is either left or right, add the widest tab header to the minWidth
         if (tabAlignment === TabAlignment.Left || tabAlignment === TabAlignment.Right) {
           minWidth += container.getWidestTabPageHeader();
         }
@@ -76,11 +76,34 @@ export class TabbedLayout extends LayoutContainerBase {
       }
     }
 
-    // Determine the container minimum width and add horizontal margins
-    const containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
+    // Calculate the defined container minimum width
+    const containerMinWidth: number = this.getContainerMinWidth(container);
 
     // The greater value wins: The calculated minimum width for all children or defined container minimum width
     return Math.max(minWidth, Number.zeroIfNull(containerMinWidth));
+  }
+
+  protected getContainerMinWidth(container: ITabbedLayoutControl): number {
+    // Determine the container minimum width and add horizontal margins
+    let containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
+
+    const tabAlignment: TabAlignment = container.getTabAlignment();
+
+    // If the tab alignment is either left or right, add the widest tab header to the containerMinWidth
+    if (tabAlignment === TabAlignment.Left || tabAlignment === TabAlignment.Right) {
+      containerMinWidth += container.getWidestTabPageHeader();
+    }
+
+    // TabPage headers are drawn into the adjacent border of the content -> subtract it from the containerMinWidth
+    if (tabAlignment === TabAlignment.Left) {
+      containerMinWidth -= container.getBorderThicknessLeft();
+    }
+
+    if (tabAlignment === TabAlignment.Right) {
+      containerMinWidth -= container.getBorderThicknessRight();
+    }
+
+    return containerMinWidth;
   }
 
   public measureMinHeight(width: number): number {
@@ -154,11 +177,34 @@ export class TabbedLayout extends LayoutContainerBase {
       }
     }
 
-    // Determine the container minimum height and add vertical margins
-    const containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
+    // Calculate the defined container minimum height
+    const containerMinHeight: number = this.getContainerMinHeight(container);
 
     // The greater value wins: calculated minimum height or defined container minimum height
     return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));
+  }
+
+  protected getContainerMinHeight(container: ITabbedLayoutControl): number {
+    // Determine the container minimum width and add horizontal margins
+    let containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
+
+    const tabAlignment: TabAlignment = container.getTabAlignment();
+
+    // If the tab alignment is either top or bottom, add the widest tab header to the containerMinHeight
+    if (tabAlignment === TabAlignment.Top || tabAlignment === TabAlignment.Bottom) {
+      containerMinHeight += container.getHighestTabPageHeader();
+    }
+
+    // TabPage headers are drawn into the adjacent border of the content -> subtract it from the containerMinHeight
+    if (tabAlignment === TabAlignment.Top) {
+      containerMinHeight -= container.getBorderThicknessTop();
+    }
+
+    if (tabAlignment === TabAlignment.Bottom) {
+      containerMinHeight -= container.getBorderThicknessBottom();
+    }
+
+    return containerMinHeight;
   }
 
   public arrange(): void {
@@ -189,8 +235,38 @@ export class TabbedLayout extends LayoutContainerBase {
     const insetsTop: number = container.getInsetsTop();
     const insetsBottom: number = container.getInsetsBottom();
 
-    const availableWidth = containerWidth - insetsLeft - insetsRight;
-    const availableHeight = containerHeight - insetsTop - insetsBottom;
+    let availableWidth = containerWidth - insetsLeft - insetsRight;
+    let availableHeight = containerHeight - insetsTop - insetsBottom;
+
+    const tabAlignment: TabAlignment = container.getTabAlignment();
+
+    // If the tab alignment is either left or right, subtract the widest tab header from the available width
+    if (tabAlignment === TabAlignment.Left || tabAlignment === TabAlignment.Right) {
+      availableWidth -= container.getWidestTabPageHeader();
+    }
+
+    // TabPage headers are drawn into the adjacent border of the content -> add it to the available width
+    if (tabAlignment === TabAlignment.Left) {
+      availableWidth += container.getBorderThicknessLeft();
+    }
+
+    if (tabAlignment === TabAlignment.Right) {
+      availableWidth += container.getBorderThicknessRight();
+    }
+
+    // If the tab alignment is either top or bottom, subtract the highest tab header from the available height
+    if (tabAlignment === TabAlignment.Top || tabAlignment === TabAlignment.Bottom) {
+      availableHeight -= container.getHighestTabPageHeader();
+    }
+
+    // TabPage headers are drawn into the adjacent border of the content -> add it to the available height
+    if (tabAlignment === TabAlignment.Top) {
+      availableHeight += container.getBorderThicknessTop();
+    }
+
+    if (tabAlignment === TabAlignment.Bottom) {
+      availableHeight += container.getBorderThicknessBottom();
+    }
 
     // Calculate result widths and heights
     if (activeTab.getHorizontalAlignment() !== HorizontalAlignment.Stretch) {
