@@ -24,12 +24,12 @@
           z-index: 1000;
           cursor: pointer;
 
-          &.selected {
-            cursor: default;
-          }
-
           &.disabled {
             cursor: not-allowed;
+          }
+
+          &.selected {
+            cursor: default;
           }
         }
       }
