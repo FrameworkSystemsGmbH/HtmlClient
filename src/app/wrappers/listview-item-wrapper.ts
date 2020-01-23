@@ -30,6 +30,7 @@ export class ListViewItemWrapper {
   constructor(injector: Injector, options: IListViewItemWrapperOptions) {
     this._isNew = true;
     this._isAttached = false;
+    // tslint:disable-next-line: deprecation
     this._cfr = injector.get(ComponentFactoryResolver);
 
     this._listViewWrapper = options.listViewWrapper;

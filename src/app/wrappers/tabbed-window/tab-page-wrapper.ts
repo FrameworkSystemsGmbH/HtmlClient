@@ -26,7 +26,7 @@ export class TabPageWrapper extends ContainerWrapper implements ILayoutableConta
   }
 
   protected getTabbedWindow(): TabbedWindowWrapper {
-    return this.getParent() as TabbedWindowWrapper
+    return this.getParent() as TabbedWindowWrapper;
   }
 
   protected getComponentRef(): ComponentRef<TabPageComponent> {

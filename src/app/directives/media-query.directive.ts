@@ -17,12 +17,14 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
     this.mediaQueryListener = this.fireOnMediaQueryChanged.bind(this);
 
     this.mediaQueryList = window.matchMedia(this.mediaQuery);
+    // tslint:disable-next-line: deprecation
     this.mediaQueryList.addListener(this.mediaQueryListener);
 
     this.onMediaQueryChanged.emit(this.mediaQueryList.matches);
   }
 
   public ngOnDestroy(): void {
+    // tslint:disable-next-line: deprecation
     this.mediaQueryList.removeListener(this.mediaQueryListener);
   }
 
