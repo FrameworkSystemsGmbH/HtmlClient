@@ -98,12 +98,12 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public getCurrentTabPageTemplate(tabPage: TabPageWrapper): TabPageTemplate {
-    if (tabPage.getIsEditable() === false) {
-      return this.getTabPageTemplateDisabled();
-    } else if (this.selectedTabIndex !== this.getTabPages().indexOf(tabPage)) {
-      return this.getTabPageTemplateInactive();
-    } else {
+    if (tabPage.isTabSelected()) {
       return this.getTabPageTemplateActive();
+    } else if (tabPage.getIsEditable() === false) {
+      return this.getTabPageTemplateDisabled();
+    } else {
+      return this.getTabPageTemplateInactive();
     }
   }
 
@@ -138,6 +138,10 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
   protected createTabPageTemplateInactive(): TabPageTemplate {
     return new TabPageTemplate(this.getPropertyStore().getPropertyStore(data => data.tabTemplateInactive));
+  }
+
+  public setIsEditableAtAction(pos: number, value: boolean): void {
+    this.controls[pos].setIsEditableAction(value);
   }
 
   protected createLayout(): LayoutBase {

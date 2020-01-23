@@ -59,6 +59,13 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     this.contentStyle = this.createContentStyle(wrapper);
   }
 
+  public getTabClasses(tabPage: TabPageWrapper): any {
+    return {
+      'selected': tabPage.isTabSelected(),
+      'disabled': tabPage.getIsEditable() === false
+    };
+  }
+
   public getTabStyle(tabPage: TabPageWrapper): any {
     const template: TabPageTemplate = this.getWrapper().getCurrentTabPageTemplate(tabPage);
 

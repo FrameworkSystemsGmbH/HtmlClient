@@ -9,6 +9,7 @@ import { FormsService } from 'app/services/forms.service';
 import { GeoLocationService } from 'app/services/actions/geolocation.service';
 import { CameraService } from 'app/services/actions/camera.service';
 import { ViewDocService } from 'app/services/actions/viewdoc.service';
+import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wrapper';
 
 @Injectable()
 export class ActionsService {
@@ -42,6 +43,12 @@ export class ActionsService {
               break;
             case 'SetEnabled':
               control.setIsEditableAction(actionJson.value);
+              break;
+            case 'SetEnabledAt':
+              const tabbedWindow: TabbedWindowWrapper = control as TabbedWindowWrapper;
+              if (tabbedWindow != null) {
+                tabbedWindow.setIsEditableAtAction(actionJson.pos, actionJson.value);
+              }
               break;
             case 'SetFocus':
               form.updateComponentRecursively();

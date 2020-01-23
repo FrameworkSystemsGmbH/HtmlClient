@@ -2,7 +2,7 @@
   <div class="header" [ngStyle]="headerStyle">
     <div class="scroller" [ngStyle]="scrollerStyle">
       <div class="tabs" [ngStyle]="tabsStyle">
-        <div *ngFor="let tabPage of tabPages" class="tab" [ngStyle]="getTabStyle(tabPage)">
+        <div *ngFor="let tabPage of tabPages" class="tab" [ngClass]="getTabClasses(tabPage)" [ngStyle]="getTabStyle(tabPage)">
           <span>{{ tabPage.getCaption() }}</span>
         </div>
       </div>
