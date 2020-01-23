@@ -13,13 +13,10 @@
     .scroller {
       flex: 1;
       display: flex;
-      overflow-x: hidden;
-      overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
 
       .tabs {
         display: flex;
-        align-items: flex-end;
 
         .tab {
           white-space: nowrap;

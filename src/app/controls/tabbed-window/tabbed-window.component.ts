@@ -8,6 +8,7 @@ import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wr
 import { TabPageWrapper } from 'app/wrappers/tabbed-window/tab-page-wrapper';
 import { TabPageTemplate } from 'app/wrappers/tabbed-window/tab-page-template';
 import { TabAlignment } from 'app/enums/tab-alignment';
+import { PlatformService } from 'app/services/platform/platform.service';
 
 @Component({
   selector: 'hc-tabbed-window',
@@ -23,7 +24,16 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   public tabAlignment: TabAlignment;
 
   public wrapperStyle: any;
+  public headerStyle: any;
+  public scrollerStyle: any;
+  public tabsStyle: any;
   public contentStyle: any;
+
+  private isMobile: boolean;
+
+  constructor(private platformService: PlatformService) {
+    super();
+  }
 
   public getViewContainerRef(): ViewContainerRef {
     return this.anchor;
@@ -35,6 +45,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
 
   protected updateData(wrapper: TabbedWindowWrapper): void {
     super.updateData(wrapper);
+    this.isMobile = this.platformService.isMobile();
     this.tabPages = wrapper.getTabPages();
     this.tabAlignment = wrapper.getTabAlignment();
   }
@@ -42,6 +53,9 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   protected updateStyles(wrapper: TabbedWindowWrapper): void {
     super.updateStyles(wrapper);
     this.wrapperStyle = this.createWrapperStyle(wrapper);
+    this.headerStyle = this.createHeaderStyle(wrapper);
+    this.scrollerStyle = this.createScrollerStyle(wrapper);
+    this.tabsStyle = this.createTabsStyle(wrapper);
     this.contentStyle = this.createContentStyle(wrapper);
   }
 
@@ -82,9 +96,8 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     const layoutHeight: number = layoutableProperties.getClientHeight();
     const isVisible: boolean = this.isVisible && layoutWidth > 0 && layoutHeight > 0;
 
-    return {
+    let style: any = {
       'display': isVisible ? 'flex' : 'none',
-      'flex-direction': 'column',
       'left.rem': StyleUtil.pixToRem(layoutableProperties.getX()),
       'top.rem': StyleUtil.pixToRem(layoutableProperties.getY()),
       'width.rem': StyleUtil.pixToRem(layoutWidth),
@@ -107,6 +120,62 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
       'line-height.rem': StyleUtil.pixToRem(wrapper.getLineHeight()),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())
     };
+
+    switch (this.tabAlignment) {
+      case TabAlignment.Left:
+        style = { ...style, 'flex-direction': 'row' };
+        break;
+      case TabAlignment.Right:
+        style = { ...style, 'flex-direction': 'row-reverse' };
+        break;
+      case TabAlignment.Bottom:
+        style = { ...style, 'flex-direction': 'column-reverse' };
+        break;
+      default:
+        style = { ...style, 'flex-direction': 'column' };
+        break;
+    }
+
+    return style;
+  }
+
+  protected createHeaderStyle(wrapper: TabbedWindowWrapper): any {
+    return {
+      'flex-direction': this.tabAlignment === TabAlignment.Left || this.tabAlignment === TabAlignment.Right ? 'column' : null
+    };
+  }
+
+  protected createScrollerStyle(wrapper: TabbedWindowWrapper): any {
+    if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
+      return {
+        'overflow-x': this.isMobile ? 'auto' : 'hidden',
+        'overflow-y': 'hidden'
+      };
+    } else {
+      return {
+        'overflow-x': 'hidden',
+        'overflow-y': this.isMobile ? 'auto' : 'hidden'
+      };
+    }
+  }
+
+  protected createTabsStyle(wrapper: TabbedWindowWrapper): any {
+    switch (this.tabAlignment) {
+      case TabAlignment.Left:
+        return {
+          'flex-direction': 'column',
+          'align-items': 'flex-end'
+        };
+      case TabAlignment.Right:
+        return {
+          'flex-direction': 'column',
+          'align-items': 'flex-start'
+        };
+      case TabAlignment.Bottom:
+        return { 'align-items': 'flex-start' };
+      default:
+        return { 'align-items': 'flex-end' };
+    }
   }
 
   protected createContentStyle(wrapper: TabbedWindowWrapper): any {
