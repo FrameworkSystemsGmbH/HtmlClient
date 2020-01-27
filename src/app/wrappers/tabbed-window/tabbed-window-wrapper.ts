@@ -1,4 +1,5 @@
 import { ComponentRef, ComponentFactory, ViewContainerRef } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { ITabbedLayoutControl } from 'app/layout/tabbed-layout/tabbed-layout-control.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
@@ -13,6 +14,10 @@ import { TabPageTemplate } from 'app/wrappers/tabbed-window/tab-page-template';
 import { TabPageWrapper } from 'app/wrappers/tabbed-window/tab-page-wrapper';
 import { Visibility } from 'app/enums/visibility';
 import { FontService } from 'app/services/font.service';
+import { ClientEventType } from 'app/enums/client-event-type';
+import { ClientSelectedTabPageChangeEvent } from 'app/common/events/client-selected-tab-page-change-event';
+import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
+import { ClientSelectedTabPageChangedEvent } from 'app/common/events/client-selected-tab-page-changed-event';
 
 export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayoutControl {
 
@@ -24,6 +29,8 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   private selectedTabIndexOrg: number;
 
   private fontService: FontService;
+
+  private onTabClickedSub: Subscription;
 
   protected init(): void {
     super.init();
@@ -166,8 +173,84 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return factory.create(container.getViewContainerRef().injector);
   }
 
+  protected attachEvents(instance: TabbedWindowComponent): void {
+    super.attachEvents(instance);
+
+    if (this.hasOnSelectedTabPageChangeEvent()) {
+      this.onTabClickedSub = instance.onTabClicked.subscribe((payload: { tabPage: TabPageWrapper; event: any }) => this.getOnSelectedTabPageChangeSubscription(payload)());
+    } else if (this.hasOnSelectedTabPageChangedEvent()) {
+      this.onTabClickedSub = instance.onTabClicked.subscribe((payload: { tabPage: TabPageWrapper; event: any }) => this.getOnSelectedTabPageChangedSubscription(payload)());
+    }
+  }
+
   protected hasChanges(): boolean {
     return this.selectedTabIndex >= 0 && this.selectedTabIndex !== this.selectedTabIndexOrg;
+  }
+
+  public hasOnSelectedTabPageChangeEvent(): boolean {
+    return (this.getEvents() & ClientEventType.OnSelectedTabPageChange) ? true : false;
+  }
+
+  protected getOnSelectedTabPageChangeSubscription(payload: { tabPage: TabPageWrapper; event: any }): () => void {
+    return () => this.getEventsService().fireSelectedTabPageChange(
+      this.getForm().getId(),
+      this.getName(),
+      this.getTabPages()[this.selectedTabIndex].getName(),
+      payload.tabPage.getName(),
+      payload,
+      new InternalEventCallbacks<ClientSelectedTabPageChangeEvent>(
+        this.canExecuteSelectedTabPageChange.bind(this),
+        this.onSelectedTabPageChangeExecuted.bind(this),
+        this.onSelectedTabPageChangeCompleted.bind(this)
+      )
+    );
+  }
+
+  protected canExecuteSelectedTabPageChange(originalEvent: any, clientEvent: ClientSelectedTabPageChangeEvent): boolean {
+    return this.hasOnSelectedTabPageChangeEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
+  }
+
+  protected onSelectedTabPageChangeExecuted(originalEvent: any, clientEvent: ClientSelectedTabPageChangeEvent, processedEvent: any): void {
+    // Override in subclasses
+  }
+
+  protected onSelectedTabPageChangeCompleted(originalEvent: any, clientEvent: ClientSelectedTabPageChangeEvent, processedEvent: any): void {
+    if (this.hasOnSelectedTabPageChangedEvent() && processedEvent != null && processedEvent.args != null && !processedEvent.args.cancel) {
+      this.getOnSelectedTabPageChangedSubscription(originalEvent)();
+    }
+  }
+
+  public hasOnSelectedTabPageChangedEvent(): boolean {
+    return (this.getEvents() & ClientEventType.OnSelectedTabPageChanged) ? true : false;
+  }
+
+  protected getOnSelectedTabPageChangedSubscription(payload: { tabPage: TabPageWrapper; event: any }): () => void {
+    this.selectedTabIndex = this.getTabPages().indexOf(payload.tabPage);
+    this.validateSelectedTabIndex();
+    return () => this.getEventsService().fireSelectedTabPageChanged(
+      this.getForm().getId(),
+      this.getName(),
+      this.getTabPages()[this.selectedTabIndex].getName(),
+      payload.tabPage.getName(),
+      payload.event,
+      new InternalEventCallbacks<ClientSelectedTabPageChangedEvent>(
+        this.canExecuteSelectedTabPageChanged.bind(this),
+        this.onSelectedTabPageChangedExecuted.bind(this),
+        this.onSelectedTabPageChangedCompleted.bind(this)
+      )
+    );
+  }
+
+  protected canExecuteSelectedTabPageChanged(originalEvent: any, clientEvent: ClientSelectedTabPageChangedEvent): boolean {
+    return this.hasOnSelectedTabPageChangedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
+  }
+
+  protected onSelectedTabPageChangedExecuted(originalEvent: any, clientEvent: ClientSelectedTabPageChangedEvent): void {
+    // Override in subclasses
+  }
+
+  protected onSelectedTabPageChangedCompleted(originalEvent: any, clientEvent: ClientSelectedTabPageChangedEvent): void {
+    // Override in subclasses
   }
 
   public getJson(): any {

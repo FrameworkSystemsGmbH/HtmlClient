@@ -108,23 +108,25 @@ export class BrokerService {
             flatMap(responseJson => this.processResponse(responseJson))
           );
         } else {
-          return obsOf(ResponseResult.NotExecuted);
+          return obsOf({ result: ResponseResult.NotExecuted, processedEvent: null });
         }
       }),
-      tap(responseResult => {
-        if (responseResult === ResponseResult.Executed && event.callbacks && event.callbacks.onExecuted) {
-          event.callbacks.onExecuted(event.originalEvent, event.clientEvent);
+      tap(handleResult => {
+        if (handleResult.result === ResponseResult.Executed && event.callbacks && event.callbacks.onExecuted) {
+          event.callbacks.onExecuted(event.originalEvent, event.clientEvent, handleResult.processedEvent);
         }
         if (event.callbacks && event.callbacks.onCompleted) {
-          event.callbacks.onCompleted(event.originalEvent, event.clientEvent);
+          event.callbacks.onCompleted(event.originalEvent, event.clientEvent, handleResult.processedEvent);
         }
       }),
-      map(responseResult => {
+      map(handleResult => {
+        const result: ResponseResult = handleResult.result;
+
         this.loaderService.fireLoadingChanged(false);
 
-        if (responseResult === ResponseResult.CloseApplication) {
+        if (result === ResponseResult.CloseApplication) {
           this.closeApplication();
-        } else if (responseResult === ResponseResult.RestartApplication) {
+        } else if (result === ResponseResult.RestartApplication) {
           this.restartApplication();
         }
       })
@@ -340,7 +342,7 @@ export class BrokerService {
     );
   }
 
-  public processResponse(json: any): Observable<ResponseResult> {
+  public processResponse(json: any): Observable<{ result: ResponseResult; processedEvent?: any }> {
     if (!json || JsonUtil.isEmptyObject(json)) {
       throw new Error('Response JSON is null or empty!');
     }
@@ -363,20 +365,20 @@ export class BrokerService {
       return responseObs.pipe(
         flatMap(() => this.processQuitMsg(metaJson.restartRequested, json.quitMessages)),
         flatMap(() => this.onAfterResponse()),
-        map(() => ResponseResult.Executed)
+        map(() => ({ result: ResponseResult.Executed }))
       );
     } else if (metaJson.restartApplication === true) {
       return responseObs.pipe(
-        map(() => ResponseResult.RestartApplication)
+        map(() => ({ result: ResponseResult.RestartApplication }))
       );
     } else if (metaJson.closeApplication === true) {
       return responseObs.pipe(
-        map(() => ResponseResult.CloseApplication)
+        map(() => ({ result: ResponseResult.CloseApplication }))
       );
     } else {
       return responseObs.pipe(
         flatMap(() => this.onAfterResponse()),
-        map(() => ResponseResult.Executed)
+        map(() => ({ result: ResponseResult.Executed, processedEvent: json.processedEvent }))
       );
     }
   }

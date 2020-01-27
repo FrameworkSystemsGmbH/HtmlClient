@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -9,6 +9,7 @@ import { TabPageWrapper } from 'app/wrappers/tabbed-window/tab-page-wrapper';
 import { TabPageTemplate } from 'app/wrappers/tabbed-window/tab-page-template';
 import { TabAlignment } from 'app/enums/tab-alignment';
 import { PlatformService } from 'app/services/platform/platform.service';
+import { Visibility } from 'app/enums/visibility';
 
 @Component({
   selector: 'hc-tabbed-window',
@@ -16,6 +17,9 @@ import { PlatformService } from 'app/services/platform/platform.service';
   styleUrls: ['./tabbed-window.component.scss']
 })
 export class TabbedWindowComponent extends ContainerComponent implements OnInit {
+
+  @Output()
+  public onTabClicked: EventEmitter<{ tabPage: TabPageWrapper; event: any }>;
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
@@ -35,12 +39,29 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     super();
   }
 
+  public callOnTabClicked(tabPage: TabPageWrapper, event?: any): void {
+    const wrapper: TabbedWindowWrapper = this.getWrapper();
+    if ((wrapper.hasOnSelectedTabPageChangeEvent() || wrapper.hasOnSelectedTabPageChangedEvent())
+      && tabPage.getIsEditable()
+      && tabPage.getVisibility() === Visibility.Visible) {
+      this.onTabClicked.emit({ tabPage, event });
+    }
+  }
+
   public getViewContainerRef(): ViewContainerRef {
     return this.anchor;
   }
 
   public getWrapper(): TabbedWindowWrapper {
     return super.getWrapper() as TabbedWindowWrapper;
+  }
+
+  public setWrapper(wrapper: TabbedWindowWrapper): void {
+    super.setWrapper(wrapper);
+
+    if (wrapper.hasOnSelectedTabPageChangeEvent() || wrapper.hasOnSelectedTabPageChangedEvent()) {
+      this.onTabClicked = new EventEmitter<any>();
+    }
   }
 
   protected updateData(wrapper: TabbedWindowWrapper): void {

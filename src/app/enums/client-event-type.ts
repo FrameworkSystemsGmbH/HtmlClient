@@ -14,5 +14,7 @@ export enum ClientEventType {
   MsgBox                   = 1 << 11,
   BarcodeScanned           = 1 << 12,
   PhotoTaken               = 1 << 13,
-  GotGeoLocation           = 1 << 14
+  GotGeoLocation           = 1 << 14,
+  OnSelectedTabPageChange  = 1 << 15,
+  OnSelectedTabPageChanged = 1 << 16
 }

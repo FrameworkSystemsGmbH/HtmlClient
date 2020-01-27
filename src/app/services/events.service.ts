@@ -21,6 +21,8 @@ import { BarcodeFormat } from 'app/enums/barcode-format';
 import { ClientGotGeoLocationEvent } from 'app/common/events/client-got-geo-location-event';
 import { ClientPictureClickEvent } from 'app/common/events/client-picture-click-event';
 import { ClientPictureClickEventArgs } from 'app/common/events/eventargs/client-picture-click-eventargs';
+import { ClientSelectedTabPageChangeEvent } from 'app/common/events/client-selected-tab-page-change-event';
+import { ClientSelectedTabPageChangedEvent } from 'app/common/events/client-selected-tab-page-changed-event';
 
 @Injectable()
 export class EventsService {
@@ -190,6 +192,34 @@ export class EventsService {
     this._eventFired.next({
       originalEvent: null,
       clientEvent: new ClientGotGeoLocationEvent(hasError, errorMessage, latitude, longitude, altitude, accuracy, heading, speed, timestamp)
+    });
+  }
+
+  public fireSelectedTabPageChange(
+    formId: string,
+    controlName: string,
+    lastTab: string,
+    selectedTab: string,
+    originalEvent: any,
+    callbacks: InternalEventCallbacks<ClientSelectedTabPageChangeEvent>): void {
+    this._eventFired.next({
+      originalEvent,
+      clientEvent: new ClientSelectedTabPageChangeEvent(controlName, formId, lastTab, selectedTab),
+      callbacks
+    });
+  }
+
+  public fireSelectedTabPageChanged(
+    formId: string,
+    controlName: string,
+    lastTab: string,
+    selectedTab: string,
+    originalEvent: any,
+    callbacks: InternalEventCallbacks<ClientSelectedTabPageChangedEvent>): void {
+    this._eventFired.next({
+      originalEvent,
+      clientEvent: new ClientSelectedTabPageChangedEvent(controlName, formId, lastTab, selectedTab),
+      callbacks
     });
   }
 }
