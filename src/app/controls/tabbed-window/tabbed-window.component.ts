@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, Renderer2, NgZone } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, Renderer2, NgZone, ElementRef } from '@angular/core';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
@@ -26,6 +26,9 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
 
   @ViewChild('scroller', { static: true })
   public scroller: OverlayScrollbarsComponent;
+
+  @ViewChild('tabs', { static: true })
+  public tabs: ElementRef;
 
   public tabPages: Array<TabPageWrapper>;
   public tabAlignment: TabAlignment;
@@ -98,6 +101,17 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     this.tabsStyle = this.createTabsStyle();
     this.contentStyle = this.createContentStyle(wrapper);
     this.scrollerOptions = this.createScrollerOptions();
+  }
+
+  public scrollIntoView(): void {
+    setTimeout(() => {
+      if (this.scroller != null && this.scroller.osInstance() != null && this.tabs != null) {
+        const selectedTab: HTMLLIElement = this.tabs.nativeElement.querySelector('div.selected');
+        if (selectedTab) {
+          this.scroller.osInstance().scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, 250);
+        }
+      }
+    });
   }
 
   public getTabClasses(tabPage: TabPageWrapper): any {
@@ -292,6 +306,4 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
       }
     });
   }
-
-  // this.scroller.osInstance().scroll({ el: this.tab.nativeElement, scroll: 'ifneeded' }, 250);
 }

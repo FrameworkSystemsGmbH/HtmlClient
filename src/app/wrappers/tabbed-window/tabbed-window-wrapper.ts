@@ -183,6 +183,12 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     }
   }
 
+  protected detachEvents(): void {
+    if (this.onTabClickedSub) {
+      this.onTabClickedSub.unsubscribe();
+    }
+  }
+
   protected hasChanges(): boolean {
     return this.selectedTabIndex >= 0 && this.selectedTabIndex !== this.selectedTabIndexOrg;
   }
@@ -325,5 +331,10 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     num = !Number.isNaN(num) ? num : 0;
     this.selectedTabIndexOrg = num;
     this.setSelectedTabIndex(num);
+
+    const comp: TabbedWindowComponent = this.getComponent();
+    if (comp != null) {
+      comp.scrollIntoView();
+    }
   }
 }

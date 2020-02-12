@@ -1,7 +1,7 @@
 <div class="wrapper" [ngStyle]="wrapperStyle">
   <div class="header" [ngStyle]="headerStyle">
     <overlay-scrollbars #scroller class="scroller os-host-flexbox" [options]="scrollerOptions">
-      <div class="tabs" [ngStyle]="tabsStyle">
+      <div #tabs class="tabs" [ngStyle]="tabsStyle">
         <div *ngFor="let tabPage of tabPages" class="tab" [ngClass]="getTabClasses(tabPage)" [ngStyle]="getTabStyle(tabPage)" (click)="callOnTabClicked(tabPage, $event)">
           <span>{{ tabPage.getCaption() }}</span>
         </div>
