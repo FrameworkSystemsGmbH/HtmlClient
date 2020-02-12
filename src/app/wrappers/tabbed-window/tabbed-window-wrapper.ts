@@ -225,7 +225,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   protected getOnSelectedTabPageChangedSubscription(payload: { tabPage: TabPageWrapper; event: any }): () => void {
-    this.selectedTabIndex = this.getTabPages().indexOf(payload.tabPage);
+    this.setSelectedTabIndex(this.getTabPages().indexOf(payload.tabPage));
     this.validateSelectedTabIndex();
     return () => this.getEventsService().fireSelectedTabPageChanged(
       this.getForm().getId(),
@@ -295,7 +295,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     const tabPages: Array<TabPageWrapper> = this.getTabPages();
 
     if (tabPages.length === 0) {
-      this.selectedTabIndex = -1;
+      this.setSelectedTabIndex(-1);
       return;
     }
 
@@ -317,7 +317,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
       }
     }
 
-    this.selectedTabIndex = actualTabIndex;
+    this.setSelectedTabIndex(actualTabIndex);
   }
 
   protected setSelectedTabIndexJson(value: string): void {

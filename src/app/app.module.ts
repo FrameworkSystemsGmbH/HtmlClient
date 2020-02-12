@@ -27,7 +27,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule } from '@angular/material/input';
+
+import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
+
 import { HammerConfig } from 'app/common/hammer/hammer-config';
 
 @NgModule({
@@ -57,6 +60,7 @@ import { HammerConfig } from 'app/common/hammer/hammer-config';
     ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
+    OverlayscrollbarsModule,
     StoreModule.forRoot(APP_REDUCERS)
   ],
   providers: [

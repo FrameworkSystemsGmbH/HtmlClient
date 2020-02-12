@@ -1,4 +1,5 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, Renderer2, NgZone } from '@angular/core';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -8,7 +9,6 @@ import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wr
 import { TabPageWrapper } from 'app/wrappers/tabbed-window/tab-page-wrapper';
 import { TabPageTemplate } from 'app/wrappers/tabbed-window/tab-page-template';
 import { TabAlignment } from 'app/enums/tab-alignment';
-import { PlatformService } from 'app/services/platform/platform.service';
 import { Visibility } from 'app/enums/visibility';
 
 @Component({
@@ -24,18 +24,39 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
 
+  @ViewChild('scroller', { static: true })
+  public scroller: OverlayScrollbarsComponent;
+
   public tabPages: Array<TabPageWrapper>;
   public tabAlignment: TabAlignment;
 
   public wrapperStyle: any;
   public headerStyle: any;
-  public scrollerStyle: any;
   public tabsStyle: any;
   public contentStyle: any;
 
-  private isMobile: boolean;
+  public scrollerOptions: any = {
+    className: 'os-theme-thin-dark',
+    paddingAbsolute: true,
+    overflowBehavior: {
+      x: 'scroll',
+      y: 'scroll'
+    },
+    scrollbars: {
+      autoHide: 'leave',
+      autoHideDelay: 0
+    },
+    callbacks: {
+      onScroll: this.refreshScroller.bind(this),
+      onOverflowChanged: this.refreshScroller.bind(this),
+      onOverflowAmountChanged: this.refreshScroller.bind(this)
+    }
+  };
 
-  constructor(private platformService: PlatformService) {
+  constructor(
+    private zone: NgZone,
+    private renderer: Renderer2
+  ) {
     super();
   }
 
@@ -66,7 +87,6 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
 
   protected updateData(wrapper: TabbedWindowWrapper): void {
     super.updateData(wrapper);
-    this.isMobile = this.platformService.isMobile();
     this.tabPages = wrapper.getTabPages();
     this.tabAlignment = wrapper.getTabAlignment();
   }
@@ -74,10 +94,10 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   protected updateStyles(wrapper: TabbedWindowWrapper): void {
     super.updateStyles(wrapper);
     this.wrapperStyle = this.createWrapperStyle(wrapper);
-    this.headerStyle = this.createHeaderStyle(wrapper);
-    this.scrollerStyle = this.createScrollerStyle(wrapper);
-    this.tabsStyle = this.createTabsStyle(wrapper);
+    this.headerStyle = this.createHeaderStyle();
+    this.tabsStyle = this.createTabsStyle();
     this.contentStyle = this.createContentStyle(wrapper);
+    this.scrollerOptions = this.createScrollerOptions();
   }
 
   public getTabClasses(tabPage: TabPageWrapper): any {
@@ -167,27 +187,13 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     return style;
   }
 
-  protected createHeaderStyle(wrapper: TabbedWindowWrapper): any {
+  protected createHeaderStyle(): any {
     return {
       'flex-direction': this.tabAlignment === TabAlignment.Left || this.tabAlignment === TabAlignment.Right ? 'column' : null
     };
   }
 
-  protected createScrollerStyle(wrapper: TabbedWindowWrapper): any {
-    if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
-      return {
-        'overflow-x': this.isMobile ? 'auto' : 'hidden',
-        'overflow-y': 'hidden'
-      };
-    } else {
-      return {
-        'overflow-x': 'hidden',
-        'overflow-y': this.isMobile ? 'auto' : 'hidden'
-      };
-    }
-  }
-
-  protected createTabsStyle(wrapper: TabbedWindowWrapper): any {
+  protected createTabsStyle(): any {
     switch (this.tabAlignment) {
       case TabAlignment.Left:
         return {
@@ -242,4 +248,50 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
 
     return style;
   }
+
+  protected createScrollerOptions(): any {
+    if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
+      return {
+        ...this.scrollerOptions,
+        overflowBehavior: {
+          x: 'scroll',
+          y: 'hidden'
+        }
+      };
+    } else {
+      return {
+        ...this.scrollerOptions,
+        overflowBehavior: {
+          x: 'hidden',
+          y: 'scroll'
+        }
+      };
+    }
+  }
+
+  public refreshScroller(): void {
+    this.zone.runOutsideAngular(() => {
+      if (this.scroller != null && this.scroller.osInstance() != null) {
+        const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
+        if (overflow > 0) {
+          const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
+          if (scrollPos === 0) {
+            this.renderer.addClass(this.scroller.osTarget(), 'arrowRight');
+            this.renderer.removeClass(this.scroller.osTarget(), 'arrowLeft');
+          } else if (scrollPos >= overflow) {
+            this.renderer.addClass(this.scroller.osTarget(), 'arrowLeft');
+            this.renderer.removeClass(this.scroller.osTarget(), 'arrowRight');
+          } else {
+            this.renderer.addClass(this.scroller.osTarget(), 'arrowLeft');
+            this.renderer.addClass(this.scroller.osTarget(), 'arrowRight');
+          }
+        } else {
+          this.renderer.removeClass(this.scroller.osTarget(), 'arrowLeft');
+          this.renderer.removeClass(this.scroller.osTarget(), 'arrowRight');
+        }
+      }
+    });
+  }
+
+  // this.scroller.osInstance().scroll({ el: this.tab.nativeElement, scroll: 'ifneeded' }, 250);
 }

@@ -1,18 +1,23 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [
-      "es7",
+      "ES2018",
       "dom"
     ],
+    "module": "ESNext",
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
     "sourceMap": true,
-    "target": "es5"
+    "target": "ES5",
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true

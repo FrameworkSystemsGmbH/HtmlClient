@@ -1,8 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../dist/test",
-    "module": "commonjs"
+    "outDir": "../dist/test"
   },
   "files": [
     "test.ts",

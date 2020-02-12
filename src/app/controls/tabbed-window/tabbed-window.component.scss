@@ -1,6 +1,7 @@
 @import '../../../scss/variables.scss';
 
-:host, .wrapper {
+:host,
+.wrapper {
   position: absolute;
 }
 
@@ -13,7 +14,37 @@
     .scroller {
       flex: 1;
       display: flex;
-      -webkit-overflow-scrolling: touch;
+
+      &::before {
+        content: '';
+        left: 0;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+      }
+
+      &::after {
+        content: '';
+        right: 0;
+        background: linear-gradient(to left, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+      }
+
+      &::before,
+      &::after {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 1rem;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+
+      &.arrowLeft::before,
+      &.arrowRight::after {
+        opacity: 1;
+      }
 
       .tabs {
         display: flex;

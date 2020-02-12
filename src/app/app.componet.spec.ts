@@ -26,6 +26,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
 
+import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,6 +51,7 @@ describe('AppComponent', () => {
         ReactiveFormsModule,
         BrowserModule,
         NoopAnimationsModule,
+        OverlayscrollbarsModule,
         StoreModule.forRoot(APP_REDUCERS)
       ],
       providers: [

@@ -14,6 +14,9 @@
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.preferences.quoteStyle": "single",
 
+  "scssFormatter.printWidth": 1000,
+  "scssFormatter.singleQuote": true,
+
   "search.exclude": {
     "**/dist": true,
     "**/node_modules": true

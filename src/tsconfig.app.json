@@ -1,8 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../dist/web",
-    "module": "es2015"
+    "outDir": "../dist/web"
   },
   "exclude": [
     "test.ts",
