@@ -1,6 +1,7 @@
 @import 'scss/_variables.scss';
 
-:host, .wrapper {
+:host,
+.wrapper {
   position: absolute;
   user-select: none;
 }

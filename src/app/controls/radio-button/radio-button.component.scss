@@ -1,6 +1,7 @@
 @import 'scss/_variables.scss';
 
-:host, .wrapper {
+:host,
+.wrapper {
   position: absolute;
 }
 
@@ -26,7 +27,7 @@
   transition: all 100ms ease-in-out;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     width: 0.8rem;
     height: 0.8rem;

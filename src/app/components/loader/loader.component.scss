@@ -13,7 +13,7 @@
   .loader:before {
     display: block;
     position: absolute;
-    content: "";
+    content: '';
     left: -100%;
     width: 100%;
     height: $loading-bar-height;
@@ -23,7 +23,13 @@
 }
 
 @keyframes loading {
-    from { left: -100%; }
-    50% { left: 0%; }
-    to { left: 100%; }
+  from {
+    left: -100%;
+  }
+  50% {
+    left: 0%;
+  }
+  to {
+    left: 100%;
+  }
 }

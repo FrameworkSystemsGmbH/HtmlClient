@@ -1,6 +1,7 @@
 @import 'scss/_variables.scss';
 
-:host, .wrapper {
+:host,
+.wrapper {
   position: absolute;
 }
 
@@ -50,7 +51,7 @@
 
     .input:disabled + .checkbox-container {
       .checkbox-frame {
-        border-color: #aaaaaa
+        border-color: #aaaaaa;
       }
 
       .checkbox-checked {

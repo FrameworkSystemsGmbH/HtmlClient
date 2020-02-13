@@ -25,8 +25,8 @@
 
   .input:checked + .selector-frame {
     opacity: 1;
-    background-color: #1871FF;
-    border: 0.1rem solid #1871FF;
+    background-color: #1871ff;
+    border: 0.1rem solid #1871ff;
 
     .selector-checkmark-path {
       stroke: white;
@@ -34,7 +34,7 @@
   }
 
   .input:disabled:checked + .selector-frame {
-    background-color: #67A2FF;
-    border: 0.1rem solid #67A2FF;
+    background-color: #67a2ff;
+    border: 0.1rem solid #67a2ff;
   }
 }

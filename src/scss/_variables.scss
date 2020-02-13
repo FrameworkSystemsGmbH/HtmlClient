@@ -48,14 +48,14 @@ $breakpoint: 768px;
 
 @mixin focused-outline {
   outline-color: $outline !important;
-  outline-offset: 0.1rem  !important;
-  outline-style: dashed  !important;
-  outline-width: 0.1rem  !important;
+  outline-offset: 0.1rem !important;
+  outline-style: dashed !important;
+  outline-width: 0.1rem !important;
 }
 
 @mixin focused-outline-inset {
-  outline-color: $outline  !important;
-  outline-offset: -0.4rem  !important;
-  outline-style: dashed  !important;
+  outline-color: $outline !important;
+  outline-offset: -0.4rem !important;
+  outline-style: dashed !important;
   outline-width: 0.1rem !important;
 }
