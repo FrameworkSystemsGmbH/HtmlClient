@@ -1,6 +1,6 @@
 <div class="wrapper" [ngStyle]="wrapperStyle">
   <div class="header" [ngStyle]="headerStyle">
-    <div [@arrow] class="arrow arrowLeft" [ngStyle]="arrowStyle" (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft()" (mouseleave)="stopScrollingLeft()" *ngIf="arrowLeftVisible">
+    <div [@arrow] class="arrow arrowLeft" [ngStyle]="arrowHorizontalStyle" (mousedown)="startScrollingUpOrLeft($event)" (mouseup)="stopScrollingUpOrLeft()" (mouseleave)="stopScrollingUpOrLeft()" *ngIf="arrowLeftVisible">
       <i class="fa fa-fw fa-angle-left"></i>
     </div>
     <overlay-scrollbars #scroller class="scroller os-host-flexbox" [options]="scrollerOptions">
@@ -10,7 +10,7 @@
         </div>
       </div>
     </overlay-scrollbars>
-    <div [@arrow] class="arrow arrowRight" [ngStyle]="arrowStyle" (mousedown)="startScrollingRight($event)" (mouseup)="stopScrollingRight()" (mouseleave)="stopScrollingRight()" *ngIf="arrowRightVisible">
+    <div [@arrow] class="arrow arrowRight" [ngStyle]="arrowHorizontalStyle" (mousedown)="startScrollingDownOrRight($event)" (mouseup)="stopScrollingDownOrRight()" (mouseleave)="stopScrollingDownOrRight()" *ngIf="arrowRightVisible">
       <i class="fa fa-fw fa-angle-right"></i>
     </div>
   </div>

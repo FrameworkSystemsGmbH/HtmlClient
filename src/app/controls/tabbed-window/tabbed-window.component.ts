@@ -59,7 +59,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   public headerStyle: any;
   public tabsStyle: any;
   public contentStyle: any;
-  public arrowStyle: any;
+  public arrowHorizontalStyle: any;
 
   public arrowLeftVisible: boolean;
   public arrowRightVisible: boolean;
@@ -131,7 +131,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     this.headerStyle = this.createHeaderStyle();
     this.tabsStyle = this.createTabsStyle();
     this.contentStyle = this.createContentStyle(wrapper);
-    this.arrowStyle = this.createArrowStyle(wrapper);
+    this.arrowHorizontalStyle = this.createArrowHorizontalStyle(wrapper);
     this.scrollerOptions = this.createScrollerOptions();
   }
 
@@ -295,8 +295,32 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     return contentStyle;
   }
 
-  protected createArrowStyle(wrapper: TabbedWindowWrapper): any {
+  protected createArrowHorizontalStyle(wrapper: TabbedWindowWrapper): any {
+    if (this.tabAlignment === TabAlignment.Bottom) {
+      return {
+        'top.rem': StyleUtil.pixToRem(Math.roundDec(wrapper.getInactiveTabTemplateHeight() / 2, 0)),
+        'transform': 'translateY(-50%)'
+      };
+    } else {
+      return {
+        'bottom.rem': StyleUtil.pixToRem(Math.roundDec(wrapper.getInactiveTabTemplateHeight() / 2, 0)),
+        'transform': 'translateY(50%)'
+      };
+    }
+  }
 
+  protected createArrowVerticalStyle(wrapper: TabbedWindowWrapper): any {
+    if (this.tabAlignment === TabAlignment.Right) {
+      return {
+        'left': '50%',
+        'transform': 'translateX(-50%)'
+      };
+    } else {
+      return {
+        'right': '50%',
+        'transform': 'translateX(50%)'
+      };
+    }
   }
 
   protected createScrollerOptions(): any {
@@ -341,7 +365,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     return newOptions;
   }
 
-  public startScrollingLeft(event: any): void {
+  public startScrollingUpOrLeft(event: any): void {
     if (event.button === 0) {
       const value: string = `-= ${this.scrollDelta}px`;
       this.scrollHorizontal(value);
@@ -349,11 +373,11 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     }
   }
 
-  public stopScrollingLeft(): void {
+  public stopScrollingUpOrLeft(): void {
     clearInterval(this.scrollLeftInterval);
   }
 
-  public startScrollingRight(event: any): void {
+  public startScrollingDownOrRight(event: any): void {
     if (event.button === 0) {
       const value: string = `+= ${this.scrollDelta}px`;
       this.scrollHorizontal(value);
@@ -361,7 +385,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     }
   }
 
-  public stopScrollingRight(): void {
+  public stopScrollingDownOrRight(): void {
     clearInterval(this.scrollRightInterval);
   }
 
@@ -375,11 +399,11 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
       if (overflow > 0) {
         const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
         if (scrollPos === 0) {
-          this.stopScrollingLeft();
+          this.stopScrollingUpOrLeft();
           this.arrowLeftVisible = false;
           this.arrowRightVisible = true;
         } else if (scrollPos >= overflow) {
-          this.stopScrollingRight();
+          this.stopScrollingDownOrRight();
           this.arrowLeftVisible = true;
           this.arrowRightVisible = false;
         } else {
@@ -387,8 +411,8 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
           this.arrowRightVisible = true;
         }
       } else {
-        this.stopScrollingLeft();
-        this.stopScrollingRight();
+        this.stopScrollingUpOrLeft();
+        this.stopScrollingDownOrRight();
         this.arrowLeftVisible = false;
         this.arrowRightVisible = false;
       }

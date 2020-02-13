@@ -81,8 +81,12 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
     for (const tabPage of visibleTabPages) {
       const tabPageTemplate: TabPageTemplate = this.getCurrentTabPageTemplate(tabPage);
-      const captionWidth: number = this.fontService.measureText(tabPage.getCaption(), tabPageTemplate.getFontFamily(), tabPageTemplate.getFontSize(), tabPageTemplate.getFontBold(), tabPageTemplate.getFontItalic());
-      const horizontalInsets: number = tabPageTemplate.getBorderThicknessLeft() + tabPageTemplate.getPaddingLeft() + tabPageTemplate.getPaddingRight() + tabPageTemplate.getBorderThicknessRight();
+      const captionWidth: number = this.fontService.measureText(tabPage.getCaption(), tabPageTemplate.getFontFamily(), Number.zeroIfNull(tabPageTemplate.getFontSize()), tabPageTemplate.getFontBold(), tabPageTemplate.getFontItalic());
+      const horizontalInsets: number =
+        Number.zeroIfNull(tabPageTemplate.getBorderThicknessLeft()) +
+        Number.zeroIfNull(tabPageTemplate.getPaddingLeft()) +
+        Number.zeroIfNull(tabPageTemplate.getPaddingRight()) +
+        Number.zeroIfNull(tabPageTemplate.getBorderThicknessRight());
       widestTabPageHeader = Math.max(widestTabPageHeader, captionWidth + horizontalInsets);
     }
 
@@ -96,8 +100,12 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
     for (const tabPage of visibleTabPages) {
       const tabPageTemplate: TabPageTemplate = this.getCurrentTabPageTemplate(tabPage);
-      const captionHeight: number = tabPageTemplate.getLineHeight();
-      const verticalInsets: number = tabPageTemplate.getBorderThicknessTop() + tabPageTemplate.getPaddingTop() + tabPageTemplate.getPaddingBottom() + tabPageTemplate.getBorderThicknessBottom();
+      const captionHeight: number = Number.zeroIfNull(tabPageTemplate.getLineHeight());
+      const verticalInsets: number =
+        Number.zeroIfNull(tabPageTemplate.getBorderThicknessTop()) +
+        Number.zeroIfNull(tabPageTemplate.getPaddingTop()) +
+        Number.zeroIfNull(tabPageTemplate.getPaddingBottom()) +
+        Number.zeroIfNull(tabPageTemplate.getBorderThicknessBottom());
       highestTabPageHeader = Math.max(highestTabPageHeader, captionHeight + verticalInsets);
     }
 
@@ -133,6 +141,17 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
       this.tabPageTemplateInactive = this.createTabPageTemplateInactive();
     }
     return this.tabPageTemplateInactive;
+  }
+
+  public getInactiveTabTemplateHeight(): number {
+    const tabPageTemplate: TabPageTemplate = this.getTabPageTemplateInactive();
+    const captionHeight: number = Number.zeroIfNull(tabPageTemplate.getLineHeight());
+    const verticalInsets: number =
+      Number.zeroIfNull(tabPageTemplate.getBorderThicknessTop()) +
+      Number.zeroIfNull(tabPageTemplate.getPaddingTop()) +
+      Number.zeroIfNull(tabPageTemplate.getPaddingBottom()) +
+      Number.zeroIfNull(tabPageTemplate.getBorderThicknessBottom());
+    return captionHeight + verticalInsets;
   }
 
   protected createTabPageTemplateActive(): TabPageTemplate {
