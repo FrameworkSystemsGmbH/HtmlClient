@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, Renderer2, NgZone, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { animate, transition, trigger, style } from '@angular/animations';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
