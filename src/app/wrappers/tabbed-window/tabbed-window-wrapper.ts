@@ -199,6 +199,8 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
       this.onTabClickedSub = instance.onTabClicked.subscribe((payload: { tabPage: TabPageWrapper; event: any }) => this.getOnSelectedTabPageChangeSubscription(payload)());
     } else if (this.hasOnSelectedTabPageChangedEvent()) {
       this.onTabClickedSub = instance.onTabClicked.subscribe((payload: { tabPage: TabPageWrapper; event: any }) => this.getOnSelectedTabPageChangedSubscription(payload)());
+    } else {
+      this.onTabClickedSub = instance.onTabClicked.subscribe((payload: { tabPage: TabPageWrapper; event: any }) => this.getNonEventTabPageChangedSubscription(payload)());
     }
   }
 
@@ -210,6 +212,10 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
   protected hasChanges(): boolean {
     return this.selectedTabIndex >= 0 && this.selectedTabIndex !== this.selectedTabIndexOrg;
+  }
+
+  protected getNonEventTabPageChangedSubscription(payload: { tabPage: TabPageWrapper; event: any }): () => void {
+    return () => this.changeSelectedTabPage(payload.tabPage);
   }
 
   public hasOnSelectedTabPageChangeEvent(): boolean {
@@ -250,8 +256,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   protected getOnSelectedTabPageChangedSubscription(payload: { tabPage: TabPageWrapper; event: any }): () => void {
-    this.setSelectedTabIndex(this.getTabPages().indexOf(payload.tabPage));
-    this.validateSelectedTabIndex();
+    this.changeSelectedTabPage(payload.tabPage);
     return () => this.getEventsService().fireSelectedTabPageChanged(
       this.getForm().getId(),
       this.getName(),
@@ -276,6 +281,11 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
   protected onSelectedTabPageChangedCompleted(originalEvent: any, clientEvent: ClientSelectedTabPageChangedEvent): void {
     // Override in subclasses
+  }
+
+  protected changeSelectedTabPage(tabPage: TabPageWrapper): void {
+    this.setSelectedTabIndex(this.getTabPages().indexOf(tabPage));
+    this.validateSelectedTabIndex();
   }
 
   public getJson(): any {
@@ -343,6 +353,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     }
 
     this.setSelectedTabIndex(actualTabIndex);
+    this.scrollIntoView();
   }
 
   protected setSelectedTabIndexJson(value: string): void {
@@ -350,7 +361,10 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     num = !Number.isNaN(num) ? num : 0;
     this.selectedTabIndexOrg = num;
     this.setSelectedTabIndex(num);
+    this.scrollIntoView();
+  }
 
+  protected scrollIntoView(): void {
     const comp: TabbedWindowComponent = this.getComponent();
     if (comp != null) {
       comp.scrollIntoView();

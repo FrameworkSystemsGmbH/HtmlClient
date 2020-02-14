@@ -3,6 +3,9 @@
     <div [@arrow] class="arrow arrowLeft" [ngStyle]="arrowHorizontalStyle" (mousedown)="startScrollingUpOrLeft($event)" (mouseup)="stopScrollingUpOrLeft()" (mouseleave)="stopScrollingUpOrLeft()" *ngIf="arrowLeftVisible">
       <i class="fa fa-fw fa-angle-left"></i>
     </div>
+    <div [@arrow] class="arrow arrowUp" [ngStyle]="arrowVerticalStyle" (mousedown)="startScrollingUpOrLeft($event)" (mouseup)="stopScrollingUpOrLeft()" (mouseleave)="stopScrollingUpOrLeft()" *ngIf="arrowUpVisible">
+      <i class="fa fa-fw fa-angle-up"></i>
+    </div>
     <overlay-scrollbars #scroller class="scroller os-host-flexbox" [options]="scrollerOptions">
       <div #tabs class="tabs" [ngStyle]="tabsStyle">
         <div *ngFor="let tabPage of tabPages" class="tab" [ngClass]="getTabClasses(tabPage)" [ngStyle]="getTabStyle(tabPage)" (click)="callOnTabClicked(tabPage, $event)">
@@ -12,6 +15,9 @@
     </overlay-scrollbars>
     <div [@arrow] class="arrow arrowRight" [ngStyle]="arrowHorizontalStyle" (mousedown)="startScrollingDownOrRight($event)" (mouseup)="stopScrollingDownOrRight()" (mouseleave)="stopScrollingDownOrRight()" *ngIf="arrowRightVisible">
       <i class="fa fa-fw fa-angle-right"></i>
+    </div>
+    <div [@arrow] class="arrow arrowDown" [ngStyle]="arrowVerticalStyle" (mousedown)="startScrollingDownOrRight($event)" (mouseup)="stopScrollingDownOrRight()" (mouseleave)="stopScrollingDownOrRight()" *ngIf="arrowDownVisible">
+      <i class="fa fa-fw fa-angle-down"></i>
     </div>
   </div>
   <div class="content" [ngStyle]="contentStyle">

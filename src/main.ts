@@ -7,8 +7,10 @@ import { environment } from 'env/env.dev';
 import * as fa from '@fortawesome/fontawesome';
 
 import {
+  faAngleDown,
   faAngleLeft,
   faAngleRight,
+  faAngleUp,
   faBars,
   faCaretDown,
   faCog,
@@ -22,8 +24,10 @@ import {
 } from '@fortawesome/fontawesome-free-solid';
 
 fa.library.add(
+  faAngleDown,
   faAngleLeft,
   faAngleRight,
+  faAngleUp,
   faBars,
   faCaretDown,
   faCog,

@@ -41,7 +41,7 @@ import { PlatformService } from 'app/services/platform/platform.service';
 export class TabbedWindowComponent extends ContainerComponent implements OnInit {
 
   @Output()
-  public onTabClicked: EventEmitter<{ tabPage: TabPageWrapper; event: any }>;
+  public onTabClicked: EventEmitter<{ tabPage: TabPageWrapper; event: any }> = new EventEmitter<{ tabPage: TabPageWrapper; event: any }>();
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
@@ -60,9 +60,12 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   public tabsStyle: any;
   public contentStyle: any;
   public arrowHorizontalStyle: any;
+  public arrowVerticalStyle: any;
 
   public arrowLeftVisible: boolean;
   public arrowRightVisible: boolean;
+  public arrowUpVisible: boolean;
+  public arrowDownVisible: boolean;
 
   private scrollLeftInterval: any;
   private scrollRightInterval: any;
@@ -95,10 +98,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   }
 
   public callOnTabClicked(tabPage: TabPageWrapper, event?: any): void {
-    const wrapper: TabbedWindowWrapper = this.getWrapper();
-    if ((wrapper.hasOnSelectedTabPageChangeEvent() || wrapper.hasOnSelectedTabPageChangedEvent())
-      && tabPage.getIsEditable()
-      && tabPage.getVisibility() === Visibility.Visible) {
+    if (tabPage.getIsEditable() && tabPage.getVisibility() === Visibility.Visible) {
       this.onTabClicked.emit({ tabPage, event });
     }
   }
@@ -109,14 +109,6 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
 
   public getWrapper(): TabbedWindowWrapper {
     return super.getWrapper() as TabbedWindowWrapper;
-  }
-
-  public setWrapper(wrapper: TabbedWindowWrapper): void {
-    super.setWrapper(wrapper);
-
-    if (wrapper.hasOnSelectedTabPageChangeEvent() || wrapper.hasOnSelectedTabPageChangedEvent()) {
-      this.onTabClicked = new EventEmitter<any>();
-    }
   }
 
   protected updateData(wrapper: TabbedWindowWrapper): void {
@@ -132,6 +124,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     this.tabsStyle = this.createTabsStyle();
     this.contentStyle = this.createContentStyle(wrapper);
     this.arrowHorizontalStyle = this.createArrowHorizontalStyle(wrapper);
+    this.arrowVerticalStyle = this.createArrowVerticalStyle();
     this.scrollerOptions = this.createScrollerOptions();
   }
 
@@ -309,15 +302,15 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     }
   }
 
-  protected createArrowVerticalStyle(wrapper: TabbedWindowWrapper): any {
+  protected createArrowVerticalStyle(): any {
     if (this.tabAlignment === TabAlignment.Right) {
       return {
-        'left': '50%',
+        'left.%': 50,
         'transform': 'translateX(-50%)'
       };
     } else {
       return {
-        'right': '50%',
+        'right.%': 50,
         'transform': 'translateX(50%)'
       };
     }
@@ -368,8 +361,13 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   public startScrollingUpOrLeft(event: any): void {
     if (event.button === 0) {
       const value: string = `-= ${this.scrollDelta}px`;
-      this.scrollHorizontal(value);
-      this.scrollLeftInterval = setInterval(() => { this.scrollHorizontal(value); }, 100);
+      if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
+        this.scrollHorizontal(value);
+        this.scrollLeftInterval = setInterval(() => { this.scrollHorizontal(value); }, 100);
+      } else {
+        this.scrollVertical(value);
+        this.scrollLeftInterval = setInterval(() => { this.scrollVertical(value); }, 100);
+      }
     }
   }
 
@@ -380,8 +378,13 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   public startScrollingDownOrRight(event: any): void {
     if (event.button === 0) {
       const value: string = `+= ${this.scrollDelta}px`;
-      this.scrollHorizontal(value);
-      this.scrollRightInterval = setInterval(() => { this.scrollHorizontal(value); }, 100);
+      if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
+        this.scrollHorizontal(value);
+        this.scrollRightInterval = setInterval(() => { this.scrollHorizontal(value); }, 100);
+      } else {
+        this.scrollVertical(value);
+        this.scrollRightInterval = setInterval(() => { this.scrollVertical(value); }, 100);
+      }
     }
   }
 
@@ -393,28 +396,66 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     this.scroller.osInstance().scroll({ x: value }, 100);
   }
 
+  protected scrollVertical(value: string): void {
+    this.scroller.osInstance().scroll({ y: value }, 100);
+  }
+
   public refreshScroller(): void {
     if (this.scroller != null && this.scroller.osInstance() != null) {
-      const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
-      if (overflow > 0) {
-        const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
-        if (scrollPos === 0) {
-          this.stopScrollingUpOrLeft();
-          this.arrowLeftVisible = false;
-          this.arrowRightVisible = true;
-        } else if (scrollPos >= overflow) {
-          this.stopScrollingDownOrRight();
-          this.arrowLeftVisible = true;
-          this.arrowRightVisible = false;
+      if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
+        this.arrowUpVisible = false;
+        this.arrowDownVisible = false;
+
+        const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
+
+        if (overflow > 0) {
+          const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
+
+          if (scrollPos === 0) {
+            this.stopScrollingUpOrLeft();
+            this.arrowLeftVisible = false;
+            this.arrowRightVisible = true;
+          } else if (scrollPos >= overflow) {
+            this.stopScrollingDownOrRight();
+            this.arrowLeftVisible = true;
+            this.arrowRightVisible = false;
+          } else {
+            this.arrowLeftVisible = true;
+            this.arrowRightVisible = true;
+          }
         } else {
-          this.arrowLeftVisible = true;
-          this.arrowRightVisible = true;
+          this.stopScrollingUpOrLeft();
+          this.stopScrollingDownOrRight();
+          this.arrowLeftVisible = false;
+          this.arrowRightVisible = false;
         }
       } else {
-        this.stopScrollingUpOrLeft();
-        this.stopScrollingDownOrRight();
         this.arrowLeftVisible = false;
         this.arrowRightVisible = false;
+
+        const overflow: number = this.scroller.osInstance().getState().overflowAmount.y;
+
+        if (overflow > 0) {
+          const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollTop;
+
+          if (scrollPos === 0) {
+            this.stopScrollingUpOrLeft();
+            this.arrowUpVisible = false;
+            this.arrowDownVisible = true;
+          } else if (scrollPos >= overflow) {
+            this.stopScrollingDownOrRight();
+            this.arrowUpVisible = true;
+            this.arrowDownVisible = false;
+          } else {
+            this.arrowUpVisible = true;
+            this.arrowDownVisible = true;
+          }
+        } else {
+          this.stopScrollingUpOrLeft();
+          this.stopScrollingDownOrRight();
+          this.arrowUpVisible = false;
+          this.arrowDownVisible = false;
+        }
       }
 
       this.cdr.detectChanges();
