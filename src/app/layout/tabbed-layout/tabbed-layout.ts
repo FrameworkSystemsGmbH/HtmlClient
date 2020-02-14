@@ -130,13 +130,13 @@ export class TabbedLayout extends LayoutContainerBase {
       availableWidth -= container.getWidestTabPageHeader();
     }
 
-    // TabPage headers are drawn into the adjacent border of the content -> subtract it from the minwidth
+    // TabPage headers are drawn into the adjacent border of the content -> add it to the available width
     if (tabAlignment === TabAlignment.Left) {
-      availableWidth -= container.getBorderThicknessLeft();
+      availableWidth += container.getBorderThicknessLeft();
     }
 
     if (tabAlignment === TabAlignment.Right) {
-      availableWidth -= container.getBorderThicknessRight();
+      availableWidth += container.getBorderThicknessRight();
     }
 
     let minHeight: number = 0;
