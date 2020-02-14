@@ -18,6 +18,7 @@ import { ClientEventType } from 'app/enums/client-event-type';
 import { ClientSelectedTabPageChangeEvent } from 'app/common/events/client-selected-tab-page-change-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
 import { ClientSelectedTabPageChangedEvent } from 'app/common/events/client-selected-tab-page-changed-event';
+import { FramesService } from 'app/services/frames.service';
 
 export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayoutControl {
 
@@ -29,12 +30,14 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   private selectedTabIndexOrg: number;
 
   private fontService: FontService;
+  private framesService: FramesService;
 
   private onTabClickedSub: Subscription;
 
   protected init(): void {
     super.init();
     this.fontService = this.getInjector().get(FontService);
+    this.framesService = this.getInjector().get(FramesService);
   }
 
   public getControlType(): ControlType {
@@ -215,7 +218,10 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   protected getNonEventTabPageChangedSubscription(payload: { tabPage: TabPageWrapper; event: any }): () => void {
-    return () => this.changeSelectedTabPage(payload.tabPage);
+    return () => {
+      this.changeSelectedTabPage(payload.tabPage);
+      this.framesService.layout();
+    };
   }
 
   public hasOnSelectedTabPageChangeEvent(): boolean {
