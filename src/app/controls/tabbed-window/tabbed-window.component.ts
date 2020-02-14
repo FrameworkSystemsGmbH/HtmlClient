@@ -12,6 +12,7 @@ import { TabPageTemplate } from 'app/wrappers/tabbed-window/tab-page-template';
 import { TabAlignment } from 'app/enums/tab-alignment';
 import { Visibility } from 'app/enums/visibility';
 import { PlatformService } from 'app/services/platform/platform.service';
+import { ImageService } from 'app/services/image.service';
 
 @Component({
   selector: 'hc-tabbed-window',
@@ -91,6 +92,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   };
 
   constructor(
+    private imageService: ImageService,
     private platformService: PlatformService,
     private cdr: ChangeDetectorRef
   ) {
@@ -147,9 +149,10 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
   }
 
   public getTabStyle(tabPage: TabPageWrapper): any {
-    const template: TabPageTemplate = this.getWrapper().getCurrentTabPageTemplate(tabPage);
+    const wrapper: TabbedWindowWrapper = this.getWrapper();
+    const template: TabPageTemplate = wrapper.getCurrentTabPageTemplate(tabPage);
 
-    return {
+    let tabStyle: any = {
       'background-color': template.getBackColor(),
       'border-style': 'solid',
       'border-color': template.getBorderColor(),
@@ -175,6 +178,37 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
       'line-height.rem': StyleUtil.pixToRem(template.getLineHeight()),
       'text-decoration': StyleUtil.getTextDecoration(template.getFontUnderline())
     };
+
+    const activeImageWrapper: string = wrapper.getActiveImage();
+    const activeImageTabPage: string = tabPage.getActiveImage();
+
+    const inactiveImageWrapper: string = wrapper.getInactiveImage();
+    const inactiveImageTabPage: string = tabPage.getInactiveImage();
+
+    const activeImage: string = !String.isNullOrWhiteSpace(activeImageTabPage) ? activeImageTabPage : activeImageWrapper;
+    const inactiveImage: string = !String.isNullOrWhiteSpace(inactiveImageTabPage) ? inactiveImageTabPage : inactiveImageWrapper;
+
+    if (tabPage.isTabSelected() && !String.isNullOrWhiteSpace(activeImage)) {
+      const activeImageUrl: string = this.imageService.getImageUrl(activeImage);
+
+      tabStyle = {
+        ...tabStyle,
+        'background-image': `url(${activeImageUrl})`,
+        'background-size': 'cover'
+      };
+    }
+
+    if (!tabPage.isTabSelected() && !String.isNullOrWhiteSpace(inactiveImage)) {
+      const inactiveImageUrl: string = this.imageService.getImageUrl(inactiveImage);
+
+      tabStyle = {
+        ...tabStyle,
+        'background-image': `url(${inactiveImageUrl})`,
+        'background-size': 'cover'
+      };
+    }
+
+    return tabStyle;
   }
 
   protected createWrapperStyle(wrapper: TabbedWindowWrapper): any {
