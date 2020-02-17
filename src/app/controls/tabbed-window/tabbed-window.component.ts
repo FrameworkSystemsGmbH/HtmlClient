@@ -115,7 +115,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
 
   protected updateData(wrapper: TabbedWindowWrapper): void {
     super.updateData(wrapper);
-    this.tabPages = wrapper.getTabPages();
+    this.tabPages = wrapper.getTabPages().filter(t => t.getVisibility() === Visibility.Visible);
     this.tabAlignment = wrapper.getTabAlignment();
   }
 

@@ -48,14 +48,14 @@ export class FieldLayoutRow {
       this.cells.push(new FieldLayoutCell(null, rowLabelTemplate));
     }
 
-    if (this.hasFirstColumnControl && (firstControl.getIsVisible() || includeInvisibleControls)) {
+    if (this.hasFirstColumnControl && (firstControl.getIsLayoutVisible() || includeInvisibleControls)) {
       this.cells.push(new FieldLayoutCell(firstControl, rowLabelTemplate));
     }
 
     // 3. Add remaining wrappers
     for (let i = this.hasFirstColumnControl ? 1 : 0; i < controlWrappers.length; i++) {
       const controlWrapper: LayoutableControlWrapper = controlWrappers[i];
-      if (controlWrapper.getIsVisible() || includeInvisibleControls) {
+      if (controlWrapper.getIsLayoutVisible() || includeInvisibleControls) {
         this.cells.push(new FieldLayoutCell(controlWrapper, null));
       }
     }

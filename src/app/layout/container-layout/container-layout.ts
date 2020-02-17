@@ -47,7 +47,7 @@ export class ContainerLayout extends LayoutContainerBase {
 
     for (const wrapper of this.wrappers) {
       // Ignore invisible items (items with min width = 0 do not have an impact)
-      if (wrapper.getIsVisible()) {
+      if (wrapper.getIsLayoutVisible()) {
         minWidth = Math.max(minWidth, wrapper.getMinLayoutWidth());
       }
     }
@@ -80,7 +80,7 @@ export class ContainerLayout extends LayoutContainerBase {
     let minHeight: number = 0;
 
     for (const wrapper of this.wrappers) {
-      if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
+      if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
         minHeight += wrapper.getMinLayoutHeight(width);
       }
     }

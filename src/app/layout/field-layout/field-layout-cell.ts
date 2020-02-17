@@ -18,7 +18,7 @@ export class FieldLayoutCell {
 
   public isVisible(): boolean {
     if (this.wrapper) {
-      return this.wrapper.getIsVisible();
+      return this.wrapper.getIsLayoutVisible();
     } else {
       return true;
     }

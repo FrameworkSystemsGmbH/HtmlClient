@@ -62,7 +62,7 @@ export class WrapLayout extends LayoutContainerBase {
 
     for (const wrapper of this.wrappers) {
       // Ignore invisible items (items with min width = 0 do not have an impact)
-      if (wrapper.getIsVisible()) {
+      if (wrapper.getIsLayoutVisible()) {
         minWidth = Math.max(minWidth, wrapper.getMinLayoutWidth());
       }
     }
@@ -113,7 +113,7 @@ export class WrapLayout extends LayoutContainerBase {
     const pendingWrappers: LinkedListOneWay<LayoutableControlWrapper> = new LinkedListOneWay<LayoutableControlWrapper>();
 
     for (const wrapper of this.wrappers) {
-      if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
+      if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
         pendingWrappers.add(wrapper);
       }
     }
@@ -318,13 +318,13 @@ export class WrapLayout extends LayoutContainerBase {
     if (container.getInvertFlowDirection()) {
       for (let i = this.wrappers.length - 1; i >= 0; i--) {
         const wrapper: LayoutableControlWrapper = this.wrappers[i];
-        if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
+        if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
           targetWrappers.push(wrapper);
         }
       }
     } else {
       for (const wrapper of this.wrappers) {
-        if (wrapper.getIsVisible() && wrapper.getMinLayoutWidth() > 0) {
+        if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
           targetWrappers.push(wrapper);
         }
       }

@@ -77,7 +77,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return this.getTabPages().indexOf(tabPage) === this.selectedTabIndex;
   }
 
-  public getWidestTabPageHeader(): number {
+  public getWidestLayoutTabPageHeader(): number {
     const visibleTabPages: Array<TabPageWrapper> = this.getTabPages().filter(t => t.getVisibility() === Visibility.Visible);
 
     let widestTabPageHeader: number = 0;
@@ -96,7 +96,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return Number.zeroIfNull(widestTabPageHeader);
   }
 
-  public getHighestTabPageHeader(): number {
+  public getHighestLayoutTabPageHeader(): number {
     const visibleTabPages: Array<TabPageWrapper> = this.getTabPages().filter(t => t.getVisibility() === Visibility.Visible);
 
     let highestTabPageHeader: number = 0;
@@ -311,9 +311,8 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return controlJson;
   }
 
-  public setJason(json: any, isNew: boolean): void {
+  public setJson(json: any, isNew: boolean): void {
     super.setJson(json, isNew);
-    this.afterChildrenInitialized();
   }
 
   protected setDataJson(dataJson: any): void {
@@ -326,10 +325,6 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     if (dataJson.selected && dataJson.selected.value !== undefined) {
       this.setSelectedTabIndexJson(dataJson.selected.value);
     }
-  }
-
-  protected afterChildrenInitialized(): void {
-    this.validateSelectedTabIndex();
   }
 
   protected validateSelectedTabIndex(): void {

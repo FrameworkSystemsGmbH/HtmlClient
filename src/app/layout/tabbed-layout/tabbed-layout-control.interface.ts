@@ -10,9 +10,9 @@ export interface ITabbedLayoutControl extends ILayoutableContainer {
 
   getSelectedTabIndex(): number;
 
-  getWidestTabPageHeader(): number;
+  getWidestLayoutTabPageHeader(): number;
 
-  getHighestTabPageHeader(): number;
+  getHighestLayoutTabPageHeader(): number;
 
   getBorderThicknessLeft(): number;
 

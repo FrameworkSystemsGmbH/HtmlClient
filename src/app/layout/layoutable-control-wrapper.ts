@@ -22,7 +22,8 @@ export class LayoutableControlWrapper {
   private dockItemSize: number;
 
   private visibility: Visibility;
-  private isVisible: boolean;
+  private isControlVisible: boolean;
+  private isLayoutVisible: boolean;
 
   private hAlign: HorizontalAlignment;
   private vAlign: VerticalAlignment;
@@ -49,7 +50,8 @@ export class LayoutableControlWrapper {
     this.vAlign = control.getVerticalAlignment();
     this.visibility = control.getCurrentVisibility();
 
-    this.isVisible = this.visibility !== Visibility.Collapsed;
+    this.isControlVisible = this.visibility === Visibility.Visible;
+    this.isLayoutVisible = this.visibility !== Visibility.Collapsed;
 
     const container: ILayoutableContainer = control as ILayoutableContainer;
     if (container) {
@@ -121,8 +123,12 @@ export class LayoutableControlWrapper {
     return this.visibility;
   }
 
-  public getIsVisible(): boolean {
-    return this.isVisible;
+  public getIsControlVisible(): boolean {
+    return this.isControlVisible;
+  }
+
+  public getIsLayoutVisible(): boolean {
+    return this.isLayoutVisible;
   }
 
   public getResultWidth(): number {
