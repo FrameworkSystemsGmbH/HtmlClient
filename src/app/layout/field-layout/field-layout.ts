@@ -110,7 +110,11 @@ export class FieldLayout extends LayoutContainerBase {
     }
 
     // determine at the container defined minimum size (including margin)
-    const containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
+    let containerMinWidth: number = container.getMinWidth();
+
+    if (containerMinWidth > 0) {
+      containerMinWidth += container.getMarginLeft() + container.getMarginRight();
+    }
 
     // the greater value wins: calculated minimum size for all children or defined container minimum size
     return Math.max(minWidth, Number.zeroIfNull(containerMinWidth));
@@ -333,7 +337,11 @@ export class FieldLayout extends LayoutContainerBase {
     }
 
     // Determine the container minimum height and add vertical margins
-    const containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
+    let containerMinHeight: number = container.getMinHeight();
+
+    if (containerMinHeight > 0) {
+      containerMinHeight += container.getMarginTop() + container.getMarginBottom();
+    }
 
     // The greater value wins: calculated minimum height or defined container minimum height
     return Math.max(minHeight, Number.zeroIfNull(containerMinHeight));

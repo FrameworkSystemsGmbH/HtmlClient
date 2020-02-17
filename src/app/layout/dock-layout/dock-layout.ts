@@ -79,7 +79,11 @@ export class DockLayout extends LayoutContainerBase {
     }
 
     // determine at the container defined minimum size
-    const containerMinWidth: number = container.getMinWidth() + container.getMarginLeft() + container.getMarginRight();
+    let containerMinWidth: number = container.getMinWidth();
+
+    if (containerMinWidth > 0) {
+      containerMinWidth += container.getMarginLeft() + container.getMarginRight();
+    }
 
     if (scrolling !== DockPanelScrolling.None) {
       // If scrolling is enabled, either return the minimum container width or the fixed minimum width if the former is not set
@@ -297,7 +301,11 @@ export class DockLayout extends LayoutContainerBase {
       }
 
       // Determine the container minimum height and add vertical margins
-      const containerMinHeight: number = container.getMinHeight() + container.getMarginTop() + container.getMarginBottom();
+      let containerMinHeight: number = container.getMinHeight();
+
+      if (containerMinHeight > 0) {
+        containerMinHeight += container.getMarginTop() + container.getMarginBottom();
+      }
 
       if (scrolling) {
         // If scrolling is enabled, either return the minimum container height or the fixed minimum height if the former is not set

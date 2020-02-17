@@ -25,7 +25,11 @@ export class ListViewLayout extends LayoutBase {
     }
 
     // Determine the listview minimum width and add horizontal margins
-    const listViewMinWidth: number = control.getMinWidth() + control.getMarginLeft() + control.getMarginRight();
+    let listViewMinWidth: number = control.getMinWidth();
+
+    if (listViewMinWidth > 0) {
+      listViewMinWidth += control.getMarginLeft() + control.getMarginRight();
+    }
 
     // The greater value wins: The calculated minimum width for the item or the defined listview minimum width
     return Math.max(itemWidth, Number.zeroIfNull(listViewMinWidth));
@@ -50,7 +54,11 @@ export class ListViewLayout extends LayoutBase {
     }
 
     // Determine the listview minimum hieght and add vertical margins
-    const listViewMinHeight: number = control.getMinHeight() + control.getMarginTop() + control.getMarginBottom() + headerHeight;
+    let listViewMinHeight: number = control.getMinHeight();
+
+    if (listViewMinHeight > 0) {
+      listViewMinHeight += control.getMarginTop() + control.getMarginBottom() + headerHeight;
+    }
 
     // The greater value wins: The calculated minimum height for the item or the defined listview minimum height
     return Math.max(itemHeight, Number.zeroIfNull(listViewMinHeight));

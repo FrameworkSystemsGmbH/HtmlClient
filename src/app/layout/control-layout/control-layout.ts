@@ -12,9 +12,13 @@ export class ControlLayout extends LayoutBase {
       return 0;
     }
 
-    const minWidth = control.getMinWidth();
+    let minWidth = control.getMinWidth();
 
-    return minWidth ? control.getMarginLeft() + minWidth + control.getMarginRight() : 0;
+    if (minWidth > 0) {
+      minWidth += control.getMarginLeft() + control.getMarginRight();
+    }
+
+    return minWidth;
   }
 
   public measureMinHeight(width: number): number {
@@ -24,8 +28,12 @@ export class ControlLayout extends LayoutBase {
       return 0;
     }
 
-    const minHeight = control.getMinHeight();
+    let minHeight = control.getMinHeight();
 
-    return minHeight ? control.getMarginTop() + minHeight + control.getMarginBottom() : 0;
+    if (minHeight > 0) {
+      minHeight += control.getMarginTop() + control.getMarginBottom();
+    }
+
+    return minHeight;
   }
 }
