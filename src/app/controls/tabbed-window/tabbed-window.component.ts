@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, ElementRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { animate, transition, trigger, style } from '@angular/animations';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
@@ -39,7 +39,7 @@ import { ImageService } from 'app/services/image.service';
     ])
   ]
 })
-export class TabbedWindowComponent extends ContainerComponent implements OnInit {
+export class TabbedWindowComponent extends ContainerComponent implements OnInit, AfterViewInit {
 
   @Output()
   public onTabClicked: EventEmitter<{ tabPage: TabPageWrapper; event: any }> = new EventEmitter<{ tabPage: TabPageWrapper; event: any }>();
@@ -97,6 +97,10 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit 
     private cdr: ChangeDetectorRef
   ) {
     super();
+  }
+
+  public ngAfterViewInit(): void {
+    this.getWrapper().validateSelectedTabIndex();
   }
 
   public callOnTabClicked(tabPage: TabPageWrapper, event?: any): void {

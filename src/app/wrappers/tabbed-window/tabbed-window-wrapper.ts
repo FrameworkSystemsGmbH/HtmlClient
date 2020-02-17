@@ -327,7 +327,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     }
   }
 
-  protected validateSelectedTabIndex(): void {
+  public validateSelectedTabIndex(): void {
     const tabPages: Array<TabPageWrapper> = this.getTabPages();
 
     if (tabPages.length === 0) {
@@ -335,7 +335,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
       return;
     }
 
-    let actualTabIndex: number = this.selectedTabIndex;
+    let actualTabIndex: number = this.selectedTabIndex != null ? this.selectedTabIndex : 0;
 
     if (this.selectedTabIndex < 0 || this.selectedTabIndex >= tabPages.length) {
       actualTabIndex = 0;
