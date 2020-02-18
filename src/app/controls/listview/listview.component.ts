@@ -65,7 +65,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
         if (targetIsDescentant && activeIsOutside) {
           this.getWrapper().setMobileSelectionModeEnabled(false);
         }
-      }, 0);
+      });
     }
   }
 

@@ -167,12 +167,6 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
-  public setFocus(): void {
-    if (this.input) {
-      this.input.nativeElement.focus();
-    }
-  }
-
   protected updateWrapper(): void {
     this.getWrapper().setValue(this.getSelectedValue());
   }

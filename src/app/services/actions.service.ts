@@ -15,6 +15,7 @@ import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wr
 export class ActionsService {
 
   private _viewDocumentUrl: string;
+  private _focusActions: Array<() => void>;
 
   constructor(
     private _barcodeService: BarcodeService,
@@ -30,6 +31,7 @@ export class ActionsService {
     }
 
     this._viewDocumentUrl = null;
+    this._focusActions = new Array<() => void>();
 
     for (const actionJson of actionsJson) {
       if (actionJson.form != null && actionJson.control != null) {
@@ -51,8 +53,7 @@ export class ActionsService {
               }
               break;
             case 'SetFocus':
-              form.updateComponentRecursively();
-              control.setFocus();
+              this._focusActions.push(control.setFocus.bind(control));
               break;
             case 'SetVisible':
               control.setVisibilityAction(actionJson.value);
@@ -91,6 +92,14 @@ export class ActionsService {
 
     if (!String.isNullOrWhiteSpace(this._viewDocumentUrl)) {
       this._viewDocService.viewDocument(this._viewDocumentUrl);
+    }
+  }
+
+  public processFocusActions(): void {
+    if (this._focusActions != null) {
+      for (const focusAction of this._focusActions) {
+        focusAction();
+      }
     }
   }
 }
