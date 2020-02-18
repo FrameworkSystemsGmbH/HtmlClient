@@ -329,17 +329,9 @@ export class FontService {
       wrapper.getMaxScale(), wrapper.getFormat(), wrapper.getFormatPattern(), this.getMinWidthRaster());
   }
 
-  public getDataMinWidthComboBox(wrapper: ComboBoxWrapper): number {
-    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMinLength(), null, null, null, this.getMinWidthRaster());
-  }
-
   public getDataMaxWidthTextBox(wrapper: TextBoxBaseWrapper): number {
     return this.getMeasuredWidth(wrapper, wrapper.getDataSourceType(), wrapper.getDisplayMaxLength(),
       wrapper.getMaxScale(), wrapper.getFormat(), wrapper.getFormatPattern(), this.getMaxWidthRaster());
-  }
-
-  public getDataMaxWidthComboBox(wrapper: ComboBoxWrapper): number {
-    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMaxLength(), null, null, null, this.getMaxWidthRaster());
   }
 
   public getDataMinHeightTextBox(wrapper: TextBoxBaseWrapper): number {
@@ -348,6 +340,14 @@ export class FontService {
 
   public getDataMaxHeightTextBox(wrapper: TextBoxBaseWrapper): number {
     return this.getMeasuredHeight(wrapper, wrapper.getDisplayMaxLines());
+  }
+
+  public getDataMinWidthComboBox(wrapper: ComboBoxWrapper): number {
+    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMinLength(), null, null, null, this.getMinWidthRaster());
+  }
+
+  public getDataMaxWidthComboBox(wrapper: ComboBoxWrapper): number {
+    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMaxLength(), null, null, null, this.getMaxWidthRaster());
   }
 
   public measureText(text: string, font: string, size: number, isBold: boolean, isItalic: boolean): number {
