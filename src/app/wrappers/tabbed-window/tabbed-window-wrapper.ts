@@ -358,11 +358,17 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   protected setSelectedTabIndexJson(value: string): void {
+    const oldSelectedTabIndex: number = this.getSelectedTabIndex();
+
     let num: number = Number(value);
     num = !Number.isNaN(num) ? num : 0;
+
     this.selectedTabIndexOrg = num;
     this.setSelectedTabIndex(num);
-    this.scrollIntoView();
+
+    if (oldSelectedTabIndex !== num) {
+      this.scrollIntoView();
+    }
   }
 
   protected scrollIntoView(): void {
