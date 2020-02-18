@@ -157,7 +157,7 @@ export class CheckBoxComponent extends ControlComponent {
 
   public setFocus(): void {
     if (this.input) {
-      this.input.nativeElement.focus();
+      setTimeout(() => this.input.nativeElement.focus());
     }
   }
 }

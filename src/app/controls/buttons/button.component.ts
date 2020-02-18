@@ -114,7 +114,7 @@ export abstract class ButtonComponent extends ControlComponent {
     const button: ElementRef = this.getButton();
 
     if (button) {
-      button.nativeElement.focus();
+      setTimeout(() => button.nativeElement.focus());
     }
   }
 }

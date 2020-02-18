@@ -114,7 +114,7 @@ export abstract class TextBoxComponent extends ControlComponent {
     const input: ElementRef = this.getInput();
 
     if (input) {
-      input.nativeElement.focus();
+      setTimeout(() => input.nativeElement.focus());
     }
   }
 }
