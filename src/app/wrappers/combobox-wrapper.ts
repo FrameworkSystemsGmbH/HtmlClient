@@ -187,44 +187,11 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     this.setFittedContentWidth(null);
   }
 
-  protected onEnterCompleted(originalEvent: any, clientEvent: ClientEnterEvent): void {
-    this.getComponent().onAfterEnter();
-  }
-
-  public hasOnSelectionChangedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnSelectionChanged) ? true : false;
-  }
-
-  protected getOnSelectionChangedSubscription(event: any): () => void {
-    return () => this.getEventsService().fireSelectionChanged(
-      this.getForm().getId(),
-      this.getName(),
-      event,
-      new InternalEventCallbacks<ClientSelectionChangedEvent>(
-        this.canExecuteSelectionChanged.bind(this),
-        this.onSelectionChangedExecuted.bind(this),
-        this.onSelectionChangedCompleted.bind(this)
-      )
-    );
-  }
-
-  protected canExecuteSelectionChanged(originalEvent: any, clientEvent: ClientSelectionChangedEvent): boolean {
-    return this.hasOnSelectionChangedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
-  }
-
-  protected onSelectionChangedExecuted(originalEvent: any, clientEvent: ClientSelectionChangedEvent): void {
-    // Override in subclasses
-  }
-
-  protected onSelectionChangedCompleted(originalEvent: any, clientEvent: ClientSelectionChangedEvent): void {
-    // Override in subclasses
-  }
-
   protected attachEvents(instance: ComboBoxComponent): void {
     super.attachEvents(instance);
 
     if (this.getEvents() & ClientEventType.OnSelectionChanged) {
-      this.onSelectionChangedSub = instance.onSelectionChanged.subscribe(event => this.getOnSelectionChangedSubscription(event)());
+      this.onSelectionChangedSub = instance.onSelectionChanged.subscribe(() => this.getOnSelectionChangedSubscription()());
     }
   }
 
@@ -234,6 +201,38 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     if (this.onSelectionChangedSub) {
       this.onSelectionChangedSub.unsubscribe();
     }
+  }
+
+  protected onEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
+    this.getComponent().onAfterEnter();
+  }
+
+  public hasOnSelectionChangedEvent(): boolean {
+    return (this.getEvents() & ClientEventType.OnSelectionChanged) ? true : false;
+  }
+
+  protected getOnSelectionChangedSubscription(): () => void {
+    return () => this.getEventsService().fireSelectionChanged(
+      this.getForm().getId(),
+      this.getName(),
+      new InternalEventCallbacks<ClientSelectionChangedEvent>(
+        this.canExecuteSelectionChanged.bind(this),
+        this.onSelectionChangedExecuted.bind(this),
+        this.onSelectionChangedCompleted.bind(this)
+      )
+    );
+  }
+
+  protected canExecuteSelectionChanged(clientEvent: ClientSelectionChangedEvent, payload: any): boolean {
+    return this.hasOnSelectionChangedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
+  }
+
+  protected onSelectionChangedExecuted(clientEvent: ClientSelectionChangedEvent, payload: any, processedEvent: any): void {
+    // Override in subclasses
+  }
+
+  protected onSelectionChangedCompleted(clientEvent: ClientSelectionChangedEvent, payload: any, processedEvent: any): void {
+    // Override in subclasses
   }
 
   public getState(): any {

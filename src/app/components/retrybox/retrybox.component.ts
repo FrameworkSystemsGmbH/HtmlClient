@@ -58,15 +58,15 @@ export class RetryBoxComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  public onDetailsClick(event: any): void {
+  public onDetailsClick(): void {
     this.showStackTrace = !this.showStackTrace;
   }
 
-  public onAbortClick(event: any): void {
+  public onAbortClick(): void {
     this.dialogRef.close(RetryBoxResult.Abort);
   }
 
-  public onRetryClick(event: any): void {
+  public onRetryClick(): void {
     this.dialogRef.close(RetryBoxResult.Retry);
   }
 }

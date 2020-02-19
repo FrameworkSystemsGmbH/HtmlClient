@@ -14,7 +14,7 @@ export class KeyboardService {
     }
   }
 
-  private scrollToFocusOnOpen(event: any): void {
+  private scrollToFocusOnOpen(): void {
     if (document.activeElement) {
       const activeHtmlElement: HTMLElement = document.activeElement as HTMLElement;
       const scroller: HTMLElement = DomUtil.getNearestParent(activeHtmlElement, 'hc-form-scroller');

@@ -487,7 +487,6 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       this.getEventsService().fireItemSelectionChanged(
         this.getForm().getId(),
         this.getName(),
-        null,
         new InternalEventCallbacks<ClientSelectionChangedEvent>(
           this.canExecuteItemSelectionChanged.bind(this),
           this.onItemSelectionChangedExecuted.bind(this),
@@ -497,15 +496,15 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     }
   }
 
-  protected canExecuteItemSelectionChanged(originalEvent: any, clientEvent: ClientSelectionChangedEvent): boolean {
+  protected canExecuteItemSelectionChanged(clientEvent: ClientSelectionChangedEvent, payload: any): boolean {
     return this.hasOnItemSelectionChangedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onItemSelectionChangedExecuted(originalEvent: any, clientEvent: ClientSelectionChangedEvent): void {
+  protected onItemSelectionChangedExecuted(clientEvent: ClientSelectionChangedEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onItemSelectionChangedCompleted(originalEvent: any, clientEvent: ClientSelectionChangedEvent): void {
+  protected onItemSelectionChangedCompleted(clientEvent: ClientSelectionChangedEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
@@ -520,7 +519,6 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
         this.getName(),
         itemId,
         this.items.findIndex(i => i.getId() === itemId),
-        null,
         new InternalEventCallbacks<ClientItemActivatedEvent>(
           this.canExecuteItemActivated.bind(this),
           this.onItemActivatedExecuted.bind(this),
@@ -530,15 +528,15 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     }
   }
 
-  protected canExecuteItemActivated(originalEvent: any, clientEvent: ClientItemActivatedEvent): boolean {
+  protected canExecuteItemActivated(clientEvent: ClientItemActivatedEvent, payload: any): boolean {
     return this.hasOnItemActivatedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onItemActivatedExecuted(originalEvent: any, clientEvent: ClientItemActivatedEvent): void {
+  protected onItemActivatedExecuted(clientEvent: ClientItemActivatedEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onItemActivatedCompleted(originalEvent: any, clientEvent: ClientItemActivatedEvent): void {
+  protected onItemActivatedCompleted(clientEvent: ClientItemActivatedEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

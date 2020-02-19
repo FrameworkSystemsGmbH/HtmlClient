@@ -42,7 +42,7 @@ import { ImageService } from 'app/services/image.service';
 export class TabbedWindowComponent extends ContainerComponent implements OnInit, AfterViewInit {
 
   @Output()
-  public onTabClicked: EventEmitter<{ tabPage: TabPageWrapper; event: any }> = new EventEmitter<{ tabPage: TabPageWrapper; event: any }>();
+  public onTabClicked: EventEmitter<TabPageWrapper> = new EventEmitter<TabPageWrapper>();
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
@@ -103,9 +103,9 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     this.getWrapper().validateSelectedTabIndex();
   }
 
-  public callOnTabClicked(tabPage: TabPageWrapper, event?: any): void {
+  public callOnTabClicked(tabPage: TabPageWrapper): void {
     if (tabPage.getIsEditable() && tabPage.getVisibility() === Visibility.Visible) {
-      this.onTabClicked.emit({ tabPage, event });
+      this.onTabClicked.emit(tabPage);
     }
   }
 

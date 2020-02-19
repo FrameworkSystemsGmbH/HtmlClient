@@ -72,7 +72,7 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  public onEntrySelected(event: any, index: number): void {
+  public onEntrySelected(index: number): void {
     this.dialogRef.close({
       selected: true,
       index

@@ -102,7 +102,7 @@ export class BrokerService {
     return obsOf(event).pipe(
       tap(() => this.loaderService.fireLoadingChanged(true)),
       flatMap(() => {
-        if (!event.callbacks || event.callbacks.canExecute(event.originalEvent, event.clientEvent)) {
+        if (!event.callbacks || event.callbacks.canExecute(event.clientEvent, event.payload)) {
           return this.createRequest(event.clientEvent).pipe(
             flatMap(requestJson => this.doRequest(requestJson)),
             flatMap(responseJson => this.processResponse(responseJson))
@@ -113,10 +113,10 @@ export class BrokerService {
       }),
       tap(handleResult => {
         if (handleResult.result === ResponseResult.Executed && event.callbacks && event.callbacks.onExecuted) {
-          event.callbacks.onExecuted(event.originalEvent, event.clientEvent, handleResult.processedEvent);
+          event.callbacks.onExecuted(event.clientEvent, event.payload, handleResult.processedEvent);
         }
         if (event.callbacks && event.callbacks.onCompleted) {
-          event.callbacks.onCompleted(event.originalEvent, event.clientEvent, handleResult.processedEvent);
+          event.callbacks.onCompleted(event.clientEvent, event.payload, handleResult.processedEvent);
         }
       }),
       map(handleResult => {
@@ -510,7 +510,6 @@ export class BrokerService {
           buttons: msgBoxJson.buttons
         }).pipe(
           flatMap(result => this.handleEvent({
-            originalEvent: null,
             clientEvent: new ClientMsgBoxEvent(formId, id, result)
           }))
         )),

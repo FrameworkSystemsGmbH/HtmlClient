@@ -28,7 +28,7 @@ export class TextBoxPlainComponent extends TextBoxComponent {
     return this.input;
   }
 
-  public onInput(event: any): void {
+  public onInput(): void {
     this.value = this.formatValue(this.value);
   }
 

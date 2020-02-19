@@ -50,7 +50,7 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.getEvents() & ClientEventType.OnClick) {
-      this.onClickSub = instance.onClick.subscribe(event => this.getOnClickSubscription(event)());
+      this.onClickSub = instance.onClick.subscribe(() => this.getOnClickSubscription()());
     }
   }
 
@@ -66,11 +66,10 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     return (this.getEvents() & ClientEventType.OnClick) ? true : false;
   }
 
-  protected getOnClickSubscription(event: any): () => void {
+  protected getOnClickSubscription(): () => void {
     return () => this.getEventsService().fireClick(
       this.getForm().getId(),
       this.getName(),
-      event,
       new InternalEventCallbacks<ClientClickEvent>(
         this.canExecuteClick.bind(this),
         this.onClickExecuted.bind(this),
@@ -79,15 +78,15 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     );
   }
 
-  protected canExecuteClick(originalEvent: any, clientEvent: ClientClickEvent): boolean {
+  protected canExecuteClick(clientEvent: ClientClickEvent, payload: any): boolean {
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onClickExecuted(originalEvent: any, clientEvent: ClientClickEvent): void {
+  protected onClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onClickCompleted(originalEvent: any, clientEvent: ClientClickEvent): void {
+  protected onClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

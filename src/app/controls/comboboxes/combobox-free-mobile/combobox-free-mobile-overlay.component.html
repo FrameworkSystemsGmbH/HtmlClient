@@ -1,7 +1,7 @@
 <div class="wrapper" hcDialogResize cdkTrapFocus>
   <div #scroller class="scroller">
     <ul #list class="list">
-      <li *ngFor="let entry of entries; index as i" [ngClass]="{ selected: i === selectedIndex }" (click)="onEntrySelected($event, i)">
+      <li *ngFor="let entry of entries; index as i" [ngClass]="{ selected: i === selectedIndex }" (click)="onEntrySelected(i)">
         <span *ngIf="entry.getValue()">{{ entry.getValue() }}</span>
         <span *ngIf="!entry.getValue()">Empty</span>
       </li>
@@ -9,10 +9,10 @@
   </div>
   <div class="freetext">
     <mat-form-field>
-      <input #input matInput placeholder="Value" [(ngModel)]="inputValue" (keydown.enter)="onFreetextConfirm($event)" />
+      <input #input matInput placeholder="Value" [(ngModel)]="inputValue" (keydown.enter)="onFreetextConfirm()" />
     </mat-form-field>
   </div>
   <div class="footer">
-    <button mat-raised-button (click)="onFreetextConfirm($event)">Ok</button>
+    <button mat-raised-button (click)="onFreetextConfirm()">Ok</button>
   </div>
 </div>

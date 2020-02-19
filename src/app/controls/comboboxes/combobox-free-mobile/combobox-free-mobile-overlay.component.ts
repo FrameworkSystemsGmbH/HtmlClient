@@ -75,14 +75,14 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  public onEntrySelected(event: any, index: number): void {
+  public onEntrySelected(index: number): void {
     this.dialogRef.close({
       selected: true,
       index
     });
   }
 
-  public onFreetextConfirm(event: any): void {
+  public onFreetextConfirm(): void {
     const index: number = this.entries.findIndexOnValue(this.inputValue);
 
     if (index >= 0) {

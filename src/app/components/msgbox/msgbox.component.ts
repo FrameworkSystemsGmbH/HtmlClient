@@ -80,31 +80,31 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  public onYesClick(event: any): void {
+  public onYesClick(): void {
     this.dialogRef.close(MsgBoxResult.Yes);
   }
 
-  public onNoClick(event: any): void {
+  public onNoClick(): void {
     this.dialogRef.close(MsgBoxResult.No);
   }
 
-  public onOkClick(event: any): void {
+  public onOkClick(): void {
     this.dialogRef.close(MsgBoxResult.Ok);
   }
 
-  public onAbortClick(event: any): void {
+  public onAbortClick(): void {
     this.dialogRef.close(MsgBoxResult.Abort);
   }
 
-  public onRetryClick(event: any): void {
+  public onRetryClick(): void {
     this.dialogRef.close(MsgBoxResult.Retry);
   }
 
-  public onIgnoreClick(event: any): void {
+  public onIgnoreClick(): void {
     this.dialogRef.close(MsgBoxResult.Ignore);
   }
 
-  public onCancelClick(event: any): void {
+  public onCancelClick(): void {
     this.dialogRef.close(MsgBoxResult.Cancel);
   }
 }

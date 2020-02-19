@@ -158,7 +158,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
   }
 
-  public stopScrollingLeft(event: any): void {
+  public stopScrollingLeft(): void {
     clearInterval(this.leftInterval);
   }
 
@@ -169,7 +169,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
   }
 
-  public stopScrollingRight(event: any): void {
+  public stopScrollingRight(): void {
     clearInterval(this.rightInterval);
   }
 
@@ -218,7 +218,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
   }
 
-  public closeForm(event: any, form: FormWrapper): void {
+  public closeForm(form: FormWrapper): void {
     this.formsService.closeFormByButton(form);
   }
 

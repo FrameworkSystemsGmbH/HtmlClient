@@ -16,8 +16,8 @@
     </div>
   </div>
   <div #footer class="hc-retrybox-footer" tabindex="-1" cdkTrapFocus>
-    <button mat-raised-button (click)="onDetailsClick($event)" *ngIf="stackTrace">Details</button>
-    <button mat-raised-button (click)="onAbortClick($event)">Abort</button>
-    <button mat-raised-button (click)="onRetryClick($event)">Retry</button>
+    <button mat-raised-button (click)="onDetailsClick()" *ngIf="stackTrace">Details</button>
+    <button mat-raised-button (click)="onAbortClick()">Abort</button>
+    <button mat-raised-button (click)="onRetryClick()">Retry</button>
   </div>
 </div>

@@ -112,7 +112,7 @@ export class PictureWrapper extends ControlWrapper {
     super.attachEvents(instance);
 
     if (this.getEvents() & ClientEventType.OnClick) {
-      this.onClickSub = instance.onClick.subscribe(clickEventParams => this.getOnClickSubscription(clickEventParams.event, clickEventParams.args)());
+      this.onClickSub = instance.onClick.subscribe((args: ClientPictureClickEventArgs) => this.getOnClickSubscription(args)());
     }
   }
 
@@ -128,12 +128,11 @@ export class PictureWrapper extends ControlWrapper {
     return (this.getEvents() & ClientEventType.OnClick) ? true : false;
   }
 
-  protected getOnClickSubscription(event: any, args: ClientPictureClickEventArgs): () => void {
+  protected getOnClickSubscription(args: ClientPictureClickEventArgs): () => void {
     return () => this.getEventsService().firePictureClick(
       this.getForm().getId(),
       this.getName(),
       args,
-      event,
       new InternalEventCallbacks<ClientPictureClickEvent>(
         this.canExecuteClick.bind(this),
         this.onClickExecuted.bind(this),
@@ -142,15 +141,15 @@ export class PictureWrapper extends ControlWrapper {
     );
   }
 
-  protected canExecuteClick(originalEvent: any, clientEvent: ClientClickEvent): boolean {
+  protected canExecuteClick(clientEvent: ClientClickEvent, payload: any): boolean {
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onClickExecuted(originalEvent: any, clientEvent: ClientClickEvent): void {
+  protected onClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onClickCompleted(originalEvent: any, clientEvent: ClientClickEvent): void {
+  protected onClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

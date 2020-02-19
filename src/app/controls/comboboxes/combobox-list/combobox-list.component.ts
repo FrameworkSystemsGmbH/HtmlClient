@@ -111,7 +111,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
-  public onControlClick(event: any): void {
+  public onControlClick(): void {
     if (this.isEditable) {
       if (this.dropDownVisible) {
         this.hideList();

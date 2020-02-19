@@ -56,11 +56,11 @@ export class ErrorBoxComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  public onDetailsClick(event: any): void {
+  public onDetailsClick(): void {
     this.showStackTrace = !this.showStackTrace;
   }
 
-  public onOkClick(event: any): void {
+  public onOkClick(): void {
     this.dialogRef.close();
   }
 }

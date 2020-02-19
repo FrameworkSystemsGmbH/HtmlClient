@@ -63,7 +63,7 @@ export class ButtonImageComponent extends ButtonComponent {
     }
   }
 
-  public callOnMouseUp(event: MouseEvent): void {
+  public callOnMouseUp(): void {
     this.isMouseDown = false;
     this.updateImageUrl();
   }

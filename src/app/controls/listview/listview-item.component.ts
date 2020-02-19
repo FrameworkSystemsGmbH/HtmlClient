@@ -77,11 +77,11 @@ export class ListViewItemComponent implements OnInit {
     this.updateComponent();
   }
 
-  public onMouseEnter(event: any): void {
+  public onMouseEnter(): void {
     this.isHover = true;
   }
 
-  public onMouseLeave(event: any): void {
+  public onMouseLeave(): void {
     this.isHover = false;
     this.isMouseDown = false;
   }
@@ -92,7 +92,7 @@ export class ListViewItemComponent implements OnInit {
     }
   }
 
-  public onMouseUp(event: any): void {
+  public onMouseUp(): void {
     this.isMouseDown = false;
   }
 

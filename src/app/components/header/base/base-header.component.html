@@ -9,7 +9,7 @@
   </div>
   <div class="hc-header-center">
     <div #arrowLeft class="hc-header-tabs-left">
-      <div (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft($event)" (mouseleave)="stopScrollingLeft($event)">
+      <div (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft()" (mouseleave)="stopScrollingLeft()">
         <i class="fas fa-fw fa-angle-left fa-lg"></i>
       </div>
     </div>
@@ -18,7 +18,7 @@
         <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
           <span>{{ form.getTitle() }}</span>
           <span *ngIf="form.isCloseIconVisible()" class="hc-header-close-icon-span">
-            <span (click)="closeForm($event, form)" class="hc-header-close-icon-event-span">
+            <span (click)="closeForm(form)" class="hc-header-close-icon-event-span">
               <i class="hc-header-close-icon fa fa-fw fa-times"></i>
             </span>
           </span>
@@ -26,7 +26,7 @@
       </ul>
     </div>
     <div #arrowRight class="hc-header-tabs-right">
-      <div (mousedown)="startScrollingRight($event)" (mouseup)="stopScrollingRight($event)" (mouseleave)="stopScrollingRight($event)">
+      <div (mousedown)="startScrollingRight($event)" (mouseup)="stopScrollingRight()" (mouseleave)="stopScrollingRight()">
         <i class="fas fa-fw fa-angle-right fa-lg"></i>
       </div>
     </div>
@@ -50,7 +50,7 @@
       <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
         <span class="hc-header-list-title-span">{{ form.getTitle() }}</span>
         <span *ngIf="form.isCloseIconVisible()" class="hc-header-close-icon-span">
-          <span (click)="closeForm($event, form)" class="hc-header-close-icon-event-span">
+          <span (click)="closeForm(form)" class="hc-header-close-icon-event-span">
             <i class="hc-header-close-icon fa fa-fw fa-times"></i>
           </span>
         </span>

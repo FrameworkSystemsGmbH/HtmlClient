@@ -610,11 +610,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected attachEvents(instance: ControlComponent): void {
     if (this.hasOnEnterEvent()) {
-      this.onEnterSub = instance.onEnter.subscribe(event => this.getOnEnterSubscription(event)());
+      this.onEnterSub = instance.onEnter.subscribe(() => this.getOnEnterSubscription()());
     }
 
     if (this.hasOnLeaveEvent()) {
-      this.onLeaveSub = instance.onLeave.subscribe(event => this.getOnLeaveSubscription(event)());
+      this.onLeaveSub = instance.onLeave.subscribe(() => this.getOnLeaveSubscription()());
     }
   }
 
@@ -632,11 +632,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return (this.events & ClientEventType.OnEnter) ? true : false;
   }
 
-  protected getOnEnterSubscription(event: any): () => void {
+  protected getOnEnterSubscription(): () => void {
     return () => this.eventsService.fireEnter(
       this.getForm().getId(),
       this.getName(),
-      event,
       new InternalEventCallbacks<ClientEnterEvent>(
         this.canExecuteEnter.bind(this),
         this.onEnterExecuted.bind(this),
@@ -645,15 +644,15 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     );
   }
 
-  protected canExecuteEnter(originalEvent: any, clientEvent: ClientEnterEvent): boolean {
+  protected canExecuteEnter(clientEvent: ClientEnterEvent, payload: any): boolean {
     return this.hasOnEnterEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onEnterExecuted(originalEvent: any, clientEvent: ClientEnterEvent): void {
+  protected onEnterExecuted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onEnterCompleted(originalEvent: any, clientEvent: ClientEnterEvent): void {
+  protected onEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
@@ -661,13 +660,12 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return (this.events & ClientEventType.OnLeave) ? true : false;
   }
 
-  protected getOnLeaveSubscription(event: any): () => void {
+  protected getOnLeaveSubscription(): () => void {
     return () => this.eventsService.fireLeave(
       this.getForm().getId(),
       this.getName(),
       this.focusService.getLeaveActivator(),
       this.hasChangesLeave(),
-      event,
       new InternalEventCallbacks<ClientLeaveEvent>(
         this.canExecuteLeave.bind(this),
         this.onLeaveExecuted.bind(this),
@@ -676,15 +674,15 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     );
   }
 
-  protected canExecuteLeave(originalEvent: any, clientEvent: ClientLeaveEvent): boolean {
+  protected canExecuteLeave(clientEvent: ClientLeaveEvent, payload: any): boolean {
     return this.hasOnLeaveEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onLeaveExecuted(originalEvent: any, clientEvent: ClientLeaveEvent): void {
+  protected onLeaveExecuted(clientEvent: ClientLeaveEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onLeaveCompleted(originalEvent: any, clientEvent: ClientLeaveEvent): void {
+  protected onLeaveCompleted(clientEvent: ClientLeaveEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

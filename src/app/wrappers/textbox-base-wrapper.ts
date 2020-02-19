@@ -128,7 +128,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
     this.setFittedContentWidth(null);
   }
 
-  protected onEnterCompleted(originalEvent: any, clientEvent: ClientEnterEvent): void {
+  protected onEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
     this.getComponent().onAfterEnter();
   }
 
@@ -136,27 +136,26 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
     return (this.getEvents() & ClientEventType.OnValidated) ? true : false;
   }
 
-  protected canExecuteValidated(originalEvent: any, clientEvent: ClientValidatedEvent): boolean {
+  protected canExecuteValidated(clientEvent: ClientValidatedEvent, payload: any): boolean {
     return this.hasOnValidatedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onValidatedExecuted(originalEvent: any, clientEvent: ClientValidatedEvent): void {
+  protected onValidatedExecuted(clientEvent: ClientValidatedEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onValidatedCompleted(originalEvent: any, clientEvent: ClientValidatedEvent): void {
-    super.getOnLeaveSubscription(originalEvent)();
+  protected onValidatedCompleted(clientEvent: ClientValidatedEvent, payload: any, processedEvent: any): void {
+    super.getOnLeaveSubscription()();
   }
 
   public hasOnLeaveEvent(): boolean {
     return super.hasOnLeaveEvent() || this.hasOnValidatedEvent();
   }
 
-  protected getOnLeaveSubscription(event: any): () => void {
+  protected getOnLeaveSubscription(): () => void {
     return () => this.getEventsService().fireValidated(
       this.getForm().getId(),
       this.getName(),
-      event,
       new InternalEventCallbacks<ClientValidatedEvent>(
         this.canExecuteValidated.bind(this),
         this.onValidatedExecuted.bind(this),

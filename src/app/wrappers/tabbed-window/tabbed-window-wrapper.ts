@@ -199,11 +199,11 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     super.attachEvents(instance);
 
     if (this.hasOnSelectedTabPageChangeEvent()) {
-      this.onTabClickedSub = instance.onTabClicked.subscribe((payload: { tabPage: TabPageWrapper; event: any }) => this.getOnSelectedTabPageChangeSubscription(payload)());
+      this.onTabClickedSub = instance.onTabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangeSubscription(tabPage)());
     } else if (this.hasOnSelectedTabPageChangedEvent()) {
-      this.onTabClickedSub = instance.onTabClicked.subscribe((payload: { tabPage: TabPageWrapper; event: any }) => this.getOnSelectedTabPageChangedSubscription(payload)());
+      this.onTabClickedSub = instance.onTabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangedSubscription(tabPage)());
     } else {
-      this.onTabClickedSub = instance.onTabClicked.subscribe((payload: { tabPage: TabPageWrapper; event: any }) => this.getNonEventTabPageChangedSubscription(payload)());
+      this.onTabClickedSub = instance.onTabClicked.subscribe((tabPage: TabPageWrapper) => this.getNonEventTabPageChangedSubscription(tabPage)());
     }
   }
 
@@ -217,9 +217,9 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return this.selectedTabIndex >= 0 && this.selectedTabIndex !== this.selectedTabIndexOrg;
   }
 
-  protected getNonEventTabPageChangedSubscription(payload: { tabPage: TabPageWrapper; event: any }): () => void {
+  protected getNonEventTabPageChangedSubscription(tabPage: TabPageWrapper): () => void {
     return () => {
-      this.changeSelectedTabPage(payload.tabPage);
+      this.changeSelectedTabPage(tabPage);
       this.framesService.layout();
     };
   }
@@ -228,13 +228,13 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return (this.getEvents() & ClientEventType.OnSelectedTabPageChange) ? true : false;
   }
 
-  protected getOnSelectedTabPageChangeSubscription(payload: { tabPage: TabPageWrapper; event: any }): () => void {
+  protected getOnSelectedTabPageChangeSubscription(tabPage: TabPageWrapper): () => void {
     return () => this.getEventsService().fireSelectedTabPageChange(
       this.getForm().getId(),
       this.getName(),
       this.getTabPages()[this.selectedTabIndex].getName(),
-      payload.tabPage.getName(),
-      payload,
+      tabPage.getName(),
+      tabPage,
       new InternalEventCallbacks<ClientSelectedTabPageChangeEvent>(
         this.canExecuteSelectedTabPageChange.bind(this),
         this.onSelectedTabPageChangeExecuted.bind(this),
@@ -243,17 +243,17 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     );
   }
 
-  protected canExecuteSelectedTabPageChange(originalEvent: any, clientEvent: ClientSelectedTabPageChangeEvent): boolean {
+  protected canExecuteSelectedTabPageChange(clientEvent: ClientSelectedTabPageChangeEvent, payload: any): boolean {
     return this.hasOnSelectedTabPageChangeEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onSelectedTabPageChangeExecuted(originalEvent: any, clientEvent: ClientSelectedTabPageChangeEvent, processedEvent: any): void {
+  protected onSelectedTabPageChangeExecuted(clientEvent: ClientSelectedTabPageChangeEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onSelectedTabPageChangeCompleted(originalEvent: any, clientEvent: ClientSelectedTabPageChangeEvent, processedEvent: any): void {
+  protected onSelectedTabPageChangeCompleted(clientEvent: ClientSelectedTabPageChangeEvent, payload: any, processedEvent: any): void {
     if (this.hasOnSelectedTabPageChangedEvent() && processedEvent != null && processedEvent.args != null && !processedEvent.args.cancel) {
-      this.getOnSelectedTabPageChangedSubscription(originalEvent)();
+      this.getOnSelectedTabPageChangedSubscription(payload)();
     }
   }
 
@@ -261,14 +261,13 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return (this.getEvents() & ClientEventType.OnSelectedTabPageChanged) ? true : false;
   }
 
-  protected getOnSelectedTabPageChangedSubscription(payload: { tabPage: TabPageWrapper; event: any }): () => void {
-    this.changeSelectedTabPage(payload.tabPage);
+  protected getOnSelectedTabPageChangedSubscription(tabPage: TabPageWrapper): () => void {
+    this.changeSelectedTabPage(tabPage);
     return () => this.getEventsService().fireSelectedTabPageChanged(
       this.getForm().getId(),
       this.getName(),
       this.getTabPages()[this.selectedTabIndex].getName(),
-      payload.tabPage.getName(),
-      payload.event,
+      tabPage.getName(),
       new InternalEventCallbacks<ClientSelectedTabPageChangedEvent>(
         this.canExecuteSelectedTabPageChanged.bind(this),
         this.onSelectedTabPageChangedExecuted.bind(this),
@@ -277,15 +276,15 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     );
   }
 
-  protected canExecuteSelectedTabPageChanged(originalEvent: any, clientEvent: ClientSelectedTabPageChangedEvent): boolean {
+  protected canExecuteSelectedTabPageChanged(clientEvent: ClientSelectedTabPageChangedEvent, payload: any): boolean {
     return this.hasOnSelectedTabPageChangedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onSelectedTabPageChangedExecuted(originalEvent: any, clientEvent: ClientSelectedTabPageChangedEvent): void {
+  protected onSelectedTabPageChangedExecuted(clientEvent: ClientSelectedTabPageChangedEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onSelectedTabPageChangedCompleted(originalEvent: any, clientEvent: ClientSelectedTabPageChangedEvent): void {
+  protected onSelectedTabPageChangedCompleted(clientEvent: ClientSelectedTabPageChangedEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

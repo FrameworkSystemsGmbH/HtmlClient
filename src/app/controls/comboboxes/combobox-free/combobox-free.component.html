@@ -1,9 +1,9 @@
 <div class="hc-cmb-free" [ngStyle]="containerStyle" (mousedown)="onContainerMouseDown($event)">
   <div class="hc-cmb-free-ctrl" [ngStyle]="controlStyle">
     <div class="hc-cmb-free-input">
-      <input #input type="text" [ngStyle]="inputStyle" [ngModel]="getSelectedValue()" (input)="onInput($event)" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" [attr.tabindex]="tabIndexAttr" [attr.readonly]="isReadOnlyAttr" />
+      <input #input type="text" [ngStyle]="inputStyle" [ngModel]="getSelectedValue()" (input)="onInput()" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" [attr.tabindex]="tabIndexAttr" [attr.readonly]="isReadOnlyAttr" />
     </div>
-    <div #arrow class="hc-cmb-free-arrow" [ngStyle]="arrowStyle" (mouseover)="onArrowEnter($event)" (mouseout)="onArrowLeave($event)" (click)="onArrowClick($event)">
+    <div #arrow class="hc-cmb-free-arrow" [ngStyle]="arrowStyle" (mouseover)="onArrowEnter()" (mouseout)="onArrowLeave()" (click)="onArrowClick()">
       <span>
         <i class="fas fa-caret-down"></i>
       </span>

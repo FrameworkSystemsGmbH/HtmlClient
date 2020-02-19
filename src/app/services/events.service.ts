@@ -42,10 +42,8 @@ export class EventsService {
   public fireClick(
     formId: string,
     controlName: string,
-    originalEvent: any,
     callbacks: InternalEventCallbacks<ClientClickEvent>): void {
     this._eventFired.next({
-      originalEvent,
       clientEvent: new ClientClickEvent(controlName, formId),
       callbacks
     });
@@ -55,35 +53,9 @@ export class EventsService {
     formId: string,
     controlName: string,
     args: ClientPictureClickEventArgs,
-    originalEvent: any,
     callbacks: InternalEventCallbacks<ClientPictureClickEvent>): void {
     this._eventFired.next({
-      originalEvent,
       clientEvent: new ClientPictureClickEvent(controlName, formId, args),
-      callbacks
-    });
-  }
-
-  public fireValidated(
-    formId: string,
-    controlName: string,
-    originalEvent: any,
-    callbacks: InternalEventCallbacks<ClientValidatedEvent>): void {
-    this._eventFired.next({
-      originalEvent,
-      clientEvent: new ClientValidatedEvent(controlName, formId),
-      callbacks
-    });
-  }
-
-  public fireSelectionChanged(
-    formId: string,
-    controlName: string,
-    originalEvent: any,
-    callbacks: InternalEventCallbacks<ClientSelectionChangedEvent>): void {
-    this._eventFired.next({
-      originalEvent,
-      clientEvent: new ClientSelectionChangedEvent(controlName, formId),
       callbacks
     });
   }
@@ -91,10 +63,8 @@ export class EventsService {
   public fireEnter(
     formId: string,
     controlName: string,
-    originalEvent: any,
     callbacks: InternalEventCallbacks<ClientEnterEvent>): void {
     this._eventFired.next({
-      originalEvent,
       clientEvent: new ClientEnterEvent(controlName, formId),
       callbacks
     });
@@ -105,11 +75,29 @@ export class EventsService {
     controlName: string,
     activator: string,
     hasValueChanged: boolean,
-    originalEvent: any,
     callbacks: InternalEventCallbacks<ClientLeaveEvent>): void {
     this._eventFired.next({
-      originalEvent,
       clientEvent: new ClientLeaveEvent(controlName, formId, activator, hasValueChanged),
+      callbacks
+    });
+  }
+
+  public fireValidated(
+    formId: string,
+    controlName: string,
+    callbacks: InternalEventCallbacks<ClientValidatedEvent>): void {
+    this._eventFired.next({
+      clientEvent: new ClientValidatedEvent(controlName, formId),
+      callbacks
+    });
+  }
+
+  public fireSelectionChanged(
+    formId: string,
+    controlName: string,
+    callbacks: InternalEventCallbacks<ClientSelectionChangedEvent>): void {
+    this._eventFired.next({
+      clientEvent: new ClientSelectionChangedEvent(controlName, formId),
       callbacks
     });
   }
@@ -117,10 +105,8 @@ export class EventsService {
   public fireItemSelectionChanged(
     formId: string,
     controlName: string,
-    originalEvent: any,
     callbacks: InternalEventCallbacks<ClientItemSelectionChangedEvent>): void {
     this._eventFired.next({
-      originalEvent,
       clientEvent: new ClientItemSelectionChangedEvent(controlName, formId),
       callbacks
     });
@@ -131,10 +117,8 @@ export class EventsService {
     controlName: string,
     itemId: string,
     itemIndex: number,
-    originalEvent: any,
     callbacks: InternalEventCallbacks<ClientItemActivatedEvent>): void {
     this._eventFired.next({
-      originalEvent,
       clientEvent: new ClientItemActivatedEvent(controlName, formId, itemId, itemIndex),
       callbacks
     });
@@ -144,7 +128,6 @@ export class EventsService {
     formId: string,
     callbacks: InternalEventCallbacks<ClientCloseEvent>): void {
     this._eventFired.next({
-      originalEvent: null,
       clientEvent: new ClientCloseEvent(formId),
       callbacks
     });
@@ -154,7 +137,6 @@ export class EventsService {
     formId: string,
     callbacks: InternalEventCallbacks<ClientDisposeEvent>): void {
     this._eventFired.next({
-      originalEvent: null,
       clientEvent: new ClientDisposeEvent(formId),
       callbacks
     });
@@ -162,35 +144,31 @@ export class EventsService {
 
   public fireApplicationQuitRequest(): void {
     this._eventFired.next({
-      originalEvent: null,
       clientEvent: new ClientApplicationQuitRequestEvent()
     });
   }
 
   public fireApplicationQuit(restartRequested: boolean): void {
     this._eventFired.next({
-      originalEvent: null,
       clientEvent: new ClientApplicationQuitEvent(restartRequested)
     });
   }
 
   public fireBarcodeScanned(cancelled: boolean, hasError: boolean, errorMessage: string, value: string, format: BarcodeFormat) {
     this._eventFired.next({
-      originalEvent: null,
       clientEvent: new ClientBarcodeScannedEvent(cancelled, hasError, errorMessage, value, format)
     });
   }
 
   public firePhotoTaken(hasError: boolean, errorMessage: string, imageData: string) {
     this._eventFired.next({
-      originalEvent: null,
-      clientEvent: new ClientPhotoTakenEvent(hasError, errorMessage, imageData)
+      clientEvent: new ClientPhotoTakenEvent(hasError, errorMessage, imageData),
+      payload: null
     });
   }
 
   public fireGotGeoLocation(hasError: boolean, errorMessage: string, latitude: number, longitude: number, altitude: number, accuracy: number, heading: number, speed: number, timestamp: number) {
     this._eventFired.next({
-      originalEvent: null,
       clientEvent: new ClientGotGeoLocationEvent(hasError, errorMessage, latitude, longitude, altitude, accuracy, heading, speed, timestamp)
     });
   }
@@ -200,11 +178,11 @@ export class EventsService {
     controlName: string,
     lastTab: string,
     selectedTab: string,
-    originalEvent: any,
+    payload: any,
     callbacks: InternalEventCallbacks<ClientSelectedTabPageChangeEvent>): void {
     this._eventFired.next({
-      originalEvent,
       clientEvent: new ClientSelectedTabPageChangeEvent(controlName, formId, lastTab, selectedTab),
+      payload,
       callbacks
     });
   }
@@ -214,10 +192,8 @@ export class EventsService {
     controlName: string,
     lastTab: string,
     selectedTab: string,
-    originalEvent: any,
     callbacks: InternalEventCallbacks<ClientSelectedTabPageChangedEvent>): void {
     this._eventFired.next({
-      originalEvent,
       clientEvent: new ClientSelectedTabPageChangedEvent(controlName, formId, lastTab, selectedTab),
       callbacks
     });

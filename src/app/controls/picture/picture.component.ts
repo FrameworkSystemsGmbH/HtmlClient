@@ -18,7 +18,7 @@ import { ClientPictureClickEventArgs } from 'app/common/events/eventargs/client-
 export class PictureComponent extends ControlComponent {
 
   @Output()
-  public onClick: EventEmitter<{ event: any; args: ClientPictureClickEventArgs }>;
+  public onClick: EventEmitter<ClientPictureClickEventArgs>;
 
   @ViewChild('wrapper', { static: false })
   public wrapperEl: ElementRef;
@@ -40,10 +40,7 @@ export class PictureComponent extends ControlComponent {
 
   public callOnClick(event: MouseEvent, double: boolean): void {
     if (this.getWrapper().hasOnClickEvent()) {
-      this.onClick.emit({
-        event,
-        args: this.getClickEventArgs(event, double)
-      });
+      this.onClick.emit(this.getClickEventArgs(event, double));
     }
   }
 

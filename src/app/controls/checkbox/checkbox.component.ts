@@ -56,7 +56,7 @@ export class CheckBoxComponent extends ControlComponent {
     }
   }
 
-  public onLabelMouseDown(event: any): void {
+  public onLabelMouseDown(): void {
     this.setFocus();
   }
 

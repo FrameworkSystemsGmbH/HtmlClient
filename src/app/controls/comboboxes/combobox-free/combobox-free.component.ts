@@ -104,19 +104,19 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
-  public onArrowEnter(event: any): void {
+  public onArrowEnter(): void {
     if (this.isEditable) {
       this.arrowHover = true;
     }
   }
 
-  public onArrowLeave(event: any): void {
+  public onArrowLeave(): void {
     if (this.isEditable) {
       this.arrowHover = false;
     }
   }
 
-  public onArrowClick(event: any): void {
+  public onArrowClick(): void {
     this.setFocus();
     if (this.isEditable) {
       if (this.dropDownVisible) {
@@ -139,7 +139,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
-  public onInput(event: any): void {
+  public onInput(): void {
     if (this.isEditable) {
       this.setInputValue(this.input.nativeElement.value);
       this.setSelectedIndex(null);
