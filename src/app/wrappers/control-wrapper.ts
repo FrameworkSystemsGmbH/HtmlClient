@@ -32,6 +32,7 @@ import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
 import { ClientEventType } from 'app/enums/client-event-type';
 import { JsonUtil } from 'app/util/json-util';
 import { ControlType } from 'app/enums/control-type';
+import { FontService } from 'app/services/font.service';
 
 export abstract class ControlWrapper implements ILayoutableControlWrapper, IControlLabelProvider {
 
@@ -56,6 +57,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private controlStyleService: ControlStyleService;
   private eventsService: EventsService;
   private focusService: FocusService;
+  private fontService: FontService;
   private platformService: PlatformService;
 
   private onEnterSub: Subscription;
@@ -91,6 +93,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     this.controlStyleService = this.injector.get(ControlStyleService);
     this.eventsService = this.injector.get(EventsService);
     this.focusService = this.injector.get(FocusService);
+    this.fontService = this.injector.get(FontService);
     // tslint:disable-next-line: deprecation
     this.platformService = this.injector.get(PlatformService);
   }
@@ -120,6 +123,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected getFocusService(): FocusService {
     return this.focusService;
+  }
+
+  protected getFontService(): FontService {
+    return this.fontService;
   }
 
   protected getPlatformService(): PlatformService {
@@ -450,11 +457,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public getLineHeight(): number {
-    return this.getFontSize();
-  }
-
-  public getLineHeightMultiline(): number {
-    return Math.roundDec(this.getFontSize() * 1.2, 0);
+    return this.fontService.measureTextHeight(this.getFontFamily(), this.getFontSize());
   }
 
   public providesControlLabelWrapper(): boolean {

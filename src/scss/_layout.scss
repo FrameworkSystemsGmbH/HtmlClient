@@ -9,6 +9,7 @@ html {
 }
 
 body {
+  position: relative;
   height: 100%;
   overflow: hidden;
   font-size: $global-font-size;
@@ -28,6 +29,18 @@ body {
   font-size: 2.5rem;
 }
 
+#measureTextWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  user-select: none;
+  z-index: -1000;
+  transform: translateY(-100%);
+}
+
 .visually-hidden {
   position: absolute;
   width: 0.1rem;
@@ -38,10 +51,4 @@ body {
   outline: 0;
   clip: rect(0 0 0 0);
   overflow: hidden;
-}
-
-.scrollbar-measure {
-  width: 10rem;
-  height: 10rem;
-  overflow: scroll;
 }

@@ -157,14 +157,14 @@ export class RadioButtonWrapper extends FittedWrapper {
     const caption: string = this.getCaption();
 
     if (!!caption) {
-      this.setFittedContentWidth(this.getFontService().measureText(caption, this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()) + this.getButtonWidth() + this.getLabelGap());
+      this.setFittedContentWidth(this.getFontService().measureTextWidth(caption, this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()) + this.getButtonWidth() + this.getLabelGap());
     } else {
       this.setFittedContentWidth(this.getButtonWidth());
     }
   }
 
   public updateFittedHeight(): void {
-    this.setFittedContentHeight(Math.max(this.getFontSize(), this.getButtonHeight()));
+    this.setFittedContentHeight(Math.max(this.getFontService().measureTextHeight(this.getFontFamily(), this.getFontSize()), this.getButtonHeight()));
   }
 
   public getState(): any {

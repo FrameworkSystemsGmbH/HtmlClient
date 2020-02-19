@@ -30,7 +30,7 @@ export class TextBoxMultilineWrapper extends TextBoxBaseWrapper {
   }
 
   public getLineHeight(): number {
-    return this.getLineHeightMultiline();
+    return Math.ceilDec(super.getLineHeight() * 1.1, 0);
   }
 
   public getValue(): string {

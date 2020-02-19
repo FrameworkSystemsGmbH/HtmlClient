@@ -4,7 +4,6 @@ import * as Moment from 'moment-timezone';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { NumberFormatService } from 'app/services/formatter/number-format.service';
 import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
-import { PlatformService } from 'app/services/platform/platform.service';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
 import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
 import { PropertyStore } from 'app/common/property-store';
@@ -13,6 +12,7 @@ import { DataSourceType } from 'app/enums/datasource-type';
 import { TextFormat } from 'app/enums/text-format';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { ParseMethod } from 'app/enums/parse-method';
+import { StyleUtil } from 'app/util/style-util';
 
 @Injectable()
 export class FontService {
@@ -32,21 +32,24 @@ export class FontService {
 
   // Buffers for already calculated widths
   private readonly stringWidthBuffer: Map<String, number> = new Map<String, number>();
+  private readonly stringHeightBuffer: Map<String, number> = new Map<String, number>();
   private readonly dateTimeWidthBuffer: Map<String, number> = new Map<String, number>();
   private readonly numberWidthBuffer: Map<String, number> = new Map<String, number>();
   private readonly maxWidthDigitBuffer: Map<String, number> = new Map<String, number>();
   private readonly linesHeightBuffer: Map<String, number> = new Map<String, number>();
 
+  private readonly span: HTMLSpanElement;
   private readonly canvas: HTMLCanvasElement;
   private readonly context: CanvasRenderingContext2D;
 
   private baseControlStyle: PropertyStore;
 
   constructor(
-    private platformService: PlatformService,
     private controlStyleService: ControlStyleService,
     private numberFormatService: NumberFormatService,
-    private dateTimeFormatService: DateTimeFormatService) {
+    private dateTimeFormatService: DateTimeFormatService
+  ) {
+    this.span = document.getElementById('measureHeightSpan');
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
   }
@@ -131,7 +134,7 @@ export class FontService {
         // Measure 3 of the same digits behind each other because of a weird measuring behavior:
         // '1' is the same width as '6' but '111' is not as wide as '666' -> WTF?
         const measureText: string = digitStr + digitStr + digitStr;
-        const digitWidth: number = this.measureText(measureText, fontFamily, fontSize, fontBold, fontItalic) / 3;
+        const digitWidth: number = this.measureTextWidth(measureText, fontFamily, fontSize, fontBold, fontItalic) / 3;
         if (digitWidth > maxDigitWidth || digitWidth === maxDigitWidth && digit === 0) {
           digit = i;
           maxDigitWidth = digitWidth;
@@ -243,7 +246,7 @@ export class FontService {
     const fontBold: boolean = wrapper.getFontBold();
     const fontItalic: boolean = wrapper.getFontItalic();
 
-    const measureTextWidth: number = this.measureText(measureText, fontFamily, fontSize, fontBold, fontItalic);
+    const measureTextWidth: number = this.measureTextWidth(measureText, fontFamily, fontSize, fontBold, fontItalic);
 
     return measureTextWidth * factor;
   }
@@ -269,7 +272,7 @@ export class FontService {
 
         const measureString: string = this.dateTimeFormatService.formatDate(date, textFormat, formatPattern);
 
-        result = Math.max(result, this.measureText(measureString, fontFamily, fontSize, fontBold, fontItalic));
+        result = Math.max(result, this.measureTextWidth(measureString, fontFamily, fontSize, fontBold, fontItalic));
       }
     }
 
@@ -321,7 +324,7 @@ export class FontService {
     const fontBold: boolean = wrapper.getFontBold();
     const fontItalic: boolean = wrapper.getFontItalic();
 
-    return this.measureText(measureString, fontFamily, fontSize, fontBold, fontItalic);
+    return this.measureTextWidth(measureString, fontFamily, fontSize, fontBold, fontItalic);
   }
 
   public getDataMinWidthTextBox(wrapper: TextBoxBaseWrapper): number {
@@ -350,13 +353,34 @@ export class FontService {
     return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMaxLength(), null, null, null, this.getMaxWidthRaster());
   }
 
-  public measureText(text: string, font: string, size: number, isBold: boolean, isItalic: boolean): number {
-    if (text == null) {
+  public measureTextWidth(text: string, font: string, size: number, isBold: boolean, isItalic: boolean): number {
+    if (text == null || String.isNullOrWhiteSpace(font) || size == null || size <= 0) {
       return 0;
     }
 
     this.context.font = (isBold ? 'bold' : String.empty()) + (isItalic ? ' italic' : String.empty()) + ' ' + size + 'px' + ' ' + font;
 
     return Math.ceilDec(this.context.measureText(text).width, 0);
+  }
+
+  public measureTextHeight(font: string, size: number): number {
+    if (String.isNullOrWhiteSpace(font) || size == null || size <= 0) {
+      return 0;
+    }
+
+    const fontKey: string = font + this.separator + size.toString();
+
+    let bufferedHeight: number = this.stringHeightBuffer.get(fontKey);
+
+    if (bufferedHeight == null) {
+      this.span.style.fontFamily = font;
+      this.span.style.fontSize = StyleUtil.pixToRemValueStr(size);
+
+      bufferedHeight = Math.ceilDec(this.span.offsetHeight, 0);
+
+      this.stringHeightBuffer.set(fontKey, bufferedHeight);
+    }
+
+    return bufferedHeight;
   }
 }

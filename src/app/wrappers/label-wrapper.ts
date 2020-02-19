@@ -50,6 +50,6 @@ export class LabelWrapper extends FittedWrapper {
   }
 
   public updateFittedWidth(): void {
-    this.setFittedContentWidth(this.getFontService().measureText(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
+    this.setFittedContentWidth(this.getFontService().measureTextWidth(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
   }
 }

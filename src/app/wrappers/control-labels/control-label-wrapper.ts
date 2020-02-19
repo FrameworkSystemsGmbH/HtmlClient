@@ -310,7 +310,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper {
   }
 
   public updateFittedWidth(): void {
-    this.setFittedContentWidth(this.getFontService().measureText(this.getDisplayCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
+    this.setFittedContentWidth(this.getFontService().measureTextWidth(this.getDisplayCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
   }
 
   public updateFittedHeight(): void {

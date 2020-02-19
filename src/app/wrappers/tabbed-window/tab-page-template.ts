@@ -1,93 +1,102 @@
 import { PropertyStore } from 'app/common/property-store';
+import { FontService } from 'app/services/font.service';
 
 export class TabPageTemplate {
 
   private propertyStore: PropertyStore;
+  private fontService: FontService;
 
-  constructor(propertyStore: PropertyStore) {
+  constructor(propertyStore: PropertyStore, fontService: FontService) {
     this.propertyStore = propertyStore;
+    this.fontService = fontService;
   }
 
   public getForeColor(): string {
-    return this.propertyStore.getForeColor();
+    const foreColor: string = this.propertyStore.getForeColor();
+    return foreColor != null ? foreColor : '#000000';
   }
 
   public getBackColor(): string {
-    return this.propertyStore.getBackColor();
+    const backColor: string = this.propertyStore.getBackColor();
+    return backColor != null ? backColor : '#FFFFFF';
   }
 
   public getFontFamily(): string {
-    return this.propertyStore.getFontFamily();
+    const fontFamily: string = this.propertyStore.getFontFamily();
+    return fontFamily != null ? fontFamily : 'Arial';
   }
 
   public getFontSize(): number {
-    return this.propertyStore.getFontSize();
+    const fontSize: number = this.propertyStore.getFontSize();
+    return fontSize != null ? fontSize : 14;
   }
 
   public getFontBold(): boolean {
-    return this.propertyStore.getFontBold();
+    return Boolean.falseIfNull(this.propertyStore.getFontBold());
   }
 
   public getFontItalic(): boolean {
-    return this.propertyStore.getFontItalic();
+    return Boolean.falseIfNull(this.propertyStore.getFontItalic());
   }
 
   public getFontUnderline(): boolean {
-    return this.propertyStore.getFontUnderline();
+    return Boolean.falseIfNull(this.propertyStore.getFontUnderline());
   }
 
   public getLineHeight(): number {
-    return this.propertyStore.getFontSize();
+    return this.fontService.measureTextHeight(this.getFontFamily(), this.getFontSize());
   }
 
   public getBorderColor(): string {
-    return this.propertyStore.getBorderColor();
+    const borderColor: string = this.propertyStore.getBorderColor();
+    return borderColor != null ? borderColor : '#808080';
   }
 
   public getBorderRadiusTopLeft(): number {
-    return this.propertyStore.getBorderRadiusTopLeft();
+    return Number.zeroIfNull(this.propertyStore.getBorderRadiusTopLeft());
   }
+
   public getBorderRadiusTopRight(): number {
-    return this.propertyStore.getBorderRadiusTopRight();
+    return Number.zeroIfNull(this.propertyStore.getBorderRadiusTopRight());
   }
 
   public getBorderRadiusBottomLeft(): number {
-    return this.propertyStore.getBorderRadiusBottomLeft();
+    return Number.zeroIfNull(this.propertyStore.getBorderRadiusBottomLeft());
   }
 
   public getBorderRadiusBottomRight(): number {
-    return this.propertyStore.getBorderRadiusBottomRight();
+    return Number.zeroIfNull(this.propertyStore.getBorderRadiusBottomRight());
   }
 
   public getBorderThicknessLeft(): number {
-    return this.propertyStore.getBorderThicknessLeft();
+    return Number.zeroIfNull(this.propertyStore.getBorderThicknessLeft());
   }
 
   public getBorderThicknessRight(): number {
-    return this.propertyStore.getBorderThicknessRight();
+    return Number.zeroIfNull(this.propertyStore.getBorderThicknessRight());
   }
 
   public getBorderThicknessTop(): number {
-    return this.propertyStore.getBorderThicknessTop();
+    return Number.zeroIfNull(this.propertyStore.getBorderThicknessTop());
   }
 
   public getBorderThicknessBottom(): number {
-    return this.propertyStore.getBorderThicknessBottom();
+    return Number.zeroIfNull(this.propertyStore.getBorderThicknessBottom());
   }
 
   public getPaddingLeft(): number {
-    return this.propertyStore.getPaddingLeft();
+    return Number.zeroIfNull(this.propertyStore.getPaddingLeft());
   }
 
   public getPaddingRight(): number {
-    return this.propertyStore.getPaddingRight();
+    return Number.zeroIfNull(this.propertyStore.getPaddingRight());
   }
 
   public getPaddingTop(): number {
-    return this.propertyStore.getPaddingTop();
+    return Number.zeroIfNull(this.propertyStore.getPaddingTop());
   }
 
   public getPaddingBottom(): number {
-    return this.propertyStore.getPaddingBottom();
+    return Number.zeroIfNull(this.propertyStore.getPaddingBottom());
   }
 }

@@ -1,21 +1,9 @@
-import { FontService } from 'app/services/font.service';
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 
 export abstract class FittedWrapper extends ControlWrapper {
 
   private fittedWidth: number;
   private fittedHeight: number;
-
-  private fontService: FontService;
-
-  protected init(): void {
-    super.init();
-    this.fontService = this.getInjector().get(FontService);
-  }
-
-  protected getFontService(): FontService {
-    return this.fontService;
-  }
 
   public getMinWidth(): number {
     return Math.max(Number.zeroIfNull(super.getMinWidth()), Number.zeroIfNull(this.fittedWidth));
@@ -34,7 +22,7 @@ export abstract class FittedWrapper extends ControlWrapper {
   public abstract updateFittedWidth(): void;
 
   public updateFittedHeight(): void {
-    this.setFittedContentHeight(this.getFontSize());
+    this.setFittedContentHeight(this.getFontService().measureTextHeight(this.getFontFamily(), this.getFontSize()));
   }
 
   protected setFittedContentWidth(fittedWidth): void {

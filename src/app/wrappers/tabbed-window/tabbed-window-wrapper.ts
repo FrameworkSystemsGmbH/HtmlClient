@@ -29,14 +29,12 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   private selectedTabIndex: number;
   private selectedTabIndexOrg: number;
 
-  private fontService: FontService;
   private framesService: FramesService;
 
   private onTabClickedSub: Subscription;
 
   protected init(): void {
     super.init();
-    this.fontService = this.getInjector().get(FontService);
     this.framesService = this.getInjector().get(FramesService);
   }
 
@@ -84,7 +82,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
     for (const tabPage of visibleTabPages) {
       const tabPageTemplate: TabPageTemplate = this.getCurrentTabPageTemplate(tabPage);
-      const captionWidth: number = this.fontService.measureText(tabPage.getCaption(), tabPageTemplate.getFontFamily(), Number.zeroIfNull(tabPageTemplate.getFontSize()), tabPageTemplate.getFontBold(), tabPageTemplate.getFontItalic());
+      const captionWidth: number = this.getFontService().measureTextWidth(tabPage.getCaption(), tabPageTemplate.getFontFamily(), Number.zeroIfNull(tabPageTemplate.getFontSize()), tabPageTemplate.getFontBold(), tabPageTemplate.getFontItalic());
       const horizontalInsets: number =
         Number.zeroIfNull(tabPageTemplate.getBorderThicknessLeft()) +
         Number.zeroIfNull(tabPageTemplate.getPaddingLeft()) +
@@ -158,15 +156,15 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   protected createTabPageTemplateActive(): TabPageTemplate {
-    return new TabPageTemplate(this.getPropertyStore().getPropertyStore(data => data.tabTemplateActive));
+    return new TabPageTemplate(this.getPropertyStore().getPropertyStore(data => data.tabTemplateActive), this.getFontService());
   }
 
   protected createTabPageTemplateDisabled(): TabPageTemplate {
-    return new TabPageTemplate(this.getPropertyStore().getPropertyStore(data => data.tabTemplateDisabled));
+    return new TabPageTemplate(this.getPropertyStore().getPropertyStore(data => data.tabTemplateDisabled), this.getFontService());
   }
 
   protected createTabPageTemplateInactive(): TabPageTemplate {
-    return new TabPageTemplate(this.getPropertyStore().getPropertyStore(data => data.tabTemplateInactive));
+    return new TabPageTemplate(this.getPropertyStore().getPropertyStore(data => data.tabTemplateInactive), this.getFontService());
   }
 
   public setIsEditableAtAction(pos: number, value: boolean): void {

@@ -205,14 +205,14 @@ export class CheckBoxWrapper extends FittedWrapper {
 
   public updateFittedWidth(): void {
     if (this.showCaption()) {
-      this.setFittedContentWidth(this.getFontService().measureText(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()) + this.getCheckBoxWidth() + this.getLabelGap());
+      this.setFittedContentWidth(this.getFontService().measureTextWidth(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()) + this.getCheckBoxWidth() + this.getLabelGap());
     } else {
       this.setFittedContentWidth(this.getCheckBoxWidth());
     }
   }
 
   public updateFittedHeight(): void {
-    this.setFittedContentHeight(Math.max(this.getFontSize(), this.getCheckBoxHeight()));
+    this.setFittedContentHeight(Math.max(this.getFontService().measureTextHeight(this.getFontFamily(), this.getFontSize()), this.getCheckBoxHeight()));
   }
 
   public getState(): any {
