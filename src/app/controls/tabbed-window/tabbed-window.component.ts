@@ -81,8 +81,8 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
       y: 'scroll'
     },
     scrollbars: {
-      autoHide: 'leave',
-      autoHideDelay: 0
+      autoHide: 'move',
+      autoHideDelay: 250
     },
     callbacks: {
       onScroll: this.refreshScroller.bind(this),
@@ -371,24 +371,6 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
         overflowBehavior: {
           x: 'hidden',
           y: 'scroll'
-        }
-      };
-    }
-
-    if (this.platformService.isMobile()) {
-      newOptions = {
-        ...this.scrollerOptions,
-        scrollbars: {
-          autoHide: 'scroll',
-          autoHideDelay: 250
-        }
-      };
-    } else {
-      newOptions = {
-        ...this.scrollerOptions,
-        scrollbars: {
-          autoHide: 'move',
-          autoHideDelay: 250
         }
       };
     }

@@ -13,7 +13,6 @@ import { TabAlignment } from 'app/enums/tab-alignment';
 import { TabPageTemplate } from 'app/wrappers/tabbed-window/tab-page-template';
 import { TabPageWrapper } from 'app/wrappers/tabbed-window/tab-page-wrapper';
 import { Visibility } from 'app/enums/visibility';
-import { FontService } from 'app/services/font.service';
 import { ClientEventType } from 'app/enums/client-event-type';
 import { ClientSelectedTabPageChangeEvent } from 'app/common/events/client-selected-tab-page-change-event';
 import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
