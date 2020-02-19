@@ -370,6 +370,20 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     }
   }
 
+  public getState(): any {
+    const json: any = super.getState();
+    json.selectedTabIndex = this.getSelectedTabIndex();
+    return json;
+  }
+
+  protected setState(json: any): void {
+    super.setState(json);
+
+    if (json.selectedTabIndex != null) {
+      this.setSelectedTabIndexJson(json.selectedTabIndex);
+    }
+  }
+
   protected scrollIntoView(): void {
     const comp: TabbedWindowComponent = this.getComponent();
     if (comp != null) {
