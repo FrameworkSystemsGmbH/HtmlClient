@@ -157,6 +157,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     const template: TabPageTemplate = wrapper.getCurrentTabPageTemplate(tabPage);
 
     let tabStyle: any = {
+      'color': template.getForeColor(),
       'background-color': template.getBackColor(),
       'border-style': 'solid',
       'border-color': template.getBorderColor(),
