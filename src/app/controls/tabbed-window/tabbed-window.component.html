@@ -6,7 +6,7 @@
     <div #arrowUp class="arrow arrowUp" [ngStyle]="arrowVerticalStyle" (mousedown)="startScrollingUpOrLeft($event)" (mouseup)="stopScrollingUpOrLeft()" (mouseleave)="stopScrollingUpOrLeft()">
       <i class="fa fa-fw fa-angle-up"></i>
     </div>
-    <overlay-scrollbars #scroller class="scroller os-host-flexbox" [options]="scrollerOptions">
+    <overlay-scrollbars #scroller class="scroller os-host-flexbox" [ngStyle]="scrollerStyle" [options]="scrollerOptions">
       <div #tabs class="tabs" [ngStyle]="tabsStyle">
         <div *ngFor="let tabPage of tabPages" class="tab" [ngClass]="getTabClasses(tabPage)" [ngStyle]="getTabStyle(tabPage)" (click)="callOnTabClicked(tabPage)">
           <span>{{ tabPage.getCaption() }}</span>
