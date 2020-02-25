@@ -65,7 +65,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   private scrollAutoHideDelay: number = 500;
 
   public scrollerOptions: any = {
-    className: 'os-theme-thin-dark',
+    className: 'os-thin',
     paddingAbsolute: true,
     overflowBehavior: {
       x: 'scroll',
