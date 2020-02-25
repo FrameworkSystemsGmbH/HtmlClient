@@ -4,10 +4,6 @@
     "baseUrl": "./src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": [
-      "ES2018",
-      "dom"
-    ],
     "module": "ESNext",
     "moduleResolution": "node",
     "noImplicitReturns": true,
@@ -17,6 +13,10 @@
     "target": "ES5",
     "typeRoots": [
       "node_modules/@types"
+    ],
+    "lib": [
+      "ES2018",
+      "dom"
     ]
   },
   "angularCompilerOptions": {

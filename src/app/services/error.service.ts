@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
 

@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { ComboBoxMobileComponent } from 'app/controls/comboboxes/combobox-mobile.component';
 import { ComboBoxListMobileOverlayComponent } from 'app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile-overlay.component';
