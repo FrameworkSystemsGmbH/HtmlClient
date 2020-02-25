@@ -7,6 +7,7 @@
   "license": "none",
   "readme": "readme.md",
   "scripts": {
+    "ud": "ng update @angular/core @angular/cli",
     "build": "ng build",
     "buildProd": "npm run buildProdClean && ng build --prod && npm run buildProdPack",
     "buildProdClean": "del-cli \"dist/webzip\"",
