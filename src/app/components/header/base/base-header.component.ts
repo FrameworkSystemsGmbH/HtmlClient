@@ -13,6 +13,7 @@ import { PlatformService } from 'app/services/platform/platform.service';
 import { TitleService } from 'app/services/title.service';
 import { DomUtil } from 'app/util/dom-util';
 import { StyleUtil } from 'app/util/style-util';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 @Component({
   selector: 'hc-base-header',
@@ -55,17 +56,17 @@ import { StyleUtil } from 'app/util/style-util';
 })
 export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked {
 
-  @ViewChild('center', { static: true })
-  public center: ElementRef;
-
-  @ViewChild('tabs', { static: true })
-  public tabs: ElementRef;
+  @ViewChild('scroller', { static: true })
+  public scroller: OverlayScrollbarsComponent;
 
   @ViewChild('arrowLeft', { static: true })
   public arrowLeft: ElementRef;
 
   @ViewChild('arrowRight', { static: true })
   public arrowRight: ElementRef;
+
+  @ViewChild('tabs', { static: true })
+  public tabs: ElementRef;
 
   public forms: Array<FormWrapper>;
   public selectedForm: FormWrapper;
@@ -74,12 +75,6 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   public sidebarVisible: boolean = false;
   public isLoading: boolean = false;
 
-  private tabScrollPosition: number = 0;
-  private clickScrollDelta: number = 100;
-  private panStartX: number;
-  private leftInterval: any;
-  private rightInterval: any;
-
   private storeSub: Subscription;
   private formsSub: Subscription;
   private selectedFormSub: Subscription;
@@ -87,6 +82,33 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public headerSideStyle: any;
   public headerSideOverlayStyle: any;
+
+  private visibleClass: string = 'arrowVisible';
+
+  private scrollLeftInterval: any;
+  private scrollRightInterval: any;
+
+  private scrollDelta: number = 100;
+  private scrollAnimationTime: number = 250;
+  private scrollAutoHideDelay: number = 500;
+
+  public scrollerOptions: any = {
+    className: 'os-thin',
+    paddingAbsolute: true,
+    overflowBehavior: {
+      x: 'scroll',
+      y: 'hidden'
+    },
+    scrollbars: {
+      autoHide: 'scroll',
+      autoHideDelay: this.scrollAutoHideDelay
+    },
+    callbacks: {
+      onScroll: this.refreshScroller.bind(this),
+      onOverflowChanged: this.refreshScroller.bind(this),
+      onOverflowAmountChanged: this.refreshScroller.bind(this)
+    }
+  };
 
   constructor(
     private zone: NgZone,
@@ -106,6 +128,8 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
     this.headerSideStyle = this.createheaderSideStyle();
     this.headerSideOverlayStyle = this.createheaderSideOverlayStyle();
+
+    this.scrollerOptions = this.createScrollOptions();
   }
 
   public ngAfterViewChecked(): void {
@@ -124,6 +148,26 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
     if (!this.sidebarEnabled && this.sidebarVisible) {
       this.toggleSidebar();
+    }
+  }
+
+  private createScrollOptions(): any {
+    if (this.platformService.isMobile()) {
+      return {
+        ...this.scrollerOptions,
+        scrollbars: {
+          autoHide: 'scroll',
+          autoHideDelay: this.scrollAutoHideDelay
+        }
+      };
+    } else {
+      return {
+        ...this.scrollerOptions,
+        scrollbars: {
+          autoHide: 'move',
+          autoHideDelay: this.scrollAutoHideDelay
+        }
+      };
     }
   }
 
@@ -149,51 +193,6 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public getSidebarTitle(): string {
     return this.titleService.getTitle();
-  }
-
-  public startScrollingLeft(event: any): void {
-    if (event.button === 0) {
-      this.scrollTabs(this.clickScrollDelta);
-      this.leftInterval = setInterval(() => { this.scrollTabs(this.clickScrollDelta); }, 100);
-    }
-  }
-
-  public stopScrollingLeft(): void {
-    clearInterval(this.leftInterval);
-  }
-
-  public startScrollingRight(event: any): void {
-    if (event.button === 0) {
-      this.scrollTabs(-this.clickScrollDelta);
-      this.rightInterval = setInterval(() => { this.scrollTabs(-this.clickScrollDelta); }, 100);
-    }
-  }
-
-  public stopScrollingRight(): void {
-    clearInterval(this.rightInterval);
-  }
-
-  public onMouseWheel(event: any): void {
-    // Firefox has a special implementation via event.detail
-    const deltaX: number = -(event.wheelDelta || (event.detail * 40));
-    this.scrollTabs(deltaX);
-  }
-
-  public panTabsStart(event: any) {
-    this.panStartX = this.tabScrollPosition;
-    this.scrollTabs(this.panStartX + event.deltaX, true);
-  }
-
-  public panTabsStep(event: any): void {
-    this.scrollTabs(this.panStartX + event.deltaX, true);
-  }
-
-  private scrollTabs(deltaX: number, absolute: boolean = false): void {
-    const divWidth: number = this.center.nativeElement.clientWidth;
-    const ulWidth: number = this.tabs.nativeElement.scrollWidth;
-    const maxScroll: number = Math.max(0, ulWidth - divWidth);
-    this.tabScrollPosition = Math.min(Math.max(-maxScroll, (absolute ? 0 : this.tabScrollPosition) + deltaX), 0);
-    this.refreshScroller();
   }
 
   public toggleSidebar(): void {
@@ -222,22 +221,76 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.formsService.closeFormByButton(form);
   }
 
+  public scrollIntoView(): void {
+    setTimeout(() => {
+      if (this.scroller != null && this.scroller.osInstance() != null && this.tabs != null) {
+        const selectedTab: HTMLLIElement = this.tabs.nativeElement.querySelector('div.active');
+        if (selectedTab) {
+          this.scroller.osInstance().scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this.scrollAnimationTime);
+        }
+      }
+    });
+  }
+
+  public startScrollingLeft(event: any): void {
+    if (event.button === 0) {
+      const value: string = `-= ${this.scrollDelta}px`;
+      this.scrollHorizontal(value);
+      this.scrollLeftInterval = setInterval(() => { this.scrollHorizontal(value); }, this.scrollAnimationTime);
+    }
+  }
+
+  public stopScrollingLeft(): void {
+    clearInterval(this.scrollLeftInterval);
+  }
+
+  public startScrollingRight(event: any): void {
+    if (event.button === 0) {
+      const value: string = `+= ${this.scrollDelta}px`;
+      this.scrollHorizontal(value);
+      this.scrollRightInterval = setInterval(() => { this.scrollHorizontal(value); }, this.scrollAnimationTime);
+    }
+  }
+
+  public stopScrollingRight(): void {
+    clearInterval(this.scrollRightInterval);
+  }
+
+  protected scrollHorizontal(value: string): void {
+    this.scroller.osInstance().scroll({ x: value }, this.scrollAnimationTime);
+  }
+
+  protected scrollVertical(value: string): void {
+    this.scroller.osInstance().scroll({ y: value }, this.scrollAnimationTime);
+  }
+
   @HostListener('window:resize')
   public refreshScroller(): void {
     this.zone.runOutsideAngular(() => {
-      const divWidth: number = this.center.nativeElement.clientWidth;
-      const ulWidth: number = this.tabs.nativeElement.scrollWidth;
-      const maxScroll: number = Math.max(0, ulWidth - divWidth);
+      if (this.scroller != null && this.scroller.osInstance() != null) {
+        const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
 
-      this.tabScrollPosition = Math.min(Math.max(-maxScroll, this.tabScrollPosition), 0);
-      this.renderer.setStyle(this.tabs.nativeElement, 'margin-left', StyleUtil.pixToRemValueStr(this.tabScrollPosition));
+        if (overflow > 0) {
+          const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
 
-      if (maxScroll) {
-        this.renderer.setStyle(this.arrowLeft.nativeElement, 'visibility', this.tabScrollPosition !== 0 ? 'visible' : 'hidden');
-        this.renderer.setStyle(this.arrowRight.nativeElement, 'visibility', !(this.tabScrollPosition <= -maxScroll) ? 'visible' : 'hidden');
-      } else {
-        this.renderer.setStyle(this.arrowLeft.nativeElement, 'visibility', 'hidden');
-        this.renderer.setStyle(this.arrowRight.nativeElement, 'visibility', 'hidden');
+          if (scrollPos === 0) {
+            this.stopScrollingLeft();
+            this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
+            this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
+          } else if (scrollPos >= overflow) {
+            this.stopScrollingRight();
+            this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
+            this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+          } else {
+            this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
+            this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
+          }
+        } else {
+          this.stopScrollingLeft();
+          this.stopScrollingRight();
+          this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
+          this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+        }
       }
     });
   }

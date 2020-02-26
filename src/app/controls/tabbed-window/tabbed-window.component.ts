@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, ElementRef, AfterViewInit, NgZone, Renderer2 } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, ElementRef, AfterViewInit, NgZone, Renderer2, HostListener } from '@angular/core';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
@@ -439,6 +439,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     this.scroller.osInstance().scroll({ y: value }, this.scrollAnimationTime);
   }
 
+  @HostListener('window:resize')
   public refreshScroller(): void {
     this.zone.runOutsideAngular(() => {
       if (this.scroller != null && this.scroller.osInstance() != null) {

@@ -1,16 +1,15 @@
 @import '../../../../scss/variables.scss';
 
 @mixin header-list {
-  display: inline-flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  display: flex;
+  height: $header-height - 0.1rem;
 
-  li {
-    flex: 0 0 auto;
+  div {
     display: flex;
     align-items: center;
     padding: 0 1rem;
+    user-select: none;
+    white-space: nowrap;
     cursor: pointer;
 
     &.active {
@@ -90,6 +89,7 @@
   .hc-header-left {
     flex: 1;
     display: flex;
+    margin-right: $header-height / 4;
 
     @media (min-width: $breakpoint) {
       flex: 0 0 auto;
@@ -122,51 +122,60 @@
   .hc-header-center {
     flex: 1;
     display: none;
+    position: relative;
     overflow: hidden;
-    margin-left: $header-height / 4;
 
     @media (min-width: $breakpoint) {
       display: flex;
     }
 
-    .hc-header-tabs-center {
+    .arrow {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 1.8rem;
+      height: 1.6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0.1rem solid gray;
+      color: gray;
+      background-color: white;
+      border-radius: 0.2rem;
+      opacity: 0;
+      z-index: -1000;
+      transition: all 0.25s;
+      cursor: pointer;
+
+      &.arrowVisible {
+        opacity: 0.8;
+        z-index: 1000;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &:active {
+        color: #333;
+        border-color: #333;
+      }
+    }
+
+    .arrowLeft {
+      left: 0.4rem;
+    }
+
+    .arrowRight {
+      right: 0.4rem;
+    }
+
+    .scroller {
       flex: 1;
       display: flex;
-      overflow: hidden;
 
       .hc-header-tabs-list {
-        display: inline-flex;
         @include header-list();
-      }
-    }
-
-    .hc-header-tabs-left,
-    .hc-header-tabs-right {
-      flex: 0 0 auto;
-      display: flex;
-
-      div {
-        display: inline-flex;
-        align-items: center;
-        cursor: pointer;
-
-        &:hover {
-          color: $header-color-highlight;
-        }
-      }
-    }
-
-    .hc-header-tabs-left {
-      div {
-        border-right: 0.1rem solid $grey1;
-        margin-right: 0.3rem;
-      }
-    }
-
-    .hc-header-tabs-right {
-      div {
-        border-left: 0.1rem solid $grey1;
-        margin-left: 0.3rem;
       }
     }
   }
@@ -174,13 +183,13 @@
   .hc-header-right {
     flex: 0 0 auto;
     display: none;
+    margin-left: $header-height / 4;
 
     @media (min-width: $breakpoint) {
       display: flex;
     }
 
     .hc-header-tools-list {
-      margin-left: $header-height / 4;
       @include header-list();
     }
   }
@@ -194,7 +203,7 @@
 }
 
 .hc-header-side {
-  z-index: 2000;
+  z-index: 3000;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -250,7 +259,7 @@
 }
 
 .hc-header-side-overlay {
-  z-index: 1000;
+  z-index: 2000;
   position: fixed;
   left: 0;
   right: 0;

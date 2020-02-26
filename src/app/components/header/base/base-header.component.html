@@ -1,51 +1,47 @@
 <nav class="hc-header" hcMediaQuery [mediaQuery]="'(min-width: 768px)'" (onMediaQueryChanged)="mediaQueryChanged($event)">
   <div class="hc-header-left">
-    <ul class="hc-header-tools-list">
-      <li (click)="toggleSidebar()">
+    <div class="hc-header-tools-list">
+      <div (click)="toggleSidebar()">
         <i class="fas fa-fw fa-bars fa-lg"></i>
-      </li>
-    </ul>
+      </div>
+    </div>
     <div class="hc-header-title">{{ getTitle() }}</div>
   </div>
   <div class="hc-header-center">
-    <div #arrowLeft class="hc-header-tabs-left">
-      <div (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft()" (mouseleave)="stopScrollingLeft()">
-        <i class="fas fa-fw fa-angle-left fa-lg"></i>
-      </div>
+    <div #arrowLeft class="arrow arrowLeft" (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft()" (mouseleave)="stopScrollingLeft()">
+      <i class="fa fa-fw fa-angle-left"></i>
     </div>
-    <div #center class="hc-header-tabs-center">
-      <ul #tabs class="hc-header-tabs-list" hcMouseWheel (mouseWheelUp)="onMouseWheel($event)" (mouseWheelDown)="onMouseWheel($event)" (panstart)="panTabsStart($event)" (pan)="panTabsStep($event)">
-        <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
+    <overlay-scrollbars #scroller class="scroller os-host-flexbox" [options]="scrollerOptions">
+      <div #tabs class="hc-header-tabs-list">
+        <div *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
           <span>{{ form.getTitle() }}</span>
           <span *ngIf="form.isCloseIconVisible()" class="hc-header-close-icon-span">
             <span (click)="closeForm(form)" class="hc-header-close-icon-event-span">
               <i class="hc-header-close-icon fa fa-fw fa-times"></i>
             </span>
           </span>
-        </li>
-      </ul>
-    </div>
-    <div #arrowRight class="hc-header-tabs-right">
-      <div (mousedown)="startScrollingRight($event)" (mouseup)="stopScrollingRight()" (mouseleave)="stopScrollingRight()">
-        <i class="fas fa-fw fa-angle-right fa-lg"></i>
+        </div>
       </div>
+    </overlay-scrollbars>
+    <div #arrowRight class="arrow arrowRight" (mousedown)="startScrollingRight($event)" (mouseup)="stopScrollingRight()" (mouseleave)="stopScrollingRight()">
+      <i class="fa fa-fw fa-angle-right"></i>
     </div>
   </div>
   <div *ngIf="!directMode" class="hc-header-right">
-    <ul class="hc-header-tools-list">
-      <li (click)="switchBroker()">
+    <div class="hc-header-tools-list">
+      <div (click)="switchBroker()">
         <span class="fas fa-fw fa-sign-out-alt fa-lg"></span>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
   <hc-loader class="loader" [active]="isLoading"></hc-loader>
 </nav>
 
 <nav [@sidebar] class="hc-header-side" [ngStyle]="headerSideStyle" *ngIf="sidebarEnabled && sidebarVisible">
   <div class="hc-header-side-top">
-      <span>{{ getSidebarTitle() }}</span>
+    <span>{{ getSidebarTitle() }}</span>
   </div>
-  <div #tabs class="hc-header-side-middle">
+  <div class="hc-header-side-middle">
     <ul class="hc-header-side-tabs-list">
       <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
         <span class="hc-header-list-title-span">{{ form.getTitle() }}</span>
