@@ -123,7 +123,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   public ngOnInit(): void {
     this.storeSub = this.store.select(state => state.broker.activeBrokerDirect).subscribe(direct => this.directMode = direct);
     this.formsSub = this.formsService.getForms().subscribe(forms => this.forms = forms);
-    this.selectedFormSub = this.formsService.getSelectedForm().subscribe(form => this.selectedForm = form);
+    this.selectedFormSub = this.formsService.getSelectedForm().subscribe(this.onSelectedFormChanged.bind(this));
     this.loadingChangedSub = this.loaderService.onLoadingChangedDelayed.subscribe(loading => this.isLoading = loading);
 
     this.headerSideStyle = this.createheaderSideStyle();
@@ -148,6 +148,15 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
     if (!this.sidebarEnabled && this.sidebarVisible) {
       this.toggleSidebar();
+    }
+  }
+
+  private onSelectedFormChanged(form: FormWrapper): void {
+    const changed: boolean = this.selectedForm !== form;
+    this.selectedForm = form;
+
+    if (changed) {
+      this.scrollIntoView();
     }
   }
 
