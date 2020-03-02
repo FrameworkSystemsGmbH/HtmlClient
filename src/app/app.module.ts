@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler, COMPILER_OPTIONS, CompilerFactory, Compiler } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,8 +30,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
-
-import { HammerConfig } from 'app/common/hammer/hammer-config';
 
 @NgModule({
   entryComponents: [
@@ -67,10 +65,6 @@ import { HammerConfig } from 'app/common/hammer/hammer-config';
     {
       provide: ErrorHandler,
       useClass: ErrorService
-    },
-    {
-      provide: HAMMER_GESTURE_CONFIG,
-      useClass: HammerConfig
     },
     {
       provide: COMPILER_OPTIONS,

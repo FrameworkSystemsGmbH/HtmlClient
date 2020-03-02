@@ -49,7 +49,6 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   public wrapperStyle: any;
   public headerStyle: any;
-  public scrollerStyle: any;
   public tabsStyle: any;
   public contentStyle: any;
   public arrowHorizontalStyle: any;
@@ -120,7 +119,6 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     super.updateStyles(wrapper);
     this.wrapperStyle = this.createWrapperStyle(wrapper);
     this.headerStyle = this.createHeaderStyle();
-    this.scrollerStyle = this.createScrollerStyle(wrapper);
     this.tabsStyle = this.createTabsStyle();
     this.contentStyle = this.createContentStyle(wrapper);
     this.arrowHorizontalStyle = this.createArrowHorizontalStyle(wrapper);
@@ -262,12 +260,6 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   protected createHeaderStyle(): any {
     return {
       'flex-direction': this.tabAlignment === TabAlignment.Left || this.tabAlignment === TabAlignment.Right ? 'column' : null
-    };
-  }
-
-  protected createScrollerStyle(wrapper: TabbedWindowWrapper): any {
-    return {
-      'height.rem': StyleUtil.pixToRem(wrapper.getHighestLayoutTabPageHeader())
     };
   }
 
