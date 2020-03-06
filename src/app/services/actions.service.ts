@@ -9,7 +9,6 @@ import { FormsService } from 'app/services/forms.service';
 import { GeoLocationService } from 'app/services/actions/geolocation.service';
 import { CameraService } from 'app/services/actions/camera.service';
 import { ViewDocService } from 'app/services/actions/viewdoc.service';
-import { createOfflineCompileUrlResolver } from '@angular/compiler';
 
 @Injectable()
 export class ActionsService {
