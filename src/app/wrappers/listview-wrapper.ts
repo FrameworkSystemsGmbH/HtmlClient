@@ -240,6 +240,10 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     return controlJson;
   }
 
+  public canReceiveKeyboardFocus(): boolean {
+    return false;
+  }
+
   public getSelectedItemsJson(): Array<string> {
     return this.getSelectedItems().map(i => i.getId());
   }

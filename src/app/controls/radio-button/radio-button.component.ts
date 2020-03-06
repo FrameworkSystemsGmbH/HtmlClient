@@ -152,7 +152,7 @@ export class RadioButtonComponent extends ControlComponent {
 
   public setFocus(): void {
     if (this.input) {
-      setTimeout(() => this.input.nativeElement.focus());
+      this.input.nativeElement.focus();
     }
   }
 }

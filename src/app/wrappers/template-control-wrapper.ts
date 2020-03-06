@@ -81,6 +81,10 @@ export class TemplateControlWrapper extends ControlWrapper {
     return factory.create(container.getViewContainerRef().injector);
   }
 
+  public canReceiveKeyboardFocus(): boolean {
+    return false;
+  }
+
   protected setPropertiesJson(propertiesJson: any): void {
     super.setPropertiesJson(propertiesJson);
 
