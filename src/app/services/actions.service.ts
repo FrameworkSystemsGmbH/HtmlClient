@@ -9,6 +9,7 @@ import { FormsService } from 'app/services/forms.service';
 import { GeoLocationService } from 'app/services/actions/geolocation.service';
 import { CameraService } from 'app/services/actions/camera.service';
 import { ViewDocService } from 'app/services/actions/viewdoc.service';
+import { createOfflineCompileUrlResolver } from '@angular/compiler';
 
 @Injectable()
 export class ActionsService {
@@ -30,7 +31,8 @@ export class ActionsService {
     }
 
     this._viewDocumentUrl = null;
-    this._focusActions = new Array<() => void>();
+
+    this.clearFocusActions();
 
     for (const actionJson of actionsJson) {
       if (actionJson.form != null && actionJson.control != null) {
@@ -93,6 +95,12 @@ export class ActionsService {
       for (const focusAction of this._focusActions) {
         focusAction();
       }
+
+      this.clearFocusActions();
     }
+  }
+
+  private clearFocusActions(): void {
+    this._focusActions = new Array<() => void>();
   }
 }
