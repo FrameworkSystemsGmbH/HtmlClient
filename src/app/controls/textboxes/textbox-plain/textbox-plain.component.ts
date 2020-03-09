@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, Injector } from '@angular/core';
 
 import { TextBoxComponent } from 'app/controls/textboxes/textbox.component';
 import { TextBoxPlainWrapper } from 'app/wrappers/textbox-plain-wrapper';
@@ -20,8 +20,15 @@ export class TextBoxPlainComponent extends TextBoxComponent {
 
   private format: TextFormat;
 
-  constructor(private stringFormatService: StringFormatService) {
-    super();
+  private stringFormatService: StringFormatService;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
+
+  protected init(): void {
+    super.init();
+    this.stringFormatService = this.getInjector().get(StringFormatService);
   }
 
   public getInput(): ElementRef {

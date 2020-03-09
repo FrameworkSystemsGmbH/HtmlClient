@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Injector } from '@angular/core';
 
 import { ButtonComponent } from 'app/controls/buttons/button.component';
 
@@ -11,6 +11,10 @@ export class ButtonPlainComponent extends ButtonComponent {
 
   @ViewChild('button', { static: true })
   public button: ElementRef;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
 
   protected getButton(): ElementRef {
     return this.button;

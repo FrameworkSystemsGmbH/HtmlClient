@@ -86,10 +86,12 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected init(): void {
+    // tslint:disable-next-line: deprecation
     this.resolver = this.injector.get(ComponentFactoryResolver);
     this.controlStyleService = this.injector.get(ControlStyleService);
     this.eventsService = this.injector.get(EventsService);
     this.focusService = this.injector.get(FocusService);
+    // tslint:disable-next-line: deprecation
     this.platformService = this.injector.get(PlatformService);
   }
 

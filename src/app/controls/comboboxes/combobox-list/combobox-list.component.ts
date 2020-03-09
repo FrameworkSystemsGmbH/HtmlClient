@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, NgZone, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, Injector } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Observable, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, buffer, map, share } from 'rxjs/operators';
@@ -43,8 +43,8 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
 
   private regEx: RegExp = /([a-z]|\d)/i;
 
-  constructor(zone: NgZone) {
-    super(zone);
+  constructor(injector: Injector) {
+    super(injector);
   }
 
   public ngAfterViewInit(): void {

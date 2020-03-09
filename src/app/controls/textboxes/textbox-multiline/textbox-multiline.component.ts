@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, Injector } from '@angular/core';
 
 import { TextBoxComponent } from 'app/controls/textboxes/textbox.component';
 import { TextBoxMultilineWrapper } from 'app/wrappers/textbox-multiline-wrapper';
@@ -18,6 +18,10 @@ export class TextBoxMultilineComponent extends TextBoxComponent {
 
   public value: string;
   public wrapperStyle: any;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
 
   public getInput(): ElementRef {
     return this.textarea;

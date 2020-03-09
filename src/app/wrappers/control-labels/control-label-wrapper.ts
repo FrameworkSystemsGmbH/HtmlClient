@@ -42,6 +42,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper {
     this.name = labelProvider.getName() + '_ControlLabel';
     this.labelProvider = labelProvider;
     this.labelTemplate = labelProvider.getLabelTemplate();
+    // tslint:disable-next-line: deprecation
     this.resolver = injector.get(ComponentFactoryResolver);
     this.fontService = injector.get(FontService);
 

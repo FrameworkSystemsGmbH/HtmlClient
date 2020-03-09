@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -15,6 +15,10 @@ export class LabelComponent extends ControlComponent {
 
   public caption: string;
   public labelStyle: any;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
 
   public getWrapper(): LabelWrapper {
     return super.getWrapper() as LabelWrapper;

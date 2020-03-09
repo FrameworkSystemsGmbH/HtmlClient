@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, Injector } from '@angular/core';
 
 import { ContainerComponent } from 'app/controls/container.component';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
@@ -16,6 +16,10 @@ export class FormComponent extends ContainerComponent {
 
   public scrollerStyle: any;
   public contentStyle: any;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
 
   public getWrapper(): FormWrapper {
     return super.getWrapper() as FormWrapper;

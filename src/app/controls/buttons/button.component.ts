@@ -27,6 +27,8 @@ export abstract class ButtonComponent extends ControlComponent {
   }
 
   public callKeyDown(event: KeyboardEvent): void {
+    this.getFocusService().setLastKeyEvent(event);
+
     if (event.key === 'Tab' || (event.key === 'Enter' && this.mapEnterToTab)) {
       if (event.shiftKey) {
         this.getWrapper().focusKeyboardPrevious();
@@ -104,7 +106,7 @@ export abstract class ButtonComponent extends ControlComponent {
       'font-style': StyleUtil.getFontStyle(wrapper.getFontItalic()),
       'font-size.rem': StyleUtil.pixToRem(wrapper.getFontSize()),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
-      'line-height.rem':  StyleUtil.pixToRem(wrapper.getLineHeight()),
+      'line-height.rem': StyleUtil.pixToRem(wrapper.getLineHeight()),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline()),
       'text-align': 'center'
     };

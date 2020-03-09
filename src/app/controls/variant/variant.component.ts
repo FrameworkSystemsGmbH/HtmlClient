@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, Injector } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -17,6 +17,10 @@ export class VariantComponent extends ContainerComponent {
   public anchor: ViewContainerRef;
 
   public wrapperStyle: any;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
 
   public getWrapper(): VariantWrapper {
     return super.getWrapper() as VariantWrapper;

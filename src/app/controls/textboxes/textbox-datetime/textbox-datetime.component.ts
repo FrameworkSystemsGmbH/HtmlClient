@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Injector } from '@angular/core';
 
 import { TextBoxComponent } from 'app/controls/textboxes/textbox.component';
 import { TextBoxDateTimeWrapper } from 'app/wrappers/textbox-datetime-wrapper';
@@ -20,8 +20,15 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
   private format: TextFormat;
   private formatPattern: string;
 
-  constructor(private dateTimeFormatService: DateTimeFormatService) {
-    super();
+  private dateTimeFormatService: DateTimeFormatService;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
+
+  protected init(): void {
+    super.init();
+    this.dateTimeFormatService = this.getInjector().get(DateTimeFormatService);
   }
 
   public getInput(): ElementRef {

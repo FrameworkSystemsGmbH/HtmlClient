@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef, ComponentRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef, ComponentRef, Injector } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -28,8 +28,15 @@ export class TemplateControlComponent extends ControlComponent implements OnInit
   private contentCompRef: ComponentRef<TemplateControlContentComponent>;
   private contentCompInstance: TemplateControlContentComponent;
 
-  constructor(private baseFormatService: BaseFormatService) {
-    super();
+  private baseFormatService: BaseFormatService;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
+
+  protected init(): void {
+    super.init();
+    this.baseFormatService = this.getInjector().get(BaseFormatService);
   }
 
   public ngOnInit(): void {

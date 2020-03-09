@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Injector } from '@angular/core';
 
 import { TextBoxComponent } from 'app/controls/textboxes/textbox.component';
 import { TextBoxNumberWrapper } from 'app/wrappers/textbox-number-wrapper';
@@ -21,8 +21,15 @@ export class TextBoxNumberComponent extends TextBoxComponent {
   private format: TextFormat;
   private formatPattern: string;
 
-  constructor(private numberFormatService: NumberFormatService) {
-    super();
+  private numberFormatService: NumberFormatService;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
+
+  protected init(): void {
+    super.init();
+    this.numberFormatService = this.getInjector().get(NumberFormatService);
   }
 
   public getInput(): ElementRef {

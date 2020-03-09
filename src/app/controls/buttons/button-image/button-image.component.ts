@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Injector } from '@angular/core';
 
 import { ButtonComponent } from 'app/controls/buttons/button.component';
 import { ButtonImageWrapper } from 'app/wrappers/button-image-wrapper';
@@ -24,6 +24,10 @@ export class ButtonImageComponent extends ButtonComponent {
   private disabledImageUrl: string;
   private mouseOverImageUrl: string;
   private pressedImageUrl: string;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
 
   protected getButton(): ElementRef {
     return this.button;
