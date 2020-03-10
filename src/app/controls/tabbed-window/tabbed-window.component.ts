@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, ElementRef, AfterViewInit, NgZone, Renderer2, HostListener } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, ElementRef, AfterViewInit, NgZone, Renderer2, HostListener, Injector } from '@angular/core';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
@@ -54,6 +54,11 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   public arrowHorizontalStyle: any;
   public arrowVerticalStyle: any;
 
+  private zone: NgZone;
+  private renderer: Renderer2;
+  private imageService: ImageService;
+  private platformService: PlatformService;
+
   private visibleClass: string = 'arrowVisible';
 
   private scrollLeftInterval: any;
@@ -81,13 +86,19 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     }
   };
 
-  constructor(
-    private zone: NgZone,
-    private renderer: Renderer2,
-    private imageService: ImageService,
-    private platformService: PlatformService
-  ) {
-    super();
+  constructor(injector: Injector) {
+    super(injector);
+  }
+
+  protected init(): void {
+    super.init();
+    const injector: Injector = this.getInjector();
+    this.zone = injector.get(NgZone);
+    // tslint:disable-next-line: deprecation
+    this.renderer = injector.get(Renderer2);
+    this.imageService = injector.get(ImageService);
+    // tslint:disable-next-line: deprecation
+    this.platformService = injector.get(PlatformService);
   }
 
   public ngAfterViewInit(): void {

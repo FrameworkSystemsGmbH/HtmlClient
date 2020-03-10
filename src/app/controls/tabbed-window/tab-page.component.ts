@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef, Injector } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -20,6 +20,10 @@ export class TabPageComponent extends ContainerComponent implements OnInit {
   public wrapperEl: ElementRef;
 
   public wrapperStyle: any;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
 
   public getViewContainerRef(): ViewContainerRef {
     return this.anchor;
