@@ -1,8 +1,9 @@
-import { EventEmitter, Output } from '@angular/core';
+import { EventEmitter, Output, Injector } from '@angular/core';
 
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { LayoutableComponent } from 'app/controls/layoutable.component';
 import { Visibility } from 'app/enums/visibility';
+import { FocusService } from 'app/services/focus.service';
 
 export abstract class ControlComponent extends LayoutableComponent {
 
@@ -15,6 +16,27 @@ export abstract class ControlComponent extends LayoutableComponent {
   public isVisible: boolean;
   public isEditable: boolean;
   public isFocused: boolean;
+
+  private injector: Injector;
+  private focusService: FocusService;
+
+  constructor(injector: Injector) {
+    super();
+    this.injector = injector;
+    this.init();
+  }
+
+  protected init(): void {
+    this.focusService = this.injector.get(FocusService);
+  }
+
+  protected getInjector(): Injector {
+    return this.injector;
+  }
+
+  protected getFocusService(): FocusService {
+    return this.focusService;
+  }
 
   public onFocusIn(event: FocusEvent): void {
     this.isFocused = true;

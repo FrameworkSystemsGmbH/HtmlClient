@@ -237,6 +237,10 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     return controlJson;
   }
 
+  public canReceiveKeyboardFocus(): boolean {
+    return false;
+  }
+
   public getSelectedItemsJson(): Array<string> {
     return this.getSelectedItems().map(i => i.getId());
   }
@@ -468,7 +472,12 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     const listViewItemHtml: string = '<div class="lvItem" [attr.lvDisabled]="enabled ? null : true">' + this.templateHtml + '</div>';
     const listViewItemCss: string = ':host { flex: 1; display: flex; flex-direction: column; } .lvItem { flex: 1; box-sizing: border-box; }';
 
-    const listViewItemComp = Component({ selector: ListViewItemContentComponent.SELECTOR, template: listViewItemHtml, styles: [listViewItemCss, this.templateCss] })(class extends ListViewItemContentComponent { });
+    const listViewItemComp = Component({
+      selector: ListViewItemContentComponent.SELECTOR,
+      template: listViewItemHtml,
+      styles: this.templateCss != null ? [listViewItemCss, this.templateCss] : [listViewItemCss]
+    })(class extends ListViewItemContentComponent { });
+
     const listViewItemMod = NgModule({ declarations: [listViewItemComp] })(class extends ListViewItemContentModule { });
 
     const factory: ComponentFactory<ListViewItemContentComponent> = this.compiler.compileModuleAndAllComponentsSync(listViewItemMod).componentFactories[0];

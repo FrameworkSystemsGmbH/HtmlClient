@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, Injector } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { ComboBoxMobileComponent } from 'app/controls/comboboxes/combobox-mobile.component';
@@ -21,8 +21,15 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
   private overlayShown: boolean;
 
-  constructor(private dialog: MatDialog) {
-    super();
+  private dialog: MatDialog;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
+
+  protected init(): void {
+    super.init();
+    this.dialog = this.getInjector().get(MatDialog);
   }
 
   public getControl(): ElementRef {

@@ -82,6 +82,10 @@ export class TemplateControlWrapper extends ControlWrapper {
     return factory.create(container.getViewContainerRef().injector);
   }
 
+  public canReceiveKeyboardFocus(): boolean {
+    return false;
+  }
+
   protected setPropertiesJson(propertiesJson: any): void {
     super.setPropertiesJson(propertiesJson);
 
@@ -239,7 +243,12 @@ export class TemplateControlWrapper extends ControlWrapper {
     const tplHtml: string = '<div class="tpl" [attr.tplDisabled]="enabled ? null : true">' + this.templateHtml + '</div>';
     const tplCss: string = ':host { flex: 1; display: flex; flex-direction: column; } .tpl { flex: 1; box-sizing: border-box; }';
 
-    const tplContentComp = Component({ selector: TemplateControlContentComponent.SELECTOR, template: tplHtml, styles: [tplCss, this.templateCss] })(class extends TemplateControlContentComponent { });
+    const tplContentComp = Component({
+      selector: TemplateControlContentComponent.SELECTOR,
+      template: tplHtml,
+      styles: this.templateCss != null ? [tplCss, this.templateCss] : [tplCss]
+    })(class extends TemplateControlContentComponent { });
+
     const tplContentMod = NgModule({ declarations: [tplContentComp] })(class extends TemplateControlContentModule { });
 
     const factory: ComponentFactory<TemplateControlContentComponent> = this.compiler.compileModuleAndAllComponentsSync(tplContentMod).componentFactories[0];

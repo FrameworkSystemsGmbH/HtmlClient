@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, ElementRef, Injector } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -33,6 +33,10 @@ export class RadioButtonComponent extends ControlComponent {
   public labelStyle: any;
   public captionStyle: any;
 
+  constructor(injector: Injector) {
+    super(injector);
+  }
+
   public callOnClick(event: any): void {
     this.getWrapper().fireValueChanged();
     if (this.getWrapper().hasOnClickEvent()) {
@@ -41,6 +45,8 @@ export class RadioButtonComponent extends ControlComponent {
   }
 
   public callKeyDown(event: KeyboardEvent): void {
+    this.getFocusService().setLastKeyEvent(event);
+
     if (event.key === 'Tab' || event.key === 'Enter') {
       if (event.shiftKey) {
         this.getWrapper().focusKeyboardPrevious();
@@ -152,7 +158,7 @@ export class RadioButtonComponent extends ControlComponent {
 
   public setFocus(): void {
     if (this.input) {
-      setTimeout(() => this.input.nativeElement.focus());
+      this.input.nativeElement.focus();
     }
   }
 }

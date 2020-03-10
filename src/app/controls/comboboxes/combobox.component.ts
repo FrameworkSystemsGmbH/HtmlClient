@@ -68,7 +68,7 @@ export abstract class ComboBoxComponent extends ControlComponent {
     const control: ElementRef = this.getControl();
 
     if (control) {
-      setTimeout(() => control.nativeElement.focus());
+      control.nativeElement.focus();
     }
   }
 }

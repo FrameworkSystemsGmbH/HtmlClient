@@ -17,10 +17,13 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
   public dropDownStyle: any;
   public dropDownScrollerStyle: any;
 
+  protected zone: NgZone;
+
   private lastScrolledIndex: number;
 
-  constructor(protected zone: NgZone) {
-    super();
+  protected init(): void {
+    super.init();
+    this.zone = this.getInjector().get(NgZone);
   }
 
   protected abstract getScroller(): ElementRef;
@@ -91,6 +94,8 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
   }
 
   protected onFocusKey(event: KeyboardEvent, open: boolean): void {
+    this.getFocusService().setLastKeyEvent(event);
+
     if (event.key === 'Tab' || event.key === 'Enter' && !open) {
       this.hideList();
 

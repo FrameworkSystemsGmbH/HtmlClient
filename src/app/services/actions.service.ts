@@ -31,7 +31,8 @@ export class ActionsService {
     }
 
     this._viewDocumentUrl = null;
-    this._focusActions = new Array<() => void>();
+
+    this.clearFocusActions();
 
     for (const actionJson of actionsJson) {
       if (actionJson.form != null && actionJson.control != null) {
@@ -100,6 +101,12 @@ export class ActionsService {
       for (const focusAction of this._focusActions) {
         focusAction();
       }
+
+      this.clearFocusActions();
     }
+  }
+
+  private clearFocusActions(): void {
+    this._focusActions = new Array<() => void>();
   }
 }

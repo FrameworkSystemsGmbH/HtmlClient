@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, ElementRef, Injector } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -34,8 +34,16 @@ export class PictureComponent extends ControlComponent {
   public labelStyle: any;
   public imageClass: any;
 
-  constructor(private sanatizer: DomSanitizer) {
-    super();
+  private sanatizer: DomSanitizer;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
+
+  protected init(): void {
+    super.init();
+    // tslint:disable-next-line: deprecation
+    this.sanatizer = this.getInjector().get(DomSanitizer);
   }
 
   public callOnClick(event: MouseEvent, double: boolean): void {

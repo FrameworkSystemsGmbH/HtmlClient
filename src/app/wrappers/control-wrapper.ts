@@ -761,8 +761,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
       if (comp) {
         comp.setFocus();
-      } else {
-        window.requestAnimationFrame(this.setFocus.bind(this));
       }
     }
   }

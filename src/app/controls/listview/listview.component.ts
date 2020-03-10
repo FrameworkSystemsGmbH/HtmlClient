@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef, Injector } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -52,8 +52,15 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   public buttonCloseStyle: any;
   public itemContainerStyle: any;
 
-  constructor(private platformService: PlatformService) {
-    super();
+  private platformService: PlatformService;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
+
+  protected init(): void {
+    // tslint:disable-next-line: deprecation
+    this.platformService = this.getInjector().get(PlatformService);
   }
 
   public onFocusOut(event: FocusEvent): void {
