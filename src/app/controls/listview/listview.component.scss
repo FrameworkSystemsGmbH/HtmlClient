@@ -15,6 +15,7 @@
     button {
       border-style: none;
       background-color: transparent;
+      user-select: none;
 
       &:hover,
       &:focus {
