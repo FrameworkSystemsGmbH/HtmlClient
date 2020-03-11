@@ -2,16 +2,19 @@
   box-sizing: border-box;
 }
 
-html {
+html,
+body {
   height: 100%;
+  overflow: hidden;
+}
+
+html {
   font-size: 62.5%;
   font-family: $global-font;
 }
 
 body {
   position: relative;
-  height: 100%;
-  overflow: hidden;
   font-size: $global-font-size;
 }
 
