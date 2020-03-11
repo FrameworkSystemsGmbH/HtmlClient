@@ -55,7 +55,10 @@ describe('AppComponent', () => {
         StoreModule.forRoot(APP_REDUCERS)
       ],
       providers: [
-        { provide: ErrorHandler, useClass: ErrorService },
+        {
+          provide: ErrorHandler,
+          useClass: ErrorService
+        },
         ALL_SERVICES
       ]
     }).compileComponents();
