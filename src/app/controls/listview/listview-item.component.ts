@@ -191,14 +191,14 @@ export class ListViewItemComponent implements OnInit {
       case ListViewSelectorPosition.MiddleLeft:
         selectorStyle = {
           ...selectorStyle,
-          'top.rem': (this.height / 2) - (this.selectorSize / 2),
+          'top.rem': StyleUtil.pixToRem((this.height / 2) - (this.selectorSize / 2)),
           'left.rem': margin
         };
         break;
       case ListViewSelectorPosition.MiddleRight:
         selectorStyle = {
           ...selectorStyle,
-          'top.rem': (this.height / 2) - (this.selectorSize / 2),
+          'top.rem': StyleUtil.pixToRem((this.height / 2) - (this.selectorSize / 2)),
           'right.rem': margin
         };
         break;
