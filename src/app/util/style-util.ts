@@ -4,8 +4,8 @@ import { ScrollBars } from 'app/enums/scrollbars';
 
 export namespace StyleUtil {
 
-  export const headerHeight: number = 4;
-  export const iosMenubarHeight: number = 2;
+  export const headerHeight: number = 40;
+  export const iosMenubarHeight: number = 20;
 
   export function pixToRem(value: number): number {
     return Number.zeroIfNull(value) / 10;
