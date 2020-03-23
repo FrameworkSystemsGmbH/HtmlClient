@@ -5,6 +5,7 @@
   height: $header-height - 0.1rem;
 
   div {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 0 1rem;
@@ -20,6 +21,12 @@
     &:hover {
       color: $header-color-highlight;
       background-color: $header-background-highlight;
+    }
+
+    .badgeImage {
+      top: 0;
+      right: 0;
+      position: absolute;
     }
 
     span.hc-header-close-icon-span {
@@ -44,6 +51,7 @@
   margin: 0;
 
   li {
+    position: relative;
     display: flex;
     align-items: center;
     height: $header-height;
@@ -58,6 +66,12 @@
     &:hover {
       color: $header-color-highlight;
       background-color: $header-background-highlight;
+    }
+
+    .badgeImage {
+      position: absolute;
+      top: 0;
+      right: 0;
     }
 
     span.hc-header-list-title-span {

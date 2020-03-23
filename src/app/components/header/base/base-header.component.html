@@ -14,6 +14,7 @@
     <overlay-scrollbars #scroller class="scroller os-host-flexbox" [options]="scrollerOptions">
       <div #tabs class="hc-header-tabs-list">
         <div *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
+          <img *ngIf="form.getBadgeImageSrc() != null" [src]="form.getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
           <span>{{ form.getTitle() }}</span>
           <span *ngIf="form.isCloseIconVisible()" class="hc-header-close-icon-span">
             <span (click)="closeForm(form)" class="hc-header-close-icon-event-span">
@@ -44,6 +45,7 @@
   <div class="hc-header-side-middle">
     <ul class="hc-header-side-tabs-list">
       <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
+        <img *ngIf="form.getBadgeImageSrc() != null" [src]="form.getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
         <span class="hc-header-list-title-span">{{ form.getTitle() }}</span>
         <span *ngIf="form.isCloseIconVisible()" class="hc-header-close-icon-span">
           <span (click)="closeForm(form)" class="hc-header-close-icon-event-span">

@@ -10,6 +10,7 @@ import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
 import { LayoutableProperties } from 'app/wrappers/layout/layoutable-properties-default';
 import { ControlType } from 'app/enums/control-type';
 import { JsonUtil } from 'app/util/json-util';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 export class FormWrapper extends ContainerWrapper {
 
@@ -19,6 +20,14 @@ export class FormWrapper extends ContainerWrapper {
   private _isModal: boolean;
   private _variant: VariantWrapper;
   private _closeButton: ButtonBaseWrapper;
+
+  private _sanatizer: DomSanitizer;
+
+  protected init(): void {
+    super.init();
+    // tslint:disable-next-line: deprecation
+    this._sanatizer = this.getInjector().get(DomSanitizer);
+  }
 
   public get closing(): boolean {
     return this._closing;
@@ -53,13 +62,6 @@ export class FormWrapper extends ContainerWrapper {
     return this._closeButton;
   }
 
-  private getDefaultVariant(): VariantWrapper {
-    if (!this._variant) {
-      this._variant = this.controls.filter(wrapper => wrapper instanceof VariantWrapper)[0] as VariantWrapper;
-    }
-    return this._variant;
-  }
-
   public isCloseIconVisible(): boolean {
     return this.getDefaultVariant().getIsCloseIconVisible();
   }
@@ -70,6 +72,18 @@ export class FormWrapper extends ContainerWrapper {
 
   public setCloseButtonAction(button: ButtonBaseWrapper): void {
     this._closeButton = button;
+  }
+
+  public getBadgeImageSrc(): SafeUrl {
+    const badgeImageSrc: string = this.getDefaultVariant().getBadgeImageSrc();
+    return !String.isNullOrWhiteSpace(badgeImageSrc) ? this._sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
+  }
+
+  private getDefaultVariant(): VariantWrapper {
+    if (!this._variant) {
+      this._variant = this.controls.filter(wrapper => wrapper instanceof VariantWrapper)[0] as VariantWrapper;
+    }
+    return this._variant;
   }
 
   protected getComponentRef(): ComponentRef<FormComponent> {
