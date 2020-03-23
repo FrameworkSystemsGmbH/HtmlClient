@@ -3,6 +3,7 @@ import { Component, ViewChild, ElementRef, Injector } from '@angular/core';
 import { ButtonComponent } from 'app/controls/buttons/button.component';
 import { ButtonImageWrapper } from 'app/wrappers/button-image-wrapper';
 import { StyleUtil } from 'app/util/style-util';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'hc-btn-image',
@@ -19,14 +20,23 @@ export class ButtonImageComponent extends ButtonComponent {
   public isMouseDown: boolean;
   public wasMouseDownOnLeave: boolean;
   public textStyle: any;
+  public badgeImageSrc: SafeUrl;
 
   private normaleImageUrl: string;
   private disabledImageUrl: string;
   private mouseOverImageUrl: string;
   private pressedImageUrl: string;
 
+  private sanatizer: DomSanitizer;
+
   constructor(injector: Injector) {
     super(injector);
+  }
+
+  protected init(): void {
+    super.init();
+    // tslint:disable-next-line: deprecation
+    this.sanatizer = this.getInjector().get(DomSanitizer);
   }
 
   protected getButton(): ElementRef {
@@ -97,6 +107,9 @@ export class ButtonImageComponent extends ButtonComponent {
     this.mouseOverImageUrl = wrapper.getMouseOverImageUrl();
     this.pressedImageUrl = wrapper.getPressedImageUrl();
     this.updateImageUrl();
+
+    const badgeImageSrc: string = wrapper.getBadgeImageSrc();
+    this.badgeImageSrc = !String.isNullOrWhiteSpace(badgeImageSrc) ? this.sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
   }
 
   protected updateStyles(wrapper: ButtonImageWrapper): void {

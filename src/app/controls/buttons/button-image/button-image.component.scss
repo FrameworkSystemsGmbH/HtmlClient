@@ -1,4 +1,4 @@
-@import 'scss/_variables.scss';
+@import "scss/_variables.scss";
 
 :host,
 button {
@@ -10,9 +10,15 @@ button {
   overflow: hidden;
   padding: 0 !important;
 
-  img {
+  .buttonImage {
     width: 100%;
     height: 100%;
+  }
+
+  .badgeImage {
+    top: 0;
+    right: 0;
+    position: absolute;
   }
 
   span {

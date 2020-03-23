@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
 
   private createIosStyle(): any {
     return {
-      'padding-top.rem': StyleUtil.iosMenubarHeight
+      'padding-top.rem': StyleUtil.pixToRem(StyleUtil.iosMenubarHeight)
     };
   }
 
