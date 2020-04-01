@@ -83,6 +83,9 @@
     <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
       <application android:usesCleartextTraffic="true" />
     </edit-config>
+    <edit-config file="AndroidManifest.xml" target="/manifest/uses-feature[@android:name='android.hardware.camera']" mode="merge">
+      <uses-feature android:required="false" />
+    </edit-config>
   </platform>
 
   <platform name="ios">
@@ -93,7 +96,7 @@
   <!-- /Config File Changes -->
 
   <!-- Icons & Splashscreens -->
-  <icon width="1024" height="1024" src="icon.png" />>
+  <icon width="1024" height="1024" src="icon.png" />
 
   <platform name="android">
     <icon src="and_icon_36x36.png" density="ldpi" />
