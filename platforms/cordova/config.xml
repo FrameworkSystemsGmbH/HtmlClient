@@ -2,7 +2,7 @@
 <widget id="com.fs.htmlclient"
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        version="1.0.26">
+        version="1.0.28">
 
   <!-- Phonegap Exclusive -->
   <preference name="phonegap-version" value="cli-9.0.0" />
@@ -83,6 +83,12 @@
     <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
       <application android:usesCleartextTraffic="true" />
     </edit-config>
+    <edit-config file="AndroidManifest.xml" target="/manifest/uses-feature[@android:name='android.hardware.location.gps']" mode="merge">
+      <uses-feature android:required="false" />
+    </edit-config>
+    <edit-config file="AndroidManifest.xml" target="/manifest/uses-feature[@android:name='android.hardware.camera']" mode="merge">
+      <uses-feature android:required="false" />
+    </edit-config>
   </platform>
 
   <platform name="ios">
@@ -93,7 +99,7 @@
   <!-- /Config File Changes -->
 
   <!-- Icons & Splashscreens -->
-  <icon width="1024" height="1024" src="icon.png" />>
+  <icon width="1024" height="1024" src="icon.png" />
 
   <platform name="android">
     <icon src="and_icon_36x36.png" density="ldpi" />

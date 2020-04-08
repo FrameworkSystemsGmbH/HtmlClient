@@ -1,16 +1,14 @@
-// Variables
-@import './scss/variables.scss';
-
 // Normalize
-@import '../node_modules/normalize.css/normalize.css';
+@import '~normalize.css/normalize.css';
 
 // OverlayScrollbars
 @import '../node_modules/overlayscrollbars/css/OverlayScrollbars.css';
 
 // Angulat Material
-@import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 // Custom
+@import './scss/variables.scss';
 @import './scss/layout.scss';
 @import './scss/scrollbars.scss';
 @import './scss/elements.scss';
