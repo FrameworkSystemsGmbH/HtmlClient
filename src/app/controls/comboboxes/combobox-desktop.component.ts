@@ -192,7 +192,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
       'width.rem': StyleUtil.pixToRem(layoutableProperties.getClientWidth()),
       'height.rem': StyleUtil.pixToRem(layoutableProperties.getClientHeight()),
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
-      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
+      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlined),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
       'border-radius': StyleUtil.pixToRemFourValueStr(
@@ -222,7 +222,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
         wrapper.getPaddingRight(),
         wrapper.getPaddingBottom(),
         wrapper.getPaddingLeft()),
-      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
+      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlined),
       'font-weight': StyleUtil.getFontWeight(wrapper.getFontBold()),
       'line-height.rem': StyleUtil.pixToRem(wrapper.getLineHeight()),
       'text-decoration': StyleUtil.getTextDecoration(wrapper.getFontUnderline())

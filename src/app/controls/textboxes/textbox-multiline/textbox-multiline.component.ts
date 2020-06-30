@@ -100,7 +100,7 @@ export class TextBoxMultilineComponent extends TextBoxComponent {
 
     return {
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
-      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
+      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlined),
       'border': 'none',
       'padding': StyleUtil.pixToRemFourValueStr(
         wrapper.getPaddingTop(),

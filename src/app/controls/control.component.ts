@@ -1,4 +1,4 @@
-import { EventEmitter, Output, Injector, Directive } from '@angular/core';
+import { EventEmitter, Output, Injector, Directive, ChangeDetectorRef } from '@angular/core';
 
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { LayoutableComponent } from 'app/controls/layoutable.component';
@@ -17,9 +17,11 @@ export abstract class ControlComponent extends LayoutableComponent {
   public isVisible: boolean;
   public isEditable: boolean;
   public isFocused: boolean;
+  public isOutlined: boolean;
 
   private injector: Injector;
   private focusService: FocusService;
+  private cdr: ChangeDetectorRef;
 
   constructor(injector: Injector) {
     super();
@@ -29,6 +31,7 @@ export abstract class ControlComponent extends LayoutableComponent {
 
   protected init(): void {
     this.focusService = this.injector.get(FocusService);
+    this.cdr = this.injector.get(ChangeDetectorRef);
   }
 
   protected getInjector(): Injector {
@@ -41,11 +44,19 @@ export abstract class ControlComponent extends LayoutableComponent {
 
   public onFocusIn(event: FocusEvent): void {
     this.isFocused = true;
+    this.isOutlined = this.getWrapper().isOutlineVisible(this.isFocused);
+
+    this.cdr.detectChanges();
+
     this.callOnEnter(event);
   }
 
   public onFocusOut(event: FocusEvent): void {
     this.isFocused = false;
+    this.isOutlined = this.getWrapper().isOutlineVisible(this.isFocused);
+
+    this.cdr.detectChanges();
+
     this.callOnLeave(event);
   }
 
@@ -81,10 +92,6 @@ export abstract class ControlComponent extends LayoutableComponent {
     super.updateData(wrapper);
     this.isEditable = wrapper.getCurrentIsEditable();
     this.isVisible = wrapper.getCurrentVisibility() === Visibility.Visible;
-  }
-
-  public isOutlineVisible(): boolean {
-    return this.getWrapper().isOutlineVisible(this.isFocused);
   }
 
   public setFocus(): void {

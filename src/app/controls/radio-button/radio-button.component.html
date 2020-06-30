@@ -3,7 +3,7 @@
   <label class="label" tabindex="-1" [attr.for]="id" [ngStyle]="labelStyle" (mousedown)="onLabelMouseDown()">
     <span class="button"></span>
     <div *ngIf="caption" [ngStyle]="captionStyle">
-      <span [ngClass]="{ outline: isOutlineVisible() }">{{ caption }}</span>
+      <span [class.outline]="isOutlined">{{ caption }}</span>
     </div>
   </label>
 </div>

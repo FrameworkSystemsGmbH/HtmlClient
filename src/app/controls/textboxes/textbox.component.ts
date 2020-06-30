@@ -81,7 +81,7 @@ export abstract class TextBoxComponent extends ControlComponent {
       'width.rem': StyleUtil.pixToRem(layoutWidth),
       'height.rem': StyleUtil.pixToRem(layoutHeight),
       'color': StyleUtil.getForeColor(this.isEditable, wrapper.getForeColor()),
-      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlineVisible()),
+      'background-color': StyleUtil.getBackgroundColorTextInput(wrapper.getBackColor(), this.isEditable, this.isOutlined),
       'border-style': 'solid',
       'border-color': wrapper.getBorderColor(),
       'border-radius': StyleUtil.pixToRemFourValueStr(
