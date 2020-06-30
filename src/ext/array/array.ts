@@ -1,5 +1,5 @@
 if (!Array.prototype.clone) {
-  Array.prototype.clone = () => {
+  Array.prototype.clone = function() {
     let i = this.length;
     const result = new Array(i);
 
@@ -12,7 +12,7 @@ if (!Array.prototype.clone) {
 }
 
 if (!Array.prototype.pushAll) {
-  Array.prototype.pushAll = items => {
+  Array.prototype.pushAll = function(items) {
     if (items && items.length) {
       for (const item of items) {
         this.push(item);
@@ -22,13 +22,13 @@ if (!Array.prototype.pushAll) {
 }
 
 if (!Array.prototype.isEmpty) {
-  Array.prototype.isEmpty = () => {
+  Array.prototype.isEmpty = function() {
     return this.length === 0;
   };
 }
 
 if (!Array.prototype.remove) {
-  Array.prototype.remove = item => {
+  Array.prototype.remove = function(item) {
     const index = this.indexOf(item);
     if (index >= 0) {
       return this.splice(index, 1)[0];
