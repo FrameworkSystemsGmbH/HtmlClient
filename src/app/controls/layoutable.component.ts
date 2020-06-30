@@ -1,8 +1,7 @@
-import { OnInit, DoCheck, Directive } from '@angular/core';
+import { OnInit, DoCheck } from '@angular/core';
 
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 
-@Directive()
 export abstract class LayoutableComponent implements OnInit, DoCheck {
 
   private wrapper: ILayoutableControlWrapper;
