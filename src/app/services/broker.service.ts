@@ -285,39 +285,40 @@ export class BrokerService {
     };
 
     if (initRequest) {
-      return forkJoin(
+      return forkJoin([
         this.clientDataService.loadSessionData(),
-        this.clientDataService.getDeviceUuid()).pipe(
-          map(res => {
-            const sessionData: string = res[0];
-            const clientId: string = res[1];
+        this.clientDataService.getDeviceUuid()
+      ]).pipe(
+        map(res => {
+          const sessionData: string = res[0];
+          const clientId: string = res[1];
 
-            const platform: string = this.platformService.getPlatform();
-            const os: string = this.platformService.getOS();
-            const osversion: string = this.platformService.getOSVersion();
+          const platform: string = this.platformService.getPlatform();
+          const os: string = this.platformService.getOS();
+          const osversion: string = this.platformService.getOSVersion();
 
-            if (!String.isNullOrWhiteSpace(sessionData)) {
-              metaJson.sessionData = sessionData;
-            }
+          if (!String.isNullOrWhiteSpace(sessionData)) {
+            metaJson.sessionData = sessionData;
+          }
 
-            let clientInfos: any = {
-              Platform: platform,
-              OS: os,
-              OSVersion: osversion
+          let clientInfos: any = {
+            Platform: platform,
+            OS: os,
+            OSVersion: osversion
+          };
+
+          if (!String.isNullOrWhiteSpace(clientId)) {
+            clientInfos = {
+              ...clientInfos,
+              ClientID: clientId
             };
+          }
 
-            if (!String.isNullOrWhiteSpace(clientId)) {
-              clientInfos = {
-                ...clientInfos,
-                ClientID: clientId
-              };
-            }
+          metaJson.clientInfos = clientInfos;
 
-            metaJson.clientInfos = clientInfos;
-
-            return metaJson;
-          })
-        );
+          return metaJson;
+        })
+      );
     } else {
       return obsOf(metaJson);
     }

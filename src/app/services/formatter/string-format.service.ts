@@ -1,5 +1,7 @@
+import { Injectable } from '@angular/core';
 import { TextFormat } from 'app/enums/text-format';
 
+@Injectable()
 export class StringFormatService {
 
   public formatString(value: string, textFormat: TextFormat): string {

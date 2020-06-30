@@ -1,4 +1,4 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, Directive } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -7,6 +7,7 @@ import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
 import { StyleUtil } from 'app/util/style-util';
 import { DomUtil } from 'app/util/dom-util';
 
+@Directive()
 export abstract class TextBoxComponent extends ControlComponent {
 
   public readOnlyAttr: boolean;

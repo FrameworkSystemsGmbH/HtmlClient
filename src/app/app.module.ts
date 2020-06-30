@@ -8,9 +8,6 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from 'app/app.component';
-import { ErrorBoxComponent } from 'app/components/errorbox/errorbox.component';
-import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
-import { RetryBoxComponent } from 'app/components/retrybox/retrybox.component';
 
 import { ErrorService } from 'app/services/error.service';
 
@@ -34,12 +31,6 @@ import { HammerConfig } from 'app/common/hammer/hammer-config';
 import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 
 @NgModule({
-  entryComponents: [
-    ErrorBoxComponent,
-    MsgBoxComponent,
-    RetryBoxComponent,
-    ALL_CONTROLS
-  ],
   declarations: [
     AppComponent,
     ALL_COMPONENTS,

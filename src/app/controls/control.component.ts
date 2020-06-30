@@ -1,10 +1,11 @@
-import { EventEmitter, Output, Injector } from '@angular/core';
+import { EventEmitter, Output, Injector, Directive } from '@angular/core';
 
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
 import { LayoutableComponent } from 'app/controls/layoutable.component';
 import { Visibility } from 'app/enums/visibility';
 import { FocusService } from 'app/services/focus.service';
 
+@Directive()
 export abstract class ControlComponent extends LayoutableComponent {
 
   @Output()

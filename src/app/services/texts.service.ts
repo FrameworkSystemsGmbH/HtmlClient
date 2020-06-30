@@ -1,3 +1,6 @@
+import { Injectable } from '@angular/core';
+
+@Injectable()
 export class TextsService {
 
   public static RETRY: number = 1;

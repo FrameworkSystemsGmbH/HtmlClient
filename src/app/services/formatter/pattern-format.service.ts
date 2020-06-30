@@ -1,3 +1,6 @@
+import { Injectable } from '@angular/core';
+
+@Injectable()
 export class PatternFormatService {
 
   private static readonly javaToMomentMap: Map<string, string> = new Map<string, string>([

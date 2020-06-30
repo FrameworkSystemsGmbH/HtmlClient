@@ -200,7 +200,7 @@
       "check-type-operator",
       "check-preblock"
     ],
-    "directive-class-suffix": true,
+    "directive-class-suffix": false,
     "directive-selector": [
       true,
       "attribute",
