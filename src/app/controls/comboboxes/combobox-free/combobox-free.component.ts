@@ -4,8 +4,9 @@ import { Subscription, fromEvent } from 'rxjs';
 
 import { ComboBoxDesktopComponent } from 'app/controls/comboboxes/combobox-desktop.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
-import { StyleUtil } from 'app/util/style-util';
-import { DomUtil } from 'app/util/dom-util';
+
+import * as StyleUtil from 'app/util/style-util';
+import * as DomUtil from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-cmb-free',

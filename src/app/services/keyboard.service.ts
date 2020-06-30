@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { PlatformService } from 'app/services/platform/platform.service';
-import { DomUtil } from 'app/util/dom-util';
+
+import * as DomUtil from 'app/util/dom-util';
 
 @Injectable()
 export class KeyboardService {

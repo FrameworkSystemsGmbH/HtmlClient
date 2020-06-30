@@ -4,13 +4,14 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 
 import { ControlComponent } from 'app/controls/control.component';
 import { ListViewWrapper, IHeaderOptions } from 'app/wrappers/listview-wrapper';
-import { StyleUtil } from 'app/util/style-util';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { PlatformService } from 'app/services/platform/platform.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
-import { DomUtil } from 'app/util/dom-util';
+
+import * as DomUtil from 'app/util/dom-util';
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-listview',

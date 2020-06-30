@@ -3,11 +3,12 @@ import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef, ComponentRe
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
 import { ControlComponent } from 'app/controls/control.component';
-import { StyleUtil } from 'app/util/style-util';
 import { TemplateControlWrapper } from 'app/wrappers/template-control-wrapper';
 import { TemplateControlContentComponent } from 'app/controls/template-control/template-control-content.component';
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
 import { ParseMethod } from 'app/enums/parse-method';
+
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-template-control',

@@ -12,7 +12,8 @@ import { DataSourceType } from 'app/enums/datasource-type';
 import { TextFormat } from 'app/enums/text-format';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import { ParseMethod } from 'app/enums/parse-method';
-import { StyleUtil } from 'app/util/style-util';
+
+import * as StyleUtil from 'app/util/style-util';
 
 @Injectable()
 export class FontService {

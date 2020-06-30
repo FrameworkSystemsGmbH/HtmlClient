@@ -3,7 +3,8 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 
 import { ComboBoxComponent } from 'app/controls/comboboxes/combobox.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
-import { StyleUtil } from 'app/util/style-util';
+
+import * as StyleUtil from 'app/util/style-util';
 
 @Directive()
 export abstract class ComboBoxMobileComponent extends ComboBoxComponent {

@@ -18,9 +18,10 @@ import { WrapArrangement } from 'app/layout/wrap-layout/wrap-arrangement';
 import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
-import { JsonUtil } from 'app/util/json-util';
 import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 import { PictureScaleMode } from 'app/enums/picture-scale-mode';
+
+import * as JsonUtil from 'app/util/json-util';
 
 const DEFAULT_FONT: string = 'Roboto, Arial, Helvetica, Verdana';
 

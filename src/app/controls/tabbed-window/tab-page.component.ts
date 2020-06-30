@@ -2,9 +2,10 @@ import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef, Injector } 
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
-import { StyleUtil } from 'app/util/style-util';
 import { ContainerComponent } from 'app/controls/container.component';
 import { TabPageWrapper } from 'app/wrappers/tabbed-window/tab-page-wrapper';
+
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-tab-page',

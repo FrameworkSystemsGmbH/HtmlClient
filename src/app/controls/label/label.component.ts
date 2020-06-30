@@ -4,7 +4,8 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 
 import { ControlComponent } from 'app/controls/control.component';
 import { LabelWrapper } from 'app/wrappers/label-wrapper';
-import { StyleUtil } from 'app/util/style-util';
+
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-lbl',

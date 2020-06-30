@@ -12,8 +12,9 @@ import { ButtonGroup } from 'app/wrappers/button-group/button-group';
 import { VchControl } from 'app/vch/vch-control';
 import { VchContainer } from 'app/vch/vch-container';
 import { Visibility } from 'app/enums/visibility';
-import { JsonUtil } from 'app/util/json-util';
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
+
+import * as JsonUtil from 'app/util/json-util';
 
 export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainerWrapper {
 

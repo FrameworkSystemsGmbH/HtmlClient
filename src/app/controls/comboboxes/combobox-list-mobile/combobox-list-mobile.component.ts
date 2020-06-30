@@ -4,7 +4,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComboBoxMobileComponent } from 'app/controls/comboboxes/combobox-mobile.component';
 import { ComboBoxListMobileOverlayComponent } from 'app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile-overlay.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
-import { DomUtil } from 'app/util/dom-util';
+
+import * as DomUtil from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-cmb-list-mobile',

@@ -5,8 +5,9 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 import { ControlComponent } from 'app/controls/control.component';
 import { RadioButtonWrapper } from 'app/wrappers/radio-button-wrapper';
 import { CheckBoxWrapper } from 'app/wrappers/checkbox-wrapper';
-import { StyleUtil } from 'app/util/style-util';
-import { DomUtil } from 'app/util/dom-util';
+
+import * as StyleUtil from 'app/util/style-util';
+import * as DomUtil from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-radio',

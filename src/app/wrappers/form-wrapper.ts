@@ -9,8 +9,9 @@ import { FormComponent } from 'app/controls/form/form.component';
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
 import { LayoutableProperties } from 'app/wrappers/layout/layoutable-properties-default';
 import { ControlType } from 'app/enums/control-type';
-import { JsonUtil } from 'app/util/json-util';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+
+import * as JsonUtil from 'app/util/json-util';
 
 export class FormWrapper extends ContainerWrapper {
 

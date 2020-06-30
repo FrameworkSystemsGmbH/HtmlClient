@@ -3,9 +3,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { DataList } from 'app/common/data-list';
-import { DomUtil } from 'app/util/dom-util';
 import { BackService } from 'app/services/back-service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
+
+import * as DomUtil from 'app/util/dom-util';
 
 @Component({
   selector: 'hc-cmb-list-mobile-overlay',

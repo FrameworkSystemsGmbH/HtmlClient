@@ -3,11 +3,6 @@ import { Observable, of as obsOf } from 'rxjs';
 import { flatMap, map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import * as Moment from 'moment-timezone';
-import * as fromAppReducers from 'app/app.reducers';
-import * as fromBrokerReducers from 'app/store/broker.reducers';
-import * as fromBrokerActions from 'app/store/broker.actions';
-
 import { BarcodeService } from 'app/services/actions/barcode.service';
 import { BackService } from 'app/services/back-service';
 import { BrokerService } from 'app/services/broker.service';
@@ -20,7 +15,12 @@ import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 import { LastSessionInfo } from 'app/common/last-session-info';
-import { JsonUtil } from 'app/util/json-util';
+
+import * as Moment from 'moment-timezone';
+import * as JsonUtil from 'app/util/json-util';
+import * as fromAppReducers from 'app/app.reducers';
+import * as fromBrokerReducers from 'app/store/broker.reducers';
+import * as fromBrokerActions from 'app/store/broker.actions';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
 const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours

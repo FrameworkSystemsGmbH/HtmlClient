@@ -4,8 +4,9 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 
 import { ControlComponent } from 'app/controls/control.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
-import { StyleUtil } from 'app/util/style-util';
-import { DomUtil } from 'app/util/dom-util';
+
+import * as StyleUtil from 'app/util/style-util';
+import * as DomUtil from 'app/util/dom-util';
 
 @Directive()
 export abstract class TextBoxComponent extends ControlComponent {

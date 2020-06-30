@@ -9,8 +9,8 @@ import { BrokerService } from 'app/services/broker.service';
 import { TitleService } from 'app/services/title.service';
 import { StateService } from 'app/services/state.service';
 import { LastSessionInfo } from 'app/common/last-session-info';
-import { DomUtil } from 'app/util/dom-util';
 
+import * as DomUtil from 'app/util/dom-util';
 import * as fromAppReducers from 'app/app.reducers';
 
 @Component({

@@ -4,7 +4,8 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 
 import { ControlComponent } from 'app/controls/control.component';
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
-import { StyleUtil } from 'app/util/style-util';
+
+import * as StyleUtil from 'app/util/style-util';
 
 @Directive()
 export abstract class ButtonComponent extends ControlComponent {

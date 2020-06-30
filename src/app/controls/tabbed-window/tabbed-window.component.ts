@@ -3,7 +3,6 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
-import { StyleUtil } from 'app/util/style-util';
 import { ContainerComponent } from 'app/controls/container.component';
 import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wrapper';
 import { TabPageWrapper } from 'app/wrappers/tabbed-window/tab-page-wrapper';
@@ -12,6 +11,8 @@ import { TabAlignment } from 'app/enums/tab-alignment';
 import { Visibility } from 'app/enums/visibility';
 import { PlatformService } from 'app/services/platform/platform.service';
 import { ImageService } from 'app/services/image.service';
+
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-tabbed-window',

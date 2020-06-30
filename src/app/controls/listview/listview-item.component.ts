@@ -5,11 +5,12 @@ import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
 import { PlatformService } from 'app/services/platform/platform.service';
-import { DomUtil } from 'app/util/dom-util';
 import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 import { FramesService } from 'app/services/frames.service';
-import { StyleUtil } from 'app/util/style-util';
 import { ParseMethod } from 'app/enums/parse-method';
+
+import * as DomUtil from 'app/util/dom-util';
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-listview-item',

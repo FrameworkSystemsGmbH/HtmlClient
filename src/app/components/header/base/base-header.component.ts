@@ -11,9 +11,10 @@ import { FormsService } from 'app/services/forms.service';
 import { LoaderService } from 'app/services/loader.service';
 import { PlatformService } from 'app/services/platform/platform.service';
 import { TitleService } from 'app/services/title.service';
-import { DomUtil } from 'app/util/dom-util';
-import { StyleUtil } from 'app/util/style-util';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
+
+import * as DomUtil from 'app/util/dom-util';
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-base-header',

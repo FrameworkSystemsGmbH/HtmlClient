@@ -6,8 +6,9 @@ import { BackService } from 'app/services/back-service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { PlatformService } from 'app/services/platform/platform.service';
 import { StateService } from 'app/services/state.service';
-import { StyleUtil } from 'app/util/style-util';
 import { ViewDocService } from 'app/services/actions/viewdoc.service';
+
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-app',

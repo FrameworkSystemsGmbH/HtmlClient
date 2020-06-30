@@ -4,7 +4,8 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 
 import { ContainerComponent } from 'app/controls/container.component';
 import { WrapPanelWrapper } from 'app/wrappers/wrap-panel-wrapper';
-import { StyleUtil } from 'app/util/style-util';
+
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-wrp-panel',

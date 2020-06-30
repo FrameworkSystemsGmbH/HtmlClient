@@ -30,9 +30,10 @@ import { InternalEventCallbacks } from 'app/common/events/internal/internal-even
 import { ClientEnterEvent } from 'app/common/events/client-enter-event';
 import { ClientLeaveEvent } from 'app/common/events/client-leave-event';
 import { ClientEventType } from 'app/enums/client-event-type';
-import { JsonUtil } from 'app/util/json-util';
 import { ControlType } from 'app/enums/control-type';
 import { FontService } from 'app/services/font.service';
+
+import * as JsonUtil from 'app/util/json-util';
 
 export abstract class ControlWrapper implements ILayoutableControlWrapper, IControlLabelProvider {
 

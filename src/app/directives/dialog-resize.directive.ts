@@ -1,6 +1,7 @@
 import { Directive, Input, OnInit, ElementRef, Renderer2, HostListener } from '@angular/core';
-import { DomUtil } from 'app/util/dom-util';
-import { StyleUtil } from 'app/util/style-util';
+
+import * as DomUtil from 'app/util/dom-util';
+import * as StyleUtil from 'app/util/style-util';
 
 @Directive({ selector: '[hcDialogResize]' })
 export class DialogResizeDirective implements OnInit {

@@ -30,13 +30,13 @@ import { MsgBoxButtons } from 'app/enums/msgbox-buttons';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
 import { RequestType } from 'app/enums/request-type';
 import { ResponseResult } from 'app/enums/response-result';
-import { JsonUtil } from 'app/util/json-util';
-import { RxJsUtil } from 'app/util/rxjs-util';
+
+import * as Moment from 'moment-timezone';
+import * as JsonUtil from 'app/util/json-util';
+import * as RxJsUtil from 'app/util/rxjs-util';
 
 import * as fromAppReducers from 'app/app.reducers';
 import * as fromBrokerActions from 'app/store/broker.actions';
-
-import * as Moment from 'moment-timezone';
 
 @Injectable()
 export class BrokerService {

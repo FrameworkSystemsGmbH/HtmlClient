@@ -3,12 +3,13 @@ import { Component, Output, EventEmitter, ViewChild, ElementRef, Injector } from
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
 import { ControlComponent } from 'app/controls/control.component';
-import { StyleUtil } from 'app/util/style-util';
 import { PictureWrapper } from 'app/wrappers/picture-wrapper';
 import { ContentAlignment } from 'app/enums/content-alignment';
 import { PictureScaleMode } from 'app/enums/picture-scale-mode';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ClientPictureClickEventArgs } from 'app/common/events/eventargs/client-picture-click-eventargs';
+
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-pic',
