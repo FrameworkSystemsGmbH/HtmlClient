@@ -1,11 +1,11 @@
 if (!String.empty) {
-  String.empty = function(): string {
+  String.empty = () => {
     return '';
   };
 }
 
 if (!String.equals) {
-  String.equals = function(x: string, y: string, ignoreCase: boolean): boolean {
+  String.equals = (x, y, ignoreCase) => {
     if (x && y) {
       if (ignoreCase) {
         return x.toLowerCase() === y.toLowerCase();
@@ -27,7 +27,7 @@ if (!String.prototype.equals) {
 }
 
 if (!String.replaceAll) {
-  String.replaceAll = function(str: string, search: string, replacement: string): string {
+  String.replaceAll = (str, search, replacement) => {
     if (str == null || search == null) {
       return str;
     }
@@ -46,7 +46,7 @@ if (!String.prototype.replaceAll) {
 }
 
 if (!String.trimCharsLeft) {
-  String.trimCharsLeft = function(str: string, chars: string): string {
+  String.trimCharsLeft = (str, chars) => {
     let trimChars: string = chars;
     if (trimChars === undefined) {
       trimChars = '\s';
@@ -62,7 +62,7 @@ if (!String.prototype.trimCharsLeft) {
 }
 
 if (!String.trimCharsRight) {
-  String.trimCharsRight = function(str: string, chars: string): string {
+  String.trimCharsRight = (str, chars) => {
     let trimChars: string = chars;
     if (trimChars === undefined) {
       trimChars = '\s';
@@ -78,7 +78,7 @@ if (!String.prototype.trimCharsRight) {
 }
 
 if (!String.trimChars) {
-  String.trimChars = function(str: string, chars: string): string {
+  String.trimChars = (str, chars) => {
     return str.trimCharsLeft(chars).trimCharsRight(chars);
   };
 }
@@ -90,7 +90,7 @@ if (!String.prototype.trimChars) {
 }
 
 if (!String.trimStringLeft) {
-  String.trimStringLeft = function(str: string, trimStr: string): string {
+  String.trimStringLeft = (str, trimStr) => {
     if (!str || trimStr == null) {
       return str;
     }
@@ -112,7 +112,7 @@ if (!String.prototype.trimStringLeft) {
 }
 
 if (!String.trimStringRight) {
-  String.trimStringRight = function(str: string, trimStr: string): string {
+  String.trimStringRight = (str, trimStr) => {
     if (!str || trimStr == null) {
       return str;
     }
@@ -134,7 +134,7 @@ if (!String.prototype.trimStringRight) {
 }
 
 if (!String.trimString) {
-  String.trimString = function(str: string, trimStr: string): string {
+  String.trimString = (str, trimStr) => {
     return str.trimCharsLeft(trimStr).trimCharsRight(trimStr);
   };
 }
@@ -146,7 +146,7 @@ if (!String.prototype.trimString) {
 }
 
 if (!String.isNullOrWhiteSpace) {
-  String.isNullOrWhiteSpace = function(str: string): boolean {
+  String.isNullOrWhiteSpace = str => {
     return str == null || str.trim() === String.empty();
   };
 }

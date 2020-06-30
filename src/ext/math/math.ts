@@ -24,19 +24,19 @@ function decimalAdjust(type: string, value: number, exp: number) {
 }
 
 if (!Math.roundDec) {
-  Math.roundDec = (value: number, exp: number) => {
+  Math.roundDec = (value, exp) => {
     return decimalAdjust('round', value, exp);
   };
 }
 
 if (!Math.floorDec) {
-  Math.floorDec = (value: number, exp: number) => {
+  Math.floorDec = (value, exp) => {
     return decimalAdjust('floor', value, exp);
   };
 }
 
 if (!Math.ceilDec) {
-  Math.ceilDec = (value: number, exp: number) => {
+  Math.ceilDec = (value, exp) => {
     return decimalAdjust('ceil', value, exp);
   };
 }
