@@ -1,23 +1,23 @@
 if (!Boolean.trueIfNull) {
-  Boolean.trueIfNull = function(value) {
+  Boolean.trueIfNull = value => {
     return value == null ? true : value;
   };
 }
 
 if (!Boolean.falseIfNull) {
-  Boolean.falseIfNull = function(value) {
+  Boolean.falseIfNull = value => {
     return value == null ? false : value;
   };
 }
 
 if (!Boolean.nullIfTrue) {
-  Boolean.nullIfTrue = function(value) {
+  Boolean.nullIfTrue = value => {
     return value === true ? null : value;
   };
 }
 
 if (!Boolean.nullIfFalse) {
-  Boolean.nullIfFalse = function(value) {
+  Boolean.nullIfFalse = value => {
     return value === false ? null : value;
   };
 }

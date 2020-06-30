@@ -81,8 +81,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
     });
 
     // Trim separators from start
-    for (let i = 0; i < visibleWrappers.length; i++) {
-      const visibleWrp: ControlLabelWrapper = visibleWrappers[i];
+    for (const visibleWrp of visibleWrappers) {
       if (visibleWrp instanceof ControlLabelSeparatorWrapper) {
         const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp as ControlLabelSeparatorWrapper;
         separatorWrp.setVisibility(Visibility.Collapsed);
@@ -104,8 +103,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
 
     // Limit separator count between labels to one
     let separatorFound: boolean = false;
-    for (let i = 0; i < visibleWrappers.length; i++) {
-      const visibleWrp: ControlLabelWrapper = visibleWrappers[i];
+    for (const visibleWrp of visibleWrappers) {
       if (visibleWrp instanceof ControlLabelSeparatorWrapper) {
         if (separatorFound) {
           const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp as ControlLabelSeparatorWrapper;

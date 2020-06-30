@@ -221,9 +221,7 @@ export class FocusService {
 
     const children: Array<ILayoutableControlWrapper> = container.getVchContainer().getChildren();
 
-    for (let i = 0; i < children.length; i++) {
-      const child: ILayoutableControlWrapper = children[i];
-
+    for (const child of children) {
       if (child.canReceiveKeyboardFocus()) {
         return child;
       }
@@ -247,9 +245,7 @@ export class FocusService {
 
     const children: Array<ILayoutableControlWrapper> = container.getVchContainer().getChildren();
 
-    for (let i = 0; i < children.length; i++) {
-      const child: ILayoutableControlWrapper = children[i];
-
+    for (const child of children) {
       if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
         const containerChild: ILayoutableControlWrapper = this.findFirstFocusableControlInContainerRecursive(child);
 

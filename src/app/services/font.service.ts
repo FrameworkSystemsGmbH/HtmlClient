@@ -31,12 +31,12 @@ export class FontService {
   private readonly date_seconds: number = 43;
 
   // Buffers for already calculated widths
-  private readonly stringWidthBuffer: Map<String, number> = new Map<String, number>();
-  private readonly stringHeightBuffer: Map<String, number> = new Map<String, number>();
-  private readonly dateTimeWidthBuffer: Map<String, number> = new Map<String, number>();
-  private readonly numberWidthBuffer: Map<String, number> = new Map<String, number>();
-  private readonly maxWidthDigitBuffer: Map<String, number> = new Map<String, number>();
-  private readonly linesHeightBuffer: Map<String, number> = new Map<String, number>();
+  private readonly stringWidthBuffer: Map<string, number> = new Map<string, number>();
+  private readonly stringHeightBuffer: Map<string, number> = new Map<string, number>();
+  private readonly dateTimeWidthBuffer: Map<string, number> = new Map<string, number>();
+  private readonly numberWidthBuffer: Map<string, number> = new Map<string, number>();
+  private readonly maxWidthDigitBuffer: Map<string, number> = new Map<string, number>();
+  private readonly linesHeightBuffer: Map<string, number> = new Map<string, number>();
 
   private readonly span: HTMLSpanElement;
   private readonly canvas: HTMLCanvasElement;
