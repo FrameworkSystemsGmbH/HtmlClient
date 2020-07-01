@@ -7,7 +7,7 @@ if (!String.empty) {
 }
 
 if (!String.equals) {
-  String.equals = function(x: string, y: string, ignoreCase:boolean) {
+  String.equals = function(x: string, y: string, ignoreCase: boolean) {
     if (x && y) {
       if (ignoreCase) {
         return x.toLowerCase() === y.toLowerCase();
