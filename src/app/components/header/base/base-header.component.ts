@@ -1,5 +1,6 @@
 import { animate, transition, trigger, style } from '@angular/animations';
 import { Component, ViewChild, ElementRef, AfterViewChecked, HostListener, OnInit, OnDestroy, NgZone, Renderer2 } from '@angular/core';
+import { SafeUrl } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -191,6 +192,14 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     return {
       'top.rem': this.platformService.isIos() ? StyleUtil.pixToRem((StyleUtil.headerHeight + StyleUtil.iosMenubarHeight)) : StyleUtil.pixToRem(StyleUtil.headerHeight)
     };
+  }
+
+  public getBadgeImageSrc(): SafeUrl {
+    if (!this.sidebarEnabled || this.selectedForm == null) {
+      return null;
+    } else {
+      return this.selectedForm.getBadgeImageSrc();
+    }
   }
 
   public getTitle(): string {

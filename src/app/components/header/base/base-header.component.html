@@ -5,7 +5,10 @@
         <i class="fas fa-fw fa-bars fa-lg"></i>
       </div>
     </div>
-    <div class="hc-header-title">{{ getTitle() }}</div>
+    <div class="hc-header-title">
+      <span>{{ getTitle() }}</span>
+      <img *ngIf="getBadgeImageSrc() != null" [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+    </div>
   </div>
   <div class="hc-header-center">
     <div #arrowLeft class="arrow arrowLeft" (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft()" (mouseleave)="stopScrollingLeft()">
