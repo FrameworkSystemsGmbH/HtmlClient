@@ -1,3 +1,5 @@
+// tslint:disable: only-arrow-functions
+
 function decimalAdjust(type: string, value: number, exp: number) {
   // If the exp is undefined or zero...
   if (typeof exp === 'undefined' || +exp === 0) {
@@ -24,19 +26,19 @@ function decimalAdjust(type: string, value: number, exp: number) {
 }
 
 if (!Math.roundDec) {
-  Math.roundDec = (value, exp) => {
+  Math.roundDec = function(value: number, exp: number) {
     return decimalAdjust('round', value, exp);
   };
 }
 
 if (!Math.floorDec) {
-  Math.floorDec = (value, exp) => {
+  Math.floorDec = function(value: number, exp: number) {
     return decimalAdjust('floor', value, exp);
   };
 }
 
 if (!Math.ceilDec) {
-  Math.ceilDec = (value, exp) => {
+  Math.ceilDec = function(value: number, exp: number) {
     return decimalAdjust('ceil', value, exp);
   };
 }

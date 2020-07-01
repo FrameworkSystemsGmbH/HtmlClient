@@ -1,23 +1,25 @@
+// tslint:disable: only-arrow-functions
+
 if (!Boolean.trueIfNull) {
-  Boolean.trueIfNull = value => {
+  Boolean.trueIfNull = function(value: boolean) {
     return value == null ? true : value;
   };
 }
 
 if (!Boolean.falseIfNull) {
-  Boolean.falseIfNull = value => {
+  Boolean.falseIfNull = function(value: boolean) {
     return value == null ? false : value;
   };
 }
 
 if (!Boolean.nullIfTrue) {
-  Boolean.nullIfTrue = value => {
+  Boolean.nullIfTrue = function(value: boolean) {
     return value === true ? null : value;
   };
 }
 
 if (!Boolean.nullIfFalse) {
-  Boolean.nullIfFalse = value => {
+  Boolean.nullIfFalse = function(value: boolean) {
     return value === false ? null : value;
   };
 }

@@ -12,7 +12,7 @@ if (!Array.prototype.clone) {
 }
 
 if (!Array.prototype.pushAll) {
-  Array.prototype.pushAll = function(items) {
+  Array.prototype.pushAll = function(items: Array<any>) {
     if (items && items.length) {
       for (const item of items) {
         this.push(item);
@@ -28,7 +28,7 @@ if (!Array.prototype.isEmpty) {
 }
 
 if (!Array.prototype.remove) {
-  Array.prototype.remove = function(item) {
+  Array.prototype.remove = function(item: Array<any>) {
     const index = this.indexOf(item);
     if (index >= 0) {
       return this.splice(index, 1)[0];

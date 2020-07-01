@@ -1,11 +1,13 @@
+// tslint:disable: only-arrow-functions
+
 if (!Number.zeroIfNull) {
-  Number.zeroIfNull = value => {
+  Number.zeroIfNull = function(value: number) {
     return value == null ? 0 : value;
   };
 }
 
 if (!Number.maxIfNull) {
-  Number.maxIfNull = value => {
+  Number.maxIfNull = function(value: number) {
     return value == null ? Number.MAX_SAFE_INTEGER : value;
   };
 }

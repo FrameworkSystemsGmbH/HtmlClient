@@ -40,12 +40,6 @@
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
               "fileReplacements": [
                 {
                   "replace": "src/env/env.dev.ts",
