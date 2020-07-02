@@ -57,7 +57,7 @@
   <!-- /Access -->
 
   <!-- Preferences -->
-  <preference name="fullscreen" value="false" />
+  <preference name="FullScreen" value="false" />
   <preference name="SplashScreenDelay" value="3000" />
   <preference name="KeyboardResize" value="true" />
   <preference name="KeyboardResizeMode" value="native" />
