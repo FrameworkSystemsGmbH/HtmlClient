@@ -1,4 +1,4 @@
-import { ElementRef, AfterViewChecked, NgZone, Directive } from '@angular/core';
+import { ElementRef, AfterViewChecked, NgZone } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -8,7 +8,6 @@ import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 import * as StyleUtil from 'app/util/style-util';
 import * as DomUtil from 'app/util/dom-util';
 
-@Directive()
 export abstract class ComboBoxDesktopComponent extends ComboBoxComponent implements AfterViewChecked {
 
   public selectedListIndex: number;

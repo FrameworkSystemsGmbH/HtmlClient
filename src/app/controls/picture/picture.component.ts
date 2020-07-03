@@ -21,10 +21,10 @@ export class PictureComponent extends ControlComponent {
   @Output()
   public onClick: EventEmitter<ClientPictureClickEventArgs>;
 
-  @ViewChild('wrapper')
+  @ViewChild('wrapper', { static: false })
   public wrapperEl: ElementRef;
 
-  @ViewChild('image')
+  @ViewChild('image', { static: false })
   public imageEl: ElementRef;
 
   public label: string;
