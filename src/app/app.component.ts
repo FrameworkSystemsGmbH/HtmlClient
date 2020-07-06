@@ -1,3 +1,5 @@
+/// <reference types="cordova-plugin-statusbar" />
+
 import { Component, HostListener, OnInit } from '@angular/core';
 
 import { FocusService } from 'app/services/focus.service';
@@ -6,6 +8,7 @@ import { BackService } from 'app/services/back-service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { PlatformService } from 'app/services/platform/platform.service';
 import { StateService } from 'app/services/state.service';
+import { StatusBarService } from 'app/services/statusbar.service';
 import { ViewDocService } from 'app/services/actions/viewdoc.service';
 
 import * as StyleUtil from 'app/util/style-util';
@@ -25,17 +28,20 @@ export class AppComponent implements OnInit {
     private localeService: LocaleService,
     private keyboardService: KeyboardService,
     private platformService: PlatformService,
-    private serializeService: StateService,
+    private stateService: StateService,
+    private statusBarService: StatusBarService,
     private viewDocService: ViewDocService
   ) {
     this.backService.attachHandlers();
     this.localeService.setMomentLocaleGlobally();
     this.keyboardService.attachScrollHandler();
-    this.serializeService.attachHandlers();
+    this.stateService.attachHandlers();
     this.viewDocService.registerWindowOpen();
   }
 
   public ngOnInit(): void {
+    this.statusBarService.hideStatusBar();
+
     if (this.platformService.isIos()) {
       this.style = this.createIosStyle();
     }

@@ -24,6 +24,7 @@ import { CameraService } from 'app/services/actions/camera.service';
 import { PlatformService } from 'app/services/platform/platform.service';
 import { RoutingService } from 'app/services/routing.service';
 import { StateService } from 'app/services/state.service';
+import { StatusBarService } from 'app/services/statusbar.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 import { ViewDocService } from 'app/services/actions/viewdoc.service';
@@ -95,6 +96,7 @@ const services = [
   CameraService,
   RoutingService,
   StateService,
+  StatusBarService,
   TextsService,
   TitleService,
   ViewDocService
