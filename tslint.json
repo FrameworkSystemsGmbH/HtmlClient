@@ -136,6 +136,7 @@
       true,
       "ignore-for-loop"
     ],
+    "ordered-imports": false,
     "prefer-const": true,
     "prefer-method-signature": true,
     "prefer-object-spread": true,

@@ -78,7 +78,7 @@ export class FontService {
   }
 
   private getMeasuredWidth(wrapper: FittedDataWrapper, type: DataSourceType, length: number, scale: number,
-    format: TextFormat, formatPattern: string, raster: number): number {
+                           format: TextFormat, formatPattern: string, raster: number): number {
     switch (type) {
       case DataSourceType.String:
         return this.getStringWidthRastered(wrapper, length, format, raster);
@@ -193,7 +193,7 @@ export class FontService {
   }
 
   private getNumberWidthRastered(wrapper: FittedDataWrapper, type: DataSourceType, scale: number,
-    precision: number, format: TextFormat, formatPattern: string, raster: number): number {
+                                 precision: number, format: TextFormat, formatPattern: string, raster: number): number {
 
     let bufferKey: string = this.getFontKey(wrapper);
     bufferKey = this.addKey(bufferKey, type);
@@ -281,7 +281,7 @@ export class FontService {
   }
 
   private measureNumberWidth(wrapper: FittedDataWrapper, type: DataSourceType, scale: number,
-    precision: number, textFormat: TextFormat, formatPattern: string): number {
+                             precision: number, textFormat: TextFormat, formatPattern: string): number {
 
     const maxWidthDigit: number = this.getMaxWidthDigit(wrapper);
     let value: string = String.empty();

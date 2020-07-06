@@ -111,7 +111,7 @@ export class PatternFormatService {
   }
 
   private translateFormat(formatPattern: string, map: Map<string, string>, escapeStartChar: string, escapeEndChar: string,
-    targetEscapeStartChar: string, targetEscapeEndChar: string): string {
+                          targetEscapeStartChar: string, targetEscapeEndChar: string): string {
 
     if (String.isNullOrWhiteSpace(formatPattern)) {
       return null;
