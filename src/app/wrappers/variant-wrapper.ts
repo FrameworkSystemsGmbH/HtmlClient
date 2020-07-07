@@ -34,6 +34,11 @@ export class VariantWrapper extends ContainerWrapper {
     return isCloseIconVisible != null ? isCloseIconVisible : false;
   }
 
+  public getHideModalHeader(): boolean {
+    const hideModalHeader: boolean = this.getPropertyStore().getHideModalHeader();
+    return hideModalHeader != null ? hideModalHeader : false;
+  }
+
   public isCloseEventAttached(): boolean {
     return (this.getEvents() & ClientEventType.OnClose) === ClientEventType.OnClose;
   }

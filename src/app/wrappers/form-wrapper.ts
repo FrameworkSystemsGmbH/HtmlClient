@@ -63,6 +63,10 @@ export class FormWrapper extends ContainerWrapper {
     return this._closeButton;
   }
 
+  public hideModalHeader(): boolean {
+    return this.getDefaultVariant().getHideModalHeader();
+  }
+
   public isCloseIconVisible(): boolean {
     return this.getDefaultVariant().getIsCloseIconVisible();
   }

@@ -1012,6 +1012,19 @@ export class PropertyStore {
     this.setValue(layer, (data: PropertyData) => { data.isCloseIconVisible = value; });
   }
 
+  // HideModalHeader
+  public getHideModalHeader(): boolean {
+    return this.getValue<boolean>((data: PropertyData) => data.hideModalHeader);
+  }
+
+  public getHideModalHeaderForLayer(layer: PropertyLayer): boolean {
+    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.hideModalHeader);
+  }
+
+  public setHideModalHeader(layer: PropertyLayer, value: boolean): void {
+    this.setValue(layer, (data: PropertyData) => { data.hideModalHeader = value; });
+  }
+
   // IsEditable
   public getIsEditable(): boolean {
     return this.getValue<boolean>((data: PropertyData) => data.isEditable);

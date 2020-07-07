@@ -10,13 +10,17 @@ import { Subscription } from 'rxjs';
 export class ViewerComponent implements OnInit, OnDestroy {
 
   public isModal: boolean;
+  public hideModalHeader: boolean;
 
   private _selectedFormSub: Subscription;
 
   constructor(private _formsService: FormsService) { }
 
   public ngOnInit(): void {
-    this._selectedFormSub = this._formsService.getSelectedForm().subscribe(form => this.isModal = form != null ? form.getIsModal() : false);
+    this._selectedFormSub = this._formsService.getSelectedForm().subscribe(form => {
+      this.isModal = form != null ? form.getIsModal() : false;
+      this.hideModalHeader = form != null ? form.hideModalHeader() : false;
+    });
   }
 
   public ngOnDestroy(): void {
