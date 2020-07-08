@@ -7,6 +7,8 @@ import { VerticalAlignment } from 'app/enums/vertical-alignment';
 import { ILayoutableContainer } from 'app/layout/layoutable-container.interface';
 import { LayoutContainerBase } from 'app/layout/layout-container-base';
 
+import { isILayoutableContainer } from 'app/util/interface-util';
+
 export class LayoutableControlWrapper {
 
   private name: string;
@@ -53,12 +55,8 @@ export class LayoutableControlWrapper {
     this.isControlVisible = this.visibility === Visibility.Visible;
     this.isLayoutVisible = this.visibility !== Visibility.Collapsed;
 
-    const container: ILayoutableContainer = control as ILayoutableContainer;
-    if (container) {
-      const layout: any = container.getLayout();
-      if (layout.arrange) {
-        this.layout = layout;
-      }
+    if (isILayoutableContainer(control)) {
+      this.layout = (control as ILayoutableContainer).getLayout();
     }
   }
 

@@ -9,7 +9,6 @@ export class LayoutableProperties implements ILayoutableProperties {
   private y: number;
 
   private hBarNeeded: boolean;
-  private vBarNeeded: boolean;
 
   private layoutWidth: number;
   private layoutHeight: number;

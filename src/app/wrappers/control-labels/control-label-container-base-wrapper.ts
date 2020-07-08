@@ -53,7 +53,11 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
 
   protected abstract createName(): string;
 
-  public isLayoutableContainerWrapperInterface(): void {
+  public isILayoutableContainer(): void {
+    // Interface Marker
+  }
+
+  public isILayoutableContainerWrapper(): void {
     // Interface Marker
   }
 

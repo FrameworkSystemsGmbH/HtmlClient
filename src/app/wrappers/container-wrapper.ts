@@ -27,7 +27,11 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     this.controls = new Array<ControlWrapper>();
   }
 
-  public isLayoutableContainerWrapperInterface(): void {
+  public isILayoutableContainer(): void {
+    // Interface Marker
+  }
+
+  public isILayoutableContainerWrapper(): void {
     // Interface Marker
   }
 

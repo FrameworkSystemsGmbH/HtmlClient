@@ -6,7 +6,7 @@ import { VchContainer } from 'app/vch/vch-container';
 
 export interface ILayoutableContainerWrapper extends ILayoutableControlWrapper, ILayoutableContainer {
 
-  isLayoutableContainerWrapperInterface(): void;
+  isILayoutableContainerWrapper(): void;
 
   getVchContainer(): VchContainer;
 

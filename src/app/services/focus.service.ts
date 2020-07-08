@@ -106,7 +106,7 @@ export class FocusService {
     for (let i = vchIndex - 1; i >= 0; i--) {
       const child: ILayoutableControlWrapper = siblings[i];
 
-      if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
+      if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
         const containerChild: ILayoutableControlWrapper = this.findPreviousKeyboardFocusableControlRecursive(child);
 
         if (containerChild) {
@@ -132,7 +132,7 @@ export class FocusService {
     for (let i = children.length - 1; i >= 0; i--) {
       const child: ILayoutableControlWrapper = children[i];
 
-      if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
+      if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
         const containerChild: ILayoutableControlWrapper = this.findPreviousKeyboardFocusableControlRecursive(child);
 
         if (containerChild) {
@@ -199,7 +199,7 @@ export class FocusService {
         return child;
       }
 
-      if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
+      if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
         const containerChild: ILayoutableControlWrapper = this.findNextKeyboardFocusableControlRecursive(child);
 
         if (containerChild) {
@@ -227,7 +227,7 @@ export class FocusService {
         return child;
       }
 
-      if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
+      if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
         const containerChild: ILayoutableControlWrapper = this.findNextKeyboardFocusableControlRecursive(child);
 
         if (containerChild) {
@@ -247,7 +247,7 @@ export class FocusService {
     const children: Array<ILayoutableControlWrapper> = container.getVchContainer().getChildren();
 
     for (const child of children) {
-      if (InterfaceUtil.isLayoutableContainerWrapperInterface(child)) {
+      if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
         const containerChild: ILayoutableControlWrapper = this.findFirstFocusableControlInContainerRecursive(child);
 
         if (containerChild) {
