@@ -105,4 +105,12 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
       this.setFittedContentWidth(null);
     }
   }
+
+  public updateFittedHeight(): void {
+    if (this.showCaption()) {
+      this.setFittedContentHeight(this.getFontService().measureTextHeight(this.getFontFamily(), this.getFontSize()));
+    } else {
+      this.setFittedContentHeight(null);
+    }
+  }
 }
