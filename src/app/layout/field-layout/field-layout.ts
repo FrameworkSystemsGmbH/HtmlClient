@@ -72,7 +72,7 @@ export class FieldLayout extends LayoutContainerBase {
       for (let i = 0; i < maxCellCount; i++) {
         const columnCells: Array<FieldLayoutCell> = new Array<FieldLayoutCell>();
         for (const row of this.rows) {
-          if (row.getLabelMode() !== FieldRowLabelMode.NoneFill && i < row.getCellsCount()) {
+          if (i < row.getCellsCount()) {
             columnCells.push(row.getCell(i));
           }
         }
