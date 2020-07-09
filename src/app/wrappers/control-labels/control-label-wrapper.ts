@@ -3,6 +3,7 @@ import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } fr
 import { IControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper.interface';
 import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IFieldLayoutSynchronized } from 'app/layout/field-layout/field-layout-synchronized.interface';
 
 import { FontService } from 'app/services/font.service';
 import { ControlLabelComponent } from 'app/controls/control-labels/control-label/control-label.component';
@@ -17,7 +18,7 @@ import { Visibility } from 'app/enums/visibility';
 import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
 import { VerticalAlignment } from 'app/enums/vertical-alignment';
 
-export class ControlLabelWrapper implements IControlLabelWrapper {
+export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSynchronized {
 
   private name: string;
   private displayCaption: string;
@@ -48,6 +49,14 @@ export class ControlLabelWrapper implements IControlLabelWrapper {
 
     this.updateFittedWidth();
     this.updateFittedHeight();
+  }
+
+  public isIFieldLayoutSynchronized(): void {
+    // Interface Marker
+  }
+
+  public isSynchronizedHidden(): boolean {
+    return !this.getLabelTemplate().getIsVisible();
   }
 
   protected getResolver(): ComponentFactoryResolver {

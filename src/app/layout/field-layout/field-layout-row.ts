@@ -28,11 +28,11 @@ export class FieldLayoutRow {
     this.hasFirstColumnControl = fieldRow.getHasFirstColumnControl();
 
     // 1. Create layout control wrappers
-    const includeInvisibleControls: boolean = fieldContainer.getSynchronizeColumns();
+    const synchronizedColumns: boolean = fieldContainer.getSynchronizeColumns();
     const controlWrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
 
     for (const control of fieldRow.getLayoutableControls()) {
-      if (control.getCurrentVisibility() !== Visibility.Collapsed || includeInvisibleControls) {
+      if (control.getCurrentVisibility() !== Visibility.Collapsed || synchronizedColumns) {
         controlWrappers.push(new LayoutableControlWrapper(control));
       }
     }
@@ -48,14 +48,14 @@ export class FieldLayoutRow {
       this.cells.push(new FieldLayoutCell(null, rowLabelTemplate));
     }
 
-    if (this.hasFirstColumnControl && (firstControl.getIsLayoutVisible() || includeInvisibleControls)) {
+    if (this.hasFirstColumnControl && (firstControl.getIsLayoutVisible() || (synchronizedColumns && firstControl.getIsSynchronizedVisible()))) {
       this.cells.push(new FieldLayoutCell(firstControl, rowLabelTemplate));
     }
 
     // 3. Add remaining wrappers
     for (let i = this.hasFirstColumnControl ? 1 : 0; i < controlWrappers.length; i++) {
       const controlWrapper: LayoutableControlWrapper = controlWrappers[i];
-      if (controlWrapper.getIsLayoutVisible() || includeInvisibleControls) {
+      if (controlWrapper.getIsLayoutVisible() || (synchronizedColumns && controlWrapper.getIsSynchronizedVisible())) {
         this.cells.push(new FieldLayoutCell(controlWrapper, null));
       }
     }

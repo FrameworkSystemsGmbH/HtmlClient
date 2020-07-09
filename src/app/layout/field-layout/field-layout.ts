@@ -311,7 +311,7 @@ export class FieldLayout extends LayoutContainerBase {
       }
 
       // For both modes:
-      // 1. All result widths are new set, so calculate minimum height for all rows
+      // 1. All result widths are now set, so calculate minimum height for all rows
       // 2. Add them up including vertical spacing
       let rowMinHeight: number = 0;
 
