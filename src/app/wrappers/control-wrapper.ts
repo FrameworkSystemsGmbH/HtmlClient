@@ -733,7 +733,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public canReceiveFocus(): boolean {
-    return this.getCurrentIsEditable();
+    return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
   public canReceiveKeyboardFocus(): boolean {
