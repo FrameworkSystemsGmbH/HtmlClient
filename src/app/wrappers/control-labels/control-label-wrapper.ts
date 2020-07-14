@@ -326,7 +326,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
     this.setFittedContentHeight(this.getFontSize());
   }
 
-  protected setFittedContentWidth(fittedWidth): void {
+  protected setFittedContentWidth(fittedWidth: number): void {
     if (fittedWidth == null || fittedWidth <= 0) {
       this.fittedWidth = null;
     } else {

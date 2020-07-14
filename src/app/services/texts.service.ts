@@ -18,7 +18,7 @@ export class TextsService {
     return this.texts.get(id);
   }
 
-  public setText(id: number, value: string) {
+  public setText(id: number, value: string): void {
     this.texts.set(id, value);
   }
 

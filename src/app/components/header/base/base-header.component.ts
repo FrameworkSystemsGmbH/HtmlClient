@@ -145,7 +145,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.loadingChangedSub.unsubscribe();
   }
 
-  public mediaQueryChanged(matches: boolean) {
+  public mediaQueryChanged(matches: boolean): void {
     this.sidebarEnabled = !matches;
 
     if (!this.sidebarEnabled && this.sidebarVisible) {

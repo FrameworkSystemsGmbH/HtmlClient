@@ -168,7 +168,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     }
   }
 
-  public setIsEditableAction(value: boolean) {
+  public setIsEditableAction(value: boolean): void {
     for (const item of this.items) {
       item.markAsContentChanged();
     }

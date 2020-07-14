@@ -133,7 +133,7 @@ export class BrokerService {
     );
   }
 
-  public get onLoginComplete() {
+  public get onLoginComplete(): Observable<any> {
     return this._onLoginComplete$;
   }
 

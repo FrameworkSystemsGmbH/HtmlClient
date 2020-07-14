@@ -4,10 +4,10 @@ import { Directive, Output, HostListener, EventEmitter } from '@angular/core';
 export class MouseWheelDirective {
 
   @Output()
-  public mouseWheelUp = new EventEmitter();
+  public mouseWheelUp: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
-  public mouseWheelDown = new EventEmitter();
+  public mouseWheelDown: EventEmitter<any> = new EventEmitter<any>();
 
   @HostListener('mousewheel', ['$event'])
   public onMouseWheelChrome(event: any): void {

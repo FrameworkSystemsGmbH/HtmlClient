@@ -73,15 +73,15 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
     return this.getFontService().getDataMinWidthTextBox(this);
   }
 
-  protected getDataMaxWidth() {
+  protected getDataMaxWidth(): number {
     return this.getFontService().getDataMaxWidthTextBox(this);
   }
 
-  protected getDataMinHeight() {
+  protected getDataMinHeight(): number {
     return this.getFontService().getDataMinHeightTextBox(this);
   }
 
-  protected getDataMaxHeight() {
+  protected getDataMaxHeight(): number {
     return this.getFontService().getDataMaxHeightTextBox(this);
   }
 

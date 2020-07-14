@@ -536,7 +536,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     this.getPropertyStore().setLayer(PropertyLayer.Control, propertiesJson as PropertyData);
   }
 
-  protected setEventsJson(eventsJson: any) {
+  protected setEventsJson(eventsJson: any): void {
     if (!eventsJson || !eventsJson.length) {
       return;
     }
@@ -549,11 +549,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     }
   }
 
-  protected setDataJson(dataJson: any) {
+  protected setDataJson(dataJson: any): void {
     // Override in subclasses
   }
 
-  protected setControlStyle() {
+  protected setControlStyle(): void {
     if (this.controlStyle) {
       const controlStyleData: PropertyData = this.controlStyleService.getControlStyle(this.controlStyle);
       this.getPropertyStore().setLayer(PropertyLayer.ControlStyle, controlStyleData);

@@ -30,15 +30,15 @@ export class WrapLayoutColumn {
     return this.minColumnHeight;
   }
 
-  public setMinColumnHeight(value: number) {
+  public setMinColumnHeight(value: number): void {
     this.minColumnHeight = value;
   }
 
-  public getResultColumnWidth() {
+  public getResultColumnWidth(): number {
     return this.resultColumnWidth;
   }
 
-  public setResultColumnWidth(value: number) {
+  public setResultColumnWidth(value: number): void {
     this.resultColumnWidth = value;
   }
 }

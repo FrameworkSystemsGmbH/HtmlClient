@@ -53,11 +53,11 @@ export class ListViewItemComponent implements OnInit {
     private framesService: FramesService
   ) { }
 
-  get selected() {
+  get selected(): boolean {
     return this.selectedVal;
   }
 
-  set selected(val) {
+  set selected(val: boolean) {
     if (this.selectedVal === val) {
       return;
     }
@@ -113,7 +113,7 @@ export class ListViewItemComponent implements OnInit {
     }
   }
 
-  public setWrapper(itemWrapper: ListViewItemWrapper) {
+  public setWrapper(itemWrapper: ListViewItemWrapper): void {
     this.itemWrapper = itemWrapper;
     this.listViewWrapper = itemWrapper.getListViewWrapper();
   }
@@ -140,7 +140,7 @@ export class ListViewItemComponent implements OnInit {
     this.setContentValues();
   }
 
-  private updateStyles(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper) {
+  private updateStyles(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper): void {
     this.containerStyle = this.createContainerStyle(itemWrapper, listViewWrapper);
     this.selectorStyle = this.createSelectorStyle();
   }

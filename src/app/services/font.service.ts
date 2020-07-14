@@ -22,14 +22,14 @@ export class FontService {
   private readonly separator: string = '|';
 
   // Constants for DateTime width calculation
-  private readonly date_year: number = 2022;
-  private readonly date_start_month: number = 0;
-  private readonly date_end_month: number = 11;
-  private readonly date_start_day: number = 20;
-  private readonly date_end_day: number = 26;
-  private readonly date_hours: number = 22;
-  private readonly date_minutes: number = 57;
-  private readonly date_seconds: number = 43;
+  private readonly dateYear: number = 2022;
+  private readonly dateStartMonth: number = 0;
+  private readonly dateEndMonth: number = 11;
+  private readonly dateStartDay: number = 20;
+  private readonly dateEndDay: number = 26;
+  private readonly dateHours: number = 22;
+  private readonly dateMinutes: number = 57;
+  private readonly dateSeconds: number = 43;
 
   // Buffers for already calculated widths
   private readonly stringWidthBuffer: Map<string, number> = new Map<string, number>();
@@ -260,15 +260,15 @@ export class FontService {
     const fontBold: boolean = wrapper.getFontBold();
     const fontItalic: boolean = wrapper.getFontItalic();
 
-    for (let month = this.date_start_month; month <= this.date_end_month; month++) {
-      for (let day = this.date_start_day; day <= this.date_end_day; day++) {
+    for (let month = this.dateStartMonth; month <= this.dateEndMonth; month++) {
+      for (let day = this.dateStartDay; day <= this.dateEndDay; day++) {
         const date: Moment.Moment = Moment({
-          year: this.date_year,
+          year: this.dateYear,
           month,
           day,
-          hours: this.date_hours,
-          minutes: this.date_minutes,
-          seconds: this.date_seconds
+          hours: this.dateHours,
+          minutes: this.dateMinutes,
+          seconds: this.dateSeconds
         });
 
         const measureString: string = this.dateTimeFormatService.formatDate(date, textFormat, formatPattern);

@@ -1,6 +1,6 @@
 // tslint:disable: only-arrow-functions
 
-function decimalAdjust(type: string, value: number, exp: number) {
+function decimalAdjust(type: string, value: number, exp: number): number {
   // If the exp is undefined or zero...
   if (typeof exp === 'undefined' || +exp === 0) {
     return Math[type](value);
@@ -26,19 +26,19 @@ function decimalAdjust(type: string, value: number, exp: number) {
 }
 
 if (!Math.roundDec) {
-  Math.roundDec = function(value: number, exp: number) {
+  Math.roundDec = function(value: number, exp: number): number {
     return decimalAdjust('round', value, exp);
   };
 }
 
 if (!Math.floorDec) {
-  Math.floorDec = function(value: number, exp: number) {
+  Math.floorDec = function(value: number, exp: number): number {
     return decimalAdjust('floor', value, exp);
   };
 }
 
 if (!Math.ceilDec) {
-  Math.ceilDec = function(value: number, exp: number) {
+  Math.ceilDec = function(value: number, exp: number): number {
     return decimalAdjust('ceil', value, exp);
   };
 }

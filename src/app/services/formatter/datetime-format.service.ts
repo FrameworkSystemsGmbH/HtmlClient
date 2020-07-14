@@ -170,7 +170,7 @@ export class DateTimeFormatService {
     return dateTime;
   }
 
-  private parseMomentFromShortcut(value: string, textFormat: TextFormat, formatPattern): Moment.Moment {
+  private parseMomentFromShortcut(value: string, textFormat: TextFormat, formatPattern: string): Moment.Moment {
     let dateTime: Moment.Moment = null;
 
     switch (textFormat) {

@@ -25,7 +25,7 @@ export abstract class FittedWrapper extends ControlWrapper {
     this.setFittedContentHeight(this.getFontService().measureTextHeight(this.getFontFamily(), this.getFontSize()));
   }
 
-  protected setFittedContentWidth(fittedWidth): void {
+  protected setFittedContentWidth(fittedWidth: number): void {
     if (fittedWidth == null || fittedWidth <= 0) {
       this.fittedWidth = null;
     } else {

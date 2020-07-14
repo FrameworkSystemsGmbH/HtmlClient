@@ -7,7 +7,7 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
   public mediaQuery: string;
 
   @Output()
-  public onMediaQueryChanged = new EventEmitter<boolean>();
+  public onMediaQueryChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   private mediaQueryList: MediaQueryList;
 
@@ -28,7 +28,7 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
     this.mediaQueryList.removeListener(this.mediaQueryListener);
   }
 
-  private fireOnMediaQueryChanged(event: MediaQueryListEvent) {
+  private fireOnMediaQueryChanged(event: MediaQueryListEvent): void {
     this.onMediaQueryChanged.emit(event.matches);
   }
 }

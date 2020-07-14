@@ -153,7 +153,7 @@ export class FormsService {
     return !JsonUtil.isEmptyObject(formsJson) ? formsJson : null;
   }
 
-  public setJson(fromsJson: any) {
+  public setJson(fromsJson: any): void {
     for (const formJson of fromsJson) {
       if (formJson.meta.new) {
         const form: FormWrapper = new FormWrapper(this.injector);

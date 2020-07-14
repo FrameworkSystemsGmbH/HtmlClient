@@ -16,7 +16,7 @@ const DEFAULT_SCROLL_OPTIONS: IScrollOptions = {
   offset: 5
 };
 
-export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrollOptions?: IScrollOptions) {
+export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrollOptions?: IScrollOptions): void {
   const options: IScrollOptions = { ...DEFAULT_SCROLL_OPTIONS, ...scrollOptions };
 
   const contStyles: CSSStyleDeclaration = getComputedStyle(container);
@@ -54,7 +54,7 @@ export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrol
   }
 }
 
-export function setSelection(input: any, start?, end?) {
+export function setSelection(input: any, start?: any, end?: any): void {
   let selStart = start;
   let selEnd = end;
 

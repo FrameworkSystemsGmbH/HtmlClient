@@ -154,20 +154,20 @@ export class EventsService {
     });
   }
 
-  public fireBarcodeScanned(cancelled: boolean, hasError: boolean, errorMessage: string, value: string, format: BarcodeFormat) {
+  public fireBarcodeScanned(cancelled: boolean, hasError: boolean, errorMessage: string, value: string, format: BarcodeFormat): void {
     this._eventFired.next({
       clientEvent: new ClientBarcodeScannedEvent(cancelled, hasError, errorMessage, value, format)
     });
   }
 
-  public firePhotoTaken(hasError: boolean, errorMessage: string, imageData: string) {
+  public firePhotoTaken(hasError: boolean, errorMessage: string, imageData: string): void {
     this._eventFired.next({
       clientEvent: new ClientPhotoTakenEvent(hasError, errorMessage, imageData),
       payload: null
     });
   }
 
-  public fireGotGeoLocation(hasError: boolean, errorMessage: string, latitude: number, longitude: number, altitude: number, accuracy: number, heading: number, speed: number, timestamp: number) {
+  public fireGotGeoLocation(hasError: boolean, errorMessage: string, latitude: number, longitude: number, altitude: number, accuracy: number, heading: number, speed: number, timestamp: number): void {
     this._eventFired.next({
       clientEvent: new ClientGotGeoLocationEvent(hasError, errorMessage, latitude, longitude, altitude, accuracy, heading, speed, timestamp)
     });

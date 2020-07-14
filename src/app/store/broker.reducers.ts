@@ -20,7 +20,7 @@ const initialBrokerState: IBrokerState = {
   activeBrokerRequestUrl: null
 };
 
-export function brokerStateReducer(state = initialBrokerState, action: fromBrokerActions.BrokerActions): IBrokerState {
+export function brokerStateReducer(state: IBrokerState = initialBrokerState, action: fromBrokerActions.BrokerActions): IBrokerState {
   switch (action.type) {
     case fromBrokerActions.SET_BROKER_NAME:
       return {

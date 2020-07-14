@@ -16,7 +16,7 @@ export class LocaleService {
     this.timeZone = !String.isNullOrWhiteSpace(browserTimeZone) ? browserTimeZone : 'Europe/Berlin';
   }
 
-  public setMomentLocaleGlobally() {
+  public setMomentLocaleGlobally(): void {
     Moment.locale(this.locale);
     Moment.tz.setDefault(this.timeZone);
   }

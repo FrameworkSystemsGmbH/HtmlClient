@@ -76,7 +76,7 @@ export class PictureWrapper extends ControlWrapper {
     this.imageData = url;
   }
 
-  public setImageBytesAction(bytes: string) {
+  public setImageBytesAction(bytes: string): void {
     this.dataSourceType = DataSourceType.ByteArray;
     this.imageData = bytes;
   }

@@ -43,7 +43,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     }
   }
 
-  protected setSelectedIndex(index: number) {
+  protected setSelectedIndex(index: number): void {
     super.setSelectedIndex(index);
     this.setSelectedListIndex(null);
   }

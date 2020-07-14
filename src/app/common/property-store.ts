@@ -42,7 +42,7 @@ export class PropertyStore {
     return this.store.get(layer);
   }
 
-  public setLayer(layer: PropertyLayer, data: PropertyData) {
+  public setLayer(layer: PropertyLayer, data: PropertyData): void {
     this.store.set(layer, data);
   }
 

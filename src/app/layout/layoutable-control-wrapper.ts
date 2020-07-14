@@ -83,7 +83,7 @@ export class LayoutableControlWrapper {
     return this.minLayoutHeight;
   }
 
-  public getMinLayoutHeightBuffered() {
+  public getMinLayoutHeightBuffered(): number {
     return Number.zeroIfNull(this.minLayoutHeight);
   }
 

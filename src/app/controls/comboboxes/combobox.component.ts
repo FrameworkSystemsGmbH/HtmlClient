@@ -22,7 +22,7 @@ export abstract class ComboBoxComponent extends ControlComponent {
     return this.selectedIndex;
   }
 
-  protected setSelectedIndex(index: number) {
+  protected setSelectedIndex(index: number): void {
     this.selectedIndex = index;
   }
 

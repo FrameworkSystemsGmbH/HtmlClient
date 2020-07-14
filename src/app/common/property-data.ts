@@ -110,6 +110,7 @@ export class PropertyData {
   public captionAlign: ContentAlignment;
   public datasourceOnValue: string;
   public dataSourceTypeID: DataSourceType;
+  // tslint:disable-next-line: variable-name
   public dockPanel_ItemSize: number;
   public dockPanelOrientation: DockOrientation;
   public dockPanelScrolling: DockPanelScrolling;

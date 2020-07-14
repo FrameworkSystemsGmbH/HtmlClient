@@ -108,7 +108,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('document:keydown', ['$event'])
-  public handleKeydown(event: KeyboardEvent) {
+  public handleKeydown(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
       this.dialogRef.close({
         selected: false
