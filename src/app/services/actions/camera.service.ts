@@ -1,4 +1,4 @@
-/// <reference types="cordova-plugin-camera" />
+// cord /// <reference types="cordova-plugin-camera" />
 
 import { Injectable, NgZone } from '@angular/core';
 import { EventsService } from 'app/services/events.service';
@@ -19,20 +19,21 @@ export class CameraService {
   ) { }
 
   public takePhoto(source: CameraSource): void {
-    if (this._platformService.isMobile()) {
-      navigator.camera.getPicture(this.onSuccess.bind(this), this.onError.bind(this),
-        {
-          allowEdit: false,
-          cameraDirection: Camera.Direction.BACK,
-          correctOrientation: true,
-          destinationType: Camera.DestinationType.DATA_URL,
-          encodingType: Camera.EncodingType.JPEG,
-          mediaType: Camera.MediaType.PICTURE,
-          quality: 100,
-          saveToPhotoAlbum: true,
-          sourceType: source
-        });
-    }
+    // cord
+    // if (this._platformService.isMobile()) {
+    //   navigator.camera.getPicture(this.onSuccess.bind(this), this.onError.bind(this),
+    //     {
+    //       allowEdit: false,
+    //       cameraDirection: Camera.Direction.BACK,
+    //       correctOrientation: true,
+    //       destinationType: Camera.DestinationType.DATA_URL,
+    //       encodingType: Camera.EncodingType.JPEG,
+    //       mediaType: Camera.MediaType.PICTURE,
+    //       quality: 100,
+    //       saveToPhotoAlbum: true,
+    //       sourceType: source
+    //     });
+    // }
   }
 
   private onSuccess(imageData: any): void {

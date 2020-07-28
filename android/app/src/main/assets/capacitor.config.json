@@ -1,0 +1,17 @@
+{
+  "appId": "com.fs.htmlclient",
+  "appName": "Mobile Client",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist/web",
+  "plugins": {},
+  "cordova": {
+    "preferences": {
+      "FullScreen": "true",
+      "SplashScreenDelay": "3000",
+      "resizeOnFullScreen": "true",
+      "KeyboardResize": "true",
+      "KeyboardResizeMode": "native"
+    }
+  }
+}

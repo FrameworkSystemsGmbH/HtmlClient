@@ -1,5 +1,0 @@
-{
-  "files": "dist/phonegap/web/index.html",
-  "from": "<script src=\"polyfills.js\" defer></script>",
-  "to": "<script src=\"polyfills.js\" defer></script><script src=\"cordova.js\" defer></script>"
-}

@@ -39,7 +39,6 @@ import { LocalStorageService } from 'app/services/storage/local-storage.service'
 import { MobileStorageService } from 'app/services/storage/mobile-storage.service';
 import { StorageService } from 'app/services/storage/storage.service';
 import { MobilePlatformService } from 'app/services/platform/mobile-platform.service';
-import { DesktopPlatformService } from 'app/services/platform/desktop-platform.service';
 import { WebPlatformService } from 'app/services/platform/web-platform.service';
 
 const platformServiceProvider = {
@@ -47,8 +46,6 @@ const platformServiceProvider = {
   useFactory: () => {
     if (!!window.cordova) {
       return new MobilePlatformService();
-    } else if (navigator.userAgent.match(/Electron/) !== null) {
-      return new DesktopPlatformService();
     } else {
       return new WebPlatformService();
     }
