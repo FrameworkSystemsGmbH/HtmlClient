@@ -2,7 +2,7 @@
 <widget id="com.fs.htmlclient"
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        version="1.0.29">
+        version="1.0.30">
 
   <!-- Phonegap Exclusive -->
   <preference name="phonegap-version" value="cli-9.0.0" />
