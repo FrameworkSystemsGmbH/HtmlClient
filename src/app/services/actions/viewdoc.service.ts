@@ -1,7 +1,7 @@
 /// <reference types="cordova-plugin-inappbrowser" />
 
 import { Injectable } from '@angular/core';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 
 @Injectable()
 export class ViewDocService {
@@ -11,7 +11,7 @@ export class ViewDocService {
   private _target: string;
 
   constructor(private _platformService: PlatformService) {
-    this._target = this._platformService.isMobile() ? '_system' : '_blank';
+    this._target = this._platformService.isNative() ? '_system' : '_blank';
   }
 
   public viewDocument(url: string): void {
@@ -21,7 +21,7 @@ export class ViewDocService {
   }
 
   public registerWindowOpen(): void {
-    if (!this._registered && this._platformService.isMobile()) {
+    if (!this._registered && this._platformService.isNative()) {
       window.open = (window as any).cordova.InAppBrowser.open;
       this._registered = true;
     }

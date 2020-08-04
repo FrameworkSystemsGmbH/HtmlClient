@@ -118,8 +118,8 @@ export class ComboBoxWrapper extends FittedDataWrapper {
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ComboBoxComponent> {
     const compType: any = this.getEditStyle() === EditStyle.ListValuesInput
-      ? this.getPlatformService().isMobile() ? ComboBoxListMobileComponent : ComboBoxListComponent
-      : this.getPlatformService().isMobile() ? ComboBoxFreeMobileComponent : ComboBoxFreeComponent;
+      ? this.getPlatformService().isNative() ? ComboBoxListMobileComponent : ComboBoxListComponent
+      : this.getPlatformService().isNative() ? ComboBoxFreeMobileComponent : ComboBoxFreeComponent;
     const factory: ComponentFactory<ComboBoxComponent> = this.getResolver().resolveComponentFactory(compType);
     return factory.create(container.getViewContainerRef().injector);
   }

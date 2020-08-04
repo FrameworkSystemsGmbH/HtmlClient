@@ -4,7 +4,7 @@ import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
 import { FramesService } from 'app/services/frames.service';
 import { ParseMethod } from 'app/enums/parse-method';
@@ -106,7 +106,7 @@ export class ListViewItemComponent implements OnInit {
       return false;
     }
 
-    if (this.platformService.isMobile()) {
+    if (this.platformService.isNative()) {
       return this.selected || this.listViewWrapper.getMobileSelectionModeEnabled();
     } else {
       return this.selected || (this.isEditable && this.isHover);
@@ -237,7 +237,7 @@ export class ListViewItemComponent implements OnInit {
   }
 
   public onPress(event: any): void {
-    if (!this.isEditable || !this.platformService.isMobile() || this.selectionMode === ListViewSelectionMode.None) {
+    if (!this.isEditable || !this.platformService.isNative() || this.selectionMode === ListViewSelectionMode.None) {
       return;
     }
 
@@ -265,7 +265,7 @@ export class ListViewItemComponent implements OnInit {
       return;
     }
 
-    if (this.platformService.isMobile() && this.listViewWrapper.getMobileSelectionModeEnabled()) {
+    if (this.platformService.isNative() && this.listViewWrapper.getMobileSelectionModeEnabled()) {
       this.selected = !this.selected;
 
       if (this.listViewWrapper.getSelectedItems().length === 0) {

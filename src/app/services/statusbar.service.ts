@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 
 @Injectable()
 export class StatusBarService {

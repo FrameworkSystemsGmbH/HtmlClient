@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BarcodeFormat } from 'app/enums/barcode-format';
 import { EventsService } from 'app/services/events.service';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 
 @Injectable()
 export class BarcodeService {
@@ -19,7 +19,7 @@ export class BarcodeService {
   ) { }
 
   public scan(format: BarcodeFormat): void {
-    if (this._platformService.isMobile() && format !== BarcodeFormat.NONE) {
+    if (this._platformService.isNative() && format !== BarcodeFormat.NONE) {
       (window as any).cordova.plugins.barcodeScanner.scan(this.onSuccess.bind(this), this.onError.bind(this), {
         prompt: '',
         disableSuccessBeep: true,

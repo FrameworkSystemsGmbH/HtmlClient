@@ -42,7 +42,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public getIsMobileMode(): boolean {
-    return this.getPlatformService().isMobile();
+    return this.getPlatformService().isNative();
   }
 
   public getSelectedTabIndex(): number {

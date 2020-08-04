@@ -6,7 +6,7 @@ import { FocusService } from 'app/services/focus.service';
 import { LocaleService } from 'app/services/locale.service';
 import { BackService } from 'app/services/back-service';
 import { KeyboardService } from 'app/services/keyboard.service';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 import { StateService } from 'app/services/state.service';
 import { StatusBarService } from 'app/services/statusbar.service';
 import { ViewDocService } from 'app/services/actions/viewdoc.service';

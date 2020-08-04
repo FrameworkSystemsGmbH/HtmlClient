@@ -15,7 +15,7 @@ import { FormsService } from 'app/services/forms.service';
 import { FramesService } from 'app/services/frames.service';
 import { LoaderService } from 'app/services/loader.service';
 import { LocaleService } from 'app/services/locale.service';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
@@ -293,7 +293,7 @@ export class BrokerService {
           const sessionData: string = res[0];
           const clientId: string = res[1];
 
-          const platform: string = this.platformService.getPlatform();
+          const platform: string = this.platformService.isNative() ? 'Mobile' : 'Web';
           const os: string = this.platformService.getOS();
           const osversion: string = this.platformService.getOSVersion();
 

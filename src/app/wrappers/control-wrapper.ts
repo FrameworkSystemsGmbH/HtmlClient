@@ -10,7 +10,7 @@ import { IWrapperCreationOptions } from 'app/services/controls.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { EventsService } from 'app/services/events.service';
 import { FocusService } from 'app/services/focus.service';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 import { ControlComponent } from 'app/controls/control.component';
 import { ContainerWrapper } from 'app/wrappers/container-wrapper';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
@@ -767,6 +767,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public isOutlineVisible(isFocused: boolean): boolean {
-    return isFocused && !this.getPlatformService().isMobile();
+    return isFocused && !this.getPlatformService().isNative();
   }
 }

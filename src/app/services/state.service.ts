@@ -9,7 +9,7 @@ import { BrokerService } from 'app/services/broker.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { FormsService } from 'app/services/forms.service';
 import { CameraService } from 'app/services/actions/camera.service';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 import { StorageService } from 'app/services/storage/storage.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';

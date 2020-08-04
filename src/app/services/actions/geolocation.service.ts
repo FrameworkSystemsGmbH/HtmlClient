@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { EventsService } from 'app/services/events.service';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 
 @Injectable()
 export class GeoLocationService {
@@ -22,7 +22,7 @@ export class GeoLocationService {
   ) { }
 
   public getGeoLocation(): void {
-    if (this._platformService.isMobile()) {
+    if (this._platformService.isNative()) {
       navigator.geolocation.getCurrentPosition(this.onSuccess.bind(this), this.onError.bind(this), {
         enableHighAccuracy: true,
         maximumAge: 3000,

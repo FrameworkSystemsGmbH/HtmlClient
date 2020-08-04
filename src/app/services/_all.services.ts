@@ -4,6 +4,7 @@ import { ActionsService } from 'app/services/actions.service';
 import { BackService } from 'app/services/back-service';
 import { BarcodeService } from 'app/services/actions/barcode.service';
 import { BrokerService } from 'app/services/broker.service';
+import { CameraService } from 'app/services/actions/camera.service';
 import { ClientDataService } from 'app/services/client-data.service';
 import { ControlStyleService } from 'app/services/control-style.service';
 import { ControlsService } from 'app/services/controls.service';
@@ -20,8 +21,7 @@ import { LoaderService } from 'app/services/loader.service';
 import { LoginService } from 'app/services/login.service';
 import { LogService } from 'app/services/log.service';
 import { LocaleService } from 'app/services/locale.service';
-import { CameraService } from 'app/services/actions/camera.service';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 import { RoutingService } from 'app/services/routing.service';
 import { StateService } from 'app/services/state.service';
 import { StatusBarService } from 'app/services/statusbar.service';
@@ -38,24 +38,11 @@ import { StringFormatService } from 'app/services/formatter/string-format.servic
 import { LocalStorageService } from 'app/services/storage/local-storage.service';
 import { MobileStorageService } from 'app/services/storage/mobile-storage.service';
 import { StorageService } from 'app/services/storage/storage.service';
-import { MobilePlatformService } from 'app/services/platform/mobile-platform.service';
-import { WebPlatformService } from 'app/services/platform/web-platform.service';
-
-const platformServiceProvider = {
-  provide: PlatformService,
-  useFactory: () => {
-    if (!!(window as any).cordova) {
-      return new MobilePlatformService();
-    } else {
-      return new WebPlatformService();
-    }
-  }
-};
 
 const storageServiceProvider = {
   provide: StorageService,
   useFactory: (platformService: PlatformService, zone: NgZone) => {
-    return platformService.isAndroid() ? new MobileStorageService(zone) : new LocalStorageService();
+    return platformService.isNative() ? new MobileStorageService(zone) : new LocalStorageService();
   },
   deps: [PlatformService, NgZone]
 };
@@ -73,6 +60,7 @@ const services = [
   BackService,
   BarcodeService,
   BrokerService,
+  CameraService,
   ClientDataService,
   ControlStyleService,
   ControlsService,
@@ -90,7 +78,7 @@ const services = [
   LoginService,
   LogService,
   LocaleService,
-  CameraService,
+  PlatformService,
   RoutingService,
   StateService,
   StatusBarService,
@@ -100,7 +88,6 @@ const services = [
 ];
 
 export const ALL_SERVICES = [
-  platformServiceProvider,
   storageServiceProvider,
   formatterServices,
   services

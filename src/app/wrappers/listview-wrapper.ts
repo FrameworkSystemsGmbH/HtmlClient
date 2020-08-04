@@ -90,7 +90,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   public getHeaderOptions(): IHeaderOptions {
-    if (this.getPlatformService().isMobile()) {
+    if (this.getPlatformService().isNative()) {
       return {
         height: 40,
         buttonWidth: 60,

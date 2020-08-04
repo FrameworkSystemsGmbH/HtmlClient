@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 
 import * as StyleUtil from 'app/util/style-util';
 
@@ -87,6 +87,6 @@ export class SelectorComponent implements OnInit {
       };
     }
 
-    this.isDisabledAttr = this.platformService.isMobile() || !this.enabled ? true : null;
+    this.isDisabledAttr = this.platformService.isNative() || !this.enabled ? true : null;
   }
 }

@@ -6,7 +6,7 @@ import { ControlComponent } from 'app/controls/control.component';
 import { ListViewWrapper, IHeaderOptions } from 'app/wrappers/listview-wrapper';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 
@@ -65,7 +65,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   }
 
   public onFocusOut(event: FocusEvent): void {
-    if (this.platformService.isMobile()) {
+    if (this.platformService.isNative()) {
       setTimeout(() => {
         const targetIsDescentant: boolean = DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, event.target as HTMLElement);
         const activeIsOutside: boolean = !DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, document.activeElement as HTMLElement);
@@ -136,7 +136,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
   public isHeaderVisible(): boolean {
     const wrapper: ListViewWrapper = this.getWrapper();
-    return wrapper.getSelectionMode() === ListViewSelectionMode.Multiple && (!this.platformService.isMobile() || this.getWrapper().getMobileSelectionModeEnabled());
+    return wrapper.getSelectionMode() === ListViewSelectionMode.Multiple && (!this.platformService.isNative() || this.getWrapper().getMobileSelectionModeEnabled());
   }
 
   protected createWrapperStyle(wrapper: ListViewWrapper): any {
@@ -200,7 +200,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
     buttonCloseStyle = {
       ...buttonCloseStyle,
-      'display': this.platformService.isMobile() ? 'inline' : 'none'
+      'display': this.platformService.isNative() ? 'inline' : 'none'
     };
 
     return buttonCloseStyle;

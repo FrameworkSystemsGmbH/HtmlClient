@@ -2,7 +2,7 @@
 
 import { Injectable, NgZone } from '@angular/core';
 import { EventsService } from 'app/services/events.service';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 import { CameraSource } from 'app/enums/camera-source';
 
 @Injectable()

@@ -9,7 +9,7 @@ import { TabPageWrapper } from 'app/wrappers/tabbed-window/tab-page-wrapper';
 import { TabPageTemplate } from 'app/wrappers/tabbed-window/tab-page-template';
 import { TabAlignment } from 'app/enums/tab-alignment';
 import { Visibility } from 'app/enums/visibility';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 import { ImageService } from 'app/services/image.service';
 
 import * as StyleUtil from 'app/util/style-util';
@@ -380,7 +380,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
       };
     }
 
-    if (this.platformService.isMobile()) {
+    if (this.platformService.isNative()) {
       newOptions = {
         ...this.scrollerOptions,
         scrollbars: {

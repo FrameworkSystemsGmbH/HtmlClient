@@ -10,7 +10,7 @@ import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
 import { LoaderService } from 'app/services/loader.service';
-import { PlatformService } from 'app/services/platform/platform.service';
+import { PlatformService } from 'app/services/platform.service';
 import { TitleService } from 'app/services/title.service';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
@@ -163,7 +163,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   private createScrollOptions(): any {
-    if (this.platformService.isMobile()) {
+    if (this.platformService.isNative()) {
       return {
         ...this.scrollerOptions,
         scrollbars: {
