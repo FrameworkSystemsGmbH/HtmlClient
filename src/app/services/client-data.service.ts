@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of as obsOf } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 
 import { LoginBroker } from 'app/common/login-broker';
 import { StorageService } from 'app/services/storage/storage.service';
@@ -52,7 +52,7 @@ export class ClientDataService {
             return obsOf(clientId);
           }
         }),
-        flatMap(clientId => clientId)
+        mergeMap(clientId => clientId)
       );
     }
   }

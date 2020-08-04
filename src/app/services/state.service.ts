@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, of as obsOf } from 'rxjs';
-import { flatMap, map, tap } from 'rxjs/operators';
+import { mergeMap, map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { BarcodeService } from 'app/services/actions/barcode.service';
@@ -46,7 +46,7 @@ export class StateService {
     private titleService: TitleService
   ) {
     this.brokerService.onLoginComplete.pipe(
-      flatMap(() => this.storageService.delete(SESSION_STORAGE_KEY))
+      mergeMap(() => this.storageService.delete(SESSION_STORAGE_KEY))
     ).subscribe();
 
     this.store.select(appState => appState.broker).subscribe(brokerState => {
@@ -104,7 +104,7 @@ export class StateService {
 
   public getLastSessionInfo(): Observable<LastSessionInfo> {
     return this.storageService.loadData(SESSION_STORAGE_KEY).pipe(
-      flatMap(data => {
+      mergeMap(data => {
         const stateJson: any = JSON.parse(data);
 
         if (!JsonUtil.isEmptyObject(stateJson)) {

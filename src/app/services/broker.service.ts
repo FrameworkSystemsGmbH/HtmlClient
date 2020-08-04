@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, of as obsOf, forkJoin, Subscription } from 'rxjs';
-import { concatMap, flatMap, map, retryWhen, tap } from 'rxjs/operators';
+import { concatMap, mergeMap, map, retryWhen, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { RetryBoxResult } from 'app/enums/retrybox-result';
@@ -101,11 +101,11 @@ export class BrokerService {
   private handleEvent(event: InternalEvent<ClientEvent>): Observable<void> {
     return obsOf(event).pipe(
       tap(() => this.loaderService.fireLoadingChanged(true)),
-      flatMap(() => {
+      mergeMap(() => {
         if (!event.callbacks || event.callbacks.canExecute(event.clientEvent, event.payload)) {
           return this.createRequest(event.clientEvent).pipe(
-            flatMap(requestJson => this.doRequest(requestJson)),
-            flatMap(responseJson => this.processResponse(responseJson))
+            mergeMap(requestJson => this.doRequest(requestJson)),
+            mergeMap(responseJson => this.processResponse(responseJson))
           );
         } else {
           return obsOf({ result: ResponseResult.NotExecuted, processedEvent: null });
@@ -180,7 +180,7 @@ export class BrokerService {
       };
 
       this.sendInitRequest().pipe(
-        flatMap(responseJson => this.processResponse(responseJson))
+        mergeMap(responseJson => this.processResponse(responseJson))
       ).subscribe({
         error: onError,
         complete: onComplete
@@ -233,7 +233,7 @@ export class BrokerService {
           meta: metaJson
         };
       }),
-      flatMap(requestJson => this.doRequest(requestJson))
+      mergeMap(requestJson => this.doRequest(requestJson))
     );
   }
 
@@ -242,7 +242,7 @@ export class BrokerService {
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson).pipe(
       retryWhen(attempts => attempts.pipe(
         tap(() => this.loaderService.fireLoadingChanged(false)),
-        flatMap(error => {
+        mergeMap(error => {
           return this.createRequestRetryBox(error);
         }),
         tap(() => this.loaderService.fireLoadingChanged(true))
@@ -355,17 +355,17 @@ export class BrokerService {
     const metaJson: any = json.meta;
 
     const responseObs: Observable<void> = RxJsUtil.voidObs().pipe(
-      flatMap(() => this.processMeta(metaJson)),
-      flatMap(() => this.processStart(json.start)),
-      flatMap(() => this.processForms(json.forms)),
-      flatMap(() => this.processActions(json.actions)),
-      flatMap(() => this.processError(json.error)),
-      flatMap(() => this.processMsgBox(json.msgBoxes)));
+      mergeMap(() => this.processMeta(metaJson)),
+      mergeMap(() => this.processStart(json.start)),
+      mergeMap(() => this.processForms(json.forms)),
+      mergeMap(() => this.processActions(json.actions)),
+      mergeMap(() => this.processError(json.error)),
+      mergeMap(() => this.processMsgBox(json.msgBoxes)));
 
     if (metaJson.applicationQuitMessages === true) {
       return responseObs.pipe(
-        flatMap(() => this.processQuitMsg(metaJson.restartRequested, json.quitMessages)),
-        flatMap(() => this.onAfterResponse()),
+        mergeMap(() => this.processQuitMsg(metaJson.restartRequested, json.quitMessages)),
+        mergeMap(() => this.onAfterResponse()),
         map(() => ({ result: ResponseResult.Executed }))
       );
     } else if (metaJson.restartApplication === true) {
@@ -378,7 +378,7 @@ export class BrokerService {
       );
     } else {
       return responseObs.pipe(
-        flatMap(() => this.onAfterResponse()),
+        mergeMap(() => this.onAfterResponse()),
         map(() => ({ result: ResponseResult.Executed, processedEvent: json.processedEvent }))
       );
     }
@@ -398,11 +398,11 @@ export class BrokerService {
     if (!String.isNullOrWhiteSpace(sessionData)) {
       if (sessionData === BrokerService.SESSION_DATA_DISCARD) {
         return this.clientDataService.deleteSessionData().pipe(
-          flatMap(() => RxJsUtil.voidObs())
+          mergeMap(() => RxJsUtil.voidObs())
         );
       } else {
         return this.clientDataService.saveSessionData(sessionData).pipe(
-          flatMap(() => RxJsUtil.voidObs())
+          mergeMap(() => RxJsUtil.voidObs())
         );
       }
     } else {
@@ -413,9 +413,9 @@ export class BrokerService {
   private processStart(startJson: any): Observable<void> {
     if (startJson && !JsonUtil.isEmptyObject(startJson)) {
       return RxJsUtil.voidObs().pipe(
-        flatMap(() => this.processApplication(startJson.application)),
-        flatMap(() => this.processControlStyles(startJson.controlStyles)),
-        flatMap(() => this.processTexts(startJson.texts))
+        mergeMap(() => this.processApplication(startJson.application)),
+        mergeMap(() => this.processControlStyles(startJson.controlStyles)),
+        mergeMap(() => this.processTexts(startJson.texts))
       );
     } else {
       return RxJsUtil.voidObs();
@@ -484,7 +484,7 @@ export class BrokerService {
     if (errorJson && !JsonUtil.isEmptyObject(errorJson)) {
       return RxJsUtil.voidObs().pipe(
         tap(() => this.loaderService.fireLoadingChanged(false)),
-        flatMap(() => this.dialogService.showErrorBox({
+        mergeMap(() => this.dialogService.showErrorBox({
           title: this.titleService.getTitle(),
           message: errorJson.message,
           stackTrace: errorJson.stackTrace
@@ -504,13 +504,13 @@ export class BrokerService {
 
       return RxJsUtil.voidObs().pipe(
         tap(() => this.loaderService.fireLoadingChanged(false)),
-        flatMap(() => this.dialogService.showMsgBoxBox({
+        mergeMap(() => this.dialogService.showMsgBoxBox({
           title: this.titleService.getTitle(),
           message: msgBoxJson.message,
           icon: msgBoxJson.icon,
           buttons: msgBoxJson.buttons
         }).pipe(
-          flatMap(result => this.handleEvent({
+          mergeMap(result => this.handleEvent({
             clientEvent: new ClientMsgBoxEvent(formId, id, result)
           }))
         )),
@@ -549,13 +549,13 @@ export class BrokerService {
 
       return RxJsUtil.voidObs().pipe(
         tap(() => this.loaderService.fireLoadingChanged(false)),
-        flatMap(() => this.dialogService.showMsgBoxBox({
+        mergeMap(() => this.dialogService.showMsgBoxBox({
           title: this.titleService.getTitle(),
           message: msg,
           icon: msgBoxIcon,
           buttons: MsgBoxButtons.YesNo
         }).pipe(
-          flatMap(msgBoxResult => {
+          mergeMap(msgBoxResult => {
             if (msgBoxResult === MsgBoxResult.Yes) {
               this.eventsService.fireApplicationQuit(restartRequested);
             }
@@ -580,7 +580,7 @@ export class BrokerService {
 
       return RxJsUtil.voidObs().pipe(
         tap(() => this.loaderService.fireLoadingChanged(false)),
-        flatMap(() => this.dialogService.showErrorBox({
+        mergeMap(() => this.dialogService.showErrorBox({
           title: this.titleService.getTitle(),
           message: msg
         })),
@@ -589,13 +589,13 @@ export class BrokerService {
     } else if (type === 'Close' && !String.isNullOrWhiteSpace(partsStr)) {
       return RxJsUtil.voidObs().pipe(
         tap(() => this.loaderService.fireLoadingChanged(false)),
-        flatMap(() => this.dialogService.showMsgBoxBox({
+        mergeMap(() => this.dialogService.showMsgBoxBox({
           title: this.titleService.getTitle(),
           message: partsStr,
           icon: MsgBoxIcon.Exclamation,
           buttons: MsgBoxButtons.Ok
         }).pipe(
-          flatMap(() => RxJsUtil.voidObs())
+          mergeMap(() => RxJsUtil.voidObs())
         )),
         tap(() => this.loaderService.fireLoadingChanged(true))
       );

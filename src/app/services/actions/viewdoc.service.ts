@@ -22,7 +22,7 @@ export class ViewDocService {
 
   public registerWindowOpen(): void {
     if (!this._registered && this._platformService.isMobile()) {
-      window.open = cordova.InAppBrowser.open;
+      window.open = (window as any).cordova.InAppBrowser.open;
       this._registered = true;
     }
   }

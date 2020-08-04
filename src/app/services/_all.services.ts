@@ -44,7 +44,7 @@ import { WebPlatformService } from 'app/services/platform/web-platform.service';
 const platformServiceProvider = {
   provide: PlatformService,
   useFactory: () => {
-    if (!!window.cordova) {
+    if (!!(window as any).cordova) {
       return new MobilePlatformService();
     } else {
       return new WebPlatformService();

@@ -48,7 +48,7 @@ const bootstrap: () => void = () => {
   platformBrowserDynamic().bootstrapModule(AppModule).catch(error => console.log(error));
 };
 
-if (!!window.cordova) {
+if (!!(window as any).cordova) {
   document.addEventListener('deviceready', () => { bootstrap(); }, false);
 } else {
   bootstrap();

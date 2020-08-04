@@ -2,7 +2,7 @@
 
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, EMPTY as obsEmpty, of as obsOf } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { StorageService } from 'app/services/storage/storage.service';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class MobileStorageService extends StorageService {
     }
 
     return this.getStorageDirectory().pipe(
-      flatMap(storageDirEntry => {
+      mergeMap(storageDirEntry => {
         return new Observable<string>(subscriber => {
           storageDirEntry.getFile(key + '.json', { create: false },
             storageFileEntry => {
@@ -69,7 +69,7 @@ export class MobileStorageService extends StorageService {
     }
 
     return this.getStorageDirectory().pipe(
-      flatMap(storageDirEntry => {
+      mergeMap(storageDirEntry => {
         return new Observable<boolean>(subscriber => {
           storageDirEntry.getFile(key + '.json', { create: true, exclusive: false },
             storageFileEntry => {
@@ -112,7 +112,7 @@ export class MobileStorageService extends StorageService {
     }
 
     return this.getStorageDirectory().pipe(
-      flatMap(storageDirEntry => {
+      mergeMap(storageDirEntry => {
         return new Observable<boolean>(subscriber => {
           storageDirEntry.getFile(key + '.json', { create: false },
             storageFileEntry => {
@@ -145,7 +145,7 @@ export class MobileStorageService extends StorageService {
 
   private getStorageDirectory(): Observable<DirectoryEntry> {
     return new Observable<DirectoryEntry>(subscriber => {
-      window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
+      window.resolveLocalFileSystemURL((window as any).cordova.file.dataDirectory,
         dataDirEntry => {
           (dataDirEntry as DirectoryEntry).getDirectory('storage', { create: true, exclusive: false },
             storageDirEntry => {
