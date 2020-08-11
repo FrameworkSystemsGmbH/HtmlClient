@@ -11,7 +11,7 @@ import { ComponentRef } from '@angular/core';
 
 export abstract class ButtonBaseWrapper extends FittedWrapper {
 
-  private onClickSub: Subscription;
+  private btnClickSub: Subscription;
 
   public mapEnterToTab(): boolean {
     return Boolean.falseIfNull(this.getPropertyStore().getMapEnterToTab());
@@ -50,15 +50,15 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.getEvents() & ClientEventType.OnClick) {
-      this.onClickSub = instance.onClick.subscribe(() => this.getOnClickSubscription()());
+      this.btnClickSub = instance.btnClick.subscribe(() => this.getBtnClickSubscription()());
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this.onClickSub) {
-      this.onClickSub.unsubscribe();
+    if (this.btnClickSub) {
+      this.btnClickSub.unsubscribe();
     }
   }
 
@@ -66,27 +66,27 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     return (this.getEvents() & ClientEventType.OnClick) ? true : false;
   }
 
-  protected getOnClickSubscription(): () => void {
+  protected getBtnClickSubscription(): () => void {
     return () => this.getEventsService().fireClick(
       this.getForm().getId(),
       this.getName(),
       new InternalEventCallbacks<ClientClickEvent>(
-        this.canExecuteClick.bind(this),
-        this.onClickExecuted.bind(this),
-        this.onClickCompleted.bind(this)
+        this.canExecuteBtnClick.bind(this),
+        this.btnClickExecuted.bind(this),
+        this.btnClickCompleted.bind(this)
       )
     );
   }
 
-  protected canExecuteClick(clientEvent: ClientClickEvent, payload: any): boolean {
+  protected canExecuteBtnClick(clientEvent: ClientClickEvent, payload: any): boolean {
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected btnClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected btnClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
@@ -94,7 +94,7 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     const comp: ButtonComponent = this.getComponent();
 
     if (comp) {
-      comp.callOnClick();
+      comp.callBtnClick();
     }
   }
 

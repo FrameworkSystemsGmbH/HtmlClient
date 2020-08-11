@@ -7,20 +7,20 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
   public mediaQuery: string;
 
   @Output()
-  public onMediaQueryChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+  public mediaQueryChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   private mediaQueryList: MediaQueryList;
 
   private mediaQueryListener: (event: MediaQueryListEvent) => void;
 
   public ngOnInit(): void {
-    this.mediaQueryListener = this.fireOnMediaQueryChanged.bind(this);
+    this.mediaQueryListener = this.fireMediaQueryChanged.bind(this);
 
     this.mediaQueryList = window.matchMedia(this.mediaQuery);
     // tslint:disable-next-line: deprecation
     this.mediaQueryList.addListener(this.mediaQueryListener);
 
-    this.onMediaQueryChanged.emit(this.mediaQueryList.matches);
+    this.mediaQueryChanged.emit(this.mediaQueryList.matches);
   }
 
   public ngOnDestroy(): void {
@@ -28,7 +28,7 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
     this.mediaQueryList.removeListener(this.mediaQueryListener);
   }
 
-  private fireOnMediaQueryChanged(event: MediaQueryListEvent): void {
-    this.onMediaQueryChanged.emit(event.matches);
+  private fireMediaQueryChanged(event: MediaQueryListEvent): void {
+    this.mediaQueryChanged.emit(event.matches);
   }
 }

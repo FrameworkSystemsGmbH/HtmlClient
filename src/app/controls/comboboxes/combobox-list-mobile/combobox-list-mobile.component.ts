@@ -82,21 +82,21 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
         this.overlayShown = false;
         if (data.selected) {
           this.setSelectedIndex(data.index);
-          this.callOnSelectionChanged(event);
+          this.callSelectionChanged(event);
         }
       });
     }
   }
 
-  public callOnEnter(event: any): void {
+  public callCtrlEnter(event: any): void {
     if (!this.overlayShown) {
-      super.callOnEnter(event);
+      super.callCtrlEnter(event);
     }
   }
 
-  public callOnLeave(event: any): void {
+  public callCtrlLeave(event: any): void {
     if (!this.overlayShown) {
-      super.callOnLeave(event);
+      super.callCtrlLeave(event);
     }
   }
 

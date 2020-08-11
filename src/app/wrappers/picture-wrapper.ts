@@ -19,7 +19,7 @@ import { ClientPictureClickEventArgs } from 'app/common/events/eventargs/client-
 
 export class PictureWrapper extends ControlWrapper {
 
-  private onClickSub: Subscription;
+  private picClickSub: Subscription;
 
   private imageData: string;
   private dataSourceType: DataSourceType;
@@ -112,15 +112,15 @@ export class PictureWrapper extends ControlWrapper {
     super.attachEvents(instance);
 
     if (this.getEvents() & ClientEventType.OnClick) {
-      this.onClickSub = instance.onClick.subscribe((args: ClientPictureClickEventArgs) => this.getOnClickSubscription(args)());
+      this.picClickSub = instance.picClick.subscribe((args: ClientPictureClickEventArgs) => this.getPicClickSubscription(args)());
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this.onClickSub) {
-      this.onClickSub.unsubscribe();
+    if (this.picClickSub) {
+      this.picClickSub.unsubscribe();
     }
   }
 
@@ -128,28 +128,28 @@ export class PictureWrapper extends ControlWrapper {
     return (this.getEvents() & ClientEventType.OnClick) ? true : false;
   }
 
-  protected getOnClickSubscription(args: ClientPictureClickEventArgs): () => void {
+  protected getPicClickSubscription(args: ClientPictureClickEventArgs): () => void {
     return () => this.getEventsService().firePictureClick(
       this.getForm().getId(),
       this.getName(),
       args,
       new InternalEventCallbacks<ClientPictureClickEvent>(
-        this.canExecuteClick.bind(this),
-        this.onClickExecuted.bind(this),
-        this.onClickCompleted.bind(this)
+        this.canExecutePicClick.bind(this),
+        this.picClickExecuted.bind(this),
+        this.picClickCompleted.bind(this)
       )
     );
   }
 
-  protected canExecuteClick(clientEvent: ClientClickEvent, payload: any): boolean {
+  protected canExecutePicClick(clientEvent: ClientClickEvent, payload: any): boolean {
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected picClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected picClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

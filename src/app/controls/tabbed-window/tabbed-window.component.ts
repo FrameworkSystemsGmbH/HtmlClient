@@ -22,7 +22,7 @@ import * as StyleUtil from 'app/util/style-util';
 export class TabbedWindowComponent extends ContainerComponent implements OnInit, AfterViewInit {
 
   @Output()
-  public onTabClicked: EventEmitter<TabPageWrapper> = new EventEmitter<TabPageWrapper>();
+  public tabClicked: EventEmitter<TabPageWrapper> = new EventEmitter<TabPageWrapper>();
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
@@ -107,9 +107,9 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     this.refreshScroller();
   }
 
-  public callOnTabClicked(tabPage: TabPageWrapper): void {
+  public callTabClicked(tabPage: TabPageWrapper): void {
     if (tabPage.getIsEditable() && tabPage.getVisibility() === Visibility.Visible) {
-      this.onTabClicked.emit(tabPage);
+      this.tabClicked.emit(tabPage);
     }
   }
 

@@ -19,7 +19,7 @@ export class CheckBoxComponent extends ControlComponent {
   public input: ElementRef;
 
   @Output()
-  public onClick: EventEmitter<any>;
+  public boxClick: EventEmitter<any>;
 
   public id: string;
   public value: boolean;
@@ -36,10 +36,10 @@ export class CheckBoxComponent extends ControlComponent {
     super(injector);
   }
 
-  public callOnClick(event: any): void {
+  public callBoxClick(event: any): void {
     this.updateWrapper();
     if (this.getWrapper().hasOnClickEvent()) {
-      this.onClick.emit(event);
+      this.boxClick.emit(event);
     }
   }
 
@@ -75,7 +75,7 @@ export class CheckBoxComponent extends ControlComponent {
     super.setWrapper(wrapper);
 
     if (wrapper.hasOnClickEvent()) {
-      this.onClick = new EventEmitter<any>();
+      this.boxClick = new EventEmitter<any>();
     }
   }
 

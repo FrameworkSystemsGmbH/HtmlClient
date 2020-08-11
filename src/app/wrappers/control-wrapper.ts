@@ -61,8 +61,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private fontService: FontService;
   private platformService: PlatformService;
 
-  private onEnterSub: Subscription;
-  private onLeaveSub: Subscription;
+  private ctrlEnterSub: Subscription;
+  private ctrlLeaveSub: Subscription;
 
   constructor(
     injector: Injector,
@@ -614,21 +614,21 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected attachEvents(instance: ControlComponent): void {
     if (this.hasOnEnterEvent()) {
-      this.onEnterSub = instance.onEnter.subscribe(() => this.getOnEnterSubscription()());
+      this.ctrlEnterSub = instance.ctrlEnter.subscribe(() => this.getCtrlEnterSubscription()());
     }
 
     if (this.hasOnLeaveEvent()) {
-      this.onLeaveSub = instance.onLeave.subscribe(() => this.getOnLeaveSubscription()());
+      this.ctrlLeaveSub = instance.ctrlLeave.subscribe(() => this.getCtrlLeaveSubscription()());
     }
   }
 
   protected detachEvents(): void {
-    if (this.onEnterSub) {
-      this.onEnterSub.unsubscribe();
+    if (this.ctrlEnterSub) {
+      this.ctrlEnterSub.unsubscribe();
     }
 
-    if (this.onLeaveSub) {
-      this.onLeaveSub.unsubscribe();
+    if (this.ctrlLeaveSub) {
+      this.ctrlLeaveSub.unsubscribe();
     }
   }
 
@@ -636,27 +636,27 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return (this.events & ClientEventType.OnEnter) ? true : false;
   }
 
-  protected getOnEnterSubscription(): () => void {
+  protected getCtrlEnterSubscription(): () => void {
     return () => this.eventsService.fireEnter(
       this.getForm().getId(),
       this.getName(),
       new InternalEventCallbacks<ClientEnterEvent>(
-        this.canExecuteEnter.bind(this),
-        this.onEnterExecuted.bind(this),
-        this.onEnterCompleted.bind(this)
+        this.canExecuteCtrlEnter.bind(this),
+        this.ctrlEnterExecuted.bind(this),
+        this.ctrlEnterCompleted.bind(this)
       )
     );
   }
 
-  protected canExecuteEnter(clientEvent: ClientEnterEvent, payload: any): boolean {
+  protected canExecuteCtrlEnter(clientEvent: ClientEnterEvent, payload: any): boolean {
     return this.hasOnEnterEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onEnterExecuted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
+  protected ctrlEnterExecuted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
+  protected ctrlEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
@@ -664,29 +664,29 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return (this.events & ClientEventType.OnLeave) ? true : false;
   }
 
-  protected getOnLeaveSubscription(): () => void {
+  protected getCtrlLeaveSubscription(): () => void {
     return () => this.eventsService.fireLeave(
       this.getForm().getId(),
       this.getName(),
       this.focusService.getLeaveActivator(),
       this.hasChangesLeave(),
       new InternalEventCallbacks<ClientLeaveEvent>(
-        this.canExecuteLeave.bind(this),
-        this.onLeaveExecuted.bind(this),
-        this.onLeaveCompleted.bind(this)
+        this.canExecuteCtrlLeave.bind(this),
+        this.ctrlLeaveExecuted.bind(this),
+        this.ctrlLeaveCompleted.bind(this)
       )
     );
   }
 
-  protected canExecuteLeave(clientEvent: ClientLeaveEvent, payload: any): boolean {
+  protected canExecuteCtrlLeave(clientEvent: ClientLeaveEvent, payload: any): boolean {
     return this.hasOnLeaveEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onLeaveExecuted(clientEvent: ClientLeaveEvent, payload: any, processedEvent: any): void {
+  protected ctrlLeaveExecuted(clientEvent: ClientLeaveEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onLeaveCompleted(clientEvent: ClientLeaveEvent, payload: any, processedEvent: any): void {
+  protected ctrlLeaveCompleted(clientEvent: ClientLeaveEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

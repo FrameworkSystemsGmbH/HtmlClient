@@ -1,4 +1,4 @@
-<button #button [ngStyle]="buttonStyle" [class.outline]="isOutlined && !currentImageUrl" (click)="callOnClick($event)" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (keydown)="callKeyDown($event)" (mouseenter)="callOnMouseEnter($event)" (mouseleave)="callOnMouseLeave($event)" (mousedown)="callOnMouseDown($event)" (mouseup)="callOnMouseUp()" [attr.tabindex]="tabIndexAttr" [attr.disabled]="disabledAttr">
+<button #button [ngStyle]="buttonStyle" [class.outline]="isOutlined && !currentImageUrl" (click)="callBtnClick($event)" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (keydown)="callKeyDown($event)" (mouseenter)="callOnMouseEnter($event)" (mouseleave)="callOnMouseLeave($event)" (mousedown)="callOnMouseDown($event)" (mouseup)="callOnMouseUp()" [attr.tabindex]="tabIndexAttr" [attr.disabled]="disabledAttr">
   <img *ngIf="currentImageUrl" [src]="currentImageUrl" class="buttonImage" draggable="false" />
   <img *ngIf="badgeImageSrc" [src]="badgeImageSrc" class="badgeImage" draggable="false" />
   <span *ngIf="showCaption" [ngStyle]="textStyle">{{ caption }}</span>

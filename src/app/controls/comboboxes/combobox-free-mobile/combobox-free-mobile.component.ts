@@ -96,21 +96,21 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
             this.setInputValue(data.value);
             this.setSelectedIndex(null);
           }
-          this.callOnSelectionChanged(event);
+          this.callSelectionChanged(event);
         }
       });
     }
   }
 
-  public callOnEnter(event: any): void {
+  public callCtrlEnter(event: any): void {
     if (!this.overlayShown) {
-      super.callOnEnter(event);
+      super.callCtrlEnter(event);
     }
   }
 
-  public callOnLeave(event: any): void {
+  public callCtrlLeave(event: any): void {
     if (!this.overlayShown) {
-      super.callOnLeave(event);
+      super.callCtrlLeave(event);
     }
   }
 

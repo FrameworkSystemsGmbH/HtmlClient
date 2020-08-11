@@ -135,7 +135,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
         this.hideList();
         this.setSelectedIndex(selectedListIndex);
         this.setInputValue(null);
-        this.callOnSelectionChanged(event);
+        this.callSelectionChanged(event);
       }
     }
   }
@@ -151,12 +151,12 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     this.hideList();
     this.setSelectedIndex(index);
     this.setInputValue(null);
-    this.callOnSelectionChanged(event);
+    this.callSelectionChanged(event);
   }
 
-  public callOnEnter(event: any): void {
+  public callCtrlEnter(event: any): void {
     if (this.getWrapper().hasOnEnterEvent()) {
-      this.onEnter.emit(event);
+      this.ctrlEnter.emit(event);
     } else {
       this.onAfterEnter();
     }

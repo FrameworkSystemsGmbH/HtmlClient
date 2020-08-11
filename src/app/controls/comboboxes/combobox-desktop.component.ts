@@ -110,9 +110,9 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     }
   }
 
-  public callOnLeave(event: any): void {
+  public callCtrlLeave(event: any): void {
     this.hideList();
-    super.callOnLeave(event);
+    super.callCtrlLeave(event);
   }
 
   protected scrollSelectedEntryIntoView(): void {

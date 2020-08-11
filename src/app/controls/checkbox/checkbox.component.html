@@ -1,6 +1,6 @@
 <div class="wrapper" [ngStyle]="wrapperStyle" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (keydown)="callKeyDown($event)" (mousedown)="onWrapperMouseDown($event)">
   <label class="label" tabindex="-1" [attr.for]="id" [ngStyle]="labelStyle" (mousedown)="onLabelMouseDown()">
-    <input #input class="input visually-hidden" [attr.id]="id" type="checkbox" [(ngModel)]="value" (change)="callOnClick($event)" [attr.tabindex]="tabIndexAttr" [attr.disabled]="disabledAttr">
+    <input #input class="input visually-hidden" [attr.id]="id" type="checkbox" [(ngModel)]="value" (change)="callBoxClick($event)" [attr.tabindex]="tabIndexAttr" [attr.disabled]="disabledAttr">
     <div class="checkbox-container">
       <div class="checkbox-frame"></div>
       <div class="checkbox-checked">
