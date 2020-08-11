@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, Injector } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, Injector, AfterViewChecked, AfterViewInit } from '@angular/core';
 
 import { ContainerComponent } from 'app/controls/container.component';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
@@ -9,7 +9,7 @@ import { LayoutableProperties } from 'app/wrappers/layout/layoutable-properties-
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent extends ContainerComponent {
+export class FormComponent extends ContainerComponent implements AfterViewChecked {
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
@@ -19,6 +19,13 @@ export class FormComponent extends ContainerComponent {
 
   constructor(injector: Injector) {
     super(injector);
+  }
+
+  public ngAfterViewChecked(): void {
+    if (this.getWrapper().getFirstLayout()) {
+      this.getFocusService().applyFocusElement();
+      this.getFocusService().clearFocusElement();
+    }
   }
 
   public getWrapper(): FormWrapper {

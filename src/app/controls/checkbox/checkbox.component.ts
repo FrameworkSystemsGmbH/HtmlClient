@@ -64,7 +64,7 @@ export class CheckBoxComponent extends ControlComponent {
   }
 
   public onLabelMouseDown(): void {
-    this.setFocus();
+    this.getFocusElement().focus();
   }
 
   public getWrapper(): CheckBoxWrapper {
@@ -162,9 +162,9 @@ export class CheckBoxComponent extends ControlComponent {
     };
   }
 
-  public setFocus(): void {
+  public getFocusElement(): any {
     if (this.input) {
-      this.input.nativeElement.focus();
+      return this.input.nativeElement;
     }
   }
 }

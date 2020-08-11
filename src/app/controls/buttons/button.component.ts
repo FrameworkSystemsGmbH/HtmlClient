@@ -113,11 +113,11 @@ export abstract class ButtonComponent extends ControlComponent {
     };
   }
 
-  public setFocus(): void {
+  public getFocusElement(): any {
     const button: ElementRef = this.getButton();
 
     if (button) {
-      button.nativeElement.focus();
+      return button.nativeElement;
     }
   }
 }

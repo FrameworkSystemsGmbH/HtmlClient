@@ -118,7 +118,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   }
 
   public onArrowClick(): void {
-    this.setFocus();
+    this.getFocusElement().focus();
     if (this.isEditable) {
       if (this.dropDownVisible) {
         this.hideList();

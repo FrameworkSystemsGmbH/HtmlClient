@@ -64,11 +64,11 @@ export abstract class ComboBoxComponent extends ControlComponent {
     this.entries = wrapper.getEntries();
   }
 
-  public setFocus(): void {
+  public getFocusElement(): any {
     const control: ElementRef = this.getControl();
 
     if (control) {
-      control.nativeElement.focus();
+      return control.nativeElement;
     }
   }
 }

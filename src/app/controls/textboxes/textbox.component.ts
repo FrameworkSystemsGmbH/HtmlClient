@@ -113,11 +113,11 @@ export abstract class TextBoxComponent extends ControlComponent {
     };
   }
 
-  public setFocus(): void {
+  public getFocusElement(): any {
     const input: ElementRef = this.getInput();
 
     if (input) {
-      input.nativeElement.focus();
+      return input.nativeElement;
     }
   }
 }
