@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as fromAppReducers from 'app/app.reducers';
+import { selectBrokerFilesUrl } from 'app/store/broker/broker.selectors';
 
 @Injectable()
 export class ImageService {
 
   private filesUrl: string;
 
-  constructor(private store: Store<fromAppReducers.IAppState>) {
-    this.store.select(appState => appState.broker.activeBrokerFilesUrl).subscribe(filesUrl => {
-      this.filesUrl = filesUrl;
-    });
+  constructor(private store: Store) {
+    this.store.select(selectBrokerFilesUrl).subscribe(filesUrl => this.filesUrl = filesUrl);
   }
 
   public getFilesUrl(): string {

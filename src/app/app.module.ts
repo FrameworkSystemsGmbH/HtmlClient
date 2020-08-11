@@ -6,6 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { environment } from 'env/env.dev';
 
 import { AppComponent } from 'app/app.component';
 
@@ -16,7 +19,7 @@ import { MsgBoxComponent } from 'app/components/msgbox/msgbox.component';
 import { RetryBoxComponent } from 'app/components/retrybox/retrybox.component';
 
 import { APP_ROUTING } from 'app/app.routing';
-import { APP_REDUCERS } from 'app/app.reducers';
+import { appReducer } from 'app/store/app.reducers';
 
 import { ALL_COMPONENTS } from 'app/components/_all.components';
 import { ALL_CONTROLS } from 'app/controls/_all.controls';
@@ -62,7 +65,11 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
     BrowserModule,
     BrowserAnimationsModule,
     OverlayscrollbarsModule,
-    StoreModule.forRoot(APP_REDUCERS)
+    StoreModule.forRoot(appReducer),
+    StoreDevtoolsModule.instrument({
+      maxAge: 10,
+      logOnly: environment.production
+    })
   ],
   providers: [
     {

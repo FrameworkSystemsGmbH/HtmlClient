@@ -10,8 +10,9 @@ import { TitleService } from 'app/services/title.service';
 import { StateService } from 'app/services/state.service';
 import { LastSessionInfo } from 'app/common/last-session-info';
 
+import { selectBrokerName } from 'app/store/broker/broker.selectors';
+
 import * as DomUtil from 'app/util/dom-util';
-import * as fromAppReducers from 'app/app.reducers';
 
 @Component({
   selector: 'hc-login',
@@ -38,16 +39,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private brokerService: BrokerService,
     private stateService: StateService,
-    private store: Store<fromAppReducers.IAppState>) { }
+    private store: Store) { }
 
   public ngOnInit(): void {
     this.brokerValidator = this.createBrokerValidator(this.loginService);
 
     this.brokers$ = this.loginService.getBrokers();
 
-    this.activeBrokerNameSub = this.store.select(appState => appState.broker.activeBrokerName).subscribe(name => {
-      this.activeBrokerName = name;
-    });
+    this.activeBrokerNameSub = this.store.select(selectBrokerName).subscribe(name => this.activeBrokerName = name);
 
     this.nameControl = new FormControl(null);
     this.urlControl = new FormControl(null, Validators.required);
