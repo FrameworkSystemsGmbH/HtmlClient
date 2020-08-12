@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
+import { Plugins, AppRestoredResult, AppState } from '@capacitor/core';
 import { Observable, of as obsOf } from 'rxjs';
 import { mergeMap, map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -10,7 +11,7 @@ import { ControlStyleService } from 'app/services/control-style.service';
 import { FormsService } from 'app/services/forms.service';
 import { CameraService } from 'app/services/actions/camera.service';
 import { PlatformService } from 'app/services/platform.service';
-import { StorageService } from 'app/services/storage/storage.service';
+import { StorageService } from 'app/services/storage.service';
 import { RoutingService } from 'app/services/routing.service';
 import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
@@ -25,6 +26,8 @@ import * as JsonUtil from 'app/util/json-util';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
 const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
+
+const { App } = Plugins;
 
 @Injectable()
 export class StateService {
@@ -55,54 +58,67 @@ export class StateService {
 
   public attachHandlers(): void {
     if (this.platformService.isAndroid()) {
-      document.addEventListener('pause', this.onPause.bind(this), false);
-      document.addEventListener('resume', this.onResume.bind(this), false);
+      App.addListener('appStateChange', this.processAppStateChange.bind(this));
+      App.addListener('appRestoredResult', this.processPendingResult.bind(this));
     }
   }
 
-  private onPause(): void {
+  private processAppStateChange(state: AppState): void {
     this.zone.run(() => {
-      // Detach back button handler
-      this.backService.removeHandlers();
+      if (state.isActive) {
+        // Delete unnecessary stored session
+        this.storageService.delete(SESSION_STORAGE_KEY).subscribe();
 
-      // Save state only if there is an active broker session
-      if (this.brokerState.activeBrokerName != null) {
-        this.saveState();
+        // Attach back button handler
+        this.backService.attachHandlers();
+      } else {
+        // Detach back button handler
+        this.backService.removeHandlers();
+
+        // Save state only if there is an active broker session
+        if (this.brokerState.activeBrokerName != null) {
+          this.saveState();
+        }
       }
     });
   }
 
-  private onResume(event: any): void {
-    setTimeout(() => {
-      this.zone.run(() => {
-        this.getLastSessionInfo().pipe(
-          tap(() => {
-            this.storageService.delete(SESSION_STORAGE_KEY).subscribe();
-          }),
-          map(lastSessionInfo => {
-            // Load state only if there is no active broker session
-            if (this.brokerState.activeBrokerName == null) {
-              this.loadState(lastSessionInfo);
-            }
-          }),
-          tap(() => {
-            if (event != null && event.pendingResult != null && event.pendingResult.pluginServiceName === 'BarcodeScanner') {
-              this.barcodeService.processPendingResult(event.pendingResult);
-            } else if (event != null && event.pendingResult != null && event.pendingResult.pluginServiceName === 'Camera') {
-              this.cameraService.processPendingResult(event.pendingResult);
-            }
-          }),
-          tap(() => {
-            // Attach back button handler
-            this.backService.attachHandlers();
-          })
-        ).subscribe();
-      });
-    });
+  private processPendingResult(result: AppRestoredResult): void {
+    if (result != null) {
+      if (result.pluginId === 'Camera' && result.methodName === 'getPhoto') {
+        if (result.success) {
+          if (result.data != null && !String.isNullOrWhiteSpace(result.data.base64String)) {
+            this.cameraService.onPendingSuccess(result.data.base64String);
+          } else {
+            this.cameraService.onPendingError('Pending image data is missing!');
+          }
+        } else {
+          if (result.error != null && !String.isNullOrWhiteSpace(result.error.message)) {
+            this.cameraService.onPendingError(result.error.message);
+          } else {
+            this.cameraService.onPendingError('Pending error message is missing!');
+          }
+        }
+      }
+    }
+  }
+
+  public resumeLastSession(): void {
+    this.getLastSessionInfo().pipe(
+      tap(() => {
+        this.storageService.delete(SESSION_STORAGE_KEY).subscribe();
+      }),
+      map(lastSessionInfo => {
+        // Load state only if there is no active broker session
+        if (this.brokerState.activeBrokerName == null) {
+          this.loadState(lastSessionInfo);
+        }
+      })
+    ).subscribe();
   }
 
   public getLastSessionInfo(): Observable<LastSessionInfo> {
-    return this.storageService.loadData(SESSION_STORAGE_KEY).pipe(
+    return this.storageService.load(SESSION_STORAGE_KEY).pipe(
       mergeMap(data => {
         const stateJson: any = JSON.parse(data);
 
@@ -184,7 +200,7 @@ export class StateService {
     }
 
     if (!JsonUtil.isEmptyObject(stateJson)) {
-      this.storageService.saveData(SESSION_STORAGE_KEY, JSON.stringify(stateJson)).subscribe();
+      this.storageService.save(SESSION_STORAGE_KEY, JSON.stringify(stateJson)).subscribe();
     }
   }
 

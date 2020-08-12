@@ -33,30 +33,18 @@ export class LoginService {
 
     brokers.push(broker);
 
-    this.clientDataService.saveBrokerList(brokers).subscribe(saved => {
-      if (saved) {
-        this._brokers$$.next(brokers);
-      }
-    });
+    this.clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
   }
 
   public updateBroker(index: number, broker: LoginBroker): void {
     const brokers: Array<LoginBroker> = this._brokers$$.getValue();
     brokers[index] = broker;
-    this.clientDataService.saveBrokerList(brokers).subscribe(saved => {
-      if (saved) {
-        this._brokers$$.next(brokers);
-      }
-    });
+    this.clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
   }
 
   public deleteBroker(index: number): void {
     const brokers: Array<LoginBroker> = this._brokers$$.getValue();
     brokers.splice(index, 1);
-    this.clientDataService.saveBrokerList(brokers).subscribe(saved => {
-      if (saved) {
-        this._brokers$$.next(brokers);
-      }
-    });
+    this.clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
   }
 }

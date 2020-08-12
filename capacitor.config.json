@@ -4,14 +4,11 @@
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist/web",
-  "plugins": {},
-  "cordova": {
-    "preferences": {
-      "FullScreen": "true",
-      "SplashScreenDelay": "3000",
-      "resizeOnFullScreen": "true",
-      "KeyboardResize": "true",
-      "KeyboardResizeMode": "native"
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "backgroundColor": "#ffffff",
+      "splashImmersive": true
     }
   }
 }

@@ -1,9 +1,9 @@
-// cord /// <reference types="cordova-plugin-camera" />
-
 import { Injectable, NgZone } from '@angular/core';
+import { Plugins, CameraDirection, CameraResultType, CameraSource, CameraPhoto } from '@capacitor/core';
 import { EventsService } from 'app/services/events.service';
-import { PlatformService } from 'app/services/platform.service';
-import { CameraSource } from 'app/enums/camera-source';
+import { BrokerCameraSource } from 'app/enums/broker-camera-source';
+
+const { Camera } = Plugins;
 
 @Injectable()
 export class CameraService {
@@ -14,49 +14,76 @@ export class CameraService {
 
   constructor(
     private _zone: NgZone,
-    private _eventsService: EventsService,
-    private _platformService: PlatformService
+    private _eventsService: EventsService
   ) { }
 
-  public takePhoto(source: CameraSource): void {
-    // cord
-    // if (this._platformService.isMobile()) {
-    //   navigator.camera.getPicture(this.onSuccess.bind(this), this.onError.bind(this),
-    //     {
-    //       allowEdit: false,
-    //       cameraDirection: Camera.Direction.BACK,
-    //       correctOrientation: true,
-    //       destinationType: Camera.DestinationType.DATA_URL,
-    //       encodingType: Camera.EncodingType.JPEG,
-    //       mediaType: Camera.MediaType.PICTURE,
-    //       quality: 100,
-    //       saveToPhotoAlbum: true,
-    //       sourceType: source
-    //     });
-    // }
+  public takePhoto(source: BrokerCameraSource): void {
+    Camera.getPhoto({
+      allowEditing: false,
+      direction: CameraDirection.Rear,
+      correctOrientation: true,
+      quality: 100,
+      resultType: CameraResultType.Base64,
+      saveToGallery: true,
+      source: source === BrokerCameraSource.CAMERA ? CameraSource.Camera : CameraSource.Photos
+    }).then(img => this.onSuccess(img))
+      .catch(err => this.onError(err));
   }
 
-  private onSuccess(imageData: any): void {
+  private onSuccess(img: CameraPhoto): void {
     this._zone.run(() => {
       this.reset();
-      this._imageData = imageData;
+      this._imageData = img.base64String;
       this.firePhotoTaken();
     });
   }
 
-  private onError(error: string | number): void {
+  public onPendingSuccess(base64string: string): void {
+    this._zone.run(() => {
+      this.reset();
+      this._imageData = base64string;
+      this.firePhotoTaken();
+    });
+  }
+
+  private onError(error: { message: string }): void {
     this._zone.run(() => {
       this.reset();
       this._hasError = true;
 
-      const num: number = Number(error);
+      if (error != null && !String.isNullOrWhiteSpace(error.message)) {
+        const message: string = error.message;
 
-      if (isNaN(num)) {
-        this._errorMessage = error as string;
-      } else if (num === 20) {
-        this._errorMessage = 'Permission denied by user!';
+        if (message.match(/cancelled photos app/i) != null) {
+          this._errorMessage = 'Process cancelled by user!';
+        } else if (message.match(/denied permission request/i) != null) {
+          this._errorMessage = 'User denied required permissions!';
+        } else {
+          this._errorMessage = error.message;
+        }
       } else {
-        this._errorMessage = `Could not retrieve photo (error code ${num})`;
+        this._errorMessage = 'An unknown error occured!';
+      }
+
+      this.firePhotoTaken();
+    });
+  }
+
+  public onPendingError(message: string): void {
+    this._zone.run(() => {
+      this.reset();
+      this._hasError = true;
+
+      if (!String.isNullOrWhiteSpace(message)) {
+        if (message.match(/cancelled photos app/i) != null) {
+          this._errorMessage = 'Process cancelled by user!';
+        } else if (message.match(/denied permission request/i) != null) {
+          this._errorMessage = 'User denied required permissions!';
+        } else {
+          this._errorMessage = message;
+        }
+      } else {
+        this._errorMessage = 'An unknown error occured!';
       }
 
       this.firePhotoTaken();
@@ -71,19 +98,5 @@ export class CameraService {
 
   private firePhotoTaken(): void {
     this._eventsService.firePhotoTaken(this._hasError, this._errorMessage, this._imageData);
-  }
-
-  public processPendingResult(pendingResult: any): void {
-    if (pendingResult == null) {
-      this.onError('Pending resume result missing');
-    } else if (pendingResult.pluginServiceName !== 'Camera') {
-      this.onError('Cannot handle pending resume result of plugin \'' + pendingResult.pluginServiceName + '\'');
-    } else if (pendingResult.pluginStatus == null) {
-      this.onError('Pending resume result status missing');
-    } else if (pendingResult.pluginStatus !== 'OK') {
-      this.onError(pendingResult.result);
-    } else {
-      this.onSuccess(pendingResult.result);
-    }
   }
 }

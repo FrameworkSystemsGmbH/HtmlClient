@@ -1,29 +1,21 @@
-/// <reference types="cordova-plugin-statusbar" />
-
 import { Injectable } from '@angular/core';
+import { Plugins } from '@capacitor/core';
 
 import { PlatformService } from 'app/services/platform.service';
-import { StatusBarService } from 'app/services/statusbar.service';
 
 import * as DomUtil from 'app/util/dom-util';
+
+const { Keyboard } = Plugins;
 
 @Injectable()
 export class KeyboardService {
 
-  constructor(
-    private platformService: PlatformService,
-    private statusBarService: StatusBarService
-  ) { }
+  constructor(private platformService: PlatformService) { }
 
   public attachScrollHandler(): void {
     if (this.platformService.isAndroid()) {
-      window.addEventListener('keyboardDidShow', this.scrollToFocusOnOpen.bind(this), false);
-      window.addEventListener('keyboardDidHide', this.hideStatusBar.bind(this), false);
+      Keyboard.addListener('keyboardDidShow', this.scrollToFocusOnOpen.bind(this));
     }
-  }
-
-  private hideStatusBar(): void {
-    this.statusBarService.hideStatusBar();
   }
 
   private scrollToFocusOnOpen(): void {

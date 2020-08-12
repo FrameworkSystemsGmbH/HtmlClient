@@ -3,7 +3,6 @@
     "tslint-etc"
   ],
   "rules": {
-    "no-assign-mutated-array": true,
     "no-unused-declaration": true
   }
 }
