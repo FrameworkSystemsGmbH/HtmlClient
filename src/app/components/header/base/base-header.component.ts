@@ -4,8 +4,6 @@ import { SafeUrl } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import * as fromAppReducers from 'app/app.reducers';
-
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
@@ -13,6 +11,8 @@ import { LoaderService } from 'app/services/loader.service';
 import { PlatformService } from 'app/services/platform.service';
 import { TitleService } from 'app/services/title.service';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
+
+import { selectBrokerDirect } from 'app/store/broker/broker.selectors';
 
 import * as DomUtil from 'app/util/dom-util';
 import * as StyleUtil from 'app/util/style-util';
@@ -120,10 +120,10 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     private formsService: FormsService,
     private platformService: PlatformService,
     private titleService: TitleService,
-    private store: Store<fromAppReducers.IAppState>) { }
+    private store: Store) { }
 
   public ngOnInit(): void {
-    this.storeSub = this.store.select(state => state.broker.activeBrokerDirect).subscribe(direct => this.directMode = direct);
+    this.storeSub = this.store.select(selectBrokerDirect).subscribe(direct => this.directMode = direct);
     this.formsSub = this.formsService.getForms().subscribe(forms => this.forms = forms);
     this.selectedFormSub = this.formsService.getSelectedForm().subscribe(this.onSelectedFormChanged.bind(this));
     this.loadingChangedSub = this.loaderService.onLoadingChangedDelayed.subscribe(loading => this.isLoading = loading);

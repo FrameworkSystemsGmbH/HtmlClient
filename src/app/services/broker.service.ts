@@ -31,12 +31,13 @@ import { MsgBoxResult } from 'app/enums/msgbox-result';
 import { RequestType } from 'app/enums/request-type';
 import { ResponseResult } from 'app/enums/response-result';
 
+import { IBrokerState } from 'app/store/broker/broker.state';
+import { selectBrokerState } from 'app/store/broker/broker.selectors';
+import { setBrokerState, resetBrokerState } from 'app/store/broker/broker.actions';
+
 import * as Moment from 'moment-timezone';
 import * as JsonUtil from 'app/util/json-util';
 import * as RxJsUtil from 'app/util/rxjs-util';
-
-import * as fromAppReducers from 'app/app.reducers';
-import * as fromBrokerActions from 'app/store/broker.actions';
 
 @Injectable()
 export class BrokerService {
@@ -76,7 +77,7 @@ export class BrokerService {
     private routingService: RoutingService,
     private textsService: TextsService,
     private titleService: TitleService,
-    private store: Store<fromAppReducers.IAppState>
+    private store: Store
   ) {
     this._onLoginComplete = new Subject<any>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();
@@ -85,7 +86,7 @@ export class BrokerService {
   }
 
   private subscribeToStore(): Subscription {
-    return this.store.select(appState => appState.broker).subscribe(brokerState => {
+    return this.store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
       this.activeBrokerName = brokerState.activeBrokerName;
       this.activeBrokerToken = brokerState.activeBrokerToken;
       this.activeBrokerRequestUrl = brokerState.activeBrokerRequestUrl;
@@ -163,12 +164,16 @@ export class BrokerService {
         this.clientLanguages = options.languages;
       }
 
-      this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(name));
-      this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(url));
-      this.store.dispatch(new fromBrokerActions.SetBrokerDirectAction(direct));
-      this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(fileUrl));
-      this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(imageUrl));
-      this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(requestUrl));
+      this.store.dispatch(setBrokerState({
+        state: {
+          activeBrokerDirect: direct,
+          activeBrokerFilesUrl: fileUrl,
+          activeBrokerImageUrl: imageUrl,
+          activeBrokerName: name,
+          activeBrokerRequestUrl: requestUrl,
+          activeBrokerUrl: url
+        }
+      }));
 
       const onError: (error: any) => void = error => {
         this.resetActiveBroker();
@@ -202,7 +207,7 @@ export class BrokerService {
     }
 
     this.formsService.resetViews();
-    this.store.dispatch(new fromBrokerActions.ResetBrokerAction());
+    this.store.dispatch(resetBrokerState());
     this.requestCounter = 0;
     this.clientLanguages = this.localeService.getLocale().substring(0, 2);
     this.lastRequestTime = null;
@@ -390,7 +395,11 @@ export class BrokerService {
     }
 
     if (metaJson.restartApplication !== true) {
-      this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(metaJson.token));
+      this.store.dispatch(setBrokerState({
+        state: {
+          activeBrokerToken: metaJson.token
+        }
+      }));
     }
 
     const sessionData: string = metaJson.sessionData;
@@ -611,7 +620,13 @@ export class BrokerService {
     const token: string = this.activeBrokerToken;
 
     this.resetActiveBroker();
-    this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(token));
+
+    this.store.dispatch(setBrokerState({
+      state: {
+        activeBrokerToken: token
+      }
+    }));
+
     this.login(broker, direct, options);
   }
 

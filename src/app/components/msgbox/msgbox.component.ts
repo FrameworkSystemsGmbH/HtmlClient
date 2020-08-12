@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 
 import { IMsgBoxData } from 'app/components/msgbox/msgbox-data.interface';
 
@@ -15,7 +14,7 @@ import { BackButtonPriority } from 'app/enums/backbutton-priority';
   templateUrl: './msgbox.component.html',
   styleUrls: ['./msgbox.component.scss']
 })
-export class MsgBoxComponent implements OnInit, OnDestroy {
+export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('footer', { static: true })
   public footer: ElementRef;
@@ -27,7 +26,6 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   public buttons: MsgBoxButtons;
   public buttonsType: typeof MsgBoxButtons = MsgBoxButtons;
 
-  private afterOpenSub: Subscription;
   private onBackButtonListener: () => boolean;
 
   constructor(
@@ -44,18 +42,14 @@ export class MsgBoxComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);
     this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
+  }
 
-    this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
-      setTimeout(() => this.footer.nativeElement.focus());
-    });
+  public ngAfterViewInit(): void {
+    this.footer.nativeElement.focus();
   }
 
   public ngOnDestroy(): void {
     this.backService.removeBackButtonListener(this.onBackButtonListener);
-
-    if (this.afterOpenSub) {
-      this.afterOpenSub.unsubscribe();
-    }
   }
 
   private onBackButton(): boolean {

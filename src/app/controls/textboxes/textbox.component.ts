@@ -20,9 +20,9 @@ export abstract class TextBoxComponent extends ControlComponent {
     return true;
   }
 
-  public callOnEnter(event: any): void {
+  public callCtrlEnter(event: any): void {
     if (this.getWrapper().hasOnEnterEvent()) {
-      this.onEnter.emit(event);
+      this.ctrlEnter.emit(event);
     } else {
       this.onAfterEnter();
     }
@@ -113,11 +113,11 @@ export abstract class TextBoxComponent extends ControlComponent {
     };
   }
 
-  public setFocus(): void {
+  public getFocusElement(): any {
     const input: ElementRef = this.getInput();
 
     if (input) {
-      input.nativeElement.focus();
+      return input.nativeElement;
     }
   }
 }

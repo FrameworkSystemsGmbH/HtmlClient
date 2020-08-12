@@ -36,7 +36,7 @@ export class TextBoxNumberComponent extends TextBoxComponent {
     return this.input;
   }
 
-  public callOnLeave(event: any): void {
+  public callCtrlLeave(event: any): void {
     if (this.isEditable) {
       if (this.input.nativeElement.classList.contains('ng-dirty')) {
         if (String.isNullOrWhiteSpace(this.value)) {
@@ -54,7 +54,7 @@ export class TextBoxNumberComponent extends TextBoxComponent {
       }
     }
 
-    super.callOnLeave(event);
+    super.callCtrlLeave(event);
   }
 
   public getWrapper(): TextBoxNumberWrapper {

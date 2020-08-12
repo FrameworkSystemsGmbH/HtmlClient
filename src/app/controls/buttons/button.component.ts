@@ -10,7 +10,7 @@ import * as StyleUtil from 'app/util/style-util';
 export abstract class ButtonComponent extends ControlComponent {
 
   @Output()
-  public onClick: EventEmitter<any>;
+  public btnClick: EventEmitter<any>;
 
   public caption: string;
   public mapEnterToTab: boolean;
@@ -21,9 +21,9 @@ export abstract class ButtonComponent extends ControlComponent {
 
   protected abstract getButton(): ElementRef;
 
-  public callOnClick(event?: any): void {
+  public callBtnClick(event?: any): void {
     if (this.getWrapper().hasOnClickEvent()) {
-      this.onClick.emit(event);
+      this.btnClick.emit(event);
     }
   }
 
@@ -49,7 +49,7 @@ export abstract class ButtonComponent extends ControlComponent {
     super.setWrapper(wrapper);
 
     if (wrapper.hasOnClickEvent()) {
-      this.onClick = new EventEmitter<any>();
+      this.btnClick = new EventEmitter<any>();
     }
   }
 
@@ -113,11 +113,11 @@ export abstract class ButtonComponent extends ControlComponent {
     };
   }
 
-  public setFocus(): void {
+  public getFocusElement(): any {
     const button: ElementRef = this.getButton();
 
     if (button) {
-      button.nativeElement.focus();
+      return button.nativeElement;
     }
   }
 }

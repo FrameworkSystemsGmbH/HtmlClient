@@ -128,7 +128,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
     this.setFittedContentWidth(null);
   }
 
-  protected onEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
+  protected ctrlEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
     this.getComponent().onAfterEnter();
   }
 
@@ -145,14 +145,14 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   protected onValidatedCompleted(clientEvent: ClientValidatedEvent, payload: any, processedEvent: any): void {
-    super.getOnLeaveSubscription()();
+    super.getCtrlLeaveSubscription()();
   }
 
   public hasOnLeaveEvent(): boolean {
     return super.hasOnLeaveEvent() || this.hasOnValidatedEvent();
   }
 
-  protected getOnLeaveSubscription(): () => void {
+  protected getCtrlLeaveSubscription(): () => void {
     return () => this.getEventsService().fireValidated(
       this.getForm().getId(),
       this.getName(),

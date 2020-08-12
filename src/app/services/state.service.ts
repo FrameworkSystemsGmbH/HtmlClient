@@ -16,11 +16,12 @@ import { TextsService } from 'app/services/texts.service';
 import { TitleService } from 'app/services/title.service';
 import { LastSessionInfo } from 'app/common/last-session-info';
 
+import { IBrokerState } from 'app/store/broker/broker.state';
+import { selectBrokerState } from 'app/store/broker/broker.selectors';
+import { setBrokerState } from 'app/store/broker/broker.actions';
+
 import * as Moment from 'moment-timezone';
 import * as JsonUtil from 'app/util/json-util';
-import * as fromAppReducers from 'app/app.reducers';
-import * as fromBrokerReducers from 'app/store/broker.reducers';
-import * as fromBrokerActions from 'app/store/broker.actions';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
 const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
@@ -28,7 +29,7 @@ const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
 @Injectable()
 export class StateService {
 
-  private brokerState: fromBrokerReducers.IBrokerState;
+  private brokerState: IBrokerState;
 
   constructor(
     private zone: NgZone,
@@ -41,7 +42,7 @@ export class StateService {
     private platformService: PlatformService,
     private routingService: RoutingService,
     private storageService: StorageService,
-    private store: Store<fromAppReducers.IAppState>,
+    private store: Store,
     private textsService: TextsService,
     private titleService: TitleService
   ) {
@@ -49,9 +50,7 @@ export class StateService {
       mergeMap(() => this.storageService.delete(SESSION_STORAGE_KEY))
     ).subscribe();
 
-    this.store.select(appState => appState.broker).subscribe(brokerState => {
-      this.brokerState = brokerState;
-    });
+    this.store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => this.brokerState = brokerState);
   }
 
   public attachHandlers(): void {
@@ -205,13 +204,17 @@ export class StateService {
 
     // Store
     const store: any = stateJson.store;
-    this.store.dispatch(new fromBrokerActions.SetBrokerNameAction(store.activeBrokerName));
-    this.store.dispatch(new fromBrokerActions.SetBrokerTokenAction(store.activeBrokerToken));
-    this.store.dispatch(new fromBrokerActions.SetBrokerUrlAction(store.activeBrokerUrl));
-    this.store.dispatch(new fromBrokerActions.SetBrokerDirectAction(store.activeBrokerDirect));
-    this.store.dispatch(new fromBrokerActions.SetBrokerFilesUrlAction(store.activeBrokerFilesUrl));
-    this.store.dispatch(new fromBrokerActions.SetBrokerImageUrlAction(store.activeBrokerImageUrl));
-    this.store.dispatch(new fromBrokerActions.SetBrokerRequestUrlAction(store.activeBrokerRequestUrl));
+    this.store.dispatch(setBrokerState({
+      state: {
+        activeBrokerDirect: store.activeBrokerDirect,
+        activeBrokerFilesUrl: store.activeBrokerFilesUrl,
+        activeBrokerImageUrl: store.activeBrokerImageUrl,
+        activeBrokerName: store.activeBrokerName,
+        activeBrokerRequestUrl: store.activeBrokerRequestUrl,
+        activeBrokerToken: store.activeBrokerToken,
+        activeBrokerUrl: store.activeBrokerUrl
+      }
+    }));
 
     // Services
     if (stateJson.services) {

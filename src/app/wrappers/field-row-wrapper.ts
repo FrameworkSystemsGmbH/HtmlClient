@@ -42,25 +42,41 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
 
   protected createControlLabelWrapper(): IControlLabelWrapper {
     const wrappers: Array<ControlWrapper> = this.controls;
-    const labelWrappers: Array<ControlLabelWrapper> = new Array<ControlLabelWrapper>();
 
-    for (const wrapper of wrappers) {
-      if (wrapper.providesControlLabelWrapper()) {
-        const labelWrapper: ControlLabelWrapper = wrapper.getControlLabelWrapper() as ControlLabelWrapper;
-        if (labelWrapper) {
-          labelWrappers.push(labelWrapper);
-        }
-      }
-    }
-
-    if (labelWrappers && labelWrappers.length) {
-      if (this.getOptimizeGeneratedLabels()) {
-        this.optimizeLabels(labelWrappers);
-      }
-      return new ControlLabelContainerMergedWrapper(this.getInjector(), { labelWrappers, fieldRowWrp: this, rowLabelTemplate: this.getParent().getRowLabelTemplate() });
-    } else {
+    if (wrappers.length === 0) {
       return null;
     }
+
+    const labelMode: FieldRowLabelMode = this.getFieldRowLabelMode();
+
+    if (labelMode === FieldRowLabelMode.Generated) {
+      const firstWrapper: ControlWrapper = wrappers[0];
+      if (firstWrapper.providesControlLabelWrapper()) {
+        const controlLabelWrapper: ControlLabelWrapper = wrappers[0].getControlLabelWrapper() as ControlLabelWrapper;
+        if (controlLabelWrapper) {
+          return new ControlLabelContainerSingleWrapper(this.getInjector(), { labelWrapper: controlLabelWrapper, fieldRowWrp: this, rowLabelTemplate: this.getParent().getRowLabelTemplate() });
+        }
+      }
+    } else if (labelMode === FieldRowLabelMode.GeneratedMerged) {
+      const labelWrappers: Array<ControlLabelWrapper> = new Array<ControlLabelWrapper>();
+      for (const wrapper of wrappers) {
+        if (wrapper.providesControlLabelWrapper()) {
+          const labelWrapper: ControlLabelWrapper = wrapper.getControlLabelWrapper() as ControlLabelWrapper;
+          if (labelWrapper) {
+            labelWrappers.push(labelWrapper);
+          }
+        }
+      }
+
+      if (labelWrappers && labelWrappers.length) {
+        if (this.getOptimizeGeneratedLabels()) {
+          this.optimizeLabels(labelWrappers);
+        }
+        return new ControlLabelContainerMergedWrapper(this.getInjector(), { labelWrappers, fieldRowWrp: this, rowLabelTemplate: this.getParent().getRowLabelTemplate() });
+      }
+    }
+
+    return null;
   }
 
   public getHasFirstColumnControl(): boolean {
@@ -100,12 +116,13 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     // Reset first column indicator
     this.hasFirstColumnControl = false;
 
-    // Create the merged label and attach it if necessary
-    if (labelMode === FieldRowLabelMode.GeneratedMerged) {
-      const mergedLabel: ILayoutableControlWrapper = this.getControlLabelWrapper();
-      if (mergedLabel) {
+    // Create the label for the first column and attach it if necessary
+    // This is either the label of the first control or the merged label for all controls in the row
+    if (labelMode === FieldRowLabelMode.Generated || labelMode === FieldRowLabelMode.GeneratedMerged) {
+      const firstColumnLabel: ILayoutableControlWrapper = this.getControlLabelWrapper();
+      if (firstColumnLabel) {
         this.hasFirstColumnControl = true;
-        mergedLabel.attachComponent(uiContainer, vchContainer);
+        firstColumnLabel.attachComponent(uiContainer, vchContainer);
       }
     }
 
@@ -118,12 +135,9 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
           if (this.getOptimizeGeneratedLabels()) {
             labelsToOptimize.push(controlLabelWrapper);
           }
-          if (i === 0) {
-            this.hasFirstColumnControl = true;
-            const controlLabelContainerWrapper: ControlLabelContainerSingleWrapper = new ControlLabelContainerSingleWrapper(
-              this.getInjector(), { labelWrapper: controlLabelWrapper, fieldRowWrp: this, rowLabelTemplate: this.getParent().getRowLabelTemplate() });
-            controlLabelContainerWrapper.attachComponent(uiContainer, vchContainer);
-          } else {
+
+          // The ControlLabel for the first column has already been attached above
+          if (i > 0) {
             controlLabelWrapper.attachComponent(uiContainer, vchContainer);
           }
         }

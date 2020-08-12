@@ -44,13 +44,13 @@ export class ButtonImageComponent extends ButtonComponent {
     return this.button;
   }
 
-  public callOnEnter(event: FocusEvent): void {
+  public callCtrlEnter(event: FocusEvent): void {
     this.updateImageUrl();
-    super.callOnEnter(event);
+    super.callCtrlEnter(event);
   }
 
-  public callOnLeave(event: FocusEvent): void {
-    super.callOnLeave(event);
+  public callCtrlLeave(event: FocusEvent): void {
+    super.callCtrlLeave(event);
     this.updateImageUrl();
   }
 

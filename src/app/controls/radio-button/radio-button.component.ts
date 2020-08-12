@@ -20,7 +20,7 @@ export class RadioButtonComponent extends ControlComponent {
   public input: ElementRef;
 
   @Output()
-  public onClick: EventEmitter<any>;
+  public radioClick: EventEmitter<any>;
 
   public id: string;
   public value: string;
@@ -38,10 +38,10 @@ export class RadioButtonComponent extends ControlComponent {
     super(injector);
   }
 
-  public callOnClick(event: any): void {
+  public callRadioClick(event: any): void {
     this.getWrapper().fireValueChanged();
     if (this.getWrapper().hasOnClickEvent()) {
-      this.onClick.emit(event);
+      this.radioClick.emit(event);
     }
   }
 
@@ -66,7 +66,7 @@ export class RadioButtonComponent extends ControlComponent {
   }
 
   public onLabelMouseDown(): void {
-    this.setFocus();
+    this.getFocusElement().focus();
   }
 
   public getWrapper(): RadioButtonWrapper {
@@ -77,7 +77,7 @@ export class RadioButtonComponent extends ControlComponent {
     super.setWrapper(wrapper);
 
     if (wrapper.hasOnClickEvent()) {
-      this.onClick = new EventEmitter<any>();
+      this.radioClick = new EventEmitter<any>();
     }
   }
 
@@ -157,9 +157,9 @@ export class RadioButtonComponent extends ControlComponent {
     };
   }
 
-  public setFocus(): void {
+  public getFocusElement(): any {
     if (this.input) {
-      this.input.nativeElement.focus();
+      return this.input.nativeElement;
     }
   }
 }

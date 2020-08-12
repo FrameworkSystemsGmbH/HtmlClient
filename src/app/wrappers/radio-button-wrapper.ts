@@ -15,7 +15,7 @@ import { Visibility } from 'app/enums/visibility';
 
 export class RadioButtonWrapper extends FittedWrapper {
 
-  private onClickSub: Subscription;
+  private radioClickSub: Subscription;
   private onValueChangedSub: Subscription;
 
   private value: string;
@@ -103,7 +103,7 @@ export class RadioButtonWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.getEvents() & ClientEventType.OnClick) {
-      this.onClickSub = instance.onClick.subscribe(() => this.getOnClickSubscription()());
+      this.radioClickSub = instance.radioClick.subscribe(() => this.getRadioClickSubscription()());
     }
 
     const buttonGroup: ButtonGroup = this.getButtonGroup();
@@ -116,8 +116,8 @@ export class RadioButtonWrapper extends FittedWrapper {
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this.onClickSub) {
-      this.onClickSub.unsubscribe();
+    if (this.radioClickSub) {
+      this.radioClickSub.unsubscribe();
     }
 
     if (this.onValueChangedSub) {
@@ -129,27 +129,27 @@ export class RadioButtonWrapper extends FittedWrapper {
     return (this.getEvents() & ClientEventType.OnClick) ? true : false;
   }
 
-  protected getOnClickSubscription(): () => void {
+  protected getRadioClickSubscription(): () => void {
     return () => this.getEventsService().fireClick(
       this.getForm().getId(),
       this.getName(),
       new InternalEventCallbacks<ClientClickEvent>(
-        this.canExecuteClick.bind(this),
-        this.onClickExecuted.bind(this),
-        this.onClickCompleted.bind(this)
+        this.canExecuteRadioClick.bind(this),
+        this.radioClickExecuted.bind(this),
+        this.radioClickCompleted.bind(this)
       )
     );
   }
 
-  protected canExecuteClick(clientEvent: ClientClickEvent, payload: any): boolean {
+  protected canExecuteRadioClick(clientEvent: ClientClickEvent, payload: any): boolean {
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected radioClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected radioClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

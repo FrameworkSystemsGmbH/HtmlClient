@@ -30,7 +30,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
   private framesService: FramesService;
 
-  private onTabClickedSub: Subscription;
+  private tabClickedSub: Subscription;
 
   protected init(): void {
     super.init();
@@ -196,17 +196,17 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     super.attachEvents(instance);
 
     if (this.hasOnSelectedTabPageChangeEvent()) {
-      this.onTabClickedSub = instance.onTabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangeSubscription(tabPage)());
+      this.tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangeSubscription(tabPage)());
     } else if (this.hasOnSelectedTabPageChangedEvent()) {
-      this.onTabClickedSub = instance.onTabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangedSubscription(tabPage)());
+      this.tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangedSubscription(tabPage)());
     } else {
-      this.onTabClickedSub = instance.onTabClicked.subscribe((tabPage: TabPageWrapper) => this.getNonEventTabPageChangedSubscription(tabPage)());
+      this.tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getNonEventTabPageChangedSubscription(tabPage)());
     }
   }
 
   protected detachEvents(): void {
-    if (this.onTabClickedSub) {
-      this.onTabClickedSub.unsubscribe();
+    if (this.tabClickedSub) {
+      this.tabClickedSub.unsubscribe();
     }
   }
 

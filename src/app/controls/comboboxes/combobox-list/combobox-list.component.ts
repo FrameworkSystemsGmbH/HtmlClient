@@ -128,7 +128,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
       if (selectedListIndex != null && selectedListIndex >= 0) {
         this.hideList();
         this.setSelectedIndex(selectedListIndex);
-        this.callOnSelectionChanged(event);
+        this.callSelectionChanged(event);
       }
     }
   }
@@ -155,7 +155,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   public onEntryClicked(event: any, index: number): void {
     this.hideList();
     this.setSelectedIndex(index);
-    this.callOnSelectionChanged(event);
+    this.callSelectionChanged(event);
   }
 
   protected selectEntryOnTerm(term: string): void {
@@ -179,7 +179,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
     if (latestIndex >= 0) {
       this.setSelectedIndex(latestIndex);
       if (!this.dropDownVisible) {
-        this.callOnSelectionChanged();
+        this.callSelectionChanged();
       }
     }
   }

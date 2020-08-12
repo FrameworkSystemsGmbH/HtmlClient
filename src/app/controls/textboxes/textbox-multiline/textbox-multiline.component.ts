@@ -32,10 +32,10 @@ export class TextBoxMultilineComponent extends TextBoxComponent {
     return false;
   }
 
-  public callOnLeave(event: any): void {
+  public callCtrlLeave(event: any): void {
     if (this.isEditable) {
       this.updateWrapper();
-      super.callOnLeave(event);
+      super.callCtrlLeave(event);
     }
   }
 

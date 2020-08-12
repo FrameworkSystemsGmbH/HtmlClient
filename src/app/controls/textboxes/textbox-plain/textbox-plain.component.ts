@@ -39,10 +39,10 @@ export class TextBoxPlainComponent extends TextBoxComponent {
     this.value = this.formatValue(this.value);
   }
 
-  public callOnLeave(event: any): void {
+  public callCtrlLeave(event: any): void {
     if (this.isEditable) {
       this.updateWrapper();
-      super.callOnLeave(event);
+      super.callCtrlLeave(event);
     }
   }
 

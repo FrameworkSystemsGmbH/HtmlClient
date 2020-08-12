@@ -8,10 +8,10 @@ import { FocusService } from 'app/services/focus.service';
 export abstract class ControlComponent extends LayoutableComponent {
 
   @Output()
-  public onEnter: EventEmitter<any>;
+  public ctrlEnter: EventEmitter<any>;
 
   @Output()
-  public onLeave: EventEmitter<any>;
+  public ctrlLeave: EventEmitter<any>;
 
   public isVisible: boolean;
   public isEditable: boolean;
@@ -48,7 +48,7 @@ export abstract class ControlComponent extends LayoutableComponent {
 
     this.cdr.detectChanges();
 
-    this.callOnEnter(event);
+    this.callCtrlEnter(event);
   }
 
   public onFocusOut(event: FocusEvent): void {
@@ -57,18 +57,18 @@ export abstract class ControlComponent extends LayoutableComponent {
 
     this.cdr.detectChanges();
 
-    this.callOnLeave(event);
+    this.callCtrlLeave(event);
   }
 
-  public callOnEnter(event: FocusEvent): void {
+  public callCtrlEnter(event: FocusEvent): void {
     if (this.isEditable && this.getWrapper().hasOnEnterEvent()) {
-      this.onEnter.emit(event);
+      this.ctrlEnter.emit(event);
     }
   }
 
-  public callOnLeave(event: FocusEvent): void {
+  public callCtrlLeave(event: FocusEvent): void {
     if (this.isEditable && this.getWrapper().hasOnLeaveEvent()) {
-      this.onLeave.emit(event);
+      this.ctrlLeave.emit(event);
     }
   }
 
@@ -80,11 +80,11 @@ export abstract class ControlComponent extends LayoutableComponent {
     super.setWrapper(wrapper);
 
     if (wrapper.hasOnEnterEvent()) {
-      this.onEnter = new EventEmitter<any>();
+      this.ctrlEnter = new EventEmitter<any>();
     }
 
     if (wrapper.hasOnLeaveEvent()) {
-      this.onLeave = new EventEmitter<any>();
+      this.ctrlLeave = new EventEmitter<any>();
     }
   }
 
@@ -94,7 +94,8 @@ export abstract class ControlComponent extends LayoutableComponent {
     this.isVisible = wrapper.getCurrentVisibility() === Visibility.Visible;
   }
 
-  public setFocus(): void {
+  public getFocusElement(): any {
     // Override in subclasses
+    return null;
   }
 }

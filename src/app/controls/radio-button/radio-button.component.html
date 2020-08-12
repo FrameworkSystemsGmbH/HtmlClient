@@ -1,5 +1,5 @@
 <div class="wrapper" [ngStyle]="wrapperStyle" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (keydown)="callKeyDown($event)" (mousedown)="onWrapperMouseDown($event)">
-  <input #input class="input visually-hidden" [attr.id]="id" type="radio" [name]="groupName" [value]="checkedValue" [(ngModel)]="value" (change)="callOnClick($event)" [attr.tabindex]="tabIndexAttr" [attr.disabled]="disabledAttr">
+  <input #input class="input visually-hidden" [attr.id]="id" type="radio" [name]="groupName" [value]="checkedValue" [(ngModel)]="value" (change)="callRadioClick($event)" [attr.tabindex]="tabIndexAttr" [attr.disabled]="disabledAttr">
   <label class="label" tabindex="-1" [attr.for]="id" [ngStyle]="labelStyle" (mousedown)="onLabelMouseDown()">
     <span class="button"></span>
     <div *ngIf="caption" [ngStyle]="captionStyle">

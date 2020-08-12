@@ -27,7 +27,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
 
   private dataList: DataList;
 
-  private onSelectionChangedSub: Subscription;
+  private selectionChangedSub: Subscription;
 
   public getControlType(): ControlType {
     return ControlType.ComboBox;
@@ -191,19 +191,19 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     super.attachEvents(instance);
 
     if (this.getEvents() & ClientEventType.OnSelectionChanged) {
-      this.onSelectionChangedSub = instance.onSelectionChanged.subscribe(() => this.getOnSelectionChangedSubscription()());
+      this.selectionChangedSub = instance.selectionChanged.subscribe(() => this.getOnSelectionChangedSubscription()());
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this.onSelectionChangedSub) {
-      this.onSelectionChangedSub.unsubscribe();
+    if (this.selectionChangedSub) {
+      this.selectionChangedSub.unsubscribe();
     }
   }
 
-  protected onEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
+  protected ctrlEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
     this.getComponent().onAfterEnter();
   }
 

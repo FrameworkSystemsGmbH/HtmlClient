@@ -19,7 +19,7 @@ import * as StyleUtil from 'app/util/style-util';
 export class PictureComponent extends ControlComponent {
 
   @Output()
-  public onClick: EventEmitter<ClientPictureClickEventArgs>;
+  public picClick: EventEmitter<ClientPictureClickEventArgs>;
 
   @ViewChild('wrapper', { static: false })
   public wrapperEl: ElementRef;
@@ -47,9 +47,9 @@ export class PictureComponent extends ControlComponent {
     this.sanatizer = this.getInjector().get(DomSanitizer);
   }
 
-  public callOnClick(event: MouseEvent, double: boolean): void {
+  public callPicClick(event: MouseEvent, double: boolean): void {
     if (this.getWrapper().hasOnClickEvent()) {
-      this.onClick.emit(this.getClickEventArgs(event, double));
+      this.picClick.emit(this.getClickEventArgs(event, double));
     }
   }
 
@@ -91,7 +91,7 @@ export class PictureComponent extends ControlComponent {
     super.setWrapper(wrapper);
 
     if (wrapper.hasOnClickEvent()) {
-      this.onClick = new EventEmitter<any>();
+      this.picClick = new EventEmitter<any>();
     }
   }
 

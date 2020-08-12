@@ -14,7 +14,7 @@ import { Visibility } from 'app/enums/visibility';
 
 export class CheckBoxWrapper extends FittedWrapper {
 
-  private onClickSub: Subscription;
+  private boxClickSub: Subscription;
 
   private value: boolean;
   private orgValue: boolean;
@@ -163,15 +163,15 @@ export class CheckBoxWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.getEvents() & ClientEventType.OnClick) {
-      this.onClickSub = instance.onClick.subscribe(() => this.getOnClickSubscription()());
+      this.boxClickSub = instance.boxClick.subscribe(() => this.getBoxClickSubscription()());
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this.onClickSub) {
-      this.onClickSub.unsubscribe();
+    if (this.boxClickSub) {
+      this.boxClickSub.unsubscribe();
     }
   }
 
@@ -179,27 +179,27 @@ export class CheckBoxWrapper extends FittedWrapper {
     return (this.getEvents() & ClientEventType.OnClick) ? true : false;
   }
 
-  protected getOnClickSubscription(): () => void {
+  protected getBoxClickSubscription(): () => void {
     return () => this.getEventsService().fireClick(
       this.getForm().getId(),
       this.getName(),
       new InternalEventCallbacks<ClientClickEvent>(
-        this.canExecuteClick.bind(this),
-        this.onClickExecuted.bind(this),
-        this.onClickCompleted.bind(this)
+        this.canExecuteBoxClick.bind(this),
+        this.boxClickExecuted.bind(this),
+        this.boxClickCompleted.bind(this)
       )
     );
   }
 
-  protected canExecuteClick(clientEvent: ClientClickEvent, payload: any): boolean {
+  protected canExecuteBoxClick(clientEvent: ClientClickEvent, payload: any): boolean {
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected boxClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected boxClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

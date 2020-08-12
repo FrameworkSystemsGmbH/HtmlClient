@@ -7,7 +7,7 @@ import { DataList } from 'app/common/data-list';
 export abstract class ComboBoxComponent extends ControlComponent {
 
   @Output()
-  public onSelectionChanged: EventEmitter<any>;
+  public selectionChanged: EventEmitter<any>;
 
   public entries: DataList;
   public selectedIndex: number;
@@ -30,17 +30,17 @@ export abstract class ComboBoxComponent extends ControlComponent {
     // Override in subclasses
   }
 
-  public callOnLeave(event: any): void {
+  public callCtrlLeave(event: any): void {
     if (this.isEditable) {
       this.updateWrapper();
-      super.callOnLeave(event);
+      super.callCtrlLeave(event);
     }
   }
 
-  protected callOnSelectionChanged(event?: any): void {
+  protected callSelectionChanged(event?: any): void {
     this.updateWrapper();
     if (this.getWrapper().hasOnSelectionChangedEvent()) {
-      this.onSelectionChanged.emit(event);
+      this.selectionChanged.emit(event);
     }
   }
 
@@ -51,7 +51,7 @@ export abstract class ComboBoxComponent extends ControlComponent {
   public setWrapper(wrapper: ComboBoxWrapper): void {
     super.setWrapper(wrapper);
     if (wrapper.hasOnSelectionChangedEvent()) {
-      this.onSelectionChanged = new EventEmitter<any>();
+      this.selectionChanged = new EventEmitter<any>();
     }
   }
 
@@ -64,11 +64,11 @@ export abstract class ComboBoxComponent extends ControlComponent {
     this.entries = wrapper.getEntries();
   }
 
-  public setFocus(): void {
+  public getFocusElement(): any {
     const control: ElementRef = this.getControl();
 
     if (control) {
-      control.nativeElement.focus();
+      return control.nativeElement;
     }
   }
 }

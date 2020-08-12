@@ -19,9 +19,9 @@ export class FormWrapper extends ContainerWrapper {
   private _fullName: string;
   private _closing: boolean;
   private _isModal: boolean;
+  private _firstLayout: boolean;
   private _variant: VariantWrapper;
   private _closeButton: ButtonBaseWrapper;
-
   private _sanatizer: DomSanitizer;
 
   protected init(): void {
@@ -57,6 +57,10 @@ export class FormWrapper extends ContainerWrapper {
 
   public getIsModal(): boolean {
     return this._isModal;
+  }
+
+  public getFirstLayout(): boolean {
+    return this._firstLayout;
   }
 
   public getCloseButton(): ButtonBaseWrapper {
@@ -167,6 +171,8 @@ export class FormWrapper extends ContainerWrapper {
     layoutableProperties.setHBarNeeded(hBarNeeded);
 
     this.getLayout().arrange();
+
+    this._firstLayout = true;
   }
 
   public getState(): any {

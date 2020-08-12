@@ -35,7 +35,7 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
     return this.input;
   }
 
-  public callOnLeave(event: any): void {
+  public callCtrlLeave(event: any): void {
     if (this.isEditable) {
       if (this.input.nativeElement.classList.contains('ng-dirty')) {
         if (String.isNullOrWhiteSpace(this.value)) {
@@ -52,7 +52,7 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
         }
       }
 
-      super.callOnLeave(event);
+      super.callCtrlLeave(event);
     }
   }
 
