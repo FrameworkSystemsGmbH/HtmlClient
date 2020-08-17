@@ -1,6 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import { EventsService } from 'app/services/events.service';
 import { PlatformService } from 'app/services/platform.service';
+import { Plugins, GeolocationPosition, GeolocationOptions } from '@capacitor/core';
+
+const { Geolocation } = Plugins;
 
 @Injectable()
 export class GeoLocationService {
@@ -17,21 +20,19 @@ export class GeoLocationService {
 
   constructor(
     private _zone: NgZone,
-    private _eventsService: EventsService,
-    private _platformService: PlatformService
+    private _eventsService: EventsService
   ) { }
 
   public getGeoLocation(): void {
-    if (this._platformService.isNative()) {
-      navigator.geolocation.getCurrentPosition(this.onSuccess.bind(this), this.onError.bind(this), {
-        enableHighAccuracy: true,
-        maximumAge: 3000,
-        timeout: 5000
-      });
-    }
+    Geolocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      maximumAge: 3000,
+      timeout: 5000
+    }).then(this.onSuccess.bind(this))
+      .catch(this.onError.bind(this));
   }
 
-  private onSuccess(position: Position): void {
+  private onSuccess(position: GeolocationPosition): void {
     this._zone.run(() => {
       this.reset();
       this._latitude = position.coords.latitude;
@@ -45,24 +46,23 @@ export class GeoLocationService {
     });
   }
 
-  private onError(error: PositionError): void {
+  private onError(error: any): void {
     this._zone.run(() => {
       this.reset();
       this._hasError = true;
 
-      switch (error.code) {
-        case error.PERMISSION_DENIED:
-          this._errorMessage = 'Permission denied by user!';
-          break;
-        case error.POSITION_UNAVAILABLE:
+      if (error != null && !String.isNullOrWhiteSpace(error.message)) {
+        const message: string = error.message;
+
+        if (message.match(/denied location permission/i) != null) {
+          this._errorMessage = 'User denied required permissions!';
+        } else if (message.match(/location unavailable/i) != null) {
           this._errorMessage = 'Unable to retrieve device position via network or GPS!';
-          break;
-        case error.TIMEOUT:
-          this._errorMessage = 'Timeout: Could not retrieve device position!';
-          break;
-        default:
+        } else {
           this._errorMessage = error.message;
-          break;
+        }
+      } else {
+        this._errorMessage = 'An unknown error occured!';
       }
 
       this.fireGotGeoLocation();

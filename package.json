@@ -63,7 +63,6 @@
     "@types/overlayscrollbars": "1.12.0",
     "bestzip": "2.1.6",
     "codelyzer": "6.0.0",
-    "cordova-plugin-geolocation": "4.0.2",
     "del-cli": "3.0.1",
     "jasmine": "3.6.1",
     "jasmine-core": "3.6.0",

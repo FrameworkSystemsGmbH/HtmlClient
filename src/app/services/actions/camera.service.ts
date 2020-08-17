@@ -26,8 +26,8 @@ export class CameraService {
       resultType: CameraResultType.Base64,
       saveToGallery: true,
       source: source === BrokerCameraSource.CAMERA ? CameraSource.Camera : CameraSource.Photos
-    }).then(img => this.onSuccess(img))
-      .catch(err => this.onError(err));
+    }).then(this.onSuccess.bind(this))
+      .catch(this.onError.bind(this));
   }
 
   private onSuccess(img: CameraPhoto): void {
