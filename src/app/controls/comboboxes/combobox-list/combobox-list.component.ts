@@ -6,8 +6,9 @@ import { debounceTime, buffer, map, share } from 'rxjs/operators';
 import { ComboBoxDesktopComponent } from 'app/controls/comboboxes/combobox-desktop.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 
-import * as StyleUtil from 'app/util/style-util';
 import * as DomUtil from 'app/util/dom-util';
+import * as KeyUtil from 'app/util/key-util';
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-cmb-list',
@@ -57,7 +58,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
     this.keyDownSub = keyDownObs.subscribe(event => this.onKeyDown(event));
 
     this.inputSub = keyDownObs.pipe(
-      map(event => event.key),
+      map(event => KeyUtil.getKeyString(event)),
       buffer(inputIdleObs)
     ).subscribe(events => this.onInput(events));
   }

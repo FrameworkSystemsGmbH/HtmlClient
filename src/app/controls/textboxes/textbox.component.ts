@@ -5,8 +5,9 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 import { ControlComponent } from 'app/controls/control.component';
 import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
 
-import * as StyleUtil from 'app/util/style-util';
 import * as DomUtil from 'app/util/dom-util';
+import * as KeyUtil from 'app/util/key-util';
+import * as StyleUtil from 'app/util/style-util';
 
 export abstract class TextBoxComponent extends ControlComponent {
 
@@ -39,7 +40,7 @@ export abstract class TextBoxComponent extends ControlComponent {
   public callKeyDown(event: KeyboardEvent): void {
     this.getFocusService().setLastKeyEvent(event);
 
-    if (event.key === 'Tab' || (event.key === 'Enter' && this.mapEnterToTab())) {
+    if (KeyUtil.getKeyString(event) === 'Tab' || (KeyUtil.getKeyString(event) === 'Enter' && this.mapEnterToTab())) {
       if (event.shiftKey) {
         this.getWrapper().focusKeyboardPrevious();
       } else {

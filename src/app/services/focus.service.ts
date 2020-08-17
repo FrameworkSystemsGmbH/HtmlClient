@@ -5,6 +5,7 @@ import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-cont
 import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 
+import * as KeyUtil from 'app/util/key-util';
 import * as InterfaceUtil from 'app/util/interface-util';
 
 @Injectable()
@@ -36,7 +37,7 @@ export class FocusService {
 
   public getLeaveActivator(): string {
     if (this.lastInput === LastInput.Keyboard) {
-      switch (this.lastKeyEvent.key) {
+      switch (KeyUtil.getKeyString(this.lastKeyEvent)) {
         case 'Tab':
           if (this.lastKeyEvent.shiftKey) {
             return 'KeyboardTabBackward';

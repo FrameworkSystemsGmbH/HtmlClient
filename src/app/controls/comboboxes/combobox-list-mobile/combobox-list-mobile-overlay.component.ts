@@ -7,6 +7,7 @@ import { BackService } from 'app/services/back-service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
 import * as DomUtil from 'app/util/dom-util';
+import * as KeyUtil from 'app/util/key-util';
 
 @Component({
   selector: 'hc-cmb-list-mobile-overlay',
@@ -90,7 +91,7 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
 
   @HostListener('document:keydown', ['$event'])
   public handleKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Escape') {
+    if (KeyUtil.getKeyString(event) === 'Escape') {
       this.dialogRef.close({
         selected: false
       });

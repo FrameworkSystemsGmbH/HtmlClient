@@ -5,8 +5,9 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 import { ControlComponent } from 'app/controls/control.component';
 import { CheckBoxWrapper } from 'app/wrappers/checkbox-wrapper';
 
-import * as StyleUtil from 'app/util/style-util';
 import * as DomUtil from 'app/util/dom-util';
+import * as KeyUtil from 'app/util/key-util';
+import * as StyleUtil from 'app/util/style-util';
 
 @Component({
   selector: 'hc-chkbox',
@@ -46,7 +47,7 @@ export class CheckBoxComponent extends ControlComponent {
   public callKeyDown(event: KeyboardEvent): void {
     this.getFocusService().setLastKeyEvent(event);
 
-    if (event.key === 'Tab' || event.key === 'Enter') {
+    if (KeyUtil.getKeyString(event) === 'Tab' || KeyUtil.getKeyString(event) === 'Enter') {
       if (event.shiftKey) {
         this.getWrapper().focusKeyboardPrevious();
       } else {

@@ -5,6 +5,7 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 import { ControlComponent } from 'app/controls/control.component';
 import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
 
+import * as KeyUtil from 'app/util/key-util';
 import * as StyleUtil from 'app/util/style-util';
 
 export abstract class ButtonComponent extends ControlComponent {
@@ -30,7 +31,7 @@ export abstract class ButtonComponent extends ControlComponent {
   public callKeyDown(event: KeyboardEvent): void {
     this.getFocusService().setLastKeyEvent(event);
 
-    if (event.key === 'Tab' || (event.key === 'Enter' && this.mapEnterToTab)) {
+    if (KeyUtil.getKeyString(event) === 'Tab' || (KeyUtil.getKeyString(event) === 'Enter' && this.mapEnterToTab)) {
       if (event.shiftKey) {
         this.getWrapper().focusKeyboardPrevious();
       } else {
