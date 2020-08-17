@@ -7,7 +7,6 @@
   "license": "none",
   "readme": "readme.md",
   "scripts": {
-    "ngcc": "ngcc",
     "build": "ng build",
     "buildProd": "npm run buildProdClean && ng build --prod && npm run buildProdPack",
     "buildProdClean": "del-cli \"dist/webzip\"",
