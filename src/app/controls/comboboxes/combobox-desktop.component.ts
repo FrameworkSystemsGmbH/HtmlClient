@@ -5,8 +5,9 @@ import { ILayoutableProperties } from 'app/layout/layoutable-properties.interfac
 import { ComboBoxComponent } from 'app/controls/comboboxes/combobox.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 
-import * as StyleUtil from 'app/util/style-util';
 import * as DomUtil from 'app/util/dom-util';
+import * as KeyUtil from 'app/util/key-util';
+import * as StyleUtil from 'app/util/style-util';
 
 export abstract class ComboBoxDesktopComponent extends ComboBoxComponent implements AfterViewChecked {
 
@@ -64,7 +65,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
       return;
     }
 
-    switch (event.key) {
+    switch (KeyUtil.getKeyString(event)) {
       // Down
       case 'ArrowDown':
         this.selectNext();
@@ -97,7 +98,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
   protected onFocusKey(event: KeyboardEvent, open: boolean): void {
     this.getFocusService().setLastKeyEvent(event);
 
-    if (event.key === 'Tab' || event.key === 'Enter' && !open) {
+    if ((KeyUtil.getKeyString(event) === 'Tab' || KeyUtil.getKeyString(event) === 'Enter') && !open) {
       this.hideList();
 
       if (event.shiftKey) {
