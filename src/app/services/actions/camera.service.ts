@@ -34,7 +34,13 @@ export class CameraService {
       saveToGallery: true,
       source: source === BrokerCameraSource.CAMERA ? CameraSource.Camera : CameraSource.Photos
     }).then(img => this.onSuccess(img.base64String))
-      .catch(err => this.onError(err.message));
+      .catch(err => {
+        if (typeof (err) === 'string') {
+          this.onError(err);
+        } else {
+          this.onError(err.message);
+        }
+      });
   }
 
   private onSuccess(base64img: string): void {
