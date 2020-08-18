@@ -27,7 +27,11 @@ export class BackService {
 
   public attachHandlers(): void {
     if (this._platformService.isAndroid()) {
-       this._listenerSub = App.addListener('backButton', this._listener);
+      if (this._listenerSub != null) {
+        this._listenerSub.remove();
+      }
+
+      this._listenerSub = App.addListener('backButton', this._listener);
     }
   }
 
