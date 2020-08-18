@@ -1,9 +1,9 @@
 import { Component, HostListener, OnInit, AfterViewInit } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 
+import { BackService } from 'app/services/back-service';
 import { FocusService } from 'app/services/focus.service';
 import { LocaleService } from 'app/services/locale.service';
-import { BackService } from 'app/services/back-service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { PlatformService } from 'app/services/platform.service';
 import { StateService } from 'app/services/state.service';
@@ -19,6 +19,7 @@ const { SplashScreen } = Plugins;
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
+  public ready: boolean;
   public style: any;
 
   constructor(
@@ -36,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.stateService.resumeLastSession();
+    this.stateService.resumeLastSession().subscribe(() => this.ready = true);
 
     if (this.platformService.isIos()) {
       this.style = this.createIosStyle();

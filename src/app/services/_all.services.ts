@@ -17,7 +17,6 @@ import { ImageService } from 'app/services/image.service';
 import { KeyboardService } from 'app/services/keyboard.service';
 import { LoaderService } from 'app/services/loader.service';
 import { LoginService } from 'app/services/login.service';
-import { LogService } from 'app/services/log.service';
 import { LocaleService } from 'app/services/locale.service';
 import { PlatformService } from 'app/services/platform.service';
 import { RoutingService } from 'app/services/routing.service';
@@ -61,7 +60,6 @@ const services = [
   KeyboardService,
   LoaderService,
   LoginService,
-  LogService,
   LocaleService,
   PlatformService,
   RoutingService,

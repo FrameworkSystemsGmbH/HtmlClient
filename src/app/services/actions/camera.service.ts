@@ -1,7 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Plugins, CameraDirection, CameraResultType, CameraSource, CameraPhoto } from '@capacitor/core';
+import { Plugins, CameraDirection, CameraResultType, CameraSource, CameraPhoto, AppRestoredResult } from '@capacitor/core';
+import { Store } from '@ngrx/store';
 import { EventsService } from 'app/services/events.service';
 import { BrokerCameraSource } from 'app/enums/broker-camera-source';
+import { selectBrokerName } from 'app/store/broker/broker.selectors';
 
 const { Camera } = Plugins;
 
@@ -11,11 +13,16 @@ export class CameraService {
   private _hasError: boolean;
   private _errorMessage: string;
   private _imageData: string;
+  private _brokerName: string;
+  private _pendingResult: AppRestoredResult;
 
   constructor(
     private _zone: NgZone,
+    private _store: Store,
     private _eventsService: EventsService
-  ) { }
+  ) {
+    this._store.select(selectBrokerName).subscribe(brokerName => this._brokerName = brokerName);
+  }
 
   public takePhoto(source: BrokerCameraSource): void {
     Camera.getPhoto({
@@ -26,50 +33,19 @@ export class CameraService {
       resultType: CameraResultType.Base64,
       saveToGallery: true,
       source: source === BrokerCameraSource.CAMERA ? CameraSource.Camera : CameraSource.Photos
-    }).then(this.onSuccess.bind(this))
-      .catch(this.onError.bind(this));
+    }).then(img => this.onSuccess(img.base64String))
+      .catch(err => this.onError(err.message));
   }
 
-  private onSuccess(img: CameraPhoto): void {
+  private onSuccess(base64img: string): void {
     this._zone.run(() => {
       this.reset();
-      this._imageData = img.base64String;
+      this._imageData = base64img;
       this.firePhotoTaken();
     });
   }
 
-  public onPendingSuccess(base64string: string): void {
-    this._zone.run(() => {
-      this.reset();
-      this._imageData = base64string;
-      this.firePhotoTaken();
-    });
-  }
-
-  private onError(error: { message: string }): void {
-    this._zone.run(() => {
-      this.reset();
-      this._hasError = true;
-
-      if (error != null && !String.isNullOrWhiteSpace(error.message)) {
-        const message: string = error.message;
-
-        if (message.match(/cancelled photos app/i) != null) {
-          this._errorMessage = 'Process cancelled by user!';
-        } else if (message.match(/denied permission request/i) != null) {
-          this._errorMessage = 'User denied required permissions!';
-        } else {
-          this._errorMessage = error.message;
-        }
-      } else {
-        this._errorMessage = 'An unknown error occured!';
-      }
-
-      this.firePhotoTaken();
-    });
-  }
-
-  public onPendingError(message: string): void {
+  private onError(message: string): void {
     this._zone.run(() => {
       this.reset();
       this._hasError = true;
@@ -88,6 +64,30 @@ export class CameraService {
 
       this.firePhotoTaken();
     });
+  }
+
+  public setPendingResult(result: AppRestoredResult): void {
+    this._pendingResult = result;
+  }
+
+  public processPendingResult(): void {
+    if (!String.isNullOrWhiteSpace(this._brokerName) && this._pendingResult != null) {
+      if (this._pendingResult.success) {
+        if (this._pendingResult.data != null && !String.isNullOrWhiteSpace(this._pendingResult.data.base64String)) {
+          this.onSuccess(this._pendingResult.data.base64String);
+        } else {
+          this.onError('Pending image data is missing!');
+        }
+      } else {
+        if (this._pendingResult.error != null && !String.isNullOrWhiteSpace(this._pendingResult.error.message)) {
+          this.onError(this._pendingResult.error.message);
+        } else {
+          this.onError('Pending error message is missing!');
+        }
+      }
+    }
+
+    this._pendingResult = null;
   }
 
   private reset(): void {

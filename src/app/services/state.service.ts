@@ -58,12 +58,12 @@ export class StateService {
 
   public attachHandlers(): void {
     if (this.platformService.isAndroid()) {
-      App.addListener('appStateChange', this.processAppStateChange.bind(this));
-      App.addListener('appRestoredResult', this.processPendingResult.bind(this));
+      App.addListener('appStateChange', this.onAppStateChange.bind(this));
+      App.addListener('appRestoredResult', this.onPendingResult.bind(this));
     }
   }
 
-  private processAppStateChange(state: AppState): void {
+  private onAppStateChange(state: AppState): void {
     this.zone.run(() => {
       if (state.isActive) {
         // Delete unnecessary stored session
@@ -83,28 +83,14 @@ export class StateService {
     });
   }
 
-  private processPendingResult(result: AppRestoredResult): void {
-    if (result != null) {
-      if (result.pluginId === 'Camera' && result.methodName === 'getPhoto') {
-        if (result.success) {
-          if (result.data != null && !String.isNullOrWhiteSpace(result.data.base64String)) {
-            this.cameraService.onPendingSuccess(result.data.base64String);
-          } else {
-            this.cameraService.onPendingError('Pending image data is missing!');
-          }
-        } else {
-          if (result.error != null && !String.isNullOrWhiteSpace(result.error.message)) {
-            this.cameraService.onPendingError(result.error.message);
-          } else {
-            this.cameraService.onPendingError('Pending error message is missing!');
-          }
-        }
-      }
+  private onPendingResult(result: AppRestoredResult): void {
+    if (result != null && result.pluginId === 'Camera' && result.methodName === 'getPhoto') {
+      this.cameraService.setPendingResult(result);
     }
   }
 
-  public resumeLastSession(): void {
-    this.getLastSessionInfo().pipe(
+  public resumeLastSession(): Observable<void> {
+    return this.getLastSessionInfo().pipe(
       tap(() => {
         this.storageService.delete(SESSION_STORAGE_KEY).subscribe();
       }),
@@ -113,8 +99,9 @@ export class StateService {
         if (this.brokerState.activeBrokerName == null) {
           this.loadState(lastSessionInfo);
         }
-      })
-    ).subscribe();
+      }),
+      map(() => this.cameraService.processPendingResult())
+    );
   }
 
   public getLastSessionInfo(): Observable<LastSessionInfo> {

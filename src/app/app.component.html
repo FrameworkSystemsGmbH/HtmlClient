@@ -1,3 +1,9 @@
-<div class="wrapper" [ngStyle]="style">
+<div class="wrapper" [ngStyle]="style" *ngIf="ready">
   <router-outlet></router-outlet>
+</div>
+
+<div class="hc-load-wrapper" *ngIf="!ready">
+  <div class="hc-load-wrapper-inner">
+    <strong>Loading...</strong>
+  </div>
 </div>

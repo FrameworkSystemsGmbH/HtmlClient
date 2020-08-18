@@ -18,14 +18,14 @@ body {
   font-size: $global-font-size;
 }
 
-#hc-load-wrapper {
+.hc-load-wrapper {
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-#hc-load-wrapper-inner {
+.hc-load-wrapper-inner {
   flex: 1;
   display: flex;
   align-items: center;
