@@ -1,9 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { BarcodeFormat } from 'app/enums/barcode-format';
 import { EventsService } from 'app/services/events.service';
 import { PlatformService } from 'app/services/platform.service';
-import { selectBrokerName } from 'app/store/broker/broker.selectors';
 
 @Injectable()
 export class BarcodeService {
