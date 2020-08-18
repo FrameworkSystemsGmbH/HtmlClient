@@ -17,6 +17,7 @@
 
 
     <style name="AppTheme.NoActionBarLaunch" parent="AppTheme.NoActionBar">
+        <item name="android:gravity">center</item>
         <item name="android:background">@drawable/splash</item>
     </style>
 </resources>
