@@ -1,7 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { BarcodeFormat } from 'app/enums/barcode-format';
 import { EventsService } from 'app/services/events.service';
 import { PlatformService } from 'app/services/platform.service';
+import { selectBrokerName } from 'app/store/broker/broker.selectors';
 
 @Injectable()
 export class BarcodeService {
@@ -119,21 +121,5 @@ export class BarcodeService {
     }
 
     return formats.join(',');
-  }
-
-  public processPendingResult(pendingResult: any): void {
-    if (pendingResult == null) {
-      this.onError('Pending resume result missing');
-    } else if (pendingResult.pluginServiceName !== 'BarcodeScanner') {
-      this.onError('Cannot handle pending resume result of plugin \'' + pendingResult.pluginServiceName + '\'');
-    } else if (pendingResult.pluginStatus == null) {
-      this.onError('Pending resume result status missing');
-    } else if (pendingResult.pluginStatus !== 'OK') {
-      this.onError(pendingResult.pluginStatus);
-    } else if (pendingResult.result == null) {
-      this.onError('Pending resume result missing');
-    } else {
-      this.onSuccess(pendingResult.result);
-    }
   }
 }

@@ -84,9 +84,11 @@ export class StateService {
   }
 
   private onPendingResult(result: AppRestoredResult): void {
-    if (result != null && result.pluginId === 'Camera' && result.methodName === 'getPhoto') {
-      this.cameraService.setPendingResult(result);
-    }
+    this.zone.run(() => {
+      if (result != null && result.pluginId === 'Camera' && result.methodName === 'getPhoto') {
+        this.cameraService.setPendingResult(result);
+      }
+    });
   }
 
   public resumeLastSession(): Observable<void> {
@@ -100,7 +102,9 @@ export class StateService {
           this.loadState(lastSessionInfo);
         }
       }),
-      map(() => this.cameraService.processPendingResult())
+      map(() => {
+        this.cameraService.processPendingResult();
+      })
     );
   }
 
