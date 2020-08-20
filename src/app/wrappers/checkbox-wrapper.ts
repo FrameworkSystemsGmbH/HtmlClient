@@ -104,7 +104,7 @@ export class CheckBoxWrapper extends FittedWrapper {
       case DataSourceType.Long:
       case DataSourceType.Short:
       case DataSourceType.String:
-        val = value !== '0';
+        val = !String.isNullOrWhiteSpace(value) && value !== '0';
         break;
 
       default:
