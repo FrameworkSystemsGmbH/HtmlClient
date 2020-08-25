@@ -81,7 +81,7 @@
       "ignore-static"
     ],
     "no-unnecessary-callback-wrapper": true,
-    "no-unnecessary-class": true,
+    "no-unnecessary-class": false,
     "no-unnecessary-qualifier": true,
     "no-unused-expression": true,
     "no-var-keyword": true,
