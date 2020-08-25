@@ -1,0 +1,58 @@
+@import '../../../scss/variables.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(#ffffff, 0.5);
+
+  .wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+
+      .title {
+        font-size: 1.6rem;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .loader {
+        width: 8rem;
+        height: $loading-bar-height;
+        position: relative;
+        margin-top: 0.5rem;
+        overflow: hidden;
+        background-color: transparent;
+      }
+
+      .loader:before {
+        display: block;
+        position: absolute;
+        content: '';
+        left: -100%;
+        width: 100%;
+        height: $loading-bar-height;
+        background-color: $loading-bar-color;
+        animation: loading 1.5s ease-in-out infinite;
+      }
+    }
+  }
+}
+
+@keyframes loading {
+  from {
+    left: -100%;
+  }
+  50% {
+    left: 0%;
+  }
+  to {
+    left: 100%;
+  }
+}

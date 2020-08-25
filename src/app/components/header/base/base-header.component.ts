@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { EventsService } from 'app/services/events.service';
 import { FormsService } from 'app/services/forms.service';
-import { LoaderService } from 'app/services/loader.service';
 import { PlatformService } from 'app/services/platform.service';
 import { TitleService } from 'app/services/title.service';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
@@ -75,12 +74,10 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   public directMode: boolean;
   public sidebarEnabled: boolean = false;
   public sidebarVisible: boolean = false;
-  public isLoading: boolean = false;
 
   private storeSub: Subscription;
   private formsSub: Subscription;
   private selectedFormSub: Subscription;
-  private loadingChangedSub: Subscription;
 
   public headerSideStyle: any;
   public headerSideOverlayStyle: any;
@@ -116,7 +113,6 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     private zone: NgZone,
     private renderer: Renderer2,
     private eventsService: EventsService,
-    private loaderService: LoaderService,
     private formsService: FormsService,
     private platformService: PlatformService,
     private titleService: TitleService,
@@ -126,7 +122,6 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.storeSub = this.store.select(selectBrokerDirect).subscribe(direct => this.directMode = direct);
     this.formsSub = this.formsService.getForms().subscribe(forms => this.forms = forms);
     this.selectedFormSub = this.formsService.getSelectedForm().subscribe(this.onSelectedFormChanged.bind(this));
-    this.loadingChangedSub = this.loaderService.onLoadingChangedDelayed.subscribe(loading => this.isLoading = loading);
 
     this.headerSideStyle = this.createheaderSideStyle();
     this.headerSideOverlayStyle = this.createheaderSideOverlayStyle();
@@ -142,7 +137,6 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.storeSub.unsubscribe();
     this.formsSub.unsubscribe();
     this.selectedFormSub.unsubscribe();
-    this.loadingChangedSub.unsubscribe();
   }
 
   public mediaQueryChanged(matches: boolean): void {

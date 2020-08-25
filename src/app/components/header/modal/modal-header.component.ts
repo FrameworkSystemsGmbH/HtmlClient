@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
 import { FormsService } from 'app/services/forms.service';
-import { LoaderService } from 'app/services/loader.service';
 import { BackService } from 'app/services/back-service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
 
@@ -14,17 +13,13 @@ import { BackButtonPriority } from 'app/enums/backbutton-priority';
 })
 export class ModalHeaderComponent implements OnInit, OnDestroy {
 
-  public isLoading: boolean = false;
-
   private _form: FormWrapper;
   private _selectedFormSub: Subscription;
-  private _loadingChangedSub: Subscription;
 
   private onBackButtonListener: () => boolean;
 
   constructor(
     private _backService: BackService,
-    private _loaderService: LoaderService,
     private _formsService: FormsService
   ) { }
 
@@ -33,7 +28,6 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
     this._backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ModalDialog);
 
     this._selectedFormSub = this._formsService.getSelectedForm().subscribe(form => this._form = form);
-    this._loadingChangedSub = this._loaderService.onLoadingChangedDelayed.subscribe(loading => this.isLoading = loading);
   }
 
   public ngOnDestroy(): void {
@@ -43,10 +37,6 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
 
     if (this._selectedFormSub) {
       this._selectedFormSub.unsubscribe();
-    }
-
-    if (this._loadingChangedSub) {
-      this._loadingChangedSub.unsubscribe();
     }
   }
 

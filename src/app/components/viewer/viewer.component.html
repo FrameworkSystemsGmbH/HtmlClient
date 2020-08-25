@@ -1,3 +1,4 @@
 <hc-base-header *ngIf="!isModal"></hc-base-header>
 <hc-modal-header *ngIf="isModal" [ngStyle]="modalHeaderStyle"></hc-modal-header>
 <hc-frame></hc-frame>
+<hc-blocker [@blockerState] *ngIf="isLoading"></hc-blocker>
