@@ -67,15 +67,19 @@ export class FormsService {
   }
 
   public closeForm(form: FormWrapper): void {
-    form.closing = true;
-    const formId: string = form.getId();
-    this.eventsService.fireClose(formId,
-      new InternalEventCallbacks<ClientCloseEvent>(
-        form.isCloseEventAttached.bind(form),
-        null,
-        this.getOnCloseCompletedCallback(formId, form).bind(this)
-      )
-    );
+    if (this._forms.length === 1 && this._forms[0] === form) {
+      this.eventsService.fireApplicationQuitRequest();
+    } else {
+      form.closing = true;
+      const formId: string = form.getId();
+      this.eventsService.fireClose(formId,
+        new InternalEventCallbacks<ClientCloseEvent>(
+          form.isCloseEventAttached.bind(form),
+          null,
+          this.getOnCloseCompletedCallback(formId, form).bind(this)
+        )
+      );
+    }
   }
 
   protected getOnCloseCompletedCallback(formId: string, form: FormWrapper): () => void {

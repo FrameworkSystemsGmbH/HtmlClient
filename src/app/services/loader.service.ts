@@ -5,7 +5,7 @@ import { auditTime, distinctUntilChanged, filter, repeat, takeUntil } from 'rxjs
 @Injectable()
 export class LoaderService {
 
-  private static readonly LOADER_DELAY: number = 100;
+  private static readonly LOADER_DELAY: number = 300;
 
   private _onLoadingChanged: Subject<boolean>;
   private _onLoadingChanged$: Observable<boolean>;
