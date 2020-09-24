@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
+import { IconDefinition, faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 
 import { LoginBroker } from 'app/common/login-broker';
@@ -20,6 +21,10 @@ import * as DomUtil from 'app/util/dom-util';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+
+  public iconPlus: IconDefinition = faPlus;
+  public iconEdit: IconDefinition = faEdit;
+  public iconTrash: IconDefinition = faTrash;
 
   public brokers$: Observable<Array<LoginBroker>>;
   public lastSessionInfo: LastSessionInfo;

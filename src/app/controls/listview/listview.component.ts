@@ -1,4 +1,6 @@
 import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef, Injector } from '@angular/core';
+import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
@@ -7,7 +9,6 @@ import { ListViewWrapper, IHeaderOptions } from 'app/wrappers/listview-wrapper';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { PlatformService } from 'app/services/platform.service';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 
 import * as DomUtil from 'app/util/dom-util';
@@ -46,6 +47,8 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
   @ViewChild('wrapper', { static: true })
   public wrapperEl: ElementRef;
+
+  public iconTimes: IconDefinition = faTimes;
 
   public wrapperStyle: any;
   public headerStyle: any;

@@ -18,10 +18,10 @@
       </mat-card>
 
       <div class="headline">
-        <h3>{{ editorShown ? editingIndex != null && editingIndex >= 0 ? 'Edit Broker' : 'Add Broker' : 'Login' }}</h3>
+        <h3>{{ editorShown ? (editingIndex != null && editingIndex >= 0 ? 'Edit Broker' : 'Add Broker') : 'Login' }}</h3>
         <div class="actions" *ngIf="!editorShown">
           <button mat-button color="primary" (click)="openEditorNew()">
-            <span class="fas fa-fw fa-plus"></span>
+            <fa-icon [icon]="iconPlus" [fixedWidth]="true"></fa-icon>
             <span> New</span>
           </button>
         </div>
@@ -61,10 +61,10 @@
               <h3 class="broker-name">{{ broker.name }}</h3>
               <div class="broker-actions">
                 <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(i, broker)">
-                  <span class="fas fa-fw fa-edit"></span>
+                  <fa-icon [icon]="iconEdit" [fixedWidth]="true"></fa-icon>
                 </button>
                 <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="warn" (click)="deleteBroker(i, broker)">
-                  <span class="fas fa-fw fa-trash"></span>
+                  <fa-icon [icon]="iconTrash" [fixedWidth]="true"></fa-icon>
                 </button>
               </div>
             </div>

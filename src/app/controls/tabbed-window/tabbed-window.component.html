@@ -1,10 +1,10 @@
 <div class="wrapper" [ngStyle]="wrapperStyle">
   <div class="header" [ngStyle]="headerStyle">
     <div #arrowLeft class="arrow arrowLeft" [ngStyle]="arrowHorizontalStyle" (mousedown)="startScrollingUpOrLeft($event)" (mouseup)="stopScrollingUpOrLeft()" (mouseleave)="stopScrollingUpOrLeft()">
-      <i class="fa fa-fw fa-angle-left"></i>
+      <fa-icon [icon]="iconAngleLeft" [fixedWidth]="true"></fa-icon>
     </div>
     <div #arrowUp class="arrow arrowUp" [ngStyle]="arrowVerticalStyle" (mousedown)="startScrollingUpOrLeft($event)" (mouseup)="stopScrollingUpOrLeft()" (mouseleave)="stopScrollingUpOrLeft()">
-      <i class="fa fa-fw fa-angle-up"></i>
+      <fa-icon [icon]="iconAngleUp" [fixedWidth]="true"></fa-icon>
     </div>
     <overlay-scrollbars #scroller class="scroller os-host-flexbox" [options]="scrollerOptions">
       <div #tabs class="tabs" [ngStyle]="tabsStyle">
@@ -14,10 +14,10 @@
       </div>
     </overlay-scrollbars>
     <div #arrowRight class="arrow arrowRight" [ngStyle]="arrowHorizontalStyle" (mousedown)="startScrollingDownOrRight($event)" (mouseup)="stopScrollingDownOrRight()" (mouseleave)="stopScrollingDownOrRight()">
-      <i class="fa fa-fw fa-angle-right"></i>
+      <fa-icon [icon]="iconAngleRight" [fixedWidth]="true"></fa-icon>
     </div>
     <div #arrowDown class="arrow arrowDown" [ngStyle]="arrowVerticalStyle" (mousedown)="startScrollingDownOrRight($event)" (mouseup)="stopScrollingDownOrRight()" (mouseleave)="stopScrollingDownOrRight()">
-      <i class="fa fa-fw fa-angle-down"></i>
+      <fa-icon [icon]="iconAngleDown" [fixedWidth]="true"></fa-icon>
     </div>
   </div>
   <div class="content" [ngStyle]="contentStyle">

@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { IconDefinition, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { IRetryBoxData } from 'app/components/retrybox/retrybox-data.interface';
@@ -16,6 +17,8 @@ export class RetryBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('footer', { static: true })
   public footer: ElementRef;
+
+  public iconExclamation: IconDefinition = faExclamationCircle;
 
   public title: string;
   public message: string;

@@ -8,6 +8,7 @@ import { MsgBoxIcon } from 'app/enums/msgbox-icon';
 import { MsgBoxResult } from 'app/enums/msgbox-result';
 import { BackService } from 'app/services/back-service';
 import { BackButtonPriority } from 'app/enums/backbutton-priority';
+import { IconDefinition, faExclamationCircle, faExclamationTriangle, faInfoCircle, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'hc-msgbox',
@@ -18,6 +19,11 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('footer', { static: true })
   public footer: ElementRef;
+
+  public iconExclamationCircle: IconDefinition = faExclamationCircle;
+  public iconExclamationTriangle: IconDefinition = faExclamationTriangle;
+  public iconInfoCircle: IconDefinition = faInfoCircle;
+  public iconQuestionCircle: IconDefinition = faQuestionCircle;
 
   public title: string;
   public message: string;

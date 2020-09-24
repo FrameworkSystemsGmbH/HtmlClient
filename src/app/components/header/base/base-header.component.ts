@@ -1,6 +1,7 @@
-import { animate, transition, trigger, style } from '@angular/animations';
 import { Component, ViewChild, ElementRef, AfterViewChecked, HostListener, OnInit, OnDestroy, NgZone, Renderer2 } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
+import { IconDefinition, faBars, faAngleLeft, faAngleRight, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { animate, transition, trigger, style } from '@angular/animations';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -68,6 +69,12 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   @ViewChild('tabs', { static: true })
   public tabs: ElementRef;
+
+  public iconBars: IconDefinition = faBars;
+  public iconTimes: IconDefinition = faTimes;
+  public iconAngleLeft: IconDefinition = faAngleLeft;
+  public iconAngleRight: IconDefinition = faAngleRight;
+  public iconSignOut: IconDefinition = faSignOutAlt;
 
   public forms: Array<FormWrapper>;
   public selectedForm: FormWrapper;

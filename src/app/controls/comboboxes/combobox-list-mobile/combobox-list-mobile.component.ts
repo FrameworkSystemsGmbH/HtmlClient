@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild, Injector } from '@angular/core';
+import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { ComboBoxMobileComponent } from 'app/controls/comboboxes/combobox-mobile.component';
@@ -19,6 +20,8 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
   @ViewChild('arrow', { static: true })
   public arrow: ElementRef;
+
+  public iconCaretDown: IconDefinition = faCaretDown;
 
   private overlayShown: boolean;
 

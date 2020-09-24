@@ -4,10 +4,10 @@
       <span>{{ title }}</span>
     </div>
     <div class="hc-msgbox-header-icon" *ngIf="icon !== iconType.None" [ngSwitch]="icon">
-      <i *ngSwitchCase="iconType.Error" class="fas fa-exclamation-circle fa-2x"></i>
-      <i *ngSwitchCase="iconType.Exclamation" class="fas fa-exclamation-triangle fa-2x"></i>
-      <i *ngSwitchCase="iconType.Information" class="fas fa-info-circle fa-2x"></i>
-      <i *ngSwitchCase="iconType.Question" class="fas fa-question-circle fa-2x"></i>
+      <fa-icon *ngSwitchCase="iconType.Error" class="fa-exclamation-circle" [icon]="iconExclamationCircle" size="2x"></fa-icon>
+      <fa-icon *ngSwitchCase="iconType.Exclamation" class="fa-exclamation-triangle" [icon]="iconExclamationTriangle" size="2x"></fa-icon>
+      <fa-icon *ngSwitchCase="iconType.Information" class="fa-info-circle" [icon]="iconInfoCircle" size="2x"></fa-icon>
+      <fa-icon *ngSwitchCase="iconType.Question" class="fa-question-circle" [icon]="iconQuestionCircle" size="2x"></fa-icon>
     </div>
   </div>
   <div class="hc-msgbox-message">

@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, Injector } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { Subscription, fromEvent } from 'rxjs';
 
 import { ComboBoxDesktopComponent } from 'app/controls/comboboxes/combobox-desktop.component';
@@ -34,6 +35,8 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
 
   @ViewChild('scroller', { static: true })
   public scroller: ElementRef;
+
+  public iconCaretDown: IconDefinition = faCaretDown;
 
   public tabIndexAttr: number;
   public isReadOnlyAttr: boolean;

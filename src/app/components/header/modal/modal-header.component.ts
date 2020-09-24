@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 
 import { FormWrapper } from 'app/wrappers/form-wrapper';
@@ -12,6 +13,8 @@ import { BackButtonPriority } from 'app/enums/backbutton-priority';
   styleUrls: ['./modal-header.component.scss']
 })
 export class ModalHeaderComponent implements OnInit, OnDestroy {
+
+  public iconTimes: IconDefinition = faTimes;
 
   private _form: FormWrapper;
   private _selectedFormSub: Subscription;

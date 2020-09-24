@@ -5,6 +5,7 @@ import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -64,6 +65,7 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
     ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
+    FontAwesomeModule,
     OverlayscrollbarsModule,
     StoreModule.forRoot(appReducer),
     StoreDevtoolsModule.instrument({

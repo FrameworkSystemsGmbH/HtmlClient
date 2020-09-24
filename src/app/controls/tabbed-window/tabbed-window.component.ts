@@ -1,4 +1,5 @@
 import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, ElementRef, AfterViewInit, NgZone, Renderer2, HostListener, Injector } from '@angular/core';
+import { IconDefinition, faAngleLeft, faAngleRight, faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
@@ -44,6 +45,11 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   @ViewChild('tabs', { static: true })
   public tabs: ElementRef;
+
+  public iconAngleLeft: IconDefinition = faAngleLeft;
+  public iconAngleRight: IconDefinition = faAngleRight;
+  public iconAngleUp: IconDefinition = faAngleUp;
+  public iconAngleDown: IconDefinition = faAngleDown;
 
   public tabPages: Array<TabPageWrapper>;
   public tabAlignment: TabAlignment;

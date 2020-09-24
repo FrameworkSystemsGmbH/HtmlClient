@@ -4,7 +4,7 @@
   </div>
   <div class="header-right" *ngIf="getIsCloseIconVisible()">
     <button id="closeButton" (click)="closeForm()">
-      <span class="fas fa-fw fa-times fa-lg"></span>
+      <fa-icon [icon]="iconTimes" [fixedWidth]="true" size="lg"></fa-icon>
     </button>
   </div>
 </nav>
