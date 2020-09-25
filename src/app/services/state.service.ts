@@ -159,6 +159,7 @@ export class StateService {
       activeBrokerDirect: this.brokerState.activeBrokerDirect,
       activeBrokerFilesUrl: this.brokerState.activeBrokerFilesUrl,
       activeBrokerImageUrl: this.brokerState.activeBrokerImageUrl,
+      activeBrokerReportUrl: this.brokerState.activeBrokerReportUrl,
       activeBrokerRequestUrl: this.brokerState.activeBrokerRequestUrl
     };
 
@@ -217,6 +218,7 @@ export class StateService {
         activeBrokerFilesUrl: store.activeBrokerFilesUrl,
         activeBrokerImageUrl: store.activeBrokerImageUrl,
         activeBrokerName: store.activeBrokerName,
+        activeBrokerReportUrl: store.activeBrokerReportUrl,
         activeBrokerRequestUrl: store.activeBrokerRequestUrl,
         activeBrokerToken: store.activeBrokerToken,
         activeBrokerUrl: store.activeBrokerUrl

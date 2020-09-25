@@ -8,13 +8,13 @@ import { BarcodeService } from 'app/services/actions/barcode.service';
 import { FormsService } from 'app/services/forms.service';
 import { GeoLocationService } from 'app/services/actions/geolocation.service';
 import { CameraService } from 'app/services/actions/camera.service';
+import { PrintReportService } from 'app/services/actions/print-report.service';
 import { ViewDocService } from 'app/services/actions/viewdoc.service';
 import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wrapper';
 
 @Injectable()
 export class ActionsService {
 
-  private _viewDocumentUrl: string;
   private _focusActions: Array<() => void>;
 
   constructor(
@@ -22,6 +22,7 @@ export class ActionsService {
     private _formsService: FormsService,
     private _geoLocationService: GeoLocationService,
     private _cameraService: CameraService,
+    private _printReportService: PrintReportService,
     private _viewDocService: ViewDocService
   ) { }
 
@@ -30,7 +31,8 @@ export class ActionsService {
       return;
     }
 
-    this._viewDocumentUrl = null;
+    let reportId: string = null;
+    let viewDocumentUrl: string = null;
 
     this.clearFocusActions();
 
@@ -84,15 +86,22 @@ export class ActionsService {
           case 'GetGeoLocation':
             this._geoLocationService.getGeoLocation();
             break;
+          case 'PrintReport':
+            reportId = actionJson.id;
+            break;
           case 'ViewDocument':
-            this._viewDocumentUrl = actionJson.url;
+            viewDocumentUrl = actionJson.url;
             break;
         }
       }
     }
 
-    if (!String.isNullOrWhiteSpace(this._viewDocumentUrl)) {
-      this._viewDocService.viewDocument(this._viewDocumentUrl);
+    if (!String.isNullOrWhiteSpace(reportId)) {
+      this._printReportService.printReport(reportId);
+    }
+
+    if (!String.isNullOrWhiteSpace(viewDocumentUrl)) {
+      this._viewDocService.viewDocument(viewDocumentUrl);
     }
   }
 

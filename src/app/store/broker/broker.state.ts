@@ -5,6 +5,7 @@ export interface IBrokerState {
   activeBrokerDirect?: boolean;
   activeBrokerFilesUrl?: string;
   activeBrokerImageUrl?: string;
+  activeBrokerReportUrl?: string;
   activeBrokerRequestUrl?: string;
 }
 
@@ -15,5 +16,6 @@ export const initialBrokerState: IBrokerState = {
   activeBrokerDirect: null,
   activeBrokerFilesUrl: null,
   activeBrokerImageUrl: null,
+  activeBrokerReportUrl: null,
   activeBrokerRequestUrl: null
 };

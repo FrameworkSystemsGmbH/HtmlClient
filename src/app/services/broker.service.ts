@@ -32,7 +32,7 @@ import { RequestType } from 'app/enums/request-type';
 import { ResponseResult } from 'app/enums/response-result';
 
 import { IBrokerState } from 'app/store/broker/broker.state';
-import { selectBrokerState } from 'app/store/broker/broker.selectors';
+import { selectBrokerState, selectBrokerReportUrl } from 'app/store/broker/broker.selectors';
 import { setBrokerState, resetBrokerState } from 'app/store/broker/broker.actions';
 
 import * as Moment from 'moment-timezone';
@@ -158,6 +158,7 @@ export class BrokerService {
       const url: string = broker.url;
       const fileUrl: string = url.trimCharsRight('/') + '/';
       const imageUrl: string = url.trimCharsRight('/') + '/api/image';
+      const reportUrl: string = url.trimCharsRight('/') + '/api/report';
       const requestUrl: string = url.trimCharsRight('/') + '/api/process';
 
       if (options != null && !String.isNullOrWhiteSpace(options.languages)) {
@@ -170,6 +171,7 @@ export class BrokerService {
           activeBrokerFilesUrl: fileUrl,
           activeBrokerImageUrl: imageUrl,
           activeBrokerName: name,
+          activeBrokerReportUrl: reportUrl,
           activeBrokerRequestUrl: requestUrl,
           activeBrokerUrl: url
         }

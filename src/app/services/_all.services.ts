@@ -19,6 +19,7 @@ import { LoaderService } from 'app/services/loader.service';
 import { LoginService } from 'app/services/login.service';
 import { LocaleService } from 'app/services/locale.service';
 import { PlatformService } from 'app/services/platform.service';
+import { PrintReportService } from 'app/services/actions/print-report.service';
 import { RoutingService } from 'app/services/routing.service';
 import { StateService } from 'app/services/state.service';
 import { StorageService } from 'app/services/storage.service';
@@ -62,6 +63,7 @@ const services = [
   LoginService,
   LocaleService,
   PlatformService,
+  PrintReportService,
   RoutingService,
   StateService,
   StorageService,

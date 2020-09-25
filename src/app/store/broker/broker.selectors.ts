@@ -10,3 +10,5 @@ export const selectBrokerDirect = createSelector(selectBrokerState, state => sta
 export const selectBrokerName = createSelector(selectBrokerState, state => state.activeBrokerName);
 
 export const selectBrokerFilesUrl = createSelector(selectBrokerState, state => state.activeBrokerFilesUrl);
+
+export const selectBrokerReportUrl = createSelector(selectBrokerState, state => state.activeBrokerReportUrl);
