@@ -1,10 +1,9 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef, ComponentRef, Injector } from '@angular/core';
+import { Component, ViewChild, ElementRef, Injector } from '@angular/core';
 
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
 import { ControlComponent } from 'app/controls/control.component';
 import { TemplateControlWrapper } from 'app/wrappers/template-control-wrapper';
-import { TemplateControlContentComponent } from 'app/controls/template-control/template-control-content.component';
 import { BaseFormatService } from 'app/services/formatter/base-format.service';
 import { ParseMethod } from 'app/enums/parse-method';
 
@@ -15,19 +14,15 @@ import * as StyleUtil from 'app/util/style-util';
   templateUrl: './template-control.component.html',
   styleUrls: ['./template-control.component.scss']
 })
-export class TemplateControlComponent extends ControlComponent implements OnInit {
-
-  @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+export class TemplateControlComponent extends ControlComponent {
 
   @ViewChild('wrapper', { static: true })
   public wrapperEl: ElementRef;
 
-  public wrapperStyle: any;
+  @ViewChild('content', { static: true })
+  public contentEl: ElementRef;
 
-  private values: Array<string>;
-  private contentCompRef: ComponentRef<TemplateControlContentComponent>;
-  private contentCompInstance: TemplateControlContentComponent;
+  public wrapperStyle: any;
 
   private baseFormatService: BaseFormatService;
 
@@ -40,37 +35,29 @@ export class TemplateControlComponent extends ControlComponent implements OnInit
     this.baseFormatService = this.getInjector().get(BaseFormatService);
   }
 
-  public ngOnInit(): void {
-    this.attachContentComponent();
-    this.updateComponent();
-  }
-
   public getWrapper(): TemplateControlWrapper {
     return super.getWrapper() as TemplateControlWrapper;
   }
 
   public setWrapper(wrapper: TemplateControlWrapper): void {
     super.setWrapper(wrapper);
-  }
 
-  private attachContentComponent(): void {
-    this.contentCompRef = this.anchor.createComponent(this.getWrapper().getTemplateFactory());
-    this.contentCompInstance = this.contentCompRef.instance;
+    const templateCss: string = wrapper.getViewTemplateCss();
+    const templateHtml: string = wrapper.getViewTemplateHtml();
+
+    this.contentEl.nativeElement.init(templateCss, templateHtml);
   }
 
   protected updateData(wrapper: TemplateControlWrapper): void {
     super.updateData(wrapper);
-    this.values = wrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), ParseMethod.Server, v.getFormat(), v.getFormatPattern()));
-    this.setContentValues();
-  }
 
-  private setContentValues(): void {
-    if (!this.contentCompInstance) {
-      return;
+    const formattedValues: Array<string> = new Array<string>();
+
+    for (const templateValue of wrapper.getViewTemplateValues()) {
+      formattedValues.push(this.baseFormatService.formatString(templateValue.getValue(), ParseMethod.Server, templateValue.getFormat(), templateValue.getFormatPattern()));
     }
 
-    this.contentCompInstance.enabled = this.isEditable;
-    this.contentCompInstance.values = this.values;
+    this.contentEl.nativeElement.update(this.isEditable, formattedValues);
   }
 
   protected updateStyles(wrapper: TemplateControlWrapper): void {

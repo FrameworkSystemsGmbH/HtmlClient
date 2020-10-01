@@ -1,19 +1,16 @@
-import { ComponentRef, ComponentFactory, Component, NgModule, Compiler, Injector } from '@angular/core';
+import { Injector, ComponentRef, ComponentFactory } from '@angular/core';
 
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
 
 import { ControlWrapper } from 'app/wrappers/control-wrapper';
-import { ListViewComponent } from 'app/controls/listview/listview.component';
 import { ControlType } from 'app/enums/control-type';
 import { TextFormat } from 'app/enums/text-format';
 import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
 import { ImageService } from 'app/services/image.service';
 import { TemplateControlTemplateDataSourceWrapper } from 'app/wrappers/template-control-template-datasource-wrapper';
 import { TemplateControlTemplateVariableWrapper, ITemplateControlTemplateVariableWrapperOptions } from 'app/wrappers/template-control-template-variable-wrapper';
-import { TemplateControlContentComponent } from 'app/controls/template-control/template-control-content.component';
 import { TemplateControlComponent } from 'app/controls/template-control/template-control.component';
 import { TemplateControlValueWrapper } from 'app/wrappers/template-control-value-wrapper';
-import { TemplateControlContentModule } from 'app/controls/template-control/template-control-content.module';
 
 export class TemplateControlWrapper extends ControlWrapper {
 
@@ -21,25 +18,20 @@ export class TemplateControlWrapper extends ControlWrapper {
   public static readonly PART_F: string = 'f:';
   public static readonly PART_FP: string = 'fp:';
 
-  private static _factoryBuffer: Map<string, ComponentFactory<TemplateControlContentComponent>> = new Map<string, ComponentFactory<TemplateControlContentComponent>>();
-
-  private compiler: Compiler;
   private imageService: ImageService;
   private patternFormatService: PatternFormatService;
-  private templateHtml: string;
   private templateCss: string;
+  private templateHtml: string;
   private templateDataSources: Array<TemplateControlTemplateDataSourceWrapper>;
   private templateVariables: Array<TemplateControlTemplateVariableWrapper>;
-  private templateFactory: ComponentFactory<TemplateControlContentComponent>;
-  private values: Array<TemplateControlValueWrapper>;
+  private templateValues: Array<TemplateControlValueWrapper>;
 
   protected init(): void {
     super.init();
     const injector: Injector = this.getInjector();
     this.templateDataSources = new Array<TemplateControlTemplateDataSourceWrapper>();
     this.templateVariables = new Array<TemplateControlTemplateVariableWrapper>();
-    this.values = new Array<TemplateControlValueWrapper>();
-    this.compiler = injector.get(Compiler);
+    this.templateValues = new Array<TemplateControlValueWrapper>();
     this.imageService = injector.get(ImageService);
     this.patternFormatService = injector.get(PatternFormatService);
   }
@@ -48,33 +40,33 @@ export class TemplateControlWrapper extends ControlWrapper {
     return ControlType.TemplateControl;
   }
 
-  protected getComponentRef(): ComponentRef<ListViewComponent> {
-    return super.getComponentRef() as ComponentRef<ListViewComponent>;
+  protected getComponentRef(): ComponentRef<TemplateControlComponent> {
+    return super.getComponentRef() as ComponentRef<TemplateControlComponent>;
   }
 
-  protected getComponent(): ListViewComponent {
-    const compRef: ComponentRef<ListViewComponent> = this.getComponentRef();
+  protected getComponent(): TemplateControlComponent {
+    const compRef: ComponentRef<TemplateControlComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
-  }
-
-  public getTemplateHtml(): string {
-    return this.getPropertyStore().getTemplateHtml();
   }
 
   public getTemplateCss(): string {
     return this.getPropertyStore().getTemplateCss();
   }
 
-  public getViewTemplate(): string {
-    return this.templateHtml;
+  public getTemplateHtml(): string {
+    return this.getPropertyStore().getTemplateHtml();
   }
 
   public getViewTemplateCss(): string {
     return this.templateCss;
   }
 
-  public getValues(): Array<TemplateControlValueWrapper> {
-    return this.values;
+  public getViewTemplateHtml(): string {
+    return this.templateHtml;
+  }
+
+  public getViewTemplateValues(): Array<TemplateControlValueWrapper> {
+    return this.templateValues;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<TemplateControlComponent> {
@@ -93,63 +85,73 @@ export class TemplateControlWrapper extends ControlWrapper {
       this.templateDataSources = this.parseTemplateDataSourceList(propertiesJson.templateDataSourceList);
     }
 
-    this.templateHtml = this.parseViewTemplate();
     this.templateCss = this.getPropertyStore().getTemplateCss();
+    this.templateHtml = this.parseViewTemplate();
 
     if (String.isNullOrWhiteSpace(this.templateHtml)) {
       this.setErrorTemplate();
     }
-
-    this.templateFactory = this.compileTemplateControlComponent();
   }
 
   protected setDataJson(dataJson: any): void {
     super.setDataJson(dataJson);
 
     if (dataJson && dataJson.templateControlData) {
-      const valueMap: Map<string, string> = new Map<string, string>();
+      const dsValueMap: Map<string, string> = new Map<string, string>();
 
       if (dataJson.templateControlData.values && dataJson.templateControlData.values.length) {
         for (const value of dataJson.templateControlData.values) {
-          valueMap.set(value.name, value.value);
+          dsValueMap.set(value.name, value.value);
         }
       }
 
-      this.values = this.getValueList(valueMap);
+      this.templateValues = this.getTemplateValues(dsValueMap);
     }
   }
 
-  public getTemplateFactory(): ComponentFactory<TemplateControlContentComponent> {
-    return this.templateFactory;
-  }
-
-  private getValueList(valueMap: Map<string, string>): Array<TemplateControlValueWrapper> {
-    const values: Array<TemplateControlValueWrapper> = new Array<TemplateControlValueWrapper>();
+  private getTemplateValues(valueMap: Map<string, string>): Array<TemplateControlValueWrapper> {
+    const templateValues: Array<TemplateControlValueWrapper> = new Array<TemplateControlValueWrapper>();
 
     for (const templateVar of this.templateVariables) {
       const valueStr: string = valueMap.get(templateVar.getDataSource().getName());
-      values.push(new TemplateControlValueWrapper(valueStr, templateVar.getFormat(), templateVar.getFormatPattern()));
+      templateValues.push(new TemplateControlValueWrapper(valueStr, templateVar.getFormat(), templateVar.getFormatPattern()));
     }
 
-    return values;
+    return templateValues;
+  }
+
+  private parseTemplateDataSourceList(templateDataSourceListJson: Array<any>): Array<TemplateControlTemplateDataSourceWrapper> {
+    if (!templateDataSourceListJson || !templateDataSourceListJson.length) {
+      return null;
+    }
+
+    const templateDataSourceList: Array<TemplateControlTemplateDataSourceWrapper> = new Array<TemplateControlTemplateDataSourceWrapper>();
+
+    for (const templateDataSourceJson of templateDataSourceListJson) {
+      templateDataSourceList.push(new TemplateControlTemplateDataSourceWrapper(templateDataSourceJson.dataSourceName, templateDataSourceJson.dataSourceTypeID));
+    }
+
+    return templateDataSourceList;
   }
 
   private parseViewTemplate(): string {
-    let template: string = this.getTemplateHtml();
+    let templateHtml: string = this.getPropertyStore().getTemplateHtml();
 
-    if (String.isNullOrWhiteSpace(template)) {
+    this.templateVariables = new Array<TemplateControlTemplateVariableWrapper>();
+
+    if (String.isNullOrWhiteSpace(templateHtml)) {
       return null;
     }
 
     const regEx: RegExp = /{{2}([^}]|[^}])*}{2}/g;
-    const matches: RegExpMatchArray = template.match(regEx);
+    const matches: RegExpMatchArray = templateHtml.match(regEx);
 
     if (!matches || !matches.length) {
-      return template;
+      return templateHtml;
     }
 
-    for (let i = 0; i < matches.length; i++) {
-      const matchTrimmed: string = matches[i].trimStringLeft('{{').trimCharsRight('}}').trim();
+    for (const match of matches) {
+      const matchTrimmed: string = match.trimStringLeft('{{').trimCharsRight('}}').trim();
       const parts: Array<string> = matchTrimmed.split('|');
 
       let ds: TemplateControlTemplateDataSourceWrapper;
@@ -170,7 +172,7 @@ export class TemplateControlWrapper extends ControlWrapper {
           ds = this.templateDataSources.find(tds => tds.getName() === dsStr);
 
           if (!ds) {
-            throw new Error(`Could not find TemplateDataSource '${dsStr}' for TemplateVariable with index ${i}!`);
+            throw new Error(`Could not find TemplateDataSource '${dsStr}' for TemplateVariable '${match}'!`);
           }
 
           continue;
@@ -204,58 +206,18 @@ export class TemplateControlWrapper extends ControlWrapper {
 
       this.templateVariables.push(new TemplateControlTemplateVariableWrapper(ds, options));
 
-      template = template.replace(matches[i], `{{ values[${i}] }}`);
+      templateHtml = templateHtml.replace(match, `<span data-var></span>`);
     }
 
     // Replace placeholders
-    template = template.replace(/%FILESURL%/g, this.imageService.getFilesUrl());
+    templateHtml = templateHtml.replace(/%FILESURL%/g, this.imageService.getFilesUrl());
 
-    return template;
-  }
-
-  private parseTemplateDataSourceList(templateDataSourceListJson: Array<any>): Array<TemplateControlTemplateDataSourceWrapper> {
-    if (!templateDataSourceListJson || !templateDataSourceListJson.length) {
-      return null;
-    }
-
-    const templateDataSourceList: Array<TemplateControlTemplateDataSourceWrapper> = new Array<TemplateControlTemplateDataSourceWrapper>();
-
-    for (const templateDataSourceJson of templateDataSourceListJson) {
-      templateDataSourceList.push(new TemplateControlTemplateDataSourceWrapper(templateDataSourceJson.dataSourceName, templateDataSourceJson.dataSourceTypeID));
-    }
-
-    return templateDataSourceList;
+    return templateHtml;
   }
 
   private setErrorTemplate(): void {
-    this.templateHtml = '<div class="wrapper">Template NULL</div>';
-    this.templateCss = '.wrapper { display: flex; justify-content: center; align-items: center; }';
-  }
-
-  private compileTemplateControlComponent(): ComponentFactory<TemplateControlContentComponent> {
-    const id: string = `${this.getForm().getName()}.${this.getName()}`;
-
-    // Return buffered factory if there is one
-    if (TemplateControlWrapper._factoryBuffer.has(id)) {
-      return TemplateControlWrapper._factoryBuffer.get(id);
-    }
-
-    const tplHtml: string = '<div class="tpl" [attr.tplDisabled]="enabled ? null : true">' + this.templateHtml + '</div>';
-    const tplCss: string = ':host { flex: 1; display: flex; flex-direction: column; } .tpl { flex: 1; box-sizing: border-box; }';
-
-    const tplContentComp = Component({
-      selector: TemplateControlContentComponent.SELECTOR,
-      template: tplHtml,
-      styles: this.templateCss != null ? [tplCss, this.templateCss] : [tplCss]
-    })(class extends TemplateControlContentComponent { });
-
-    const tplContentMod = NgModule({ declarations: [tplContentComp] })(class extends TemplateControlContentModule { });
-
-    const factory: ComponentFactory<TemplateControlContentComponent> = this.compiler.compileModuleAndAllComponentsSync(tplContentMod).componentFactories[0];
-
-    TemplateControlWrapper._factoryBuffer.set(id, factory);
-
-    return factory;
+    this.templateCss = '.tpl { display: flex; align-items: center; justify-content: center; }';
+    this.templateHtml = 'Template NULL';
   }
 
   public getState(): any {
@@ -293,7 +255,7 @@ export class TemplateControlWrapper extends ControlWrapper {
 
     const valuesJson: Array<any> = new Array<any>();
 
-    for (const value of this.values) {
+    for (const value of this.templateValues) {
       valuesJson.push({
         value: value.getValue(),
         format: value.getFormat(),
@@ -340,12 +302,10 @@ export class TemplateControlWrapper extends ControlWrapper {
     }
 
     if (json.values && json.values.length) {
-      this.values = new Array<TemplateControlValueWrapper>();
+      this.templateValues = new Array<TemplateControlValueWrapper>();
       for (const valueJson of json.values) {
-        this.values.push(new TemplateControlValueWrapper(valueJson.value, valueJson.format, valueJson.formatPattern));
+        this.templateValues.push(new TemplateControlValueWrapper(valueJson.value, valueJson.format, valueJson.formatPattern));
       }
     }
-
-    this.templateFactory = this.compileTemplateControlComponent();
   }
 }

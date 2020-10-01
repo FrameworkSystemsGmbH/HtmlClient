@@ -32,7 +32,7 @@ import { RequestType } from 'app/enums/request-type';
 import { ResponseResult } from 'app/enums/response-result';
 
 import { IBrokerState } from 'app/store/broker/broker.state';
-import { selectBrokerState, selectBrokerReportUrl } from 'app/store/broker/broker.selectors';
+import { selectBrokerState } from 'app/store/broker/broker.selectors';
 import { setBrokerState, resetBrokerState } from 'app/store/broker/broker.actions';
 
 import * as Moment from 'moment-timezone';

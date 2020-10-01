@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler, COMPILER_OPTIONS, CompilerFactory, Compiler } from '@angular/core';
+import { NgModule, ErrorHandler, COMPILER_OPTIONS, CUSTOM_ELEMENTS_SCHEMA, CompilerFactory, Compiler } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
@@ -39,6 +39,9 @@ import { HammerConfig } from 'app/common/hammer/hammer-config';
 import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 
 @NgModule({
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
   entryComponents: [
     ErrorBoxComponent,
     MsgBoxComponent,
