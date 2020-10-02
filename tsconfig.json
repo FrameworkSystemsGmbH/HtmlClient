@@ -6,7 +6,7 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "module": "esnext",
+    "module": "es2020",
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -17,7 +17,7 @@
       "node_modules/@types"
     ],
     "lib": [
-      "es2015",
+      "es2018",
       "dom"
     ],
     "paths": {
