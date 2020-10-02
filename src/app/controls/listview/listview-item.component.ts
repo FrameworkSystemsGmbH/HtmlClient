@@ -1,5 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ComponentRef, ElementRef } from '@angular/core';
-import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
@@ -25,8 +24,8 @@ export class ListViewItemComponent implements OnInit {
   @ViewChild('selector', { read: ElementRef, static: true })
   public selector: ElementRef;
 
-  @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+  @ViewChild('content', { static: true })
+  public contentEl: ElementRef;
 
   public isMouseDown: boolean;
   public isEditable: boolean;
@@ -35,7 +34,6 @@ export class ListViewItemComponent implements OnInit {
   public selectorStyle: any;
 
   private id: string;
-  private values: Array<string>;
   private width: number;
   private height: number;
   private selectedVal: boolean;
@@ -44,8 +42,6 @@ export class ListViewItemComponent implements OnInit {
   private selectorPosition: ListViewSelectorPosition;
   private itemWrapper: ListViewItemWrapper;
   private listViewWrapper: ListViewWrapper;
-  private contentCompRef: ComponentRef<ListViewItemContentComponent>;
-  private contentCompInstance: ListViewItemContentComponent;
 
   constructor(
     private baseFormatService: BaseFormatService,
@@ -74,7 +70,6 @@ export class ListViewItemComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.attachContentComponent();
     this.updateComponent();
   }
 
@@ -116,6 +111,11 @@ export class ListViewItemComponent implements OnInit {
   public setWrapper(itemWrapper: ListViewItemWrapper): void {
     this.itemWrapper = itemWrapper;
     this.listViewWrapper = itemWrapper.getListViewWrapper();
+
+    const templateCss: string = this.listViewWrapper.getViewTemplateCss();
+    const templateHtml: string = this.listViewWrapper.getViewTemplateHtml();
+
+    this.contentEl.nativeElement.init(templateCss, templateHtml);
   }
 
   private updateWrapper(): void {
@@ -134,10 +134,17 @@ export class ListViewItemComponent implements OnInit {
     this.isEditable = this.listViewWrapper.getIsEditable();
     this.selectionMode = this.listViewWrapper.getSelectionMode();
     this.selectorPosition = this.listViewWrapper.getSelectorPosition();
-    this.values = itemWrapper.getValues().map(v => this.baseFormatService.formatString(v.getValue(), ParseMethod.Server, v.getFormat(), v.getFormatPattern()));
     this.selectedVal = itemWrapper.getSelected();
+
+    const formattedValues: Array<string> = new Array<string>();
+
+    for (const templateValue of itemWrapper.getViewTemplateValues()) {
+      formattedValues.push(this.baseFormatService.formatString(templateValue.getValue(), ParseMethod.Server, templateValue.getFormat(), templateValue.getFormatPattern()));
+    }
+
+    this.contentEl.nativeElement.update(this.isEditable, formattedValues);
+
     itemWrapper.confirmContentUpdate();
-    this.setContentValues();
   }
 
   private updateStyles(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper): void {
@@ -220,20 +227,6 @@ export class ListViewItemComponent implements OnInit {
     }
 
     return selectorStyle;
-  }
-
-  private attachContentComponent(): void {
-    this.contentCompRef = this.anchor.createComponent(this.listViewWrapper.getItemFactory());
-    this.contentCompInstance = this.contentCompRef.instance;
-  }
-
-  private setContentValues(): void {
-    if (!this.contentCompInstance) {
-      return;
-    }
-
-    this.contentCompInstance.enabled = this.isEditable;
-    this.contentCompInstance.values = this.values;
   }
 
   public onPress(event: any): void {

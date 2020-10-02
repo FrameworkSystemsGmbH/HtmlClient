@@ -60,7 +60,7 @@ export class ListViewItemWrapper {
     this._selected = selected;
   }
 
-  public getValues(): Array<ListViewItemValueWrapper> {
+  public getViewTemplateValues(): Array<ListViewItemValueWrapper> {
     return this._values;
   }
 

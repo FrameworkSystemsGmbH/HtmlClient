@@ -1,7 +1,6 @@
-import { NgModule, ErrorHandler, COMPILER_OPTIONS, CUSTOM_ELEMENTS_SCHEMA, CompilerFactory, Compiler } from '@angular/core';
+import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -84,21 +83,6 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerConfig
-    },
-    {
-      provide: COMPILER_OPTIONS,
-      useValue: {},
-      multi: true
-    },
-    {
-      provide: CompilerFactory,
-      useClass: JitCompilerFactory,
-      deps: [COMPILER_OPTIONS]
-    },
-    {
-      provide: Compiler,
-      useFactory: (factory: CompilerFactory) => factory.createCompiler(),
-      deps: [CompilerFactory]
     },
     ALL_SERVICES
   ],

@@ -85,7 +85,7 @@ export class TemplateControlWrapper extends ControlWrapper {
       this.templateDataSources = this.parseTemplateDataSourceList(propertiesJson.templateDataSourceList);
     }
 
-    this.templateCss = this.getPropertyStore().getTemplateCss();
+    this.templateCss = this.getTemplateCss();
     this.templateHtml = this.parseViewTemplate();
 
     if (String.isNullOrWhiteSpace(this.templateHtml)) {
@@ -135,7 +135,7 @@ export class TemplateControlWrapper extends ControlWrapper {
   }
 
   private parseViewTemplate(): string {
-    let templateHtml: string = this.getPropertyStore().getTemplateHtml();
+    let templateHtml: string = this.getTemplateHtml();
 
     this.templateVariables = new Array<TemplateControlTemplateVariableWrapper>();
 

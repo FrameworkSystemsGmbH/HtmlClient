@@ -1,4 +1,4 @@
-import { ComponentRef, ComponentFactory, Component, NgModule, Compiler, Injector } from '@angular/core';
+import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
 
 import { IListViewLayoutControl } from 'app/layout/listview-layout/listview-layout-control.interface';
 import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
@@ -10,8 +10,6 @@ import { ControlType } from 'app/enums/control-type';
 import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
 import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
 import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
-import { ListViewItemContentComponent } from 'app/controls/listview/listview-item-content.component';
-import { ListViewItemContentModule } from 'app/controls/listview/listview-item-content.module';
 import { ListViewTemplateDataSourceWrapper } from 'app/wrappers/listview-template-datasource-wrapper';
 import { TextFormat } from 'app/enums/text-format';
 import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
@@ -38,9 +36,6 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   public static readonly PART_F: string = 'f:';
   public static readonly PART_FP: string = 'fp:';
 
-  private static _factoryBuffer: Map<string, ComponentFactory<ListViewItemContentComponent>> = new Map<string, ComponentFactory<ListViewItemContentComponent>>();
-
-  private compiler: Compiler;
   private imageService: ImageService;
   private patternFormatService: PatternFormatService;
   private mobileSelectionModeEnabled: boolean;
@@ -49,7 +44,6 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   private templateDataSources: Array<ListViewTemplateDataSourceWrapper>;
   private templateVariables: Array<ListViewTemplateVariableWrapper>;
   private items: Array<ListViewItemWrapper>;
-  private itemFactory: ComponentFactory<ListViewItemContentComponent>;
 
   protected init(): void {
     super.init();
@@ -57,7 +51,6 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     this.templateDataSources = new Array<ListViewTemplateDataSourceWrapper>();
     this.templateVariables = new Array<ListViewTemplateVariableWrapper>();
     this.items = new Array<ListViewItemWrapper>();
-    this.compiler = injector.get(Compiler);
     this.imageService = injector.get(ImageService);
     this.patternFormatService = injector.get(PatternFormatService);
   }
@@ -126,24 +119,20 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     return Number.zeroIfNull(this.getPropertyStore().getItemHeight());
   }
 
-  public getTemplateHtml(): string {
-    return this.getPropertyStore().getTemplateHtml();
-  }
-
   public getTemplateCss(): string {
     return this.getPropertyStore().getTemplateCss();
   }
 
-  public getViewTemplate(): string {
-    return this.templateHtml;
+  public getTemplateHtml(): string {
+    return this.getPropertyStore().getTemplateHtml();
   }
 
   public getViewTemplateCss(): string {
     return this.templateCss;
   }
 
-  public getItemFactory(): ComponentFactory<ListViewItemContentComponent> {
-    return this.itemFactory;
+  public getViewTemplateHtml(): string {
+    return this.templateHtml;
   }
 
   public getItems(): Array<ListViewItemWrapper> {
@@ -252,14 +241,12 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       this.templateDataSources = this.parseTemplateDataSourceList(propertiesJson.templateDataSourceList);
     }
 
+    this.templateCss = this.getTemplateCss();
     this.templateHtml = this.parseViewTemplate();
-    this.templateCss = this.getPropertyStore().getTemplateCss();
 
     if (String.isNullOrWhiteSpace(this.templateHtml)) {
       this.setErrorTemplate();
     }
-
-    this.itemFactory = this.compileListViewItemComponent();
   }
 
   protected setDataJson(dataJson: any): void {
@@ -293,23 +280,23 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       } else {
         const isNew: boolean = itemJson.new;
         const pos: number = itemJson.pos;
-        const valueMap: Map<string, string> = new Map<string, string>();
+        const dsValueMap: Map<string, string> = new Map<string, string>();
 
         if (itemJson.values && itemJson.values.length) {
           for (const value of itemJson.values) {
-            valueMap.set(value.name, value.value);
+            dsValueMap.set(value.name, value.value);
           }
         }
 
-        const values: Array<ListViewItemValueWrapper> = this.getValueList(valueMap);
+        const templateValues: Array<ListViewItemValueWrapper> = this.getTemplateValues(dsValueMap);
 
         if (isNew) {
-          this.items.push(new ListViewItemWrapper(this.getInjector(), { id, listViewWrapper: this, pos, values }));
+          this.items.push(new ListViewItemWrapper(this.getInjector(), { id, listViewWrapper: this, pos, values: templateValues }));
         } else {
           const item: ListViewItemWrapper = this.items.find(i => i.getId() === id);
           if (item) {
             item.setPosJson(pos);
-            item.setValuesJson(values);
+            item.setValuesJson(templateValues);
           }
         }
       }
@@ -328,15 +315,15 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     });
   }
 
-  private getValueList(valueMap: Map<string, string>): Array<ListViewItemValueWrapper> {
-    const values: Array<ListViewItemValueWrapper> = new Array<ListViewItemValueWrapper>();
+  private getTemplateValues(valueMap: Map<string, string>): Array<ListViewItemValueWrapper> {
+    const templateValues: Array<ListViewItemValueWrapper> = new Array<ListViewItemValueWrapper>();
 
     for (const templateVar of this.templateVariables) {
       const valueStr: string = valueMap.get(templateVar.getDataSource().getName());
-      values.push(new ListViewItemValueWrapper(valueStr, templateVar.getFormat(), templateVar.getFormatPattern()));
+      templateValues.push(new ListViewItemValueWrapper(valueStr, templateVar.getFormat(), templateVar.getFormatPattern()));
     }
 
-    return values;
+    return templateValues;
   }
 
   private setSelectedItemsJson(selectedItemsJson: any): void {
@@ -355,22 +342,38 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     }
   }
 
-  private parseViewTemplate(): string {
-    let template: string = this.getTemplateHtml();
+  private parseTemplateDataSourceList(templateDataSourceListJson: Array<any>): Array<ListViewTemplateDataSourceWrapper> {
+    if (!templateDataSourceListJson || !templateDataSourceListJson.length) {
+      return null;
+    }
 
-    if (String.isNullOrWhiteSpace(template)) {
+    const templateDataSourceList: Array<ListViewTemplateDataSourceWrapper> = new Array<ListViewTemplateDataSourceWrapper>();
+
+    for (const templateDataSourceJson of templateDataSourceListJson) {
+      templateDataSourceList.push(new ListViewTemplateDataSourceWrapper(templateDataSourceJson.dataSourceName, templateDataSourceJson.dataSourceTypeID));
+    }
+
+    return templateDataSourceList;
+  }
+
+  private parseViewTemplate(): string {
+    let templateHtml: string = this.getTemplateHtml();
+
+    this.templateVariables = new Array<ListViewTemplateVariableWrapper>();
+
+    if (String.isNullOrWhiteSpace(templateHtml)) {
       return null;
     }
 
     const regEx: RegExp = /{{2}([^}]|[^}])*}{2}/g;
-    const matches: RegExpMatchArray = template.match(regEx);
+    const matches: RegExpMatchArray = templateHtml.match(regEx);
 
     if (!matches || !matches.length) {
-      return template;
+      return templateHtml;
     }
 
-    for (let i = 0; i < matches.length; i++) {
-      const matchTrimmed: string = matches[i].trimStringLeft('{{').trimCharsRight('}}').trim();
+    for (const match of matches) {
+      const matchTrimmed: string = match.trimStringLeft('{{').trimCharsRight('}}').trim();
       const parts: Array<string> = matchTrimmed.split('|');
 
       let ds: ListViewTemplateDataSourceWrapper;
@@ -391,7 +394,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
           ds = this.templateDataSources.find(tds => tds.getName() === dsStr);
 
           if (!ds) {
-            throw new Error(`Could not find TemplateDataSource '${dsStr}' for TemplateVariable with index ${i}!`);
+            throw new Error(`Could not find TemplateDataSource '${dsStr}' for TemplateVariable '${match}'!`);
           }
 
           continue;
@@ -425,32 +428,18 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
       this.templateVariables.push(new ListViewTemplateVariableWrapper(ds, options));
 
-      template = template.replace(matches[i], `{{ values[${i}] }}`);
+      templateHtml = templateHtml.replace(match, `<span data-var></span>`);
     }
 
     // Replace placeholders
-    template = template.replace(/%FILESURL%/g, this.imageService.getFilesUrl());
+    templateHtml = templateHtml.replace(/%FILESURL%/g, this.imageService.getFilesUrl());
 
-    return template;
-  }
-
-  private parseTemplateDataSourceList(templateDataSourceListJson: Array<any>): Array<ListViewTemplateDataSourceWrapper> {
-    if (!templateDataSourceListJson || !templateDataSourceListJson.length) {
-      return null;
-    }
-
-    const templateDataSourceList: Array<ListViewTemplateDataSourceWrapper> = new Array<ListViewTemplateDataSourceWrapper>();
-
-    for (const templateDataSourceJson of templateDataSourceListJson) {
-      templateDataSourceList.push(new ListViewTemplateDataSourceWrapper(templateDataSourceJson.dataSourceName, templateDataSourceJson.dataSourceTypeID));
-    }
-
-    return templateDataSourceList;
+    return templateHtml;
   }
 
   private setErrorTemplate(): void {
-    this.templateHtml = '<div class="wrapper">Template NULL</div>';
-    this.templateCss = '.wrapper { display: flex; justify-content: center; align-items: center; }';
+    this.templateCss = '.lvItem { display: flex; align-items: center; justify-content: center; }';
+    this.templateHtml = 'Template NULL';
   }
 
   private clearItems(): void {
@@ -459,32 +448,6 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     }
 
     this.items = new Array<ListViewItemWrapper>();
-  }
-
-  private compileListViewItemComponent(): ComponentFactory<ListViewItemContentComponent> {
-    const id: string = `${this.getForm().getName()}.${this.getName()}`;
-
-    // Return buffered factory if there is one
-    if (ListViewWrapper._factoryBuffer.has(id)) {
-      return ListViewWrapper._factoryBuffer.get(id);
-    }
-
-    const listViewItemHtml: string = '<div class="lvItem" [attr.lvDisabled]="enabled ? null : true">' + this.templateHtml + '</div>';
-    const listViewItemCss: string = ':host { flex: 1; display: flex; flex-direction: column; } .lvItem { flex: 1; box-sizing: border-box; }';
-
-    const listViewItemComp = Component({
-      selector: ListViewItemContentComponent.SELECTOR,
-      template: listViewItemHtml,
-      styles: this.templateCss != null ? [listViewItemCss, this.templateCss] : [listViewItemCss]
-    })(class extends ListViewItemContentComponent { });
-
-    const listViewItemMod = NgModule({ declarations: [listViewItemComp] })(class extends ListViewItemContentModule { });
-
-    const factory: ComponentFactory<ListViewItemContentComponent> = this.compiler.compileModuleAndAllComponentsSync(listViewItemMod).componentFactories[0];
-
-    ListViewWrapper._factoryBuffer.set(id, factory);
-
-    return factory;
   }
 
   public hasOnItemSelectionChangedEvent(): boolean {
@@ -633,7 +596,5 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
         this.items.push(new ListViewItemWrapper(this.getInjector(), { listViewWrapper: this, state: itemJson }));
       }
     }
-
-    this.itemFactory = this.compileListViewItemComponent();
   }
 }
