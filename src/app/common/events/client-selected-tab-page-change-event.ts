@@ -1,6 +1,6 @@
-import { ClientFormEvent } from 'app/common/events/client-form-event';
-import { ClientSelectedTabPageChangeEventArgs } from 'app/common/events/eventargs/client-selected-tab-page-change-eventargs';
-import { ClientEventType } from 'app/enums/client-event-type';
+import { ClientFormEvent } from '@app/common/events/client-form-event';
+import { ClientSelectedTabPageChangeEventArgs } from '@app/common/events/eventargs/client-selected-tab-page-change-eventargs';
+import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientSelectedTabPageChangeEvent extends ClientFormEvent {
 

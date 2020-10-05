@@ -1,4 +1,4 @@
-import { BarcodeFormat } from 'app/enums/barcode-format';
+import { BarcodeFormat } from '@app/enums/barcode-format';
 
 export class ClientBarcodeScannedEventArgs {
 

@@ -1,7 +1,7 @@
-import { IControlLabelProvider } from 'app/wrappers/control-labels/control-label-provider.interface';
+import { IControlLabelProvider } from '@app/wrappers/control-labels/control-label-provider.interface';
 
-import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
-import { Visibility } from 'app/enums/visibility';
+import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label-template';
+import { Visibility } from '@app/enums/visibility';
 
 export class ControlLabelSeparatorProvider implements IControlLabelProvider {
 

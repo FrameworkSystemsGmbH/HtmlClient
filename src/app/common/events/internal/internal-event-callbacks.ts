@@ -1,4 +1,4 @@
-import { ClientEvent } from 'app/common/events/client-event';
+import { ClientEvent } from '@app/common/events/client-event';
 
 export class InternalEventCallbacks<T extends ClientEvent> {
   constructor(

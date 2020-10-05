@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PropertyData } from 'app/common/property-data';
+import { PropertyData } from '@app/common/property-data';
 
 @Injectable()
 export class ControlStyleService {

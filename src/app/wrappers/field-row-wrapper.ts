@@ -1,20 +1,20 @@
 import { ViewContainerRef, ComponentRef } from '@angular/core';
 
-import { IControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper.interface';
-import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
-import { IFieldContainer } from 'app/layout/field-layout/field-container.interface';
-import { IFieldRowControl } from 'app/layout/field-layout/field-row-control.interface';
+import { IControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper.interface';
+import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IFieldContainer } from '@app/layout/field-layout/field-container.interface';
+import { IFieldRowControl } from '@app/layout/field-layout/field-row-control.interface';
 
-import { ControlComponent } from 'app/controls/control.component';
-import { ControlWrapper } from 'app/wrappers/control-wrapper';
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
-import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
-import { ControlLabelContainerSingleWrapper } from 'app/wrappers/control-labels/control-label-container-single-wrapper';
-import { ControlLabelContainerMergedWrapper } from 'app/wrappers/control-labels/control-label-container-merged-wrapper';
-import { FieldPanelWrapper } from 'app/wrappers/field-panel-wrapper';
-import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
-import { ControlType } from 'app/enums/control-type';
+import { ControlComponent } from '@app/controls/control.component';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
+import { ControlLabelContainerSingleWrapper } from '@app/wrappers/control-labels/control-label-container-single-wrapper';
+import { ControlLabelContainerMergedWrapper } from '@app/wrappers/control-labels/control-label-container-merged-wrapper';
+import { FieldPanelWrapper } from '@app/wrappers/field-panel-wrapper';
+import { FieldRowLabelMode } from '@app/layout/field-layout/field-row-label-mode';
+import { ControlType } from '@app/enums/control-type';
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {
 

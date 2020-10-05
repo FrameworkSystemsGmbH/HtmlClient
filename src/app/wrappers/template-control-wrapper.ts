@@ -1,16 +1,16 @@
 import { Injector, ComponentRef, ComponentFactory } from '@angular/core';
 
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ControlWrapper } from 'app/wrappers/control-wrapper';
-import { ControlType } from 'app/enums/control-type';
-import { TextFormat } from 'app/enums/text-format';
-import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
-import { ImageService } from 'app/services/image.service';
-import { TemplateControlTemplateDataSourceWrapper } from 'app/wrappers/template-control-template-datasource-wrapper';
-import { TemplateControlTemplateVariableWrapper, ITemplateControlTemplateVariableWrapperOptions } from 'app/wrappers/template-control-template-variable-wrapper';
-import { TemplateControlComponent } from 'app/controls/template-control/template-control.component';
-import { TemplateControlValueWrapper } from 'app/wrappers/template-control-value-wrapper';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { ControlType } from '@app/enums/control-type';
+import { TextFormat } from '@app/enums/text-format';
+import { PatternFormatService } from '@app/services/formatter/pattern-format.service';
+import { ImageService } from '@app/services/image.service';
+import { TemplateControlTemplateDataSourceWrapper } from '@app/wrappers/template-control-template-datasource-wrapper';
+import { TemplateControlTemplateVariableWrapper, ITemplateControlTemplateVariableWrapperOptions } from '@app/wrappers/template-control-template-variable-wrapper';
+import { TemplateControlComponent } from '@app/controls/template-control/template-control.component';
+import { TemplateControlValueWrapper } from '@app/wrappers/template-control-value-wrapper';
 
 export class TemplateControlWrapper extends ControlWrapper {
 

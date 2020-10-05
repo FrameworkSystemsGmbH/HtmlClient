@@ -3,11 +3,11 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { Subscription, fromEvent } from 'rxjs';
 
-import { ComboBoxDesktopComponent } from 'app/controls/comboboxes/combobox-desktop.component';
-import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
+import { ComboBoxDesktopComponent } from '@app/controls/comboboxes/combobox-desktop.component';
+import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 
-import * as StyleUtil from 'app/util/style-util';
-import * as DomUtil from 'app/util/dom-util';
+import * as StyleUtil from '@app/util/style-util';
+import * as DomUtil from '@app/util/dom-util';
 
 @Component({
   selector: 'hc-cmb-free',

@@ -2,17 +2,17 @@ import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef, Injector } 
 import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { trigger, transition, style, animate } from '@angular/animations';
 
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { ControlComponent } from 'app/controls/control.component';
-import { ListViewWrapper, IHeaderOptions } from 'app/wrappers/listview-wrapper';
-import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
-import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
-import { PlatformService } from 'app/services/platform.service';
-import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
+import { ControlComponent } from '@app/controls/control.component';
+import { ListViewWrapper, IHeaderOptions } from '@app/wrappers/listview-wrapper';
+import { ListViewItemArrangement } from '@app/enums/listview-item-arrangement';
+import { ListViewItemWrapper } from '@app/wrappers/listview-item-wrapper';
+import { PlatformService } from '@app/services/platform.service';
+import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
 
-import * as DomUtil from 'app/util/dom-util';
-import * as StyleUtil from 'app/util/style-util';
+import * as DomUtil from '@app/util/dom-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Component({
   selector: 'hc-listview',

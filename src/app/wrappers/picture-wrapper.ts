@@ -1,21 +1,21 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ControlType } from 'app/enums/control-type';
-import { ClientClickEvent } from 'app/common/events/client-click-event';
-import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
-import { DataSourceType } from 'app/enums/datasource-type';
-import { ClientEventType } from 'app/enums/client-event-type';
-import { Visibility } from 'app/enums/visibility';
-import { ControlWrapper } from 'app/wrappers/control-wrapper';
-import { PictureComponent } from 'app/controls/picture/picture.component';
-import { PictureScaleMode } from 'app/enums/picture-scale-mode';
-import { ImageService } from 'app/services/image.service';
-import { ContentAlignment } from 'app/enums/content-alignment';
-import { ClientPictureClickEvent } from 'app/common/events/client-picture-click-event';
-import { ClientPictureClickEventArgs } from 'app/common/events/eventargs/client-picture-click-eventargs';
+import { ControlType } from '@app/enums/control-type';
+import { ClientClickEvent } from '@app/common/events/client-click-event';
+import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { DataSourceType } from '@app/enums/datasource-type';
+import { ClientEventType } from '@app/enums/client-event-type';
+import { Visibility } from '@app/enums/visibility';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { PictureComponent } from '@app/controls/picture/picture.component';
+import { PictureScaleMode } from '@app/enums/picture-scale-mode';
+import { ImageService } from '@app/services/image.service';
+import { ContentAlignment } from '@app/enums/content-alignment';
+import { ClientPictureClickEvent } from '@app/common/events/client-picture-click-event';
+import { ClientPictureClickEventArgs } from '@app/common/events/eventargs/client-picture-click-eventargs';
 
 export class PictureWrapper extends ControlWrapper {
 

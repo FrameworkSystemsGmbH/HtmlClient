@@ -1,11 +1,11 @@
 import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
 
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { TabPageComponent } from 'app/controls/tabbed-window/tab-page.component';
-import { ControlType } from 'app/enums/control-type';
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
-import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wrapper';
+import { TabPageComponent } from '@app/controls/tabbed-window/tab-page.component';
+import { ControlType } from '@app/enums/control-type';
+import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
 
 export class TabPageWrapper extends ContainerWrapper implements ILayoutableContainerWrapper {
 

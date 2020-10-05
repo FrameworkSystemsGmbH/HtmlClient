@@ -1,9 +1,9 @@
 import { Injector } from '@angular/core';
 
-import { ControlLabelContainerBaseWrapper } from 'app/wrappers/control-labels/control-label-container-base-wrapper';
-import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
-import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
-import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
+import { ControlLabelContainerBaseWrapper } from '@app/wrappers/control-labels/control-label-container-base-wrapper';
+import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
+import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label-template';
+import { FieldRowWrapper } from '@app/wrappers/field-row-wrapper';
 
 export interface IControlLabelContainerSingleWrapperOptions {
   labelWrapper: ControlLabelWrapper;

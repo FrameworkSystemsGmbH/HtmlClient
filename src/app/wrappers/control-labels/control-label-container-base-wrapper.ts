@@ -1,23 +1,23 @@
 import { ComponentRef, ComponentFactoryResolver, ComponentFactory, ViewContainerRef, Injector } from '@angular/core';
 
-import { IControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper.interface';
-import { IControlLabelContainer } from 'app/layout/control-label-container-layout/control-label-container.interface';
-import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper.interface';
+import { IControlLabelContainer } from '@app/layout/control-label-container-layout/control-label-container.interface';
+import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { LayoutableProperties } from 'app/wrappers/layout/layoutable-properties-default';
-import { VchControl } from 'app/vch/vch-control';
-import { TextAlign } from 'app/enums/text-align';
-import { Visibility } from 'app/enums/visibility';
-import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
-import { VerticalAlignment } from 'app/enums/vertical-alignment';
-import { VchContainer } from 'app/vch/vch-container';
-import { LayoutContainerBase } from 'app/layout/layout-container-base';
-import { ControlLabelContainerComponent } from 'app/controls/control-labels/control-label-container/control-label-container.component';
-import { ControlLabelContainerSingleLayout } from 'app/layout/control-label-container-layout/control-label-container-single-layout';
-import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
-import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
-import { FieldRowWrapper } from 'app/wrappers/field-row-wrapper';
+import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';
+import { VchControl } from '@app/vch/vch-control';
+import { TextAlign } from '@app/enums/text-align';
+import { Visibility } from '@app/enums/visibility';
+import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
+import { VerticalAlignment } from '@app/enums/vertical-alignment';
+import { VchContainer } from '@app/vch/vch-container';
+import { LayoutContainerBase } from '@app/layout/layout-container-base';
+import { ControlLabelContainerComponent } from '@app/controls/control-labels/control-label-container/control-label-container.component';
+import { ControlLabelContainerSingleLayout } from '@app/layout/control-label-container-layout/control-label-container-single-layout';
+import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
+import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label-template';
+import { FieldRowWrapper } from '@app/wrappers/field-row-wrapper';
 
 export interface IControlLabelContainerBaseWrapperOptions {
   labelWrappers: Array<ControlLabelWrapper>;

@@ -1,14 +1,14 @@
-import { ITabbedLayoutControl } from 'app/layout/tabbed-layout/tabbed-layout-control.interface';
-import { ILayoutableContainer } from 'app/layout/layoutable-container.interface';
-import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ITabbedLayoutControl } from '@app/layout/tabbed-layout/tabbed-layout-control.interface';
+import { ILayoutableContainer } from '@app/layout/layoutable-container.interface';
+import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper';
-import { LayoutContainerBase } from 'app/layout/layout-container-base';
-import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
-import { VerticalAlignment } from 'app/enums/vertical-alignment';
-import { Visibility } from 'app/enums/visibility';
-import { TabAlignment } from 'app/enums/tab-alignment';
+import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
+import { LayoutContainerBase } from '@app/layout/layout-container-base';
+import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
+import { VerticalAlignment } from '@app/enums/vertical-alignment';
+import { Visibility } from '@app/enums/visibility';
+import { TabAlignment } from '@app/enums/tab-alignment';
 
 export class TabbedLayout extends LayoutContainerBase {
 

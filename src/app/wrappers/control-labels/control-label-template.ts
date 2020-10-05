@@ -1,7 +1,7 @@
-import { ILayoutableControlLabelTemplate } from 'app/layout/layoutable-control-label-template.interface';
+import { ILayoutableControlLabelTemplate } from '@app/layout/layoutable-control-label-template.interface';
 
-import { PropertyStore } from 'app/common/property-store';
-import { TextAlign } from 'app/enums/text-align';
+import { PropertyStore } from '@app/common/property-store';
+import { TextAlign } from '@app/enums/text-align';
 
 export class ControlLabelTemplate implements ILayoutableControlLabelTemplate {
 

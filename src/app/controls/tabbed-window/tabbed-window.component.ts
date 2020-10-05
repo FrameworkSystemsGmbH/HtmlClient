@@ -2,18 +2,18 @@ import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, E
 import { IconDefinition, faAngleLeft, faAngleRight, faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { ContainerComponent } from 'app/controls/container.component';
-import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wrapper';
-import { TabPageWrapper } from 'app/wrappers/tabbed-window/tab-page-wrapper';
-import { TabPageTemplate } from 'app/wrappers/tabbed-window/tab-page-template';
-import { TabAlignment } from 'app/enums/tab-alignment';
-import { Visibility } from 'app/enums/visibility';
-import { PlatformService } from 'app/services/platform.service';
-import { ImageService } from 'app/services/image.service';
+import { ContainerComponent } from '@app/controls/container.component';
+import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
+import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
+import { TabPageTemplate } from '@app/wrappers/tabbed-window/tab-page-template';
+import { TabAlignment } from '@app/enums/tab-alignment';
+import { Visibility } from '@app/enums/visibility';
+import { PlatformService } from '@app/services/platform.service';
+import { ImageService } from '@app/services/image.service';
 
-import * as StyleUtil from 'app/util/style-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Component({
   selector: 'hc-tabbed-window',

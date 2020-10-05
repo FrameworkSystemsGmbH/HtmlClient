@@ -1,6 +1,6 @@
-import { ILayoutableContainerSpaceable } from 'app/layout/layoutable-container-spaceable.interface';
+import { ILayoutableContainerSpaceable } from '@app/layout/layoutable-container-spaceable.interface';
 
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
+import { ContainerWrapper } from '@app/wrappers/container-wrapper';
 
 export abstract class ContainerWrapperSpaceable extends ContainerWrapper implements ILayoutableContainerSpaceable {
 

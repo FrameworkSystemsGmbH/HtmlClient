@@ -1,5 +1,5 @@
-import { TextFormat } from 'app/enums/text-format';
-import { TemplateControlTemplateDataSourceWrapper } from 'app/wrappers/template-control-template-datasource-wrapper';
+import { TextFormat } from '@app/enums/text-format';
+import { TemplateControlTemplateDataSourceWrapper } from '@app/wrappers/template-control-template-datasource-wrapper';
 
 export interface ITemplateControlTemplateVariableWrapperOptions {
   format?: TextFormat;

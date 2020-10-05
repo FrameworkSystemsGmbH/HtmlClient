@@ -1,15 +1,15 @@
-import { IFieldContainer } from 'app/layout/field-layout/field-container.interface';
-import { IFieldRowControl } from 'app/layout/field-layout/field-row-control.interface';
+import { IFieldContainer } from '@app/layout/field-layout/field-container.interface';
+import { IFieldRowControl } from '@app/layout/field-layout/field-row-control.interface';
 
-import { LayoutContainerBase } from 'app/layout/layout-container-base';
-import { FieldLayoutRow } from 'app/layout/field-layout/field-layout-row';
-import { FieldLayoutCell } from 'app/layout/field-layout/field-layout-cell';
-import { FieldLayoutColumn } from 'app/layout/field-layout/field-layout-column';
-import { FieldRowLabelMode } from 'app/layout/field-layout/field-row-label-mode';
-import { Visibility } from 'app/enums/visibility';
-import { LinkedListOneWay } from 'app/util/linked-list-one-way';
-import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
-import { VerticalAlignment } from 'app/enums/vertical-alignment';
+import { LayoutContainerBase } from '@app/layout/layout-container-base';
+import { FieldLayoutRow } from '@app/layout/field-layout/field-layout-row';
+import { FieldLayoutCell } from '@app/layout/field-layout/field-layout-cell';
+import { FieldLayoutColumn } from '@app/layout/field-layout/field-layout-column';
+import { FieldRowLabelMode } from '@app/layout/field-layout/field-row-label-mode';
+import { Visibility } from '@app/enums/visibility';
+import { LinkedListOneWay } from '@app/util/linked-list-one-way';
+import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
+import { VerticalAlignment } from '@app/enums/vertical-alignment';
 
 export class FieldLayout extends LayoutContainerBase {
 

@@ -1,5 +1,5 @@
-import { PropertyStore } from 'app/common/property-store';
-import { FontService } from 'app/services/font.service';
+import { PropertyStore } from '@app/common/property-store';
+import { FontService } from '@app/services/font.service';
 
 export class TabPageTemplate {
 

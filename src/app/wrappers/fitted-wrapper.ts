@@ -1,4 +1,4 @@
-import { ControlWrapper } from 'app/wrappers/control-wrapper';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
 
 export abstract class FittedWrapper extends ControlWrapper {
 

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { LayoutableComponent } from 'app/controls/layoutable.component';
-import { ControlLabelWrapper } from 'app/wrappers/control-labels/control-label-wrapper';
-import { Visibility } from 'app/enums/visibility';
+import { LayoutableComponent } from '@app/controls/layoutable.component';
+import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
+import { Visibility } from '@app/enums/visibility';
 
-import * as StyleUtil from 'app/util/style-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Component({
   selector: 'hc-ctrl-lbl',

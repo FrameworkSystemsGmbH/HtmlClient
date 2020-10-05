@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 
-import { PlatformService } from 'app/services/platform.service';
+import { PlatformService } from '@app/services/platform.service';
 
-import * as DomUtil from 'app/util/dom-util';
+import * as DomUtil from '@app/util/dom-util';
 
 const { Keyboard } = Plugins;
 

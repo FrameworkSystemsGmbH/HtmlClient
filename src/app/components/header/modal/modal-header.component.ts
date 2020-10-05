@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 
-import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { FormsService } from 'app/services/forms.service';
-import { BackService } from 'app/services/back-service';
-import { BackButtonPriority } from 'app/enums/backbutton-priority';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
+import { FormsService } from '@app/services/forms.service';
+import { BackService } from '@app/services/back-service';
+import { BackButtonPriority } from '@app/enums/backbutton-priority';
 
 @Component({
   selector: 'hc-modal-header',

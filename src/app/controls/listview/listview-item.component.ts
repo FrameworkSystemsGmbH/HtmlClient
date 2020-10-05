@@ -1,15 +1,15 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { ListViewWrapper } from 'app/wrappers/listview-wrapper';
-import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
-import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
-import { BaseFormatService } from 'app/services/formatter/base-format.service';
-import { PlatformService } from 'app/services/platform.service';
-import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
-import { FramesService } from 'app/services/frames.service';
-import { ParseMethod } from 'app/enums/parse-method';
+import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
+import { ListViewItemWrapper } from '@app/wrappers/listview-item-wrapper';
+import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
+import { BaseFormatService } from '@app/services/formatter/base-format.service';
+import { PlatformService } from '@app/services/platform.service';
+import { ListViewSelectorPosition } from '@app/enums/listview-selector-position';
+import { FramesService } from '@app/services/frames.service';
+import { ParseMethod } from '@app/enums/parse-method';
 
-import * as DomUtil from 'app/util/dom-util';
-import * as StyleUtil from 'app/util/style-util';
+import * as DomUtil from '@app/util/dom-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Component({
   selector: 'hc-listview-item',

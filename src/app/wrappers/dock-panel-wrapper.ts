@@ -1,15 +1,15 @@
 import { ComponentFactory, ComponentRef, ViewContainerRef } from '@angular/core';
 
-import { IDockContainer } from 'app/layout/dock-layout/dock-container.interface';
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IDockContainer } from '@app/layout/dock-layout/dock-container.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ContainerWrapperSpaceable } from 'app/wrappers/container-wrapper-spaceable';
-import { LayoutBase } from 'app/layout/layout-base';
-import { DockLayout } from 'app/layout/dock-layout/dock-layout';
-import { DockPanelComponent } from 'app/controls/layouts/dock-panel/dock-panel.component';
-import { DockOrientation } from 'app/layout/dock-layout/dock-orientation';
-import { DockPanelScrolling } from 'app/enums/dockpanel-scrolling';
-import { ControlType } from 'app/enums/control-type';
+import { ContainerWrapperSpaceable } from '@app/wrappers/container-wrapper-spaceable';
+import { LayoutBase } from '@app/layout/layout-base';
+import { DockLayout } from '@app/layout/dock-layout/dock-layout';
+import { DockPanelComponent } from '@app/controls/layouts/dock-panel/dock-panel.component';
+import { DockOrientation } from '@app/layout/dock-layout/dock-orientation';
+import { DockPanelScrolling } from '@app/enums/dockpanel-scrolling';
+import { ControlType } from '@app/enums/control-type';
 
 export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDockContainer {
 

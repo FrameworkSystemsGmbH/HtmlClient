@@ -1,24 +1,24 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ComboBoxComponent } from 'app/controls/comboboxes/combobox.component';
-import { ComboBoxFreeComponent } from 'app/controls/comboboxes/combobox-free/combobox-free.component';
-import { ComboBoxFreeMobileComponent } from 'app/controls/comboboxes/combobox-free-mobile/combobox-free-mobile.component';
-import { ComboBoxListComponent } from 'app/controls/comboboxes/combobox-list/combobox-list.component';
-import { ComboBoxListMobileComponent } from 'app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile.component';
-import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
-import { ClientEnterEvent } from 'app/common/events/client-enter-event';
-import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';
-import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
-import { ClientEventType } from 'app/enums/client-event-type';
-import { Visibility } from 'app/enums/visibility';
-import { EditStyle } from 'app/enums/edit-style';
-import { DataSourceType } from 'app/enums/datasource-type';
-import { DataList } from 'app/common/data-list';
-import { DataListEntry } from 'app/common/data-list-entry';
-import { ControlType } from 'app/enums/control-type';
+import { ComboBoxComponent } from '@app/controls/comboboxes/combobox.component';
+import { ComboBoxFreeComponent } from '@app/controls/comboboxes/combobox-free/combobox-free.component';
+import { ComboBoxFreeMobileComponent } from '@app/controls/comboboxes/combobox-free-mobile/combobox-free-mobile.component';
+import { ComboBoxListComponent } from '@app/controls/comboboxes/combobox-list/combobox-list.component';
+import { ComboBoxListMobileComponent } from '@app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile.component';
+import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
+import { ClientEnterEvent } from '@app/common/events/client-enter-event';
+import { ClientSelectionChangedEvent } from '@app/common/events/client-selection-changed-event';
+import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { ClientEventType } from '@app/enums/client-event-type';
+import { Visibility } from '@app/enums/visibility';
+import { EditStyle } from '@app/enums/edit-style';
+import { DataSourceType } from '@app/enums/datasource-type';
+import { DataList } from '@app/common/data-list';
+import { DataListEntry } from '@app/common/data-list-entry';
+import { ControlType } from '@app/enums/control-type';
 
 export class ComboBoxWrapper extends FittedDataWrapper {
 

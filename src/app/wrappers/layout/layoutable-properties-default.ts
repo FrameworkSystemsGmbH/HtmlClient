@@ -1,5 +1,5 @@
-import { ILayoutableControlWrapper } from 'app/wrappers/layout/layoutable-control-wrapper.interface';
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
 export class LayoutableProperties implements ILayoutableProperties {
 

@@ -1,13 +1,13 @@
 import { ElementRef, Directive } from '@angular/core';
 
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { ControlComponent } from 'app/controls/control.component';
-import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
+import { ControlComponent } from '@app/controls/control.component';
+import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
 
-import * as DomUtil from 'app/util/dom-util';
-import * as KeyUtil from 'app/util/key-util';
-import * as StyleUtil from 'app/util/style-util';
+import * as DomUtil from '@app/util/dom-util';
+import * as KeyUtil from '@app/util/key-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Directive()
 export abstract class TextBoxComponent extends ControlComponent {

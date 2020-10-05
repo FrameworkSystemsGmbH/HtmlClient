@@ -3,8 +3,8 @@ import { Observable, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 import { Plugins } from '@capacitor/core';
 
-import { LoginBroker } from 'app/common/login-broker';
-import { StorageService } from 'app/services/storage.service';
+import { LoginBroker } from '@app/common/login-broker';
+import { StorageService } from '@app/services/storage.service';
 
 const { Device } = Plugins;
 

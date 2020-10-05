@@ -1,11 +1,11 @@
 import { Component, ViewChild, ViewContainerRef, Injector } from '@angular/core';
 
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { ContainerComponent } from 'app/controls/container.component';
-import { DockPanelWrapper } from 'app/wrappers/dock-panel-wrapper';
+import { ContainerComponent } from '@app/controls/container.component';
+import { DockPanelWrapper } from '@app/wrappers/dock-panel-wrapper';
 
-import * as StyleUtil from 'app/util/style-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Component({
   selector: 'hc-dock-panel',

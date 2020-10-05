@@ -21,10 +21,10 @@
       "dom"
     ],
     "paths": {
-      "app/*": [
+      "@app/*": [
         "src/app/*"
       ],
-      "env/*": [
+      "@env/*": [
         "src/env/*"
       ]
     }

@@ -1,18 +1,18 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
-import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { ControlsService, IWrapperCreationOptions } from 'app/services/controls.service';
-import { EventsService } from 'app/services/events.service';
-import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
-import { ClientCloseEvent } from 'app/common/events/client-close-event';
-import { ClientDisposeEvent } from 'app/common/events/client-dispose-event';
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
-import { ControlWrapper } from 'app/wrappers/control-wrapper';
-import { ControlType } from 'app/enums/control-type';
-import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
+import { ControlsService, IWrapperCreationOptions } from '@app/services/controls.service';
+import { EventsService } from '@app/services/events.service';
+import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { ClientCloseEvent } from '@app/common/events/client-close-event';
+import { ClientDisposeEvent } from '@app/common/events/client-dispose-event';
+import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { ControlType } from '@app/enums/control-type';
+import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
 
-import * as JsonUtil from 'app/util/json-util';
+import * as JsonUtil from '@app/util/json-util';
 
 @Injectable()
 export class FormsService {

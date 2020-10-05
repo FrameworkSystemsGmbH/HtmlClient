@@ -1,12 +1,12 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
 import * as Moment from 'moment-timezone';
 
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
-import { TextBoxDateTimeComponent } from 'app/controls/textboxes/textbox-datetime/textbox-datetime.component';
-import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
-import { TextBoxType } from 'app/enums/textbox-type';
+import { DateTimeFormatService } from '@app/services/formatter/datetime-format.service';
+import { TextBoxDateTimeComponent } from '@app/controls/textboxes/textbox-datetime/textbox-datetime.component';
+import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
+import { TextBoxType } from '@app/enums/textbox-type';
 
 export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
 

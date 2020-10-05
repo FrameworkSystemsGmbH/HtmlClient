@@ -7,17 +7,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
-import { AppComponent } from 'app/app.component';
+import { AppComponent } from '@app/app.component';
 
-import { ErrorService } from 'app/services/error.service';
+import { ErrorService } from '@app/services/error.service';
 
-import { APP_ROUTING } from 'app/app.routing';
-import { appReducer } from 'app/store/app.reducers';
+import { APP_ROUTING } from '@app/app.routing';
+import { appReducer } from '@app/store/app.reducers';
 
-import { ALL_COMPONENTS } from 'app/components/_all.components';
-import { ALL_CONTROLS } from 'app/controls/_all.controls';
-import { ALL_DIRECTIVES } from 'app/directives/_all.direcives';
-import { ALL_SERVICES } from 'app/services/_all.services';
+import { ALL_COMPONENTS } from '@app/components/_all.components';
+import { ALL_CONTROLS } from '@app/controls/_all.controls';
+import { ALL_DIRECTIVES } from '@app/directives/_all.direcives';
+import { ALL_SERVICES } from '@app/services/_all.services';
 
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';

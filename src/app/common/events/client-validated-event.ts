@@ -1,5 +1,5 @@
-import { ClientFormEvent } from 'app/common/events/client-form-event';
-import { ClientEventType } from 'app/enums/client-event-type';
+import { ClientFormEvent } from '@app/common/events/client-form-event';
+import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientValidatedEvent extends ClientFormEvent {
 

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
-import { PlatformService } from 'app/services/platform.service';
+import { PlatformService } from '@app/services/platform.service';
 
-import * as StyleUtil from 'app/util/style-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Component({
   selector: 'hc-selector',

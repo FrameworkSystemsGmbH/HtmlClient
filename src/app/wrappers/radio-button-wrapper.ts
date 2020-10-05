@@ -1,17 +1,17 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { RadioButtonComponent } from 'app/controls/radio-button/radio-button.component';
-import { ButtonGroup } from 'app/wrappers/button-group/button-group';
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
-import { FittedWrapper } from 'app/wrappers/fitted-wrapper';
-import { ControlType } from 'app/enums/control-type';
-import { ClientClickEvent } from 'app/common/events/client-click-event';
-import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
-import { ClientEventType } from 'app/enums/client-event-type';
-import { Visibility } from 'app/enums/visibility';
+import { RadioButtonComponent } from '@app/controls/radio-button/radio-button.component';
+import { ButtonGroup } from '@app/wrappers/button-group/button-group';
+import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
+import { ControlType } from '@app/enums/control-type';
+import { ClientClickEvent } from '@app/common/events/client-click-event';
+import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { ClientEventType } from '@app/enums/client-event-type';
+import { Visibility } from '@app/enums/visibility';
 
 export class RadioButtonWrapper extends FittedWrapper {
 

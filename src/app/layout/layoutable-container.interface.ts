@@ -1,7 +1,7 @@
 
-import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
+import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
 
-import { LayoutContainerBase } from 'app/layout/layout-container-base';
+import { LayoutContainerBase } from '@app/layout/layout-container-base';
 
 export interface ILayoutableContainer extends ILayoutableControl {
 

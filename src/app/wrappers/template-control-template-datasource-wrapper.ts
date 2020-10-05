@@ -1,4 +1,4 @@
-import { DataSourceType } from 'app/enums/datasource-type';
+import { DataSourceType } from '@app/enums/datasource-type';
 
 export class TemplateControlTemplateDataSourceWrapper {
 

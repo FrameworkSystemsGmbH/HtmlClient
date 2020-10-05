@@ -4,16 +4,16 @@ import { Observable, Subscription } from 'rxjs';
 import { IconDefinition, faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 
-import { LoginBroker } from 'app/common/login-broker';
-import { LoginService } from 'app/services/login.service';
-import { BrokerService } from 'app/services/broker.service';
-import { TitleService } from 'app/services/title.service';
-import { StateService } from 'app/services/state.service';
-import { LastSessionInfo } from 'app/common/last-session-info';
+import { LoginBroker } from '@app/common/login-broker';
+import { LoginService } from '@app/services/login.service';
+import { BrokerService } from '@app/services/broker.service';
+import { TitleService } from '@app/services/title.service';
+import { StateService } from '@app/services/state.service';
+import { LastSessionInfo } from '@app/common/last-session-info';
 
-import { selectBrokerName } from 'app/store/broker/broker.selectors';
+import { selectBrokerName } from '@app/store/broker/broker.selectors';
 
-import * as DomUtil from 'app/util/dom-util';
+import * as DomUtil from '@app/util/dom-util';
 
 @Component({
   selector: 'hc-login',

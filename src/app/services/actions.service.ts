@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 
-import { ControlWrapper } from 'app/wrappers/control-wrapper';
-import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
-import { PictureWrapper } from 'app/wrappers/picture-wrapper';
-import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { BarcodeService } from 'app/services/actions/barcode.service';
-import { FormsService } from 'app/services/forms.service';
-import { GeoLocationService } from 'app/services/actions/geolocation.service';
-import { CameraService } from 'app/services/actions/camera.service';
-import { PrintReportService } from 'app/services/actions/print-report.service';
-import { ViewDocService } from 'app/services/actions/viewdoc.service';
-import { TabbedWindowWrapper } from 'app/wrappers/tabbed-window/tabbed-window-wrapper';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
+import { PictureWrapper } from '@app/wrappers/picture-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
+import { BarcodeService } from '@app/services/actions/barcode.service';
+import { FormsService } from '@app/services/forms.service';
+import { GeoLocationService } from '@app/services/actions/geolocation.service';
+import { CameraService } from '@app/services/actions/camera.service';
+import { PrintReportService } from '@app/services/actions/print-report.service';
+import { ViewDocService } from '@app/services/actions/viewdoc.service';
+import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
 
 @Injectable()
 export class ActionsService {

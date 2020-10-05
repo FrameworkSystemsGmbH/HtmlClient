@@ -1,15 +1,15 @@
 import { Component, Output, EventEmitter, ViewChild, ElementRef, Injector } from '@angular/core';
 
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { ControlComponent } from 'app/controls/control.component';
-import { PictureWrapper } from 'app/wrappers/picture-wrapper';
-import { ContentAlignment } from 'app/enums/content-alignment';
-import { PictureScaleMode } from 'app/enums/picture-scale-mode';
+import { ControlComponent } from '@app/controls/control.component';
+import { PictureWrapper } from '@app/wrappers/picture-wrapper';
+import { ContentAlignment } from '@app/enums/content-alignment';
+import { PictureScaleMode } from '@app/enums/picture-scale-mode';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ClientPictureClickEventArgs } from 'app/common/events/eventargs/client-picture-click-eventargs';
+import { ClientPictureClickEventArgs } from '@app/common/events/eventargs/client-picture-click-eventargs';
 
-import * as StyleUtil from 'app/util/style-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Component({
   selector: 'hc-pic',

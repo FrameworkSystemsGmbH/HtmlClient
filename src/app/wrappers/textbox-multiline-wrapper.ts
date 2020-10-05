@@ -1,11 +1,11 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
 
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { TextBoxMultilineComponent } from 'app/controls/textboxes/textbox-multiline/textbox-multiline.component';
-import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
-import { TextBoxType } from 'app/enums/textbox-type';
-import { ScrollBars } from 'app/enums/scrollbars';
+import { TextBoxMultilineComponent } from '@app/controls/textboxes/textbox-multiline/textbox-multiline.component';
+import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
+import { TextBoxType } from '@app/enums/textbox-type';
+import { ScrollBars } from '@app/enums/scrollbars';
 
 export class TextBoxMultilineWrapper extends TextBoxBaseWrapper {
 

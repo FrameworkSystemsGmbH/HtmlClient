@@ -1,10 +1,10 @@
-import { IControlLabelContainer } from 'app/layout/control-label-container-layout/control-label-container.interface';
-import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { IControlLabelContainer } from '@app/layout/control-label-container-layout/control-label-container.interface';
+import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { LayoutContainerBase } from 'app/layout/layout-container-base';
-import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper';
-import { TextAlign } from 'app/enums/text-align';
+import { LayoutContainerBase } from '@app/layout/layout-container-base';
+import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
+import { TextAlign } from '@app/enums/text-align';
 
 export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBase {
 

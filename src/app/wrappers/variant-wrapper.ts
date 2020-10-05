@@ -1,13 +1,13 @@
 import { ComponentRef, ComponentFactory, ViewContainerRef } from '@angular/core';
 
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ContainerWrapper } from 'app/wrappers/container-wrapper';
-import { VariantComponent } from 'app/controls/variant/variant.component';
-import { ClientEventType } from 'app/enums/client-event-type';
-import { ControlType } from 'app/enums/control-type';
-import { DataSourceType } from 'app/enums/datasource-type';
-import { ImageService } from 'app/services/image.service';
+import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { VariantComponent } from '@app/controls/variant/variant.component';
+import { ClientEventType } from '@app/enums/client-event-type';
+import { ControlType } from '@app/enums/control-type';
+import { DataSourceType } from '@app/enums/datasource-type';
+import { ImageService } from '@app/services/image.service';
 
 export class VariantWrapper extends ContainerWrapper {
 

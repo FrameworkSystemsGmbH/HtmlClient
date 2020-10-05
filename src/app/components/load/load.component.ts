@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { BrokerService } from 'app/services/broker.service';
-import { LoginBroker } from 'app/common/login-broker';
-import { LoginOptions } from 'app/common/login-options';
+import { BrokerService } from '@app/services/broker.service';
+import { LoginBroker } from '@app/common/login-broker';
+import { LoginOptions } from '@app/common/login-options';
 
 @Component({
   selector: 'hc-load',

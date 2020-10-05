@@ -1,11 +1,11 @@
 import { Component, Injector } from '@angular/core';
 
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { ControlComponent } from 'app/controls/control.component';
-import { LabelWrapper } from 'app/wrappers/label-wrapper';
+import { ControlComponent } from '@app/controls/control.component';
+import { LabelWrapper } from '@app/wrappers/label-wrapper';
 
-import * as StyleUtil from 'app/util/style-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Component({
   selector: 'hc-lbl',

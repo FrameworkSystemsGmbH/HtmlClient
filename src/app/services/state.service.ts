@@ -4,25 +4,25 @@ import { Observable, of as obsOf } from 'rxjs';
 import { mergeMap, map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import { BarcodeService } from 'app/services/actions/barcode.service';
-import { BackService } from 'app/services/back-service';
-import { BrokerService } from 'app/services/broker.service';
-import { ControlStyleService } from 'app/services/control-style.service';
-import { FormsService } from 'app/services/forms.service';
-import { CameraService } from 'app/services/actions/camera.service';
-import { PlatformService } from 'app/services/platform.service';
-import { StorageService } from 'app/services/storage.service';
-import { RoutingService } from 'app/services/routing.service';
-import { TextsService } from 'app/services/texts.service';
-import { TitleService } from 'app/services/title.service';
-import { LastSessionInfo } from 'app/common/last-session-info';
+import { BarcodeService } from '@app/services/actions/barcode.service';
+import { BackService } from '@app/services/back-service';
+import { BrokerService } from '@app/services/broker.service';
+import { ControlStyleService } from '@app/services/control-style.service';
+import { FormsService } from '@app/services/forms.service';
+import { CameraService } from '@app/services/actions/camera.service';
+import { PlatformService } from '@app/services/platform.service';
+import { StorageService } from '@app/services/storage.service';
+import { RoutingService } from '@app/services/routing.service';
+import { TextsService } from '@app/services/texts.service';
+import { TitleService } from '@app/services/title.service';
+import { LastSessionInfo } from '@app/common/last-session-info';
 
-import { IBrokerState } from 'app/store/broker/broker.state';
-import { selectBrokerState } from 'app/store/broker/broker.selectors';
-import { setBrokerState } from 'app/store/broker/broker.actions';
+import { IBrokerState } from '@app/store/broker/broker.state';
+import { selectBrokerState } from '@app/store/broker/broker.selectors';
+import { setBrokerState } from '@app/store/broker/broker.actions';
 
 import * as Moment from 'moment-timezone';
-import * as JsonUtil from 'app/util/json-util';
+import * as JsonUtil from '@app/util/json-util';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
 const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours

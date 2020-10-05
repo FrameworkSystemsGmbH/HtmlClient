@@ -1,11 +1,11 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
 
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { StringFormatService } from 'app/services/formatter/string-format.service';
-import { TextBoxPlainComponent } from 'app/controls/textboxes/textbox-plain/textbox-plain.component';
-import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
-import { TextBoxType } from 'app/enums/textbox-type';
+import { StringFormatService } from '@app/services/formatter/string-format.service';
+import { TextBoxPlainComponent } from '@app/controls/textboxes/textbox-plain/textbox-plain.component';
+import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
+import { TextBoxType } from '@app/enums/textbox-type';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 

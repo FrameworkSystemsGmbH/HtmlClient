@@ -1,5 +1,5 @@
-import { ControlLabelContainerBaseLayout } from 'app/layout/control-label-container-layout/control-label-container-base-layout';
-import { LayoutableControlWrapper } from 'app/layout/layoutable-control-wrapper';
+import { ControlLabelContainerBaseLayout } from '@app/layout/control-label-container-layout/control-label-container-base-layout';
+import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
 
 export class ControlLabelContainerSingleLayout extends ControlLabelContainerBaseLayout {
 

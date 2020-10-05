@@ -2,9 +2,9 @@ import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewI
 import { IconDefinition, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { IErrorBoxData } from 'app/components/errorbox/errorbox-data.interface';
-import { BackService } from 'app/services/back-service';
-import { BackButtonPriority } from 'app/enums/backbutton-priority';
+import { IErrorBoxData } from '@app/components/errorbox/errorbox-data.interface';
+import { BackService } from '@app/services/back-service';
+import { BackButtonPriority } from '@app/enums/backbutton-priority';
 
 @Component({
   selector: 'hc-errorbox',

@@ -1,4 +1,4 @@
-import { TextFormat } from 'app/enums/text-format';
+import { TextFormat } from '@app/enums/text-format';
 
 export class TemplateControlValueWrapper {
 

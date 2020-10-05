@@ -1,5 +1,5 @@
-import { FieldLayoutCell } from 'app/layout/field-layout/field-layout-cell';
-import { HorizontalAlignment } from 'app/enums/horizontal-alignment';
+import { FieldLayoutCell } from '@app/layout/field-layout/field-layout-cell';
+import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
 
 export class FieldLayoutColumn {
 

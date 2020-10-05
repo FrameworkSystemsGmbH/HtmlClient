@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { IMsgBoxData } from 'app/components/msgbox/msgbox-data.interface';
+import { IMsgBoxData } from '@app/components/msgbox/msgbox-data.interface';
 
-import { MsgBoxButtons } from 'app/enums/msgbox-buttons';
-import { MsgBoxIcon } from 'app/enums/msgbox-icon';
-import { MsgBoxResult } from 'app/enums/msgbox-result';
-import { BackService } from 'app/services/back-service';
-import { BackButtonPriority } from 'app/enums/backbutton-priority';
+import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
+import { MsgBoxIcon } from '@app/enums/msgbox-icon';
+import { MsgBoxResult } from '@app/enums/msgbox-result';
+import { BackService } from '@app/services/back-service';
+import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { IconDefinition, faExclamationCircle, faExclamationTriangle, faInfoCircle, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({

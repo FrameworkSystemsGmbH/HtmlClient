@@ -1,13 +1,13 @@
 import { ElementRef, AfterViewChecked, NgZone, Directive } from '@angular/core';
 
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { ComboBoxComponent } from 'app/controls/comboboxes/combobox.component';
-import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
+import { ComboBoxComponent } from '@app/controls/comboboxes/combobox.component';
+import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 
-import * as DomUtil from 'app/util/dom-util';
-import * as KeyUtil from 'app/util/key-util';
-import * as StyleUtil from 'app/util/style-util';
+import * as DomUtil from '@app/util/dom-util';
+import * as KeyUtil from '@app/util/key-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Directive()
 export abstract class ComboBoxDesktopComponent extends ComboBoxComponent implements AfterViewChecked {

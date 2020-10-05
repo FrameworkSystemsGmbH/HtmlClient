@@ -1,6 +1,6 @@
-import { ClientApplicationQuitEventArgs } from 'app/common/events/eventargs/client-application-quit-eventargs';
-import { ClientControlEvent } from 'app/common/events/client-control-event';
-import { ClientEventType } from 'app/enums/client-event-type';
+import { ClientApplicationQuitEventArgs } from '@app/common/events/eventargs/client-application-quit-eventargs';
+import { ClientControlEvent } from '@app/common/events/client-control-event';
+import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientApplicationQuitEvent extends ClientControlEvent {
 

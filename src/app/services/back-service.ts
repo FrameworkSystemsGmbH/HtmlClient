@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Plugins, PluginListenerHandle } from '@capacitor/core';
-import { PlatformService } from 'app/services/platform.service';
-import { BackButtonPriority } from 'app/enums/backbutton-priority';
+import { PlatformService } from '@app/services/platform.service';
+import { BackButtonPriority } from '@app/enums/backbutton-priority';
 
 const { App } = Plugins;
 

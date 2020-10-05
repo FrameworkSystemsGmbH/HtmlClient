@@ -5,17 +5,17 @@ import { animate, transition, trigger, style } from '@angular/animations';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { FormWrapper } from 'app/wrappers/form-wrapper';
-import { EventsService } from 'app/services/events.service';
-import { FormsService } from 'app/services/forms.service';
-import { PlatformService } from 'app/services/platform.service';
-import { TitleService } from 'app/services/title.service';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
+import { EventsService } from '@app/services/events.service';
+import { FormsService } from '@app/services/forms.service';
+import { PlatformService } from '@app/services/platform.service';
+import { TitleService } from '@app/services/title.service';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
-import { selectBrokerDirect } from 'app/store/broker/broker.selectors';
+import { selectBrokerDirect } from '@app/store/broker/broker.selectors';
 
-import * as DomUtil from 'app/util/dom-util';
-import * as StyleUtil from 'app/util/style-util';
+import * as DomUtil from '@app/util/dom-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Component({
   selector: 'hc-base-header',

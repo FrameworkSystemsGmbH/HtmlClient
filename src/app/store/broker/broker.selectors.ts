@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { IAppState } from 'app/store/app.state';
+import { IAppState } from '@app/store/app.state';
 
 const brokerState = (state: IAppState) => state.broker;
 

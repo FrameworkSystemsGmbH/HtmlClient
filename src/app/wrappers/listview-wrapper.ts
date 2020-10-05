@@ -1,28 +1,28 @@
 import { ComponentRef, ComponentFactory, Injector } from '@angular/core';
 
-import { IListViewLayoutControl } from 'app/layout/listview-layout/listview-layout-control.interface';
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
-import { IListViewTemplateVariableWrapperOptions, ListViewTemplateVariableWrapper } from 'app/wrappers/listview-template-variable-wrapper';
+import { IListViewLayoutControl } from '@app/layout/listview-layout/listview-layout-control.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IListViewTemplateVariableWrapperOptions, ListViewTemplateVariableWrapper } from '@app/wrappers/listview-template-variable-wrapper';
 
-import { ControlWrapper } from 'app/wrappers/control-wrapper';
-import { ListViewComponent } from 'app/controls/listview/listview.component';
-import { ControlType } from 'app/enums/control-type';
-import { ListViewItemArrangement } from 'app/enums/listview-item-arrangement';
-import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
-import { ListViewItemWrapper } from 'app/wrappers/listview-item-wrapper';
-import { ListViewTemplateDataSourceWrapper } from 'app/wrappers/listview-template-datasource-wrapper';
-import { TextFormat } from 'app/enums/text-format';
-import { PatternFormatService } from 'app/services/formatter/pattern-format.service';
-import { ListViewItemValueWrapper } from 'app/wrappers/listview-item-value-wrapper';
-import { LayoutBase } from 'app/layout/layout-base';
-import { ListViewLayout } from 'app/layout/listview-layout/listview-layout';
-import { ClientEventType } from 'app/enums/client-event-type';
-import { InternalEventCallbacks } from 'app/common/events/internal/internal-event-callbacks';
-import { ClientSelectionChangedEvent } from 'app/common/events/client-selection-changed-event';
-import { Visibility } from 'app/enums/visibility';
-import { ClientItemActivatedEvent } from 'app/common/events/client-item-activated-event';
-import { ImageService } from 'app/services/image.service';
-import { ListViewSelectorPosition } from 'app/enums/listview-selector-position';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { ListViewComponent } from '@app/controls/listview/listview.component';
+import { ControlType } from '@app/enums/control-type';
+import { ListViewItemArrangement } from '@app/enums/listview-item-arrangement';
+import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
+import { ListViewItemWrapper } from '@app/wrappers/listview-item-wrapper';
+import { ListViewTemplateDataSourceWrapper } from '@app/wrappers/listview-template-datasource-wrapper';
+import { TextFormat } from '@app/enums/text-format';
+import { PatternFormatService } from '@app/services/formatter/pattern-format.service';
+import { ListViewItemValueWrapper } from '@app/wrappers/listview-item-value-wrapper';
+import { LayoutBase } from '@app/layout/layout-base';
+import { ListViewLayout } from '@app/layout/listview-layout/listview-layout';
+import { ClientEventType } from '@app/enums/client-event-type';
+import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { ClientSelectionChangedEvent } from '@app/common/events/client-selection-changed-event';
+import { Visibility } from '@app/enums/visibility';
+import { ClientItemActivatedEvent } from '@app/common/events/client-item-activated-event';
+import { ImageService } from '@app/services/image.service';
+import { ListViewSelectorPosition } from '@app/enums/listview-selector-position';
 
 export interface IHeaderOptions {
   height: number;

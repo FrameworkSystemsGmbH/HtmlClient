@@ -1,4 +1,4 @@
-import { TextAlign } from 'app/enums/text-align';
+import { TextAlign } from '@app/enums/text-align';
 
 export interface ILayoutableControlLabelTemplate {
 

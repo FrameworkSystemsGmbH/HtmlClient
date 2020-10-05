@@ -1,13 +1,13 @@
 import { Component, ViewChild, Output, EventEmitter, ElementRef, Injector } from '@angular/core';
 
-import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
-import { ControlComponent } from 'app/controls/control.component';
-import { CheckBoxWrapper } from 'app/wrappers/checkbox-wrapper';
+import { ControlComponent } from '@app/controls/control.component';
+import { CheckBoxWrapper } from '@app/wrappers/checkbox-wrapper';
 
-import * as DomUtil from 'app/util/dom-util';
-import * as KeyUtil from 'app/util/key-util';
-import * as StyleUtil from 'app/util/style-util';
+import * as DomUtil from '@app/util/dom-util';
+import * as KeyUtil from '@app/util/key-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Component({
   selector: 'hc-chkbox',

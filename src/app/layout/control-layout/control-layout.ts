@@ -1,7 +1,7 @@
-import { ILayoutableControl } from 'app/layout/layoutable-control.interface';
+import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
 
-import { LayoutBase } from 'app/layout/layout-base';
-import { Visibility } from 'app/enums/visibility';
+import { LayoutBase } from '@app/layout/layout-base';
+import { Visibility } from '@app/enums/visibility';
 
 export class ControlLayout extends LayoutBase {
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 
-import { selectBrokerReportUrl } from 'app/store/broker/broker.selectors';
+import { selectBrokerReportUrl } from '@app/store/broker/broker.selectors';
 
 const { Browser } = Plugins;
 

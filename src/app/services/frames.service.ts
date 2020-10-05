@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FrameComponent } from 'app/components/frame/frame.component';
+import { FrameComponent } from '@app/components/frame/frame.component';
 
 @Injectable()
 export class FramesService {

@@ -2,12 +2,12 @@ import { Component, Inject, HostListener, OnInit, OnDestroy, ViewChild, ElementR
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
-import { DataList } from 'app/common/data-list';
-import { BackService } from 'app/services/back-service';
-import { BackButtonPriority } from 'app/enums/backbutton-priority';
+import { DataList } from '@app/common/data-list';
+import { BackService } from '@app/services/back-service';
+import { BackButtonPriority } from '@app/enums/backbutton-priority';
 
-import * as DomUtil from 'app/util/dom-util';
-import * as KeyUtil from 'app/util/key-util';
+import * as DomUtil from '@app/util/dom-util';
+import * as KeyUtil from '@app/util/key-util';
 
 @Component({
   selector: 'hc-cmb-list-mobile-overlay',

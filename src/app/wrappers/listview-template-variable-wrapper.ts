@@ -1,5 +1,5 @@
-import { TextFormat } from 'app/enums/text-format';
-import { ListViewTemplateDataSourceWrapper } from 'app/wrappers/listview-template-datasource-wrapper';
+import { TextFormat } from '@app/enums/text-format';
+import { ListViewTemplateDataSourceWrapper } from '@app/wrappers/listview-template-datasource-wrapper';
 
 export interface IListViewTemplateVariableWrapperOptions {
   format?: TextFormat;

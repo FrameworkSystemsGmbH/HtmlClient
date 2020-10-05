@@ -1,15 +1,15 @@
 import { ComponentRef, ComponentFactory, ViewContainerRef } from '@angular/core';
 
-import { IFieldContainer } from 'app/layout/field-layout/field-container.interface';
-import { IFieldRowControl } from 'app/layout/field-layout/field-row-control.interface';
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { IFieldContainer } from '@app/layout/field-layout/field-container.interface';
+import { IFieldRowControl } from '@app/layout/field-layout/field-row-control.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { LayoutBase } from 'app/layout/layout-base';
-import { FieldLayout } from 'app/layout/field-layout/field-layout';
-import { FieldPanelComponent } from 'app/controls/layouts/field-panel/field-panel.component';
-import { ContainerWrapperSpaceable } from 'app/wrappers/container-wrapper-spaceable';
-import { ControlLabelTemplate } from 'app/wrappers/control-labels/control-label-template';
-import { ControlType } from 'app/enums/control-type';
+import { LayoutBase } from '@app/layout/layout-base';
+import { FieldLayout } from '@app/layout/field-layout/field-layout';
+import { FieldPanelComponent } from '@app/controls/layouts/field-panel/field-panel.component';
+import { ContainerWrapperSpaceable } from '@app/wrappers/container-wrapper-spaceable';
+import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label-template';
+import { ControlType } from '@app/enums/control-type';
 
 export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFieldContainer {
 

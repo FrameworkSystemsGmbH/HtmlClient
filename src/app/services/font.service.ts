@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import * as Moment from 'moment-timezone';
 
-import { ControlStyleService } from 'app/services/control-style.service';
-import { NumberFormatService } from 'app/services/formatter/number-format.service';
-import { DateTimeFormatService } from 'app/services/formatter/datetime-format.service';
-import { TextBoxBaseWrapper } from 'app/wrappers/textbox-base-wrapper';
-import { FittedDataWrapper } from 'app/wrappers/fitted-data-wrapper';
-import { PropertyStore } from 'app/common/property-store';
-import { PropertyLayer } from 'app/common/property-layer';
-import { DataSourceType } from 'app/enums/datasource-type';
-import { TextFormat } from 'app/enums/text-format';
-import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
-import { ParseMethod } from 'app/enums/parse-method';
+import { ControlStyleService } from '@app/services/control-style.service';
+import { NumberFormatService } from '@app/services/formatter/number-format.service';
+import { DateTimeFormatService } from '@app/services/formatter/datetime-format.service';
+import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
+import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
+import { PropertyStore } from '@app/common/property-store';
+import { PropertyLayer } from '@app/common/property-layer';
+import { DataSourceType } from '@app/enums/datasource-type';
+import { TextFormat } from '@app/enums/text-format';
+import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
+import { ParseMethod } from '@app/enums/parse-method';
 
-import * as StyleUtil from 'app/util/style-util';
+import * as StyleUtil from '@app/util/style-util';
 
 @Injectable()
 export class FontService {

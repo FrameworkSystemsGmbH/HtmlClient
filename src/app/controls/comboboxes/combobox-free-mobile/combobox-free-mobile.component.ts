@@ -2,11 +2,11 @@ import { Component, ElementRef, ViewChild, Injector } from '@angular/core';
 import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 
-import { ComboBoxMobileComponent } from 'app/controls/comboboxes/combobox-mobile.component';
-import { ComboBoxFreeMobileOverlayComponent } from 'app/controls/comboboxes/combobox-free-mobile/combobox-free-mobile-overlay.component';
-import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
+import { ComboBoxMobileComponent } from '@app/controls/comboboxes/combobox-mobile.component';
+import { ComboBoxFreeMobileOverlayComponent } from '@app/controls/comboboxes/combobox-free-mobile/combobox-free-mobile-overlay.component';
+import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 
-import * as DomUtil from 'app/util/dom-util';
+import * as DomUtil from '@app/util/dom-util';
 
 @Component({
   selector: 'hc-cmb-free-mobile',

@@ -1,6 +1,6 @@
-import { ClientFormEvent } from 'app/common/events/client-form-event';
-import { ClientLeaveEventArgs } from 'app/common/events/eventargs/client-leave-eventargs';
-import { ClientEventType } from 'app/enums/client-event-type';
+import { ClientFormEvent } from '@app/common/events/client-form-event';
+import { ClientLeaveEventArgs } from '@app/common/events/eventargs/client-leave-eventargs';
+import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientLeaveEvent extends ClientFormEvent {
 

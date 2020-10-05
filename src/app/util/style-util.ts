@@ -1,6 +1,6 @@
-import { TextAlign } from 'app/enums/text-align';
-import { ContentAlignment } from 'app/enums/content-alignment';
-import { ScrollBars } from 'app/enums/scrollbars';
+import { TextAlign } from '@app/enums/text-align';
+import { ContentAlignment } from '@app/enums/content-alignment';
+import { ScrollBars } from '@app/enums/scrollbars';
 
 export const headerHeight: number = 40;
 export const iosMenubarHeight: number = 20;

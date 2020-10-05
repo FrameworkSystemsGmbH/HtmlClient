@@ -1,4 +1,4 @@
-import { DataListEntry } from 'app/common/data-list-entry';
+import { DataListEntry } from '@app/common/data-list-entry';
 
 export class DataList extends Array<DataListEntry> {
 

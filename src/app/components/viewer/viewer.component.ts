@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormsService } from 'app/services/forms.service';
+import { FormsService } from '@app/services/forms.service';
 import { Subscription } from 'rxjs';
-import { LoaderService } from 'app/services/loader.service';
+import { LoaderService } from '@app/services/loader.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({

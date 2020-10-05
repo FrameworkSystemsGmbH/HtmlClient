@@ -1,7 +1,7 @@
-import { IListViewLayoutControl } from 'app/layout/listview-layout/listview-layout-control.interface';
-import { Visibility } from 'app/enums/visibility';
-import { LayoutBase } from 'app/layout/layout-base';
-import { ListViewSelectionMode } from 'app/enums/listview-selection-mode';
+import { IListViewLayoutControl } from '@app/layout/listview-layout/listview-layout-control.interface';
+import { Visibility } from '@app/enums/visibility';
+import { LayoutBase } from '@app/layout/layout-base';
+import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
 
 export class ListViewLayout extends LayoutBase {
 

@@ -1,10 +1,10 @@
 import { ComponentRef, ComponentFactory } from '@angular/core';
 
-import { ILayoutableContainerWrapper } from 'app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
-import { ButtonBaseWrapper } from 'app/wrappers/button-base-wrapper';
-import { ButtonPlainComponent } from 'app/controls/buttons/button-plain/button-plain.component';
-import { ControlType } from 'app/enums/control-type';
+import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
+import { ButtonPlainComponent } from '@app/controls/buttons/button-plain/button-plain.component';
+import { ControlType } from '@app/enums/control-type';
 
 export class ButtonPlainWrapper extends ButtonBaseWrapper {
 

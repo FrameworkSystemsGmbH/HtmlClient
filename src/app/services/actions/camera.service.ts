@@ -1,9 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Plugins, CameraDirection, CameraResultType, CameraSource, AppRestoredResult } from '@capacitor/core';
 import { Store } from '@ngrx/store';
-import { EventsService } from 'app/services/events.service';
-import { BrokerCameraSource } from 'app/enums/broker-camera-source';
-import { selectBrokerName } from 'app/store/broker/broker.selectors';
+import { EventsService } from '@app/services/events.service';
+import { BrokerCameraSource } from '@app/enums/broker-camera-source';
+import { selectBrokerName } from '@app/store/broker/broker.selectors';
 
 const { Camera } = Plugins;
 
