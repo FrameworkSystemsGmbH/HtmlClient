@@ -34,8 +34,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/hammerjs/hammer.min.js",
-              "node_modules/intl/dist/Intl.complete.js"
+              "node_modules/hammerjs/hammer.min.js"
             ]
           },
           "configurations": {
@@ -89,8 +88,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/hammerjs/hammer.min.js",
-              "node_modules/intl/dist/Intl.complete.js"
+              "node_modules/hammerjs/hammer.min.js"
             ]
           }
         },
