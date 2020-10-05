@@ -7,11 +7,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from '@app/app.component';
 import { APP_ROUTING } from '@app/app.routing';
+import { HammerConfig } from '@app/common/hammer/hammer-config';
 import { ErrorBoxComponent } from '@app/components/errorbox/errorbox.component';
 import { MsgBoxComponent } from '@app/components/msgbox/msgbox.component';
 import { RetryBoxComponent } from '@app/components/retrybox/retrybox.component';
@@ -46,18 +47,19 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
   imports: [
     APP_ROUTING,
     A11yModule,
+    RouterModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
+    HammerModule,
+    FontAwesomeModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    RouterModule,
-    ReactiveFormsModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FontAwesomeModule,
     OverlayscrollbarsModule,
     StoreModule.forRoot(appReducer),
     StoreDevtoolsModule.instrument({
@@ -69,6 +71,10 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
     {
       provide: ErrorHandler,
       useClass: ErrorService
+    },
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: HammerConfig
     },
     ALL_SERVICES
   ],
