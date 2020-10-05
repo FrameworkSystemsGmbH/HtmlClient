@@ -1,11 +1,9 @@
-import { Component, ElementRef, ViewChild, Injector } from '@angular/core';
-
+import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
-import { TextBoxMultilineWrapper } from '@app/wrappers/textbox-multiline-wrapper';
 import { ScrollBars } from '@app/enums/scrollbars';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
 import * as StyleUtil from '@app/util/style-util';
+import { TextBoxMultilineWrapper } from '@app/wrappers/textbox-multiline-wrapper';
 
 @Component({
   selector: 'hc-txt-multiline',

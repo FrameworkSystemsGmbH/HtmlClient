@@ -1,19 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-import { IconDefinition, faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Store } from '@ngrx/store';
-
-import { LoginBroker } from '@app/common/login-broker';
-import { LoginService } from '@app/services/login.service';
-import { BrokerService } from '@app/services/broker.service';
-import { TitleService } from '@app/services/title.service';
-import { StateService } from '@app/services/state.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LastSessionInfo } from '@app/common/last-session-info';
-
+import { LoginBroker } from '@app/common/login-broker';
+import { BrokerService } from '@app/services/broker.service';
+import { LoginService } from '@app/services/login.service';
+import { StateService } from '@app/services/state.service';
+import { TitleService } from '@app/services/title.service';
 import { selectBrokerName } from '@app/store/broker/broker.selectors';
-
 import * as DomUtil from '@app/util/dom-util';
+import { faEdit, faPlus, faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'hc-login',

@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormsService } from '@app/services/forms.service';
-import { Subscription } from 'rxjs';
-import { LoaderService } from '@app/services/loader.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormsService } from '@app/services/forms.service';
+import { LoaderService } from '@app/services/loader.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'hc-viewer',

@@ -1,11 +1,8 @@
-import { Component, ViewChild, ViewContainerRef, Injector } from '@angular/core';
-
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
+import { Component, Injector, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
-import { VariantWrapper } from '@app/wrappers/variant-wrapper';
-
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as StyleUtil from '@app/util/style-util';
+import { VariantWrapper } from '@app/wrappers/variant-wrapper';
 
 @Component({
   selector: 'hc-variant',

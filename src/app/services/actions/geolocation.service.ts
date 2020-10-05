@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { EventsService } from '@app/services/events.service';
-import { Plugins, GeolocationPosition } from '@capacitor/core';
+import { GeolocationPosition, Plugins } from '@capacitor/core';
 
 const { Geolocation } = Plugins;
 

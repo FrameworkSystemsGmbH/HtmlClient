@@ -1,7 +1,7 @@
+import { ComponentFactoryResolver, ComponentRef, Injector, ViewContainerRef, ViewRef } from '@angular/core';
+import { ListViewItemComponent } from '@app/controls/listview/listview-item.component';
 import { ListViewItemValueWrapper } from '@app/wrappers/listview-item-value-wrapper';
 import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
-import { ListViewItemComponent } from '@app/controls/listview/listview-item.component';
-import { ViewContainerRef, Injector, ComponentFactoryResolver, ComponentRef, ViewRef } from '@angular/core';
 
 export interface IListViewItemWrapperOptions {
   listViewWrapper: ListViewWrapper;

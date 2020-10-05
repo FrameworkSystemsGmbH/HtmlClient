@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-
-import { BehaviorSubject, Observable } from 'rxjs';
-
 import { LoginBroker } from '@app/common/login-broker';
 import { ClientDataService } from '@app/services/client-data.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class LoginService {

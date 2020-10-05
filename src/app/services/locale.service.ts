@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import * as Moment from 'moment-timezone';
 
 @Injectable()

@@ -1,22 +1,20 @@
-import { ComponentRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
-
-import { IControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper.interface';
-import { IControlLabelProvider } from '@app/wrappers/control-labels/control-label-provider.interface';
-import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
-import { IFieldLayoutSynchronized } from '@app/layout/field-layout/field-layout-synchronized.interface';
-
-import { FontService } from '@app/services/font.service';
+import { ComponentFactory, ComponentFactoryResolver, ComponentRef, Injector } from '@angular/core';
 import { ControlLabelComponent } from '@app/controls/control-labels/control-label/control-label.component';
-import { ControlLabelContainerBaseWrapper } from '@app/wrappers/control-labels/control-label-container-base-wrapper';
-import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label-template';
-import { LayoutBase } from '@app/layout/layout-base';
-import { ControlLayout } from '@app/layout/control-layout/control-layout';
-import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';
-import { VchControl } from '@app/vch/vch-control';
-import { TextAlign } from '@app/enums/text-align';
-import { Visibility } from '@app/enums/visibility';
 import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
+import { TextAlign } from '@app/enums/text-align';
 import { VerticalAlignment } from '@app/enums/vertical-alignment';
+import { Visibility } from '@app/enums/visibility';
+import { ControlLayout } from '@app/layout/control-layout/control-layout';
+import { IFieldLayoutSynchronized } from '@app/layout/field-layout/field-layout-synchronized.interface';
+import { LayoutBase } from '@app/layout/layout-base';
+import { FontService } from '@app/services/font.service';
+import { VchControl } from '@app/vch/vch-control';
+import { ControlLabelContainerBaseWrapper } from '@app/wrappers/control-labels/control-label-container-base-wrapper';
+import { IControlLabelProvider } from '@app/wrappers/control-labels/control-label-provider.interface';
+import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label-template';
+import { IControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper.interface';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
+import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';
 
 export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSynchronized {
 

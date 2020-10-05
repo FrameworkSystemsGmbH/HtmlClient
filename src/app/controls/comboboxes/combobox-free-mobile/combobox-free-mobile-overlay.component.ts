@@ -1,13 +1,11 @@
-import { Component, Inject, HostListener, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
-
 import { DataList } from '@app/common/data-list';
-import { BackService } from '@app/services/back-service';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
-
+import { BackService } from '@app/services/back-service';
 import * as DomUtil from '@app/util/dom-util';
 import * as KeyUtil from '@app/util/key-util';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'hc-cmb-free-mobile-overlay',

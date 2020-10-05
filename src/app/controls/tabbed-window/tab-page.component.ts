@@ -1,11 +1,8 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ElementRef, Injector } from '@angular/core';
-
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
+import { Component, ElementRef, Injector, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
-import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
-
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as StyleUtil from '@app/util/style-util';
+import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
 
 @Component({
   selector: 'hc-tab-page',

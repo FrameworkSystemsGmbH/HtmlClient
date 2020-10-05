@@ -1,5 +1,5 @@
-import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
 import { Visibility } from '@app/enums/visibility';
+import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
 
 export class ControlLabelSeparatorWrapper extends ControlLabelWrapper {
 

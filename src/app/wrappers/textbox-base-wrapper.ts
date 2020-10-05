@@ -1,15 +1,15 @@
-import { PatternFormatService } from '@app/services/formatter/pattern-format.service';
-import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
-import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
-import { TextAlign } from '@app/enums/text-align';
-import { TextFormat } from '@app/enums/text-format';
-import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { ClientEnterEvent } from '@app/common/events/client-enter-event';
 import { ClientValidatedEvent } from '@app/common/events/client-validated-event';
+import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { ClientEventType } from '@app/enums/client-event-type';
-import { Visibility } from '@app/enums/visibility';
-import { TextBoxType } from '@app/enums/textbox-type';
 import { ControlType } from '@app/enums/control-type';
+import { TextAlign } from '@app/enums/text-align';
+import { TextFormat } from '@app/enums/text-format';
+import { TextBoxType } from '@app/enums/textbox-type';
+import { Visibility } from '@app/enums/visibility';
+import { PatternFormatService } from '@app/services/formatter/pattern-format.service';
+import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
 
 export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
 

@@ -1,14 +1,13 @@
-import { ITabbedLayoutControl } from '@app/layout/tabbed-layout/tabbed-layout-control.interface';
-import { ILayoutableContainer } from '@app/layout/layoutable-container.interface';
-import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
-import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
-import { LayoutContainerBase } from '@app/layout/layout-container-base';
 import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
+import { TabAlignment } from '@app/enums/tab-alignment';
 import { VerticalAlignment } from '@app/enums/vertical-alignment';
 import { Visibility } from '@app/enums/visibility';
-import { TabAlignment } from '@app/enums/tab-alignment';
+import { LayoutContainerBase } from '@app/layout/layout-container-base';
+import { ILayoutableContainer } from '@app/layout/layoutable-container.interface';
+import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
+import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
+import { ITabbedLayoutControl } from '@app/layout/tabbed-layout/tabbed-layout-control.interface';
 
 export class TabbedLayout extends LayoutContainerBase {
 

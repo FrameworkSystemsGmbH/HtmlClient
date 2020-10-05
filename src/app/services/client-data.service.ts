@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
-import { mergeMap, map } from 'rxjs/operators';
-import { Plugins } from '@capacitor/core';
-
 import { LoginBroker } from '@app/common/login-broker';
 import { StorageService } from '@app/services/storage.service';
+import { Plugins } from '@capacitor/core';
+import { from, Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 
 const { Device } = Plugins;
 

@@ -1,19 +1,16 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, Output, EventEmitter, ElementRef, AfterViewInit, NgZone, Renderer2, HostListener, Injector } from '@angular/core';
-import { IconDefinition, faAngleLeft, faAngleRight, faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
-
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Injector, NgZone, OnInit, Output, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
-import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
-import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
-import { TabPageTemplate } from '@app/wrappers/tabbed-window/tab-page-template';
 import { TabAlignment } from '@app/enums/tab-alignment';
 import { Visibility } from '@app/enums/visibility';
-import { PlatformService } from '@app/services/platform.service';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import { ImageService } from '@app/services/image.service';
-
+import { PlatformService } from '@app/services/platform.service';
 import * as StyleUtil from '@app/util/style-util';
+import { TabPageTemplate } from '@app/wrappers/tabbed-window/tab-page-template';
+import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
+import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
+import { faAngleDown, faAngleLeft, faAngleRight, faAngleUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 @Component({
   selector: 'hc-tabbed-window',

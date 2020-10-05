@@ -1,8 +1,7 @@
-import { Output, EventEmitter, ElementRef, Directive } from '@angular/core';
-
+import { Directive, ElementRef, EventEmitter, Output } from '@angular/core';
+import { DataList } from '@app/common/data-list';
 import { ControlComponent } from '@app/controls/control.component';
 import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
-import { DataList } from '@app/common/data-list';
 
 @Directive()
 export abstract class ComboBoxComponent extends ControlComponent {

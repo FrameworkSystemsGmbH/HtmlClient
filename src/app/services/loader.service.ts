@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, merge } from 'rxjs';
+import { merge, Observable, Subject } from 'rxjs';
 import { auditTime, distinctUntilChanged, filter, repeat, takeUntil } from 'rxjs/operators';
 
 @Injectable()

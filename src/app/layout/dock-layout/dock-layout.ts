@@ -1,14 +1,13 @@
-import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-import { IDockContainer } from '@app/layout/dock-layout/dock-container.interface';
-
-import { LayoutContainerBase } from '@app/layout/layout-container-base';
-import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
-import { DockOrientation } from '@app/layout/dock-layout/dock-orientation';
 import { DockPanelScrolling } from '@app/enums/dockpanel-scrolling';
 import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
 import { VerticalAlignment } from '@app/enums/vertical-alignment';
 import { Visibility } from '@app/enums/visibility';
+import { IDockContainer } from '@app/layout/dock-layout/dock-container.interface';
+import { DockOrientation } from '@app/layout/dock-layout/dock-orientation';
+import { LayoutContainerBase } from '@app/layout/layout-container-base';
+import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
+import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
 export class DockLayout extends LayoutContainerBase {
 

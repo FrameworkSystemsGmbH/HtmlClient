@@ -1,15 +1,13 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, Injector } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Observable, Subscription, fromEvent } from 'rxjs';
-import { debounceTime, buffer, map, share } from 'rxjs/operators';
-
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { ComboBoxDesktopComponent } from '@app/controls/comboboxes/combobox-desktop.component';
-import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
-
 import * as DomUtil from '@app/util/dom-util';
 import * as KeyUtil from '@app/util/key-util';
 import * as StyleUtil from '@app/util/style-util';
+import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
+import { faCaretDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { fromEvent, Observable, Subscription } from 'rxjs';
+import { buffer, debounceTime, map, share } from 'rxjs/operators';
 
 @Component({
   selector: 'hc-cmb-list',

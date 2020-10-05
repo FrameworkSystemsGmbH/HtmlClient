@@ -1,10 +1,9 @@
-import { Component, ViewChild, ElementRef, Injector } from '@angular/core';
-
+import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
-import { TextBoxNumberWrapper } from '@app/wrappers/textbox-number-wrapper';
-import { NumberFormatService } from '@app/services/formatter/number-format.service';
-import { TextFormat } from '@app/enums/text-format';
 import { ParseMethod } from '@app/enums/parse-method';
+import { TextFormat } from '@app/enums/text-format';
+import { NumberFormatService } from '@app/services/formatter/number-format.service';
+import { TextBoxNumberWrapper } from '@app/wrappers/textbox-number-wrapper';
 
 @Component({
   selector: 'hc-txt-number',

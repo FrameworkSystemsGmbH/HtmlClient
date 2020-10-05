@@ -1,10 +1,8 @@
-import { Component, ViewChild, ElementRef, Injector } from '@angular/core';
-
+import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ButtonComponent } from '@app/controls/buttons/button.component';
-import { ButtonImageWrapper } from '@app/wrappers/button-image-wrapper';
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
-
 import * as StyleUtil from '@app/util/style-util';
+import { ButtonImageWrapper } from '@app/wrappers/button-image-wrapper';
 
 @Component({
   selector: 'hc-btn-image',

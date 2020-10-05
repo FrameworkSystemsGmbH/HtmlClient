@@ -1,14 +1,12 @@
-import { Component, HostListener, OnInit, AfterViewInit } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { BackService } from '@app/services/back-service';
 import { FocusService } from '@app/services/focus.service';
-import { LocaleService } from '@app/services/locale.service';
 import { KeyboardService } from '@app/services/keyboard.service';
+import { LocaleService } from '@app/services/locale.service';
 import { PlatformService } from '@app/services/platform.service';
 import { StateService } from '@app/services/state.service';
-
 import * as StyleUtil from '@app/util/style-util';
+import { Plugins } from '@capacitor/core';
 
 const { SplashScreen } = Plugins;
 

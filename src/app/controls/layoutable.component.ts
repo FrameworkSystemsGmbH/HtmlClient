@@ -1,5 +1,4 @@
-import { OnInit, DoCheck, Directive } from '@angular/core';
-
+import { Directive, DoCheck, OnInit } from '@angular/core';
 import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
 
 @Directive()

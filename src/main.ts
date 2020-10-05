@@ -1,13 +1,10 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { defineCustomElements } from '@ionic/pwa-elements/loader';
-
 import { AppModule } from '@app/app.module';
-import { environment } from '@env/env.dev';
-
-import { TemplateContentWebComp } from '@app/webcomponents/template-content/template-content.webcomp';
 import { ListViewItemContentWebComp } from '@app/webcomponents/listview-item-content/listview-item-content.webcomp';
+import { TemplateContentWebComp } from '@app/webcomponents/template-content/template-content.webcomp';
+import { environment } from '@env/env.dev';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 if (environment.production) {
   enableProdMode();

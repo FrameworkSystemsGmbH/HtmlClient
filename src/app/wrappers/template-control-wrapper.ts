@@ -1,15 +1,13 @@
-import { Injector, ComponentRef, ComponentFactory } from '@angular/core';
-
-import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
-
-import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { ComponentFactory, ComponentRef, Injector } from '@angular/core';
+import { TemplateControlComponent } from '@app/controls/template-control/template-control.component';
 import { ControlType } from '@app/enums/control-type';
 import { TextFormat } from '@app/enums/text-format';
 import { PatternFormatService } from '@app/services/formatter/pattern-format.service';
 import { ImageService } from '@app/services/image.service';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { TemplateControlTemplateDataSourceWrapper } from '@app/wrappers/template-control-template-datasource-wrapper';
-import { TemplateControlTemplateVariableWrapper, ITemplateControlTemplateVariableWrapperOptions } from '@app/wrappers/template-control-template-variable-wrapper';
-import { TemplateControlComponent } from '@app/controls/template-control/template-control.component';
+import { ITemplateControlTemplateVariableWrapperOptions, TemplateControlTemplateVariableWrapper } from '@app/wrappers/template-control-template-variable-wrapper';
 import { TemplateControlValueWrapper } from '@app/wrappers/template-control-value-wrapper';
 
 export class TemplateControlWrapper extends ControlWrapper {

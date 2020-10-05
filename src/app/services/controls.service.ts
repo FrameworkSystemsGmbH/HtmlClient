@@ -1,20 +1,17 @@
 import { Injectable, Injector } from '@angular/core';
-
-import { ControlStyleService } from '@app/services/control-style.service';
-
+import { PropertyData } from '@app/common/property-data';
+import { PropertyLayer } from '@app/common/property-layer';
+import { PropertyStore } from '@app/common/property-store';
 import { ControlType } from '@app/enums/control-type';
 import { TextFormat } from '@app/enums/text-format';
 import { TextBoxType } from '@app/enums/textbox-type';
-import { PropertyStore } from '@app/common/property-store';
-import { PropertyLayer } from '@app/common/property-layer';
-import { PropertyData } from '@app/common/property-data';
-
-import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { ControlStyleService } from '@app/services/control-style.service';
 import { ButtonImageWrapper } from '@app/wrappers/button-image-wrapper';
 import { ButtonPlainWrapper } from '@app/wrappers/button-plain-wrapper';
 import { CheckBoxWrapper } from '@app/wrappers/checkbox-wrapper';
 import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
 import { DockPanelWrapper } from '@app/wrappers/dock-panel-wrapper';
 import { FieldPanelWrapper } from '@app/wrappers/field-panel-wrapper';
 import { FieldRowWrapper } from '@app/wrappers/field-row-wrapper';
@@ -23,12 +20,12 @@ import { LabelWrapper } from '@app/wrappers/label-wrapper';
 import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
 import { PictureWrapper } from '@app/wrappers/picture-wrapper';
 import { RadioButtonWrapper } from '@app/wrappers/radio-button-wrapper';
-import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
 import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
+import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
 import { TemplateControlWrapper } from '@app/wrappers/template-control-wrapper';
-import { TextBoxNumberWrapper } from '@app/wrappers/textbox-number-wrapper';
 import { TextBoxDateTimeWrapper } from '@app/wrappers/textbox-datetime-wrapper';
 import { TextBoxMultilineWrapper } from '@app/wrappers/textbox-multiline-wrapper';
+import { TextBoxNumberWrapper } from '@app/wrappers/textbox-number-wrapper';
 import { TextBoxPlainWrapper } from '@app/wrappers/textbox-plain-wrapper';
 import { VariantWrapper } from '@app/wrappers/variant-wrapper';
 import { WrapPanelWrapper } from '@app/wrappers/wrap-panel-wrapper';

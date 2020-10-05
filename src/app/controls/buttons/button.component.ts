@@ -1,12 +1,9 @@
-import { EventEmitter, Output, ElementRef, Directive } from '@angular/core';
-
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
+import { Directive, ElementRef, EventEmitter, Output } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
-import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
-
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as KeyUtil from '@app/util/key-util';
 import * as StyleUtil from '@app/util/style-util';
+import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
 
 @Directive()
 export abstract class ButtonComponent extends ControlComponent {

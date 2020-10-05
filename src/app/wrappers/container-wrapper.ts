@@ -1,20 +1,17 @@
 import { ComponentRef, ViewContainerRef } from '@angular/core';
-
-import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
-import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
-
 import { ContainerComponent } from '@app/controls/container.component';
-import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { Visibility } from '@app/enums/visibility';
+import { ContainerLayout } from '@app/layout/container-layout/container-layout';
 import { LayoutBase } from '@app/layout/layout-base';
 import { LayoutContainerBase } from '@app/layout/layout-container-base';
-import { ContainerLayout } from '@app/layout/container-layout/container-layout';
-import { ButtonGroup } from '@app/wrappers/button-group/button-group';
-import { VchControl } from '@app/vch/vch-control';
-import { VchContainer } from '@app/vch/vch-container';
-import { Visibility } from '@app/enums/visibility';
-import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
-
+import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
 import * as JsonUtil from '@app/util/json-util';
+import { VchContainer } from '@app/vch/vch-container';
+import { VchControl } from '@app/vch/vch-control';
+import { ButtonGroup } from '@app/wrappers/button-group/button-group';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
 
 export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainerWrapper {
 

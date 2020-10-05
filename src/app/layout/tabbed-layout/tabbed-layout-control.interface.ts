@@ -1,6 +1,5 @@
-import { ILayoutableContainer } from '@app/layout/layoutable-container.interface';
-
 import { TabAlignment } from '@app/enums/tab-alignment';
+import { ILayoutableContainer } from '@app/layout/layoutable-container.interface';
 
 export interface ITabbedLayoutControl extends ILayoutableContainer {
 

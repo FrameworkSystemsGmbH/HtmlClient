@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-
-import * as Moment from 'moment-timezone';
-
 import { TextFormat } from '@app/enums/text-format';
+import * as Moment from 'moment-timezone';
 
 @Injectable()
 export class DateTimeFormatService {

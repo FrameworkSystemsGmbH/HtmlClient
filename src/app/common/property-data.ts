@@ -1,23 +1,23 @@
-import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
-import { VerticalAlignment } from '@app/enums/vertical-alignment';
-import { HorizontalContentAlignment } from '@app/enums/horizontal-content-alignment';
-import { VerticalContentAlignment } from '@app/enums/vertical-content-alignment';
 import { ContentAlignment } from '@app/enums/content-alignment';
 import { DataSourceType } from '@app/enums/datasource-type';
-import { DockOrientation } from '@app/layout/dock-layout/dock-orientation';
 import { DockPanelScrolling } from '@app/enums/dockpanel-scrolling';
-import { TextFormat } from '@app/enums/text-format';
 import { EditStyle } from '@app/enums/edit-style';
-import { PictureScaleMode } from '@app/enums/picture-scale-mode';
-import { ScrollBars } from '@app/enums/scrollbars';
-import { TextAlign } from '@app/enums/text-align';
-import { Visibility } from '@app/enums/visibility';
-import { TabAlignment } from '@app/enums/tab-alignment';
-import { FieldRowLabelMode } from '@app/layout/field-layout/field-row-label-mode';
-import { WrapArrangement } from '@app/layout/wrap-layout/wrap-arrangement';
+import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
+import { HorizontalContentAlignment } from '@app/enums/horizontal-content-alignment';
 import { ListViewItemArrangement } from '@app/enums/listview-item-arrangement';
 import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
 import { ListViewSelectorPosition } from '@app/enums/listview-selector-position';
+import { PictureScaleMode } from '@app/enums/picture-scale-mode';
+import { ScrollBars } from '@app/enums/scrollbars';
+import { TabAlignment } from '@app/enums/tab-alignment';
+import { TextAlign } from '@app/enums/text-align';
+import { TextFormat } from '@app/enums/text-format';
+import { VerticalAlignment } from '@app/enums/vertical-alignment';
+import { VerticalContentAlignment } from '@app/enums/vertical-content-alignment';
+import { Visibility } from '@app/enums/visibility';
+import { DockOrientation } from '@app/layout/dock-layout/dock-orientation';
+import { FieldRowLabelMode } from '@app/layout/field-layout/field-row-label-mode';
+import { WrapArrangement } from '@app/layout/wrap-layout/wrap-arrangement';
 
 export class PropertyData {
 

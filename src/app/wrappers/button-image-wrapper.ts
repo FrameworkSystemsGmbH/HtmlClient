@@ -1,13 +1,11 @@
-import { ComponentRef, ComponentFactory } from '@angular/core';
-
-import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
-
-import { ImageService } from '@app/services/image.service';
-import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
+import { ComponentFactory, ComponentRef } from '@angular/core';
 import { ButtonImageComponent } from '@app/controls/buttons/button-image/button-image.component';
 import { ContentAlignment } from '@app/enums/content-alignment';
 import { ControlType } from '@app/enums/control-type';
 import { DataSourceType } from '@app/enums/datasource-type';
+import { ImageService } from '@app/services/image.service';
+import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
 export class ButtonImageWrapper extends ButtonBaseWrapper {
 

@@ -1,14 +1,12 @@
-import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-import { IFieldLayoutSynchronized } from '@app/layout/field-layout/field-layout-synchronized.interface';
-
-import { Visibility } from '@app/enums/visibility';
 import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
 import { VerticalAlignment } from '@app/enums/vertical-alignment';
-import { ILayoutableContainer } from '@app/layout/layoutable-container.interface';
+import { Visibility } from '@app/enums/visibility';
+import { IFieldLayoutSynchronized } from '@app/layout/field-layout/field-layout-synchronized.interface';
 import { LayoutContainerBase } from '@app/layout/layout-container-base';
-
-import { isILayoutableContainer, isIFieldLayoutSynchronized } from '@app/util/interface-util';
+import { ILayoutableContainer } from '@app/layout/layoutable-container.interface';
+import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
+import { isIFieldLayoutSynchronized, isILayoutableContainer } from '@app/util/interface-util';
 
 export class LayoutableControlWrapper {
 

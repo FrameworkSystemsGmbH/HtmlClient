@@ -1,10 +1,9 @@
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-import { ILayoutableControlLabelTemplate } from '@app/layout/layoutable-control-label-template.interface';
-
-import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
-import { FieldLayoutColumn } from '@app/layout/field-layout/field-layout-column';
 import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
 import { VerticalAlignment } from '@app/enums/vertical-alignment';
+import { FieldLayoutColumn } from '@app/layout/field-layout/field-layout-column';
+import { ILayoutableControlLabelTemplate } from '@app/layout/layoutable-control-label-template.interface';
+import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
 export class FieldLayoutCell {
 

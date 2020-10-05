@@ -1,9 +1,16 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, of as obsOf, forkJoin, Subscription } from 'rxjs';
-import { concatMap, mergeMap, map, retryWhen, tap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-
+import { Injectable } from '@angular/core';
+import { ClientEvent } from '@app/common/events/client-event';
+import { ClientMsgBoxEvent } from '@app/common/events/client-msgbox-event';
+import { InternalEvent } from '@app/common/events/internal/internal-event';
+import { LoginBroker } from '@app/common/login-broker';
+import { LoginOptions } from '@app/common/login-options';
+import { BackButtonPriority } from '@app/enums/backbutton-priority';
+import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
+import { MsgBoxIcon } from '@app/enums/msgbox-icon';
+import { MsgBoxResult } from '@app/enums/msgbox-result';
+import { RequestType } from '@app/enums/request-type';
+import { ResponseResult } from '@app/enums/response-result';
 import { RetryBoxResult } from '@app/enums/retrybox-result';
 import { ActionsService } from '@app/services/actions.service';
 import { BackService } from '@app/services/back-service';
@@ -19,25 +26,15 @@ import { PlatformService } from '@app/services/platform.service';
 import { RoutingService } from '@app/services/routing.service';
 import { TextsService } from '@app/services/texts.service';
 import { TitleService } from '@app/services/title.service';
-import { LoginBroker } from '@app/common/login-broker';
-import { LoginOptions } from '@app/common/login-options';
-import { InternalEvent } from '@app/common/events/internal/internal-event';
-import { ClientEvent } from '@app/common/events/client-event';
-import { ClientMsgBoxEvent } from '@app/common/events/client-msgbox-event';
-import { BackButtonPriority } from '@app/enums/backbutton-priority';
-import { MsgBoxIcon } from '@app/enums/msgbox-icon';
-import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
-import { MsgBoxResult } from '@app/enums/msgbox-result';
-import { RequestType } from '@app/enums/request-type';
-import { ResponseResult } from '@app/enums/response-result';
-
-import { IBrokerState } from '@app/store/broker/broker.state';
+import { resetBrokerState, setBrokerState } from '@app/store/broker/broker.actions';
 import { selectBrokerState } from '@app/store/broker/broker.selectors';
-import { setBrokerState, resetBrokerState } from '@app/store/broker/broker.actions';
-
-import * as Moment from 'moment-timezone';
+import { IBrokerState } from '@app/store/broker/broker.state';
 import * as JsonUtil from '@app/util/json-util';
 import * as RxJsUtil from '@app/util/rxjs-util';
+import { Store } from '@ngrx/store';
+import * as Moment from 'moment-timezone';
+import { forkJoin, Observable, of as obsOf, Subject, Subscription } from 'rxjs';
+import { concatMap, map, mergeMap, retryWhen, tap } from 'rxjs/operators';
 
 @Injectable()
 export class BrokerService {

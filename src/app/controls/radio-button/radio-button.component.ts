@@ -1,14 +1,11 @@
-import { Component, ViewChild, Output, EventEmitter, ElementRef, Injector } from '@angular/core';
-
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
+import { Component, ElementRef, EventEmitter, Injector, Output, ViewChild } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
-import { RadioButtonWrapper } from '@app/wrappers/radio-button-wrapper';
-import { CheckBoxWrapper } from '@app/wrappers/checkbox-wrapper';
-
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as DomUtil from '@app/util/dom-util';
 import * as KeyUtil from '@app/util/key-util';
 import * as StyleUtil from '@app/util/style-util';
+import { CheckBoxWrapper } from '@app/wrappers/checkbox-wrapper';
+import { RadioButtonWrapper } from '@app/wrappers/radio-button-wrapper';
 
 @Component({
   selector: 'hc-radio',

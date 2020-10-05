@@ -1,11 +1,8 @@
-import { Component, ViewChild, ViewContainerRef, Injector } from '@angular/core';
-
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
+import { Component, Injector, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
-import { FieldPanelWrapper } from '@app/wrappers/field-panel-wrapper';
-
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as StyleUtil from '@app/util/style-util';
+import { FieldPanelWrapper } from '@app/wrappers/field-panel-wrapper';
 
 @Component({
   selector: 'hc-field-panel',

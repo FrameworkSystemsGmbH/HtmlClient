@@ -1,6 +1,6 @@
 import { ClientEvent } from '@app/common/events/client-event';
-import { ClientEventType } from '@app/enums/client-event-type';
 import { ClientGotGeoLocationEventArgs } from '@app/common/events/eventargs/client-got-geo-location-eventargs';
+import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientGotGeoLocationEvent extends ClientEvent {
 

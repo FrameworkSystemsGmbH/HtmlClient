@@ -1,23 +1,21 @@
-import { ComponentRef, ComponentFactory, ViewContainerRef } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { ITabbedLayoutControl } from '@app/layout/tabbed-layout/tabbed-layout-control.interface';
-import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
-
-import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { ComponentFactory, ComponentRef, ViewContainerRef } from '@angular/core';
+import { ClientSelectedTabPageChangeEvent } from '@app/common/events/client-selected-tab-page-change-event';
+import { ClientSelectedTabPageChangedEvent } from '@app/common/events/client-selected-tab-page-changed-event';
+import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { TabbedWindowComponent } from '@app/controls/tabbed-window/tabbed-window.component';
+import { ClientEventType } from '@app/enums/client-event-type';
 import { ControlType } from '@app/enums/control-type';
+import { TabAlignment } from '@app/enums/tab-alignment';
+import { Visibility } from '@app/enums/visibility';
 import { LayoutBase } from '@app/layout/layout-base';
 import { TabbedLayout } from '@app/layout/tabbed-layout/tabbed-layout';
-import { TabbedWindowComponent } from '@app/controls/tabbed-window/tabbed-window.component';
-import { TabAlignment } from '@app/enums/tab-alignment';
+import { ITabbedLayoutControl } from '@app/layout/tabbed-layout/tabbed-layout-control.interface';
+import { FramesService } from '@app/services/frames.service';
+import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { TabPageTemplate } from '@app/wrappers/tabbed-window/tab-page-template';
 import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
-import { Visibility } from '@app/enums/visibility';
-import { ClientEventType } from '@app/enums/client-event-type';
-import { ClientSelectedTabPageChangeEvent } from '@app/common/events/client-selected-tab-page-change-event';
-import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
-import { ClientSelectedTabPageChangedEvent } from '@app/common/events/client-selected-tab-page-changed-event';
-import { FramesService } from '@app/services/frames.service';
+import { Subscription } from 'rxjs';
 
 export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayoutControl {
 

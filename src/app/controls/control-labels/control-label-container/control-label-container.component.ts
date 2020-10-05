@@ -1,12 +1,9 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
-
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
 import { LayoutableComponent } from '@app/controls/layoutable.component';
-import { ControlLabelContainerBaseWrapper } from '@app/wrappers/control-labels/control-label-container-base-wrapper';
 import { Visibility } from '@app/enums/visibility';
-
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as StyleUtil from '@app/util/style-util';
+import { ControlLabelContainerBaseWrapper } from '@app/wrappers/control-labels/control-label-container-base-wrapper';
 
 @Component({
   selector: 'hc-ctrl-lbl-cont',

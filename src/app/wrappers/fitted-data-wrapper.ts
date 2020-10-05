@@ -1,5 +1,5 @@
-import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
 import { DataSourceType } from '@app/enums/datasource-type';
+import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
 
 export abstract class FittedDataWrapper extends FittedWrapper {
 

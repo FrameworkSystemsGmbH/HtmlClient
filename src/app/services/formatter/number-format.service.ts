@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-
-import { LocaleService } from '@app/services/locale.service';
 import { NumberFormatInfo } from '@app/common/number-format-info';
-import { TextFormat } from '@app/enums/text-format';
 import { ParseMethod } from '@app/enums/parse-method';
+import { TextFormat } from '@app/enums/text-format';
+import { LocaleService } from '@app/services/locale.service';
 
 @Injectable()
 export class NumberFormatService {

@@ -1,5 +1,4 @@
-import { ViewContainerRef, Directive } from '@angular/core';
-
+import { Directive, ViewContainerRef } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
 
 @Directive()

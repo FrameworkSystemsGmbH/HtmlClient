@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-
 import { selectBrokerFilesUrl } from '@app/store/broker/broker.selectors';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class ImageService {

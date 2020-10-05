@@ -1,11 +1,8 @@
-import { Component, ViewChild, ViewContainerRef, Injector } from '@angular/core';
-
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
+import { Component, Injector, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
-import { WrapPanelWrapper } from '@app/wrappers/wrap-panel-wrapper';
-
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as StyleUtil from '@app/util/style-util';
+import { WrapPanelWrapper } from '@app/wrappers/wrap-panel-wrapper';
 
 @Component({
   selector: 'hc-wrp-panel',

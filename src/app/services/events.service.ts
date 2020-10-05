@@ -1,28 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-
-import { InternalEvent } from '@app/common/events/internal/internal-event';
-import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { ClientApplicationQuitEvent } from '@app/common/events/client-application-quit-event';
 import { ClientApplicationQuitRequestEvent } from '@app/common/events/client-application-quit-request-event';
-import { ClientEvent } from '@app/common/events/client-event';
 import { ClientBarcodeScannedEvent } from '@app/common/events/client-barcode-scanned-event';
 import { ClientClickEvent } from '@app/common/events/client-click-event';
-import { ClientValidatedEvent } from '@app/common/events/client-validated-event';
-import { ClientSelectionChangedEvent } from '@app/common/events/client-selection-changed-event';
-import { ClientEnterEvent } from '@app/common/events/client-enter-event';
-import { ClientLeaveEvent } from '@app/common/events/client-leave-event';
 import { ClientCloseEvent } from '@app/common/events/client-close-event';
 import { ClientDisposeEvent } from '@app/common/events/client-dispose-event';
+import { ClientEnterEvent } from '@app/common/events/client-enter-event';
+import { ClientEvent } from '@app/common/events/client-event';
+import { ClientGotGeoLocationEvent } from '@app/common/events/client-got-geo-location-event';
 import { ClientItemActivatedEvent } from '@app/common/events/client-item-activated-event';
 import { ClientItemSelectionChangedEvent } from '@app/common/events/client-item-selection-changed-event';
+import { ClientLeaveEvent } from '@app/common/events/client-leave-event';
 import { ClientPhotoTakenEvent } from '@app/common/events/client-photo-taken-event';
-import { BarcodeFormat } from '@app/enums/barcode-format';
-import { ClientGotGeoLocationEvent } from '@app/common/events/client-got-geo-location-event';
 import { ClientPictureClickEvent } from '@app/common/events/client-picture-click-event';
-import { ClientPictureClickEventArgs } from '@app/common/events/eventargs/client-picture-click-eventargs';
 import { ClientSelectedTabPageChangeEvent } from '@app/common/events/client-selected-tab-page-change-event';
 import { ClientSelectedTabPageChangedEvent } from '@app/common/events/client-selected-tab-page-changed-event';
+import { ClientSelectionChangedEvent } from '@app/common/events/client-selection-changed-event';
+import { ClientValidatedEvent } from '@app/common/events/client-validated-event';
+import { ClientPictureClickEventArgs } from '@app/common/events/eventargs/client-picture-click-eventargs';
+import { InternalEvent } from '@app/common/events/internal/internal-event';
+import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { BarcodeFormat } from '@app/enums/barcode-format';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class EventsService {

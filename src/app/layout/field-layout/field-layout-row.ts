@@ -1,12 +1,11 @@
-import { ILayoutableControlLabelTemplate } from '@app/layout/layoutable-control-label-template.interface';
-import { IFieldContainer } from '@app/layout/field-layout/field-container.interface';
-import { IFieldRowControl } from '@app/layout/field-layout/field-row-control.interface';
-
-import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
-import { FieldLayoutCell } from '@app/layout/field-layout/field-layout-cell';
-import { FieldRowLabelMode } from '@app/layout/field-layout/field-row-label-mode';
-import { Visibility } from '@app/enums/visibility';
 import { VerticalAlignment } from '@app/enums/vertical-alignment';
+import { Visibility } from '@app/enums/visibility';
+import { IFieldContainer } from '@app/layout/field-layout/field-container.interface';
+import { FieldLayoutCell } from '@app/layout/field-layout/field-layout-cell';
+import { IFieldRowControl } from '@app/layout/field-layout/field-row-control.interface';
+import { FieldRowLabelMode } from '@app/layout/field-layout/field-row-label-mode';
+import { ILayoutableControlLabelTemplate } from '@app/layout/layoutable-control-label-template.interface';
+import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
 
 export class FieldLayoutRow {
 

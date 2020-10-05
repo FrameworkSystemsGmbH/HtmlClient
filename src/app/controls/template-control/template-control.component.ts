@@ -1,13 +1,10 @@
-import { Component, ViewChild, ElementRef, Injector } from '@angular/core';
-
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
+import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
-import { TemplateControlWrapper } from '@app/wrappers/template-control-wrapper';
-import { BaseFormatService } from '@app/services/formatter/base-format.service';
 import { ParseMethod } from '@app/enums/parse-method';
-
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
+import { BaseFormatService } from '@app/services/formatter/base-format.service';
 import * as StyleUtil from '@app/util/style-util';
+import { TemplateControlWrapper } from '@app/wrappers/template-control-wrapper';
 
 @Component({
   selector: 'hc-template-control',

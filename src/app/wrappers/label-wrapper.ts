@@ -1,12 +1,10 @@
-import { ComponentRef, ComponentFactory } from '@angular/core';
-
-import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
-
-import { LabelComponent } from '@app/controls/label/label.component';
-import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
-import { TextAlign } from '@app/enums/text-align';
-import { ControlType } from '@app/enums/control-type';
+import { ComponentFactory, ComponentRef } from '@angular/core';
 import { PropertyLayer } from '@app/common/property-layer';
+import { LabelComponent } from '@app/controls/label/label.component';
+import { ControlType } from '@app/enums/control-type';
+import { TextAlign } from '@app/enums/text-align';
+import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
 export class LabelWrapper extends FittedWrapper {
 

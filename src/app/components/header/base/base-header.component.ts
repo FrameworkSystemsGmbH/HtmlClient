@@ -1,21 +1,18 @@
-import { Component, ViewChild, ElementRef, AfterViewChecked, HostListener, OnInit, OnDestroy, NgZone, Renderer2 } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { AfterViewChecked, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
-import { IconDefinition, faBars, faAngleLeft, faAngleRight, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { animate, transition, trigger, style } from '@angular/animations';
-import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-
-import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { EventsService } from '@app/services/events.service';
 import { FormsService } from '@app/services/forms.service';
 import { PlatformService } from '@app/services/platform.service';
 import { TitleService } from '@app/services/title.service';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
-
 import { selectBrokerDirect } from '@app/store/broker/broker.selectors';
-
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
+import { faAngleLeft, faAngleRight, faBars, faSignOutAlt, faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'hc-base-header',

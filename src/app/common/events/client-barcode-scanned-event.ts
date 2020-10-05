@@ -1,7 +1,7 @@
 import { ClientEvent } from '@app/common/events/client-event';
-import { ClientEventType } from '@app/enums/client-event-type';
 import { ClientBarcodeScannedEventArgs } from '@app/common/events/eventargs/client-barcode-scanned-eventargs';
 import { BarcodeFormat } from '@app/enums/barcode-format';
+import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientBarcodeScannedEvent extends ClientEvent {
 

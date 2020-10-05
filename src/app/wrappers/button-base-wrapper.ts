@@ -1,13 +1,12 @@
-import { Subscription } from 'rxjs';
-
-import { ButtonComponent } from '@app/controls/buttons/button.component';
-import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
-import { PropertyLayer } from '@app/common/property-layer';
-import { Visibility } from '@app/enums/visibility';
-import { ClientEventType } from '@app/enums/client-event-type';
-import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
-import { ClientClickEvent } from '@app/common/events/client-click-event';
 import { ComponentRef } from '@angular/core';
+import { ClientClickEvent } from '@app/common/events/client-click-event';
+import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { PropertyLayer } from '@app/common/property-layer';
+import { ButtonComponent } from '@app/controls/buttons/button.component';
+import { ClientEventType } from '@app/enums/client-event-type';
+import { Visibility } from '@app/enums/visibility';
+import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
+import { Subscription } from 'rxjs';
 
 export abstract class ButtonBaseWrapper extends FittedWrapper {
 

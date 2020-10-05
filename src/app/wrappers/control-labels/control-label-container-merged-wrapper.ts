@@ -1,13 +1,12 @@
 import { Injector } from '@angular/core';
-
-import { LayoutContainerBase } from '@app/layout/layout-container-base';
-import { ControlLabelContainerMergedLayout } from '@app/layout/control-label-container-layout/control-label-container-merged-layout';
-import { ControlLabelContainerBaseWrapper, IControlLabelContainerBaseWrapperOptions } from '@app/wrappers/control-labels/control-label-container-base-wrapper';
-import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
-import { ControlLabelSeparatorWrapper } from '@app/wrappers/control-labels/control-label-separator-wrapper';
-import { ControlLabelSeparatorProvider } from '@app/wrappers/control-labels/control-label-separator-provider';
-import { FieldRowWrapper } from '@app/wrappers/field-row-wrapper';
 import { Visibility } from '@app/enums/visibility';
+import { ControlLabelContainerMergedLayout } from '@app/layout/control-label-container-layout/control-label-container-merged-layout';
+import { LayoutContainerBase } from '@app/layout/layout-container-base';
+import { ControlLabelContainerBaseWrapper, IControlLabelContainerBaseWrapperOptions } from '@app/wrappers/control-labels/control-label-container-base-wrapper';
+import { ControlLabelSeparatorProvider } from '@app/wrappers/control-labels/control-label-separator-provider';
+import { ControlLabelSeparatorWrapper } from '@app/wrappers/control-labels/control-label-separator-wrapper';
+import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
+import { FieldRowWrapper } from '@app/wrappers/field-row-wrapper';
 
 export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBaseWrapper {
 

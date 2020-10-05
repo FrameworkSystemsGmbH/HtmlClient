@@ -1,16 +1,14 @@
-import { ComponentRef, ComponentFactory } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
-
-import { CheckBoxComponent } from '@app/controls/checkbox/checkbox.component';
-import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
-import { ControlType } from '@app/enums/control-type';
+import { ComponentFactory, ComponentRef } from '@angular/core';
 import { ClientClickEvent } from '@app/common/events/client-click-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
-import { DataSourceType } from '@app/enums/datasource-type';
+import { CheckBoxComponent } from '@app/controls/checkbox/checkbox.component';
 import { ClientEventType } from '@app/enums/client-event-type';
+import { ControlType } from '@app/enums/control-type';
+import { DataSourceType } from '@app/enums/datasource-type';
 import { Visibility } from '@app/enums/visibility';
+import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
+import { Subscription } from 'rxjs';
 
 export class CheckBoxWrapper extends FittedWrapper {
 

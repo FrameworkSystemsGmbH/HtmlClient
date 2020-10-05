@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { LastInput } from '@app/enums/last-input';
+import * as InterfaceUtil from '@app/util/interface-util';
+import * as KeyUtil from '@app/util/key-util';
 import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
-import { FormWrapper } from '@app/wrappers/form-wrapper';
-
-import * as KeyUtil from '@app/util/key-util';
-import * as InterfaceUtil from '@app/util/interface-util';
 
 @Injectable()
 export class FocusService {

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { ParseMethod } from '@app/enums/parse-method';
+import { TextFormat } from '@app/enums/text-format';
 import { DateTimeFormatService } from '@app/services/formatter/datetime-format.service';
 import { NumberFormatService } from '@app/services/formatter/number-format.service';
 import { StringFormatService } from '@app/services/formatter/string-format.service';
-import { TextFormat } from '@app/enums/text-format';
-import { ParseMethod } from '@app/enums/parse-method';
 
 @Injectable()
 export class BaseFormatService {

@@ -1,39 +1,36 @@
 import { ComponentFactoryResolver, ComponentRef, Injector } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
-import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
-import { IControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper.interface';
-import { IControlLabelProvider } from '@app/wrappers/control-labels/control-label-provider.interface';
-import { IWrapperCreationOptions } from '@app/services/controls.service';
-
-import { ControlStyleService } from '@app/services/control-style.service';
-import { EventsService } from '@app/services/events.service';
-import { FocusService } from '@app/services/focus.service';
-import { PlatformService } from '@app/services/platform.service';
-import { ControlComponent } from '@app/controls/control.component';
-import { ContainerWrapper } from '@app/wrappers/container-wrapper';
-import { FormWrapper } from '@app/wrappers/form-wrapper';
-import { LayoutBase } from '@app/layout/layout-base';
-import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';
-import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
-import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label-template';
-import { ControlLayout } from '@app/layout/control-layout/control-layout';
-import { VchControl } from '@app/vch/vch-control';
-import { PropertyStore } from '@app/common/property-store';
-import { PropertyData } from '@app/common/property-data';
-import { PropertyLayer } from '@app/common/property-layer';
-import { Visibility } from '@app/enums/visibility';
-import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
-import { VerticalAlignment } from '@app/enums/vertical-alignment';
-import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { ClientEnterEvent } from '@app/common/events/client-enter-event';
 import { ClientLeaveEvent } from '@app/common/events/client-leave-event';
+import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { PropertyData } from '@app/common/property-data';
+import { PropertyLayer } from '@app/common/property-layer';
+import { PropertyStore } from '@app/common/property-store';
+import { ControlComponent } from '@app/controls/control.component';
 import { ClientEventType } from '@app/enums/client-event-type';
 import { ControlType } from '@app/enums/control-type';
+import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
+import { VerticalAlignment } from '@app/enums/vertical-alignment';
+import { Visibility } from '@app/enums/visibility';
+import { ControlLayout } from '@app/layout/control-layout/control-layout';
+import { LayoutBase } from '@app/layout/layout-base';
+import { ControlStyleService } from '@app/services/control-style.service';
+import { IWrapperCreationOptions } from '@app/services/controls.service';
+import { EventsService } from '@app/services/events.service';
+import { FocusService } from '@app/services/focus.service';
 import { FontService } from '@app/services/font.service';
-
+import { PlatformService } from '@app/services/platform.service';
 import * as JsonUtil from '@app/util/json-util';
+import { VchControl } from '@app/vch/vch-control';
+import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { IControlLabelProvider } from '@app/wrappers/control-labels/control-label-provider.interface';
+import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label-template';
+import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
+import { IControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper.interface';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
+import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';
+import { Subscription } from 'rxjs';
 
 export abstract class ControlWrapper implements ILayoutableControlWrapper, IControlLabelProvider {
 

@@ -1,7 +1,6 @@
 import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
-import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
-
 import { VchControl } from '@app/vch/vch-control';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
 export interface ILayoutableControlWrapper extends ILayoutableControl {
 

@@ -1,8 +1,7 @@
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-
-import { Visibility } from '@app/enums/visibility';
 import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
 import { VerticalAlignment } from '@app/enums/vertical-alignment';
+import { Visibility } from '@app/enums/visibility';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 
 export interface ILayoutableControl {
 

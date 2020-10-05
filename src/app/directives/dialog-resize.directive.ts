@@ -1,5 +1,4 @@
-import { Directive, Input, OnInit, ElementRef, Renderer2, HostListener } from '@angular/core';
-
+import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 

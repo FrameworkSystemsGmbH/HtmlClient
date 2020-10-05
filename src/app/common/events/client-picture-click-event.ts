@@ -1,6 +1,6 @@
 import { ClientFormEvent } from '@app/common/events/client-form-event';
-import { ClientEventType } from '@app/enums/client-event-type';
 import { ClientPictureClickEventArgs } from '@app/common/events/eventargs/client-picture-click-eventargs';
+import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientPictureClickEvent extends ClientFormEvent {
 

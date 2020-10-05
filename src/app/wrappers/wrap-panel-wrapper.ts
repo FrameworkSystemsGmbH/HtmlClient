@@ -1,16 +1,14 @@
-import { ComponentRef, ViewContainerRef, ComponentFactory } from '@angular/core';
-
-import { IWrapContainer } from '@app/layout/wrap-layout/wrap-container.interface';
-import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
-
+import { ComponentFactory, ComponentRef, ViewContainerRef } from '@angular/core';
 import { WrapPanelComponent } from '@app/controls/layouts/wrap-panel/wrap-panel.component';
-import { ContainerWrapperSpaceable } from '@app/wrappers/container-wrapper-spaceable';
-import { LayoutBase } from '@app/layout/layout-base';
-import { WrapLayout } from '@app/layout/wrap-layout/wrap-layout';
-import { WrapArrangement } from '@app/layout/wrap-layout/wrap-arrangement';
+import { ControlType } from '@app/enums/control-type';
 import { HorizontalContentAlignment } from '@app/enums/horizontal-content-alignment';
 import { VerticalContentAlignment } from '@app/enums/vertical-content-alignment';
-import { ControlType } from '@app/enums/control-type';
+import { LayoutBase } from '@app/layout/layout-base';
+import { WrapArrangement } from '@app/layout/wrap-layout/wrap-arrangement';
+import { IWrapContainer } from '@app/layout/wrap-layout/wrap-container.interface';
+import { WrapLayout } from '@app/layout/wrap-layout/wrap-layout';
+import { ContainerWrapperSpaceable } from '@app/wrappers/container-wrapper-spaceable';
+import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
 export class WrapPanelWrapper extends ContainerWrapperSpaceable implements IWrapContainer {
 

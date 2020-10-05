@@ -1,6 +1,6 @@
-import { createReducer, on, Action } from '@ngrx/store';
-import { initialBrokerState, IBrokerState } from '@app/store/broker/broker.state';
 import * as BrokerActions from '@app/store/broker/broker.actions';
+import { IBrokerState, initialBrokerState } from '@app/store/broker/broker.state';
+import { Action, createReducer, on } from '@ngrx/store';
 
 const reducer = createReducer(
   initialBrokerState,

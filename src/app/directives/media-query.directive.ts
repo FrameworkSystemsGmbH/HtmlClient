@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 @Directive({ selector: '[hcMediaQuery]' })
 export class MediaQueryDirective implements OnInit, OnDestroy {

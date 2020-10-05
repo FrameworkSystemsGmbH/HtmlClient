@@ -1,18 +1,17 @@
-import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
-import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-import { IWrapContainer } from '@app/layout/wrap-layout/wrap-container.interface';
-
-import { LayoutContainerBase } from '@app/layout/layout-container-base';
-import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
-import { WrapLayoutRow } from '@app/layout/wrap-layout/wrap-layout-row';
-import { WrapLayoutColumn } from '@app/layout/wrap-layout/wrap-layout-column';
-import { WrapArrangement } from '@app/layout/wrap-layout/wrap-arrangement';
-import { LinkedListOneWay } from '@app/util/linked-list-one-way';
 import { HorizontalAlignment } from '@app/enums/horizontal-alignment';
-import { VerticalAlignment } from '@app/enums/vertical-alignment';
 import { HorizontalContentAlignment } from '@app/enums/horizontal-content-alignment';
+import { VerticalAlignment } from '@app/enums/vertical-alignment';
 import { VerticalContentAlignment } from '@app/enums/vertical-content-alignment';
 import { Visibility } from '@app/enums/visibility';
+import { LayoutContainerBase } from '@app/layout/layout-container-base';
+import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper';
+import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
+import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
+import { WrapArrangement } from '@app/layout/wrap-layout/wrap-arrangement';
+import { IWrapContainer } from '@app/layout/wrap-layout/wrap-container.interface';
+import { WrapLayoutColumn } from '@app/layout/wrap-layout/wrap-layout-column';
+import { WrapLayoutRow } from '@app/layout/wrap-layout/wrap-layout-row';
+import { LinkedListOneWay } from '@app/util/linked-list-one-way';
 
 export class WrapLayout extends LayoutContainerBase {
 

@@ -1,5 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, Injector, AfterViewChecked } from '@angular/core';
-
+import { AfterViewChecked, Component, Injector, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';

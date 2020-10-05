@@ -1,6 +1,6 @@
 import { ClientEvent } from '@app/common/events/client-event';
-import { ClientEventType } from '@app/enums/client-event-type';
 import { ClientPhotoTakenEventArgs } from '@app/common/events/eventargs/client-photo-taken-eventargs';
+import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientPhotoTakenEvent extends ClientEvent {
 

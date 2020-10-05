@@ -1,12 +1,10 @@
-import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { IconDefinition, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
 import { IRetryBoxData } from '@app/components/retrybox/retrybox-data.interface';
-
+import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { RetryBoxResult } from '@app/enums/retrybox-result';
 import { BackService } from '@app/services/back-service';
-import { BackButtonPriority } from '@app/enums/backbutton-priority';
+import { faExclamationCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'hc-retrybox',

@@ -1,6 +1,5 @@
-import { ILayoutableContainer } from '@app/layout/layoutable-container.interface';
-
 import { LayoutBase } from '@app/layout/layout-base';
+import { ILayoutableContainer } from '@app/layout/layoutable-container.interface';
 
 export abstract class LayoutContainerBase extends LayoutBase {
 
