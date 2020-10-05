@@ -1,7 +1,7 @@
+import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Plugins } from '@capacitor/core';
-import { Injectable } from "@angular/core";
 
 const { Storage } = Plugins;
 

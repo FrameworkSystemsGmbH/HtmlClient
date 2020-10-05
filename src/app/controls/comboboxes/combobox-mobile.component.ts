@@ -1,10 +1,10 @@
+import { Directive } from '@angular/core';
 import { ILayoutableProperties } from 'app/layout/layoutable-properties.interface';
 
 import { ComboBoxComponent } from 'app/controls/comboboxes/combobox.component';
 import { ComboBoxWrapper } from 'app/wrappers/combobox-wrapper';
 
 import * as StyleUtil from 'app/util/style-util';
-import { Directive } from "@angular/core";
 
 @Directive()
 export abstract class ComboBoxMobileComponent extends ComboBoxComponent {

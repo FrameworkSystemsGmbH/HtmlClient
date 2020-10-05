@@ -193,7 +193,7 @@
       "kebab-case"
     ],
     "contextual-lifecycle": true,
-    "directive-class-suffix": true,
+    "directive-class-suffix": false,
     "directive-selector": [
       true,
       "attribute",

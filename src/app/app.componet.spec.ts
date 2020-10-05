@@ -1,5 +1,5 @@
 import { ErrorHandler } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,7 +12,7 @@ import { AppComponent } from 'app/app.component';
 import { ErrorService } from 'app/services/error.service';
 
 import { APP_ROUTING } from 'app/app.routing';
-import { APP_REDUCERS } from 'app/app.reducers';
+import { appReducer } from 'app/store/app.reducers';
 
 import { ALL_COMPONENTS } from 'app/components/_all.components';
 import { ALL_CONTROLS } from 'app/controls/_all.controls';
@@ -29,7 +29,7 @@ import { MatInputModule } from '@angular/material/input';
 import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
@@ -52,7 +52,7 @@ describe('AppComponent', () => {
         BrowserModule,
         NoopAnimationsModule,
         OverlayscrollbarsModule,
-        StoreModule.forRoot(APP_REDUCERS)
+        StoreModule.forRoot(appReducer)
       ],
       providers: [
         {
@@ -64,7 +64,7 @@ describe('AppComponent', () => {
     }).compileComponents();
   }));
 
-  it('should create the app', async(() => {
+  it('should create the app', waitForAsync(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
