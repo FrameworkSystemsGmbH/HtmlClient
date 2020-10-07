@@ -21,6 +21,9 @@ import { WrapArrangement } from '@app/layout/wrap-layout/wrap-arrangement';
 
 export class PropertyData {
 
+  public listViewItemCssGlobal: string;
+  public templateControlCssGlobal: string;
+
   public measureText: string;
   public minWidthRaster: number;
   public maxWidthRaster: number;

@@ -111,10 +111,11 @@ export class ListViewItemComponent implements OnInit {
     this.itemWrapper = itemWrapper;
     this.listViewWrapper = itemWrapper.getListViewWrapper();
 
+    const globalCss: string = this.listViewWrapper.getListViewItemCssGlobal();
     const templateCss: string = this.listViewWrapper.getViewTemplateCss();
     const templateHtml: string = this.listViewWrapper.getViewTemplateHtml();
 
-    this.contentEl.nativeElement.init(templateCss, templateHtml);
+    this.contentEl.nativeElement.init(globalCss, templateCss, templateHtml);
   }
 
   private updateWrapper(): void {

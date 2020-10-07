@@ -3,11 +3,14 @@ export class TemplateContentWebComp extends HTMLElement {
   private tplDiv: HTMLDivElement;
   private tplSpans: Array<HTMLSpanElement> = new Array<HTMLSpanElement>();
 
-  public init(templateCss: string, templateHtml: string): void {
+  public init(globalCss: string, templateCss: string, templateHtml: string): void {
     const template: HTMLTemplateElement = document.createElement('template');
 
-    const css: string = `<style>:host { flex: 1; display: flex; flex-direction: column; } .tpl { flex: 1; box-sizing: border-box; }${!String.isNullOrWhiteSpace(templateCss) ? (' ' + templateCss) : String.empty()}</style>`;
-    const html: string = `<div class="tpl">${!String.isNullOrWhiteSpace(templateHtml) ? (' ' + templateHtml) : String.empty()}</div>`;
+    const globCss: string = !String.isNullOrWhiteSpace(globalCss) ? ` ${globalCss}` : String.empty();
+    const localCss: string = !String.isNullOrWhiteSpace(templateCss) ? ` ${templateCss}` : String.empty();
+
+    const css: string = `<style>:host { flex: 1; display: flex; flex-direction: column; } .tpl { flex: 1; box-sizing: border-box; }${globCss}${localCss}</style>`;
+    const html: string = `<div class="tpl">${!String.isNullOrWhiteSpace(templateHtml) ? ` ${templateHtml}` : String.empty()}</div>`;
 
     template.innerHTML = `${css} ${html}`;
 

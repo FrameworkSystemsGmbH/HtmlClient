@@ -2,6 +2,8 @@ import { ComponentFactory, ComponentRef, Injector } from '@angular/core';
 import { ClientItemActivatedEvent } from '@app/common/events/client-item-activated-event';
 import { ClientSelectionChangedEvent } from '@app/common/events/client-selection-changed-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { PropertyLayer } from '@app/common/property-layer';
+import { PropertyStore } from '@app/common/property-store';
 import { ListViewComponent } from '@app/controls/listview/listview.component';
 import { ClientEventType } from '@app/enums/client-event-type';
 import { ControlType } from '@app/enums/control-type';
@@ -13,6 +15,7 @@ import { Visibility } from '@app/enums/visibility';
 import { LayoutBase } from '@app/layout/layout-base';
 import { ListViewLayout } from '@app/layout/listview-layout/listview-layout';
 import { IListViewLayoutControl } from '@app/layout/listview-layout/listview-layout-control.interface';
+import { ControlStyleService } from '@app/services/control-style.service';
 import { PatternFormatService } from '@app/services/formatter/pattern-format.service';
 import { ImageService } from '@app/services/image.service';
 import { ControlWrapper } from '@app/wrappers/control-wrapper';
@@ -34,6 +37,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   public static readonly PART_F: string = 'f:';
   public static readonly PART_FP: string = 'fp:';
 
+  private baseControlStyle: PropertyStore;
   private imageService: ImageService;
   private patternFormatService: PatternFormatService;
   private mobileSelectionModeEnabled: boolean;
@@ -53,6 +57,13 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     this.patternFormatService = injector.get(PatternFormatService);
   }
 
+  private initBaseControlStyle(): void {
+    if (!this.baseControlStyle) {
+      this.baseControlStyle = new PropertyStore();
+      this.baseControlStyle.setLayer(PropertyLayer.ControlStyle, this.getControlStyleService().getBaseControlStyle());
+    }
+  }
+
   public getControlType(): ControlType {
     return ControlType.ListView;
   }
@@ -68,6 +79,11 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   protected getComponent(): ListViewComponent {
     const compRef: ComponentRef<ListViewComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
+  }
+
+  public getListViewItemCssGlobal(): string {
+    this.initBaseControlStyle();
+    return this.baseControlStyle.getListViewItemCssGlobal();
   }
 
   public getSelectionMode(): ListViewSelectionMode {

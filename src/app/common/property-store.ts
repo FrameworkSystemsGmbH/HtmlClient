@@ -128,6 +128,32 @@ export class PropertyStore {
     }
   }
 
+  // ListVIewItemCssGlobal
+  public getListViewItemCssGlobal(): string {
+    return this.getValue<string>((data: PropertyData) => data.listViewItemCssGlobal);
+  }
+
+  public getListViewItemCssGlobalForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.listViewItemCssGlobal);
+  }
+
+  public setListViewItemCssGlobal(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.listViewItemCssGlobal = value; });
+  }
+
+  // TemplateControlCssGlobal
+  public getTemplateControlCssGlobal(): string {
+    return this.getValue<string>((data: PropertyData) => data.templateControlCssGlobal);
+  }
+
+  public getTemplateControlCssGlobalForLayer(layer: PropertyLayer): string {
+    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.templateControlCssGlobal);
+  }
+
+  public setTemplateControlCssGlobal(layer: PropertyLayer, value: string): void {
+    this.setValue(layer, (data: PropertyData) => { data.templateControlCssGlobal = value; });
+  }
+
   // MeasureText
   public getMeasureText(): string {
     return this.getValue<string>((data: PropertyData) => data.measureText);

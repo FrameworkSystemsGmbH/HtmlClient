@@ -39,10 +39,11 @@ export class TemplateControlComponent extends ControlComponent {
   public setWrapper(wrapper: TemplateControlWrapper): void {
     super.setWrapper(wrapper);
 
+    const globalCss: string = wrapper.getTemplateControlCssGlobal();
     const templateCss: string = wrapper.getViewTemplateCss();
     const templateHtml: string = wrapper.getViewTemplateHtml();
 
-    this.contentEl.nativeElement.init(templateCss, templateHtml);
+    this.contentEl.nativeElement.init(globalCss, templateCss, templateHtml);
   }
 
   protected updateData(wrapper: TemplateControlWrapper): void {

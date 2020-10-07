@@ -1,4 +1,6 @@
 import { ComponentFactory, ComponentRef, Injector } from '@angular/core';
+import { PropertyLayer } from '@app/common/property-layer';
+import { PropertyStore } from '@app/common/property-store';
 import { TemplateControlComponent } from '@app/controls/template-control/template-control.component';
 import { ControlType } from '@app/enums/control-type';
 import { TextFormat } from '@app/enums/text-format';
@@ -16,6 +18,7 @@ export class TemplateControlWrapper extends ControlWrapper {
   public static readonly PART_F: string = 'f:';
   public static readonly PART_FP: string = 'fp:';
 
+  private baseControlStyle: PropertyStore;
   private imageService: ImageService;
   private patternFormatService: PatternFormatService;
   private templateCss: string;
@@ -34,6 +37,13 @@ export class TemplateControlWrapper extends ControlWrapper {
     this.patternFormatService = injector.get(PatternFormatService);
   }
 
+  private initBaseControlStyle(): void {
+    if (!this.baseControlStyle) {
+      this.baseControlStyle = new PropertyStore();
+      this.baseControlStyle.setLayer(PropertyLayer.ControlStyle, this.getControlStyleService().getBaseControlStyle());
+    }
+  }
+
   public getControlType(): ControlType {
     return ControlType.TemplateControl;
   }
@@ -45,6 +55,11 @@ export class TemplateControlWrapper extends ControlWrapper {
   protected getComponent(): TemplateControlComponent {
     const compRef: ComponentRef<TemplateControlComponent> = this.getComponentRef();
     return compRef ? compRef.instance : undefined;
+  }
+
+  public getTemplateControlCssGlobal(): string {
+    this.initBaseControlStyle();
+    return this.baseControlStyle.getTemplateControlCssGlobal();
   }
 
   public getTemplateCss(): string {
