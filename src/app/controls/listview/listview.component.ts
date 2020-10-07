@@ -52,6 +52,9 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   public buttonStyle: any;
   public buttonCloseStyle: any;
   public itemContainerStyle: any;
+  public itemListStyle: any;
+  public bottomPaddingStyle: any;
+  public hasBottomPadding: boolean;
 
   private platformService: PlatformService;
 
@@ -100,6 +103,8 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   protected updateData(wrapper: ListViewWrapper): void {
     super.updateData(wrapper);
 
+    this.hasBottomPadding = wrapper.getPaddingBottom() > 0;
+
     const itemWrappers: Array<ListViewItemWrapper> = wrapper.getItems();
 
     if (!itemWrappers || !itemWrappers.length) {
@@ -132,6 +137,8 @@ export class ListViewComponent extends ControlComponent implements OnInit {
     this.buttonStyle = this.createButtonStyle(wrapper);
     this.buttonCloseStyle = this.createButtonCloseStyle(wrapper);
     this.itemContainerStyle = this.createItemContainerStyle(wrapper);
+    this.itemListStyle = this.createItemListStyle(wrapper);
+    this.bottomPaddingStyle = this.createBottomPaddingStyle(wrapper);
   }
 
   public isHeaderVisible(): boolean {
@@ -207,35 +214,42 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   }
 
   protected createItemContainerStyle(wrapper: ListViewWrapper): any {
+    return {
+      'padding': StyleUtil.pixToRemFourValueStr(wrapper.getPaddingTop(), wrapper.getPaddingRight(), 0, wrapper.getPaddingLeft())
+    };
+  }
+
+  protected createItemListStyle(wrapper: ListViewWrapper): any {
     const itemArrangement: ListViewItemArrangement = wrapper.getItemArrangement();
     const itemWidth: number = wrapper.getItemWidth();
     const spacingHorizontal: number = wrapper.getSpacingHorizontal();
     const spacingVertical: number = wrapper.getSpacingVertical();
 
-    let itemContainerStyle: any = {
+    let itemListStyle: any = {
       'display': 'grid',
       'column-gap': StyleUtil.pixToRemValueStr(spacingHorizontal),
       'row-gap': StyleUtil.pixToRemValueStr(spacingVertical),
-      'align-content': 'flex-start',
-      'padding': StyleUtil.pixToRemFourValueStr(
-        wrapper.getPaddingTop(),
-        wrapper.getPaddingRight(),
-        wrapper.getPaddingBottom(),
-        wrapper.getPaddingLeft())
+      'align-content': 'flex-start'
     };
 
     if (itemArrangement === ListViewItemArrangement.List) {
-      itemContainerStyle = {
-        ...itemContainerStyle,
+      itemListStyle = {
+        ...itemListStyle,
         'grid-template-columns': '1fr'
       };
     } else {
-      itemContainerStyle = {
-        ...itemContainerStyle,
+      itemListStyle = {
+        ...itemListStyle,
         'grid-template-columns': `repeat(auto-fit, minmax(${StyleUtil.pixToRemValueStr(itemWidth)}, 1fr)`
       };
     }
 
-    return itemContainerStyle;
+    return itemListStyle;
+  }
+
+  protected createBottomPaddingStyle(wrapper: ListViewWrapper): any {
+    return {
+      'height.rem': StyleUtil.pixToRem(wrapper.getPaddingBottom())
+    };
   }
 }

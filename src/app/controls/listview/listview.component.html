@@ -7,6 +7,9 @@
     <button [ngStyle]="buttonStyle" (click)="selectNone()" [attr.disabled]="isEditable ? null : true">None</button>
   </div>
   <div class="itemContainer" [ngStyle]="itemContainerStyle">
-    <ng-template #anchor></ng-template>
+    <div class="itemList" [ngStyle]="itemListStyle">
+      <ng-template #anchor></ng-template>
+    </div>
+    <div *ngIf="hasBottomPadding" class="bottom-padding" [ngStyle]="bottomPaddingStyle"></div>
   </div>
 </div>
