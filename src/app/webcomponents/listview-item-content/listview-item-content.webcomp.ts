@@ -1,44 +1,38 @@
-import { stringify } from 'querystring';
-
 export class ListViewItemContentWebComp extends HTMLElement {
 
-  private tplDiv: HTMLDivElement;
-  private tplSpans: Array<HTMLSpanElement> = new Array<HTMLSpanElement>();
+  private templateContent: string;
 
   public init(globalCss: string, templateCss: string, templateHtml: string): void {
-    const template: HTMLTemplateElement = document.createElement('template');
-
     const globCss: string = !String.isNullOrWhiteSpace(globalCss) ? ` ${globalCss}` : String.empty();
     const localCss: string = !String.isNullOrWhiteSpace(templateCss) ? ` ${templateCss}` : String.empty();
 
     const css: string = `<style>:host { flex: 1; display: flex; flex-direction: column; } .lvItem { flex: 1; box-sizing: border-box; }${globCss}${localCss}</style>`;
     const html: string = `<div class="lvItem">${!String.isNullOrWhiteSpace(templateHtml) ? ` ${templateHtml}` : String.empty()}</div>`;
 
-    template.innerHTML = `${css} ${html}`;
+    this.templateContent = `${css} ${html}`;
 
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-
-    this.tplDiv = this.shadowRoot.querySelector('div.lvItem');
-
-    const spans: NodeListOf<HTMLSpanElement> = this.shadowRoot.querySelectorAll(`span[data-var]`);
-
-    if (spans != null && spans.length > 0) {
-      spans.forEach(span => this.tplSpans.push(span));
-    }
   }
 
   public update(isEditable: boolean, values: Array<string>): void {
-    if (this.tplDiv != null) {
-      if (isEditable) {
-        this.tplDiv.removeAttribute('lvdisabled');
-      } else {
-        this.tplDiv.setAttribute('lvdisabled', '');
-      }
+    let newContent: string = this.templateContent;
+
+    if (values != null && values.length) {
+      values.forEach((value, index) => {
+        newContent = newContent.replaceAll(`{{${index}}}`, value);
+      });
     }
 
-    for (let i = 0; i < this.tplSpans.length; i++) {
-      this.tplSpans[i].innerHTML = values[i];
+    this.shadowRoot.innerHTML = newContent;
+
+    const itemDiv: HTMLDivElement = this.shadowRoot.querySelector('div.lvItem');
+
+    if (itemDiv != null) {
+      if (isEditable) {
+        itemDiv.removeAttribute('lvdisabled');
+      } else {
+        itemDiv.setAttribute('lvdisabled', '');
+      }
     }
   }
 }

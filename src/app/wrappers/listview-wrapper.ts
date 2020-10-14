@@ -15,7 +15,6 @@ import { Visibility } from '@app/enums/visibility';
 import { LayoutBase } from '@app/layout/layout-base';
 import { ListViewLayout } from '@app/layout/listview-layout/listview-layout';
 import { IListViewLayoutControl } from '@app/layout/listview-layout/listview-layout-control.interface';
-import { ControlStyleService } from '@app/services/control-style.service';
 import { PatternFormatService } from '@app/services/formatter/pattern-format.service';
 import { ImageService } from '@app/services/image.service';
 import { ControlWrapper } from '@app/wrappers/control-wrapper';
@@ -386,7 +385,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       return templateHtml;
     }
 
-    for (const match of matches) {
+    matches.forEach((match, index) => {
       const matchTrimmed: string = match.trimStringLeft('{{').trimCharsRight('}}').trim();
       const parts: Array<string> = matchTrimmed.split('|');
 
@@ -401,10 +400,10 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
           continue;
         }
 
-        let index: number = partTrimmed.indexOf(ListViewWrapper.PART_DS);
+        let partIndex: number = partTrimmed.indexOf(ListViewWrapper.PART_DS);
 
-        if (index >= 0) {
-          const dsStr: string = partTrimmed.substr(index + ListViewWrapper.PART_DS.length);
+        if (partIndex >= 0) {
+          const dsStr: string = partTrimmed.substr(partIndex + ListViewWrapper.PART_DS.length);
           ds = this.templateDataSources.find(tds => tds.getName() === dsStr);
 
           if (!ds) {
@@ -414,18 +413,18 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
           continue;
         }
 
-        index = partTrimmed.indexOf(ListViewWrapper.PART_F);
+        partIndex = partTrimmed.indexOf(ListViewWrapper.PART_F);
 
-        if (index >= 0) {
-          const formatStr: string = partTrimmed.substr(index + ListViewWrapper.PART_F.length);
+        if (partIndex >= 0) {
+          const formatStr: string = partTrimmed.substr(partIndex + ListViewWrapper.PART_F.length);
           format = parseInt(formatStr, 10);
           continue;
         }
 
-        index = partTrimmed.indexOf(ListViewWrapper.PART_FP);
+        partIndex = partTrimmed.indexOf(ListViewWrapper.PART_FP);
 
-        if (index >= 0) {
-          const formatPatternStr: string = partTrimmed.substr(index + ListViewWrapper.PART_FP.length);
+        if (partIndex >= 0) {
+          const formatPatternStr: string = partTrimmed.substr(partIndex + ListViewWrapper.PART_FP.length);
           formatPattern = this.patternFormatService.javaToMoment(formatPatternStr);
           continue;
         }
@@ -442,8 +441,8 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
       this.templateVariables.push(new ListViewTemplateVariableWrapper(ds, options));
 
-      templateHtml = templateHtml.replace(match, `<span data-var></span>`);
-    }
+      templateHtml = templateHtml.replace(match, `{{${index}}}`);
+    });
 
     // Replace placeholders
     templateHtml = templateHtml.replace(/%FILESURL%/g, this.imageService.getFilesUrl());
