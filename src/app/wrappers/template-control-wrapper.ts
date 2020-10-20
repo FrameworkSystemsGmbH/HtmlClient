@@ -156,6 +156,8 @@ export class TemplateControlWrapper extends ControlWrapper {
       return null;
     }
 
+    templateHtml = templateHtml.replace(/%FILESURL%/g, this.imageService.getFilesUrl());
+
     const regEx: RegExp = /{{2}([^}]|[^}])*}{2}/g;
     const matches: RegExpMatchArray = templateHtml.match(regEx);
 
@@ -221,9 +223,6 @@ export class TemplateControlWrapper extends ControlWrapper {
 
       templateHtml = templateHtml.replace(match, `{{${index}}}`);
     });
-
-    // Replace placeholders
-    templateHtml = templateHtml.replace(/%FILESURL%/g, this.imageService.getFilesUrl());
 
     return templateHtml;
   }

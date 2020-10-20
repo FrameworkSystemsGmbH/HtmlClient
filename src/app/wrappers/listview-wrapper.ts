@@ -378,6 +378,8 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       return null;
     }
 
+    templateHtml = templateHtml.replace(/%FILESURL%/g, this.imageService.getFilesUrl());
+
     const regEx: RegExp = /{{2}([^}]|[^}])*}{2}/g;
     const matches: RegExpMatchArray = templateHtml.match(regEx);
 
@@ -443,9 +445,6 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
       templateHtml = templateHtml.replace(match, `{{${index}}}`);
     });
-
-    // Replace placeholders
-    templateHtml = templateHtml.replace(/%FILESURL%/g, this.imageService.getFilesUrl());
 
     return templateHtml;
   }
