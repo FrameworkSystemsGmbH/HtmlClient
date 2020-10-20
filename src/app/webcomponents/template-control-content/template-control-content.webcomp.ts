@@ -1,4 +1,4 @@
-export class TemplateContentWebComp extends HTMLElement {
+export class TemplateControlContentWebComp extends HTMLElement {
 
   private templateContent: string;
 
