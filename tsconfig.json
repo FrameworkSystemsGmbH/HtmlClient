@@ -30,6 +30,7 @@
     }
   },
   "angularCompilerOptions": {
+    "enableIvy": false,
     "fullTemplateTypeCheck": true
   }
 }
