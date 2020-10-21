@@ -3,7 +3,7 @@
     <ul #list class="list">
       <li *ngFor="let entry of entries; index as i" [ngClass]="{ selected: i === selectedIndex }" (click)="onEntrySelected(i)">
         <span *ngIf="entry.getValue()">{{ entry.getValue() }}</span>
-        <span *ngIf="!entry.getValue()">Empty</span>
+        <span *ngIf="!entry.getValue()" class="empty">Empty</span>
       </li>
     </ul>
   </div>
