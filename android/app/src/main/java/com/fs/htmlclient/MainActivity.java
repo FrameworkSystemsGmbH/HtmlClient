@@ -21,11 +21,16 @@ public class MainActivity extends BridgeActivity {
     super.onCreate(savedInstanceState);
 
     this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
-      // add(TotallyAwesomePlugin.class);
+      // add(Plugin.class);
     }});
 
+    this.clearCache();
     this.hideSystemUI();
     this.attachSizeObserver();
+  }
+
+  private void clearCache() {
+    this.getBridge().getWebView().clearCache(true);
   }
 
   private void hideSystemUI() {
