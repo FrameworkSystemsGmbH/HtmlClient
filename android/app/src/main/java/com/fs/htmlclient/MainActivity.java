@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.fs.htmlclient.plugins.webviewcache.WebViewCache;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
 
@@ -21,16 +22,11 @@ public class MainActivity extends BridgeActivity {
     super.onCreate(savedInstanceState);
 
     this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
-      // add(Plugin.class);
+      add(WebViewCache.class);
     }});
 
-    this.clearCache();
     this.hideSystemUI();
     this.attachSizeObserver();
-  }
-
-  private void clearCache() {
-    this.getBridge().getWebView().clearCache(true);
   }
 
   private void hideSystemUI() {
