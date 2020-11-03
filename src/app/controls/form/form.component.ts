@@ -22,8 +22,7 @@ export class FormComponent extends ContainerComponent implements AfterViewChecke
 
   public ngAfterViewChecked(): void {
     if (this.getWrapper().getFirstLayout()) {
-      this.getFocusService().applyFocusElement();
-      this.getFocusService().clearFocusElement();
+      this.getWrapper().applyFocus();
     }
   }
 

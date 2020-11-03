@@ -6,6 +6,7 @@ import { ControlType } from '@app/enums/control-type';
 import * as JsonUtil from '@app/util/json-util';
 import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
 import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { ControlWrapper } from '@app/wrappers/control-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';
 import { VariantWrapper } from '@app/wrappers/variant-wrapper';
@@ -20,6 +21,7 @@ export class FormWrapper extends ContainerWrapper {
   private _variant: VariantWrapper;
   private _closeButton: ButtonBaseWrapper;
   private _sanatizer: DomSanitizer;
+  private _focusWrapper: ControlWrapper;
 
   protected init(): void {
     super.init();
@@ -90,6 +92,22 @@ export class FormWrapper extends ContainerWrapper {
       this._variant = this.controls.filter(wrapper => wrapper instanceof VariantWrapper)[0] as VariantWrapper;
     }
     return this._variant;
+  }
+
+  public requestFocus(focusWrapper: ControlWrapper): void {
+    this._focusWrapper = focusWrapper;
+  }
+
+  public applyFocus(): void {
+    if (this._focusWrapper != null) {
+      const focusElement: any = this._focusWrapper.getFocusElement();
+
+      if (focusElement != null && focusElement.focus != null) {
+        focusElement.focus();
+      }
+    }
+
+    this._focusWrapper = null;
   }
 
   protected getComponentRef(): ComponentRef<FormComponent> {

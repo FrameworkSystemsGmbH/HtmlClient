@@ -755,7 +755,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public setFocus(): void {
     if (this.canReceiveFocus()) {
-      this.focusService.requestFocus(this);
+      const form: FormWrapper = this.getForm();
+
+      if (form) {
+        form.requestFocus(this);
+      }
     }
   }
 

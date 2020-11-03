@@ -14,26 +14,6 @@ export class FocusService {
   private lastKeyEvent: KeyboardEvent;
   private lastMouseEvent: MouseEvent;
 
-  private focusWrapper: ControlWrapper;
-
-  public requestFocus(focusWrapper: ControlWrapper): void {
-    this.focusWrapper = focusWrapper;
-  }
-
-  public applyFocusElement(): void {
-    if (this.focusWrapper != null) {
-      const focusElement: any = this.focusWrapper.getFocusElement();
-
-      if (focusElement != null && focusElement.focus != null) {
-        focusElement.focus();
-      }
-    }
-  }
-
-  public clearFocusElement(): void {
-    this.focusWrapper = null;
-  }
-
   public getLeaveActivator(): string {
     if (this.lastInput === LastInput.Keyboard) {
       switch (KeyUtil.getKeyString(this.lastKeyEvent)) {
