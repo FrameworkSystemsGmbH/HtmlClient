@@ -233,8 +233,8 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     // Override in subclasses
   }
 
-  public getState(): any {
-    const json: any = super.getState();
+  public saveState(): any {
+    const json: any = super.saveState();
     json.value = this.getValueJson();
 
     if (this.dataList) {
@@ -244,8 +244,8 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     return json;
   }
 
-  protected setState(json: any): void {
-    super.setState(json);
+  protected loadState(json: any): void {
+    super.loadState(json);
 
     this.setValueJson(json.value);
 

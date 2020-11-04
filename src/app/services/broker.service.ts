@@ -656,7 +656,7 @@ export class BrokerService {
     return this.lastRequestTime;
   }
 
-  public getState(): any {
+  public saveState(): any {
     return {
       requestCounter: this.requestCounter,
       clientLanguages: this.clientLanguages,
@@ -667,7 +667,7 @@ export class BrokerService {
     };
   }
 
-  public setState(json: any): void {
+  public loadState(json: any): void {
     if (!json) {
       return;
     }

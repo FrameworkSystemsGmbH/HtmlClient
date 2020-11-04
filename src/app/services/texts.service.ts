@@ -22,7 +22,7 @@ export class TextsService {
     this.texts.set(id, value);
   }
 
-  public getState(): Array<any> {
+  public saveState(): Array<any> {
     const json: Array<any> = new Array<any>();
 
     this.texts.forEach((value, key) => {
@@ -35,7 +35,7 @@ export class TextsService {
     return json;
   }
 
-  public setState(json: Array<any>): void {
+  public loadState(json: Array<any>): void {
     if (!json || !json.length) {
       return;
     }

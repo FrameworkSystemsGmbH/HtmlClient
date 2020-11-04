@@ -151,15 +151,15 @@ export class PictureWrapper extends ControlWrapper {
     // Override in subclasses
   }
 
-  public getState(): any {
-    const json: any = super.getState();
+  public saveState(): any {
+    const json: any = super.saveState();
     json.type = this.dataSourceType;
     json.imageData = this.imageData;
     return json;
   }
 
-  protected setState(json: any): void {
-    super.setState(json);
+  protected loadState(json: any): void {
+    super.loadState(json);
     this.dataSourceType = json.type;
     this.imageData = json.imageData;
   }

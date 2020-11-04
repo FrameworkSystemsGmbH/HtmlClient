@@ -41,15 +41,15 @@ export abstract class FittedWrapper extends ControlWrapper {
     }
   }
 
-  public getState(): any {
-    const json: any = super.getState();
+  public saveState(): any {
+    const json: any = super.saveState();
     json.fittedWidth = this.fittedWidth;
     json.fittedHeight = this.fittedHeight;
     return json;
   }
 
-  protected setState(json: any): void {
-    super.setState(json);
+  protected loadState(json: any): void {
+    super.loadState(json);
     this.fittedWidth = json.fittedWidth;
     this.fittedHeight = json.fittedHeight;
   }

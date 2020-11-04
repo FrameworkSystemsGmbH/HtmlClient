@@ -250,7 +250,7 @@ export class FormsService {
     return null;
   }
 
-  public getState(): any {
+  public saveState(): any {
     const selectedForm: FormWrapper = this._selectedForm$$.getValue();
 
     const json: any = {
@@ -260,7 +260,7 @@ export class FormsService {
     const forms: Array<any> = new Array<any>();
 
     this._forms.forEach(form => {
-      forms.push(form.getState());
+      forms.push(form.saveState());
     });
 
     if (forms.length) {
@@ -270,14 +270,16 @@ export class FormsService {
     return json;
   }
 
-  public setState(json: any): void {
+  public loadState(json: any): void {
     if (json.forms) {
       json.forms.forEach(formJson => {
         const form: FormWrapper = new FormWrapper(this.injector, { state: formJson });
 
         if (formJson.controls && formJson.controls.length) {
-          this.setControlsState(form, formJson.controls);
+          this.loadControlsState(form, formJson.controls);
         }
+
+        form.loadStateAfterControlsSet(formJson);
 
         this._forms.push(form);
       });
@@ -293,7 +295,7 @@ export class FormsService {
     }
   }
 
-  private setControlsState(form: FormWrapper, controlsJson: Array<any>): void {
+  private loadControlsState(form: FormWrapper, controlsJson: Array<any>): void {
     if (!controlsJson || !controlsJson.length) {
       return;
     }

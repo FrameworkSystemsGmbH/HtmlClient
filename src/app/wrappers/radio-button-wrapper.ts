@@ -165,14 +165,14 @@ export class RadioButtonWrapper extends FittedWrapper {
     this.setFittedContentHeight(Math.max(this.getFontService().measureTextHeight(this.getFontFamily(), this.getFontSize()), this.getButtonHeight()));
   }
 
-  public getState(): any {
-    const stateJson: any = super.getState();
+  public saveState(): any {
+    const stateJson: any = super.saveState();
     stateJson.value = this.value;
     return stateJson;
   }
 
-  public setState(json: any): void {
-    super.setState(json);
+  public loadState(json: any): void {
+    super.loadState(json);
     this.value = json.value;
   }
 

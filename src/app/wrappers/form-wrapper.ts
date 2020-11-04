@@ -17,11 +17,11 @@ export class FormWrapper extends ContainerWrapper {
   private _fullName: string;
   private _closing: boolean;
   private _isModal: boolean;
-  private _firstLayout: boolean;
   private _variant: VariantWrapper;
   private _closeButton: ButtonBaseWrapper;
   private _sanatizer: DomSanitizer;
   private _focusWrapper: ControlWrapper;
+  private _firstLayoutDone: boolean;
 
   protected init(): void {
     super.init();
@@ -58,10 +58,6 @@ export class FormWrapper extends ContainerWrapper {
     return this._isModal;
   }
 
-  public getFirstLayout(): boolean {
-    return this._firstLayout;
-  }
-
   public getCloseButton(): ButtonBaseWrapper {
     return this._closeButton;
   }
@@ -92,6 +88,10 @@ export class FormWrapper extends ContainerWrapper {
       this._variant = this.controls.filter(wrapper => wrapper instanceof VariantWrapper)[0] as VariantWrapper;
     }
     return this._variant;
+  }
+
+  public getFirstLayoutDone(): boolean {
+    return this._firstLayoutDone;
   }
 
   public requestFocus(focusWrapper: ControlWrapper): void {
@@ -187,11 +187,11 @@ export class FormWrapper extends ContainerWrapper {
 
     this.getLayout().arrange();
 
-    this._firstLayout = true;
+    this._firstLayoutDone = true;
   }
 
-  public getState(): any {
-    const json: any = super.getState();
+  public saveState(): any {
+    const json: any = super.saveState();
 
     json.id = this._id;
     json.fullName = this._fullName;
@@ -200,6 +200,10 @@ export class FormWrapper extends ContainerWrapper {
 
     if (this._closeButton != null) {
       json.closeButton = this._closeButton.getName();
+    }
+
+    if (this._focusWrapper != null) {
+      json.focusWrapper = this._focusWrapper.getName();
     }
 
     const controlsJson: Array<any> = new Array<any>();
@@ -212,15 +216,22 @@ export class FormWrapper extends ContainerWrapper {
     return json;
   }
 
-  protected setState(json: any): void {
-    super.setState(json);
+  protected loadState(json: any): void {
+    super.loadState(json);
+
     this._id = json.id;
     this._fullName = json.fullName;
     this._closing = json.closing;
     this._isModal = json.isModal;
+  }
 
+  public loadStateAfterControlsSet(json: any): void {
     if (!String.isNullOrWhiteSpace(json.closeButton)) {
       this._closeButton = this.findControlRecursive(json.closeButton) as ButtonBaseWrapper;
+    }
+
+    if (!String.isNullOrWhiteSpace(json.focusWrapper)) {
+      this._focusWrapper = this.findControlRecursive(json.focusWrapper);
     }
   }
 }

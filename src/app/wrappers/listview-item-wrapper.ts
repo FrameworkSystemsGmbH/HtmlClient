@@ -36,7 +36,7 @@ export class ListViewItemWrapper {
     this._listViewWrapper = options.listViewWrapper;
 
     if (options.state) {
-      this.setState(options.state);
+      this.loadState(options.state);
     } else {
       this._id = options.id;
       this._pos = options.pos;
@@ -209,7 +209,7 @@ export class ListViewItemWrapper {
     this._hasContentChanged = false;
   }
 
-  public getState(): any {
+  public saveState(): any {
     const json: any = {
       id: this._id,
       pos: this._pos,
@@ -234,7 +234,7 @@ export class ListViewItemWrapper {
     return json;
   }
 
-  protected setState(json: any): void {
+  protected loadState(json: any): void {
     this._id = json.id;
     this._pos = json.pos;
     this._selected = json.selected;

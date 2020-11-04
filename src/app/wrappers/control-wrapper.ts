@@ -76,7 +76,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       this.controlStyle = options.controlStyle;
 
       if (options.state) {
-        this.setState(options.state);
+        this.loadState(options.state);
       }
     }
 
@@ -687,7 +687,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     // Override in subclasses
   }
 
-  public getState(): any {
+  public saveState(): any {
     const json: any = {
       controlType: this.getControlType(),
       name: this.name,
@@ -703,7 +703,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       json.controlStyle = this.controlStyle;
     }
 
-    const propertyStore: any = this.getPropertyStore().getState();
+    const propertyStore: any = this.getPropertyStore().saveState();
 
     if (!JsonUtil.isEmptyObject(propertyStore)) {
       json.propertyStore = propertyStore;
@@ -716,12 +716,12 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return json;
   }
 
-  protected setState(json: any): void {
+  protected loadState(json: any): void {
     this.name = json.name;
     this.isEditableParent = json.isParentEditable;
 
     if (json.propertyStore) {
-      this.getPropertyStore().setState(json.propertyStore);
+      this.getPropertyStore().loadState(json.propertyStore);
     }
 
     if (json.events) {

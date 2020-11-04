@@ -88,7 +88,7 @@ export class PropertyStore {
   }
 
   // Serialization
-  public getState(): any {
+  public saveState(): any {
     const csc: any = this.getLayer(PropertyLayer.CSC);
     const action: any = this.getLayer(PropertyLayer.Action);
     const control: any = this.getLayer(PropertyLayer.Control);
@@ -110,7 +110,7 @@ export class PropertyStore {
     return json;
   }
 
-  public setState(json: any): void {
+  public loadState(json: any): void {
     if (!json) {
       return;
     }

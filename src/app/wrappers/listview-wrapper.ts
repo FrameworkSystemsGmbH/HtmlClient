@@ -524,8 +524,8 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     // Override in subclasses
   }
 
-  public getState(): any {
-    const json: any = super.getState();
+  public saveState(): any {
+    const json: any = super.saveState();
 
     json.mobileSelectionModeEnabled = this.mobileSelectionModeEnabled;
     json.templateCss = this.templateCss;
@@ -561,7 +561,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     const itemsJson: Array<any> = new Array<any>();
 
     for (const item of this.items) {
-      itemsJson.push(item.getState());
+      itemsJson.push(item.saveState());
     }
 
     if (itemsJson.length) {
@@ -571,8 +571,8 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     return json;
   }
 
-  protected setState(json: any): void {
-    super.setState(json);
+  protected loadState(json: any): void {
+    super.loadState(json);
 
     this.mobileSelectionModeEnabled = json.mobileSelectionModeEnabled;
     this.templateCss = json.templateCss;

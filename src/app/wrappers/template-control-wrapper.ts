@@ -232,8 +232,8 @@ export class TemplateControlWrapper extends ControlWrapper {
     this.templateHtml = 'Template NULL';
   }
 
-  public getState(): any {
-    const json: any = super.getState();
+  public saveState(): any {
+    const json: any = super.saveState();
 
     json.templateCss = this.templateCss;
     json.templateHtml = this.templateHtml;
@@ -282,8 +282,8 @@ export class TemplateControlWrapper extends ControlWrapper {
     return json;
   }
 
-  protected setState(json: any): void {
-    super.setState(json);
+  protected loadState(json: any): void {
+    super.loadState(json);
 
     this.templateCss = json.templateCss;
     this.templateHtml = json.templateHtml;

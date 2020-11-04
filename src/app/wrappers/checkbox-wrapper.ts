@@ -213,15 +213,15 @@ export class CheckBoxWrapper extends FittedWrapper {
     this.setFittedContentHeight(Math.max(this.getFontService().measureTextHeight(this.getFontFamily(), this.getFontSize()), this.getCheckBoxHeight()));
   }
 
-  public getState(): any {
-    const json: any = super.getState();
+  public saveState(): any {
+    const json: any = super.saveState();
     json.type = this.dataSourceType;
     json.value = this.getValueJson();
     return json;
   }
 
-  protected setState(json: any): void {
-    super.setState(json);
+  protected loadState(json: any): void {
+    super.loadState(json);
     this.dataSourceType = json.type;
     this.setValueJson(json.value);
   }

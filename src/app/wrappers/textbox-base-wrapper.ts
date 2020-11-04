@@ -164,15 +164,15 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
     );
   }
 
-  public getState(): any {
-    const json: any = super.getState();
+  public saveState(): any {
+    const json: any = super.saveState();
     json.value = this.getValueJson();
     json.textBoxType = this.getTextBoxType();
     return json;
   }
 
-  protected setState(json: any): void {
-    super.setState(json);
+  protected loadState(json: any): void {
+    super.loadState(json);
 
     if (json.value) {
       this.setValueJson(json.value);

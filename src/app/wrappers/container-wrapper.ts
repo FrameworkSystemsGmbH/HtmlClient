@@ -207,7 +207,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   public getControlsState(controlsJson: Array<any>): void {
     this.controls.forEach((controlWrp: ControlWrapper) => {
-      const controlJson: any = controlWrp.getState();
+      const controlJson: any = controlWrp.saveState();
 
       if (!JsonUtil.isEmptyObject(controlJson)) {
         controlsJson.push(controlJson);

@@ -161,10 +161,10 @@ export class StateService {
     };
 
     // Services
-    const controlStyleServiceJson: any = this.controlStyleService.getState();
-    const textsServiceJson: any = this.textsService.getState();
-    const brokerServiceJson: any = this.brokerService.getState();
-    const formsServiceJson: any = this.formsService.getState();
+    const controlStyleServiceJson: any = this.controlStyleService.saveState();
+    const textsServiceJson: any = this.textsService.saveState();
+    const brokerServiceJson: any = this.brokerService.saveState();
+    const formsServiceJson: any = this.formsService.saveState();
 
     const servicesJson: any = {};
 
@@ -227,19 +227,19 @@ export class StateService {
       const servicesJson: any = stateJson.services;
 
       if (servicesJson.controlStyleService) {
-        this.controlStyleService.setState(servicesJson.controlStyleService);
+        this.controlStyleService.loadState(servicesJson.controlStyleService);
       }
 
       if (servicesJson.textsService) {
-        this.textsService.setState(servicesJson.textsService);
+        this.textsService.loadState(servicesJson.textsService);
       }
 
       if (servicesJson.brokerService) {
-        this.brokerService.setState(servicesJson.brokerService);
+        this.brokerService.loadState(servicesJson.brokerService);
       }
 
       if (servicesJson.formsService) {
-        this.formsService.setState(servicesJson.formsService);
+        this.formsService.loadState(servicesJson.formsService);
       }
     }
 

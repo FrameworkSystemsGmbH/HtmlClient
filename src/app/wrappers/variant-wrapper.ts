@@ -84,15 +84,15 @@ export class VariantWrapper extends ContainerWrapper {
     return factory.create(container.getViewContainerRef().injector);
   }
 
-  public getState(): any {
-    const json: any = super.getState();
+  public saveState(): any {
+    const json: any = super.saveState();
     json.type = this.dataSourceType;
     json.badgeImageData = this.badgeImageData;
     return json;
   }
 
-  protected setState(json: any): void {
-    super.setState(json);
+  protected loadState(json: any): void {
+    super.loadState(json);
     this.dataSourceType = json.type;
     this.badgeImageData = json.badgeImageData;
   }

@@ -18,7 +18,7 @@ export class ControlStyleService {
     return this.controlStyles.get('BaseControl');
   }
 
-  public getState(): Array<any> {
+  public saveState(): Array<any> {
     const json: Array<any> = new Array<any>();
 
     this.controlStyles.forEach((value, key) => {
@@ -31,7 +31,7 @@ export class ControlStyleService {
     return json;
   }
 
-  public setState(json: Array<any>): void {
+  public loadState(json: Array<any>): void {
     if (!json || !json.length) {
       return;
     }
