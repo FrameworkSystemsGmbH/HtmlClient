@@ -18,7 +18,7 @@
       </mat-card>
 
       <div class="headline">
-        <h3>{{ editorShown ? (editingIndex != null && editingIndex >= 0 ? 'Edit Broker' : 'Add Broker') : 'Login' }}</h3>
+        <h3>{{ editorShown ? (editingExisting ? 'Edit Broker' : 'Add Broker') : 'Login' }}</h3>
         <div class="actions" *ngIf="!editorShown">
           <button mat-button color="primary" (click)="openEditorNew()">
             <fa-icon [icon]="iconPlus" [fixedWidth]="true"></fa-icon>
@@ -30,7 +30,7 @@
       <div class="editor" *ngIf="editorShown">
         <form [formGroup]="addForm" (ngSubmit)="saveBroker()">
           <mat-form-field>
-            <input matInput [readonly]="editingIndex != null && editingIndex >= 0" placeholder="Name" formControlName="name" />
+            <input matInput [readonly]="editingExisting" placeholder="Name" formControlName="name" />
             <mat-error *ngIf="nameControl.hasError('broker') && !nameControl.hasError('required')">
               Name already in use
             </mat-error>
@@ -45,7 +45,7 @@
             </mat-error>
           </mat-form-field>
           <div class="form-actions">
-            <button type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingIndex != null && editingIndex >= 0 ? 'Save' : 'Add' }}</button>
+            <button type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingExisting ? 'Save' : 'Add' }}</button>
             <button type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
           </div>
         </form>
@@ -56,14 +56,14 @@
           <span>No brokers defined...</span>
         </mat-card>
         <div class="broker-list-wrapper" *ngIf="(brokers$ | async) && (brokers$ | async).length">
-          <mat-card *ngFor="let broker of (brokers$ | async); index as i" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
+          <mat-card *ngFor="let broker of (brokers$ | async)" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
             <div class="broker">
               <h3 class="broker-name">{{ broker.name }}</h3>
               <div class="broker-actions">
-                <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(i, broker)">
+                <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(broker)">
                   <fa-icon [icon]="iconEdit" [fixedWidth]="true"></fa-icon>
                 </button>
-                <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="warn" (click)="deleteBroker(i, broker)">
+                <button mat-raised-button [disabled]="broker.name === activeBrokerName" color="warn" (click)="deleteBroker(broker)">
                   <fa-icon [icon]="iconTrash" [fixedWidth]="true"></fa-icon>
                 </button>
               </div>

@@ -9,6 +9,7 @@ import { BrokerService } from '@app/services/broker.service';
 import { ClientDataService } from '@app/services/client-data.service';
 import { ControlStyleService } from '@app/services/control-style.service';
 import { ControlsService } from '@app/services/controls.service';
+import { DeepLinkService } from '@app/services/deep-link.service';
 import { DialogService } from '@app/services/dialog.service';
 import { EventsService } from '@app/services/events.service';
 import { FocusService } from '@app/services/focus.service';
@@ -49,6 +50,7 @@ const services = [
   ClientDataService,
   ControlStyleService,
   ControlsService,
+  DeepLinkService,
   DialogService,
   EventsService,
   FocusService,

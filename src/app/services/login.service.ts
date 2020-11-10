@@ -22,27 +22,27 @@ export class LoginService {
     return this._brokers$;
   }
 
-  public addBroker(broker: LoginBroker): void {
+  public addOrUpdateBroker(broker: LoginBroker): void {
     let brokers: Array<LoginBroker> = this._brokers$$.getValue();
 
     if (!brokers) {
       brokers = new Array<LoginBroker>();
     }
 
-    brokers.push(broker);
+    const index: number = brokers.findIndex(b => b.name.toLowerCase() === broker.name.toLowerCase());
+
+    if (index >= 0) {
+      brokers[index].url = broker.url;
+    } else {
+      brokers.push(broker);
+    }
 
     this.clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
   }
 
-  public updateBroker(index: number, broker: LoginBroker): void {
+  public deleteBroker(broker: LoginBroker): void {
     const brokers: Array<LoginBroker> = this._brokers$$.getValue();
-    brokers[index] = broker;
-    this.clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
-  }
-
-  public deleteBroker(index: number): void {
-    const brokers: Array<LoginBroker> = this._brokers$$.getValue();
-    brokers.splice(index, 1);
+    brokers.remove(broker);
     this.clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
   }
 }

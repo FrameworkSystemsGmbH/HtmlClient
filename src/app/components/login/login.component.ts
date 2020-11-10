@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public nameControl: FormControl;
   public urlControl: FormControl;
   public editorShown: boolean;
-  public editingIndex: number;
+  public editingExisting: boolean;
 
   private brokerValidator: any;
   private activeBrokerNameSub: Subscription;
@@ -88,27 +88,27 @@ export class LoginComponent implements OnInit, OnDestroy {
   public openEditorNew(): void {
     this.nameControl.setValidators(Validators.required);
     this.nameControl.setAsyncValidators(this.brokerValidator);
-    this.editingIndex = null;
+    this.editingExisting = false;
     this.editorShown = true;
   }
 
-  public openEditorUpdate(index: number, broker: LoginBroker): void {
+  public openEditorUpdate(broker: LoginBroker): void {
     if (broker.name === this.activeBrokerName) {
       return;
     }
 
     this.nameControl.setValidators(Validators.required);
     this.nameControl.clearAsyncValidators();
-    this.editingIndex = index;
     this.nameControl.setValue(broker.name);
     this.urlControl.setValue(broker.url);
+    this.editingExisting = true;
     this.editorShown = true;
   }
 
   public exitEditor(): void {
     this.addForm.reset();
     this.editorShown = false;
-    this.editingIndex = null;
+    this.editingExisting = false;
   }
 
   public saveBroker(): void {
@@ -116,19 +116,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     broker.name = this.nameControl.value;
     broker.url = this.urlControl.value;
 
-    if (this.editingIndex != null && this.editingIndex >= 0) {
-      this.loginService.updateBroker(this.editingIndex, broker);
-    } else {
-      this.loginService.addBroker(broker);
-    }
+    this.loginService.addOrUpdateBroker(broker);
 
     this.addForm.reset();
     this.exitEditor();
   }
 
-  public deleteBroker(index: number, broker: LoginBroker): void {
+  public deleteBroker(broker: LoginBroker): void {
     if (broker.name !== this.activeBrokerName) {
-      this.loginService.deleteBroker(index);
+      this.loginService.deleteBroker(broker);
     }
   }
 
