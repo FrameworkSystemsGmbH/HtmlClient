@@ -43,8 +43,8 @@ export class DeepLinkService {
 
             let name: string;
             let url: string;
-            let login: boolean = null;
-            let save: boolean = null;
+            let login: boolean = true;
+            let save: boolean = false;
 
             if (urlInst.searchParams.has('name')) {
               name = decodeURIComponent(urlInst.searchParams.get('name'));
@@ -68,8 +68,8 @@ export class DeepLinkService {
                   name,
                   url
                 },
-                login: login != null ? login : true,
-                save: save != null ? save : false
+                login,
+                save
               };
             }
 
