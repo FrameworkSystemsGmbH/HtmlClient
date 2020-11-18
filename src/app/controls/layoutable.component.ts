@@ -1,8 +1,8 @@
-import { Directive, DoCheck, OnInit } from '@angular/core';
+import { Directive, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
 
 @Directive()
-export abstract class LayoutableComponent implements OnInit, DoCheck {
+export abstract class LayoutableComponent implements OnInit, DoCheck, OnDestroy {
 
   private wrapper: ILayoutableControlWrapper;
 
@@ -12,6 +12,12 @@ export abstract class LayoutableComponent implements OnInit, DoCheck {
 
   public ngDoCheck(): void {
     this.updateStyles(this.getWrapper());
+  }
+
+  public ngOnDestroy(): void {
+    if (this.wrapper) {
+      this.wrapper.onComponentDestroyed();
+    }
   }
 
   public getWrapper(): ILayoutableControlWrapper {

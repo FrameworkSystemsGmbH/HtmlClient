@@ -116,9 +116,6 @@ export class ListViewItemWrapper {
     // Link component with wrapper
     compInstance.setWrapper(this);
 
-    // Register onDestroy handler of the Angular component
-    compRef.onDestroy(this.onComponentDestroyed.bind(this));
-
     // Insert the Angular Component into the DOM
     listViewAnchor.insert(compRef.hostView);
 
@@ -133,7 +130,7 @@ export class ListViewItemWrapper {
     }
   }
 
-  protected onComponentDestroyed(): void {
+  public onComponentDestroyed(): void {
     // Clear the Angular Component reference
     this._componentRef = null;
     this._isAttached = false;

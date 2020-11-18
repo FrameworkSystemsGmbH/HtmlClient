@@ -270,11 +270,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
 
   public attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {
     // If this wrapper is already attached -> detach and destroy old Angular Component
-    const oldCompRef: ComponentRef<ControlLabelContainerComponent> = this.getComponentRef();
-
-    if (oldCompRef != null) {
-      oldCompRef.destroy();
-    }
+    this.detachComponent();
 
     // Create the Angular Component
     const compRef: ComponentRef<ControlLabelContainerComponent> = this.createComponent(uiContainer);
@@ -285,9 +281,6 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
 
     // Link component with wrapper
     compInstance.setWrapper(this);
-
-    // Register onDestroy handler of the Angular component
-    compRef.onDestroy(this.onComponentDestroyed.bind(this));
 
     // Insert the Angular Component into the DOM
     uiContainer.getViewContainerRef().insert(compRef.hostView);
@@ -304,7 +297,15 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
     }
   }
 
-  protected onComponentDestroyed(): void {
+  public detachComponent(): void {
+    const compRef: ComponentRef<ControlLabelContainerComponent> = this.getComponentRef();
+
+    if (compRef != null) {
+      compRef.destroy();
+    }
+  }
+
+  public onComponentDestroyed(): void {
     // Detach wrapper from VCH
     const vchParent: ILayoutableContainerWrapper = this.getVchControl().getParent();
 

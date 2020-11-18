@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
 import { ListViewSelectorPosition } from '@app/enums/listview-selector-position';
 import { ParseMethod } from '@app/enums/parse-method';
@@ -15,7 +15,7 @@ import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
   templateUrl: './listview-item.component.html',
   styleUrls: ['./listview-item.component.scss']
 })
-export class ListViewItemComponent implements OnInit {
+export class ListViewItemComponent implements OnInit, OnDestroy {
 
   private static minSelectorSize: number = 12;
   private static maxSelectorSize: number = 20;
@@ -70,6 +70,12 @@ export class ListViewItemComponent implements OnInit {
 
   public ngOnInit(): void {
     this.updateComponent();
+  }
+
+  public ngOnDestroy(): void {
+    if (this.itemWrapper) {
+      this.itemWrapper.onComponentDestroyed();
+    }
   }
 
   public onMouseEnter(): void {

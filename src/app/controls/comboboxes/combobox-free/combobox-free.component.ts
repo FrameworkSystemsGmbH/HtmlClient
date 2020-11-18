@@ -58,6 +58,8 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   }
 
   public ngOnDestroy(): void {
+    super.ngOnDestroy();
+
     if (this.keyDownSub) {
       this.keyDownSub.unsubscribe();
     }

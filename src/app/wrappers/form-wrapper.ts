@@ -83,6 +83,10 @@ export class FormWrapper extends ContainerWrapper {
     return !String.isNullOrWhiteSpace(badgeImageSrc) ? this._sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
   }
 
+  public onComponentDestroyed(): void {
+    super.onComponentDestroyed();
+  }
+
   private getDefaultVariant(): VariantWrapper {
     if (!this._variant) {
       this._variant = this.controls.filter(wrapper => wrapper instanceof VariantWrapper)[0] as VariantWrapper;

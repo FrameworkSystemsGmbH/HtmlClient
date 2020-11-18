@@ -576,9 +576,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     // Attach events to the Component
     this.attachEvents(compInstance);
 
-    // Register onDestroy handler of the Angular component
-    compRef.onDestroy(this.onComponentDestroyed.bind(this));
-
     // Insert the Angular Component into the DOM
     uiContainer.getViewContainerRef().insert(compRef.hostView);
 
@@ -594,7 +591,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     }
   }
 
-  protected onComponentDestroyed(): void {
+  public onComponentDestroyed(): void {
     // Unsubscribe RxJS event subscriptions
     this.detachEvents();
 
