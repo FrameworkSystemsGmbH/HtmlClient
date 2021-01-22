@@ -97,3 +97,12 @@
 .os-thin.os-host-transition > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:before {
   transition: width 0.3s, margin-left 0.3s, background 0.2s;
 }
+
+// Z-Index fix for overlapping
+.os-padding {
+  z-index: 10;
+}
+
+.os-scrollbar {
+  z-index: 20;
+}
