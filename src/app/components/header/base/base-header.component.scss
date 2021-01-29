@@ -159,13 +159,13 @@
       background-color: white;
       border-radius: 0.2rem;
       opacity: 0;
-      z-index: -10;
+      z-index: -100;
       transition: all 0.25s;
       cursor: pointer;
 
       &.arrowVisible {
         opacity: 0.8;
-        z-index: 10;
+        z-index: 20;
       }
 
       &:hover {
@@ -212,7 +212,7 @@
 }
 
 .hc-header-side {
-  z-index: 30;
+  z-index: 80;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -268,7 +268,7 @@
 }
 
 .hc-header-side-overlay {
-  z-index: 20;
+  z-index: 70;
   position: fixed;
   left: 0;
   right: 0;
