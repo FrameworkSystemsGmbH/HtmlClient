@@ -3,8 +3,13 @@ import { ClientCloseEvent } from '@app/common/events/client-close-event';
 import { ClientDisposeEvent } from '@app/common/events/client-dispose-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { ControlType } from '@app/enums/control-type';
+import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
+import { MsgBoxIcon } from '@app/enums/msgbox-icon';
+import { MsgBoxResult } from '@app/enums/msgbox-result';
 import { ControlsService, IWrapperCreationOptions } from '@app/services/controls.service';
+import { DialogService } from '@app/services/dialog.service';
 import { EventsService } from '@app/services/events.service';
+import { TitleService } from '@app/services/title.service';
 import * as JsonUtil from '@app/util/json-util';
 import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
 import { ContainerWrapper } from '@app/wrappers/container-wrapper';
@@ -27,6 +32,8 @@ export class FormsService {
 
   constructor(
     private injector: Injector,
+    private titleService: TitleService,
+    private dialogService: DialogService,
     private eventsService: EventsService,
     private controlsService: ControlsService
   ) {
@@ -59,25 +66,36 @@ export class FormsService {
 
     if (closeButton) {
       closeButton.fireClick();
+    } else if (this.isLastOpenForm(form)) {
+      this.dialogService.showMsgBoxBox({
+        buttons: MsgBoxButtons.YesNo,
+        icon: MsgBoxIcon.Question,
+        message: 'Do you want to close the session?',
+        title: this.titleService.getTitle()
+      }).subscribe(result => {
+        if (result === MsgBoxResult.Yes) {
+          this.closeForm(form);
+        }
+      });
     } else {
       this.closeForm(form);
     }
   }
 
   public closeForm(form: FormWrapper): void {
-    if (this._forms.length === 1 && this._forms[0] === form) {
-      this.eventsService.fireApplicationQuitRequest();
-    } else {
-      form.closing = true;
-      const formId: string = form.getId();
-      this.eventsService.fireClose(formId,
-        new InternalEventCallbacks<ClientCloseEvent>(
-          form.isCloseEventAttached.bind(form),
-          null,
-          this.getOnCloseCompletedCallback(formId, form).bind(this)
-        )
-      );
-    }
+    form.closing = true;
+    const formId: string = form.getId();
+    this.eventsService.fireClose(formId,
+      new InternalEventCallbacks<ClientCloseEvent>(
+        form.isCloseEventAttached.bind(form),
+        null,
+        this.getOnCloseCompletedCallback(formId, form).bind(this)
+      )
+    );
+  }
+
+  private isLastOpenForm(form: FormWrapper): boolean {
+    return this._forms.length === 1 && this._forms[0] === form;
   }
 
   protected getOnCloseCompletedCallback(formId: string, form: FormWrapper): () => void {
@@ -117,6 +135,10 @@ export class FormsService {
             this.selectForm(null);
           }
         }
+      }
+
+      if (this._forms.length === 0) {
+        this.eventsService.fireApplicationQuit(false);
       }
     };
   }
