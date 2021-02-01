@@ -644,6 +644,7 @@ export class BrokerService {
   private onAfterResponse(): Observable<void> {
     return RxJsUtil.voidObs().pipe(
       tap(() => {
+        this.formsService.checkEmptyApp();
         this.formsService.updateAllComponents();
         this.framesService.layout();
         this.routingService.showViewer();

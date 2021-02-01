@@ -137,9 +137,7 @@ export class FormsService {
         }
       }
 
-      if (this._forms.length === 0) {
-        this.eventsService.fireApplicationQuit(false);
-      }
+      this.checkEmptyApp();
     };
   }
 
@@ -157,6 +155,12 @@ export class FormsService {
 
   public fireSelectCurrentForm(): void {
     this.selectForm(this._selectedForm$$.getValue());
+  }
+
+  public checkEmptyApp(): void {
+    if (this._forms.length === 0) {
+      this.eventsService.fireApplicationQuit(false);
+    }
   }
 
   public getFormsJson(): any {
