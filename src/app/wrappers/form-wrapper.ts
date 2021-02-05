@@ -54,6 +54,10 @@ export class FormWrapper extends ContainerWrapper {
     return title ? title : this._fullName;
   }
 
+  public setTitle(title: string): void {
+    this.getDefaultVariant().setTitle(title);
+  }
+
   public getIsModal(): boolean {
     return this._isModal;
   }

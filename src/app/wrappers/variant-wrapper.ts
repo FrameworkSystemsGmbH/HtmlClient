@@ -1,4 +1,5 @@
 import { ComponentFactory, ComponentRef, ViewContainerRef } from '@angular/core';
+import { PropertyLayer } from '@app/common/property-layer';
 import { VariantComponent } from '@app/controls/variant/variant.component';
 import { ClientEventType } from '@app/enums/client-event-type';
 import { ControlType } from '@app/enums/control-type';
@@ -25,6 +26,10 @@ export class VariantWrapper extends ContainerWrapper {
 
   public getTitle(): string {
     return this.getPropertyStore().getTitle();
+  }
+
+  public setTitle(title: string): void {
+    this.getPropertyStore().setTitle(PropertyLayer.Action, title);
   }
 
   public getIsCloseIconVisible(): boolean {

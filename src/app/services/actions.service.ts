@@ -73,6 +73,12 @@ export class ActionsService {
               }
               break;
           }
+        } else {
+          switch (actionJson.name) {
+            case 'SetTitle':
+              form.setTitle(actionJson.value);
+              break;
+          }
         }
       } else {
         switch (actionJson.name) {
