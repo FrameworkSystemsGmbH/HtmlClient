@@ -19,6 +19,12 @@ export abstract class FittedWrapper extends ControlWrapper {
     this.updateFittedHeight();
   }
 
+  protected onWrapperCaptionChanged(): void {
+    super.onWrapperCaptionChanged();
+    this.updateFittedWidth();
+    this.updateFittedHeight();
+  }
+
   public abstract updateFittedWidth(): void;
 
   public updateFittedHeight(): void {
