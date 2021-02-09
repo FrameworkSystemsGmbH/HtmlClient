@@ -42,6 +42,9 @@ export class ActionsService {
 
         if (control) {
           switch (actionJson.name) {
+            case 'SetCaption':
+              control.setCaption(actionJson.value);
+              break;
             case 'SetCloseButton':
               form.setCloseButtonAction(control as ButtonBaseWrapper);
               break;

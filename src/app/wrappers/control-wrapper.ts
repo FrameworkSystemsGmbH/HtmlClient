@@ -220,6 +220,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return caption != null ? caption : null;
   }
 
+  public setCaption(caption: string): void {
+    this.getPropertyStore().setCaption(PropertyLayer.Action, caption);
+  }
+
   public getVisibility(): Visibility {
     const visibility: Visibility = this.getPropertyStore().getVisibility();
     return visibility != null ? visibility : Visibility.Visible;
