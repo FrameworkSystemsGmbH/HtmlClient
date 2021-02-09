@@ -69,7 +69,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
     return this.resolver;
   }
 
-  protected getFieldRowWrapper(): FieldRowWrapper {
+  public getFieldRowWrapper(): FieldRowWrapper {
     return this.fieldRowWrp;
   }
 
@@ -180,7 +180,11 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   public getCurrentVisibility(): Visibility {
-    return this.fieldRowWrp.getCurrentVisibility();
+    return this.getFieldRowWrapper().getCurrentVisibility();
+  }
+
+  public onWrapperCaptionChanged(): void {
+    // Override in subclasses
   }
 
   public onWrapperVisibilityChanged(): void {

@@ -40,7 +40,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
 
     for (let i = 0; i < labelWrappers.length; i++) {
       if (i > 0) {
-        labelsWithSeparators.push(new ControlLabelSeparatorWrapper(this.injector, new ControlLabelSeparatorProvider(this.getRowLabelTemplate())));
+        labelsWithSeparators.push(new ControlLabelSeparatorWrapper(this.injector, new ControlLabelSeparatorProvider(this.getRowLabelTemplate()), this.getFieldRowWrapper()));
       }
       labelsWithSeparators.push(labelWrappers[i]);
     }

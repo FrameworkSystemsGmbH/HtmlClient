@@ -13,12 +13,12 @@ import { ControlWrapper } from '@app/wrappers/control-wrapper';
 import { FieldPanelWrapper } from '@app/wrappers/field-panel-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
+import * as LabelUtil from '@app/util/label-util';
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {
 
   private hasFirstColumnControl: boolean;
-
-  private readonly whitespaceRegEx: RegExp = /\s{1}/;
+  private labelsToOptimize: Array<ControlLabelWrapper>;
 
   public getControlType(): ControlType {
     return ControlType.FieldRow;
@@ -38,6 +38,12 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     return Boolean.falseIfNull(this.getPropertyStore().getOptimizeGeneratedLabels());
   }
 
+  public optimizeLabels(): void {
+    if (this.labelsToOptimize && this.labelsToOptimize.length > 0) {
+      LabelUtil.optimizeLabels(this.labelsToOptimize);
+    }
+  }
+
   protected createControlLabelWrapper(): IControlLabelWrapper {
     const wrappers: Array<ControlWrapper> = this.controls;
 
@@ -50,16 +56,17 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     if (labelMode === FieldRowLabelMode.Generated) {
       const firstWrapper: ControlWrapper = wrappers[0];
       if (firstWrapper.providesControlLabelWrapper()) {
-        const controlLabelWrapper: ControlLabelWrapper = wrappers[0].getControlLabelWrapper() as ControlLabelWrapper;
+        const controlLabelWrapper: ControlLabelWrapper = wrappers[0].getControlLabelWrapper(this) as ControlLabelWrapper;
         if (controlLabelWrapper) {
           return new ControlLabelContainerSingleWrapper(this.getInjector(), { labelWrapper: controlLabelWrapper, fieldRowWrp: this, rowLabelTemplate: this.getParent().getRowLabelTemplate() });
         }
       }
     } else if (labelMode === FieldRowLabelMode.GeneratedMerged) {
       const labelWrappers: Array<ControlLabelWrapper> = new Array<ControlLabelWrapper>();
+
       for (const wrapper of wrappers) {
         if (wrapper.providesControlLabelWrapper()) {
-          const labelWrapper: ControlLabelWrapper = wrapper.getControlLabelWrapper() as ControlLabelWrapper;
+          const labelWrapper: ControlLabelWrapper = wrapper.getControlLabelWrapper(this) as ControlLabelWrapper;
           if (labelWrapper) {
             labelWrappers.push(labelWrapper);
           }
@@ -68,7 +75,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
 
       if (labelWrappers && labelWrappers.length) {
         if (this.getOptimizeGeneratedLabels()) {
-          this.optimizeLabels(labelWrappers);
+          this.labelsToOptimize = labelWrappers;
         }
         return new ControlLabelContainerMergedWrapper(this.getInjector(), { labelWrappers, fieldRowWrp: this, rowLabelTemplate: this.getParent().getRowLabelTemplate() });
       }
@@ -117,7 +124,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     // Create the label for the first column and attach it if necessary
     // This is either the label of the first control or the merged label for all controls in the row
     if (labelMode === FieldRowLabelMode.Generated || labelMode === FieldRowLabelMode.GeneratedMerged) {
-      const firstColumnLabel: ILayoutableControlWrapper = this.getControlLabelWrapper();
+      const firstColumnLabel: ILayoutableControlWrapper = this.getControlLabelWrapper(this);
       if (firstColumnLabel) {
         this.hasFirstColumnControl = true;
         firstColumnLabel.attachComponent(uiContainer, vchContainer);
@@ -128,7 +135,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     for (let i = 0; i < wrappers.length; i++) {
       const wrapper: ControlWrapper = wrappers[i];
       if (labelMode === FieldRowLabelMode.Generated && wrapper.providesControlLabelWrapper()) {
-        const controlLabelWrapper: ControlLabelWrapper = wrapper.getControlLabelWrapper() as ControlLabelWrapper;
+        const controlLabelWrapper: ControlLabelWrapper = wrapper.getControlLabelWrapper(this) as ControlLabelWrapper;
         if (controlLabelWrapper) {
           if (this.getOptimizeGeneratedLabels()) {
             labelsToOptimize.push(controlLabelWrapper);
@@ -149,102 +156,9 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     }
 
     if (labelsToOptimize.length) {
-      this.optimizeLabels(labelsToOptimize);
-    }
-  }
-
-  private optimizeLabels(labelWrappers: Array<ControlLabelWrapper>): void {
-    // Check if there is anything to do
-    if (!labelWrappers || !labelWrappers.length) {
-      return;
+      this.labelsToOptimize = labelsToOptimize;
     }
 
-    // Check equality from left side
-    let equalizedCaption: string = labelWrappers[0].getCaption();
-    for (let i = 1; i < labelWrappers.length; i++) {
-      const checkCaption: string = labelWrappers[i].getCaption();
-      const length: number = this.startEqualsLength(equalizedCaption, checkCaption);
-      if (length > 0) {
-        equalizedCaption = equalizedCaption.substring(0, length);
-      } else {
-        equalizedCaption = null;
-        break;
-      }
-    }
-
-    // If equality from left side has been detected -> reduce captions
-    if (!!equalizedCaption) {
-      for (let i = 1; i < labelWrappers.length; i++) {
-        const labelWrapper: ControlLabelWrapper = labelWrappers[i];
-        const reducedCaption: string = labelWrapper.getCaption().substring(equalizedCaption.length);
-        labelWrapper.setDisplayCaption(reducedCaption);
-      }
-    } else {
-      // If no equality from left side has been detected -> check from right side
-      equalizedCaption = labelWrappers[0].getCaption();
-      for (let i = 1; i < labelWrappers.length; i++) {
-        const checkCaption: string = labelWrappers[i].getCaption();
-        const length: number = this.endEqualsLength(equalizedCaption, checkCaption);
-        if (length > 0) {
-          equalizedCaption = equalizedCaption.substring(equalizedCaption.length - length);
-        } else {
-          equalizedCaption = null;
-          break;
-        }
-      }
-
-      // If equality from right side has been detected -> reduce captions
-      if (!!equalizedCaption) {
-        for (let i = 0; i < labelWrappers.length - 1; i++) {
-          const labelWrapper: ControlLabelWrapper = labelWrappers[i];
-          const orgCaption: string = labelWrapper.getCaption();
-          const reducedCaption: string = orgCaption.substring(0, orgCaption.length - length);
-          labelWrapper.setDisplayCaption(reducedCaption);
-        }
-      }
-    }
-  }
-
-  // Returns the number of identical chars from the left up to a whitespace
-  private startEqualsLength(s1: string, s2: string): number {
-    if (!s1 || !s2) {
-      return 0;
-    }
-
-    const length: number = Math.min(s1.length, s2.length);
-
-    for (let i = 0; i < length; i++) {
-      if (s1.charAt(i) !== s2.charAt(i)) {
-        while (i > 0 && !this.whitespaceRegEx.test(s1.charAt(i - 1))) {
-          i--;
-        }
-        return i;
-      }
-    }
-
-    return length;
-  }
-
-  // Returns the number of identical chars from the right up to a whitespace
-  private endEqualsLength(s1: string, s2: string): number {
-    if (!s1 || !s2) {
-      return 0;
-    }
-
-    const l1: number = s1.length;
-    const l2: number = s2.length;
-    const length = Math.min(l1, l2);
-
-    for (let i = 1; i <= length; i++) {
-      if (s1.charAt(l1 - i) !== s2.charAt(l2 - i)) {
-        i--;
-        while (i > 0 && !this.whitespaceRegEx.test(s1.charAt(l1 - i))) {
-          i--;
-        }
-        return i;
-      }
-    }
-
-    return length;
+    this.optimizeLabels();
   }
 }

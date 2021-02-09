@@ -13,6 +13,7 @@ import { ControlLabelContainerBaseWrapper } from '@app/wrappers/control-labels/c
 import { IControlLabelProvider } from '@app/wrappers/control-labels/control-label-provider.interface';
 import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label-template';
 import { IControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper.interface';
+import { FieldRowWrapper } from '@app/wrappers/field-row-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';
 
@@ -22,6 +23,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   private displayCaption: string;
   private labelProvider: IControlLabelProvider;
   private labelTemplate: ControlLabelTemplate;
+  private fieldRowWrp: FieldRowWrapper;
   private vchControl: VchControl;
   private layout: LayoutBase;
   private layoutableProperties: LayoutableProperties;
@@ -36,11 +38,13 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
 
   constructor(
     injector: Injector,
-    labelProvider: IControlLabelProvider
+    labelProvider: IControlLabelProvider,
+    fieldRowWrp: FieldRowWrapper
   ) {
     this.name = labelProvider.getName() + '_ControlLabel';
     this.labelProvider = labelProvider;
     this.labelTemplate = labelProvider.getLabelTemplate();
+    this.fieldRowWrp = fieldRowWrp;
     // tslint:disable-next-line: deprecation
     this.resolver = injector.get(ComponentFactoryResolver);
     this.fontService = injector.get(FontService);
@@ -71,6 +75,10 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
 
   protected getLabelTemplate(): ControlLabelTemplate {
     return this.labelTemplate;
+  }
+
+  public getFieldRowWrapper(): FieldRowWrapper {
+    return this.fieldRowWrp;
   }
 
   public getVchControl(): VchControl {
@@ -159,6 +167,20 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
     this.displayCaption = displayCaption;
     this.updateFittedWidth();
     this.updateFittedHeight();
+  }
+
+  public onWrapperCaptionChanged(): void {
+    this.setDisplayCaption(null);
+
+    const fieldRowWrp: FieldRowWrapper = this.getFieldRowWrapper();
+    if (fieldRowWrp) {
+      fieldRowWrp.optimizeLabels();
+    }
+
+    const labelContainer: ControlLabelContainerBaseWrapper = this.getLabelContainer();
+    if (labelContainer) {
+      labelContainer.onWrapperCaptionChanged();
+    }
   }
 
   public getTextAlign(): TextAlign {

@@ -54,7 +54,7 @@ export class FormWrapper extends ContainerWrapper {
     return title ? title : this._fullName;
   }
 
-  public setTitle(title: string): void {
+  public setTitleAction(title: string): void {
     this.getDefaultVariant().setTitle(title);
   }
 

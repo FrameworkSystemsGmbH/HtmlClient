@@ -26,6 +26,7 @@ import { IControlLabelProvider } from '@app/wrappers/control-labels/control-labe
 import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label-template';
 import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
 import { IControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper.interface';
+import { FieldRowWrapper } from '@app/wrappers/field-row-wrapper';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
@@ -220,8 +221,15 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return caption != null ? caption : null;
   }
 
-  public setCaption(caption: string): void {
+  public setCaptionAction(caption: string): void {
     this.getPropertyStore().setCaption(PropertyLayer.Action, caption);
+    this.onWrapperCaptionChanged();
+  }
+
+  protected onWrapperCaptionChanged(): void {
+    if (this.controlLabel) {
+      this.controlLabel.onWrapperCaptionChanged();
+    }
   }
 
   public getVisibility(): Visibility {
@@ -466,15 +474,15 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return !!this.getCaption();
   }
 
-  public getControlLabelWrapper(): IControlLabelWrapper {
+  public getControlLabelWrapper(fieldRowWrp: FieldRowWrapper): IControlLabelWrapper {
     if (!this.controlLabel) {
-      this.controlLabel = this.createControlLabelWrapper();
+      this.controlLabel = this.createControlLabelWrapper(fieldRowWrp);
     }
     return this.controlLabel;
   }
 
-  protected createControlLabelWrapper(): IControlLabelWrapper {
-    return new ControlLabelWrapper(this.injector, this);
+  protected createControlLabelWrapper(fieldRowWrp: FieldRowWrapper): IControlLabelWrapper {
+    return new ControlLabelWrapper(this.injector, this, fieldRowWrp);
   }
 
   protected updateControlLabelComponentRecursively(): void {
