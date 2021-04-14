@@ -2,11 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      // Need to run Chrome with --remote-debugging-port=9222
-      "name": "Chrome",
-      "type": "chrome",
+      // Need to run Edge with --remote-debugging-port=2015
+      "name": "Edge",
+      "type": "edge",
       "request": "attach",
-      "port": 9222,
+      "port": 2015,
       "url": "http://localhost:4200/#/",
       "webRoot": "${workspaceFolder}"
     }
