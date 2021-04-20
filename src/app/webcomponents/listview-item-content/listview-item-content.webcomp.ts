@@ -19,7 +19,7 @@ export class ListViewItemContentWebComp extends HTMLElement {
 
     if (values != null && values.length) {
       values.forEach((value, index) => {
-        newContent = newContent.replaceAll(`{{${index}}}`, value);
+        newContent = newContent.replaceAll(`{{${index}}}`, value != null ? value : String.empty());
       });
     }
 
