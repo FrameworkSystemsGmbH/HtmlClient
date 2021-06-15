@@ -6,8 +6,8 @@ android {
         applicationId "com.fs.htmlclient"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10038
-        versionName "1.0.38"
+        versionCode 10039
+        versionName "1.0.39"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
