@@ -18,7 +18,7 @@ import { delay } from 'rxjs/operators';
 })
 export class BlockerComponent implements OnInit, OnDestroy {
 
-  private static readonly SHOW_DELAY: number = 500;
+  private static readonly SHOW_DELAY: number = 0;
 
   public showIndicator: boolean = false;
 
