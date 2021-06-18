@@ -22,7 +22,6 @@
     "**/node_modules": true
   },
 
-  "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
 
   "typescript.preferences.importModuleSpecifier": "non-relative",
