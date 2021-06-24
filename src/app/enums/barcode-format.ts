@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-spaces */
 export enum BarcodeFormat {
   NONE        = 0b0000000000000,
   AZTEC       = 0b0000000000001,

@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-spaces */
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -110,9 +111,7 @@ export class PatternFormatService {
     return this.translateFormat(formatPattern, PatternFormatService.momentToJavaMap, '[', ']', '\'', '\'');
   }
 
-  private translateFormat(formatPattern: string, map: Map<string, string>, escapeStartChar: string, escapeEndChar: string,
-                          targetEscapeStartChar: string, targetEscapeEndChar: string): string {
-
+  private translateFormat(formatPattern: string, map: Map<string, string>, escapeStartChar: string, escapeEndChar: string, targetEscapeStartChar: string, targetEscapeEndChar: string): string {
     if (String.isNullOrWhiteSpace(formatPattern)) {
       return null;
     }

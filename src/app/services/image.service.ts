@@ -8,7 +8,9 @@ export class ImageService {
   private filesUrl: string;
 
   constructor(private store: Store) {
-    this.store.select(selectBrokerFilesUrl).subscribe(filesUrl => this.filesUrl = filesUrl);
+    this.store.select(selectBrokerFilesUrl).subscribe(filesUrl => {
+      this.filesUrl = filesUrl;
+    });
   }
 
   public getFilesUrl(): string {
@@ -27,7 +29,7 @@ export class ImageService {
     }
 
     if (!image.startsWith('/')) {
-      return this.filesUrl + '/' + image;
+      return `${this.filesUrl}/${image}`;
     }
 
     return null;

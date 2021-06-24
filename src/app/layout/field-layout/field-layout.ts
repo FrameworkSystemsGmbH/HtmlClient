@@ -79,8 +79,10 @@ export class FieldLayout extends LayoutContainerBase {
       }
     }
 
-    // sum up cell min widths (care about columns), add spacings for each row
-    // and get the widest rows min width.
+    /*
+     * sum up cell min widths (care about columns), add spacings for each row
+     * and get the widest rows min width.
+     */
     const hSpacing: number = container.getSpacingHorizontal();
     let minWidth: number = 0;
 
@@ -88,16 +90,14 @@ export class FieldLayout extends LayoutContainerBase {
       let rowMinWidth: number = 0;
       let isFirst: boolean = true;
       for (const cell of row.getCells()) {
-        if (!cell.isVisible() && !isGridMode) {
-          // ignore invisible cells in normal mode
-          continue;
-        }
-
-        if (isFirst) {
-          rowMinWidth += cell.getColumnOrCellMinWidth();
-          isFirst = false;
-        } else {
-          rowMinWidth += hSpacing + cell.getColumnOrCellMinWidth();
+        // ignore invisible cells in normal mode
+        if (cell.isVisible() || isGridMode) {
+          if (isFirst) {
+            rowMinWidth += cell.getColumnOrCellMinWidth();
+            isFirst = false;
+          } else {
+            rowMinWidth += hSpacing + cell.getColumnOrCellMinWidth();
+          }
         }
       }
       minWidth = Math.max(minWidth, rowMinWidth);
@@ -147,9 +147,11 @@ export class FieldLayout extends LayoutContainerBase {
       // stretch columns horizontally
       let availableWidth: number = width - insetsLeft - insetsRight;
 
-      // set column result width = min width for the first column and not stretchable columns
-      // and update the available width (care about horizontal spacings)
-      // remember columns todo
+      /*
+       * set column result width = min width for the first column and not stretchable columns
+       * and update the available width (care about horizontal spacings)
+       * remember columns todo
+       */
       const todo: LinkedListOneWay<FieldLayoutColumn> = new LinkedListOneWay<FieldLayoutColumn>();
       let isFirstColumn: boolean = true;
 
@@ -158,14 +160,12 @@ export class FieldLayout extends LayoutContainerBase {
           column.setResultColumnWidth(column.getMinColumnWidth());
           availableWidth -= column.getResultColumnWidth();
           isFirstColumn = false;
+        } else if (column.isHorizontalStretchable()) {
+          todo.add(column);
         } else {
-          if (column.isHorizontalStretchable()) {
-            todo.add(column);
-          } else {
-            column.setResultColumnWidth(column.getMinColumnWidth());
-            availableWidth -= hSpacing;
-            availableWidth -= column.getResultColumnWidth();
-          }
+          column.setResultColumnWidth(column.getMinColumnWidth());
+          availableWidth -= hSpacing;
+          availableWidth -= column.getResultColumnWidth();
         }
       }
 
@@ -201,8 +201,10 @@ export class FieldLayout extends LayoutContainerBase {
         }
       }
 
-      // if there are still column not stretched, stretch them
-      // they will not have any problems
+      /*
+       * if there are still column not stretched, stretch them
+       * they will not have any problems
+       */
       while (!todo.isEmpty()) {
         const column: FieldLayoutColumn = todo.poll();
         column.setResultColumnWidth(Math.round(stretchFactor * column.getMinColumnWidth()));
@@ -229,9 +231,11 @@ export class FieldLayout extends LayoutContainerBase {
 
         let availableWidth: number = width - insetsLeft - insetsRight;
 
-        // set result width = min width for first cell and not stretchable cells
-        // and update the available width (care about horizontal spacings)
-        // remember cells todo
+        /*
+         * set result width = min width for first cell and not stretchable cells
+         * and update the available width (care about horizontal spacings)
+         * remember cells todo
+         */
         const todo: LinkedListOneWay<FieldLayoutCell> = new LinkedListOneWay<FieldLayoutCell>();
         let isFirstCell: boolean = true;
 
@@ -240,15 +244,13 @@ export class FieldLayout extends LayoutContainerBase {
             cell.setResultWidth(cell.getMinWidth());
             availableWidth -= cell.getResultWidth();
             isFirstCell = false;
-          } else {
-            if (cell.isVisible()) {
-              if (cell.getAlignmentHorizontal() === HorizontalAlignment.Stretch) {
-                todo.add(cell);
-              } else {
-                cell.setResultWidth(cell.getMinWidth());
-                availableWidth -= hSpacing;
-                availableWidth -= cell.getResultWidth();
-              }
+          } else if (cell.isVisible()) {
+            if (cell.getAlignmentHorizontal() === HorizontalAlignment.Stretch) {
+              todo.add(cell);
+            } else {
+              cell.setResultWidth(cell.getMinWidth());
+              availableWidth -= hSpacing;
+              availableWidth -= cell.getResultWidth();
             }
           }
         }
@@ -296,8 +298,10 @@ export class FieldLayout extends LayoutContainerBase {
           }
         }
 
-        // if there are still cells not stretched, stretch them
-        // they will not have any problems
+        /*
+         * if there are still cells not stretched, stretch them
+         * they will not have any problems
+         */
         while (!todo.isEmpty()) {
           const cell: FieldLayoutCell = todo.poll();
           cell.setResultWidth(Math.round(stretchFactor * cell.getMinWidth()));
@@ -309,9 +313,11 @@ export class FieldLayout extends LayoutContainerBase {
         }
       }
 
-      // For both modes:
-      // 1. All result widths are now set, so calculate minimum height for all rows
-      // 2. Add them up including vertical spacing
+      /*
+       * For both modes:
+       * 1. All result widths are now set, so calculate minimum height for all rows
+       * 2. Add them up including vertical spacing
+       */
       let rowMinHeight: number = 0;
 
       for (const cell of row.getCells()) {
@@ -380,8 +386,10 @@ export class FieldLayout extends LayoutContainerBase {
       }
     }
 
-    // calculate result height for auto sized rows
-    // and remember all dynamic rows to be processed later
+    /*
+     * calculate result height for auto sized rows
+     * and remember all dynamic rows to be processed later
+     */
     const todo: Array<FieldLayoutRow> = new Array<FieldLayoutRow>();
     for (const row of this.rows) {
       if (row.getSize() == null || !row.isStretchable()) {
@@ -398,8 +406,11 @@ export class FieldLayout extends LayoutContainerBase {
     // calculate result height for dynamic rows respecting min and max height
     let allMinProblemsSolved: boolean = false;
     while (!todo.isEmpty() && !allMinProblemsSolved) {
-      // sum up all distances below minimum
-      // and remember the greatest distance item
+
+      /*
+       * sum up all distances below minimum
+       * and remember the greatest distance item
+       */
       let hasMinFail: boolean = false;
       let maxMinFail: number = 0;
       let maxMinFailWrapper: FieldLayoutRow = null;

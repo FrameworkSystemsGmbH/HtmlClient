@@ -151,11 +151,11 @@ export class NumberFormatService {
     let actualValue: number = value;
 
     if (formatInfo.isPercent) {
-      actualValue = actualValue * 100;
+      actualValue *= 100;
     }
 
     if (formatInfo.isPermille) {
-      actualValue = actualValue * 1000;
+      actualValue *= 1000;
     }
 
     if (formatInfo.hasDecimalsPart()) {
@@ -376,9 +376,7 @@ export class NumberFormatService {
     let suffixPos: number;
     let firstDigitPos: number;
     let lastDigitPos: number;
-    let firstDigitZeroPos: number;
     let groupingSeparatorPos: number;
-    let lastDecimalZeroPos: number;
 
     let prefixPart: string = String.empty();
     let digitsPart: string = String.empty();
@@ -486,8 +484,8 @@ export class NumberFormatService {
       }
     }
 
-    firstDigitZeroPos = digitsPart ? digitsPart.indexOf(NumberFormatService.formatZero) : undefined;
-    lastDecimalZeroPos = decimalsPart ? decimalsPart.lastIndexOf(NumberFormatService.formatZero) : undefined;
+    const firstDigitZeroPos: number | undefined = digitsPart ? digitsPart.indexOf(NumberFormatService.formatZero) : undefined;
+    const lastDecimalZeroPos: number | undefined = decimalsPart ? decimalsPart.lastIndexOf(NumberFormatService.formatZero) : undefined;
 
     hasGrouping = firstDigitPos != null &&
       lastDigitPos != null &&
@@ -515,13 +513,13 @@ export class NumberFormatService {
       return null;
     }
 
-    const groupSep: string = parseMethod === ParseMethod.Client ?  this.getGroupingSeparator() : NumberFormatService.formatGroupSeparator;
+    const groupSep: string = parseMethod === ParseMethod.Client ? this.getGroupingSeparator() : NumberFormatService.formatGroupSeparator;
     const decSep: string = parseMethod === ParseMethod.Client ? this.getDecimalSeparator() : NumberFormatService.formatDecimalSeparator;
 
     return value
       .replaceAll(groupSep, String.empty())
       .replaceAll(decSep, NumberFormatService.formatDecimalSeparator)
-      .replace(/[^0-9\-\.]/g, String.empty())
+      .replace(/[^0-9\-.]/g, String.empty())
       .replace(/^([^.]*\.)(.*)$/, (val, left, right) => left + right.replace(/\./g, String.empty()))
       .trim();
   }

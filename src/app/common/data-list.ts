@@ -37,8 +37,12 @@ export class DataList extends Array<DataListEntry> {
   }
 
   public getNullEntry(): DataListEntry {
-    if (!this.length) { return null; }
+    if (!this.length) {
+      return null;
+    }
+
     const firstEntry: DataListEntry = this[0];
+
     return firstEntry.isNullEntry() ? firstEntry : null;
   }
 

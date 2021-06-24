@@ -11,12 +11,14 @@ export class PrintReportService {
   private _reportUrl: string;
 
   constructor(private store: Store) {
-    this.store.select(selectBrokerReportUrl).subscribe(reportUrl => this._reportUrl = reportUrl);
+    this.store.select(selectBrokerReportUrl).subscribe(reportUrl => {
+      this._reportUrl = reportUrl;
+    });
   }
 
   public printReport(id: string): void {
     if (!String.isNullOrWhiteSpace(id)) {
-      Browser.open({ url: this._reportUrl + '?id=' + id });
+      Browser.open({ url: `${this._reportUrl}?id=${id}` });
     }
   }
 }

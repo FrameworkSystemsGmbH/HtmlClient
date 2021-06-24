@@ -20,8 +20,6 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
     this.patternFormatService = this.getInjector().get(PatternFormatService);
   }
 
-  public abstract getTextBoxType(): TextBoxType;
-
   public getControlType(): ControlType {
     return ControlType.TextBox;
   }
@@ -89,12 +87,6 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
     return this.hasChanges();
   }
 
-  protected abstract hasChanges(): boolean;
-
-  protected abstract getValueJson(): string;
-
-  protected abstract setValueJson(value: string): void;
-
   public getJson(): any {
     if (!this.hasChanges()) {
       return null;
@@ -133,7 +125,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   public hasOnValidatedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnValidated) ? true : false;
+    return (this.getEvents() & ClientEventType.OnValidated) === ClientEventType.OnValidated;
   }
 
   protected canExecuteValidated(clientEvent: ClientValidatedEvent, payload: any): boolean {
@@ -182,4 +174,12 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   public isOutlineVisible(isFocused: boolean): boolean {
     return isFocused;
   }
+
+  public abstract getTextBoxType(): TextBoxType;
+
+  protected abstract hasChanges(): boolean;
+
+  protected abstract getValueJson(): string;
+
+  protected abstract setValueJson(value: string): void;
 }

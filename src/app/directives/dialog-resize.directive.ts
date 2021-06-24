@@ -19,10 +19,6 @@ export class DialogResizeDirective implements OnInit {
     private renderer: Renderer2
   ) { }
 
-  public ngOnInit(): void {
-    this.setStyles();
-  }
-
   @HostListener('window:keyboardDidShow')
   public onKeyboardShown(): void {
     this.setStyles();
@@ -35,6 +31,10 @@ export class DialogResizeDirective implements OnInit {
 
   @HostListener('window:resize')
   public onWindowResize(): void {
+    this.setStyles();
+  }
+
+  public ngOnInit(): void {
     this.setStyles();
   }
 

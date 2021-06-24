@@ -36,12 +36,14 @@ export class ButtonGroup {
 
   public getDataJson(): any {
     if (!this.hasChanges()) {
-      return;
+      return null;
     }
 
-    return {
+    const data: any = {
       text: this._value
     };
+
+    return data;
   }
 
   public setDataJson(dataJson: any): void {

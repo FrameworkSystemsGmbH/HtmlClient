@@ -48,10 +48,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.brokers$ = this.loginService.getBrokers();
 
-    this.activeBrokerNameSub = this.store.select(selectBrokerName).subscribe(name => this.activeBrokerName = name);
+    this.activeBrokerNameSub = this.store.select(selectBrokerName).subscribe(name => {
+      this.activeBrokerName = name;
+    });
 
     this.nameControl = new FormControl(null);
-    this.urlControl = new FormControl(null, Validators.required);
+    this.urlControl = new FormControl(null, Validators.required.bind(this));
 
     this.addForm = new FormGroup({
       name: this.nameControl,
@@ -86,7 +88,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public openEditorNew(): void {
-    this.nameControl.setValidators(Validators.required);
+    this.nameControl.setValidators(Validators.required.bind(this));
     this.nameControl.setAsyncValidators(this.brokerValidator);
     this.editingExisting = false;
     this.editorShown = true;
@@ -97,7 +99,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.nameControl.setValidators(Validators.required);
+    this.nameControl.setValidators(Validators.required.bind(this));
     this.nameControl.clearAsyncValidators();
     this.nameControl.setValue(broker.name);
     this.urlControl.setValue(broker.url);
@@ -137,17 +139,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private createBrokerValidator(ls: LoginService): any {
-    return (c: FormControl) => {
-      return new Observable<any>(subscriber => {
-        ls.getBrokers().subscribe(brokers => {
-          if (brokers && brokers.length && brokers.find(b => String.equals(b.name, c.value, true))) {
-            subscriber.next({ broker: true });
-          } else {
-            subscriber.next(null);
-          }
-          subscriber.complete();
-        });
+    return (c: FormControl) => new Observable<any>(subscriber => {
+      ls.getBrokers().subscribe(brokers => {
+        if (brokers && brokers.length && brokers.find(b => String.equals(b.name, c.value, true))) {
+          subscriber.next({ broker: true });
+        } else {
+          subscriber.next(null);
+        }
+        subscriber.complete();
       });
-    };
+    });
   }
 }

@@ -106,7 +106,7 @@ export class CheckBoxWrapper extends FittedWrapper {
         break;
 
       default:
-        throw new Error('Incompatible datasource type \'' + this.dataSourceType + '\' for checkbox control!');
+        throw new Error(`Incompatible datasource type '${this.dataSourceType}' for checkbox control!`);
     }
 
     this.orgValue = val;
@@ -160,7 +160,7 @@ export class CheckBoxWrapper extends FittedWrapper {
   protected attachEvents(instance: CheckBoxComponent): void {
     super.attachEvents(instance);
 
-    if (this.getEvents() & ClientEventType.OnClick) {
+    if (this.hasOnClickEvent()) {
       this.boxClickSub = instance.boxClick.subscribe(() => this.getBoxClickSubscription()());
     }
   }
@@ -174,7 +174,7 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   public hasOnClickEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnClick) ? true : false;
+    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick;
   }
 
   protected getBoxClickSubscription(): () => void {

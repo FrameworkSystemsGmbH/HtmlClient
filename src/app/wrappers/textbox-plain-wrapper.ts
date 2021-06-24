@@ -7,10 +7,10 @@ import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
-  private stringFormatService: StringFormatService;
-
   protected value: string;
   protected orgValue: string;
+
+  private stringFormatService: StringFormatService;
 
   protected init(): void {
     super.init();

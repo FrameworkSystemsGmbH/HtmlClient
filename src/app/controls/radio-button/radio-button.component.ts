@@ -159,5 +159,7 @@ export class RadioButtonComponent extends ControlComponent {
     if (this.input) {
       return this.input.nativeElement;
     }
+
+    return null;
   }
 }

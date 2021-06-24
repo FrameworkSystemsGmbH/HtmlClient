@@ -25,7 +25,12 @@ export class BlockerComponent implements OnInit, OnDestroy {
   private _showIndicatorSub: Subscription;
 
   public ngOnInit(): void {
-    EMPTY.pipe(delay(BlockerComponent.SHOW_DELAY)).subscribe({ complete: () => this.showIndicator = true });
+    EMPTY.pipe(delay(BlockerComponent.SHOW_DELAY)).subscribe(
+      {
+        complete: () => {
+          this.showIndicator = true;
+        }
+      });
   }
 
   public ngOnDestroy(): void {

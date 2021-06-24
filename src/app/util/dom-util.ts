@@ -45,12 +45,10 @@ export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrol
     } else {
       container.scrollTop = scroll + offset - contHeight + childHeight + (contHeight / 2) - (childHeight / 2);
     }
-  } else {
-    if (offset < 0) {
-      container.scrollTop = scroll + offset - (options.offset > 0 ? options.offset : 0);
-    } else if ((offset + childHeight) > contHeight) {
-      container.scrollTop = scroll + offset - contHeight + childHeight + (options.offset > 0 ? options.offset : 0);
-    }
+  } else if (offset < 0) {
+    container.scrollTop = scroll + offset - (options.offset > 0 ? options.offset : 0);
+  } else if ((offset + childHeight) > contHeight) {
+    container.scrollTop = scroll + offset - contHeight + childHeight + (options.offset > 0 ? options.offset : 0);
   }
 }
 
@@ -81,12 +79,18 @@ export function setSelection(input: any, start?: any, end?: any): void {
 }
 
 export function isDescendant(container: HTMLElement, element: HTMLElement): boolean {
-  if (!container || !element) { return false; }
+  if (!container || !element) {
+    return false;
+  }
+
   return container.contains(element);
 }
 
 export function isDescentantOrSelf(container: HTMLElement, element: HTMLElement): boolean {
-  if (!container || !element) { return false; }
+  if (!container || !element) {
+    return false;
+  }
+
   return container === element || isDescendant(container, element);
 }
 

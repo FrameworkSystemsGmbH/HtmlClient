@@ -100,8 +100,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     this.updateIsEditableParent();
   }
 
-  public abstract getControlType(): ControlType;
-
   protected getInjector(): Injector {
     return this.injector;
   }
@@ -249,8 +247,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public updateVisibilityParent(): void {
-    // Check the actual parent not the VCH parent
-    // Otherwise one could work around business logic
+
+    /*
+     * Check the actual parent not the VCH parent
+     * Otherwise one could work around business logic
+     */
     if (this.parent != null) {
       this.visibilityParent = this.parent.getCurrentVisibility();
     } else {
@@ -283,8 +284,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public updateIsEditableParent(): void {
-    // Check the actual parent not the VCH parent
-    // Otherwise one could work around business logic
+
+    /*
+     * Check the actual parent not the VCH parent
+     * Otherwise one could work around business logic
+     */
     if (this.parent != null) {
       this.isEditableParent = this.parent.getCurrentIsEditable();
     } else {
@@ -469,7 +473,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public providesControlLabelWrapper(): boolean {
-    return !!this.getCaption();
+    return !String.isNullOrEmpty(this.getCaption());
   }
 
   public getControlLabelWrapper(fieldRowWrp: FieldRowWrapper): IControlLabelWrapper {
@@ -567,8 +571,6 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     }
   }
 
-  protected abstract createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlComponent>;
-
   public attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {
     // If this wrapper is already attached -> detach and destroy old Angular Component
     this.detachComponent();
@@ -637,7 +639,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public hasOnEnterEvent(): boolean {
-    return (this.events & ClientEventType.OnEnter) ? true : false;
+    return (this.events & ClientEventType.OnEnter) === ClientEventType.OnEnter;
   }
 
   protected getCtrlEnterSubscription(): () => void {
@@ -665,7 +667,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public hasOnLeaveEvent(): boolean {
-    return (this.events & ClientEventType.OnLeave) ? true : false;
+    return (this.events & ClientEventType.OnLeave) === ClientEventType.OnLeave;
   }
 
   protected getCtrlLeaveSubscription(): () => void {
@@ -776,9 +778,15 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     if (comp) {
       return comp.getFocusElement();
     }
+
+    return null;
   }
 
   public isOutlineVisible(isFocused: boolean): boolean {
     return isFocused && !this.getPlatformService().isNative();
   }
+
+  public abstract getControlType(): ControlType;
+
+  protected abstract createComponent(container: ILayoutableContainerWrapper): ComponentRef<ControlComponent>;
 }

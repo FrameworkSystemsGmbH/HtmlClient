@@ -41,6 +41,29 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
     this.inputValue = data.value;
   }
 
+  @HostListener('document:keydown', ['$event'])
+  public handleKeydown(event: KeyboardEvent): void {
+    if (KeyUtil.getKeyString(event) === 'Escape') {
+      this.dialogRef.close({
+        selected: false
+      });
+    }
+  }
+
+  @HostListener('window:keyboardDidShow')
+  public onKeyboardShown(): void {
+    setTimeout(() => {
+      this.scrollSelectedEntryIntoView();
+    });
+  }
+
+  @HostListener('window:keyboardDidHide')
+  public onKeyboardHidden(): void {
+    setTimeout(() => {
+      this.scrollSelectedEntryIntoView();
+    });
+  }
+
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);
     this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
@@ -99,33 +122,12 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   protected scrollSelectedEntryIntoView(): void {
-    if (!this.scroller || !this.list) { return; }
+    if (!this.scroller || !this.list) {
+      return;
+    }
     const selectedLi: HTMLLIElement = this.list.nativeElement.querySelector('li.selected');
     if (selectedLi) {
       DomUtil.scrollIntoView(this.scroller.nativeElement, selectedLi, { center: true });
     }
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  public handleKeydown(event: KeyboardEvent): void {
-    if (KeyUtil.getKeyString(event) === 'Escape') {
-      this.dialogRef.close({
-        selected: false
-      });
-    }
-  }
-
-  @HostListener('window:keyboardDidShow')
-  public onKeyboardShown(): void {
-    setTimeout(() => {
-      this.scrollSelectedEntryIntoView();
-    });
-  }
-
-  @HostListener('window:keyboardDidHide')
-  public onKeyboardHidden(): void {
-    setTimeout(() => {
-      this.scrollSelectedEntryIntoView();
-    });
   }
 }

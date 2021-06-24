@@ -41,8 +41,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.stateService.attachHandlers();
   }
 
+  @HostListener('window:mousedown', ['$event'])
+  public globalMouseDown(event: MouseEvent): void {
+    this.focusService.setLastMouseEvent(event);
+  }
+
   public ngOnInit(): void {
-    this.store.select(selectReady).subscribe(ready => this.ready = ready);
+    this.store.select(selectReady).subscribe(ready => {
+      this.ready = ready;
+    });
+
     this.stateService.resumeLastSession().subscribe(() => this.store.dispatch(setReady({ ready: true })));
 
     if (this.platformService.isIos()) {
@@ -58,10 +66,5 @@ export class AppComponent implements OnInit, AfterViewInit {
     return {
       'padding-top.rem': StyleUtil.pixToRem(StyleUtil.iosMenubarHeight)
     };
-  }
-
-  @HostListener('window:mousedown', ['$event'])
-  public globalMouseDown(event: MouseEvent): void {
-    this.focusService.setLastMouseEvent(event);
   }
 }

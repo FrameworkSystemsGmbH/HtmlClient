@@ -164,5 +164,7 @@ export class CheckBoxComponent extends ControlComponent {
     if (this.input) {
       return this.input.nativeElement;
     }
+
+    return null;
   }
 }

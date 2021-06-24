@@ -108,8 +108,10 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     // The FieldRow only attaches itself to the VCH since it does not render a UI Component
     vchContainer.getVchContainer().addChild(this);
 
-    // 1. All UI Components of the children get directly attached to the FieldPanel
-    // 2. All child wrappers get attached to the FieldRow in the VCH
+    /*
+     * 1. All UI Components of the children get directly attached to the FieldPanel
+     * 2. All child wrappers get attached to the FieldRow in the VCH
+     */
     this.attachSubComponents(uiContainer, this);
   }
 
@@ -121,8 +123,10 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     // Reset first column indicator
     this.hasFirstColumnControl = false;
 
-    // Create the label for the first column and attach it if necessary
-    // This is either the label of the first control or the merged label for all controls in the row
+    /*
+     * Create the label for the first column and attach it if necessary
+     * This is either the label of the first control or the merged label for all controls in the row
+     */
     if (labelMode === FieldRowLabelMode.Generated || labelMode === FieldRowLabelMode.GeneratedMerged) {
       const firstColumnLabel: ILayoutableControlWrapper = this.getControlLabelWrapper(this);
       if (firstColumnLabel) {

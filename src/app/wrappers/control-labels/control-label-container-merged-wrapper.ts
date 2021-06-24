@@ -26,7 +26,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
     let name: string = String.empty();
 
     for (const labelWrapper of this.getLabelWrappers()) {
-      name += labelWrapper.getName() + '_';
+      name += `${labelWrapper.getName()}_`;
     }
 
     name += '_ControlLabelMergedContainer';
@@ -75,9 +75,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
   }
 
   protected adjustSeparators(): void {
-    const visibleWrappers: Array<ControlLabelWrapper> = this.getLabelWrappers().filter(labelWrp => {
-      return labelWrp.getCurrentVisibility() === Visibility.Visible;
-    });
+    const visibleWrappers: Array<ControlLabelWrapper> = this.getLabelWrappers().filter(labelWrp => labelWrp.getCurrentVisibility() === Visibility.Visible);
 
     // Trim separators from start
     for (const visibleWrp of visibleWrappers) {

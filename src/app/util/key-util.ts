@@ -1,5 +1,7 @@
-// Old browsers (including the Android 6 WebView) do not provide the new 'event.key' property
-// These browsers need to fall back to the deprecated 'event.keyCode' property
+/*
+ * Old browsers (including the Android 6 WebView) do not provide the new 'event.key' property
+ * These browsers need to fall back to the deprecated 'event.keyCode' property
+ */
 export function getKeyString(event: KeyboardEvent): string {
   if (event == null) {
     return 'Unknown';

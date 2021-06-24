@@ -156,10 +156,10 @@ export class BrokerService {
 
       const name = broker.name;
       const url: string = broker.url;
-      const fileUrl: string = url.trimCharsRight('/') + '/';
-      const imageUrl: string = url.trimCharsRight('/') + '/api/image';
-      const reportUrl: string = url.trimCharsRight('/') + '/api/report';
-      const requestUrl: string = url.trimCharsRight('/') + '/api/process';
+      const fileUrl: string = `${url.trimCharsRight('/')}/`;
+      const imageUrl: string = `${url.trimCharsRight('/')}/api/image`;
+      const reportUrl: string = `${url.trimCharsRight('/')}/api/report`;
+      const requestUrl: string = `${url.trimCharsRight('/')}/api/process`;
 
       if (options != null && !String.isNullOrWhiteSpace(options.languages)) {
         this.clientLanguages = options.languages;
@@ -239,11 +239,9 @@ export class BrokerService {
 
   public sendInitRequest(): Observable<any> {
     return this.getMetaJson(true).pipe(
-      map(metaJson => {
-        return {
-          meta: metaJson
-        };
-      }),
+      map(metaJson => ({
+        meta: metaJson
+      })),
       mergeMap(requestJson => this.doRequest(requestJson))
     );
   }
@@ -253,16 +251,14 @@ export class BrokerService {
     return this.httpClient.post(this.activeBrokerRequestUrl, requestJson).pipe(
       retryWhen(attempts => attempts.pipe(
         tap(() => this.loaderService.fireLoadingChanged(false)),
-        mergeMap(error => {
-          return this.createRequestRetryBox(error);
-        }),
+        mergeMap(error => this.createRequestRetryBox(error)),
         tap(() => this.loaderService.fireLoadingChanged(true))
       ))
     );
   }
 
   private createRequestRetryBox(error: any): Observable<void> {
-    return new Observable<void>(subscriber => {
+    return new Observable<void>(sub => {
       try {
         const title: string = this.titleService.getTitle();
         const message: string = error && error.status === 0 ? 'Request could not be sent because of a network error!' : error.message;
@@ -274,15 +270,13 @@ export class BrokerService {
           stackTrace
         }).subscribe(result => {
           if (result === RetryBoxResult.Retry) {
-            subscriber.next(null);
+            sub.next(null);
           } else {
             this.closeApplication();
           }
-        },
-          err => subscriber.error(err),
-          () => subscriber.complete());
+        }, err => sub.error(err), () => sub.complete());
       } catch (err) {
-        subscriber.error(err);
+        sub.error(err);
       }
     });
   }

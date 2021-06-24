@@ -201,6 +201,12 @@ export class PictureComponent extends ControlComponent {
           'right.rem': StyleUtil.pixToRem(wrapper.getPaddingRight()),
           'bottom.rem': StyleUtil.pixToRem(wrapper.getPaddingBottom())
         };
+      default:
+        return {
+          'top.%': 50,
+          'left.%': 50,
+          'transform': 'translate(-50%, -50%)'
+        };
     }
   }
 

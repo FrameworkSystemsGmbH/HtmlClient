@@ -100,7 +100,7 @@ export class RadioButtonWrapper extends FittedWrapper {
   protected attachEvents(instance: RadioButtonComponent): void {
     super.attachEvents(instance);
 
-    if (this.getEvents() & ClientEventType.OnClick) {
+    if (this.hasOnClickEvent()) {
       this.radioClickSub = instance.radioClick.subscribe(() => this.getRadioClickSubscription()());
     }
 
@@ -124,7 +124,7 @@ export class RadioButtonWrapper extends FittedWrapper {
   }
 
   public hasOnClickEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnClick) ? true : false;
+    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick;
   }
 
   protected getRadioClickSubscription(): () => void {
@@ -154,7 +154,7 @@ export class RadioButtonWrapper extends FittedWrapper {
   public updateFittedWidth(): void {
     const caption: string = this.getCaption();
 
-    if (!!caption) {
+    if (!String.isNullOrEmpty(caption)) {
       this.setFittedContentWidth(this.getFontService().measureTextWidth(caption, this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()) + this.getButtonWidth() + this.getLabelGap());
     } else {
       this.setFittedContentWidth(this.getButtonWidth());

@@ -463,7 +463,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   public hasOnItemSelectionChangedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnItemSelectionChanged) ? true : false;
+    return (this.getEvents() & ClientEventType.OnItemSelectionChanged) === ClientEventType.OnItemSelectionChanged;
   }
 
   public callOnItemSelectionChanged(): void {
@@ -493,7 +493,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   public hasOnItemActivatedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnItemActivated) ? true : false;
+    return (this.getEvents() & ClientEventType.OnItemActivated) === ClientEventType.OnItemActivated;
   }
 
   public callOnItemActivated(itemId: string): void {

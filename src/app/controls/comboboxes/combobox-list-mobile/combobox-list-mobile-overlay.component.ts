@@ -39,6 +39,15 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
     this.selectedIndex = data.selectedIndex;
   }
 
+  @HostListener('document:keydown', ['$event'])
+  public handleKeydown(event: KeyboardEvent): void {
+    if (KeyUtil.getKeyString(event) === 'Escape') {
+      this.dialogRef.close({
+        selected: false
+      });
+    }
+  }
+
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);
     this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
@@ -80,19 +89,12 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   protected scrollSelectedEntryIntoView(): void {
-    if (!this.scroller || !this.list) { return; }
+    if (!this.scroller || !this.list) {
+      return;
+    }
     const selectedLi: HTMLLIElement = this.list.nativeElement.querySelector('li.selected');
     if (selectedLi) {
       DomUtil.scrollIntoView(this.scroller.nativeElement, selectedLi, { center: true });
-    }
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  public handleKeydown(event: KeyboardEvent): void {
-    if (KeyUtil.getKeyString(event) === 'Escape') {
-      this.dialogRef.close({
-        selected: false
-      });
     }
   }
 }

@@ -75,8 +75,7 @@ export class FontService {
     return this.baseControlStyle.getMaxWidthRaster();
   }
 
-  private getMeasuredWidth(wrapper: FittedDataWrapper, type: DataSourceType, length: number, scale: number,
-                           format: TextFormat, formatPattern: string, raster: number): number {
+  private getMeasuredWidth(wrapper: FittedDataWrapper, type: DataSourceType, length: number, scale: number, format: TextFormat, formatPattern: string, raster: number): number {
     switch (type) {
       case DataSourceType.String:
         return this.getStringWidthRastered(wrapper, length, format, raster);
@@ -130,8 +129,11 @@ export class FontService {
 
       for (let i = 9; i >= 0; i--) {
         const digitStr: string = i.toString();
-        // Measure 3 of the same digits behind each other because of a weird measuring behavior:
-        // '1' is the same width as '6' but '111' is not as wide as '666' -> WTF?
+
+        /*
+         * Measure 3 of the same digits behind each other because of a weird measuring behavior:
+         * '1' is the same width as '6' but '111' is not as wide as '666' -> WTF?
+         */
         const measureText: string = digitStr + digitStr + digitStr;
         const digitWidth: number = this.measureTextWidth(measureText, fontFamily, fontSize, fontBold, fontItalic) / 3;
         if (digitWidth > maxDigitWidth || digitWidth === maxDigitWidth && digit === 0) {
@@ -191,7 +193,7 @@ export class FontService {
   }
 
   private getNumberWidthRastered(wrapper: FittedDataWrapper, type: DataSourceType, scale: number,
-                                 precision: number, format: TextFormat, formatPattern: string, raster: number): number {
+    precision: number, format: TextFormat, formatPattern: string, raster: number): number {
 
     let bufferKey: string = this.getFontKey(wrapper);
     bufferKey = this.addKey(bufferKey, type);
@@ -279,7 +281,7 @@ export class FontService {
   }
 
   private measureNumberWidth(wrapper: FittedDataWrapper, type: DataSourceType, scale: number,
-                             precision: number, textFormat: TextFormat, formatPattern: string): number {
+    precision: number, textFormat: TextFormat, formatPattern: string): number {
 
     const maxWidthDigit: number = this.getMaxWidthDigit(wrapper);
     let value: string = String.empty();
@@ -302,7 +304,7 @@ export class FontService {
           digits = digits * 10 - maxWidthDigit;
         }
 
-        value += digits + '.';
+        value += `${digits}.`;
 
         if (scale > 0) {
           let decimals: number = maxWidthDigit === 0 ? 9 : maxWidthDigit;
@@ -357,7 +359,7 @@ export class FontService {
       return 0;
     }
 
-    this.context.font = (isBold ? 'bold' : String.empty()) + (isItalic ? ' italic' : String.empty()) + ' ' + size + 'px' + ' ' + font;
+    this.context.font = `${(isBold ? 'bold' : String.empty()) + (isItalic ? ' italic' : String.empty())} ${size}px ${font}`;
 
     return Math.ceilDec(this.context.measureText(text).width, 0);
   }

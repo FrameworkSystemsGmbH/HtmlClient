@@ -8,10 +8,10 @@ import * as Moment from 'moment-timezone';
 
 export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
 
-  private dateTimeFormatService: DateTimeFormatService;
-
   protected value: Moment.Moment;
   protected orgValue: Moment.Moment;
+
+  private dateTimeFormatService: DateTimeFormatService;
 
   protected init(): void {
     super.init();

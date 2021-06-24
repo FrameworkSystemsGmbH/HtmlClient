@@ -28,7 +28,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.modalHeaderStyle = { 'display': (form != null ? form.hideModalHeader() : false) ? 'none' : null };
     });
 
-    this._loadingChangedSub = this._loaderService.onLoadingChangedDelayed.subscribe(loading => this.isLoading = loading);
+    this._loadingChangedSub = this._loaderService.onLoadingChangedDelayed.subscribe(loading => {
+      this.isLoading = loading;
+    });
   }
 
   public ngOnDestroy(): void {

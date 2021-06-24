@@ -12,12 +12,6 @@ export abstract class ComboBoxComponent extends ControlComponent {
   public entries: DataList;
   public selectedIndex: number;
 
-  public abstract getControl(): ElementRef;
-
-  public abstract getSelectedPk(): string;
-
-  public abstract getArrowWidth(): number;
-
   protected getSelectedIndex(): number {
     return this.selectedIndex;
   }
@@ -70,5 +64,13 @@ export abstract class ComboBoxComponent extends ControlComponent {
     if (control) {
       return control.nativeElement;
     }
+
+    return null;
   }
+
+  public abstract getControl(): ElementRef;
+
+  public abstract getSelectedPk(): string;
+
+  public abstract getArrowWidth(): number;
 }

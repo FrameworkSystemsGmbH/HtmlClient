@@ -188,7 +188,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   protected attachEvents(instance: ComboBoxComponent): void {
     super.attachEvents(instance);
 
-    if (this.getEvents() & ClientEventType.OnSelectionChanged) {
+    if (this.hasOnSelectionChangedEvent()) {
       this.selectionChangedSub = instance.selectionChanged.subscribe(() => this.getOnSelectionChangedSubscription()());
     }
   }
@@ -206,7 +206,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   public hasOnSelectionChangedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnSelectionChanged) ? true : false;
+    return (this.getEvents() & ClientEventType.OnSelectionChanged) === ClientEventType.OnSelectionChanged;
   }
 
   protected getOnSelectionChangedSubscription(): () => void {

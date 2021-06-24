@@ -26,10 +26,6 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     this.zone = this.getInjector().get(NgZone);
   }
 
-  protected abstract getScroller(): ElementRef;
-
-  protected abstract getList(): ElementRef;
-
   public ngAfterViewChecked(): void {
     if (this.dropDownVisible) {
       const selectedListIndex: number = this.getSelectedListIndex();
@@ -49,14 +45,21 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
 
   public getSelectedListIndex(): number {
     const selectedIndex: number = this.getSelectedIndex();
-    return this.selectedListIndex != null ? this.selectedListIndex : (selectedIndex != null ? selectedIndex : -1);
+
+    if (this.selectedListIndex != null) {
+      return this.selectedListIndex;
+    }
+    else if (selectedIndex != null) {
+      return selectedIndex;
+    }
+    else {
+      return -1;
+    }
   }
 
   protected setSelectedListIndex(index: number): void {
     this.selectedListIndex = index;
   }
-
-  public abstract onEnterKey(event: KeyboardEvent): void;
 
   protected onKeyDown(event: KeyboardEvent): void {
     if (!event || !this.isEditable) {
@@ -81,9 +84,8 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
 
       // Enter
       case 'Enter':
-        const open: boolean = this.dropDownVisible;
         this.onEnterKey(event);
-        this.onFocusKey(event, open);
+        this.onFocusKey(event, this.dropDownVisible);
         break;
 
       // Escape
@@ -118,7 +120,9 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     const scroller: ElementRef = this.getScroller();
     const list: ElementRef = this.getList();
 
-    if (!scroller || !list) { return; }
+    if (!scroller || !list) {
+      return;
+    }
     const selectedLi: HTMLLIElement = list.nativeElement.querySelector('li.selected');
     if (selectedLi) {
       DomUtil.scrollIntoView(scroller.nativeElement, selectedLi);
@@ -236,7 +240,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
       'top.rem': StyleUtil.pixToRem(layoutableProperties.getClientHeight() + wrapper.getMarginTop()),
       'left.rem': StyleUtil.pixToRem(wrapper.getMarginLeft()),
       'min-width.rem': StyleUtil.pixToRem(layoutableProperties.getClientWidth()),
-      'border': '0.1rem solid ' + wrapper.getBorderColor(),
+      'border': `0.1rem solid ${wrapper.getBorderColor()}`,
       'border-radius': StyleUtil.pixToRemFourValueStr(
         wrapper.getBorderRadiusBottomLeft(),
         wrapper.getBorderRadiusBottomRight(),
@@ -254,4 +258,10 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
       'max-height.rem': maxHeight > 0 ? StyleUtil.pixToRem(maxHeight) : null
     };
   }
+
+  public abstract onEnterKey(event: KeyboardEvent): void;
+
+  protected abstract getScroller(): ElementRef;
+
+  protected abstract getList(): ElementRef;
 }

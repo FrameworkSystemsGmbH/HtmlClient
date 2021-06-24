@@ -21,7 +21,9 @@ export class CameraService {
     private _store: Store,
     private _eventsService: EventsService
   ) {
-    this._store.select(selectBrokerName).subscribe(brokerName => this._brokerName = brokerName);
+    this._store.select(selectBrokerName).subscribe(brokerName => {
+      this._brokerName = brokerName;
+    });
   }
 
   public takePhoto(source: BrokerCameraSource): void {
@@ -84,12 +86,10 @@ export class CameraService {
         } else {
           this.onError('Pending image data is missing!');
         }
+      } else if (this._pendingResult.error != null && !String.isNullOrWhiteSpace(this._pendingResult.error.message)) {
+        this.onError(this._pendingResult.error.message);
       } else {
-        if (this._pendingResult.error != null && !String.isNullOrWhiteSpace(this._pendingResult.error.message)) {
-          this.onError(this._pendingResult.error.message);
-        } else {
-          this.onError('Pending error message is missing!');
-        }
+        this.onError('Pending error message is missing!');
       }
     }
 

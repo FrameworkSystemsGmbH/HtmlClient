@@ -8,14 +8,6 @@ export abstract class FittedDataWrapper extends FittedWrapper {
   protected minHeight: number;
   protected maxHeight: number;
 
-  protected abstract getDataMinWidth(): number;
-
-  protected abstract getDataMaxWidth(): number;
-
-  protected abstract getDataMinHeight(): number;
-
-  protected abstract getDataMaxHeight(): number;
-
   public getDisplayMinLines(): number {
     return Number.zeroIfNull(this.getPropertyStore().getDisplayMinLines());
   }
@@ -148,4 +140,12 @@ export abstract class FittedDataWrapper extends FittedWrapper {
     this.minHeight = json.minHeight;
     this.maxHeight = json.maxHeight;
   }
+
+  protected abstract getDataMinWidth(): number;
+
+  protected abstract getDataMaxWidth(): number;
+
+  protected abstract getDataMinHeight(): number;
+
+  protected abstract getDataMaxHeight(): number;
 }

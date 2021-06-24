@@ -220,7 +220,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public hasOnSelectedTabPageChangeEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnSelectedTabPageChange) ? true : false;
+    return (this.getEvents() & ClientEventType.OnSelectedTabPageChange) === ClientEventType.OnSelectedTabPageChange;
   }
 
   protected getOnSelectedTabPageChangeSubscription(tabPage: TabPageWrapper): () => void {
@@ -253,7 +253,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public hasOnSelectedTabPageChangedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnSelectedTabPageChanged) ? true : false;
+    return (this.getEvents() & ClientEventType.OnSelectedTabPageChanged) === ClientEventType.OnSelectedTabPageChanged;
   }
 
   protected getOnSelectedTabPageChangedSubscription(tabPage: TabPageWrapper): () => void {

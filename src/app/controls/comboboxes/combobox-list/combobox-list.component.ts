@@ -96,7 +96,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   public getSelectedValue(): string {
     const selectedIndex: number = this.getSelectedIndex();
     if (selectedIndex == null || selectedIndex < 0) {
-      return '## ' + this.getWrapper().getValue() + ' ##';
+      return `## ${this.getWrapper().getValue()} ##`;
     } else {
       return this.entries[selectedIndex].getValue();
     }

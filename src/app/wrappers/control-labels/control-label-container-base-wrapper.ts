@@ -48,8 +48,6 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
     this.setWrappersLabelContainer();
   }
 
-  protected abstract createName(): string;
-
   public isILayoutableContainer(): void {
     // Interface Marker
   }
@@ -331,4 +329,6 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   public setFocus(): void {
     // Cannot receive focus
   }
+
+  protected abstract createName(): string;
 }

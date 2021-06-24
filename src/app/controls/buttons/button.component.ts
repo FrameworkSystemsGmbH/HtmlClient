@@ -18,8 +18,6 @@ export abstract class ButtonComponent extends ControlComponent {
   public disabledAttr: boolean;
   public buttonStyle: any;
 
-  protected abstract getButton(): ElementRef;
-
   public callBtnClick(event?: any): void {
     if (this.getWrapper().hasOnClickEvent()) {
       this.btnClick.emit(event);
@@ -118,5 +116,9 @@ export abstract class ButtonComponent extends ControlComponent {
     if (button) {
       return button.nativeElement;
     }
+
+    return null;
   }
+
+  protected abstract getButton(): ElementRef;
 }

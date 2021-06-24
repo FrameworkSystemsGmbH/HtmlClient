@@ -26,6 +26,15 @@ export class FrameComponent implements OnInit, OnDestroy {
     private framesService: FramesService
   ) { }
 
+  @HostListener('window:resize')
+  public layout(): void {
+    this.zone.run(() => {
+      if (this.selectedForm) {
+        this.selectedForm.doLayout(this.frame.nativeElement.clientWidth, this.frame.nativeElement.clientHeight);
+      }
+    });
+  }
+
   public ngOnInit(): void {
     this.framesService.registerFrame(this);
 
@@ -40,15 +49,6 @@ export class FrameComponent implements OnInit, OnDestroy {
     if (this.selectedFormSub) {
       this.selectedFormSub.unsubscribe();
     }
-  }
-
-  @HostListener('window:resize')
-  public layout(): void {
-    this.zone.run(() => {
-      if (this.selectedForm) {
-        this.selectedForm.doLayout(this.frame.nativeElement.clientWidth, this.frame.nativeElement.clientHeight);
-      }
-    });
   }
 
   private showForm(form: FormWrapper): void {

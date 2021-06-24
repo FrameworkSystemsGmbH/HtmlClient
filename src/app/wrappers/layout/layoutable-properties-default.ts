@@ -57,14 +57,18 @@ export class LayoutableProperties implements ILayoutableProperties {
     this.layoutHeight = layoutHeight;
   }
 
-  // This width is used in the CSS of the HTML control.
-  // Due to HTML box-sizing this value does not include horizontal margins
+  /*
+   * This width is used in the CSS of the HTML control.
+   * Due to HTML box-sizing this value does not include horizontal margins
+   */
   public getClientWidth(): number {
     return this.layoutWidth - this.wrapper.getMarginLeft() - this.wrapper.getMarginRight();
   }
 
-  // This height is used in the CSS of the HTML control.
-  // Due to HTML box-sizing this value does not include vertical margins
+  /*
+   * This height is used in the CSS of the HTML control.
+   * Due to HTML box-sizing this value does not include vertical margins
+   */
   public getClientHeight(): number {
     return this.layoutHeight - this.wrapper.getMarginTop() - this.wrapper.getMarginBottom();
   }

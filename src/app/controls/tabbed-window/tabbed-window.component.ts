@@ -58,6 +58,8 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   public arrowHorizontalStyle: any;
   public arrowVerticalStyle: any;
 
+  public scrollerOptions: any;
+
   private zone: NgZone;
   private renderer: Renderer2;
   private imageService: ImageService;
@@ -72,26 +74,89 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   private scrollAnimationTime: number = 250;
   private scrollAutoHideDelay: number = 500;
 
-  public scrollerOptions: any = {
-    className: 'os-thin',
-    paddingAbsolute: true,
-    overflowBehavior: {
-      x: 'scroll',
-      y: 'scroll'
-    },
-    scrollbars: {
-      autoHide: 'scroll',
-      autoHideDelay: this.scrollAutoHideDelay
-    },
-    callbacks: {
-      onScroll: this.refreshScroller.bind(this),
-      onOverflowChanged: this.refreshScroller.bind(this),
-      onOverflowAmountChanged: this.refreshScroller.bind(this)
-    }
-  };
-
   constructor(injector: Injector) {
     super(injector);
+
+    this.scrollerOptions = {
+      className: 'os-thin',
+      paddingAbsolute: true,
+      overflowBehavior: {
+        x: 'scroll',
+        y: 'scroll'
+      },
+      scrollbars: {
+        autoHide: 'scroll',
+        autoHideDelay: this.scrollAutoHideDelay
+      },
+      callbacks: {
+        onScroll: this.refreshScroller.bind(this),
+        onOverflowChanged: this.refreshScroller.bind(this),
+        onOverflowAmountChanged: this.refreshScroller.bind(this)
+      }
+    };
+  }
+
+  @HostListener('window:resize')
+  public refreshScroller(): void {
+    this.zone.runOutsideAngular(() => {
+      if (this.scroller != null && this.scroller.osInstance() != null) {
+        if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
+          this.renderer.removeClass(this.arrowUp.nativeElement, this.visibleClass);
+          this.renderer.removeClass(this.arrowDown.nativeElement, this.visibleClass);
+
+          const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
+
+          if (overflow > 0) {
+            const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
+
+            if (scrollPos === 0) {
+              this.stopScrollingUpOrLeft();
+              this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
+              this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
+            } else if (scrollPos >= overflow) {
+              this.stopScrollingDownOrRight();
+              this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
+              this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+            } else {
+              this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
+              this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
+            }
+          } else {
+            this.stopScrollingUpOrLeft();
+            this.stopScrollingDownOrRight();
+            this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
+            this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+          }
+        } else {
+          this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
+          this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+
+          const overflow: number = this.scroller.osInstance().getState().overflowAmount.y;
+
+          if (overflow > 0) {
+            const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollTop;
+
+            if (scrollPos === 0) {
+              this.stopScrollingUpOrLeft();
+              this.renderer.removeClass(this.arrowUp.nativeElement, this.visibleClass);
+              this.renderer.addClass(this.arrowDown.nativeElement, this.visibleClass);
+            } else if (scrollPos >= overflow) {
+              this.stopScrollingDownOrRight();
+              this.renderer.addClass(this.arrowUp.nativeElement, this.visibleClass);
+              this.renderer.removeClass(this.arrowDown.nativeElement, this.visibleClass);
+            } else {
+              this.renderer.addClass(this.arrowUp.nativeElement, this.visibleClass);
+              this.renderer.addClass(this.arrowDown.nativeElement, this.visibleClass);
+            }
+          } else {
+            this.stopScrollingUpOrLeft();
+            this.stopScrollingDownOrRight();
+            this.renderer.removeClass(this.arrowUp.nativeElement, this.visibleClass);
+            this.renderer.removeClass(this.arrowDown.nativeElement, this.visibleClass);
+          }
+        }
+      }
+    });
   }
 
   protected init(): void {
@@ -407,10 +472,14 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
       const value: string = `-= ${this.scrollDelta}px`;
       if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
         this.scrollHorizontal(value);
-        this.scrollLeftInterval = setInterval(() => { this.scrollHorizontal(value); }, this.scrollAnimationTime);
+        this.scrollLeftInterval = setInterval(() => {
+          this.scrollHorizontal(value);
+        }, this.scrollAnimationTime);
       } else {
         this.scrollVertical(value);
-        this.scrollLeftInterval = setInterval(() => { this.scrollVertical(value); }, this.scrollAnimationTime);
+        this.scrollLeftInterval = setInterval(() => {
+          this.scrollVertical(value);
+        }, this.scrollAnimationTime);
       }
     }
   }
@@ -424,10 +493,14 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
       const value: string = `+= ${this.scrollDelta}px`;
       if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
         this.scrollHorizontal(value);
-        this.scrollRightInterval = setInterval(() => { this.scrollHorizontal(value); }, this.scrollAnimationTime);
+        this.scrollRightInterval = setInterval(() => {
+          this.scrollHorizontal(value);
+        }, this.scrollAnimationTime);
       } else {
         this.scrollVertical(value);
-        this.scrollRightInterval = setInterval(() => { this.scrollVertical(value); }, this.scrollAnimationTime);
+        this.scrollRightInterval = setInterval(() => {
+          this.scrollVertical(value);
+        }, this.scrollAnimationTime);
       }
     }
   }
@@ -442,68 +515,5 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   protected scrollVertical(value: string): void {
     this.scroller.osInstance().scroll({ y: value }, this.scrollAnimationTime);
-  }
-
-  @HostListener('window:resize')
-  public refreshScroller(): void {
-    this.zone.runOutsideAngular(() => {
-      if (this.scroller != null && this.scroller.osInstance() != null) {
-        if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
-          this.renderer.removeClass(this.arrowUp.nativeElement, this.visibleClass);
-          this.renderer.removeClass(this.arrowDown.nativeElement, this.visibleClass);
-
-          const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
-
-          if (overflow > 0) {
-            const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
-
-            if (scrollPos === 0) {
-              this.stopScrollingUpOrLeft();
-              this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
-              this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
-            } else if (scrollPos >= overflow) {
-              this.stopScrollingDownOrRight();
-              this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
-              this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
-            } else {
-              this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
-              this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
-            }
-          } else {
-            this.stopScrollingUpOrLeft();
-            this.stopScrollingDownOrRight();
-            this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
-            this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
-          }
-        } else {
-          this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
-          this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
-
-          const overflow: number = this.scroller.osInstance().getState().overflowAmount.y;
-
-          if (overflow > 0) {
-            const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollTop;
-
-            if (scrollPos === 0) {
-              this.stopScrollingUpOrLeft();
-              this.renderer.removeClass(this.arrowUp.nativeElement, this.visibleClass);
-              this.renderer.addClass(this.arrowDown.nativeElement, this.visibleClass);
-            } else if (scrollPos >= overflow) {
-              this.stopScrollingDownOrRight();
-              this.renderer.addClass(this.arrowUp.nativeElement, this.visibleClass);
-              this.renderer.removeClass(this.arrowDown.nativeElement, this.visibleClass);
-            } else {
-              this.renderer.addClass(this.arrowUp.nativeElement, this.visibleClass);
-              this.renderer.addClass(this.arrowDown.nativeElement, this.visibleClass);
-            }
-          } else {
-            this.stopScrollingUpOrLeft();
-            this.stopScrollingDownOrRight();
-            this.renderer.removeClass(this.arrowUp.nativeElement, this.visibleClass);
-            this.renderer.removeClass(this.arrowDown.nativeElement, this.visibleClass);
-          }
-        }
-      }
-    });
   }
 }

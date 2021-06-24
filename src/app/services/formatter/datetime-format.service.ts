@@ -197,16 +197,16 @@ export class DateTimeFormatService {
   }
 
   /*
-  * Can process the following date patterns depending on the format pattern or locale backup:
-  *
-  * DMY:        MDY:        DYM:        MYD:        YDM:        YMD:
-  *
-  * D           D           D           D           D           D
-  * DD          DD          DD          DD          DD          DD
-  * DDMM        MMDD        DDMM        MMDD        DDMM        MMDD
-  * DDMMYY      MMDDYY      DDYYMM      MMYYDD      YYDDMM      YYMMDD
-  * DDMMYYYY    MMDDYYYY    DDYYYYMM    MMYYYYDD    YYYYDDMM    YYYYMMDD
-  */
+   * Can process the following date patterns depending on the format pattern or locale backup:
+   *
+   * DMY:        MDY:        DYM:        MYD:        YDM:        YMD:
+   *
+   * D           D           D           D           D           D
+   * DD          DD          DD          DD          DD          DD
+   * DDMM        MMDD        DDMM        MMDD        DDMM        MMDD
+   * DDMMYY      MMDDYY      DDYYMM      MMYYDD      YYDDMM      YYMMDD
+   * DDMMYYYY    MMDDYYYY    DDYYYYMM    MMYYYYDD    YYYYDDMM    YYYYMMDD
+   */
   private getDateFromShortcut(value: string, formatPattern: string): Moment.Moment {
     if (String.isNullOrWhiteSpace(value)) {
       return null;
@@ -297,17 +297,17 @@ export class DateTimeFormatService {
   }
 
   /*
-  * Can process the following time patterns depending on the format pattern or locale backup:
-  *
-  * Hms         Hsm         mHs         sHm         msH         smH
-  *
-  * H           H           H           H           H           H
-  * HH          HH          HH          HH          HH          HH
-  * Hmm         Hmm         mmH         Hmm         mmH         mmH
-  * HHmm        HHmm        mmHH        HHmm        mmHH        mmHH
-  * Hmmss       Hssmm       mmHss       ssHmm       mmssH       ssmmH
-  * HHmmss      HHssmm      mmHHss      ssHHmm      mmssHH      ssmmHH
-  */
+   * Can process the following time patterns depending on the format pattern or locale backup:
+   *
+   * Hms         Hsm         mHs         sHm         msH         smH
+   *
+   * H           H           H           H           H           H
+   * HH          HH          HH          HH          HH          HH
+   * Hmm         Hmm         mmH         Hmm         mmH         mmH
+   * HHmm        HHmm        mmHH        HHmm        mmHH        mmHH
+   * Hmmss       Hssmm       mmHss       ssHmm       mmssH       ssmmH
+   * HHmmss      HHssmm      mmHHss      ssHHmm      mmssHH      ssmmHH
+   */
   private getTimeFromShortcut(value: string, formatPattern: string): Moment.Moment {
     if (String.isNullOrWhiteSpace(value)) {
       return null;
@@ -410,12 +410,12 @@ export class DateTimeFormatService {
   }
 
   /*
-  * Can process the following date + time patterns:
-  * [datepart]                        Example: DDMMYY
-  * [separator][timepart]             Example: /HHmm
-  * [datepart][separator]             Example: DDMM/
-  * [datepart][separator][timepart]   Example: DDMMYY/HHmm
-  */
+   * Can process the following date + time patterns:
+   * [datepart]                        Example: DDMMYY
+   * [separator][timepart]             Example: /HHmm
+   * [datepart][separator]             Example: DDMM/
+   * [datepart][separator][timepart]   Example: DDMMYY/HHmm
+   */
   private getDateTimeFromShortcut(value: string, formatPattern: string): Moment.Moment {
     if (String.isNullOrWhiteSpace(value)) {
       return null;

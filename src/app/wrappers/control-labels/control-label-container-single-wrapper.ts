@@ -22,7 +22,7 @@ export class ControlLabelContainerSingleWrapper extends ControlLabelContainerBas
     let name: string = String.empty();
 
     for (const labelWrapper of this.getLabelWrappers()) {
-      name += labelWrapper.getName() + '_';
+      name += `${labelWrapper.getName()}_`;
     }
 
     name += '_ControlLabelSingleContainer';

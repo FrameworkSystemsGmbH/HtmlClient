@@ -211,10 +211,8 @@ export class FormsService {
 
           if (formJson.meta.action === 'Close' && !form.closing) {
             this.closeForm(form);
-          } else {
-            if (!this._selectedForm$$.getValue() || formJson.meta.focused) {
-              this.selectForm(form);
-            }
+          } else if (!this._selectedForm$$.getValue() || formJson.meta.focused) {
+            this.selectForm(form);
           }
         }
       }

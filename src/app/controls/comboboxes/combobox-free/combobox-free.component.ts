@@ -206,7 +206,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
 
   protected createArrowStyle(wrapper: ComboBoxWrapper): any {
     return {
-      'border-left': '0.1rem solid ' + (this.arrowHover ? wrapper.getBorderColor() : 'transparent')
+      'border-left': `0.1rem solid ${this.arrowHover ? wrapper.getBorderColor() : 'transparent'}`
     };
   }
 }

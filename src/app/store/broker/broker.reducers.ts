@@ -4,9 +4,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 const reducer = createReducer(
   initialBrokerState,
-  on(BrokerActions.setBrokerState, (state: IBrokerState, payload: { state: IBrokerState }) => {
-    return { ...state, ...payload.state };
-  }),
+  on(BrokerActions.setBrokerState, (state: IBrokerState, payload: { state: IBrokerState }) => ({ ...state, ...payload.state })),
   on(BrokerActions.resetBrokerState, () => initialBrokerState)
 );
 

@@ -9,8 +9,6 @@ import * as StyleUtil from '@app/util/style-util';
 })
 export class SelectorComponent implements OnInit {
 
-  private sizeValue: number;
-
   @Input()
   public get size(): number {
     return this.sizeValue != null && this.sizeValue > 0 ? Math.min(20, this.sizeValue) : 20;
@@ -20,8 +18,6 @@ export class SelectorComponent implements OnInit {
     this.sizeValue = val;
     this.setWrapperStyle();
   }
-
-  private enabledValue: boolean;
 
   @Input()
   public get enabled(): boolean {
@@ -33,8 +29,6 @@ export class SelectorComponent implements OnInit {
     this.setWrapperStyle();
   }
 
-  private visibleValue: boolean;
-
   @Input()
   public get visible(): boolean {
     return this.visibleValue;
@@ -44,8 +38,6 @@ export class SelectorComponent implements OnInit {
     this.visibleValue = val;
     this.setWrapperStyle();
   }
-
-  private checkedValue: boolean;
 
   @Input()
   public get checked(): boolean {
@@ -66,6 +58,11 @@ export class SelectorComponent implements OnInit {
 
   public isDisabledAttr: boolean;
   public wrapperStyle: any;
+
+  private sizeValue: number;
+  private enabledValue: boolean;
+  private visibleValue: boolean;
+  private checkedValue: boolean;
 
   constructor(private platformService: PlatformService) { }
 

@@ -25,8 +25,6 @@ export abstract class FittedWrapper extends ControlWrapper {
     this.updateFittedHeight();
   }
 
-  public abstract updateFittedWidth(): void;
-
   public updateFittedHeight(): void {
     this.setFittedContentHeight(this.getFontService().measureTextHeight(this.getFontFamily(), this.getFontSize()));
   }
@@ -59,4 +57,6 @@ export abstract class FittedWrapper extends ControlWrapper {
     this.fittedWidth = json.fittedWidth;
     this.fittedHeight = json.fittedHeight;
   }
+
+  public abstract updateFittedWidth(): void;
 }

@@ -29,7 +29,9 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
     this.onBackButtonListener = this.onBackButton.bind(this);
     this._backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ModalDialog);
 
-    this._selectedFormSub = this._formsService.getSelectedForm().subscribe(form => this._form = form);
+    this._selectedFormSub = this._formsService.getSelectedForm().subscribe(form => {
+      this._form = form;
+    });
   }
 
   public ngOnDestroy(): void {

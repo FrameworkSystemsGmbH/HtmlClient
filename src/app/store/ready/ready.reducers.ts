@@ -4,9 +4,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 const reducer = createReducer(
   initialReadyState,
-  on(ReadyActions.setReady, (state: IReadyState, payload: { ready: boolean }) => {
-    return { ...state, ready: payload.ready };
-  })
+  on(ReadyActions.setReady, (state: IReadyState, payload: { ready: boolean }) => ({ ...state, ready: payload.ready }))
 );
 
 export function readyStateReducer(state: IReadyState, action: Action): IReadyState {

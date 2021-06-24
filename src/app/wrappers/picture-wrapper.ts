@@ -109,7 +109,7 @@ export class PictureWrapper extends ControlWrapper {
   protected attachEvents(instance: PictureComponent): void {
     super.attachEvents(instance);
 
-    if (this.getEvents() & ClientEventType.OnClick) {
+    if (this.hasOnClickEvent()) {
       this.picClickSub = instance.picClick.subscribe((args: ClientPictureClickEventArgs) => this.getPicClickSubscription(args)());
     }
   }
@@ -123,7 +123,7 @@ export class PictureWrapper extends ControlWrapper {
   }
 
   public hasOnClickEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnClick) ? true : false;
+    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick;
   }
 
   protected getPicClickSubscription(args: ClientPictureClickEventArgs): () => void {

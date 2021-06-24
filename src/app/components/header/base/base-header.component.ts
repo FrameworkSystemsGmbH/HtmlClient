@@ -79,12 +79,14 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   public sidebarEnabled: boolean = false;
   public sidebarVisible: boolean = false;
 
+  public headerSideStyle: any;
+  public headerSideOverlayStyle: any;
+
+  public scrollerOptions: any;
+
   private storeSub: Subscription;
   private formsSub: Subscription;
   private selectedFormSub: Subscription;
-
-  public headerSideStyle: any;
-  public headerSideOverlayStyle: any;
 
   private visibleClass: string = 'arrowVisible';
 
@@ -95,23 +97,6 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   private scrollAnimationTime: number = 250;
   private scrollAutoHideDelay: number = 500;
 
-  public scrollerOptions: any = {
-    className: 'os-thin',
-    paddingAbsolute: true,
-    overflowBehavior: {
-      x: 'scroll',
-      y: 'hidden'
-    },
-    scrollbars: {
-      autoHide: 'scroll',
-      autoHideDelay: this.scrollAutoHideDelay
-    },
-    callbacks: {
-      onScroll: this.refreshScroller.bind(this),
-      onOverflowChanged: this.refreshScroller.bind(this),
-      onOverflowAmountChanged: this.refreshScroller.bind(this)
-    }
-  };
 
   constructor(
     private zone: NgZone,
@@ -120,11 +105,67 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     private formsService: FormsService,
     private platformService: PlatformService,
     private titleService: TitleService,
-    private store: Store) { }
+    private store: Store
+  ) {
+    this.scrollerOptions = {
+      className: 'os-thin',
+      paddingAbsolute: true,
+      overflowBehavior: {
+        x: 'scroll',
+        y: 'hidden'
+      },
+      scrollbars: {
+        autoHide: 'scroll',
+        autoHideDelay: this.scrollAutoHideDelay
+      },
+      callbacks: {
+        onScroll: this.refreshScroller.bind(this),
+        onOverflowChanged: this.refreshScroller.bind(this),
+        onOverflowAmountChanged: this.refreshScroller.bind(this)
+      }
+    };
+  }
+
+  @HostListener('window:resize')
+  public refreshScroller(): void {
+    this.zone.runOutsideAngular(() => {
+      if (this.scroller != null && this.scroller.osInstance() != null) {
+        const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
+
+        if (overflow > 0) {
+          const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
+
+          if (scrollPos === 0) {
+            this.stopScrollingLeft();
+            this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
+            this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
+          } else if (scrollPos >= overflow) {
+            this.stopScrollingRight();
+            this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
+            this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+          } else {
+            this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
+            this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
+          }
+        } else {
+          this.stopScrollingLeft();
+          this.stopScrollingRight();
+          this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
+          this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+        }
+      }
+    });
+  }
 
   public ngOnInit(): void {
-    this.storeSub = this.store.select(selectBrokerDirect).subscribe(direct => this.directMode = direct);
-    this.formsSub = this.formsService.getForms().subscribe(forms => this.forms = forms);
+    this.storeSub = this.store.select(selectBrokerDirect).subscribe(direct => {
+      this.directMode = direct;
+    });
+
+    this.formsSub = this.formsService.getForms().subscribe(forms => {
+      this.forms = forms;
+    });
+
     this.selectedFormSub = this.formsService.getSelectedForm().subscribe(this.onSelectedFormChanged.bind(this));
 
     this.headerSideStyle = this.createheaderSideStyle();
@@ -253,7 +294,9 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     if (event.button === 0) {
       const value: string = `-= ${this.scrollDelta}px`;
       this.scrollHorizontal(value);
-      this.scrollLeftInterval = setInterval(() => { this.scrollHorizontal(value); }, this.scrollAnimationTime);
+      this.scrollLeftInterval = setInterval(() => {
+        this.scrollHorizontal(value);
+      }, this.scrollAnimationTime);
     }
   }
 
@@ -265,7 +308,9 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     if (event.button === 0) {
       const value: string = `+= ${this.scrollDelta}px`;
       this.scrollHorizontal(value);
-      this.scrollRightInterval = setInterval(() => { this.scrollHorizontal(value); }, this.scrollAnimationTime);
+      this.scrollRightInterval = setInterval(() => {
+        this.scrollHorizontal(value);
+      }, this.scrollAnimationTime);
     }
   }
 
@@ -279,36 +324,5 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   protected scrollVertical(value: string): void {
     this.scroller.osInstance().scroll({ y: value }, this.scrollAnimationTime);
-  }
-
-  @HostListener('window:resize')
-  public refreshScroller(): void {
-    this.zone.runOutsideAngular(() => {
-      if (this.scroller != null && this.scroller.osInstance() != null) {
-        const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
-
-        if (overflow > 0) {
-          const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
-
-          if (scrollPos === 0) {
-            this.stopScrollingLeft();
-            this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
-            this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
-          } else if (scrollPos >= overflow) {
-            this.stopScrollingRight();
-            this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
-            this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
-          } else {
-            this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
-            this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
-          }
-        } else {
-          this.stopScrollingLeft();
-          this.stopScrollingRight();
-          this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
-          this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
-        }
-      }
-    });
   }
 }

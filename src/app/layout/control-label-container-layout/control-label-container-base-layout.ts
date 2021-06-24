@@ -29,8 +29,6 @@ export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBas
     }
   }
 
-  protected abstract checkWrapperVisibility(wrapper: LayoutableControlWrapper): boolean;
-
   public measureMinWidth(): number {
     this.initWrappers();
 
@@ -110,4 +108,6 @@ export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBas
       xPos += wrapper.getResultWidth();
     }
   }
+
+  protected abstract checkWrapperVisibility(wrapper: LayoutableControlWrapper): boolean;
 }

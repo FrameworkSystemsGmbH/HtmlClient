@@ -22,7 +22,7 @@ export function optimizeLabels(labelWrappers: Array<ControlLabelWrapper>): void 
   }
 
   // If equality from left side has been detected -> reduce captions
-  if (!!equalizedCaption) {
+  if (equalizedCaption != null) {
     for (let i = 1; i < labelWrappers.length; i++) {
       const labelWrapper: ControlLabelWrapper = labelWrappers[i];
       const reducedCaption: string = labelWrapper.getCaption().substring(equalizedCaption.length);
@@ -43,7 +43,7 @@ export function optimizeLabels(labelWrappers: Array<ControlLabelWrapper>): void 
     }
 
     // If equality from right side has been detected -> reduce captions
-    if (!!equalizedCaption) {
+    if (equalizedCaption != null) {
       for (let i = 0; i < labelWrappers.length - 1; i++) {
         const labelWrapper: ControlLabelWrapper = labelWrappers[i];
         const orgCaption: string = labelWrapper.getCaption();

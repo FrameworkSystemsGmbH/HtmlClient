@@ -50,7 +50,9 @@ export class StateService {
       mergeMap(() => this.storageService.delete(SESSION_STORAGE_KEY))
     ).subscribe();
 
-    this.store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => this.brokerState = brokerState);
+    this.store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
+      this.brokerState = brokerState;
+    });
   }
 
   public attachHandlers(): void {

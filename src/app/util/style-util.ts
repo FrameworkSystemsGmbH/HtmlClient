@@ -10,11 +10,11 @@ export function pixToRem(value: number): number {
 }
 
 export function pixToRemValueStr(value: number): string {
-  return pixToRem(value) + 'rem';
+  return `${pixToRem(value)}rem`;
 }
 
 export function pixToRemFourValueStr(first: number, second: number, third: number, fourth: number): string {
-  return pixToRemValueStr(first) + ' ' + pixToRemValueStr(second) + ' ' + pixToRemValueStr(third) + ' ' + pixToRemValueStr(fourth);
+  return `${pixToRemValueStr(first)} ${pixToRemValueStr(second)} ${pixToRemValueStr(third)} ${pixToRemValueStr(fourth)}`;
 }
 
 export function getForeColor(isEditable: boolean, color: string): string {

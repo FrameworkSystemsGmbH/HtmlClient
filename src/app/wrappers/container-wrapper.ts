@@ -40,8 +40,6 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     return new ContainerLayout(this);
   }
 
-  public abstract getViewContainerRef(): ViewContainerRef;
-
   protected getComponentRef(): ComponentRef<ContainerComponent> {
     return super.getComponentRef() as ComponentRef<ContainerComponent>;
   }
@@ -230,4 +228,6 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
       focusableControl.setFocus();
     }
   }
+
+  public abstract getViewContainerRef(): ViewContainerRef;
 }

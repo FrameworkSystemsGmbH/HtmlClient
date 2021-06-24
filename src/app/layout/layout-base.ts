@@ -8,10 +8,6 @@ export abstract class LayoutBase {
     return this.control;
   }
 
-  public abstract measureMinWidth(): number;
-
-  public abstract measureMinHeight(width: number): number;
-
   public measureMaxWidth(): number {
     const control: ILayoutableControl = this.getControl();
     const maxWidth = control.getMaxWidth();
@@ -25,4 +21,8 @@ export abstract class LayoutBase {
 
     return maxHeight === Number.MAX_SAFE_INTEGER ? maxHeight : control.getMarginTop() + maxHeight + control.getMarginBottom();
   }
+
+  public abstract measureMinWidth(): number;
+
+  public abstract measureMinHeight(width: number): number;
 }

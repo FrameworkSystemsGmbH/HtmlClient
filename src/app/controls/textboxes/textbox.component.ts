@@ -13,8 +13,6 @@ export abstract class TextBoxComponent extends ControlComponent {
   public tabIndexAttr: number;
   public inputStyle: any;
 
-  protected abstract getInput(): ElementRef;
-
   protected mapEnterToTab(): boolean {
     return true;
   }
@@ -118,5 +116,9 @@ export abstract class TextBoxComponent extends ControlComponent {
     if (input) {
       return input.nativeElement;
     }
+
+    return null;
   }
+
+  protected abstract getInput(): ElementRef;
 }

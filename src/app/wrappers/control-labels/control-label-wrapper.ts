@@ -19,6 +19,9 @@ import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties
 
 export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSynchronized {
 
+  protected fittedWidth: number;
+  protected fittedHeight: number;
+
   private name: string;
   private displayCaption: string;
   private labelProvider: IControlLabelProvider;
@@ -33,15 +36,12 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   private readonly resolver: ComponentFactoryResolver;
   private readonly fontService: FontService;
 
-  protected fittedWidth: number;
-  protected fittedHeight: number;
-
   constructor(
     injector: Injector,
     labelProvider: IControlLabelProvider,
     fieldRowWrp: FieldRowWrapper
   ) {
-    this.name = labelProvider.getName() + '_ControlLabel';
+    this.name = `${labelProvider.getName()}_ControlLabel`;
     this.labelProvider = labelProvider;
     this.labelTemplate = labelProvider.getLabelTemplate();
     this.fieldRowWrp = fieldRowWrp;
@@ -159,7 +159,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   public getDisplayCaption(): string {
-    return !!this.displayCaption ? this.displayCaption : this.getCaption();
+    return !String.isNullOrEmpty(this.displayCaption) ? this.displayCaption : this.getCaption();
   }
 
   public setDisplayCaption(displayCaption: string): void {

@@ -2,6 +2,10 @@ String.empty = function (): string {
   return '';
 };
 
+String.isNullOrEmpty = function (str: string | undefined): boolean {
+  return str == null || str === String.empty();
+};
+
 String.isNullOrWhiteSpace = function (str: string | undefined): boolean {
   return str == null || str.trim() === String.empty();
 };
