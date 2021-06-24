@@ -145,7 +145,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   protected getCtrlLeaveSubscription(): () => void {
-    return () => this.getEventsService().fireValidated(
+    return (): void => this.getEventsService().fireValidated(
       this.getForm().getId(),
       this.getName(),
       new InternalEventCallbacks<ClientValidatedEvent>(

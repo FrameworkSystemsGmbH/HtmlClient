@@ -138,7 +138,9 @@ export class PropertyStore {
   }
 
   public setListViewItemCssGlobal(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.listViewItemCssGlobal = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.listViewItemCssGlobal = value;
+    });
   }
 
   // TemplateControlCssGlobal
@@ -151,7 +153,9 @@ export class PropertyStore {
   }
 
   public setTemplateControlCssGlobal(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.templateControlCssGlobal = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.templateControlCssGlobal = value;
+    });
   }
 
   // MeasureText
@@ -164,7 +168,9 @@ export class PropertyStore {
   }
 
   public setMeasureText(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.measureText = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.measureText = value;
+    });
   }
 
   // MinWidthRaster
@@ -177,7 +183,9 @@ export class PropertyStore {
   }
 
   public setMinWidthRaster(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.minWidthRaster = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.minWidthRaster = value;
+    });
   }
 
   // MaxWidthRaster
@@ -190,7 +198,9 @@ export class PropertyStore {
   }
 
   public setMaxWidthRaster(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.maxWidthRaster = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.maxWidthRaster = value;
+    });
   }
 
   // ForeColor
@@ -203,7 +213,9 @@ export class PropertyStore {
   }
 
   public setForeColor(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.foreColor = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.foreColor = value;
+    });
   }
 
   // BackColor
@@ -216,7 +228,9 @@ export class PropertyStore {
   }
 
   public setBackColor(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.backColor = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.backColor = value;
+    });
   }
 
   // DisabledBackColor
@@ -229,7 +243,9 @@ export class PropertyStore {
   }
 
   public setDisabledBackColor(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.disabledBackColor = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.disabledBackColor = value;
+    });
   }
 
   // BorderColor
@@ -242,7 +258,9 @@ export class PropertyStore {
   }
 
   public setBorderColor(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.borderColor = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.borderColor = value;
+    });
   }
 
   // MinWidth
@@ -255,7 +273,9 @@ export class PropertyStore {
   }
 
   public setMinWidth(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.minWidth = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.minWidth = value;
+    });
   }
 
   // MinHeight
@@ -268,7 +288,9 @@ export class PropertyStore {
   }
 
   public setMinHeight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.minHeight = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.minHeight = value;
+    });
   }
 
   // MaxWidth
@@ -281,7 +303,9 @@ export class PropertyStore {
   }
 
   public setMaxWidth(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.maxWidth = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.maxWidth = value;
+    });
   }
 
   // MaxHeight
@@ -294,7 +318,9 @@ export class PropertyStore {
   }
 
   public setMaxHeight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.maxHeight = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.maxHeight = value;
+    });
   }
 
   // DisplayMinLines
@@ -307,7 +333,9 @@ export class PropertyStore {
   }
 
   public setDisplayMinLines(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.displayMinLines = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.displayMinLines = value;
+    });
   }
 
   // DisplayMaxLines
@@ -320,7 +348,9 @@ export class PropertyStore {
   }
 
   public setDisplayMaxLines(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.displayMaxLines = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.displayMaxLines = value;
+    });
   }
 
   // DisplayMinLength
@@ -333,7 +363,9 @@ export class PropertyStore {
   }
 
   public setDisplayMinLength(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.displayMinLength = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.displayMinLength = value;
+    });
   }
 
   // DisplayMaxLength
@@ -346,7 +378,9 @@ export class PropertyStore {
   }
 
   public setDisplayMaxLength(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.displayMaxLength = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.displayMaxLength = value;
+    });
   }
 
   // MarginLeft
@@ -359,7 +393,9 @@ export class PropertyStore {
   }
 
   public setMarginLeft(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.marginLeft = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.marginLeft = value;
+    });
   }
 
   // MarginRight
@@ -372,7 +408,9 @@ export class PropertyStore {
   }
 
   public setMarginRight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.marginRight = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.marginRight = value;
+    });
   }
 
   // MarginTop
@@ -385,7 +423,9 @@ export class PropertyStore {
   }
 
   public setMarginTop(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.marginTop = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.marginTop = value;
+    });
   }
 
   // MarginBottom
@@ -398,7 +438,9 @@ export class PropertyStore {
   }
 
   public setMarginBottom(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.marginBottom = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.marginBottom = value;
+    });
   }
 
   // BorderRadiusTopLeft
@@ -411,7 +453,9 @@ export class PropertyStore {
   }
 
   public setBorderRadiusTopLeft(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.borderRadiusTopLeft = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.borderRadiusTopLeft = value;
+    });
   }
 
   // BorderRadiusTopRight
@@ -424,7 +468,9 @@ export class PropertyStore {
   }
 
   public setBorderRadiusTopRight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.borderRadiusTopRight = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.borderRadiusTopRight = value;
+    });
   }
 
   // BorderRadiusBottomLeft
@@ -437,7 +483,9 @@ export class PropertyStore {
   }
 
   public setBorderRadiusBottomLeft(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.borderRadiusBottomLeft = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.borderRadiusBottomLeft = value;
+    });
   }
 
   // BorderRadiusBottomRight
@@ -450,7 +498,9 @@ export class PropertyStore {
   }
 
   public setBorderRadiusBottomRight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.borderRadiusBottomRight = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.borderRadiusBottomRight = value;
+    });
   }
 
   // BorderThicknessLeft
@@ -463,7 +513,9 @@ export class PropertyStore {
   }
 
   public setBorderThicknessLeft(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.borderThicknessLeft = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.borderThicknessLeft = value;
+    });
   }
 
   // BorderThicknessRight
@@ -476,7 +528,9 @@ export class PropertyStore {
   }
 
   public setBorderThicknessRight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.borderThicknessRight = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.borderThicknessRight = value;
+    });
   }
 
   // BorderThicknessTop
@@ -489,7 +543,9 @@ export class PropertyStore {
   }
 
   public setBorderThicknessTop(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.borderThicknessTop = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.borderThicknessTop = value;
+    });
   }
 
   // BorderThicknessBottom
@@ -502,7 +558,9 @@ export class PropertyStore {
   }
 
   public setBorderThicknessBottom(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.borderThicknessBottom = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.borderThicknessBottom = value;
+    });
   }
 
   // PaddingLeft
@@ -515,7 +573,9 @@ export class PropertyStore {
   }
 
   public setPaddingLeft(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.paddingLeft = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.paddingLeft = value;
+    });
   }
 
   // PaddingRight
@@ -528,7 +588,9 @@ export class PropertyStore {
   }
 
   public setPaddingRight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.paddingRight = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.paddingRight = value;
+    });
   }
 
   // PaddingTop
@@ -541,7 +603,9 @@ export class PropertyStore {
   }
 
   public setPaddingTop(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.paddingTop = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.paddingTop = value;
+    });
   }
 
   // PaddingBottom
@@ -554,7 +618,9 @@ export class PropertyStore {
   }
 
   public setPaddingBottom(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.paddingBottom = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.paddingBottom = value;
+    });
   }
 
   // HorizontalAlignment
@@ -567,7 +633,9 @@ export class PropertyStore {
   }
 
   public setHorizontalAlignment(layer: PropertyLayer, value: HorizontalAlignment): void {
-    this.setValue(layer, (data: PropertyData) => { data.alignmentHorizontal = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.alignmentHorizontal = value;
+    });
   }
 
   // VerticalAlignment
@@ -580,7 +648,9 @@ export class PropertyStore {
   }
 
   public setVerticalAlignment(layer: PropertyLayer, value: VerticalAlignment): void {
-    this.setValue(layer, (data: PropertyData) => { data.alignmentVertical = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.alignmentVertical = value;
+    });
   }
 
   // HorizontalContentAlignment
@@ -593,7 +663,9 @@ export class PropertyStore {
   }
 
   public setHorizontalContentAlignment(layer: PropertyLayer, value: HorizontalContentAlignment): void {
-    this.setValue(layer, (data: PropertyData) => { data.horizontalContentAlignment = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.horizontalContentAlignment = value;
+    });
   }
 
   // VerticalContentAlignment
@@ -606,7 +678,9 @@ export class PropertyStore {
   }
 
   public setVerticalContentAlignment(layer: PropertyLayer, value: VerticalContentAlignment): void {
-    this.setValue(layer, (data: PropertyData) => { data.verticalContentAlignment = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.verticalContentAlignment = value;
+    });
   }
 
   // HorizontalSpacing
@@ -619,7 +693,9 @@ export class PropertyStore {
   }
 
   public setHorizontalSpacing(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.spacingHorizontal = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.spacingHorizontal = value;
+    });
   }
 
   // VerticalSpacing
@@ -632,7 +708,9 @@ export class PropertyStore {
   }
 
   public setVerticalSpacing(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.spacingVertical = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.spacingVertical = value;
+    });
   }
 
   // FontBold
@@ -645,7 +723,9 @@ export class PropertyStore {
   }
 
   public setFontBold(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.fontBold = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.fontBold = value;
+    });
   }
 
   // FontFamily
@@ -658,7 +738,9 @@ export class PropertyStore {
   }
 
   public setFontFamily(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.fontFamily = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.fontFamily = value;
+    });
   }
 
   // FontItalic
@@ -671,7 +753,9 @@ export class PropertyStore {
   }
 
   public setFontItalic(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.fontItalic = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.fontItalic = value;
+    });
   }
 
   // FontSize
@@ -684,7 +768,9 @@ export class PropertyStore {
   }
 
   public setFontSize(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.fontSize = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.fontSize = value;
+    });
   }
 
   // FontUnderline
@@ -697,7 +783,9 @@ export class PropertyStore {
   }
 
   public setFontUnderline(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.fontUnderline = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.fontUnderline = value;
+    });
   }
 
   // Image
@@ -710,7 +798,9 @@ export class PropertyStore {
   }
 
   public setImage(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.image = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.image = value;
+    });
   }
 
   // ImageBack
@@ -723,7 +813,9 @@ export class PropertyStore {
   }
 
   public setImageBack(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.imageBack = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.imageBack = value;
+    });
   }
 
   // ImageForward
@@ -736,7 +828,9 @@ export class PropertyStore {
   }
 
   public setImageForward(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.imageForward = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.imageForward = value;
+    });
   }
 
   // InactiveImage
@@ -749,7 +843,9 @@ export class PropertyStore {
   }
 
   public setInactiveImage(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.inactiveImage = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.inactiveImage = value;
+    });
   }
 
   // ActiveImage
@@ -762,7 +858,9 @@ export class PropertyStore {
   }
 
   public setActiveImage(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.activeImage = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.activeImage = value;
+    });
   }
 
   // DisabledImage
@@ -775,7 +873,9 @@ export class PropertyStore {
   }
 
   public setDisabledImage(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.disabledImage = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.disabledImage = value;
+    });
   }
 
   // HighlightImage
@@ -788,7 +888,9 @@ export class PropertyStore {
   }
 
   public setHighlightImage(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.highlightImage = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.highlightImage = value;
+    });
   }
 
   // MouseOverImage
@@ -801,7 +903,9 @@ export class PropertyStore {
   }
 
   public setMouseOverImage(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.mouseOverImage = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.mouseOverImage = value;
+    });
   }
 
   // PressedImage
@@ -814,7 +918,9 @@ export class PropertyStore {
   }
 
   public setPressedImage(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.pressedImage = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.pressedImage = value;
+    });
   }
 
   // BackgroundImage
@@ -827,7 +933,9 @@ export class PropertyStore {
   }
 
   public setBackgroundImage(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.backgroundImage = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.backgroundImage = value;
+    });
   }
 
   // Caption
@@ -840,7 +948,9 @@ export class PropertyStore {
   }
 
   public setCaption(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.caption = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.caption = value;
+    });
   }
 
   // CaptionAlign
@@ -853,7 +963,9 @@ export class PropertyStore {
   }
 
   public setCaptionAlign(layer: PropertyLayer, value: ContentAlignment): void {
-    this.setValue(layer, (data: PropertyData) => { data.captionAlign = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.captionAlign = value;
+    });
   }
 
   // DatasourceOnValue
@@ -866,7 +978,9 @@ export class PropertyStore {
   }
 
   public setDatasourceOnValue(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.datasourceOnValue = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.datasourceOnValue = value;
+    });
   }
 
   // DataSourceType
@@ -879,7 +993,9 @@ export class PropertyStore {
   }
 
   public setDataSourceType(layer: PropertyLayer, value: DataSourceType): void {
-    this.setValue(layer, (data: PropertyData) => { data.dataSourceTypeID = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.dataSourceTypeID = value;
+    });
   }
 
   // DockItemSize
@@ -892,7 +1008,9 @@ export class PropertyStore {
   }
 
   public setDockItemSize(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.dockPanel_ItemSize = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.dockPanel_ItemSize = value;
+    });
   }
 
   // DockOrientation
@@ -905,7 +1023,9 @@ export class PropertyStore {
   }
 
   public setDockOrientation(layer: PropertyLayer, value: DockOrientation): void {
-    this.setValue(layer, (data: PropertyData) => { data.dockPanelOrientation = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.dockPanelOrientation = value;
+    });
   }
 
   // DockPanelScrolling
@@ -918,7 +1038,9 @@ export class PropertyStore {
   }
 
   public setDockPanelScrolling(layer: PropertyLayer, value: DockPanelScrolling): void {
-    this.setValue(layer, (data: PropertyData) => { data.dockPanelScrolling = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.dockPanelScrolling = value;
+    });
   }
 
   // EditStyle
@@ -931,7 +1053,9 @@ export class PropertyStore {
   }
 
   public setEditStyle(layer: PropertyLayer, value: EditStyle): void {
-    this.setValue(layer, (data: PropertyData) => { data.editStyle = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.editStyle = value;
+    });
   }
 
   // FieldRowSize
@@ -944,7 +1068,9 @@ export class PropertyStore {
   }
 
   public setFieldRowSize(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.fieldRowSize = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.fieldRowSize = value;
+    });
   }
 
   // Format
@@ -957,7 +1083,9 @@ export class PropertyStore {
   }
 
   public setFormat(layer: PropertyLayer, value: TextFormat): void {
-    this.setValue(layer, (data: PropertyData) => { data.format = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.format = value;
+    });
   }
 
   // FormatPattern
@@ -970,7 +1098,9 @@ export class PropertyStore {
   }
 
   public setFormatPattern(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.formatPattern = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.formatPattern = value;
+    });
   }
 
   // InvertFlowDirection
@@ -983,7 +1113,9 @@ export class PropertyStore {
   }
 
   public setInvertFlowDirection(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.invertFlowDirection = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.invertFlowDirection = value;
+    });
   }
 
   // ItemArrangement
@@ -996,7 +1128,9 @@ export class PropertyStore {
   }
 
   public setListViewItemArrangement(layer: PropertyLayer, value: ListViewItemArrangement): void {
-    this.setValue(layer, (data: PropertyData) => { data.itemArrangement = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.itemArrangement = value;
+    });
   }
 
   // ItemMinWidth
@@ -1009,7 +1143,9 @@ export class PropertyStore {
   }
 
   public setItemWidth(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.itemWidth = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.itemWidth = value;
+    });
   }
 
   // ItemMinHeight
@@ -1022,7 +1158,9 @@ export class PropertyStore {
   }
 
   public setItemHeight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.itemHeight = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.itemHeight = value;
+    });
   }
 
   // IsCloseIconVisible
@@ -1035,7 +1173,9 @@ export class PropertyStore {
   }
 
   public setIsCloseIconVisible(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.isCloseIconVisible = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.isCloseIconVisible = value;
+    });
   }
 
   // HideModalHeader
@@ -1048,7 +1188,9 @@ export class PropertyStore {
   }
 
   public setHideModalHeader(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.hideModalHeader = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.hideModalHeader = value;
+    });
   }
 
   // IsEditable
@@ -1061,7 +1203,9 @@ export class PropertyStore {
   }
 
   public setIsEditable(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.isEditable = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.isEditable = value;
+    });
   }
 
   // IsEnabled
@@ -1074,7 +1218,9 @@ export class PropertyStore {
   }
 
   public setIsEnabled(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.isEnabled = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.isEnabled = value;
+    });
   }
 
   // LabelMode
@@ -1087,7 +1233,9 @@ export class PropertyStore {
   }
 
   public setLabelMode(layer: PropertyLayer, value: FieldRowLabelMode): void {
-    this.setValue(layer, (data: PropertyData) => { data.labelMode = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.labelMode = value;
+    });
   }
 
   // ListDisplayMinLength
@@ -1100,7 +1248,9 @@ export class PropertyStore {
   }
 
   public setListDisplayMinLength(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.listDisplayMinLength = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.listDisplayMinLength = value;
+    });
   }
 
   // ListDisplayMaxLength
@@ -1113,7 +1263,9 @@ export class PropertyStore {
   }
 
   public setListDisplayMaxLength(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.listDisplayMaxLength = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.listDisplayMaxLength = value;
+    });
   }
 
   // ListType
@@ -1126,7 +1278,9 @@ export class PropertyStore {
   }
 
   public setListType(layer: PropertyLayer, value: DataSourceType): void {
-    this.setValue(layer, (data: PropertyData) => { data.listType = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.listType = value;
+    });
   }
 
   // MapEnterToTab
@@ -1139,7 +1293,9 @@ export class PropertyStore {
   }
 
   public setMapEnterToTab(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.mapEnterToTab = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.mapEnterToTab = value;
+    });
   }
 
   // MaxDropDownWidth
@@ -1152,7 +1308,9 @@ export class PropertyStore {
   }
 
   public setMaxDropDownWidth(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.maxDropDownWidth = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.maxDropDownWidth = value;
+    });
   }
 
   // MaxDropDownHeight
@@ -1165,7 +1323,9 @@ export class PropertyStore {
   }
 
   public setMaxDropDownHeight(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.maxDropDownHeight = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.maxDropDownHeight = value;
+    });
   }
 
   // MaxSize
@@ -1178,7 +1338,9 @@ export class PropertyStore {
   }
 
   public setMaxSize(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.maxSize = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.maxSize = value;
+    });
   }
 
   // MaxScale
@@ -1191,7 +1353,9 @@ export class PropertyStore {
   }
 
   public setMaxScale(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.maxScale = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.maxScale = value;
+    });
   }
 
   // IsMultiline
@@ -1204,7 +1368,9 @@ export class PropertyStore {
   }
 
   public setIsMultiline(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.multiline = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.multiline = value;
+    });
   }
 
   // MaxPrec
@@ -1217,7 +1383,9 @@ export class PropertyStore {
   }
 
   public setMaxPrec(layer: PropertyLayer, value: number): void {
-    this.setValue(layer, (data: PropertyData) => { data.maxPrec = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.maxPrec = value;
+    });
   }
 
   // PasswordChar
@@ -1230,7 +1398,9 @@ export class PropertyStore {
   }
 
   public setPasswordChar(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.passwordChar = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.passwordChar = value;
+    });
   }
 
   // OptimizeGeneratedLabels
@@ -1243,7 +1413,9 @@ export class PropertyStore {
   }
 
   public setOptimizeGeneratedLabels(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.optimizeGeneratedLabels = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.optimizeGeneratedLabels = value;
+    });
   }
 
   // ScaleMode
@@ -1256,7 +1428,9 @@ export class PropertyStore {
   }
 
   public setScaleMode(layer: PropertyLayer, value: PictureScaleMode): void {
-    this.setValue(layer, (data: PropertyData) => { data.scaleMode = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.scaleMode = value;
+    });
   }
 
   // ScrollBars
@@ -1269,7 +1443,9 @@ export class PropertyStore {
   }
 
   public setScrollBars(layer: PropertyLayer, value: ScrollBars): void {
-    this.setValue(layer, (data: PropertyData) => { data.scrollBars = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.scrollBars = value;
+    });
   }
 
   // SelectionMode
@@ -1282,7 +1458,9 @@ export class PropertyStore {
   }
 
   public setSelectionMode(layer: PropertyLayer, value: ListViewSelectionMode): void {
-    this.setValue(layer, (data: PropertyData) => { data.selectionMode = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.selectionMode = value;
+    });
   }
 
   // SelectorPosition
@@ -1295,7 +1473,9 @@ export class PropertyStore {
   }
 
   public setSelectorPosition(layer: PropertyLayer, value: ListViewSelectionMode): void {
-    this.setValue(layer, (data: PropertyData) => { data.selectionMode = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.selectionMode = value;
+    });
   }
 
   // ShowCaption
@@ -1308,7 +1488,9 @@ export class PropertyStore {
   }
 
   public setShowCaption(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.showCaption = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.showCaption = value;
+    });
   }
 
   // SynchronizeColumns
@@ -1321,7 +1503,9 @@ export class PropertyStore {
   }
 
   public setSynchronizeColumns(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.synchronizeColumns = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.synchronizeColumns = value;
+    });
   }
 
   // TabAlignment
@@ -1334,7 +1518,9 @@ export class PropertyStore {
   }
 
   public setTabAlignment(layer: PropertyLayer, value: TabAlignment): void {
-    this.setValue(layer, (data: PropertyData) => { data.tabAlignment = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.tabAlignment = value;
+    });
   }
 
   // TabStop
@@ -1347,7 +1533,9 @@ export class PropertyStore {
   }
 
   public setTabStop(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.tabStop = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.tabStop = value;
+    });
   }
 
   // TemplateCss
@@ -1360,7 +1548,9 @@ export class PropertyStore {
   }
 
   public setTemplateCss(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.templateCss = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.templateCss = value;
+    });
   }
 
   // TemplateHtml
@@ -1373,7 +1563,9 @@ export class PropertyStore {
   }
 
   public setTemplateHtml(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.templateHtml = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.templateHtml = value;
+    });
   }
 
   // TextAlign
@@ -1386,7 +1578,9 @@ export class PropertyStore {
   }
 
   public setTextAlign(layer: PropertyLayer, value: TextAlign): void {
-    this.setValue(layer, (data: PropertyData) => { data.textAlign = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.textAlign = value;
+    });
   }
 
   // Title
@@ -1399,7 +1593,9 @@ export class PropertyStore {
   }
 
   public setTitle(layer: PropertyLayer, value: string): void {
-    this.setValue(layer, (data: PropertyData) => { data.title = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.title = value;
+    });
   }
 
   // Visibility
@@ -1412,7 +1608,9 @@ export class PropertyStore {
   }
 
   public setVisibility(layer: PropertyLayer, value: Visibility): void {
-    this.setValue(layer, (data: PropertyData) => { data.visibility = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.visibility = value;
+    });
   }
 
   // IsVisible
@@ -1425,7 +1623,9 @@ export class PropertyStore {
   }
 
   public setIsVisible(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.isVisible = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.isVisible = value;
+    });
   }
 
   // WordWrap
@@ -1438,7 +1638,9 @@ export class PropertyStore {
   }
 
   public setWordWrap(layer: PropertyLayer, value: boolean): void {
-    this.setValue(layer, (data: PropertyData) => { data.wordWrap = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.wordWrap = value;
+    });
   }
 
   // WrapArrangement
@@ -1451,6 +1653,8 @@ export class PropertyStore {
   }
 
   public setWrapArrangement(layer: PropertyLayer, value: WrapArrangement): void {
-    this.setValue(layer, (data: PropertyData) => { data.wrapArrangement = value; });
+    this.setValue(layer, (data: PropertyData) => {
+      data.wrapArrangement = value;
+    });
   }
 }

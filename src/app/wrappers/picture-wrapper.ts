@@ -127,7 +127,7 @@ export class PictureWrapper extends ControlWrapper {
   }
 
   protected getPicClickSubscription(args: ClientPictureClickEventArgs): () => void {
-    return () => this.getEventsService().firePictureClick(
+    return (): void => this.getEventsService().firePictureClick(
       this.getForm().getId(),
       this.getName(),
       args,

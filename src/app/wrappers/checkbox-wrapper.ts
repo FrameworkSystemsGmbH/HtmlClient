@@ -178,7 +178,7 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   protected getBoxClickSubscription(): () => void {
-    return () => this.getEventsService().fireClick(
+    return (): void => this.getEventsService().fireClick(
       this.getForm().getId(),
       this.getName(),
       new InternalEventCallbacks<ClientClickEvent>(

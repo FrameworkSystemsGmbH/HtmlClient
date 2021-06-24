@@ -48,11 +48,9 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
 
     if (this.selectedListIndex != null) {
       return this.selectedListIndex;
-    }
-    else if (selectedIndex != null) {
+    } else if (selectedIndex != null) {
       return selectedIndex;
-    }
-    else {
+    } else {
       return -1;
     }
   }

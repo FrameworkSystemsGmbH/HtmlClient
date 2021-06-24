@@ -643,7 +643,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected getCtrlEnterSubscription(): () => void {
-    return () => this.eventsService.fireEnter(
+    return (): void => this.eventsService.fireEnter(
       this.getForm().getId(),
       this.getName(),
       new InternalEventCallbacks<ClientEnterEvent>(
@@ -671,7 +671,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected getCtrlLeaveSubscription(): () => void {
-    return () => this.eventsService.fireLeave(
+    return (): void => this.eventsService.fireLeave(
       this.getForm().getId(),
       this.getName(),
       this.focusService.getLeaveActivator(),

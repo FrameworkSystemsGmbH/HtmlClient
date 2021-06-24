@@ -213,7 +213,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   protected getNonEventTabPageChangedSubscription(tabPage: TabPageWrapper): () => void {
-    return () => {
+    return (): void => {
       this.changeSelectedTabPage(tabPage);
       this.framesService.layout();
     };
@@ -224,7 +224,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   protected getOnSelectedTabPageChangeSubscription(tabPage: TabPageWrapper): () => void {
-    return () => this.getEventsService().fireSelectedTabPageChange(
+    return (): void => this.getEventsService().fireSelectedTabPageChange(
       this.getForm().getId(),
       this.getName(),
       this.getTabPages()[this.selectedTabIndex].getName(),
@@ -258,7 +258,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
   protected getOnSelectedTabPageChangedSubscription(tabPage: TabPageWrapper): () => void {
     this.changeSelectedTabPage(tabPage);
-    return () => this.getEventsService().fireSelectedTabPageChanged(
+    return (): void => this.getEventsService().fireSelectedTabPageChanged(
       this.getForm().getId(),
       this.getName(),
       this.getTabPages()[this.selectedTabIndex].getName(),

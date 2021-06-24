@@ -3,7 +3,7 @@ export class Queue<T> {
   private queue: Array<T> = new Array<T>();
   private offset: number = 0;
 
-  public initialize(items: Array<T>) {
+  public initialize(items: Array<T>): void {
     this.queue = items;
     this.offset = 0;
   }

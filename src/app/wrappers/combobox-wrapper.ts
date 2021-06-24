@@ -210,7 +210,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   protected getOnSelectionChangedSubscription(): () => void {
-    return () => this.getEventsService().fireSelectionChanged(
+    return (): void => this.getEventsService().fireSelectionChanged(
       this.getForm().getId(),
       this.getName(),
       new InternalEventCallbacks<ClientSelectionChangedEvent>(

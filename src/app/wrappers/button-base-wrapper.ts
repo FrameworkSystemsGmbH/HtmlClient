@@ -66,7 +66,7 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
   }
 
   protected getBtnClickSubscription(): () => void {
-    return () => this.getEventsService().fireClick(
+    return (): void => this.getEventsService().fireClick(
       this.getForm().getId(),
       this.getName(),
       new InternalEventCallbacks<ClientClickEvent>(

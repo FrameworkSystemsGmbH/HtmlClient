@@ -99,7 +99,7 @@ export class FormsService {
   }
 
   protected getOnCloseCompletedCallback(formId: string, form: FormWrapper): () => void {
-    return () => {
+    return (): void => {
       this.eventsService.fireDispose(formId,
         new InternalEventCallbacks<ClientDisposeEvent>(
           () => true,
@@ -111,7 +111,7 @@ export class FormsService {
   }
 
   protected getOnDisposeCompletedCallback(form: FormWrapper): () => void {
-    return () => {
+    return (): void => {
       const index: number = this._forms.indexOf(form);
       this._forms.remove(form);
       this.fireFormsChanged();
