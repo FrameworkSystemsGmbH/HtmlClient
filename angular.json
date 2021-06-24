@@ -2,16 +2,19 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "projects": {
-    "HtmlClient": {
-      "root": "",
-      "sourceRoot": "src",
+    "hc": {
       "projectType": "application",
-      "prefix": "hc",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
         }
       },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "hc",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -20,12 +23,12 @@
               "moment-timezone",
               "overlayscrollbars"
             ],
-            "aot": true,
-            "outputPath": "dist/web",
+            "outputPath": "dist/build/dev",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets",
               "src/favicon.ico"
@@ -38,38 +41,44 @@
             ]
           },
           "configurations": {
-            "production": {
+            "prod": {
+              "outputPath": "dist/build/prod",
               "fileReplacements": [
                 {
                   "replace": "src/env/env.dev.ts",
                   "with": "src/env/env.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "outputHashing": "all"
+            },
+            "dev": {
+              "outputPath": "dist/build/dev",
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "dev"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "HtmlClient:build"
-          },
           "configurations": {
-            "production": {
-              "browserTarget": "HtmlClient:build:production"
+            "prod": {
+              "browserTarget": "hc:build:prod"
+            },
+            "dev": {
+              "browserTarget": "hc:build:dev"
             }
-          }
+          },
+          "defaultConfiguration": "dev"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "HtmlClient:build"
+            "browserTarget": "hc:build"
           }
         },
         "test": {
@@ -78,7 +87,8 @@
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "./karma.conf.js",
+            "karmaConfig": "karma.conf.js",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets",
               "src/favicon.ico"
@@ -92,18 +102,21 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "src/**/*.js",
+              "src/**/*.ts",
+              "src/**/*.d.ts",
+              "src/**/*.html"
             ]
           }
         }
       }
     }
+  },
+  "defaultProject": "hc",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

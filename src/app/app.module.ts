@@ -33,34 +33,34 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
     CUSTOM_ELEMENTS_SCHEMA
   ],
   entryComponents: [
+    ALL_CONTROLS,
     ErrorBoxComponent,
     MsgBoxComponent,
-    RetryBoxComponent,
-    ALL_CONTROLS
+    RetryBoxComponent
   ],
   declarations: [
-    AppComponent,
     ALL_COMPONENTS,
     ALL_CONTROLS,
-    ALL_DIRECTIVES
+    ALL_DIRECTIVES,
+    AppComponent
   ],
   imports: [
-    APP_ROUTING,
     A11yModule,
-    RouterModule,
-    BrowserModule,
+    APP_ROUTING,
     BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    HammerModule,
+    BrowserModule,
     FontAwesomeModule,
+    FormsModule,
+    HammerModule,
+    HttpClientModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     OverlayscrollbarsModule,
+    ReactiveFormsModule,
+    RouterModule,
     StoreModule.forRoot(appReducer),
     StoreDevtoolsModule.instrument({
       maxAge: 10,
@@ -80,5 +80,4 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
   ],
   bootstrap: [AppComponent]
 })
-// tslint:disable-next-line:no-unnecessary-class
 export class AppModule { }

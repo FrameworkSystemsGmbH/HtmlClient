@@ -2,10 +2,9 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
-  overflow: hidden;
+*:focus,
+*:active {
+  outline: none;
 }
 
 html {
@@ -16,6 +15,12 @@ html {
 body {
   position: relative;
   font-size: $global-font-size;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
 }
 
 .hc-load-wrapper {

@@ -3,7 +3,7 @@
   "appName": "Mobile Client",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "dist/web",
+  "webDir": "dist/build/prod",
   "plugins": {
     "SplashScreen": {
       "launchAutoHide": false,

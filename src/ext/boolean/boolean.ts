@@ -1,25 +1,15 @@
-// tslint:disable: only-arrow-functions
+Boolean.trueIfNull = function (value: boolean | null): boolean {
+  return value == null ? true : value;
+};
 
-if (!Boolean.trueIfNull) {
-  Boolean.trueIfNull = function(value: boolean): boolean {
-    return value == null ? true : value;
-  };
-}
+Boolean.falseIfNull = function (value: boolean | null): boolean {
+  return value == null ? false : value;
+};
 
-if (!Boolean.falseIfNull) {
-  Boolean.falseIfNull = function(value: boolean): boolean {
-    return value == null ? false : value;
-  };
-}
+Boolean.nullIfTrue = function (value: boolean): boolean | null {
+  return value ? null : value;
+};
 
-if (!Boolean.nullIfTrue) {
-  Boolean.nullIfTrue = function(value: boolean): boolean {
-    return value === true ? null : value;
-  };
-}
-
-if (!Boolean.nullIfFalse) {
-  Boolean.nullIfFalse = function(value: boolean): boolean {
-    return value === false ? null : value;
-  };
-}
+Boolean.nullIfFalse = function (value: boolean): boolean | null {
+  return !value ? null : value;
+};

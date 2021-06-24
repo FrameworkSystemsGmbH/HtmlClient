@@ -34,7 +34,6 @@ export class ButtonImageComponent extends ButtonComponent {
 
   protected init(): void {
     super.init();
-    // tslint:disable-next-line: deprecation
     this.sanatizer = this.getInjector().get(DomSanitizer);
   }
 

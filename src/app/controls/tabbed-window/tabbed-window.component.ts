@@ -98,10 +98,8 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     super.init();
     const injector: Injector = this.getInjector();
     this.zone = injector.get(NgZone);
-    // tslint:disable-next-line: deprecation
     this.renderer = injector.get(Renderer2);
     this.imageService = injector.get(ImageService);
-    // tslint:disable-next-line: deprecation
     this.platformService = injector.get(PlatformService);
   }
 

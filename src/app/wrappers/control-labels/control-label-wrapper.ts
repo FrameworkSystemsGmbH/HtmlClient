@@ -45,7 +45,6 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
     this.labelProvider = labelProvider;
     this.labelTemplate = labelProvider.getLabelTemplate();
     this.fieldRowWrp = fieldRowWrp;
-    // tslint:disable-next-line: deprecation
     this.resolver = injector.get(ComponentFactoryResolver);
     this.fontService = injector.get(FontService);
 

@@ -25,7 +25,6 @@ export class FormWrapper extends ContainerWrapper {
 
   protected init(): void {
     super.init();
-    // tslint:disable-next-line: deprecation
     this._sanatizer = this.getInjector().get(DomSanitizer);
   }
 

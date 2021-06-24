@@ -1,154 +1,93 @@
-// tslint:disable: only-arrow-functions
+String.empty = function (): string {
+  return '';
+};
 
-if (!String.empty) {
-  String.empty = function(): string {
-    return '';
-  };
-}
+String.isNullOrWhiteSpace = function (str: string | undefined): boolean {
+  return str == null || str.trim() === String.empty();
+};
 
-if (!String.equals) {
-  String.equals = function(x: string, y: string, ignoreCase: boolean): boolean {
-    if (x && y) {
-      if (ignoreCase) {
-        return x.toLowerCase() === y.toLowerCase();
-      } else {
-        return x === y;
-      }
-    } else if (!x && !y) {
+String.equals = function (x: string, y: string, ignoreCase: boolean): boolean {
+  if (x && y) {
+    if (ignoreCase) {
+      return x.toLowerCase() === y.toLowerCase();
+    } else {
       return x === y;
     }
+  } else if (!x && !y) {
+    return x === y;
+  }
 
-    return false;
-  };
-}
+  return false;
+};
 
-if (!String.prototype.equals) {
-  String.prototype.equals = function(other: string, ignoreCase: boolean): boolean {
-    return String.equals(this, other, ignoreCase);
-  };
-}
+String.prototype.equals = function (other: string, ignoreCase: boolean): boolean {
+  return String.equals(this.toString(), other, ignoreCase);
+};
 
-if (!String.replaceAll) {
-  String.replaceAll = function(str: string, search: string, replacement: string): string {
-    if (str == null || search == null) {
-      return str;
-    }
-    let actualReplacement: string = replacement;
-    if (actualReplacement == null) {
-      actualReplacement = '';
-    }
-    return str.split(search).join(replacement);
-  };
-}
+String.replaceAll = function (str: string, search: string, replacement: string): string {
+  return str.split(search).join(replacement);
+};
 
-if (!String.prototype.replaceAll) {
-  String.prototype.replaceAll = function(search: string, replacement: string): string {
-    return String.replaceAll(this, search, replacement);
-  };
-}
+String.prototype.replaceAll = function (search: string, replacement: string): string {
+  return String.replaceAll(this.toString(), search, replacement);
+};
 
-if (!String.trimCharsLeft) {
-  String.trimCharsLeft = function(str: string, chars: string): string {
-    let trimChars: string = chars;
-    if (trimChars === undefined) {
-      trimChars = '\s';
-    }
-    return str.replace(new RegExp('^[' + trimChars + ']+'), '');
-  };
-}
+String.trimCharsLeft = function (str: string, chars: string): string {
+  return str.replace(new RegExp(`^[${chars}]+`, 'u'), '');
+};
 
-if (!String.prototype.trimCharsLeft) {
-  String.prototype.trimCharsLeft = function(chars: string): string {
-    return String.trimCharsLeft(this, chars);
-  };
-}
+String.prototype.trimCharsLeft = function (chars: string): string {
+  return String.trimCharsLeft(this.toString(), chars);
+};
 
-if (!String.trimCharsRight) {
-  String.trimCharsRight = function(str: string, chars: string): string {
-    let trimChars: string = chars;
-    if (trimChars === undefined) {
-      trimChars = '\s';
-    }
-    return str.replace(new RegExp('[' + trimChars + ']+$'), '');
-  };
-}
+String.trimCharsRight = function (str: string, chars: string): string {
+  return str.replace(new RegExp(`[${chars}]+$`, 'u'), '');
+};
 
-if (!String.prototype.trimCharsRight) {
-  String.prototype.trimCharsRight = function(chars: string): string {
-    return String.trimCharsRight(this, chars);
-  };
-}
+String.prototype.trimCharsRight = function (chars: string): string {
+  return String.trimCharsRight(this.toString(), chars);
+};
 
-if (!String.trimChars) {
-  String.trimChars = function(str: string, chars: string): string {
-    return str.trimCharsLeft(chars).trimCharsRight(chars);
-  };
-}
+String.trimChars = function (str: string, chars: string): string {
+  return str.trimCharsLeft(chars).trimCharsRight(chars);
+};
 
-if (!String.prototype.trimChars) {
-  String.prototype.trimChars = function(chars: string): string {
-    return String.trimChars(this, chars);
-  };
-}
+String.prototype.trimChars = function (chars: string): string {
+  return String.trimChars(this.toString(), chars);
+};
 
-if (!String.trimStringLeft) {
-  String.trimStringLeft = function(str: string, trimStr: string): string {
-    if (!str || trimStr == null) {
-      return str;
-    }
+String.trimStringLeft = function (str: string, trimStr: string): string {
+  const index: number = str.indexOf(trimStr);
 
-    const index: number = str.indexOf(trimStr);
+  if (index === 0) {
+    return str.substring(trimStr.length);
+  } else {
+    return str;
+  }
+};
 
-    if (index === 0) {
-      return str.substring(trimStr.length);
-    } else {
-      return str;
-    }
-  };
-}
+String.prototype.trimStringLeft = function (trimStr: string): string {
+  return String.trimStringLeft(this.toString(), trimStr);
+};
 
-if (!String.prototype.trimStringLeft) {
-  String.prototype.trimStringLeft = function(trimStr: string): string {
-    return String.trimStringLeft(this, trimStr);
-  };
-}
+String.trimStringRight = function (str: string, trimStr: string): string {
+  const index: number = str.lastIndexOf(trimStr);
 
-if (!String.trimStringRight) {
-  String.trimStringRight = function(str: string, trimStr: string): string {
-    if (!str || trimStr == null) {
-      return str;
-    }
+  if (index >= 0 && index === str.length - trimStr.length) {
+    return str.substring(0, str.length - trimStr.length);
+  } else {
+    return str;
+  }
+};
 
-    const index: number = str.lastIndexOf(trimStr);
+String.prototype.trimStringRight = function (trimStr: string): string {
+  return String.trimStringRight(this.toString(), trimStr);
+};
 
-    if (index >= 0 && index === (str.length - trimStr.length)) {
-      return str.substring(0, str.length - trimStr.length);
-    } else {
-      return str;
-    }
-  };
-}
+String.trimString = function (str: string, trimStr: string): string {
+  return str.trimCharsLeft(trimStr).trimCharsRight(trimStr);
+};
 
-if (!String.prototype.trimStringRight) {
-  String.prototype.trimStringRight = function(trimStr: string): string {
-    return String.trimStringRight(this, trimStr);
-  };
-}
-
-if (!String.trimString) {
-  String.trimString = function(str: string, trimStr: string): string {
-    return str.trimCharsLeft(trimStr).trimCharsRight(trimStr);
-  };
-}
-
-if (!String.prototype.trimString) {
-  String.prototype.trimString = function(trimStr: string): string {
-    return String.trimString(this, trimStr);
-  };
-}
-
-if (!String.isNullOrWhiteSpace) {
-  String.isNullOrWhiteSpace = function(str: string): boolean {
-    return str == null || str.trim() === String.empty();
-  };
-}
+String.prototype.trimString = function (trimStr: string): string {
+  return String.trimString(this.toString(), trimStr);
+};

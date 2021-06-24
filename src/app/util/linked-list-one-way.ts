@@ -81,7 +81,6 @@ export class LinkedListOneWay<T> {
   public forEach(fn: (data: T) => void): void {
     let node = this.head;
 
-    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.length; i++) {
       fn.call(node.data);
       node = node.next;
@@ -113,7 +112,6 @@ export class LinkedListOneWay<T> {
 
     let node = this.head;
 
-    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.length; i++) {
       if (node.data === data) {
         return true;

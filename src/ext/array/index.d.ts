@@ -1,12 +1,11 @@
-// tslint:disable:interface-name
 interface Array<T> {
 
-  clone(): Array<T>;
+  clone: () => Array<T>;
 
-  pushAll(items: Array<T>);
+  pushAll: (items: Array<T>) => void;
 
-  isEmpty(): boolean;
+  isEmpty: () => boolean;
 
-  remove(item: T): T;
+  remove: (item: T) => T;
 
 }

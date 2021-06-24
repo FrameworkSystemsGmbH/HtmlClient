@@ -30,7 +30,6 @@ export abstract class ControlComponent extends LayoutableComponent {
 
   protected init(): void {
     this.focusService = this.injector.get(FocusService);
-    // tslint:disable-next-line: deprecation
     this.cdr = this.injector.get(ChangeDetectorRef);
   }
 

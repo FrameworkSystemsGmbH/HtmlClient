@@ -39,7 +39,6 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   private readonly resolver: ComponentFactoryResolver;
 
   constructor(injector: Injector, options: IControlLabelContainerBaseWrapperOptions) {
-    // tslint:disable-next-line: deprecation
     this.resolver = injector.get(ComponentFactoryResolver);
     this.labelWrappers = options.labelWrappers;
     this.fieldRowWrp = options.fieldRowWrp;

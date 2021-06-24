@@ -1,14 +1,12 @@
-// tslint:disable: only-arrow-functions
-
-function decimalAdjust(type: string, value: number, exp: number): number {
+function decimalAdjust(calc: (val: number) => number, value: number, exp: number): number {
   // If the exp is undefined or zero...
-  if (typeof exp === 'undefined' || +exp === 0) {
-    return Math[type](value);
+  if (typeof exp === 'undefined' || Number(exp) === 0) {
+    return calc(value);
   }
 
-  const expNum: number = +exp;
+  const expNum: number = Number(exp);
 
-  let valueNum: number = +value;
+  let valueNum: number = Number(value);
 
   // If the value is not a number or the exp is not an integer
   if (isNaN(valueNum) || !(typeof expNum === 'number' && expNum % 1 === 0)) {
@@ -17,28 +15,22 @@ function decimalAdjust(type: string, value: number, exp: number): number {
 
   // Shift
   let valueArr: Array<string> = value.toString().split('e');
-  valueNum = Math[type](+(valueArr[0] + 'e' + (valueArr[1] ? (+valueArr[1] - expNum) : -expNum)));
+  valueNum = calc(Number(`${valueArr[0]}e${valueArr[1] ? Number(valueArr[1]) - expNum : -expNum}`));
 
   // Shift back
   valueArr = valueNum.toString().split('e');
 
-  return +(valueArr[0] + 'e' + (valueArr[1] ? (+valueArr[1] + expNum) : expNum));
+  return Number(`${valueArr[0]}e${valueArr[1] ? Number(valueArr[1]) + expNum : expNum}`);
 }
 
-if (!Math.roundDec) {
-  Math.roundDec = function(value: number, exp: number): number {
-    return decimalAdjust('round', value, exp);
-  };
-}
+Math.roundDec = function (value: number, exp: number): number {
+  return decimalAdjust(Math.round.bind(this), value, exp);
+};
 
-if (!Math.floorDec) {
-  Math.floorDec = function(value: number, exp: number): number {
-    return decimalAdjust('floor', value, exp);
-  };
-}
+Math.floorDec = function (value: number, exp: number): number {
+  return decimalAdjust(Math.floor.bind(this), value, exp);
+};
 
-if (!Math.ceilDec) {
-  Math.ceilDec = function(value: number, exp: number): number {
-    return decimalAdjust('ceil', value, exp);
-  };
-}
+Math.ceilDec = function (value: number, exp: number): number {
+  return decimalAdjust(Math.ceil.bind(this), value, exp);
+};

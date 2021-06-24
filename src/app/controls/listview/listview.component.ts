@@ -63,7 +63,6 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   }
 
   protected init(): void {
-    // tslint:disable-next-line: deprecation
     this.platformService = this.getInjector().get(PlatformService);
   }
 
