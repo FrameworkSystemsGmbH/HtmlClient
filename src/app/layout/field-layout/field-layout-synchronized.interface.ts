@@ -1,6 +1,6 @@
 export interface IFieldLayoutSynchronized {
 
-  isIFieldLayoutSynchronized(): void;
+  isIFieldLayoutSynchronized: () => void;
 
-  isSynchronizedHidden(): boolean;
+  isSynchronizedHidden: () => boolean;
 }

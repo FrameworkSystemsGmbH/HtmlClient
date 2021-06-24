@@ -2,45 +2,45 @@ import { TextAlign } from '@app/enums/text-align';
 
 export interface ILayoutableControlLabelTemplate {
 
-  getIsVisible(): boolean;
+  getIsVisible: () => boolean;
 
-  getForeColor(): string;
+  getForeColor: () => string;
 
-  getBackColor(): string;
+  getBackColor: () => string;
 
-  getFontFamily(): string;
+  getFontFamily: () => string;
 
-  getFontSize(): number;
+  getFontSize: () => number;
 
-  getFontBold(): boolean;
+  getFontBold: () => boolean;
 
-  getFontItalic(): boolean;
+  getFontItalic: () => boolean;
 
-  getFontUnderline(): boolean;
+  getFontUnderline: () => boolean;
 
-  getTextAlign(): TextAlign;
+  getTextAlign: () => TextAlign;
 
-  getMarginLeft(): number;
+  getMarginLeft: () => number;
 
-  getMarginRight(): number;
+  getMarginRight: () => number;
 
-  getMarginTop(): number;
+  getMarginTop: () => number;
 
-  getMarginBottom(): number;
+  getMarginBottom: () => number;
 
-  getPaddingLeft(): number;
+  getPaddingLeft: () => number;
 
-  getPaddingRight(): number;
+  getPaddingRight: () => number;
 
-  getPaddingTop(): number;
+  getPaddingTop: () => number;
 
-  getPaddingBottom(): number;
+  getPaddingBottom: () => number;
 
-  getMinWidth(): number;
+  getMinWidth: () => number;
 
-  getMinHeight(): number;
+  getMinHeight: () => number;
 
-  getMaxWidth(): number;
+  getMaxWidth: () => number;
 
-  getMaxHeight(): number;
+  getMaxHeight: () => number;
 }

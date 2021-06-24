@@ -5,12 +5,12 @@ import { WrapArrangement } from '@app/layout/wrap-layout/wrap-arrangement';
 
 export interface IWrapContainer extends ILayoutableContainerSpaceable {
 
-  getHorizontalContentAlignment(): HorizontalContentAlignment;
+  getHorizontalContentAlignment: () => HorizontalContentAlignment;
 
-  getVerticalContentAlignment(): VerticalContentAlignment;
+  getVerticalContentAlignment: () => VerticalContentAlignment;
 
-  getWrapArrangement(): WrapArrangement;
+  getWrapArrangement: () => WrapArrangement;
 
-  getInvertFlowDirection(): boolean;
+  getInvertFlowDirection: () => boolean;
 
 }

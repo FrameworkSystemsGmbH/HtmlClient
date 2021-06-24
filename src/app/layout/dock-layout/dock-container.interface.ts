@@ -4,8 +4,8 @@ import { ILayoutableContainerSpaceable } from '@app/layout/layoutable-container-
 
 export interface IDockContainer extends ILayoutableContainerSpaceable {
 
-  getDockOrientation(): DockOrientation;
+  getDockOrientation: () => DockOrientation;
 
-  getDockPanelScrolling(): DockPanelScrolling;
+  getDockPanelScrolling: () => DockPanelScrolling;
 
 }

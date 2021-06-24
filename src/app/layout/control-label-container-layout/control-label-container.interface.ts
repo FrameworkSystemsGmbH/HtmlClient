@@ -3,6 +3,6 @@ import { ILayoutableContainer } from '@app/layout/layoutable-container.interface
 
 export interface IControlLabelContainer extends ILayoutableContainer {
 
-  getTextAlign(): TextAlign;
+  getTextAlign: () => TextAlign;
 
 }

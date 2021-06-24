@@ -3,8 +3,8 @@ import { ILayoutableControlLabelTemplate } from '@app/layout/layoutable-control-
 
 export interface IFieldContainer extends ILayoutableContainerSpaceable {
 
-  getSynchronizeColumns(): boolean;
+  getSynchronizeColumns: () => boolean;
 
-  getRowLabelTemplate(): ILayoutableControlLabelTemplate;
+  getRowLabelTemplate: () => ILayoutableControlLabelTemplate;
 
 }

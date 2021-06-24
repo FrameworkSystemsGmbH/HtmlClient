@@ -5,12 +5,12 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 
 export interface ILayoutableContainerWrapper extends ILayoutableControlWrapper, ILayoutableContainer {
 
-  isILayoutableContainerWrapper(): void;
+  isILayoutableContainerWrapper: () => void;
 
-  getVchContainer(): VchContainer;
+  getVchContainer: () => VchContainer;
 
-  getViewContainerRef(): ViewContainerRef;
+  getViewContainerRef: () => ViewContainerRef;
 
-  getInvertFlowDirection(): boolean;
+  getInvertFlowDirection: () => boolean;
 
 }

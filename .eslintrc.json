@@ -172,7 +172,6 @@
         "no-undefined": "off",
         "@typescript-eslint/explicit-member-accessibility": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/method-signature-style": "off",
         "@typescript-eslint/no-extra-parens": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-floating-promises": "off",

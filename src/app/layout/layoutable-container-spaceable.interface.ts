@@ -2,8 +2,8 @@ import { ILayoutableContainer } from '@app/layout/layoutable-container.interface
 
 export interface ILayoutableContainerSpaceable extends ILayoutableContainer {
 
-  getSpacingHorizontal(): number;
+  getSpacingHorizontal: () => number;
 
-  getSpacingVertical(): number;
+  getSpacingVertical: () => number;
 
 }

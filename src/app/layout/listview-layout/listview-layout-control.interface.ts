@@ -5,22 +5,22 @@ import { IHeaderOptions } from '@app/wrappers/listview-wrapper';
 
 export interface IListViewLayoutControl extends ILayoutableControl {
 
-  getSpacingHorizontal(): number;
+  getSpacingHorizontal: () => number;
 
-  getSpacingVertical(): number;
+  getSpacingVertical: () => number;
 
-  getSelectionMode(): ListViewSelectionMode;
+  getSelectionMode: () => ListViewSelectionMode;
 
-  getMobileSelectionModeEnabled(): boolean;
+  getMobileSelectionModeEnabled: () => boolean;
 
-  getHeaderOptions(): IHeaderOptions;
+  getHeaderOptions: () => IHeaderOptions;
 
-  getItemArrangement(): ListViewItemArrangement;
+  getItemArrangement: () => ListViewItemArrangement;
 
-  getItemCount(): number;
+  getItemCount: () => number;
 
-  getItemWidth(): number;
+  getItemWidth: () => number;
 
-  getItemHeight(): number;
+  getItemHeight: () => number;
 
 }

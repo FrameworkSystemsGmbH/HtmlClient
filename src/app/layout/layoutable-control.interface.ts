@@ -5,47 +5,47 @@ import { ILayoutableProperties } from '@app/layout/layoutable-properties.interfa
 
 export interface ILayoutableControl {
 
-  getName(): string;
+  getName: () => string;
 
-  getCurrentVisibility(): Visibility;
+  getCurrentVisibility: () => Visibility;
 
-  getLayoutableProperties(): ILayoutableProperties;
+  getLayoutableProperties: () => ILayoutableProperties;
 
-  getMinLayoutWidth(): number;
+  getMinLayoutWidth: () => number;
 
-  getMinLayoutHeight(width: number): number;
+  getMinLayoutHeight: (width: number) => number;
 
-  getMaxLayoutWidth(): number;
+  getMaxLayoutWidth: () => number;
 
-  getMaxLayoutHeight(): number;
+  getMaxLayoutHeight: () => number;
 
-  getMinWidth(): number;
+  getMinWidth: () => number;
 
-  getMinHeight(): number;
+  getMinHeight: () => number;
 
-  getMaxWidth(): number;
+  getMaxWidth: () => number;
 
-  getMaxHeight(): number;
+  getMaxHeight: () => number;
 
-  getMarginLeft(): number;
+  getMarginLeft: () => number;
 
-  getMarginRight(): number;
+  getMarginRight: () => number;
 
-  getMarginTop(): number;
+  getMarginTop: () => number;
 
-  getMarginBottom(): number;
+  getMarginBottom: () => number;
 
-  getInsetsLeft(): number;
+  getInsetsLeft: () => number;
 
-  getInsetsRight(): number;
+  getInsetsRight: () => number;
 
-  getInsetsTop(): number;
+  getInsetsTop: () => number;
 
-  getInsetsBottom(): number;
+  getInsetsBottom: () => number;
 
-  getDockItemSize(): number;
+  getDockItemSize: () => number;
 
-  getHorizontalAlignment(): HorizontalAlignment;
+  getHorizontalAlignment: () => HorizontalAlignment;
 
-  getVerticalAlignment(): VerticalAlignment;
+  getVerticalAlignment: () => VerticalAlignment;
 }

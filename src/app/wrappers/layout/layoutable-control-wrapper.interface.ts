@@ -4,16 +4,16 @@ import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-con
 
 export interface ILayoutableControlWrapper extends ILayoutableControl {
 
-  getVchControl(): VchControl;
+  getVchControl: () => VchControl;
 
-  attachComponent(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void;
+  attachComponent: (uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper) => void;
 
-  onComponentDestroyed(): void;
+  onComponentDestroyed: () => void;
 
-  canReceiveFocus(): boolean;
+  canReceiveFocus: () => boolean;
 
-  canReceiveKeyboardFocus(): boolean;
+  canReceiveKeyboardFocus: () => boolean;
 
-  setFocus(): void;
+  setFocus: () => void;
 
 }

@@ -3,21 +3,21 @@ import { ILayoutableContainer } from '@app/layout/layoutable-container.interface
 
 export interface ITabbedLayoutControl extends ILayoutableContainer {
 
-  getIsMobileMode(): boolean;
+  getIsMobileMode: () => boolean;
 
-  getTabAlignment(): TabAlignment;
+  getTabAlignment: () => TabAlignment;
 
-  getSelectedTabIndex(): number;
+  getSelectedTabIndex: () => number;
 
-  getWidestLayoutTabPageHeader(): number;
+  getWidestLayoutTabPageHeader: () => number;
 
-  getHighestLayoutTabPageHeader(): number;
+  getHighestLayoutTabPageHeader: () => number;
 
-  getBorderThicknessLeft(): number;
+  getBorderThicknessLeft: () => number;
 
-  getBorderThicknessRight(): number;
+  getBorderThicknessRight: () => number;
 
-  getBorderThicknessTop(): number;
+  getBorderThicknessTop: () => number;
 
-  getBorderThicknessBottom(): number;
+  getBorderThicknessBottom: () => number;
 }

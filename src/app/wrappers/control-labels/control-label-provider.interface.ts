@@ -3,14 +3,14 @@ import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label
 
 export interface IControlLabelProvider {
 
-  getName(): string;
+  getName: () => string;
 
-  getCaption(): string;
+  getCaption: () => string;
 
-  getCurrentIsEditable(): boolean;
+  getCurrentIsEditable: () => boolean;
 
-  getCurrentVisibility(): Visibility;
+  getCurrentVisibility: () => Visibility;
 
-  getLabelTemplate(): ControlLabelTemplate;
+  getLabelTemplate: () => ControlLabelTemplate;
 
 }

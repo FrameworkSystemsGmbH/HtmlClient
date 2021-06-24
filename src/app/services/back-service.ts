@@ -7,7 +7,7 @@ const { App } = Plugins;
 
 interface IListenerInfo {
   priority: BackButtonPriority;
-  listener(): boolean;
+  listener: () => boolean;
 }
 
 @Injectable()

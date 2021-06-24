@@ -3,12 +3,12 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 
 export interface IControlLabelWrapper extends ILayoutableControlWrapper {
 
-  getFieldRowWrapper(): FieldRowWrapper;
+  getFieldRowWrapper: () => FieldRowWrapper;
 
-  updateComponentRecursively(): void;
+  updateComponentRecursively: () => void;
 
-  onWrapperCaptionChanged(): void;
+  onWrapperCaptionChanged: () => void;
 
-  onWrapperVisibilityChanged(): void;
+  onWrapperVisibilityChanged: () => void;
 
 }

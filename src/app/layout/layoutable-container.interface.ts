@@ -3,10 +3,10 @@ import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
 
 export interface ILayoutableContainer extends ILayoutableControl {
 
-  isILayoutableContainer(): void;
+  isILayoutableContainer: () => void;
 
-  getLayout(): LayoutContainerBase;
+  getLayout: () => LayoutContainerBase;
 
-  getLayoutableControls(): Array<ILayoutableControl>;
+  getLayoutableControls: () => Array<ILayoutableControl>;
 
 }

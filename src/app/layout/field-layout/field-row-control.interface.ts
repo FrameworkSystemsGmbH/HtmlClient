@@ -4,12 +4,12 @@ import { ILayoutableContainer } from '@app/layout/layoutable-container.interface
 
 export interface IFieldRowControl extends ILayoutableContainer {
 
-  getFieldRowSize(): number;
+  getFieldRowSize: () => number;
 
-  getFieldRowLabelMode(): FieldRowLabelMode;
+  getFieldRowLabelMode: () => FieldRowLabelMode;
 
-  getFieldContainer(): IFieldContainer;
+  getFieldContainer: () => IFieldContainer;
 
-  getHasFirstColumnControl(): boolean;
+  getHasFirstColumnControl: () => boolean;
 
 }

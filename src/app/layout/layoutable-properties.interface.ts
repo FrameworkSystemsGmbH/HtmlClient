@@ -1,34 +1,34 @@
 export interface ILayoutableProperties {
 
-  getX(): number;
+  getX: () => number;
 
-  setX(x: number): void;
+  setX: (x: number) => void;
 
-  getY(): number;
+  getY: () => number;
 
-  setY(y: number): void;
+  setY: (y: number) => void;
 
-  getHBarNeeded(): boolean;
+  getHBarNeeded: () => boolean;
 
-  setHBarNeeded(value: boolean): void;
+  setHBarNeeded: (value: boolean) => void;
 
-  getLayoutWidth(): number;
+  getLayoutWidth: () => number;
 
-  setLayoutWidth(width: number): void;
+  setLayoutWidth: (width: number) => void;
 
-  getLayoutHeight(): number;
+  getLayoutHeight: () => number;
 
-  setLayoutHeight(height: number): void;
+  setLayoutHeight: (height: number) => void;
 
   /*
    * This width is used in the CSS of the HTML control.
    * Due to HTML box-sizing this value does not include horizontal margins
    */
-  getClientWidth(): number;
+  getClientWidth: () => number;
 
   /*
    * This height is used in the CSS of the HTML control.
    * Due to HTML box-sizing this value does not include vertical margins
    */
-  getClientHeight(): number;
+  getClientHeight: () => number;
 }
