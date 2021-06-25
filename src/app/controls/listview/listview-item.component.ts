@@ -109,7 +109,7 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
     if (this.platformService.isNative()) {
       return this.selected || this.listViewWrapper.getMobileSelectionModeEnabled();
     } else {
-      return this.selected || (this.isEditable && this.isHover);
+      return this.selected || this.isEditable && this.isHover;
     }
   }
 
@@ -163,7 +163,7 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
       'min-width.rem': StyleUtil.pixToRem(this.width),
       'min-height.rem': StyleUtil.pixToRem(this.height),
       'max-height.rem': StyleUtil.pixToRem(this.height),
-      'cursor': this.isEditable ? (listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default') : 'not-allowed'
+      'cursor': this.isEditable ? listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default' : 'not-allowed'
     };
   }
 
@@ -205,14 +205,14 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
       case ListViewSelectorPosition.MiddleLeft:
         selectorStyle = {
           ...selectorStyle,
-          'top.rem': StyleUtil.pixToRem((this.height / 2) - (this.selectorSize / 2)),
+          'top.rem': StyleUtil.pixToRem(this.height / 2 - this.selectorSize / 2),
           'left.rem': margin
         };
         break;
       case ListViewSelectorPosition.MiddleRight:
         selectorStyle = {
           ...selectorStyle,
-          'top.rem': StyleUtil.pixToRem((this.height / 2) - (this.selectorSize / 2)),
+          'top.rem': StyleUtil.pixToRem(this.height / 2 - this.selectorSize / 2),
           'right.rem': margin
         };
         break;

@@ -171,8 +171,8 @@
         "@angular-eslint/use-injectable-provided-in": "off",
         "no-undefined": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-extra-parens": "off",
         "@typescript-eslint/no-explicit-any": "off",
+
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-implicit-any-catch": "off",
         "@typescript-eslint/no-parameter-properties": "off",

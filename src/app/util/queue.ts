@@ -9,7 +9,7 @@ export class Queue<T> {
   }
 
   public getLength(): number {
-    return (this.queue.length - this.offset);
+    return this.queue.length - this.offset;
   }
 
   public isEmpty(): boolean {

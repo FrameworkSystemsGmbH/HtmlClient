@@ -41,20 +41,20 @@ export class FieldLayoutRow {
     const firstControl: LayoutableControlWrapper = controlWrappers[0];
 
     if (this.labelMode === FieldRowLabelMode.None
-      || (this.labelMode === FieldRowLabelMode.Generated && !this.hasFirstColumnControl)
-      || (this.labelMode === FieldRowLabelMode.GeneratedMerged && !this.hasFirstColumnControl)) {
+      || this.labelMode === FieldRowLabelMode.Generated && !this.hasFirstColumnControl
+      || this.labelMode === FieldRowLabelMode.GeneratedMerged && !this.hasFirstColumnControl) {
       // Add empty cell
       this.cells.push(new FieldLayoutCell(null, rowLabelTemplate));
     }
 
-    if (this.hasFirstColumnControl && (firstControl.getIsLayoutVisible() || (synchronizedColumns && firstControl.getIsSynchronizedVisible()))) {
+    if (this.hasFirstColumnControl && (firstControl.getIsLayoutVisible() || synchronizedColumns && firstControl.getIsSynchronizedVisible())) {
       this.cells.push(new FieldLayoutCell(firstControl, rowLabelTemplate));
     }
 
     // 3. Add remaining wrappers
     for (let i = this.hasFirstColumnControl ? 1 : 0; i < controlWrappers.length; i++) {
       const controlWrapper: LayoutableControlWrapper = controlWrappers[i];
-      if (controlWrapper.getIsLayoutVisible() || (synchronizedColumns && controlWrapper.getIsSynchronizedVisible())) {
+      if (controlWrapper.getIsLayoutVisible() || synchronizedColumns && controlWrapper.getIsSynchronizedVisible()) {
         this.cells.push(new FieldLayoutCell(controlWrapper, null));
       }
     }

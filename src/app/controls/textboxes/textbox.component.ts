@@ -36,7 +36,7 @@ export abstract class TextBoxComponent extends ControlComponent {
   public callKeyDown(event: KeyboardEvent): void {
     this.getFocusService().setLastKeyEvent(event);
 
-    if (KeyUtil.getKeyString(event) === 'Tab' || (KeyUtil.getKeyString(event) === 'Enter' && this.mapEnterToTab())) {
+    if (KeyUtil.getKeyString(event) === 'Tab' || KeyUtil.getKeyString(event) === 'Enter' && this.mapEnterToTab()) {
       if (event.shiftKey) {
         this.getWrapper().focusKeyboardPrevious();
       } else {

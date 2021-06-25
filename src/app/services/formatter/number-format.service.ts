@@ -218,7 +218,7 @@ export class NumberFormatService {
         const groupingCount: number = this.getGroupingCount();
 
         for (let i = 0; i < digitsStr.length; i++) {
-          if (i > 0 && ((digitsStr.length - i) % groupingCount) === 0) {
+          if (i > 0 && (digitsStr.length - i) % groupingCount === 0) {
             resultStr += groupSep;
           }
 
@@ -229,7 +229,7 @@ export class NumberFormatService {
       }
     }
 
-    if ((formatInfo.hasDecimalsPart() && valueDecimalPointPos >= 0) || formatInfo.hasLastDecimalZero()) {
+    if (formatInfo.hasDecimalsPart() && valueDecimalPointPos >= 0 || formatInfo.hasLastDecimalZero()) {
       resultStr += this.getDecimalSeparator();
 
       if (!String.isNullOrWhiteSpace(valueDecimalsStr)) {

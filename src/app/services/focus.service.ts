@@ -188,7 +188,7 @@ export class FocusService {
     }
 
     // Check if current control is last in container
-    if (vchIndex === (siblings.length - 1)) {
+    if (vchIndex === siblings.length - 1) {
       return this.findNextKeyboardFocusableControlInSubTreeRecursive(parent);
     }
 

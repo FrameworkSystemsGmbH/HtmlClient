@@ -14,7 +14,7 @@ export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
 
   protected updateData(wrapper: ComboBoxWrapper): void {
     super.updateData(wrapper);
-    this.tabIndexAttr = (this.isEditable && wrapper.getTabStop()) ? 0 : -1;
+    this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? 0 : -1;
   }
 
   protected updateStyles(wrapper: ComboBoxWrapper): void {

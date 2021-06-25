@@ -223,13 +223,13 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   private createheaderSideStyle(): any {
     return {
-      'top.rem': this.platformService.isIos() ? StyleUtil.pixToRem((StyleUtil.headerHeight + StyleUtil.iosMenubarHeight)) : StyleUtil.pixToRem(StyleUtil.headerHeight)
+      'top.rem': this.platformService.isIos() ? StyleUtil.pixToRem(StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.pixToRem(StyleUtil.headerHeight)
     };
   }
 
   private createheaderSideOverlayStyle(): any {
     return {
-      'top.rem': this.platformService.isIos() ? StyleUtil.pixToRem((StyleUtil.headerHeight + StyleUtil.iosMenubarHeight)) : StyleUtil.pixToRem(StyleUtil.headerHeight)
+      'top.rem': this.platformService.isIos() ? StyleUtil.pixToRem(StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.pixToRem(StyleUtil.headerHeight)
     };
   }
 

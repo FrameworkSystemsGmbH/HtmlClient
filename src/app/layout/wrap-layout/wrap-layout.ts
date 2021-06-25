@@ -630,7 +630,7 @@ export class WrapLayout extends LayoutContainerBase {
     const availableWidth: number = containerWidth - insetsLeft - insetsRight;
     const availableHeight: number = containerHeight - insetsTop - insetsBottom;
 
-    let spaceForRows: number = availableHeight - (Math.max(0, this.wrapRows.length - 1) * vSpacing);
+    let spaceForRows: number = availableHeight - Math.max(0, this.wrapRows.length - 1) * vSpacing;
 
     if (container.getVerticalContentAlignment() === VerticalContentAlignment.Fill) {
       let sumMinHeights: number = 0;
@@ -822,7 +822,7 @@ export class WrapLayout extends LayoutContainerBase {
     let addHSpacing: boolean = false;
 
     for (const wrapColumn of this.wrapColumns) {
-      let verticalSpaceForColumn: number = containerHeight - insetsTop - insetsBottom - (Math.max(0, wrapColumn.getWrapperCount() - 1) * vSpacing);
+      let verticalSpaceForColumn: number = containerHeight - insetsTop - insetsBottom - Math.max(0, wrapColumn.getWrapperCount() - 1) * vSpacing;
 
       // 1. calculate result heights for all wrappers
       if (fillContentVertically) {

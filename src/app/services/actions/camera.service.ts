@@ -37,7 +37,7 @@ export class CameraService {
       source: source === BrokerCameraSource.CAMERA ? CameraSource.Camera : CameraSource.Photos
     }).then(img => this.onSuccess(img.base64String))
       .catch(err => {
-        if (typeof (err) === 'string') {
+        if (typeof err === 'string') {
           this.onError(err);
         } else {
           this.onError(err.message);

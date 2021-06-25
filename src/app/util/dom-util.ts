@@ -36,18 +36,18 @@ export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrol
   const childHeight = child.offsetHeight + childMarginTop + childMarginBottom;
   const childTop: number = childRect.top - childMarginTop;
 
-  const offset = (document.body.scrollTop + childTop) - (document.body.scrollTop + contTop);
+  const offset = document.body.scrollTop + childTop - (document.body.scrollTop + contTop);
   const scroll = container.scrollTop;
 
   if (options.center) {
-    if ((offset + (childHeight / 2)) < (contHeight / 2)) {
-      container.scrollTop = scroll + offset - (contHeight / 2) + (childHeight / 2);
+    if (offset + childHeight / 2 < contHeight / 2) {
+      container.scrollTop = scroll + offset - contHeight / 2 + childHeight / 2;
     } else {
-      container.scrollTop = scroll + offset - contHeight + childHeight + (contHeight / 2) - (childHeight / 2);
+      container.scrollTop = scroll + offset - contHeight + childHeight + contHeight / 2 - childHeight / 2;
     }
   } else if (offset < 0) {
     container.scrollTop = scroll + offset - (options.offset > 0 ? options.offset : 0);
-  } else if ((offset + childHeight) > contHeight) {
+  } else if (offset + childHeight > contHeight) {
     container.scrollTop = scroll + offset - contHeight + childHeight + (options.offset > 0 ? options.offset : 0);
   }
 }

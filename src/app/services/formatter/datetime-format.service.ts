@@ -536,7 +536,7 @@ export class DateTimeFormatService {
 
     for (const char of formatPattern) {
       if ((char === hourChar || char === 'm' || char === 's') && shortPattern.indexOf(char) === -1) {
-        shortPattern += (char === hourChar ? char.toUpperCase() : char);
+        shortPattern += char === hourChar ? char.toUpperCase() : char;
       }
     }
 
