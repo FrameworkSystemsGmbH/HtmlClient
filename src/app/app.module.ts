@@ -78,4 +78,5 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
   ],
   bootstrap: [AppComponent]
 })
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class AppModule { }
