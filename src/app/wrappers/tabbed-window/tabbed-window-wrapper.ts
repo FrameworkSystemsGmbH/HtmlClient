@@ -113,7 +113,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   public getCurrentTabPageTemplate(tabPage: TabPageWrapper): TabPageTemplate {
     if (tabPage.isTabSelected()) {
       return this.getTabPageTemplateActive();
-    } else if (tabPage.getIsEditable() === false) {
+    } else if (!tabPage.getIsEditable()) {
       return this.getTabPageTemplateDisabled();
     } else {
       return this.getTabPageTemplateInactive();

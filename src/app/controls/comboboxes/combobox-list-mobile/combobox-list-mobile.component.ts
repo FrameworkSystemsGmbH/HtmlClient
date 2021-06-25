@@ -35,7 +35,7 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
   }
 
   public getArrowWidth(): number {
-    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width : 0;
+    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width as number : 0;
   }
 
   public getSelectedPk(): string {

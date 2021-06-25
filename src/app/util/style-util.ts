@@ -72,7 +72,7 @@ export function getOverflowX(scrollBars: ScrollBars, wordWrap?: boolean): string
   switch (scrollBars) {
     case ScrollBars.Both:
     case ScrollBars.Horizontal:
-      return wordWrap === true ? 'hidden' : 'auto';
+      return wordWrap ? 'hidden' : 'auto';
     default:
       return 'hidden';
   }

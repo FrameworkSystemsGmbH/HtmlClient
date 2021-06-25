@@ -67,7 +67,7 @@ export class CheckBoxWrapper extends FittedWrapper {
 
     switch (this.dataSourceType) {
       case DataSourceType.Bool:
-        val = this.value === true ? 'true' : 'false';
+        val = this.value ? 'true' : 'false';
         break;
 
       case DataSourceType.Decimal:
@@ -77,7 +77,7 @@ export class CheckBoxWrapper extends FittedWrapper {
       case DataSourceType.Long:
       case DataSourceType.Short:
       case DataSourceType.String:
-        val = this.value === true ? '1' : '0';
+        val = this.value ? '1' : '0';
         break;
 
       default:

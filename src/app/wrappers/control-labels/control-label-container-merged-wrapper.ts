@@ -68,7 +68,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
 
     labelWrappers.forEach(labelWrapper => {
       if (labelWrapper instanceof ControlLabelSeparatorWrapper) {
-        const separatorWrp: ControlLabelSeparatorWrapper = labelWrapper as ControlLabelSeparatorWrapper;
+        const separatorWrp: ControlLabelSeparatorWrapper = labelWrapper;
         separatorWrp.setVisibility(visibility);
       }
     });
@@ -80,7 +80,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
     // Trim separators from start
     for (const visibleWrp of visibleWrappers) {
       if (visibleWrp instanceof ControlLabelSeparatorWrapper) {
-        const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp as ControlLabelSeparatorWrapper;
+        const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp;
         separatorWrp.setVisibility(Visibility.Collapsed);
       } else {
         break;
@@ -91,7 +91,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
     for (let i = visibleWrappers.length - 1; i >= 0; i--) {
       const visibleWrp: ControlLabelWrapper = visibleWrappers[i];
       if (visibleWrp instanceof ControlLabelSeparatorWrapper) {
-        const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp as ControlLabelSeparatorWrapper;
+        const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp;
         separatorWrp.setVisibility(Visibility.Collapsed);
       } else {
         break;
@@ -103,7 +103,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
     for (const visibleWrp of visibleWrappers) {
       if (visibleWrp instanceof ControlLabelSeparatorWrapper) {
         if (separatorFound) {
-          const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp as ControlLabelSeparatorWrapper;
+          const separatorWrp: ControlLabelSeparatorWrapper = visibleWrp;
           separatorWrp.setVisibility(Visibility.Collapsed);
         } else {
           separatorFound = true;

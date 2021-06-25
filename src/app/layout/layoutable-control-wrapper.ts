@@ -3,7 +3,6 @@ import { VerticalAlignment } from '@app/enums/vertical-alignment';
 import { Visibility } from '@app/enums/visibility';
 import { IFieldLayoutSynchronized } from '@app/layout/field-layout/field-layout-synchronized.interface';
 import { LayoutContainerBase } from '@app/layout/layout-container-base';
-import { ILayoutableContainer } from '@app/layout/layoutable-container.interface';
 import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import { isIFieldLayoutSynchronized, isILayoutableContainer } from '@app/util/interface-util';
@@ -57,7 +56,7 @@ export class LayoutableControlWrapper {
     this.isLayoutVisible = this.visibility !== Visibility.Collapsed;
 
     if (isILayoutableContainer(control)) {
-      this.layout = (control as ILayoutableContainer).getLayout();
+      this.layout = control.getLayout();
     }
 
     if (isIFieldLayoutSynchronized(control)) {

@@ -18,7 +18,7 @@ export class ContainerLayout extends LayoutContainerBase {
   }
 
   public getControl(): ILayoutableContainer {
-    return super.getControl() as ILayoutableContainer;
+    return super.getControl();
   }
 
   private initWrappers(): void {

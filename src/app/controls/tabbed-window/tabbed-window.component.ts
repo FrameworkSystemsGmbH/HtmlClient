@@ -219,7 +219,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   public getTabClasses(tabPage: TabPageWrapper): any {
     return {
       'selected': tabPage.isTabSelected(),
-      'disabled': tabPage.getIsEditable() === false
+      'disabled': !tabPage.getIsEditable()
     };
   }
 

@@ -36,7 +36,7 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
   }
 
   public getArrowWidth(): number {
-    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width : 0;
+    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width as number : 0;
   }
 
   protected getInputValue(): string {

@@ -17,7 +17,7 @@ export class ClientDataService {
 
   public loadBrokerList(): Observable<Array<LoginBroker>> {
     return this._storageService.load(ClientDataService.BROKER_LIST).pipe(
-      map(brokerListStr => JSON.parse(brokerListStr))
+      map(brokerListStr => JSON.parse(brokerListStr) as Array<LoginBroker>)
     );
   }
 

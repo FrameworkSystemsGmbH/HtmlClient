@@ -123,7 +123,7 @@ export class WrapLayout extends LayoutContainerBase {
       while (!pendingWrappers.isEmpty()) {
         this.wrapRows.push(this.createWrapRow(pendingWrappers, availableWidth, hSpacing, container));
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
 
       /*

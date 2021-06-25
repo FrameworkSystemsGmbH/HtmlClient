@@ -178,7 +178,7 @@ export class FormsService {
       }
     });
 
-    return !JsonUtil.isEmptyObject(formsJson) ? formsJson : null;
+    return !JsonUtil.isEmptyObject(formsJson) ? formsJson as any : null;
   }
 
   public setJson(fromsJson: any): void {

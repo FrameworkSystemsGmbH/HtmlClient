@@ -151,7 +151,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
       }
 
       if (controlWrp instanceof ContainerWrapper) {
-        (controlWrp as ContainerWrapper).getControlsJson(controlsJson);
+        controlWrp.getControlsJson(controlsJson);
       }
     });
   }
@@ -192,7 +192,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     if (!control) {
       for (const subControl of this.controls) {
         if (subControl instanceof ContainerWrapper) {
-          control = (subControl as ContainerWrapper).findControlRecursive(name);
+          control = subControl.findControlRecursive(name);
           if (control) {
             return control;
           }
@@ -212,7 +212,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
       }
 
       if (controlWrp instanceof ContainerWrapper) {
-        (controlWrp as ContainerWrapper).getControlsState(controlsJson);
+        controlWrp.getControlsState(controlsJson);
       }
     });
   }

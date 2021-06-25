@@ -275,7 +275,7 @@ export class BrokerService {
             this.closeApplication();
           }
         }, err => sub.error(err), () => sub.complete());
-      } catch (err) {
+      } catch (err: unknown) {
         sub.error(err);
       }
     });

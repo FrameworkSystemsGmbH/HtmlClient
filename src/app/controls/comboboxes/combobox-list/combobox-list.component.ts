@@ -77,7 +77,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   }
 
   public getArrowWidth(): number {
-    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width : 0;
+    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width as number : 0;
   }
 
   public getSelectedPk(): string {
