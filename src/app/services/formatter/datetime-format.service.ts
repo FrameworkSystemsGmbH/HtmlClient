@@ -67,25 +67,24 @@ export class DateTimeFormatService {
     if (!String.isNullOrWhiteSpace(formatPattern)) {
       return value.format(formatPattern);
     } else if (textFormat != null) {
-      switch (textFormat) {
-        case TextFormat.DateOnlyShort:
-          return value.format(this.dateOnlyShortFormat);
-        case TextFormat.DateOnlyMedium:
-          return value.format(this.dateOnlyMediumFormat);
-        case TextFormat.DateOnlyLong:
-          return value.format(this.dateOnlyLongFormat);
-        case TextFormat.TimeOnlyShort:
-          return value.format(this.timeOnlyShortFormat);
-        case TextFormat.TimeOnlyMedium:
-          return value.format(this.timeOnlyMediumFormat);
-        case TextFormat.TimeOnlyLong:
-          return value.format(this.timeOnlyLongFormat);
-        case TextFormat.DateTimeShort:
-          return value.format(this.dateTimeShortFormat);
-        case TextFormat.DateTimeMedium:
-          return value.format(this.dateTimeMediumFormat);
-        case TextFormat.DateTimeLong:
-          return value.format(this.dateTimeLongFormat);
+      if (textFormat === TextFormat.DateOnlyShort) {
+        return value.format(this.dateOnlyShortFormat);
+      } else if (textFormat === TextFormat.DateOnlyMedium) {
+        return value.format(this.dateOnlyMediumFormat);
+      } else if (textFormat === TextFormat.DateOnlyLong) {
+        return value.format(this.dateOnlyLongFormat);
+      } else if (textFormat === TextFormat.TimeOnlyShort) {
+        return value.format(this.timeOnlyShortFormat);
+      } else if (textFormat === TextFormat.TimeOnlyMedium) {
+        return value.format(this.timeOnlyMediumFormat);
+      } else if (textFormat === TextFormat.TimeOnlyLong) {
+        return value.format(this.timeOnlyLongFormat);
+      } else if (textFormat === TextFormat.DateTimeShort) {
+        return value.format(this.dateTimeShortFormat);
+      } else if (textFormat === TextFormat.DateTimeMedium) {
+        return value.format(this.dateTimeMediumFormat);
+      } else if (textFormat === TextFormat.DateTimeLong) {
+        return value.format(this.dateTimeLongFormat);
       }
     }
 
@@ -131,34 +130,24 @@ export class DateTimeFormatService {
 
     let dateTime: Moment.Moment = null;
 
-    switch (textFormat) {
-      case TextFormat.DateOnlyShort:
-        dateTime = Moment(value, this.dateOnlyShortFormat, true);
-        break;
-      case TextFormat.DateOnlyMedium:
-        dateTime = Moment(value, this.dateOnlyMediumFormat, true);
-        break;
-      case TextFormat.DateOnlyLong:
-        dateTime = Moment(value, this.dateOnlyLongFormat, true);
-        break;
-      case TextFormat.TimeOnlyShort:
-        dateTime = Moment(value, this.timeOnlyShortFormat, true);
-        break;
-      case TextFormat.TimeOnlyMedium:
-        dateTime = Moment(value, this.timeOnlyMediumFormat, true);
-        break;
-      case TextFormat.TimeOnlyLong:
-        dateTime = Moment(value, this.timeOnlyLongFormat, true);
-        break;
-      case TextFormat.DateTimeShort:
-        dateTime = Moment(value, this.dateTimeShortFormat, true);
-        break;
-      case TextFormat.DateTimeMedium:
-        dateTime = Moment(value, this.dateTimeMediumFormat, true);
-        break;
-      case TextFormat.DateTimeLong:
-        dateTime = Moment(value, this.dateTimeLongFormat, true);
-        break;
+    if (textFormat === TextFormat.DateOnlyShort) {
+      dateTime = Moment(value, this.dateOnlyShortFormat, true);
+    } else if (textFormat === TextFormat.DateOnlyMedium) {
+      dateTime = Moment(value, this.dateOnlyMediumFormat, true);
+    } else if (textFormat === TextFormat.DateOnlyLong) {
+      dateTime = Moment(value, this.dateOnlyLongFormat, true);
+    } else if (textFormat === TextFormat.TimeOnlyShort) {
+      dateTime = Moment(value, this.timeOnlyShortFormat, true);
+    } else if (textFormat === TextFormat.TimeOnlyMedium) {
+      dateTime = Moment(value, this.timeOnlyMediumFormat, true);
+    } else if (textFormat === TextFormat.TimeOnlyLong) {
+      dateTime = Moment(value, this.timeOnlyLongFormat, true);
+    } else if (textFormat === TextFormat.DateTimeShort) {
+      dateTime = Moment(value, this.dateTimeShortFormat, true);
+    } else if (textFormat === TextFormat.DateTimeMedium) {
+      dateTime = Moment(value, this.dateTimeMediumFormat, true);
+    } else if (textFormat === TextFormat.DateTimeLong) {
+      dateTime = Moment(value, this.dateTimeLongFormat, true);
     }
 
     if (dateTime == null || !dateTime.isValid()) {
@@ -171,22 +160,12 @@ export class DateTimeFormatService {
   private parseMomentFromShortcut(value: string, textFormat: TextFormat, formatPattern: string): Moment.Moment {
     let dateTime: Moment.Moment = null;
 
-    switch (textFormat) {
-      case TextFormat.DateOnlyShort:
-      case TextFormat.DateOnlyMedium:
-      case TextFormat.DateOnlyLong:
-        dateTime = this.getDateFromShortcut(value, formatPattern);
-        break;
-      case TextFormat.TimeOnlyShort:
-      case TextFormat.TimeOnlyMedium:
-      case TextFormat.TimeOnlyLong:
-        dateTime = this.getTimeFromShortcut(value, formatPattern);
-        break;
-      case TextFormat.DateTimeShort:
-      case TextFormat.DateTimeMedium:
-      case TextFormat.DateTimeLong:
-        dateTime = this.getDateTimeFromShortcut(value, formatPattern);
-        break;
+    if (textFormat === TextFormat.DateOnlyShort || textFormat === TextFormat.DateOnlyMedium || textFormat === TextFormat.DateOnlyLong) {
+      dateTime = this.getDateFromShortcut(value, formatPattern);
+    } else if (textFormat === TextFormat.TimeOnlyShort || textFormat === TextFormat.TimeOnlyMedium || textFormat === TextFormat.TimeOnlyLong) {
+      dateTime = this.getTimeFromShortcut(value, formatPattern);
+    } else if (textFormat === TextFormat.DateTimeShort || textFormat === TextFormat.DateTimeMedium || textFormat === TextFormat.DateTimeLong) {
+      dateTime = this.getDateTimeFromShortcut(value, formatPattern);
     }
 
     if (dateTime == null || !dateTime.isValid()) {
@@ -425,7 +404,7 @@ export class DateTimeFormatService {
 
     for (let i = 0; i < value.length; i++) {
       const char: string = value.charAt(i);
-      if (this.dtShortcutSeparators.indexOf(char) >= 0) {
+      if (this.dtShortcutSeparators.includes(char)) {
         if (separatorPos == null) {
           separatorPos = i;
         } else {
@@ -502,7 +481,7 @@ export class DateTimeFormatService {
     let shortPattern: string = String.empty();
 
     for (const char of formatPattern) {
-      if ((char === 'D' || char === 'M' || char === 'Y') && shortPattern.indexOf(char) === -1) {
+      if ((char === 'D' || char === 'M' || char === 'Y') && !shortPattern.includes(char)) {
         shortPattern += char;
       }
     }
@@ -530,12 +509,12 @@ export class DateTimeFormatService {
       return null;
     }
 
-    const hourChar: string = formatPattern.indexOf('H') >= 0 ? 'H' : 'h';
+    const hourChar: string = formatPattern.includes('H') ? 'H' : 'h';
 
     let shortPattern: string = String.empty();
 
     for (const char of formatPattern) {
-      if ((char === hourChar || char === 'm' || char === 's') && shortPattern.indexOf(char) === -1) {
+      if ((char === hourChar || char === 'm' || char === 's') && !shortPattern.includes(char)) {
         shortPattern += char === hourChar ? char.toUpperCase() : char;
       }
     }

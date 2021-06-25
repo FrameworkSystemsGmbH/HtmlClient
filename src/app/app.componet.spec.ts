@@ -23,8 +23,8 @@ import { StoreModule } from '@ngrx/store';
 import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 
 describe('AppComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [
         AppComponent,
         ALL_COMPONENTS,
@@ -56,7 +56,7 @@ describe('AppComponent', () => {
         ALL_SERVICES
       ]
     }).compileComponents();
-  }));
+  });
 
   it('should create the app', waitForAsync(() => {
     const fixture = TestBed.createComponent(AppComponent);

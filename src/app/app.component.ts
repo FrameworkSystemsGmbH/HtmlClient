@@ -59,7 +59,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    SplashScreen.hide({ fadeOutDuration: 500 });
+    void SplashScreen.hide({ fadeOutDuration: 500 });
   }
 
   private createIosStyle(): any {

@@ -58,7 +58,7 @@ export class NumberFormatService {
   }
 
   private isStringChar(char: string): boolean {
-    return NumberFormatService.formatStringChars.indexOf(char) >= 0;
+    return NumberFormatService.formatStringChars.includes(char);
   }
 
   private isEscapeChar(char: string): boolean {
@@ -285,22 +285,16 @@ export class NumberFormatService {
       return null;
     }
 
-    switch (textFormat) {
-      case TextFormat.Integer:
-        valueNum = this.adjustNumberInteger(valueNum);
-        break;
-      case TextFormat.PositiveInteger:
-        valueNum = this.adjustNumberPositiveInteger(valueNum);
-        break;
-      case TextFormat.NegativeInteger:
-        valueNum = this.adjustNumberNegativeInteger(valueNum);
-        break;
-      case TextFormat.Decimal:
-      case TextFormat.UserDefined:
-        if (formatPattern) {
-          valueNum = this.adjustNumberPattern(valueNum, formatPattern);
-        }
-        break;
+    if (textFormat === TextFormat.Integer) {
+      valueNum = this.adjustNumberInteger(valueNum);
+    } else if (textFormat === TextFormat.PositiveInteger) {
+      valueNum = this.adjustNumberPositiveInteger(valueNum);
+    } else if (textFormat === TextFormat.NegativeInteger) {
+      valueNum = this.adjustNumberNegativeInteger(valueNum);
+    } else if (textFormat === TextFormat.Decimal && !String.isNullOrEmpty(formatPattern)) {
+      valueNum = this.adjustNumberPattern(valueNum, formatPattern);
+    } else if (textFormat === TextFormat.UserDefined && !String.isNullOrEmpty(formatPattern)) {
+      valueNum = this.adjustNumberPattern(valueNum, formatPattern);
     }
 
     return valueNum;
@@ -360,7 +354,7 @@ export class NumberFormatService {
 
   private getFormatInfo(format: string): NumberFormatInfo {
     let formatToDo = format;
-    const negativeFirst: boolean = formatToDo.charAt(0) === NumberFormatService.formatNegativeSign;
+    const negativeFirst: boolean = formatToDo.startsWith(NumberFormatService.formatNegativeSign);
 
     if (negativeFirst) {
       formatToDo = formatToDo.substring(1);
@@ -520,7 +514,7 @@ export class NumberFormatService {
       .replaceAll(groupSep, String.empty())
       .replaceAll(decSep, NumberFormatService.formatDecimalSeparator)
       .replace(/[^0-9\-.]/g, String.empty())
-      .replace(/^([^.]*\.)(.*)$/, (val, left, right) => left + right.replace(/\./g, String.empty()))
+      .replace(/^([^.]*\.)(.*)$/, (_val: string, left: string, right: string) => left + right.replace(/\./g, String.empty()))
       .trim();
   }
 }

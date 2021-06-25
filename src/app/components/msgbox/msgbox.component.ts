@@ -57,22 +57,16 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private onBackButton(): boolean {
-    switch (this.buttons) {
-      case MsgBoxButtons.AbortRetryIgnore:
-        this.dialogRef.close(MsgBoxResult.Abort);
-        break;
-      case MsgBoxButtons.Ok:
-        this.dialogRef.close(MsgBoxResult.Ok);
-        break;
-      case MsgBoxButtons.OkCancel:
-        this.dialogRef.close(MsgBoxResult.Cancel);
-        break;
-      case MsgBoxButtons.RetryCancel:
-        this.dialogRef.close(MsgBoxResult.Cancel);
-        break;
-      case MsgBoxButtons.YesNoCancel:
-        this.dialogRef.close(MsgBoxResult.Cancel);
-        break;
+    if (this.buttons === MsgBoxButtons.AbortRetryIgnore) {
+      this.dialogRef.close(MsgBoxResult.Abort);
+    } else if (this.buttons === MsgBoxButtons.Ok) {
+      this.dialogRef.close(MsgBoxResult.Ok);
+    } else if (this.buttons === MsgBoxButtons.OkCancel) {
+      this.dialogRef.close(MsgBoxResult.Cancel);
+    } else if (this.buttons === MsgBoxButtons.RetryCancel) {
+      this.dialogRef.close(MsgBoxResult.Cancel);
+    } else if (this.buttons === MsgBoxButtons.YesNoCancel) {
+      this.dialogRef.close(MsgBoxResult.Cancel);
     }
 
     return true;

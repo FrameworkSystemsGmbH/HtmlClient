@@ -67,6 +67,7 @@
         "no-plusplus": "off",
         "no-ternary": "off",
         "no-underscore-dangle": "off",
+        "no-void": "off",
         "object-property-newline": "off",
         "one-var": "off",
         "operator-linebreak": "off",
@@ -173,7 +174,6 @@
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-explicit-any": "off",
 
-        "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-implicit-any-catch": "off",
         "@typescript-eslint/no-parameter-properties": "off",
         "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",
@@ -185,17 +185,10 @@
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/no-unused-vars": "off",
-        "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/non-nullable-type-assertion-style": "off",
-        "@typescript-eslint/prefer-enum-initializers": "off",
-        "@typescript-eslint/prefer-for-of": "off",
-        "@typescript-eslint/prefer-includes": "off",
         "@typescript-eslint/prefer-literal-enum-member": "off",
         "@typescript-eslint/prefer-readonly": "off",
-        "@typescript-eslint/prefer-regexp-exec": "off",
-        "@typescript-eslint/prefer-string-starts-ends-with": "off",
-        "@typescript-eslint/restrict-plus-operands": "off",
-        "@typescript-eslint/switch-exhaustiveness-check": "off"
+        "@typescript-eslint/prefer-regexp-exec": "off"
       }
     },
     {

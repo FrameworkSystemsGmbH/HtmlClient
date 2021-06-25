@@ -8,7 +8,7 @@ export class ViewDocService {
 
   public viewDocument(url: string): void {
     if (!String.isNullOrWhiteSpace(url)) {
-      Browser.open({ url });
+      void Browser.open({ url });
     }
   }
 }

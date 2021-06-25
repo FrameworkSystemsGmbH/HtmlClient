@@ -18,7 +18,7 @@ export class PrintReportService {
 
   public printReport(id: string): void {
     if (!String.isNullOrWhiteSpace(id)) {
-      Browser.open({ url: `${this._reportUrl}?id=${id}` });
+      void Browser.open({ url: `${this._reportUrl}?id=${id}` });
     }
   }
 }

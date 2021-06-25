@@ -130,6 +130,7 @@ export class LinkedListTwoWay<T> {
 
     let node = this.head;
 
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < this.length; i++) {
       result.push(node.data);
       node = node.next;

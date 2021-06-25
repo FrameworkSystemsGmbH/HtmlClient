@@ -8,13 +8,13 @@ export class RoutingService {
 
   public showLogin(): void {
     if (this.router.routerState.snapshot.url !== '/') {
-      this.router.navigate(['/'], { skipLocationChange: true });
+      void this.router.navigate(['/'], { skipLocationChange: true });
     }
   }
 
   public showViewer(): void {
     if (this.router.routerState.snapshot.url !== '/viewer') {
-      this.router.navigate(['/viewer'], { skipLocationChange: true });
+      void this.router.navigate(['/viewer'], { skipLocationChange: true });
     }
   }
 }

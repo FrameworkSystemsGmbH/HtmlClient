@@ -149,11 +149,12 @@ export class FontService {
   }
 
   private getFontKey(wrapper: FittedDataWrapper): string {
-    return wrapper.getFontFamily() + this.separator + wrapper.getFontSize() + this.separator + wrapper.getFontBold();
+    return wrapper.getFontFamily() + this.separator + wrapper.getFontSize().toString() + this.separator + wrapper.getFontBold().toString();
   }
 
   private addKey(key: string, value: any): string {
-    return key + this.separator + (value == null ? '' : value.toString());
+    const valueStr: string = value == null ? '' : value.toString();
+    return key + this.separator + valueStr;
   }
 
   private getStringWidthRastered(wrapper: FittedDataWrapper, length: number, format: TextFormat, raster: number): number {

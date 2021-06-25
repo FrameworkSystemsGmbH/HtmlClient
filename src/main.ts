@@ -15,4 +15,4 @@ platformBrowserDynamic().bootstrapModule(AppModule).catch(error => console.log(e
 window.customElements.define('hc-listitem-content', ListViewItemContentWebComp);
 window.customElements.define('hc-tpl-ctrl-content', TemplateControlContentWebComp);
 
-defineCustomElements(window);
+void defineCustomElements(window);
