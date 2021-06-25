@@ -199,11 +199,8 @@
         "plugin:@angular-eslint/template/all"
       ],
       "rules": {
-        "@angular-eslint/template/accessibility-alt-text": "off",
         "@angular-eslint/template/cyclomatic-complexity": "off",
         "@angular-eslint/template/eqeqeq": "off",
-        "@angular-eslint/template/accessibility-label-for": "off",
-        "@angular-eslint/template/accessibility-label-has-associated-control": "off",
         "@angular-eslint/template/click-events-have-key-events": "off",
         "@angular-eslint/template/i18n": "off",
         "@angular-eslint/template/no-call-expression": "off",

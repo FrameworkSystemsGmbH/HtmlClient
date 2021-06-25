@@ -1,4 +1,4 @@
 <div #wrapper class="wrapper" [ngStyle]="wrapperStyle" (click)="callPicClick($event, false)" (dblclick)="callPicClick($event, true)" tabindex="-1">
-  <label *ngIf="showCaption && !!label" class="label" [ngStyle]="labelStyle">{{ label }}</label>
-  <img #image *ngIf="imageSrc" [ngClass]="imageClass" [src]="imageSrc" alt="img">
+  <label *ngIf="showCaption && !!label" class="label" [ngStyle]="labelStyle" [attr.for]="id">{{ label }}</label>
+  <img #image *ngIf="imageSrc" [ngClass]="imageClass" [src]="imageSrc" [attr.id]="id" alt="img">
 </div>

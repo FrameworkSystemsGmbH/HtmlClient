@@ -24,6 +24,7 @@ export class PictureComponent extends ControlComponent {
   @ViewChild('image')
   public imageEl: ElementRef;
 
+  public id: string;
   public label: string;
   public imageSrc: SafeUrl;
   public showCaption: boolean;
@@ -92,6 +93,7 @@ export class PictureComponent extends ControlComponent {
 
     const imageSrc: string = wrapper.getImageSrc();
 
+    this.id = wrapper.getName();
     this.label = wrapper.getCaption();
     this.imageSrc = !String.isNullOrWhiteSpace(imageSrc) ? this.sanatizer.bypassSecurityTrustUrl(imageSrc) : null;
     this.showCaption = wrapper.showCaption();
