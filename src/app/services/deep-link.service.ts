@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 
 const { App } = Plugins;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DeepLinkService {
 
   private _ready: boolean;

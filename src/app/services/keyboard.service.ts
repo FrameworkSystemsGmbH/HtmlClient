@@ -5,7 +5,7 @@ import { Plugins } from '@capacitor/core';
 
 const { Keyboard } = Plugins;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class KeyboardService {
 
   public constructor(private readonly _platformService: PlatformService) { }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as Moment from 'moment-timezone';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LocaleService {
 
   private readonly _locale: string;

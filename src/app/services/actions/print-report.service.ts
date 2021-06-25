@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 const { Browser } = Plugins;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PrintReportService {
 
   private _reportUrl: string;

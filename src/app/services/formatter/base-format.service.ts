@@ -5,7 +5,7 @@ import { DateTimeFormatService } from '@app/services/formatter/datetime-format.s
 import { NumberFormatService } from '@app/services/formatter/number-format.service';
 import { StringFormatService } from '@app/services/formatter/string-format.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BaseFormatService {
 
   public constructor(

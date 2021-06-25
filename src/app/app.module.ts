@@ -20,7 +20,6 @@ import { ALL_COMPONENTS } from '@app/components/_all.components';
 import { ALL_CONTROLS } from '@app/controls/_all.controls';
 import { ALL_DIRECTIVES } from '@app/directives/_all.direcives';
 import { ErrorService } from '@app/services/error.service';
-import { ALL_SERVICES } from '@app/services/_all.services';
 import { appReducer } from '@app/store/app.reducers';
 import { environment } from '@env/env.dev';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -75,8 +74,7 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerConfig
-    },
-    ALL_SERVICES
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -7,7 +7,7 @@ import { map, mergeMap } from 'rxjs/operators';
 
 const { Device } = Plugins;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ClientDataService {
 
   private static readonly BROKER_LIST: string = 'BrokerList';

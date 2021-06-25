@@ -11,7 +11,7 @@ import { RetryBoxResult } from '@app/enums/retrybox-result';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DialogService {
 
   public constructor(private readonly _dialog: MatDialog) { }

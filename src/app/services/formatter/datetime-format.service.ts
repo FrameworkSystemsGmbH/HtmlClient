@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TextFormat } from '@app/enums/text-format';
 import * as Moment from 'moment-timezone';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DateTimeFormatService {
 
   private readonly _jsonFormat: string = 'DD.MM.YYYY HH:mm:ss';

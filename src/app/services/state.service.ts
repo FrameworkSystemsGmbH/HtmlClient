@@ -25,7 +25,7 @@ const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
 
 const { App } = Plugins;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class StateService {
 
   private _brokerState: IBrokerState;

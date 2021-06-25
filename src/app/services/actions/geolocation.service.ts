@@ -4,7 +4,7 @@ import { GeolocationPosition, Plugins } from '@capacitor/core';
 
 const { Geolocation } = Plugins;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GeoLocationService {
 
   private _hasError: boolean;

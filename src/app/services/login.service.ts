@@ -3,7 +3,7 @@ import { LoginBroker } from '@app/common/login-broker';
 import { ClientDataService } from '@app/services/client-data.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LoginService {
 
   private readonly _brokers$$: BehaviorSubject<Array<LoginBroker>>;

@@ -3,7 +3,7 @@ import { BarcodeFormat } from '@app/enums/barcode-format';
 import { EventsService } from '@app/services/events.service';
 import { PlatformService } from '@app/services/platform.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BarcodeService {
 
   private _cancelled: boolean;

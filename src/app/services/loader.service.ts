@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { merge, Observable, Subject } from 'rxjs';
 import { auditTime, distinctUntilChanged, filter, repeat, takeUntil } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LoaderService {
 
   private static readonly LOADER_DELAY: number = 500;

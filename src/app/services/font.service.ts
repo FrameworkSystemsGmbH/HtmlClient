@@ -13,7 +13,7 @@ import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
 import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
 import * as Moment from 'moment-timezone';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class FontService {
 
   // Common constants

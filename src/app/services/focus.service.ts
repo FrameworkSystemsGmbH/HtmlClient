@@ -7,7 +7,7 @@ import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class FocusService {
 
   private _lastInput: LastInput;

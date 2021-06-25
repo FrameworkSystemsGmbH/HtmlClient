@@ -38,7 +38,7 @@ export interface IWrapperCreationOptions {
   state?: any;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ControlsService {
 
   public constructor(

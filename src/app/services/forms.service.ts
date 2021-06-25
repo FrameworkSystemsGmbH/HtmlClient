@@ -17,7 +17,7 @@ import { ControlWrapper } from '@app/wrappers/control-wrapper';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class FormsService {
 
   private _forms: Array<FormWrapper> = new Array<FormWrapper>();

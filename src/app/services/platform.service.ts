@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PlatformService {
 
   private readonly _isNative: boolean;

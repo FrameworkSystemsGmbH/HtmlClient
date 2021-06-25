@@ -4,7 +4,7 @@ import { ParseMethod } from '@app/enums/parse-method';
 import { TextFormat } from '@app/enums/text-format';
 import { LocaleService } from '@app/services/locale.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NumberFormatService {
 
   private static readonly _formatDefault: string = '#.##';

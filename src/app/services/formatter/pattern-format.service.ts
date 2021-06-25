@@ -1,7 +1,7 @@
 /* eslint-disable no-multi-spaces */
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PatternFormatService {
 
   private static readonly _javaToMomentMap: Map<string, string> = new Map<string, string>([

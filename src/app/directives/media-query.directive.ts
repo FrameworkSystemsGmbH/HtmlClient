@@ -7,7 +7,7 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
   public mediaQuery: string;
 
   @Output()
-  public mediaQueryChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+  public readonly mediaQueryChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   private _mediaQueryList: MediaQueryList;
 

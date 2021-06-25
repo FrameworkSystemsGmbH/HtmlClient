@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 
 const { Camera } = Plugins;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CameraService {
 
   private _hasError: boolean;

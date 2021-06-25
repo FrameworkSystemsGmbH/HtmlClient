@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 const { Storage } = Plugins;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export abstract class StorageService {
 
   public load(key: string): Observable<string> {

@@ -10,7 +10,7 @@ interface IListenerInfo {
   listener: () => boolean;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BackService {
 
   private readonly _listener: () => any;

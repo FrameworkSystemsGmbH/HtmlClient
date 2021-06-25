@@ -23,7 +23,7 @@ import { InternalEventCallbacks } from '@app/common/events/internal/internal-eve
 import { BarcodeFormat } from '@app/enums/barcode-format';
 import { Observable, Subject } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class EventsService {
 
   private readonly _eventFired: Subject<InternalEvent<ClientEvent>>;

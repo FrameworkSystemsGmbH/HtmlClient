@@ -18,7 +18,7 @@ export class RadioButtonComponent extends ControlComponent {
   public input: ElementRef;
 
   @Output()
-  public radioClick: EventEmitter<any>;
+  public readonly radioClick: EventEmitter<any> = new EventEmitter<any>();
 
   public id: string;
   public value: string;
@@ -65,14 +65,6 @@ export class RadioButtonComponent extends ControlComponent {
 
   public getWrapper(): RadioButtonWrapper {
     return super.getWrapper() as RadioButtonWrapper;
-  }
-
-  public setWrapper(wrapper: RadioButtonWrapper): void {
-    super.setWrapper(wrapper);
-
-    if (wrapper.hasOnClickEvent()) {
-      this.radioClick = new EventEmitter<any>();
-    }
   }
 
   protected updateData(wrapper: RadioButtonWrapper): void {

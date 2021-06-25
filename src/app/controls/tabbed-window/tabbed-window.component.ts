@@ -20,7 +20,7 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 export class TabbedWindowComponent extends ContainerComponent implements OnInit, AfterViewInit {
 
   @Output()
-  public tabClicked: EventEmitter<TabPageWrapper> = new EventEmitter<TabPageWrapper>();
+  public readonly tabClicked: EventEmitter<TabPageWrapper> = new EventEmitter<TabPageWrapper>();
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;

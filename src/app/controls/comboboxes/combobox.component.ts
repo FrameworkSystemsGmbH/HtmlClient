@@ -7,7 +7,7 @@ import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 export abstract class ComboBoxComponent extends ControlComponent {
 
   @Output()
-  public selectionChanged: EventEmitter<any>;
+  public readonly selectionChanged: EventEmitter<any> = new EventEmitter<any>();
 
   public entries: DataList;
   public selectedIndex: number;
@@ -40,13 +40,6 @@ export abstract class ComboBoxComponent extends ControlComponent {
 
   public getWrapper(): ComboBoxWrapper {
     return super.getWrapper() as ComboBoxWrapper;
-  }
-
-  public setWrapper(wrapper: ComboBoxWrapper): void {
-    super.setWrapper(wrapper);
-    if (wrapper.hasOnSelectionChangedEvent()) {
-      this.selectionChanged = new EventEmitter<any>();
-    }
   }
 
   protected updateWrapper(): void {

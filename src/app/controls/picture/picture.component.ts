@@ -16,7 +16,7 @@ import { PictureWrapper } from '@app/wrappers/picture-wrapper';
 export class PictureComponent extends ControlComponent {
 
   @Output()
-  public picClick: EventEmitter<ClientPictureClickEventArgs>;
+  public readonly picClick: EventEmitter<ClientPictureClickEventArgs> = new EventEmitter<ClientPictureClickEventArgs>();
 
   @ViewChild('wrapper')
   public wrapperEl: ElementRef;
@@ -78,14 +78,6 @@ export class PictureComponent extends ControlComponent {
 
   public getWrapper(): PictureWrapper {
     return super.getWrapper() as PictureWrapper;
-  }
-
-  public setWrapper(wrapper: PictureWrapper): void {
-    super.setWrapper(wrapper);
-
-    if (wrapper.hasOnClickEvent()) {
-      this.picClick = new EventEmitter<any>();
-    }
   }
 
   protected updateData(wrapper: PictureWrapper): void {

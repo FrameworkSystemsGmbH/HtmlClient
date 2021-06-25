@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 
 const DEFAULT_TITLE: string = 'HTML Client';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TitleService {
 
   private _currentTitle: string;

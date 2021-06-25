@@ -8,10 +8,10 @@ import { ControlWrapper } from '@app/wrappers/control-wrapper';
 export abstract class ControlComponent extends LayoutableComponent {
 
   @Output()
-  public ctrlEnter: EventEmitter<any>;
+  public readonly ctrlEnter: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
-  public ctrlLeave: EventEmitter<any>;
+  public readonly ctrlLeave: EventEmitter<any> = new EventEmitter<any>();
 
   public isVisible: boolean;
   public isEditable: boolean;
@@ -74,18 +74,6 @@ export abstract class ControlComponent extends LayoutableComponent {
 
   public getWrapper(): ControlWrapper {
     return super.getWrapper() as ControlWrapper;
-  }
-
-  public setWrapper(wrapper: ControlWrapper): void {
-    super.setWrapper(wrapper);
-
-    if (wrapper.hasOnEnterEvent()) {
-      this.ctrlEnter = new EventEmitter<any>();
-    }
-
-    if (wrapper.hasOnLeaveEvent()) {
-      this.ctrlLeave = new EventEmitter<any>();
-    }
   }
 
   protected updateData(wrapper: ControlWrapper): void {

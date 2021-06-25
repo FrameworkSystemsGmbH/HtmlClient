@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FrameComponent } from '@app/components/frame/frame.component';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class FramesService {
 
   private readonly _frames: Array<FrameComponent> = new Array<FrameComponent>();

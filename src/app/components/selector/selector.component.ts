@@ -54,7 +54,7 @@ export class SelectorComponent implements OnInit {
   }
 
   @Output()
-  public checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  public readonly checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   public isDisabledAttr: boolean;
   public wrapperStyle: any;

@@ -178,8 +178,6 @@
           }
         ],
         "@angular-eslint/prefer-on-push-component-change-detection": "off",
-        "@angular-eslint/prefer-output-readonly": "off",
-        "@angular-eslint/use-injectable-provided-in": "off",
         "no-undefined": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-explicit-any": "off",
@@ -199,9 +197,9 @@
         "plugin:@angular-eslint/template/all"
       ],
       "rules": {
+        "@angular-eslint/template/click-events-have-key-events": "off",
         "@angular-eslint/template/cyclomatic-complexity": "off",
         "@angular-eslint/template/eqeqeq": "off",
-        "@angular-eslint/template/click-events-have-key-events": "off",
         "@angular-eslint/template/i18n": "off",
         "@angular-eslint/template/no-call-expression": "off",
         "@angular-eslint/template/use-track-by-function": "off"

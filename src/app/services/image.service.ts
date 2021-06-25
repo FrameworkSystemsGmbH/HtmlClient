@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { selectBrokerFilesUrl } from '@app/store/broker/broker.selectors';
 import { Store } from '@ngrx/store';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ImageService {
 
   private _filesUrl: string;

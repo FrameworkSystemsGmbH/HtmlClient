@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PropertyData } from '@app/common/property-data';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ControlStyleService {
 
   private _controlStyles: Map<string, PropertyData> = new Map<string, PropertyData>();

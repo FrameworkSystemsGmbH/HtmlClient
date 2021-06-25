@@ -39,7 +39,7 @@ import { concatMap, map, mergeMap, retryWhen, tap } from 'rxjs/operators';
 
 const { WebViewCache } = Plugins;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BrokerService {
 
   private static readonly SESSION_DATA_DISCARD: string = 'DISCARD';

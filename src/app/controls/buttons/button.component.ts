@@ -9,7 +9,7 @@ import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
 export abstract class ButtonComponent extends ControlComponent {
 
   @Output()
-  public btnClick: EventEmitter<any>;
+  public readonly btnClick: EventEmitter<any> = new EventEmitter<any>();
 
   public caption: string;
   public mapEnterToTab: boolean;
@@ -40,14 +40,6 @@ export abstract class ButtonComponent extends ControlComponent {
 
   public getWrapper(): ButtonBaseWrapper {
     return super.getWrapper() as ButtonBaseWrapper;
-  }
-
-  public setWrapper(wrapper: ButtonBaseWrapper): void {
-    super.setWrapper(wrapper);
-
-    if (wrapper.hasOnClickEvent()) {
-      this.btnClick = new EventEmitter<any>();
-    }
   }
 
   protected updateData(wrapper: ButtonBaseWrapper): void {
