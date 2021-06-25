@@ -1,4 +1,4 @@
-import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { ParseMethod } from '@app/enums/parse-method';
 import { TextFormat } from '@app/enums/text-format';

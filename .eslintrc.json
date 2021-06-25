@@ -131,6 +131,14 @@
         "@typescript-eslint/no-extraneous-class": "off",
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-magic-numbers": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "args": "none"
+          }
+        ],
+        "@typescript-eslint/non-nullable-type-assertion-style": "off",
+        "@typescript-eslint/prefer-literal-enum-member": "off",
         "@typescript-eslint/prefer-optional-chain": "off",
         "@typescript-eslint/prefer-readonly-parameter-types": "off",
         "@typescript-eslint/prefer-regexp-exec": "off",
@@ -183,10 +191,7 @@
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unsafe-call": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
-        "@typescript-eslint/no-unsafe-return": "off",
-        "@typescript-eslint/no-unused-vars": "off",
-        "@typescript-eslint/non-nullable-type-assertion-style": "off",
-        "@typescript-eslint/prefer-literal-enum-member": "off"
+        "@typescript-eslint/no-unsafe-return": "off"
       }
     },
     {

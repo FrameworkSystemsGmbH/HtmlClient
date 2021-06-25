@@ -730,11 +730,11 @@ export class PropertyStore {
 
   // FontFamily
   public getFontFamily(): string {
-    return this.getValue<string>((data: PropertyData) => DEFAULT_FONT);
+    return DEFAULT_FONT;
   }
 
   public getFontFamilyForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => DEFAULT_FONT);
+    return DEFAULT_FONT;
   }
 
   public setFontFamily(layer: PropertyLayer, value: string): void {

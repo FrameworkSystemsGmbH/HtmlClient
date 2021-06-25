@@ -1,4 +1,4 @@
-import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
 import { ParseMethod } from '@app/enums/parse-method';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';

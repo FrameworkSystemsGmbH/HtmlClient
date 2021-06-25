@@ -1,4 +1,4 @@
-import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComboBoxListMobileOverlayComponent } from '@app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile-overlay.component';
 import { ComboBoxMobileComponent } from '@app/controls/comboboxes/combobox-mobile.component';

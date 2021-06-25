@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ComboBoxDesktopComponent } from '@app/controls/comboboxes/combobox-desktop.component';
 import * as DomUtil from '@app/util/dom-util';
 import * as KeyUtil from '@app/util/key-util';

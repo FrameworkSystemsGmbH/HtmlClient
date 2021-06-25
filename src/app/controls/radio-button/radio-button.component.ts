@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Injector, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as DomUtil from '@app/util/dom-util';

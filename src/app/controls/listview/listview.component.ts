@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Injector, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
 import { ListViewItemArrangement } from '@app/enums/listview-item-arrangement';
 import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
