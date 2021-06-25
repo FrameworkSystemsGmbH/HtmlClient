@@ -42,8 +42,8 @@ export interface IWrapperCreationOptions {
 export class ControlsService {
 
   public constructor(
-    private injector: Injector,
-    private controlStyleService: ControlStyleService
+    private readonly injector: Injector,
+    private readonly controlStyleService: ControlStyleService
   ) { }
 
   public createWrapperFromType(controlType: ControlType, options: IWrapperCreationOptions): ControlWrapper {

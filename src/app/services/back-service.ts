@@ -13,14 +13,15 @@ interface IListenerInfo {
 @Injectable()
 export class BackService {
 
-  private _listener: () => any;
+  private readonly _listener: () => any;
+
   private _listenerSub: PluginListenerHandle;
   private _listeners: Array<IListenerInfo> = new Array<IListenerInfo>();
 
 
   public constructor(
-    private _zone: NgZone,
-    private _platformService: PlatformService
+    private readonly _zone: NgZone,
+    private readonly _platformService: PlatformService
   ) {
     this._listener = this.onBackButton.bind(this);
   }

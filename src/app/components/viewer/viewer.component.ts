@@ -18,8 +18,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private _loadingChangedSub: Subscription;
 
   public constructor(
-    private _formsService: FormsService,
-    private _loaderService: LoaderService
+    private readonly _formsService: FormsService,
+    private readonly _loaderService: LoaderService
   ) { }
 
   public ngOnInit(): void {

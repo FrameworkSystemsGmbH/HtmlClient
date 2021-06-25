@@ -26,8 +26,8 @@ export class RetryBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   private onBackButtonListener: () => boolean;
 
   public constructor(
-    private backService: BackService,
-    private dialogRef: MatDialogRef<RetryBoxComponent>,
+    private readonly backService: BackService,
+    private readonly dialogRef: MatDialogRef<RetryBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IRetryBoxData
   ) {
     this.title = data.title;

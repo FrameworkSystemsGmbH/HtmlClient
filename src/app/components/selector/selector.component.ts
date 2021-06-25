@@ -64,7 +64,7 @@ export class SelectorComponent implements OnInit {
   private visibleValue: boolean;
   private checkedValue: boolean;
 
-  public constructor(private platformService: PlatformService) { }
+  public constructor(private readonly platformService: PlatformService) { }
 
   public ngOnInit(): void {
     this.setWrapperStyle();

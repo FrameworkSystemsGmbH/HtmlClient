@@ -37,11 +37,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   private lastSessionInfoSub: Subscription;
 
   public constructor(
-    private titleService: TitleService,
-    private loginService: LoginService,
-    private brokerService: BrokerService,
-    private stateService: StateService,
-    private store: Store) { }
+    private readonly titleService: TitleService,
+    private readonly loginService: LoginService,
+    private readonly brokerService: BrokerService,
+    private readonly stateService: StateService,
+    private readonly store: Store) { }
 
   public ngOnInit(): void {
     this.brokerValidator = this.createBrokerValidator(this.loginService);

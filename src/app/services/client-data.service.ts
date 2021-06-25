@@ -13,7 +13,7 @@ export class ClientDataService {
   private static readonly BROKER_LIST: string = 'BrokerList';
   private static readonly SESSION_DATA: string = 'SessionData';
 
-  public constructor(private _storageService: StorageService) { }
+  public constructor(private readonly _storageService: StorageService) { }
 
   public loadBrokerList(): Observable<Array<LoginBroker>> {
     return this._storageService.load(ClientDataService.BROKER_LIST).pipe(

@@ -13,9 +13,9 @@ export class BarcodeService {
   private _format: BarcodeFormat;
 
   public constructor(
-    private _zone: NgZone,
-    private _eventsService: EventsService,
-    private _platformService: PlatformService
+    private readonly _zone: NgZone,
+    private readonly _eventsService: EventsService,
+    private readonly _platformService: PlatformService
   ) { }
 
   public scan(format: BarcodeFormat): void {

@@ -9,9 +9,9 @@ import { StringFormatService } from '@app/services/formatter/string-format.servi
 export class BaseFormatService {
 
   public constructor(
-    private dateTimeFormatService: DateTimeFormatService,
-    private numberFormatService: NumberFormatService,
-    private stringFormatService: StringFormatService
+    private readonly dateTimeFormatService: DateTimeFormatService,
+    private readonly numberFormatService: NumberFormatService,
+    private readonly stringFormatService: StringFormatService
   ) { }
 
   public formatString(value: string, parseMethod: ParseMethod, format: TextFormat, formatPattern: string): string {

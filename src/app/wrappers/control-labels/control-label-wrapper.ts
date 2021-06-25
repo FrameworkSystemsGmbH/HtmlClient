@@ -22,11 +22,12 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   protected fittedWidth: number;
   protected fittedHeight: number;
 
-  private name: string;
+  private readonly name: string;
+  private readonly labelProvider: IControlLabelProvider;
+  private readonly labelTemplate: ControlLabelTemplate;
+  private readonly fieldRowWrp: FieldRowWrapper;
+
   private displayCaption: string;
-  private labelProvider: IControlLabelProvider;
-  private labelTemplate: ControlLabelTemplate;
-  private fieldRowWrp: FieldRowWrapper;
   private vchControl: VchControl;
   private layout: LayoutBase;
   private layoutableProperties: LayoutableProperties;

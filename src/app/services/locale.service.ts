@@ -4,8 +4,8 @@ import * as Moment from 'moment-timezone';
 @Injectable()
 export class LocaleService {
 
-  private locale: string;
-  private timeZone: string;
+  private readonly locale: string;
+  private readonly timeZone: string;
 
   public constructor() {
     const browserTimeZone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;

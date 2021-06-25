@@ -10,34 +10,35 @@ import { isIFieldLayoutSynchronized, isILayoutableContainer } from '@app/util/in
 
 export class LayoutableControlWrapper {
 
-  private name: string;
+  private readonly name: string;
 
-  private minLayoutWidth: number;
   private minLayoutHeight: number;
-  private maxLayoutWidth: number;
-  private maxLayoutHeight: number;
-  private marginLeft: number;
-  private marginRight: number;
-  private marginTop: number;
-  private marginBottom: number;
-  private dockItemSize: number;
 
-  private visibility: Visibility;
-  private isControlVisible: boolean;
-  private isLayoutVisible: boolean;
-  private isSynchronizedHidden: boolean;
+  private readonly minLayoutWidth: number;
+  private readonly maxLayoutWidth: number;
+  private readonly maxLayoutHeight: number;
+  private readonly marginLeft: number;
+  private readonly marginRight: number;
+  private readonly marginTop: number;
+  private readonly marginBottom: number;
+  private readonly dockItemSize: number;
 
-  private hAlign: HorizontalAlignment;
-  private vAlign: VerticalAlignment;
+  private readonly visibility: Visibility;
+  private readonly isControlVisible: boolean;
+  private readonly isLayoutVisible: boolean;
+  private readonly isSynchronizedHidden: boolean;
 
-  private layoutableProperties: ILayoutableProperties;
+  private readonly hAlign: HorizontalAlignment;
+  private readonly vAlign: VerticalAlignment;
+
+  private readonly layoutableProperties: ILayoutableProperties;
 
   private resultWdith: number;
   private resultHeight: number;
 
-  private layout: LayoutContainerBase;
+  private readonly layout: LayoutContainerBase;
 
-  public constructor(private control: ILayoutableControl) {
+  public constructor(private readonly control: ILayoutableControl) {
     this.name = control.getName();
     this.layoutableProperties = control.getLayoutableProperties();
     this.minLayoutWidth = control.getMinLayoutWidth();

@@ -10,7 +10,7 @@ import { FieldRowWrapper } from '@app/wrappers/field-row-wrapper';
 
 export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBaseWrapper {
 
-  private injector: Injector;
+  private readonly injector: Injector;
 
   public constructor(injector: Injector, options: IControlLabelContainerBaseWrapperOptions) {
     super(injector, options);

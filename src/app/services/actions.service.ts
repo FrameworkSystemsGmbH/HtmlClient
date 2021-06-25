@@ -17,12 +17,12 @@ export class ActionsService {
   private _focusActions: Array<() => void>;
 
   public constructor(
-    private _barcodeService: BarcodeService,
-    private _formsService: FormsService,
-    private _geoLocationService: GeoLocationService,
-    private _cameraService: CameraService,
-    private _printReportService: PrintReportService,
-    private _viewDocService: ViewDocService
+    private readonly _barcodeService: BarcodeService,
+    private readonly _formsService: FormsService,
+    private readonly _geoLocationService: GeoLocationService,
+    private readonly _cameraService: CameraService,
+    private readonly _printReportService: PrintReportService,
+    private readonly _viewDocService: ViewDocService
   ) { }
 
   public processActions(actionsJson: any): void {

@@ -4,7 +4,7 @@ import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label
 
 export class ControlLabelSeparatorProvider implements IControlLabelProvider {
 
-  private rowLabelTemplate: ControlLabelTemplate;
+  private readonly rowLabelTemplate: ControlLabelTemplate;
 
   public constructor(rowLabelTemplate: ControlLabelTemplate) {
     this.rowLabelTemplate = rowLabelTemplate;

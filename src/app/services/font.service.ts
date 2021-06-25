@@ -44,9 +44,9 @@ export class FontService {
   private baseControlStyle: PropertyStore;
 
   public constructor(
-    private controlStyleService: ControlStyleService,
-    private numberFormatService: NumberFormatService,
-    private dateTimeFormatService: DateTimeFormatService
+    private readonly controlStyleService: ControlStyleService,
+    private readonly numberFormatService: NumberFormatService,
+    private readonly dateTimeFormatService: DateTimeFormatService
   ) {
     this.span = document.getElementById('measureHeightSpan');
     this.canvas = document.createElement('canvas');

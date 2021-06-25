@@ -21,8 +21,8 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
   private onBackButtonListener: () => boolean;
 
   public constructor(
-    private _backService: BackService,
-    private _formsService: FormsService
+    private readonly _backService: BackService,
+    private readonly _formsService: FormsService
   ) { }
 
   public ngOnInit(): void {

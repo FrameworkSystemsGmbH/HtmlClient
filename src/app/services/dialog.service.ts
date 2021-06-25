@@ -14,7 +14,7 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class DialogService {
 
-  public constructor(private dialog: MatDialog) { }
+  public constructor(private readonly dialog: MatDialog) { }
 
   public showErrorBox(data: IErrorBoxData): Observable<void> {
     const dialogRef: MatDialogRef<ErrorBoxComponent> = this.dialog.open(ErrorBoxComponent, {

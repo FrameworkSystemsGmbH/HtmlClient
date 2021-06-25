@@ -35,10 +35,12 @@ import { Subscription } from 'rxjs';
 
 export abstract class ControlWrapper implements ILayoutableControlWrapper, IControlLabelProvider {
 
+  private readonly injector: Injector;
+  private readonly form: FormWrapper;
+  private readonly parent: ContainerWrapper;
+  private readonly controlStyle: string;
+
   private name: string;
-  private form: FormWrapper;
-  private parent: ContainerWrapper;
-  private controlStyle: string;
   private propertyStore: PropertyStore;
   private vchControl: VchControl;
   private layout: LayoutBase;
@@ -48,10 +50,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private events: ClientEventType;
   private isEditableParent: boolean;
   private visibilityParent: Visibility;
-
   private controlLabel: IControlLabelWrapper;
-
-  private injector: Injector;
   private resolver: ComponentFactoryResolver;
   private controlStyleService: ControlStyleService;
   private eventsService: EventsService;

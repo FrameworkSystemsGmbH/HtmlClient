@@ -4,7 +4,7 @@ import { FrameComponent } from '@app/components/frame/frame.component';
 @Injectable()
 export class FramesService {
 
-  private frames: Array<FrameComponent> = new Array<FrameComponent>();
+  private readonly frames: Array<FrameComponent> = new Array<FrameComponent>();
 
   public registerFrame(frame: FrameComponent): void {
     if (this.frames.filter(frameComp => frameComp === frame).length === 0) {

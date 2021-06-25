@@ -18,7 +18,8 @@ export abstract class ControlComponent extends LayoutableComponent {
   public isFocused: boolean;
   public isOutlined: boolean;
 
-  private injector: Injector;
+  private readonly injector: Injector;
+
   private focusService: FocusService;
   private cdr: ChangeDetectorRef;
 

@@ -17,9 +17,9 @@ export class CameraService {
   private _pendingResult: AppRestoredResult;
 
   public constructor(
-    private _zone: NgZone,
-    private _store: Store,
-    private _eventsService: EventsService
+    private readonly _zone: NgZone,
+    private readonly _store: Store,
+    private readonly _eventsService: EventsService
   ) {
     this._store.select(selectBrokerName).subscribe(brokerName => {
       this._brokerName = brokerName;

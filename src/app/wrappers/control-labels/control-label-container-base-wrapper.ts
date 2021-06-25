@@ -27,14 +27,15 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
 
   protected readonly propError: string = 'This property should not get called!';
 
-  private name: string;
+  private readonly name: string;
+  private readonly fieldRowWrp: FieldRowWrapper;
+  private readonly rowLabelTemplate: ControlLabelTemplate;
+
   private vchControl: VchControl;
   private layout: LayoutContainerBase;
   private layoutableProperties: LayoutableProperties;
   private componentRef: ComponentRef<ControlLabelContainerComponent>;
   private labelWrappers: Array<ControlLabelWrapper>;
-  private fieldRowWrp: FieldRowWrapper;
-  private rowLabelTemplate: ControlLabelTemplate;
 
   private readonly resolver: ComponentFactoryResolver;
 

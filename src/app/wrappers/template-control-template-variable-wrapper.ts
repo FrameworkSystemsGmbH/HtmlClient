@@ -8,9 +8,9 @@ export interface ITemplateControlTemplateVariableWrapperOptions {
 
 export class TemplateControlTemplateVariableWrapper {
 
-  private dataSource: TemplateControlTemplateDataSourceWrapper;
-  private format: TextFormat;
-  private formatPattern: string;
+  private readonly dataSource: TemplateControlTemplateDataSourceWrapper;
+  private readonly format: TextFormat;
+  private readonly formatPattern: string;
 
   public constructor(dataSource: TemplateControlTemplateDataSourceWrapper, options?: ITemplateControlTemplateVariableWrapperOptions) {
     this.dataSource = dataSource;

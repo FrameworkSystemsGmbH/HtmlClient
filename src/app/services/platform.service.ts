@@ -4,12 +4,12 @@ import { Capacitor } from '@capacitor/core';
 @Injectable()
 export class PlatformService {
 
-  private _isNative: boolean;
-  private _isAndroid: boolean;
-  private _isIos: boolean;
+  private readonly _isNative: boolean;
+  private readonly _isAndroid: boolean;
+  private readonly _isIos: boolean;
 
-  private _os: string;
-  private _osVersion: string;
+  private readonly _os: string;
+  private readonly _osVersion: string;
 
   public constructor() {
     this._isNative = Capacitor.isNative;

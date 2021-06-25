@@ -1,7 +1,7 @@
 export class DataListEntry {
 
-  private pk: string;
-  private value: string;
+  private readonly pk: string;
+  private readonly value: string;
 
   public constructor(pk: string, value: string) {
     this.pk = pk;

@@ -11,8 +11,8 @@ export class FieldLayoutCell {
   private resultWidth: number;
 
   public constructor(
-    private wrapper: LayoutableControlWrapper,
-    private rowlabelTemplate: ILayoutableControlLabelTemplate
+    private readonly wrapper: LayoutableControlWrapper,
+    private readonly rowlabelTemplate: ILayoutableControlLabelTemplate
   ) { }
 
   public isVisible(): boolean {

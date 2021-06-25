@@ -22,7 +22,7 @@ export class BlockerComponent implements OnInit, OnDestroy {
 
   public showIndicator: boolean = false;
 
-  private _showIndicatorSub: Subscription;
+  private readonly _showIndicatorSub: Subscription;
 
   public ngOnInit(): void {
     EMPTY.pipe(delay(BlockerComponent.SHOW_DELAY)).subscribe(

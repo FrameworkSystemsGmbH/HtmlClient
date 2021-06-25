@@ -9,11 +9,11 @@ import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper
 
 export class FieldLayoutRow {
 
-  private cells: Array<FieldLayoutCell>;
-  private size: number;
-  private labelMode: FieldRowLabelMode;
-  private hasFirstColumnControl: boolean;
-  private stretchable: boolean;
+  private readonly cells: Array<FieldLayoutCell>;
+  private readonly size: number;
+  private readonly labelMode: FieldRowLabelMode;
+  private readonly hasFirstColumnControl: boolean;
+  private readonly stretchable: boolean;
 
   private minRowHeight: number;
   private resultRowHeight: number;

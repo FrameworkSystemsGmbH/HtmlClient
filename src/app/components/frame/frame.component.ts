@@ -21,9 +21,9 @@ export class FrameComponent implements OnInit, OnDestroy {
   private selectedFormSub: Subscription;
 
   public constructor(
-    private zone: NgZone,
-    private formsService: FormsService,
-    private framesService: FramesService
+    private readonly zone: NgZone,
+    private readonly formsService: FormsService,
+    private readonly framesService: FramesService
   ) { }
 
   @HostListener('window:resize')

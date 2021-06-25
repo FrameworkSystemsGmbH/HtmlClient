@@ -7,8 +7,8 @@ export class LoaderService {
 
   private static readonly LOADER_DELAY: number = 500;
 
-  private _onLoadingChanged$$: Subject<boolean>;
-  private _onLoadingChangedDelayed$: Observable<boolean>;
+  private readonly _onLoadingChanged$$: Subject<boolean>;
+  private readonly _onLoadingChangedDelayed$: Observable<boolean>;
 
   public constructor() {
     this._onLoadingChanged$$ = new Subject<boolean>();

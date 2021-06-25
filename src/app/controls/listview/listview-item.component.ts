@@ -17,8 +17,8 @@ import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
 })
 export class ListViewItemComponent implements OnInit, OnDestroy {
 
-  private static minSelectorSize: number = 12;
-  private static maxSelectorSize: number = 20;
+  private static readonly minSelectorSize: number = 12;
+  private static readonly maxSelectorSize: number = 20;
 
   @ViewChild('selector', { read: ElementRef, static: true })
   public selector: ElementRef;
@@ -43,9 +43,9 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   private listViewWrapper: ListViewWrapper;
 
   public constructor(
-    private baseFormatService: BaseFormatService,
-    private platformService: PlatformService,
-    private framesService: FramesService
+    private readonly baseFormatService: BaseFormatService,
+    private readonly platformService: PlatformService,
+    private readonly framesService: FramesService
   ) { }
 
   public get selected(): boolean {

@@ -2,9 +2,9 @@ import { TextFormat } from '@app/enums/text-format';
 
 export class TemplateControlValueWrapper {
 
-  private _value: string;
-  private _format: TextFormat;
-  private _formatPattern: string;
+  private readonly _value: string;
+  private readonly _format: TextFormat;
+  private readonly _formatPattern: string;
 
   public constructor(value: string, format: TextFormat, formatPattern: string) {
     this._value = value;

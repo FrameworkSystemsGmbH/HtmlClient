@@ -44,7 +44,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   private keyDownSub: Subscription;
   private inputSub: Subscription;
 
-  private regEx: RegExp = /([a-z]|\d)/i;
+  private readonly regEx: RegExp = /([a-z]|\d)/i;
 
   public ngAfterViewInit(): void {
     this.regEx.compile();

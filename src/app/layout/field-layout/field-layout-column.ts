@@ -3,10 +3,10 @@ import { FieldLayoutCell } from '@app/layout/field-layout/field-layout-cell';
 
 export class FieldLayoutColumn {
 
-  private cells: Array<FieldLayoutCell>;
-  private minColumnWidth: number;
-  private maxColumnWidth: number;
-  private horizontalStretchable: boolean;
+  private readonly cells: Array<FieldLayoutCell>;
+  private readonly minColumnWidth: number;
+  private readonly maxColumnWidth: number;
+  private readonly horizontalStretchable: boolean;
 
   private resultColumnWidth: number;
   private minColumnHeight: number;

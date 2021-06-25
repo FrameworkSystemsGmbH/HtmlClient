@@ -15,8 +15,8 @@ export class DialogResizeDirective implements OnInit {
   public ignoreHeight: boolean;
 
   public constructor(
-    private elRef: ElementRef,
-    private renderer: Renderer2
+    private readonly elRef: ElementRef,
+    private readonly renderer: Renderer2
   ) { }
 
   @HostListener('window:keyboardDidShow')

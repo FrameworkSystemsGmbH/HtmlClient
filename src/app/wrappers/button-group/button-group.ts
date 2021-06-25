@@ -2,13 +2,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export class ButtonGroup {
 
-  private _groupName: string;
+  private readonly _groupName: string;
 
   private _value: string;
   private _orgValue: string;
 
-  private _onValueChanged: BehaviorSubject<string>;
-  private _onValueChanged$: Observable<string>;
+  private readonly _onValueChanged: BehaviorSubject<string>;
+  private readonly _onValueChanged$: Observable<string>;
 
   public constructor(groupName: string) {
     this._groupName = groupName;

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class RoutingService {
 
-  public constructor(private router: Router) { }
+  public constructor(private readonly router: Router) { }
 
   public showLogin(): void {
     if (this.router.routerState.snapshot.url !== '/') {

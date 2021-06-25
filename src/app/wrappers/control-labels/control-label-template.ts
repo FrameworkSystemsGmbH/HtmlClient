@@ -4,7 +4,7 @@ import { ILayoutableControlLabelTemplate } from '@app/layout/layoutable-control-
 
 export class ControlLabelTemplate implements ILayoutableControlLabelTemplate {
 
-  private propertyStore: PropertyStore;
+  private readonly propertyStore: PropertyStore;
 
   public constructor(propertyStore: PropertyStore) {
     this.propertyStore = propertyStore;

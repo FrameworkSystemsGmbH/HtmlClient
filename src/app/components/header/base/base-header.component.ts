@@ -88,24 +88,24 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   private formsSub: Subscription;
   private selectedFormSub: Subscription;
 
-  private visibleClass: string = 'arrowVisible';
-
   private scrollLeftInterval: any;
   private scrollRightInterval: any;
 
-  private scrollDelta: number = 100;
-  private scrollAnimationTime: number = 250;
-  private scrollAutoHideDelay: number = 500;
+  private readonly visibleClass: string = 'arrowVisible';
+
+  private readonly scrollDelta: number = 100;
+  private readonly scrollAnimationTime: number = 250;
+  private readonly scrollAutoHideDelay: number = 500;
 
 
   public constructor(
-    private zone: NgZone,
-    private renderer: Renderer2,
-    private eventsService: EventsService,
-    private formsService: FormsService,
-    private platformService: PlatformService,
-    private titleService: TitleService,
-    private store: Store
+    private readonly zone: NgZone,
+    private readonly renderer: Renderer2,
+    private readonly eventsService: EventsService,
+    private readonly formsService: FormsService,
+    private readonly platformService: PlatformService,
+    private readonly titleService: TitleService,
+    private readonly store: Store
   ) {
     this.scrollerOptions = {
       className: 'os-thin',

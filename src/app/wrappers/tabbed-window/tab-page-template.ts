@@ -3,8 +3,8 @@ import { FontService } from '@app/services/font.service';
 
 export class TabPageTemplate {
 
-  private propertyStore: PropertyStore;
-  private fontService: FontService;
+  private readonly propertyStore: PropertyStore;
+  private readonly fontService: FontService;
 
   public constructor(propertyStore: PropertyStore, fontService: FontService) {
     this.propertyStore = propertyStore;

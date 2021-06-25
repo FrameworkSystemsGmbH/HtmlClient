@@ -65,14 +65,15 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   private imageService: ImageService;
   private platformService: PlatformService;
 
-  private visibleClass: string = 'arrowVisible';
 
   private scrollLeftInterval: any;
   private scrollRightInterval: any;
 
-  private scrollDelta: number = 100;
-  private scrollAnimationTime: number = 250;
-  private scrollAutoHideDelay: number = 500;
+  private readonly visibleClass: string = 'arrowVisible';
+
+  private readonly scrollDelta: number = 100;
+  private readonly scrollAnimationTime: number = 250;
+  private readonly scrollAutoHideDelay: number = 500;
 
   public constructor(injector: Injector) {
     super(injector);

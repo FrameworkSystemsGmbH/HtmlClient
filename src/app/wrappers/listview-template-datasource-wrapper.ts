@@ -2,8 +2,8 @@ import { DataSourceType } from '@app/enums/datasource-type';
 
 export class ListViewTemplateDataSourceWrapper {
 
-  private name: string;
-  private dataSourceType: DataSourceType;
+  private readonly name: string;
+  private readonly dataSourceType: DataSourceType;
 
   public constructor(name: string, dataSourceType: DataSourceType) {
     this.name = name;

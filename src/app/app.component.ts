@@ -25,14 +25,14 @@ export class AppComponent implements OnInit, AfterViewInit {
   public style: any;
 
   public constructor(
-    private backService: BackService,
-    private deepLinkService: DeepLinkService,
-    private focusService: FocusService,
-    private localeService: LocaleService,
-    private keyboardService: KeyboardService,
-    private platformService: PlatformService,
-    private stateService: StateService,
-    private store: Store
+    private readonly backService: BackService,
+    private readonly deepLinkService: DeepLinkService,
+    private readonly focusService: FocusService,
+    private readonly localeService: LocaleService,
+    private readonly keyboardService: KeyboardService,
+    private readonly platformService: PlatformService,
+    private readonly stateService: StateService,
+    private readonly store: Store
   ) {
     this.backService.attachHandlers();
     this.deepLinkService.attachHandlers();

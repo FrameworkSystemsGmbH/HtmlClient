@@ -31,8 +31,8 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
   private onBackButtonListener: () => boolean;
 
   public constructor(
-    private backService: BackService,
-    private dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent>,
+    private readonly backService: BackService,
+    private readonly dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.entries = data.entries;

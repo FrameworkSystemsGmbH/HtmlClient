@@ -3,7 +3,7 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 
 export class LayoutableProperties implements ILayoutableProperties {
 
-  private wrapper: ILayoutableControlWrapper;
+  private readonly wrapper: ILayoutableControlWrapper;
 
   private x: number;
   private y: number;

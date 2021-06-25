@@ -8,9 +8,9 @@ export interface IListViewTemplateVariableWrapperOptions {
 
 export class ListViewTemplateVariableWrapper {
 
-  private dataSource: ListViewTemplateDataSourceWrapper;
-  private format: TextFormat;
-  private formatPattern: string;
+  private readonly dataSource: ListViewTemplateDataSourceWrapper;
+  private readonly format: TextFormat;
+  private readonly formatPattern: string;
 
   public constructor(dataSource: ListViewTemplateDataSourceWrapper, options?: IListViewTemplateVariableWrapperOptions) {
     this.dataSource = dataSource;

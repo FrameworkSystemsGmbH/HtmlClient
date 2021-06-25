@@ -18,8 +18,8 @@ export class GeoLocationService {
   private _timestamp: number;
 
   public constructor(
-    private _zone: NgZone,
-    private _eventsService: EventsService
+    private readonly _zone: NgZone,
+    private readonly _eventsService: EventsService
   ) { }
 
   public getGeoLocation(): void {

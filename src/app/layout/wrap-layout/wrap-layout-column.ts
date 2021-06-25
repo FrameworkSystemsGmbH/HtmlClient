@@ -6,9 +6,9 @@ export class WrapLayoutColumn {
   private resultColumnWidth: number;
 
   public constructor(
-    private wrappers: Array<LayoutableControlWrapper>,
-    private minColumnWidth: number,
-    private maxColumnWidth: number) { }
+    private readonly wrappers: Array<LayoutableControlWrapper>,
+    private readonly minColumnWidth: number,
+    private readonly maxColumnWidth: number) { }
 
   public getWrappers(): Array<LayoutableControlWrapper> {
     return this.wrappers;

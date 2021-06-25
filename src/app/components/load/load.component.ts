@@ -15,8 +15,8 @@ export class LoadComponent implements OnInit, OnDestroy {
   private queryParamsSub: Subscription;
 
   public constructor(
-    private route: ActivatedRoute,
-    private brokerService: BrokerService) { }
+    private readonly route: ActivatedRoute,
+    private readonly brokerService: BrokerService) { }
 
   public ngOnInit(): void {
     this.queryParamsSub = this.route.queryParams.subscribe(params => {

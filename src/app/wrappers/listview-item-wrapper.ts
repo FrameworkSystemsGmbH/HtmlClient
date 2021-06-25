@@ -13,13 +13,14 @@ export interface IListViewItemWrapperOptions {
 
 export class ListViewItemWrapper {
 
+  private readonly _listViewWrapper: ListViewWrapper;
+  private readonly _cfr: ComponentFactoryResolver;
+
   private _id: string;
   private _pos: number;
   private _selected: boolean;
   private _selectedOrg: boolean;
-  private _listViewWrapper: ListViewWrapper;
   private _values: Array<ListViewItemValueWrapper>;
-  private _cfr: ComponentFactoryResolver;
   private _componentRef: ComponentRef<ListViewItemComponent>;
 
   private _isNew: boolean;

@@ -44,8 +44,8 @@ export class BrokerService {
 
   private static readonly SESSION_DATA_DISCARD: string = 'DISCARD';
 
-  private _onLoginComplete: Subject<any>;
-  private _onLoginComplete$: Observable<any>;
+  private readonly _onLoginComplete: Subject<any>;
+  private readonly _onLoginComplete$: Observable<any>;
 
   private storeSub: Subscription;
   private eventFiredSub: Subscription;
@@ -62,22 +62,22 @@ export class BrokerService {
   private lastRequestTime: Moment.Moment;
 
   public constructor(
-    private httpClient: HttpClient,
-    private actionsService: ActionsService,
-    private clientDataService: ClientDataService,
-    private controlStyleSerivce: ControlStyleService,
-    private backService: BackService,
-    private dialogService: DialogService,
-    private eventsService: EventsService,
-    private formsService: FormsService,
-    private framesService: FramesService,
-    private loaderService: LoaderService,
-    private localeService: LocaleService,
-    private platformService: PlatformService,
-    private routingService: RoutingService,
-    private textsService: TextsService,
-    private titleService: TitleService,
-    private store: Store
+    private readonly httpClient: HttpClient,
+    private readonly actionsService: ActionsService,
+    private readonly clientDataService: ClientDataService,
+    private readonly controlStyleSerivce: ControlStyleService,
+    private readonly backService: BackService,
+    private readonly dialogService: DialogService,
+    private readonly eventsService: EventsService,
+    private readonly formsService: FormsService,
+    private readonly framesService: FramesService,
+    private readonly loaderService: LoaderService,
+    private readonly localeService: LocaleService,
+    private readonly platformService: PlatformService,
+    private readonly routingService: RoutingService,
+    private readonly textsService: TextsService,
+    private readonly titleService: TitleService,
+    private readonly store: Store
   ) {
     this._onLoginComplete = new Subject<any>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();

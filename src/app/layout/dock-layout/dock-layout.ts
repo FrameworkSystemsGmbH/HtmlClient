@@ -11,8 +11,8 @@ import { ILayoutableProperties } from '@app/layout/layoutable-properties.interfa
 
 export class DockLayout extends LayoutContainerBase {
 
-  private static SCROLLING_MIN_WIDTH: number = 1;
-  private static SCROLLING_MIN_HEIGHT: number = 1;
+  private static readonly SCROLLING_MIN_WIDTH: number = 1;
+  private static readonly SCROLLING_MIN_HEIGHT: number = 1;
 
   private width: number = -1;
   private isVertical: boolean = false;

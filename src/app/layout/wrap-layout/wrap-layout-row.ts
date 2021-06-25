@@ -5,9 +5,9 @@ export class WrapLayoutRow {
   private resultRowHeight: number;
 
   public constructor(
-    private wrappers: Array<LayoutableControlWrapper>,
-    private minRowHeight: number,
-    private maxRowHeight: number) { }
+    private readonly wrappers: Array<LayoutableControlWrapper>,
+    private readonly minRowHeight: number,
+    private readonly maxRowHeight: number) { }
 
   public getWrappers(): Array<LayoutableControlWrapper> {
     return this.wrappers;

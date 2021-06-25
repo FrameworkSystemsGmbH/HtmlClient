@@ -22,20 +22,20 @@ export class FormsService {
 
   private _forms: Array<FormWrapper> = new Array<FormWrapper>();
 
-  private _forms$$: BehaviorSubject<Array<FormWrapper>>;
-  private _forms$: Observable<Array<FormWrapper>>;
+  private readonly _forms$$: BehaviorSubject<Array<FormWrapper>>;
+  private readonly _forms$: Observable<Array<FormWrapper>>;
 
-  private _selectedForm$$: BehaviorSubject<FormWrapper>;
-  private _selectedForm$: Observable<FormWrapper>;
+  private readonly _selectedForm$$: BehaviorSubject<FormWrapper>;
+  private readonly _selectedForm$: Observable<FormWrapper>;
 
   private _lastOpenedForm: FormWrapper;
 
   public constructor(
-    private injector: Injector,
-    private titleService: TitleService,
-    private dialogService: DialogService,
-    private eventsService: EventsService,
-    private controlsService: ControlsService
+    private readonly injector: Injector,
+    private readonly titleService: TitleService,
+    private readonly dialogService: DialogService,
+    private readonly eventsService: EventsService,
+    private readonly controlsService: ControlsService
   ) {
     this._forms$$ = new BehaviorSubject<Array<FormWrapper>>(null);
     this._forms$ = this._forms$$.asObservable();

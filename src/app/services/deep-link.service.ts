@@ -18,11 +18,11 @@ export class DeepLinkService {
   private _pendingStartInfo: StartBrokerInfo;
 
   public constructor(
-    private _brokerService: BrokerService,
-    private _loginService: LoginService,
-    private _platformService: PlatformService,
-    private _store: Store,
-    private _zone: NgZone
+    private readonly _brokerService: BrokerService,
+    private readonly _loginService: LoginService,
+    private readonly _platformService: PlatformService,
+    private readonly _store: Store,
+    private readonly _zone: NgZone
   ) { }
 
   public attachHandlers(): void {

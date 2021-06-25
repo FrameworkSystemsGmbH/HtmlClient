@@ -1,6 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
 import { LastSessionInfo } from '@app/common/last-session-info';
-import { BarcodeService } from '@app/services/actions/barcode.service';
 import { CameraService } from '@app/services/actions/camera.service';
 import { BackService } from '@app/services/back-service';
 import { BrokerService } from '@app/services/broker.service';
@@ -32,19 +31,18 @@ export class StateService {
   private brokerState: IBrokerState;
 
   public constructor(
-    private zone: NgZone,
-    private barcodeService: BarcodeService,
-    private backService: BackService,
-    private brokerService: BrokerService,
-    private controlStyleService: ControlStyleService,
-    private formsService: FormsService,
-    private cameraService: CameraService,
-    private platformService: PlatformService,
-    private routingService: RoutingService,
-    private storageService: StorageService,
-    private store: Store,
-    private textsService: TextsService,
-    private titleService: TitleService
+    private readonly zone: NgZone,
+    private readonly backService: BackService,
+    private readonly brokerService: BrokerService,
+    private readonly controlStyleService: ControlStyleService,
+    private readonly formsService: FormsService,
+    private readonly cameraService: CameraService,
+    private readonly platformService: PlatformService,
+    private readonly routingService: RoutingService,
+    private readonly storageService: StorageService,
+    private readonly store: Store,
+    private readonly textsService: TextsService,
+    private readonly titleService: TitleService
   ) {
     this.brokerService.onLoginComplete.pipe(
       mergeMap(() => this.storageService.delete(SESSION_STORAGE_KEY))

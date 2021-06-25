@@ -27,7 +27,7 @@ const DEFAULT_FONT: string = 'Roboto, Arial, Helvetica, Verdana';
 
 export class PropertyStore {
 
-  private store: Map<PropertyLayer, PropertyData>;
+  private readonly store: Map<PropertyLayer, PropertyData>;
 
   public constructor() {
     this.store = new Map<PropertyLayer, PropertyData>();
