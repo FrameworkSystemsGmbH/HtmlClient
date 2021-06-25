@@ -32,10 +32,6 @@ export class RadioButtonComponent extends ControlComponent {
   public labelStyle: any;
   public captionStyle: any;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   public callRadioClick(event: any): void {
     this.getWrapper().fireValueChanged();
     if (this.getWrapper().hasOnClickEvent()) {

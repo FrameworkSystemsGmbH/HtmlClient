@@ -3,7 +3,7 @@ import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientSelectionChangedEvent extends ClientFormEvent {
 
-  constructor(controlName: string, formId: string) {
+  public constructor(controlName: string, formId: string) {
     super(ClientEventType[ClientEventType.OnSelectionChanged], controlName, formId);
   }
 }

@@ -30,7 +30,7 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
   private backdropClickSub: Subscription;
   private onBackButtonListener: () => boolean;
 
-  constructor(
+  public constructor(
     private backService: BackService,
     private dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any

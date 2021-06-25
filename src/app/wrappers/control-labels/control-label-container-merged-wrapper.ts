@@ -12,7 +12,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
 
   private injector: Injector;
 
-  constructor(injector: Injector, options: IControlLabelContainerBaseWrapperOptions) {
+  public constructor(injector: Injector, options: IControlLabelContainerBaseWrapperOptions) {
     super(injector, options);
     this.injector = injector;
     this.initLabels();

@@ -31,7 +31,7 @@ export class StateService {
 
   private brokerState: IBrokerState;
 
-  constructor(
+  public constructor(
     private zone: NgZone,
     private barcodeService: BarcodeService,
     private backService: BackService,

@@ -6,7 +6,7 @@ export class LinkedListTwoWay<T> {
   private head: LinkedListNode<T>;
   private tail: LinkedListNode<T>;
 
-  constructor() {
+  public constructor() {
     this.length = 0;
     this.head = null;
     this.tail = null;

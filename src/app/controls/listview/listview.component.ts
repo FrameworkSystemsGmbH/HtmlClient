@@ -58,10 +58,6 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
   private platformService: PlatformService;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   protected init(): void {
     this.platformService = this.getInjector().get(PlatformService);
   }

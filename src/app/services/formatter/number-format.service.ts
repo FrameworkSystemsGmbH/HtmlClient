@@ -21,7 +21,7 @@ export class NumberFormatService {
 
   private readonly numberFormat: Intl.NumberFormat;
 
-  constructor(private localeService: LocaleService) {
+  public constructor(private localeService: LocaleService) {
     this.numberFormat = Intl.NumberFormat(this.localeService.getLocale());
   }
 

@@ -16,10 +16,6 @@ export class DockPanelComponent extends ContainerComponent {
 
   public wrapperStyle: any;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   public getWrapper(): DockPanelWrapper {
     return super.getWrapper() as DockPanelWrapper;
   }

@@ -21,10 +21,6 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
 
   private dateTimeFormatService: DateTimeFormatService;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   protected init(): void {
     super.init();
     this.dateTimeFormatService = this.getInjector().get(DateTimeFormatService);

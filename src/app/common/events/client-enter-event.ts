@@ -3,7 +3,7 @@ import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientEnterEvent extends ClientFormEvent {
 
-  constructor(controlName: string, formId: string) {
+  public constructor(controlName: string, formId: string) {
     super(ClientEventType[ClientEventType.OnEnter], controlName, formId);
   }
 }

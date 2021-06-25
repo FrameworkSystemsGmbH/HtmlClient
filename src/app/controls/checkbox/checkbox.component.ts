@@ -30,10 +30,6 @@ export class CheckBoxComponent extends ControlComponent {
   public labelStyle: any;
   public captionStyle: any;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   public callBoxClick(event: any): void {
     this.updateWrapper();
     if (this.getWrapper().hasOnClickEvent()) {

@@ -14,7 +14,7 @@ export class LoadComponent implements OnInit, OnDestroy {
 
   private queryParamsSub: Subscription;
 
-  constructor(
+  public constructor(
     private route: ActivatedRoute,
     private brokerService: BrokerService) { }
 

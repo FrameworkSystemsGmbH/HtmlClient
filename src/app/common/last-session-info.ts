@@ -2,7 +2,7 @@ import * as Moment from 'moment-timezone';
 
 export class LastSessionInfo {
 
-  constructor(
+  public constructor(
     private _lastBroker: string,
     private _lastRequestTime: Moment.Moment,
     private _stateJson: any

@@ -18,7 +18,7 @@ export class DockLayout extends LayoutContainerBase {
   private isVertical: boolean = false;
   private wrappers: Array<LayoutableControlWrapper>;
 
-  constructor(container: IDockContainer) {
+  public constructor(container: IDockContainer) {
     super(container);
   }
 

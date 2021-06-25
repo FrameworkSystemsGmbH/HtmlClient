@@ -23,10 +23,6 @@ export class TemplateControlComponent extends ControlComponent {
 
   private baseFormatService: BaseFormatService;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   protected init(): void {
     super.init();
     this.baseFormatService = this.getInjector().get(BaseFormatService);

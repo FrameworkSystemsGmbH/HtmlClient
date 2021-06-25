@@ -32,7 +32,7 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private onBackButtonListener: () => boolean;
 
-  constructor(
+  public constructor(
     private backService: BackService,
     private dialogRef: MatDialogRef<MsgBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IMsgBoxData

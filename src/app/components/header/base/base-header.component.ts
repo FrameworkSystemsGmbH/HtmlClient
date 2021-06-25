@@ -98,7 +98,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   private scrollAutoHideDelay: number = 500;
 
 
-  constructor(
+  public constructor(
     private zone: NgZone,
     private renderer: Renderer2,
     private eventsService: EventsService,

@@ -9,7 +9,7 @@ export class ClientPictureClickEventArgs {
   protected controlPointX: number;
   protected controlPointY: number;
 
-  constructor(button: number, clickCount: number, pictureWidth: number, pictureHeight: number, picturePointX: number, picturePointY: number, controlPointX: number, controlPointY: number) {
+  public constructor(button: number, clickCount: number, pictureWidth: number, pictureHeight: number, picturePointX: number, picturePointY: number, controlPointX: number, controlPointY: number) {
     this.button = button;
     this.clickCount = clickCount;
     this.pictureWidth = pictureWidth;

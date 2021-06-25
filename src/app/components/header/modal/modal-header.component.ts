@@ -20,7 +20,7 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
 
   private onBackButtonListener: () => boolean;
 
-  constructor(
+  public constructor(
     private _backService: BackService,
     private _formsService: FormsService
   ) { }

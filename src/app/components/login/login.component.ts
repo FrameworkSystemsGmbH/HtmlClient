@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private activeBrokerNameSub: Subscription;
   private lastSessionInfoSub: Subscription;
 
-  constructor(
+  public constructor(
     private titleService: TitleService,
     private loginService: LoginService,
     private brokerService: BrokerService,

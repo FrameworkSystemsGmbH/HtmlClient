@@ -10,7 +10,7 @@ export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBas
   private width: number = -1;
   private wrappers: Array<LayoutableControlWrapper>;
 
-  constructor(container: IControlLabelContainer) {
+  public constructor(container: IControlLabelContainer) {
     super(container);
   }
 

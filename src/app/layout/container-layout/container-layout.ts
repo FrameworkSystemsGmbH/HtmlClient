@@ -13,7 +13,7 @@ export class ContainerLayout extends LayoutContainerBase {
   private width: number = -1;
   private wrappers: Array<LayoutableControlWrapper>;
 
-  constructor(container: ILayoutableContainer) {
+  public constructor(container: ILayoutableContainer) {
     super(container);
   }
 

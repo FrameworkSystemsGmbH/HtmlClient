@@ -6,7 +6,7 @@ export class ClientMsgBoxEvent extends ClientFormEvent {
   protected id: string;
   protected action: string;
 
-  constructor(formId: string, id: string, action: string) {
+  public constructor(formId: string, id: string, action: string) {
     super(ClientEventType[ClientEventType.MsgBox], 'DefaultVariant', formId);
     this.id = id;
     this.action = action;

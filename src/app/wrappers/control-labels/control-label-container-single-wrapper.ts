@@ -12,7 +12,7 @@ export interface IControlLabelContainerSingleWrapperOptions {
 
 export class ControlLabelContainerSingleWrapper extends ControlLabelContainerBaseWrapper {
 
-  constructor(injector: Injector, options: IControlLabelContainerSingleWrapperOptions) {
+  public constructor(injector: Injector, options: IControlLabelContainerSingleWrapperOptions) {
     const labelWrappers: Array<ControlLabelWrapper> = new Array<ControlLabelWrapper>();
     labelWrappers.push(options.labelWrapper);
     super(injector, { labelWrappers, fieldRowWrp: options.fieldRowWrp, rowLabelTemplate: options.rowLabelTemplate });

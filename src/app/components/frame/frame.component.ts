@@ -20,7 +20,7 @@ export class FrameComponent implements OnInit, OnDestroy {
   private selectedForm: FormWrapper;
   private selectedFormSub: Subscription;
 
-  constructor(
+  public constructor(
     private zone: NgZone,
     private formsService: FormsService,
     private framesService: FramesService

@@ -11,10 +11,6 @@ export class ButtonPlainComponent extends ButtonComponent {
   @ViewChild('button', { static: true })
   public button: ElementRef;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   protected getButton(): ElementRef {
     return this.button;
   }

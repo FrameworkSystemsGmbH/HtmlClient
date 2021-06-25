@@ -6,7 +6,7 @@ export class ClientSelectedTabPageChangedEvent extends ClientFormEvent {
 
   protected args: ClientSelectedTabPageChangedEventArgs;
 
-  constructor(controlName: string, formId: string, lastTab: string, selectedTab: string) {
+  public constructor(controlName: string, formId: string, lastTab: string, selectedTab: string) {
     super(ClientEventType[ClientEventType.OnSelectedTabPageChanged], controlName, formId);
     this.args = new ClientSelectedTabPageChangedEventArgs(lastTab, selectedTab);
   }

@@ -3,7 +3,7 @@ import { ClientEventType } from '@app/enums/client-event-type';
 
 export class ClientApplicationQuitRequestEvent extends ClientControlEvent {
 
-  constructor() {
+  public constructor() {
     super(ClientEventType[ClientEventType.OnApplicationQuitRequest], 'Application');
   }
 }

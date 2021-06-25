@@ -10,7 +10,7 @@ export class LoaderService {
   private _onLoadingChanged$$: Subject<boolean>;
   private _onLoadingChangedDelayed$: Observable<boolean>;
 
-  constructor() {
+  public constructor() {
     this._onLoadingChanged$$ = new Subject<boolean>();
 
     const onLoadingChanged$: Observable<boolean> = this._onLoadingChanged$$.pipe(

@@ -8,7 +8,7 @@ export class ErrorService extends ErrorHandler {
   private zone: NgZone;
   private errorDialog: MatDialog;
 
-  constructor(private injector: Injector) {
+  public constructor(private injector: Injector) {
     super();
   }
 

@@ -19,10 +19,6 @@ export class TabPageComponent extends ContainerComponent implements OnInit {
 
   public wrapperStyle: any;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   public getViewContainerRef(): ViewContainerRef {
     return this.anchor;
   }

@@ -21,10 +21,6 @@ export class TextBoxPlainComponent extends TextBoxComponent {
 
   private stringFormatService: StringFormatService;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   protected init(): void {
     super.init();
     this.stringFormatService = this.getInjector().get(StringFormatService);

@@ -16,10 +16,6 @@ export class FormComponent extends ContainerComponent implements AfterViewChecke
   public scrollerStyle: any;
   public contentStyle: any;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   public ngAfterViewChecked(): void {
     if (this.getWrapper().getFirstLayoutDone()) {
       this.getWrapper().applyFocus();

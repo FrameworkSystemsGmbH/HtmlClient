@@ -61,7 +61,7 @@ export class BrokerService {
   private clientLanguages: string;
   private lastRequestTime: Moment.Moment;
 
-  constructor(
+  public constructor(
     private httpClient: HttpClient,
     private actionsService: ActionsService,
     private clientDataService: ClientDataService,

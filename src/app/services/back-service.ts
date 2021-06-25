@@ -18,7 +18,7 @@ export class BackService {
   private _listeners: Array<IListenerInfo> = new Array<IListenerInfo>();
 
 
-  constructor(
+  public constructor(
     private _zone: NgZone,
     private _platformService: PlatformService
   ) {

@@ -8,7 +8,7 @@ export class ClientBarcodeScannedEventArgs {
   protected value: string;
   protected format: BarcodeFormat;
 
-  constructor(cancelled: boolean, hasError: boolean, errorMessage: string, value: string, format: BarcodeFormat) {
+  public constructor(cancelled: boolean, hasError: boolean, errorMessage: string, value: string, format: BarcodeFormat) {
     this.cancelled = cancelled;
     this.hasError = hasError;
     this.errorMessage = errorMessage;

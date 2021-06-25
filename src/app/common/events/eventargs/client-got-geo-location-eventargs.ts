@@ -10,7 +10,7 @@ export class ClientGotGeoLocationEventArgs {
   protected speed: number;
   protected timestamp: number;
 
-  constructor(hasError: boolean, errorMessage: string, latitude: number, longitude: number, altitude: number, accuracy: number, heading: number, speed: number, timestamp: number) {
+  public constructor(hasError: boolean, errorMessage: string, latitude: number, longitude: number, altitude: number, accuracy: number, heading: number, speed: number, timestamp: number) {
     this.hasError = hasError;
     this.errorMessage = errorMessage;
     this.latitude = latitude;

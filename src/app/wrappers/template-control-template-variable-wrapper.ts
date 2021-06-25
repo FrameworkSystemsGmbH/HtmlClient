@@ -12,7 +12,7 @@ export class TemplateControlTemplateVariableWrapper {
   private format: TextFormat;
   private formatPattern: string;
 
-  constructor(dataSource: TemplateControlTemplateDataSourceWrapper, options?: ITemplateControlTemplateVariableWrapperOptions) {
+  public constructor(dataSource: TemplateControlTemplateDataSourceWrapper, options?: ITemplateControlTemplateVariableWrapperOptions) {
     this.dataSource = dataSource;
 
     if (options && options.format) {

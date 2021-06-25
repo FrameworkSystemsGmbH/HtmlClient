@@ -16,10 +16,6 @@ export class VariantComponent extends ContainerComponent {
 
   public wrapperStyle: any;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   public getWrapper(): VariantWrapper {
     return super.getWrapper() as VariantWrapper;
   }

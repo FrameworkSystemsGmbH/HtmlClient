@@ -74,7 +74,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   private scrollAnimationTime: number = 250;
   private scrollAutoHideDelay: number = 500;
 
-  constructor(injector: Injector) {
+  public constructor(injector: Injector) {
     super(injector);
 
     this.scrollerOptions = {

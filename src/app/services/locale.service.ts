@@ -7,7 +7,7 @@ export class LocaleService {
   private locale: string;
   private timeZone: string;
 
-  constructor() {
+  public constructor() {
     const browserTimeZone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const browserLocale: string = navigator.language;
 

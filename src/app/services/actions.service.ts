@@ -16,7 +16,7 @@ export class ActionsService {
 
   private _focusActions: Array<() => void>;
 
-  constructor(
+  public constructor(
     private _barcodeService: BarcodeService,
     private _formsService: FormsService,
     private _geoLocationService: GeoLocationService,

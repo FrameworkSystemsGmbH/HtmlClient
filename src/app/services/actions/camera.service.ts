@@ -16,7 +16,7 @@ export class CameraService {
   private _brokerName: string;
   private _pendingResult: AppRestoredResult;
 
-  constructor(
+  public constructor(
     private _zone: NgZone,
     private _store: Store,
     private _eventsService: EventsService

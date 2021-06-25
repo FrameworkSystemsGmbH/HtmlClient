@@ -36,7 +36,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   private readonly resolver: ComponentFactoryResolver;
   private readonly fontService: FontService;
 
-  constructor(
+  public constructor(
     injector: Injector,
     labelProvider: IControlLabelProvider,
     fieldRowWrp: FieldRowWrapper

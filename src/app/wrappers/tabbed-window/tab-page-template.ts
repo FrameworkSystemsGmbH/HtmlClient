@@ -6,7 +6,7 @@ export class TabPageTemplate {
   private propertyStore: PropertyStore;
   private fontService: FontService;
 
-  constructor(propertyStore: PropertyStore, fontService: FontService) {
+  public constructor(propertyStore: PropertyStore, fontService: FontService) {
     this.propertyStore = propertyStore;
     this.fontService = fontService;
   }

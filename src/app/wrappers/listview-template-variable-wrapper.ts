@@ -12,7 +12,7 @@ export class ListViewTemplateVariableWrapper {
   private format: TextFormat;
   private formatPattern: string;
 
-  constructor(dataSource: ListViewTemplateDataSourceWrapper, options?: IListViewTemplateVariableWrapperOptions) {
+  public constructor(dataSource: ListViewTemplateDataSourceWrapper, options?: IListViewTemplateVariableWrapperOptions) {
     this.dataSource = dataSource;
 
     if (options && options.format) {

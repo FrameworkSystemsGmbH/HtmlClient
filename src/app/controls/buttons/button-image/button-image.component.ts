@@ -28,10 +28,6 @@ export class ButtonImageComponent extends ButtonComponent {
 
   private sanatizer: DomSanitizer;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   protected init(): void {
     super.init();
     this.sanatizer = this.getInjector().get(DomSanitizer);

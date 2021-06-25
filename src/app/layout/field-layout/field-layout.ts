@@ -16,7 +16,7 @@ export class FieldLayout extends LayoutContainerBase {
   private rows: Array<FieldLayoutRow>;
   private columns: Array<FieldLayoutColumn>;
 
-  constructor(container: IFieldContainer) {
+  public constructor(container: IFieldContainer) {
     super(container);
   }
 

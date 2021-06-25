@@ -25,10 +25,6 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
   private dialog: MatDialog;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   protected init(): void {
     super.init();
     this.dialog = this.getInjector().get(MatDialog);

@@ -2,7 +2,7 @@ import { DataListEntry } from '@app/common/data-list-entry';
 
 export class DataList extends Array<DataListEntry> {
 
-  constructor() {
+  public constructor() {
     super();
     Object.setPrototypeOf(this, DataList.prototype);
   }

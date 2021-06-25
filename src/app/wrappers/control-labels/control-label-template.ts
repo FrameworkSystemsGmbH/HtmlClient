@@ -6,7 +6,7 @@ export class ControlLabelTemplate implements ILayoutableControlLabelTemplate {
 
   private propertyStore: PropertyStore;
 
-  constructor(propertyStore: PropertyStore) {
+  public constructor(propertyStore: PropertyStore) {
     this.propertyStore = propertyStore;
   }
 

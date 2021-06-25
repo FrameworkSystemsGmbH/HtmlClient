@@ -8,7 +8,7 @@ const { Keyboard } = Plugins;
 @Injectable()
 export class KeyboardService {
 
-  constructor(private platformService: PlatformService) { }
+  public constructor(private platformService: PlatformService) { }
 
   public attachScrollHandler(): void {
     if (this.platformService.isAndroid()) {

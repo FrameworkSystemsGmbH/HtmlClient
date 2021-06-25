@@ -16,10 +16,6 @@ export class FieldPanelComponent extends ContainerComponent {
 
   public wrapperStyle: any;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   public getWrapper(): FieldPanelWrapper {
     return super.getWrapper() as FieldPanelWrapper;
   }

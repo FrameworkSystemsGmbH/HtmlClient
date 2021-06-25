@@ -5,7 +5,7 @@ export class ListViewTemplateDataSourceWrapper {
   private name: string;
   private dataSourceType: DataSourceType;
 
-  constructor(name: string, dataSourceType: DataSourceType) {
+  public constructor(name: string, dataSourceType: DataSourceType) {
     this.name = name;
     this.dataSourceType = dataSourceType;
   }

@@ -6,7 +6,7 @@ export class ControlLabelSeparatorProvider implements IControlLabelProvider {
 
   private rowLabelTemplate: ControlLabelTemplate;
 
-  constructor(rowLabelTemplate: ControlLabelTemplate) {
+  public constructor(rowLabelTemplate: ControlLabelTemplate) {
     this.rowLabelTemplate = rowLabelTemplate;
   }
 

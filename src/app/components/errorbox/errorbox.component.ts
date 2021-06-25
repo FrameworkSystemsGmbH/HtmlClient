@@ -24,7 +24,7 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private onBackButtonListener: () => boolean;
 
-  constructor(
+  public constructor(
     private backService: BackService,
     private dialogRef: MatDialogRef<ErrorBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IErrorBoxData

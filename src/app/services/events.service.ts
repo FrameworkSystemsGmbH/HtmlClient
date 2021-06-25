@@ -29,7 +29,7 @@ export class EventsService {
   private readonly _eventFired: Subject<InternalEvent<ClientEvent>>;
   private readonly _eventFiredObs: Observable<InternalEvent<ClientEvent>>;
 
-  constructor() {
+  public constructor() {
     this._eventFired = new Subject<InternalEvent<ClientEvent>>();
     this._eventFiredObs = this._eventFired.asObservable();
   }

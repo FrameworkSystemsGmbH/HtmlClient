@@ -14,7 +14,7 @@ export class DialogResizeDirective implements OnInit {
   @Input()
   public ignoreHeight: boolean;
 
-  constructor(
+  public constructor(
     private elRef: ElementRef,
     private renderer: Renderer2
   ) { }

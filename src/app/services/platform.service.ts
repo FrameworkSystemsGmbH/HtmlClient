@@ -11,7 +11,7 @@ export class PlatformService {
   private _os: string;
   private _osVersion: string;
 
-  constructor() {
+  public constructor() {
     this._isNative = Capacitor.isNative;
     this._isAndroid = Capacitor.getPlatform() === 'android';
     this._isIos = Capacitor.getPlatform() === 'ios';

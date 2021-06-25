@@ -4,7 +4,7 @@ export class ClientControlEvent extends ClientEvent {
 
   protected controlName: string;
 
-  constructor(event: string, controlName: string) {
+  public constructor(event: string, controlName: string) {
     super(event);
     this.controlName = controlName;
   }

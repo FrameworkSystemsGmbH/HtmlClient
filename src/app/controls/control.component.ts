@@ -22,7 +22,7 @@ export abstract class ControlComponent extends LayoutableComponent {
   private focusService: FocusService;
   private cdr: ChangeDetectorRef;
 
-  constructor(injector: Injector) {
+  public constructor(injector: Injector) {
     super();
     this.injector = injector;
     this.init();

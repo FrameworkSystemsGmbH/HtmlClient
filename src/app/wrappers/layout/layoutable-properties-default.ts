@@ -13,7 +13,7 @@ export class LayoutableProperties implements ILayoutableProperties {
   private layoutWidth: number;
   private layoutHeight: number;
 
-  constructor(wrapper: ILayoutableControlWrapper) {
+  public constructor(wrapper: ILayoutableControlWrapper) {
     this.wrapper = wrapper;
   }
 

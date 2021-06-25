@@ -42,17 +42,17 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   private itemWrapper: ListViewItemWrapper;
   private listViewWrapper: ListViewWrapper;
 
-  constructor(
+  public constructor(
     private baseFormatService: BaseFormatService,
     private platformService: PlatformService,
     private framesService: FramesService
   ) { }
 
-  get selected(): boolean {
+  public get selected(): boolean {
     return this.selectedVal;
   }
 
-  set selected(val: boolean) {
+  public set selected(val: boolean) {
     if (this.selectedVal === val) {
       return;
     }

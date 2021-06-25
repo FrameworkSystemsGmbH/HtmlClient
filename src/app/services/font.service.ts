@@ -43,7 +43,7 @@ export class FontService {
 
   private baseControlStyle: PropertyStore;
 
-  constructor(
+  public constructor(
     private controlStyleService: ControlStyleService,
     private numberFormatService: NumberFormatService,
     private dateTimeFormatService: DateTimeFormatService

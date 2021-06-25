@@ -20,10 +20,6 @@ export class WrapLayout extends LayoutContainerBase {
   private wrapRows: Array<WrapLayoutRow>;
   private wrapColumns: Array<WrapLayoutColumn>;
 
-  constructor(container: IWrapContainer) {
-    super(container);
-  }
-
   public getControl(): IWrapContainer {
     return super.getControl() as IWrapContainer;
   }

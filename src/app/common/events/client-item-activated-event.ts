@@ -6,7 +6,7 @@ export class ClientItemActivatedEvent extends ClientFormEvent {
 
   protected args: ClientItemActivatedEventArgs;
 
-  constructor(controlName: string, formId: string, itemId: string, itemIndex: number) {
+  public constructor(controlName: string, formId: string, itemId: string, itemIndex: number) {
     super(ClientEventType[ClientEventType.OnItemActivated], controlName, formId);
     this.args = new ClientItemActivatedEventArgs(itemId, itemIndex);
   }

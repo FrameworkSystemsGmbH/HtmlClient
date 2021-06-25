@@ -41,7 +41,7 @@ export interface IWrapperCreationOptions {
 @Injectable()
 export class ControlsService {
 
-  constructor(
+  public constructor(
     private injector: Injector,
     private controlStyleService: ControlStyleService
   ) { }

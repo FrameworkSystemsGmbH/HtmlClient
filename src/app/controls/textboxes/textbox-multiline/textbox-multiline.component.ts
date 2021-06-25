@@ -18,10 +18,6 @@ export class TextBoxMultilineComponent extends TextBoxComponent {
   public value: string;
   public wrapperStyle: any;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   public getInput(): ElementRef {
     return this.textarea;
   }

@@ -62,7 +62,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   private ctrlEnterSub: Subscription;
   private ctrlLeaveSub: Subscription;
 
-  constructor(
+  public constructor(
     injector: Injector,
     options?: IWrapperCreationOptions
   ) {

@@ -3,7 +3,7 @@ export class DataListEntry {
   private pk: string;
   private value: string;
 
-  constructor(pk: string, value: string) {
+  public constructor(pk: string, value: string) {
     this.pk = pk;
     this.value = value;
   }

@@ -30,7 +30,7 @@ export class FormsService {
 
   private _lastOpenedForm: FormWrapper;
 
-  constructor(
+  public constructor(
     private injector: Injector,
     private titleService: TitleService,
     private dialogService: DialogService,

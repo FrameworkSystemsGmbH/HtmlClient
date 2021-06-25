@@ -27,7 +27,7 @@ export class ListViewItemWrapper {
   private _hasPosChanged: boolean;
   private _hasContentChanged: boolean;
 
-  constructor(injector: Injector, options: IListViewItemWrapperOptions) {
+  public constructor(injector: Injector, options: IListViewItemWrapperOptions) {
     this._isNew = true;
     this._isAttached = false;
     this._cfr = injector.get(ComponentFactoryResolver);

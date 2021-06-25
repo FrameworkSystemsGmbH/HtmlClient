@@ -6,7 +6,7 @@ export class ClientPictureClickEvent extends ClientFormEvent {
 
   protected args: ClientPictureClickEventArgs;
 
-  constructor(controlName: string, formId: string, args: ClientPictureClickEventArgs) {
+  public constructor(controlName: string, formId: string, args: ClientPictureClickEventArgs) {
     super(ClientEventType[ClientEventType.OnClick], controlName, formId);
     this.args = args;
   }

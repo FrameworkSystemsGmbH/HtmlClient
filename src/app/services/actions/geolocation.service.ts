@@ -17,7 +17,7 @@ export class GeoLocationService {
   private _speed: number;
   private _timestamp: number;
 
-  constructor(
+  public constructor(
     private _zone: NgZone,
     private _eventsService: EventsService
   ) { }

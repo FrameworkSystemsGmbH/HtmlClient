@@ -11,7 +11,7 @@ export class FieldLayoutColumn {
   private resultColumnWidth: number;
   private minColumnHeight: number;
 
-  constructor(cells: Array<FieldLayoutCell>) {
+  public constructor(cells: Array<FieldLayoutCell>) {
     this.cells = new Array<FieldLayoutCell>();
     this.minColumnWidth = 0;
     this.maxColumnWidth = 0;

@@ -12,7 +12,7 @@ export class BarcodeService {
   private _value: string;
   private _format: BarcodeFormat;
 
-  constructor(
+  public constructor(
     private _zone: NgZone,
     private _eventsService: EventsService,
     private _platformService: PlatformService

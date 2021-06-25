@@ -37,7 +37,7 @@ export class LayoutableControlWrapper {
 
   private layout: LayoutContainerBase;
 
-  constructor(private control: ILayoutableControl) {
+  public constructor(private control: ILayoutableControl) {
     this.name = control.getName();
     this.layoutableProperties = control.getLayoutableProperties();
     this.minLayoutWidth = control.getMinLayoutWidth();

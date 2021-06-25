@@ -47,10 +47,6 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
 
   private regEx: RegExp = /([a-z]|\d)/i;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   public ngAfterViewInit(): void {
     this.regEx.compile();
 

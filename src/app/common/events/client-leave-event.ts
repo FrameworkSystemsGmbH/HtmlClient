@@ -6,7 +6,7 @@ export class ClientLeaveEvent extends ClientFormEvent {
 
   protected args: ClientLeaveEventArgs;
 
-  constructor(controlName: string, formId: string, activator: string, hasValueChanged: boolean) {
+  public constructor(controlName: string, formId: string, activator: string, hasValueChanged: boolean) {
     super(ClientEventType[ClientEventType.OnLeave], controlName, formId);
     this.args = new ClientLeaveEventArgs(activator, String.empty(), hasValueChanged);
   }

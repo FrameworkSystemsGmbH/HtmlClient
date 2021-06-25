@@ -7,7 +7,7 @@ export class ImageService {
 
   private filesUrl: string;
 
-  constructor(private store: Store) {
+  public constructor(private store: Store) {
     this.store.select(selectBrokerFilesUrl).subscribe(filesUrl => {
       this.filesUrl = filesUrl;
     });

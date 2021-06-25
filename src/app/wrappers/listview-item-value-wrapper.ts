@@ -6,7 +6,7 @@ export class ListViewItemValueWrapper {
   private _format: TextFormat;
   private _formatPattern: string;
 
-  constructor(value: string, format: TextFormat, formatPattern: string) {
+  public constructor(value: string, format: TextFormat, formatPattern: string) {
     this._value = value;
     this._format = format;
     this._formatPattern = formatPattern;

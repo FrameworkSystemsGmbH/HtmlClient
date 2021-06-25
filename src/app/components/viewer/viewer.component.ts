@@ -17,7 +17,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private _selectedFormSub: Subscription;
   private _loadingChangedSub: Subscription;
 
-  constructor(
+  public constructor(
     private _formsService: FormsService,
     private _loaderService: LoaderService
   ) { }

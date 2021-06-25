@@ -4,7 +4,7 @@ export class WrapLayoutRow {
 
   private resultRowHeight: number;
 
-  constructor(
+  public constructor(
     private wrappers: Array<LayoutableControlWrapper>,
     private minRowHeight: number,
     private maxRowHeight: number) { }

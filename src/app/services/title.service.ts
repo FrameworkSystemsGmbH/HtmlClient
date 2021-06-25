@@ -8,7 +8,7 @@ export class TitleService {
 
   private currentTitle: string;
 
-  constructor(private title: Title) { }
+  public constructor(private title: Title) { }
 
   public getTitle(): string {
     return !String.isNullOrWhiteSpace(this.currentTitle) ? this.currentTitle : DEFAULT_TITLE;

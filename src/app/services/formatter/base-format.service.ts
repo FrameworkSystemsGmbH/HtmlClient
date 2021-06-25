@@ -8,7 +8,7 @@ import { StringFormatService } from '@app/services/formatter/string-format.servi
 @Injectable()
 export class BaseFormatService {
 
-  constructor(
+  public constructor(
     private dateTimeFormatService: DateTimeFormatService,
     private numberFormatService: NumberFormatService,
     private stringFormatService: StringFormatService

@@ -17,7 +17,7 @@ export class DeepLinkService {
   private _active: boolean;
   private _pendingStartInfo: StartBrokerInfo;
 
-  constructor(
+  public constructor(
     private _brokerService: BrokerService,
     private _loginService: LoginService,
     private _platformService: PlatformService,

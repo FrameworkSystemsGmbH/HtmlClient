@@ -29,7 +29,7 @@ export class PropertyStore {
 
   private store: Map<PropertyLayer, PropertyData>;
 
-  constructor() {
+  public constructor() {
     this.store = new Map<PropertyLayer, PropertyData>();
     this.store.set(PropertyLayer.ControlStyle, new PropertyData());
     this.store.set(PropertyLayer.Control, new PropertyData());

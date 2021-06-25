@@ -10,7 +10,7 @@ export class ButtonGroup {
   private _onValueChanged: BehaviorSubject<string>;
   private _onValueChanged$: Observable<string>;
 
-  constructor(groupName: string) {
+  public constructor(groupName: string) {
     this._groupName = groupName;
 
     this._onValueChanged = new BehaviorSubject<string>(null);

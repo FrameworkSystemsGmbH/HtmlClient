@@ -9,7 +9,7 @@ export class LoginService {
   private _brokers$$: BehaviorSubject<Array<LoginBroker>>;
   private _brokers$: Observable<Array<LoginBroker>>;
 
-  constructor(private clientDataService: ClientDataService) {
+  public constructor(private clientDataService: ClientDataService) {
     this._brokers$$ = new BehaviorSubject<Array<LoginBroker>>(new Array<LoginBroker>());
     this._brokers$ = this._brokers$$.asObservable();
 

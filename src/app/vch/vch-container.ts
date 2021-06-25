@@ -6,7 +6,7 @@ export class VchContainer extends VchControl {
 
   private children: Array<ILayoutableControlWrapper> = new Array<ILayoutableControlWrapper>();
 
-  constructor(private container: ILayoutableContainerWrapper) {
+  public constructor(private container: ILayoutableContainerWrapper) {
     super();
   }
 

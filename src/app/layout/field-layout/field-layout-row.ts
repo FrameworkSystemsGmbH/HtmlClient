@@ -18,7 +18,7 @@ export class FieldLayoutRow {
   private minRowHeight: number;
   private resultRowHeight: number;
 
-  constructor(fieldRow: IFieldRowControl) {
+  public constructor(fieldRow: IFieldRowControl) {
     const fieldContainer: IFieldContainer = fieldRow.getFieldContainer();
 
     this.cells = new Array<FieldLayoutCell>();

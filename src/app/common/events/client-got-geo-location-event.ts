@@ -6,7 +6,7 @@ export class ClientGotGeoLocationEvent extends ClientEvent {
 
   protected args: ClientGotGeoLocationEventArgs;
 
-  constructor(hasError: boolean, errorMessage: string, latitude: number, longitude: number, altitude: number, accuracy: number, heading: number, speed: number, timestamp: number) {
+  public constructor(hasError: boolean, errorMessage: string, latitude: number, longitude: number, altitude: number, accuracy: number, heading: number, speed: number, timestamp: number) {
     super(ClientEventType[ClientEventType.GotGeoLocation]);
     this.args = new ClientGotGeoLocationEventArgs(hasError, errorMessage, latitude, longitude, altitude, accuracy, heading, speed, timestamp);
   }

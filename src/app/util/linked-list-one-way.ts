@@ -5,7 +5,7 @@ export class LinkedListOneWay<T> {
   private length: number;
   private head: LinkedListNode<T>;
 
-  constructor() {
+  public constructor() {
     this.length = 0;
     this.head = null;
   }

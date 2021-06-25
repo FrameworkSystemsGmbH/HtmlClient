@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public ready: boolean;
   public style: any;
 
-  constructor(
+  public constructor(
     private backService: BackService,
     private deepLinkService: DeepLinkService,
     private focusService: FocusService,

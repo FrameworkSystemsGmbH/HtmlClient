@@ -22,10 +22,6 @@ export class TextBoxNumberComponent extends TextBoxComponent {
 
   private numberFormatService: NumberFormatService;
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
-
   protected init(): void {
     super.init();
     this.numberFormatService = this.getInjector().get(NumberFormatService);

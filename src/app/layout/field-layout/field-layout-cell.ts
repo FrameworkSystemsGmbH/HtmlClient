@@ -10,7 +10,7 @@ export class FieldLayoutCell {
   private column: FieldLayoutColumn;
   private resultWidth: number;
 
-  constructor(
+  public constructor(
     private wrapper: LayoutableControlWrapper,
     private rowlabelTemplate: ILayoutableControlLabelTemplate
   ) { }
