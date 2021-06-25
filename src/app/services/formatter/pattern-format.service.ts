@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class PatternFormatService {
 
-  private static readonly javaToMomentMap: Map<string, string> = new Map<string, string>([
+  private static readonly _javaToMomentMap: Map<string, string> = new Map<string, string>([
     ['d', 'D'],               // day in month - one or two digits
     ['dd', 'DD'],             // day in month - two digits
     ['D', 'DDD'],             // day in year - one to three digits
@@ -59,7 +59,7 @@ export class PatternFormatService {
     ['u', 'E']                // day number of week - 1=Monday, 7=Sunday
   ]);
 
-  private static readonly momentToJavaMap: Map<string, string> = new Map<string, string>([
+  private static readonly _momentToJavaMap: Map<string, string> = new Map<string, string>([
     ['d', String.empty()],    // day in week - 0=Sunday, 6=Saturday
     ['D', 'd'],               // day in month - one or two digits
     ['DD', 'dd'],             // day in month - two digits
@@ -104,11 +104,11 @@ export class PatternFormatService {
   ]);
 
   public javaToMoment(formatPattern: string): string {
-    return this.translateFormat(formatPattern, PatternFormatService.javaToMomentMap, '\'', '\'', '[', ']');
+    return this.translateFormat(formatPattern, PatternFormatService._javaToMomentMap, '\'', '\'', '[', ']');
   }
 
   public momentToJava(formatPattern: string): string {
-    return this.translateFormat(formatPattern, PatternFormatService.momentToJavaMap, '[', ']', '\'', '\'');
+    return this.translateFormat(formatPattern, PatternFormatService._momentToJavaMap, '[', ']', '\'', '\'');
   }
 
   private translateFormat(formatPattern: string, map: Map<string, string>, escapeStartChar: string, escapeEndChar: string, targetEscapeStartChar: string, targetEscapeEndChar: string): string {

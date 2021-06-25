@@ -22,11 +22,11 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   public stackTrace: string;
   public showStackTrace: boolean;
 
-  private onBackButtonListener: () => boolean;
+  private _onBackButtonListener: () => boolean;
 
   public constructor(
-    private readonly backService: BackService,
-    private readonly dialogRef: MatDialogRef<ErrorBoxComponent>,
+    private readonly _backService: BackService,
+    private readonly _dialogRef: MatDialogRef<ErrorBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IErrorBoxData
   ) {
     this.title = data.title;
@@ -35,8 +35,8 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.onBackButtonListener = this.onBackButton.bind(this);
-    this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
+    this._onBackButtonListener = this.onBackButton.bind(this);
+    this._backService.addBackButtonListener(this._onBackButtonListener, BackButtonPriority.Overlay);
   }
 
   public ngAfterViewInit(): void {
@@ -44,11 +44,11 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.backService.removeBackButtonListener(this.onBackButtonListener);
+    this._backService.removeBackButtonListener(this._onBackButtonListener);
   }
 
   private onBackButton(): boolean {
-    this.dialogRef.close();
+    this._dialogRef.close();
     return true;
   }
 
@@ -57,6 +57,6 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onOkClick(): void {
-    this.dialogRef.close();
+    this._dialogRef.close();
   }
 }

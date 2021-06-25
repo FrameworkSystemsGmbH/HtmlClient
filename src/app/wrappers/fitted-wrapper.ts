@@ -2,15 +2,15 @@ import { ControlWrapper } from '@app/wrappers/control-wrapper';
 
 export abstract class FittedWrapper extends ControlWrapper {
 
-  private fittedWidth: number;
-  private fittedHeight: number;
+  private _fittedWidth: number;
+  private _fittedHeight: number;
 
   public getMinWidth(): number {
-    return Math.max(Number.zeroIfNull(super.getMinWidth()), Number.zeroIfNull(this.fittedWidth));
+    return Math.max(Number.zeroIfNull(super.getMinWidth()), Number.zeroIfNull(this._fittedWidth));
   }
 
   public getMinHeight(): number {
-    return Math.max(Number.zeroIfNull(super.getMinHeight()), Number.zeroIfNull(this.fittedHeight));
+    return Math.max(Number.zeroIfNull(super.getMinHeight()), Number.zeroIfNull(this._fittedHeight));
   }
 
   public setJson(json: any, isNew: boolean): void {
@@ -31,31 +31,31 @@ export abstract class FittedWrapper extends ControlWrapper {
 
   protected setFittedContentWidth(fittedWidth: number): void {
     if (fittedWidth == null || fittedWidth <= 0) {
-      this.fittedWidth = null;
+      this._fittedWidth = null;
     } else {
-      this.fittedWidth = this.getBorderThicknessLeft() + this.getPaddingLeft() + fittedWidth + this.getPaddingRight() + this.getBorderThicknessRight();
+      this._fittedWidth = this.getBorderThicknessLeft() + this.getPaddingLeft() + fittedWidth + this.getPaddingRight() + this.getBorderThicknessRight();
     }
   }
 
   protected setFittedContentHeight(fittedHeight: number): void {
     if (fittedHeight == null || fittedHeight <= 0) {
-      this.fittedHeight = null;
+      this._fittedHeight = null;
     } else {
-      this.fittedHeight = this.getBorderThicknessTop() + this.getPaddingTop() + fittedHeight + this.getPaddingBottom() + this.getBorderThicknessBottom();
+      this._fittedHeight = this.getBorderThicknessTop() + this.getPaddingTop() + fittedHeight + this.getPaddingBottom() + this.getBorderThicknessBottom();
     }
   }
 
   public saveState(): any {
     const json: any = super.saveState();
-    json.fittedWidth = this.fittedWidth;
-    json.fittedHeight = this.fittedHeight;
+    json.fittedWidth = this._fittedWidth;
+    json.fittedHeight = this._fittedHeight;
     return json;
   }
 
   protected loadState(json: any): void {
     super.loadState(json);
-    this.fittedWidth = json.fittedWidth;
-    this.fittedHeight = json.fittedHeight;
+    this._fittedWidth = json.fittedWidth;
+    this._fittedHeight = json.fittedHeight;
   }
 
   public abstract updateFittedWidth(): void;

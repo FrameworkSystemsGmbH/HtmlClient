@@ -60,20 +60,20 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   public scrollerOptions: any;
 
-  private zone: NgZone;
-  private renderer: Renderer2;
-  private imageService: ImageService;
-  private platformService: PlatformService;
+  private _zone: NgZone;
+  private _renderer: Renderer2;
+  private _imageService: ImageService;
+  private _platformService: PlatformService;
 
 
-  private scrollLeftInterval: any;
-  private scrollRightInterval: any;
+  private _scrollLeftInterval: any;
+  private _scrollRightInterval: any;
 
-  private readonly visibleClass: string = 'arrowVisible';
+  private readonly _visibleClass: string = 'arrowVisible';
 
-  private readonly scrollDelta: number = 100;
-  private readonly scrollAnimationTime: number = 250;
-  private readonly scrollAutoHideDelay: number = 500;
+  private readonly _scrollDelta: number = 100;
+  private readonly _scrollAnimationTime: number = 250;
+  private readonly _scrollAutoHideDelay: number = 500;
 
   public constructor(injector: Injector) {
     super(injector);
@@ -87,7 +87,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
       },
       scrollbars: {
         autoHide: 'scroll',
-        autoHideDelay: this.scrollAutoHideDelay
+        autoHideDelay: this._scrollAutoHideDelay
       },
       callbacks: {
         onScroll: this.refreshScroller.bind(this),
@@ -99,11 +99,11 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   @HostListener('window:resize')
   public refreshScroller(): void {
-    this.zone.runOutsideAngular(() => {
+    this._zone.runOutsideAngular(() => {
       if (this.scroller != null && this.scroller.osInstance() != null) {
         if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
-          this.renderer.removeClass(this.arrowUp.nativeElement, this.visibleClass);
-          this.renderer.removeClass(this.arrowDown.nativeElement, this.visibleClass);
+          this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
+          this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
 
           const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
 
@@ -112,25 +112,25 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
             if (scrollPos === 0) {
               this.stopScrollingUpOrLeft();
-              this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
-              this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
+              this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
+              this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
             } else if (scrollPos >= overflow) {
               this.stopScrollingDownOrRight();
-              this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
-              this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+              this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
+              this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
             } else {
-              this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
-              this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
+              this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
+              this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
             }
           } else {
             this.stopScrollingUpOrLeft();
             this.stopScrollingDownOrRight();
-            this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
-            this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+            this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
+            this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
           }
         } else {
-          this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
-          this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+          this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
+          this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
 
           const overflow: number = this.scroller.osInstance().getState().overflowAmount.y;
 
@@ -139,21 +139,21 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
             if (scrollPos === 0) {
               this.stopScrollingUpOrLeft();
-              this.renderer.removeClass(this.arrowUp.nativeElement, this.visibleClass);
-              this.renderer.addClass(this.arrowDown.nativeElement, this.visibleClass);
+              this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
+              this._renderer.addClass(this.arrowDown.nativeElement, this._visibleClass);
             } else if (scrollPos >= overflow) {
               this.stopScrollingDownOrRight();
-              this.renderer.addClass(this.arrowUp.nativeElement, this.visibleClass);
-              this.renderer.removeClass(this.arrowDown.nativeElement, this.visibleClass);
+              this._renderer.addClass(this.arrowUp.nativeElement, this._visibleClass);
+              this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
             } else {
-              this.renderer.addClass(this.arrowUp.nativeElement, this.visibleClass);
-              this.renderer.addClass(this.arrowDown.nativeElement, this.visibleClass);
+              this._renderer.addClass(this.arrowUp.nativeElement, this._visibleClass);
+              this._renderer.addClass(this.arrowDown.nativeElement, this._visibleClass);
             }
           } else {
             this.stopScrollingUpOrLeft();
             this.stopScrollingDownOrRight();
-            this.renderer.removeClass(this.arrowUp.nativeElement, this.visibleClass);
-            this.renderer.removeClass(this.arrowDown.nativeElement, this.visibleClass);
+            this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
+            this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
           }
         }
       }
@@ -163,10 +163,10 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   protected init(): void {
     super.init();
     const injector: Injector = this.getInjector();
-    this.zone = injector.get(NgZone);
-    this.renderer = injector.get(Renderer2);
-    this.imageService = injector.get(ImageService);
-    this.platformService = injector.get(PlatformService);
+    this._zone = injector.get(NgZone);
+    this._renderer = injector.get(Renderer2);
+    this._imageService = injector.get(ImageService);
+    this._platformService = injector.get(PlatformService);
   }
 
   public ngAfterViewInit(): void {
@@ -210,7 +210,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
       if (this.scroller != null && this.scroller.osInstance() != null && this.tabs != null) {
         const selectedTab: HTMLLIElement = this.tabs.nativeElement.querySelector('div.selected');
         if (selectedTab) {
-          this.scroller.osInstance().scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this.scrollAnimationTime);
+          this.scroller.osInstance().scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
         }
       }
     });
@@ -265,7 +265,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     const inactiveImage: string = !String.isNullOrWhiteSpace(inactiveImageTabPage) ? inactiveImageTabPage : inactiveImageWrapper;
 
     if (tabPage.isTabSelected() && !String.isNullOrWhiteSpace(activeImage)) {
-      const activeImageUrl: string = this.imageService.getImageUrl(activeImage);
+      const activeImageUrl: string = this._imageService.getImageUrl(activeImage);
 
       tabStyle = {
         ...tabStyle,
@@ -275,7 +275,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     }
 
     if (!tabPage.isTabSelected() && !String.isNullOrWhiteSpace(inactiveImage)) {
-      const inactiveImageUrl: string = this.imageService.getImageUrl(inactiveImage);
+      const inactiveImageUrl: string = this._imageService.getImageUrl(inactiveImage);
 
       tabStyle = {
         ...tabStyle,
@@ -447,12 +447,12 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
       };
     }
 
-    if (this.platformService.isNative()) {
+    if (this._platformService.isNative()) {
       newOptions = {
         ...this.scrollerOptions,
         scrollbars: {
           autoHide: 'scroll',
-          autoHideDelay: this.scrollAutoHideDelay
+          autoHideDelay: this._scrollAutoHideDelay
         }
       };
     } else {
@@ -460,7 +460,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
         ...this.scrollerOptions,
         scrollbars: {
           autoHide: 'move',
-          autoHideDelay: this.scrollAutoHideDelay
+          autoHideDelay: this._scrollAutoHideDelay
         }
       };
     }
@@ -470,51 +470,51 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   public startScrollingUpOrLeft(event: any): void {
     if (event.button === 0) {
-      const value: string = `-= ${this.scrollDelta}px`;
+      const value: string = `-= ${this._scrollDelta}px`;
       if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
         this.scrollHorizontal(value);
-        this.scrollLeftInterval = setInterval(() => {
+        this._scrollLeftInterval = setInterval(() => {
           this.scrollHorizontal(value);
-        }, this.scrollAnimationTime);
+        }, this._scrollAnimationTime);
       } else {
         this.scrollVertical(value);
-        this.scrollLeftInterval = setInterval(() => {
+        this._scrollLeftInterval = setInterval(() => {
           this.scrollVertical(value);
-        }, this.scrollAnimationTime);
+        }, this._scrollAnimationTime);
       }
     }
   }
 
   public stopScrollingUpOrLeft(): void {
-    clearInterval(this.scrollLeftInterval);
+    clearInterval(this._scrollLeftInterval);
   }
 
   public startScrollingDownOrRight(event: any): void {
     if (event.button === 0) {
-      const value: string = `+= ${this.scrollDelta}px`;
+      const value: string = `+= ${this._scrollDelta}px`;
       if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
         this.scrollHorizontal(value);
-        this.scrollRightInterval = setInterval(() => {
+        this._scrollRightInterval = setInterval(() => {
           this.scrollHorizontal(value);
-        }, this.scrollAnimationTime);
+        }, this._scrollAnimationTime);
       } else {
         this.scrollVertical(value);
-        this.scrollRightInterval = setInterval(() => {
+        this._scrollRightInterval = setInterval(() => {
           this.scrollVertical(value);
-        }, this.scrollAnimationTime);
+        }, this._scrollAnimationTime);
       }
     }
   }
 
   public stopScrollingDownOrRight(): void {
-    clearInterval(this.scrollRightInterval);
+    clearInterval(this._scrollRightInterval);
   }
 
   protected scrollHorizontal(value: string): void {
-    this.scroller.osInstance().scroll({ x: value }, this.scrollAnimationTime);
+    this.scroller.osInstance().scroll({ x: value }, this._scrollAnimationTime);
   }
 
   protected scrollVertical(value: string): void {
-    this.scroller.osInstance().scroll({ y: value }, this.scrollAnimationTime);
+    this.scroller.osInstance().scroll({ y: value }, this._scrollAnimationTime);
   }
 }

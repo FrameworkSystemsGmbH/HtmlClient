@@ -25,35 +25,35 @@ export class AppComponent implements OnInit, AfterViewInit {
   public style: any;
 
   public constructor(
-    private readonly backService: BackService,
-    private readonly deepLinkService: DeepLinkService,
-    private readonly focusService: FocusService,
-    private readonly localeService: LocaleService,
-    private readonly keyboardService: KeyboardService,
-    private readonly platformService: PlatformService,
-    private readonly stateService: StateService,
-    private readonly store: Store
+    private readonly _backService: BackService,
+    private readonly _deepLinkService: DeepLinkService,
+    private readonly _focusService: FocusService,
+    private readonly _localeService: LocaleService,
+    private readonly _keyboardService: KeyboardService,
+    private readonly _platformService: PlatformService,
+    private readonly _stateService: StateService,
+    private readonly _store: Store
   ) {
-    this.backService.attachHandlers();
-    this.deepLinkService.attachHandlers();
-    this.localeService.setMomentLocaleGlobally();
-    this.keyboardService.attachScrollHandler();
-    this.stateService.attachHandlers();
+    this._backService.attachHandlers();
+    this._deepLinkService.attachHandlers();
+    this._localeService.setMomentLocaleGlobally();
+    this._keyboardService.attachScrollHandler();
+    this._stateService.attachHandlers();
   }
 
   @HostListener('window:mousedown', ['$event'])
   public globalMouseDown(event: MouseEvent): void {
-    this.focusService.setLastMouseEvent(event);
+    this._focusService.setLastMouseEvent(event);
   }
 
   public ngOnInit(): void {
-    this.store.select(selectReady).subscribe(ready => {
+    this._store.select(selectReady).subscribe(ready => {
       this.ready = ready;
     });
 
-    this.stateService.resumeLastSession().subscribe(() => this.store.dispatch(setReady({ ready: true })));
+    this._stateService.resumeLastSession().subscribe(() => this._store.dispatch(setReady({ ready: true })));
 
-    if (this.platformService.isIos()) {
+    if (this._platformService.isIos()) {
       this.style = this.createIosStyle();
     }
   }

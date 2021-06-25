@@ -17,14 +17,14 @@ export class TextBoxNumberComponent extends TextBoxComponent {
 
   public value: string;
 
-  private format: TextFormat;
-  private formatPattern: string;
+  private _format: TextFormat;
+  private _formatPattern: string;
 
-  private numberFormatService: NumberFormatService;
+  private _numberFormatService: NumberFormatService;
 
   protected init(): void {
     super.init();
-    this.numberFormatService = this.getInjector().get(NumberFormatService);
+    this._numberFormatService = this.getInjector().get(NumberFormatService);
   }
 
   public getInput(): ElementRef {
@@ -38,7 +38,7 @@ export class TextBoxNumberComponent extends TextBoxComponent {
           this.value = null;
           this.updateWrapper();
         } else {
-          const formattedValue: string = this.numberFormatService.formatString(this.value, ParseMethod.Client, this.format, this.formatPattern);
+          const formattedValue: string = this._numberFormatService.formatString(this.value, ParseMethod.Client, this._format, this._formatPattern);
           if (formattedValue == null) {
             this.updateComponent();
           } else {
@@ -57,13 +57,13 @@ export class TextBoxNumberComponent extends TextBoxComponent {
   }
 
   private updateWrapper(): void {
-    this.getWrapper().setValue(this.numberFormatService.parseString(this.value, ParseMethod.Client, this.format, this.formatPattern));
+    this.getWrapper().setValue(this._numberFormatService.parseString(this.value, ParseMethod.Client, this._format, this._formatPattern));
   }
 
   protected updateData(wrapper: TextBoxNumberWrapper): void {
     super.updateData(wrapper);
-    this.format = wrapper.getFormat();
-    this.formatPattern = wrapper.getFormatPattern();
-    this.value = this.numberFormatService.formatNumber(wrapper.getValue(), this.format, this.formatPattern);
+    this._format = wrapper.getFormat();
+    this._formatPattern = wrapper.getFormatPattern();
+    this.value = this._numberFormatService.formatNumber(wrapper.getValue(), this._format, this._formatPattern);
   }
 }

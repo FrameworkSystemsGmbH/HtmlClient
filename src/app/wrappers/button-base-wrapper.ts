@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 
 export abstract class ButtonBaseWrapper extends FittedWrapper {
 
-  private btnClickSub: Subscription;
+  private _btnClickSub: Subscription;
 
   public mapEnterToTab(): boolean {
     return Boolean.falseIfNull(this.getPropertyStore().getMapEnterToTab());
@@ -49,15 +49,15 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnClickEvent()) {
-      this.btnClickSub = instance.btnClick.subscribe(() => this.getBtnClickSubscription()());
+      this._btnClickSub = instance.btnClick.subscribe(() => this.getBtnClickSubscription()());
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this.btnClickSub) {
-      this.btnClickSub.unsubscribe();
+    if (this._btnClickSub) {
+      this._btnClickSub.unsubscribe();
     }
   }
 

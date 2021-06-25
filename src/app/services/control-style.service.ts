@@ -4,24 +4,24 @@ import { PropertyData } from '@app/common/property-data';
 @Injectable()
 export class ControlStyleService {
 
-  private controlStyles: Map<string, PropertyData> = new Map<string, PropertyData>();
+  private _controlStyles: Map<string, PropertyData> = new Map<string, PropertyData>();
 
   public addControlStyle(key: string, data: PropertyData): void {
-    this.controlStyles.set(key, data);
+    this._controlStyles.set(key, data);
   }
 
   public getControlStyle(key: string): PropertyData {
-    return this.controlStyles.get(key);
+    return this._controlStyles.get(key);
   }
 
   public getBaseControlStyle(): PropertyData {
-    return this.controlStyles.get('BaseControl');
+    return this._controlStyles.get('BaseControl');
   }
 
   public saveState(): Array<any> {
     const json: Array<any> = new Array<any>();
 
-    this.controlStyles.forEach((value, key) => {
+    this._controlStyles.forEach((value, key) => {
       json.push({
         name: key,
         style: value
@@ -42,6 +42,6 @@ export class ControlStyleService {
       styles.set(entry.name, entry.style);
     });
 
-    this.controlStyles = styles;
+    this._controlStyles = styles;
   }
 }

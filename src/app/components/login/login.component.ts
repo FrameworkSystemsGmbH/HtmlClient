@@ -32,23 +32,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   public editorShown: boolean;
   public editingExisting: boolean;
 
-  private brokerValidator: any;
-  private activeBrokerNameSub: Subscription;
-  private lastSessionInfoSub: Subscription;
+  private _brokerValidator: any;
+  private _activeBrokerNameSub: Subscription;
+  private _lastSessionInfoSub: Subscription;
 
   public constructor(
-    private readonly titleService: TitleService,
-    private readonly loginService: LoginService,
-    private readonly brokerService: BrokerService,
-    private readonly stateService: StateService,
-    private readonly store: Store) { }
+    private readonly _titleService: TitleService,
+    private readonly _loginService: LoginService,
+    private readonly _brokerService: BrokerService,
+    private readonly _stateService: StateService,
+    private readonly _store: Store) { }
 
   public ngOnInit(): void {
-    this.brokerValidator = this.createBrokerValidator(this.loginService);
+    this._brokerValidator = this.createBrokerValidator(this._loginService);
 
-    this.brokers$ = this.loginService.getBrokers();
+    this.brokers$ = this._loginService.getBrokers();
 
-    this.activeBrokerNameSub = this.store.select(selectBrokerName).subscribe(name => {
+    this._activeBrokerNameSub = this._store.select(selectBrokerName).subscribe(name => {
       this.activeBrokerName = name;
     });
 
@@ -60,22 +60,22 @@ export class LoginComponent implements OnInit, OnDestroy {
       url: this.urlControl
     });
 
-    this.lastSessionInfoSub = this.stateService.getLastSessionInfo().subscribe(lastSessionInfo => {
+    this._lastSessionInfoSub = this._stateService.getLastSessionInfo().subscribe(lastSessionInfo => {
       this.lastSessionInfo = lastSessionInfo;
     });
 
     if (String.isNullOrWhiteSpace(this.activeBrokerName)) {
-      this.titleService.setDefault();
+      this._titleService.setDefault();
     }
   }
 
   public ngOnDestroy(): void {
-    if (this.activeBrokerNameSub) {
-      this.activeBrokerNameSub.unsubscribe();
+    if (this._activeBrokerNameSub) {
+      this._activeBrokerNameSub.unsubscribe();
     }
 
-    if (this.lastSessionInfoSub) {
-      this.lastSessionInfoSub.unsubscribe();
+    if (this._lastSessionInfoSub) {
+      this._lastSessionInfoSub.unsubscribe();
     }
   }
 
@@ -84,12 +84,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public continueSession(): void {
-    this.stateService.loadState(this.lastSessionInfo);
+    this._stateService.loadState(this.lastSessionInfo);
   }
 
   public openEditorNew(): void {
     this.nameControl.setValidators(Validators.required.bind(this));
-    this.nameControl.setAsyncValidators(this.brokerValidator);
+    this.nameControl.setAsyncValidators(this._brokerValidator);
     this.editingExisting = false;
     this.editorShown = true;
   }
@@ -118,7 +118,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     broker.name = this.nameControl.value;
     broker.url = this.urlControl.value;
 
-    this.loginService.addOrUpdateBroker(broker);
+    this._loginService.addOrUpdateBroker(broker);
 
     this.addForm.reset();
     this.exitEditor();
@@ -126,7 +126,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public deleteBroker(broker: LoginBroker): void {
     if (broker.name !== this.activeBrokerName) {
-      this.loginService.deleteBroker(broker);
+      this._loginService.deleteBroker(broker);
     }
   }
 
@@ -135,7 +135,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.brokerService.login(broker, false);
+    this._brokerService.login(broker, false);
   }
 
   private createBrokerValidator(ls: LoginService): any {

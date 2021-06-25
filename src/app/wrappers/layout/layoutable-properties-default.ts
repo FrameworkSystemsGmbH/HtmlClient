@@ -3,58 +3,58 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 
 export class LayoutableProperties implements ILayoutableProperties {
 
-  private readonly wrapper: ILayoutableControlWrapper;
+  private readonly _wrapper: ILayoutableControlWrapper;
 
-  private x: number;
-  private y: number;
+  private _x: number;
+  private _y: number;
 
-  private hBarNeeded: boolean;
+  private _hBarNeeded: boolean;
 
-  private layoutWidth: number;
-  private layoutHeight: number;
+  private _layoutWidth: number;
+  private _layoutHeight: number;
 
   public constructor(wrapper: ILayoutableControlWrapper) {
-    this.wrapper = wrapper;
+    this._wrapper = wrapper;
   }
 
   public getX(): number {
-    return this.x;
+    return this._x;
   }
 
   public setX(x: number): void {
-    this.x = x;
+    this._x = x;
   }
 
   public getY(): number {
-    return this.y;
+    return this._y;
   }
 
   public setY(y: number): void {
-    this.y = y;
+    this._y = y;
   }
 
   public getHBarNeeded(): boolean {
-    return this.hBarNeeded;
+    return this._hBarNeeded;
   }
 
   public setHBarNeeded(value: boolean): void {
-    this.hBarNeeded = value;
+    this._hBarNeeded = value;
   }
 
   public getLayoutWidth(): number {
-    return this.layoutWidth;
+    return this._layoutWidth;
   }
 
   public setLayoutWidth(layoutWidth: number): void {
-    this.layoutWidth = layoutWidth;
+    this._layoutWidth = layoutWidth;
   }
 
   public getLayoutHeight(): number {
-    return this.layoutHeight;
+    return this._layoutHeight;
   }
 
   public setLayoutHeight(layoutHeight: number): void {
-    this.layoutHeight = layoutHeight;
+    this._layoutHeight = layoutHeight;
   }
 
   /*
@@ -62,7 +62,7 @@ export class LayoutableProperties implements ILayoutableProperties {
    * Due to HTML box-sizing this value does not include horizontal margins
    */
   public getClientWidth(): number {
-    return this.layoutWidth - this.wrapper.getMarginLeft() - this.wrapper.getMarginRight();
+    return this._layoutWidth - this._wrapper.getMarginLeft() - this._wrapper.getMarginRight();
   }
 
   /*
@@ -70,6 +70,6 @@ export class LayoutableProperties implements ILayoutableProperties {
    * Due to HTML box-sizing this value does not include vertical margins
    */
   public getClientHeight(): number {
-    return this.layoutHeight - this.wrapper.getMarginTop() - this.wrapper.getMarginBottom();
+    return this._layoutHeight - this._wrapper.getMarginTop() - this._wrapper.getMarginBottom();
   }
 }

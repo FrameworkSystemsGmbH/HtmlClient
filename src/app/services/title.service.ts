@@ -6,25 +6,25 @@ const DEFAULT_TITLE: string = 'HTML Client';
 @Injectable()
 export class TitleService {
 
-  private currentTitle: string;
+  private _currentTitle: string;
 
-  public constructor(private readonly title: Title) { }
+  public constructor(private readonly _title: Title) { }
 
   public getTitle(): string {
-    return !String.isNullOrWhiteSpace(this.currentTitle) ? this.currentTitle : DEFAULT_TITLE;
+    return !String.isNullOrWhiteSpace(this._currentTitle) ? this._currentTitle : DEFAULT_TITLE;
   }
 
   public setTitle(title: string): void {
-    this.currentTitle = title;
+    this._currentTitle = title;
     this.updateTitle();
   }
 
   public setDefault(): void {
-    this.currentTitle = null;
+    this._currentTitle = null;
     this.updateTitle();
   }
 
   private updateTitle(): void {
-    this.title.setTitle(this.getTitle());
+    this._title.setTitle(this.getTitle());
   }
 }

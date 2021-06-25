@@ -21,16 +21,16 @@ export class ButtonImageComponent extends ButtonComponent {
   public textStyle: any;
   public badgeImageSrc: SafeUrl;
 
-  private normaleImageUrl: string;
-  private disabledImageUrl: string;
-  private mouseOverImageUrl: string;
-  private pressedImageUrl: string;
+  private _normaleImageUrl: string;
+  private _disabledImageUrl: string;
+  private _mouseOverImageUrl: string;
+  private _pressedImageUrl: string;
 
-  private sanatizer: DomSanitizer;
+  private _sanatizer: DomSanitizer;
 
   protected init(): void {
     super.init();
-    this.sanatizer = this.getInjector().get(DomSanitizer);
+    this._sanatizer = this.getInjector().get(DomSanitizer);
   }
 
   protected getButton(): ElementRef {
@@ -84,26 +84,26 @@ export class ButtonImageComponent extends ButtonComponent {
     this.currentImageUrl = null;
 
     if (!this.isEditable) {
-      this.currentImageUrl = this.disabledImageUrl;
+      this.currentImageUrl = this._disabledImageUrl;
     } else if (this.isMouseDown) {
-      this.currentImageUrl = this.pressedImageUrl;
+      this.currentImageUrl = this._pressedImageUrl;
     } else if (this.isFocused || this.isHovered) {
-      this.currentImageUrl = this.mouseOverImageUrl;
+      this.currentImageUrl = this._mouseOverImageUrl;
     } else {
-      this.currentImageUrl = this.normaleImageUrl;
+      this.currentImageUrl = this._normaleImageUrl;
     }
   }
 
   protected updateData(wrapper: ButtonImageWrapper): void {
     super.updateData(wrapper);
-    this.normaleImageUrl = wrapper.getImageUrl();
-    this.disabledImageUrl = wrapper.getDisabledImageUrl();
-    this.mouseOverImageUrl = wrapper.getMouseOverImageUrl();
-    this.pressedImageUrl = wrapper.getPressedImageUrl();
+    this._normaleImageUrl = wrapper.getImageUrl();
+    this._disabledImageUrl = wrapper.getDisabledImageUrl();
+    this._mouseOverImageUrl = wrapper.getMouseOverImageUrl();
+    this._pressedImageUrl = wrapper.getPressedImageUrl();
     this.updateImageUrl();
 
     const badgeImageSrc: string = wrapper.getBadgeImageSrc();
-    this.badgeImageSrc = !String.isNullOrWhiteSpace(badgeImageSrc) ? this.sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
+    this.badgeImageSrc = !String.isNullOrWhiteSpace(badgeImageSrc) ? this._sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
   }
 
   protected updateStyles(wrapper: ButtonImageWrapper): void {

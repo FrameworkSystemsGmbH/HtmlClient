@@ -4,93 +4,93 @@ import { ILayoutableControlLabelTemplate } from '@app/layout/layoutable-control-
 
 export class ControlLabelTemplate implements ILayoutableControlLabelTemplate {
 
-  private readonly propertyStore: PropertyStore;
+  private readonly _propertyStore: PropertyStore;
 
   public constructor(propertyStore: PropertyStore) {
-    this.propertyStore = propertyStore;
+    this._propertyStore = propertyStore;
   }
 
   public getIsVisible(): boolean {
-    return this.propertyStore.getIsVisible();
+    return this._propertyStore.getIsVisible();
   }
 
   public getForeColor(): string {
-    return this.propertyStore.getForeColor();
+    return this._propertyStore.getForeColor();
   }
 
   public getBackColor(): string {
-    return this.propertyStore.getBackColor();
+    return this._propertyStore.getBackColor();
   }
 
   public getFontFamily(): string {
-    return this.propertyStore.getFontFamily();
+    return this._propertyStore.getFontFamily();
   }
 
   public getFontSize(): number {
-    return this.propertyStore.getFontSize();
+    return this._propertyStore.getFontSize();
   }
 
   public getFontBold(): boolean {
-    return this.propertyStore.getFontBold();
+    return this._propertyStore.getFontBold();
   }
 
   public getFontItalic(): boolean {
-    return this.propertyStore.getFontItalic();
+    return this._propertyStore.getFontItalic();
   }
 
   public getFontUnderline(): boolean {
-    return this.propertyStore.getFontUnderline();
+    return this._propertyStore.getFontUnderline();
   }
 
   public getTextAlign(): TextAlign {
-    return this.propertyStore.getTextAlign();
+    return this._propertyStore.getTextAlign();
   }
 
   public getMarginLeft(): number {
-    return this.propertyStore.getMarginLeft();
+    return this._propertyStore.getMarginLeft();
   }
 
   public getMarginRight(): number {
-    return this.propertyStore.getMarginRight();
+    return this._propertyStore.getMarginRight();
   }
 
   public getMarginTop(): number {
-    return this.propertyStore.getMarginTop();
+    return this._propertyStore.getMarginTop();
   }
 
   public getMarginBottom(): number {
-    return this.propertyStore.getMarginBottom();
+    return this._propertyStore.getMarginBottom();
   }
 
   public getPaddingLeft(): number {
-    return this.propertyStore.getPaddingLeft();
+    return this._propertyStore.getPaddingLeft();
   }
 
   public getPaddingRight(): number {
-    return this.propertyStore.getPaddingRight();
+    return this._propertyStore.getPaddingRight();
   }
 
   public getPaddingTop(): number {
-    return this.propertyStore.getPaddingTop();
+    return this._propertyStore.getPaddingTop();
   }
 
   public getPaddingBottom(): number {
-    return this.propertyStore.getPaddingBottom();
+    return this._propertyStore.getPaddingBottom();
   }
 
   public getMinWidth(): number {
-    return this.propertyStore.getMinWidth();
+    return this._propertyStore.getMinWidth();
   }
 
   public getMinHeight(): number {
-    return this.propertyStore.getMinHeight();
+    return this._propertyStore.getMinHeight();
   }
 
   public getMaxWidth(): number {
-    return this.propertyStore.getMaxWidth();
+    return this._propertyStore.getMaxWidth();
   }
 
   public getMaxHeight(): number {
-    return this.propertyStore.getMaxHeight();
+    return this._propertyStore.getMaxHeight();
   }
 }

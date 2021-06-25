@@ -17,17 +17,17 @@ import { Subscription } from 'rxjs';
 
 export class PictureWrapper extends ControlWrapper {
 
-  private picClickSub: Subscription;
+  private _picClickSub: Subscription;
 
-  private imageData: string;
-  private dataSourceType: DataSourceType;
+  private _imageData: string;
+  private _dataSourceType: DataSourceType;
 
-  private imageService: ImageService;
+  private _imageService: ImageService;
 
   protected init(): void {
     super.init();
-    this.imageService = this.getInjector().get(ImageService);
-    this.dataSourceType = DataSourceType.ByteArray;
+    this._imageService = this.getInjector().get(ImageService);
+    this._dataSourceType = DataSourceType.ByteArray;
   }
 
   public getControlType(): ControlType {
@@ -35,16 +35,16 @@ export class PictureWrapper extends ControlWrapper {
   }
 
   public getImageSrc(): string {
-    if (!String.isNullOrWhiteSpace(this.imageData)) {
-      if (this.dataSourceType === DataSourceType.ByteArray) {
-        return `data:;base64,${this.imageData}`;
+    if (!String.isNullOrWhiteSpace(this._imageData)) {
+      if (this._dataSourceType === DataSourceType.ByteArray) {
+        return `data:;base64,${this._imageData}`;
       } else {
-        return this.imageService.getImageUrl(this.imageData);
+        return this._imageService.getImageUrl(this._imageData);
       }
     } else {
       const imageUrl: string = this.getPropertyStore().getImage();
       if (!String.isNullOrWhiteSpace(imageUrl)) {
-        return this.imageService.getImageUrl(imageUrl);
+        return this._imageService.getImageUrl(imageUrl);
       }
     }
 
@@ -70,13 +70,13 @@ export class PictureWrapper extends ControlWrapper {
   }
 
   public setImageUrlAction(url: string): void {
-    this.dataSourceType = DataSourceType.String;
-    this.imageData = url;
+    this._dataSourceType = DataSourceType.String;
+    this._imageData = url;
   }
 
   public setImageBytesAction(bytes: string): void {
-    this.dataSourceType = DataSourceType.ByteArray;
-    this.imageData = bytes;
+    this._dataSourceType = DataSourceType.ByteArray;
+    this._imageData = bytes;
   }
 
   protected setDataJson(dataJson: any): void {
@@ -87,8 +87,8 @@ export class PictureWrapper extends ControlWrapper {
     }
 
     if (dataJson.text && dataJson.text.type != null && !String.isNullOrWhiteSpace(dataJson.text.value)) {
-      this.dataSourceType = dataJson.text.type;
-      this.imageData = dataJson.text.value;
+      this._dataSourceType = dataJson.text.type;
+      this._imageData = dataJson.text.value;
     }
   }
 
@@ -110,15 +110,15 @@ export class PictureWrapper extends ControlWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnClickEvent()) {
-      this.picClickSub = instance.picClick.subscribe((args: ClientPictureClickEventArgs) => this.getPicClickSubscription(args)());
+      this._picClickSub = instance.picClick.subscribe((args: ClientPictureClickEventArgs) => this.getPicClickSubscription(args)());
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this.picClickSub) {
-      this.picClickSub.unsubscribe();
+    if (this._picClickSub) {
+      this._picClickSub.unsubscribe();
     }
   }
 
@@ -153,14 +153,14 @@ export class PictureWrapper extends ControlWrapper {
 
   public saveState(): any {
     const json: any = super.saveState();
-    json.type = this.dataSourceType;
-    json.imageData = this.imageData;
+    json.type = this._dataSourceType;
+    json.imageData = this._imageData;
     return json;
   }
 
   protected loadState(json: any): void {
     super.loadState(json);
-    this.dataSourceType = json.type;
-    this.imageData = json.imageData;
+    this._dataSourceType = json.type;
+    this._imageData = json.imageData;
   }
 }

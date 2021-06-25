@@ -41,32 +41,32 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   public inputStyle: any;
   public arrowStyle: any;
 
-  private inputValue: string;
-  private keyDownSub: Subscription;
-  private arrowHover: boolean;
+  private _inputValue: string;
+  private _keyDownSub: Subscription;
+  private _arrowHover: boolean;
 
-  private readonly regEx: RegExp = /([a-z]|\d)/i;
+  private readonly _regEx: RegExp = /([a-z]|\d)/i;
 
   public ngAfterViewInit(): void {
-    this.regEx.compile();
+    this._regEx.compile();
 
-    this.keyDownSub = fromEvent<KeyboardEvent>(this.input.nativeElement, 'keydown').subscribe(event => this.onKeyDown(event));
+    this._keyDownSub = fromEvent<KeyboardEvent>(this.input.nativeElement, 'keydown').subscribe(event => this.onKeyDown(event));
   }
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
 
-    if (this.keyDownSub) {
-      this.keyDownSub.unsubscribe();
+    if (this._keyDownSub) {
+      this._keyDownSub.unsubscribe();
     }
   }
 
   protected getInputValue(): string {
-    return this.inputValue;
+    return this._inputValue;
   }
 
   protected setInputValue(value: string): void {
-    this.inputValue = value;
+    this._inputValue = value;
   }
 
   public getControl(): ElementRef {
@@ -106,13 +106,13 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
 
   public onArrowEnter(): void {
     if (this.isEditable) {
-      this.arrowHover = true;
+      this._arrowHover = true;
     }
   }
 
   public onArrowLeave(): void {
     if (this.isEditable) {
-      this.arrowHover = false;
+      this._arrowHover = false;
     }
   }
 
@@ -202,7 +202,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
 
   protected createArrowStyle(wrapper: ComboBoxWrapper): any {
     return {
-      'border-left': `0.1rem solid ${this.arrowHover ? wrapper.getBorderColor() : 'transparent'}`
+      'border-left': `0.1rem solid ${this._arrowHover ? wrapper.getBorderColor() : 'transparent'}`
     };
   }
 }

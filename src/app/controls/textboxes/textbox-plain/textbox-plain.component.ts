@@ -17,13 +17,13 @@ export class TextBoxPlainComponent extends TextBoxComponent {
   public value: string;
   public isPasswordField: boolean;
 
-  private format: TextFormat;
+  private _format: TextFormat;
 
-  private stringFormatService: StringFormatService;
+  private _stringFormatService: StringFormatService;
 
   protected init(): void {
     super.init();
-    this.stringFormatService = this.getInjector().get(StringFormatService);
+    this._stringFormatService = this.getInjector().get(StringFormatService);
   }
 
   public getInput(): ElementRef {
@@ -46,7 +46,7 @@ export class TextBoxPlainComponent extends TextBoxComponent {
   }
 
   private formatValue(value: string): string {
-    return this.isPasswordField ? value : this.stringFormatService.formatString(value, this.format);
+    return this.isPasswordField ? value : this._stringFormatService.formatString(value, this._format);
   }
 
   private updateWrapper(): void {
@@ -55,7 +55,7 @@ export class TextBoxPlainComponent extends TextBoxComponent {
 
   protected updateData(wrapper: TextBoxPlainWrapper): void {
     super.updateData(wrapper);
-    this.format = wrapper.getFormat();
+    this._format = wrapper.getFormat();
     this.isPasswordField = wrapper.isPasswordField();
     this.value = this.formatValue(wrapper.getValue());
   }

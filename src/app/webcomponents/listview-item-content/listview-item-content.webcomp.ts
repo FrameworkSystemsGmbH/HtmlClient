@@ -1,6 +1,6 @@
 export class ListViewItemContentWebComp extends HTMLElement {
 
-  private templateContent: string;
+  private _templateContent: string;
 
   public init(globalCss: string, templateCss: string, templateHtml: string): void {
     const globCss: string = !String.isNullOrWhiteSpace(globalCss) ? ` ${globalCss}` : String.empty();
@@ -9,13 +9,13 @@ export class ListViewItemContentWebComp extends HTMLElement {
     const css: string = `<style>:host { flex: 1; display: flex; flex-direction: column; } .lvItem { flex: 1; box-sizing: border-box; }${globCss}${localCss}</style>`;
     const html: string = `<div class="lvItem">${!String.isNullOrWhiteSpace(templateHtml) ? ` ${templateHtml}` : String.empty()}</div>`;
 
-    this.templateContent = `${css} ${html}`;
+    this._templateContent = `${css} ${html}`;
 
     this.attachShadow({ mode: 'open' });
   }
 
   public update(isEditable: boolean, values: Array<string>): void {
-    let newContent: string = this.templateContent;
+    let newContent: string = this._templateContent;
 
     if (values != null && values.length) {
       values.forEach((value, index) => {

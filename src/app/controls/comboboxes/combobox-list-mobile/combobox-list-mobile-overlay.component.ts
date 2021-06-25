@@ -26,13 +26,13 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
   public entries: DataList;
   public selectedIndex: number;
 
-  private afterOpenSub: Subscription;
-  private backdropClickSub: Subscription;
-  private onBackButtonListener: () => boolean;
+  private _afterOpenSub: Subscription;
+  private _backdropClickSub: Subscription;
+  private _onBackButtonListener: () => boolean;
 
   public constructor(
-    private readonly backService: BackService,
-    private readonly dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent>,
+    private readonly _backService: BackService,
+    private readonly _dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.entries = data.entries;
@@ -42,21 +42,21 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
   @HostListener('document:keydown', ['$event'])
   public handleKeydown(event: KeyboardEvent): void {
     if (KeyUtil.getKeyString(event) === 'Escape') {
-      this.dialogRef.close({
+      this._dialogRef.close({
         selected: false
       });
     }
   }
 
   public ngOnInit(): void {
-    this.onBackButtonListener = this.onBackButton.bind(this);
-    this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
+    this._onBackButtonListener = this.onBackButton.bind(this);
+    this._backService.addBackButtonListener(this._onBackButtonListener, BackButtonPriority.Overlay);
 
-    this.backdropClickSub = this.dialogRef.backdropClick().subscribe(() => {
-      this.dialogRef.close({ selected: false });
+    this._backdropClickSub = this._dialogRef.backdropClick().subscribe(() => {
+      this._dialogRef.close({ selected: false });
     });
 
-    this.afterOpenSub = this.dialogRef.afterOpened().subscribe(() => {
+    this._afterOpenSub = this._dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => {
         this.scrollSelectedEntryIntoView();
         this.wrapper.nativeElement.focus();
@@ -65,24 +65,24 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.backService.removeBackButtonListener(this.onBackButtonListener);
+    this._backService.removeBackButtonListener(this._onBackButtonListener);
 
-    if (this.backdropClickSub) {
-      this.backdropClickSub.unsubscribe();
+    if (this._backdropClickSub) {
+      this._backdropClickSub.unsubscribe();
     }
 
-    if (this.afterOpenSub) {
-      this.afterOpenSub.unsubscribe();
+    if (this._afterOpenSub) {
+      this._afterOpenSub.unsubscribe();
     }
   }
 
   private onBackButton(): boolean {
-    this.dialogRef.close({ selected: false });
+    this._dialogRef.close({ selected: false });
     return true;
   }
 
   public onEntrySelected(index: number): void {
-    this.dialogRef.close({
+    this._dialogRef.close({
       selected: true,
       index
     });

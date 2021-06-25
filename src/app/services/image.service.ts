@@ -5,16 +5,16 @@ import { Store } from '@ngrx/store';
 @Injectable()
 export class ImageService {
 
-  private filesUrl: string;
+  private _filesUrl: string;
 
   public constructor(private readonly store: Store) {
     this.store.select(selectBrokerFilesUrl).subscribe(filesUrl => {
-      this.filesUrl = filesUrl;
+      this._filesUrl = filesUrl;
     });
   }
 
   public getFilesUrl(): string {
-    return this.filesUrl;
+    return this._filesUrl;
   }
 
   public getImageUrl(image: string): string {
@@ -29,7 +29,7 @@ export class ImageService {
     }
 
     if (!image.startsWith('/')) {
-      return `${this.filesUrl}/${image}`;
+      return `${this._filesUrl}/${image}`;
     }
 
     return null;

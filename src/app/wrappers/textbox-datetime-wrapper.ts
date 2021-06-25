@@ -11,11 +11,11 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
   protected value: Moment.Moment;
   protected orgValue: Moment.Moment;
 
-  private dateTimeFormatService: DateTimeFormatService;
+  private _dateTimeFormatService: DateTimeFormatService;
 
   protected init(): void {
     super.init();
-    this.dateTimeFormatService = this.getInjector().get(DateTimeFormatService);
+    this._dateTimeFormatService = this.getInjector().get(DateTimeFormatService);
   }
 
   public getTextBoxType(): TextBoxType {
@@ -23,7 +23,7 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
   }
 
   protected getDateTimeFormatService(): DateTimeFormatService {
-    return this.dateTimeFormatService;
+    return this._dateTimeFormatService;
   }
 
   public getValue(): Moment.Moment {
@@ -35,14 +35,14 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
   }
 
   protected getValueJson(): string {
-    return this.value == null ? String.empty() : this.dateTimeFormatService.momentToJson(this.value);
+    return this.value == null ? String.empty() : this._dateTimeFormatService.momentToJson(this.value);
   }
 
   protected setValueJson(value: string): void {
     let val: Moment.Moment = null;
 
     if (!String.isNullOrWhiteSpace(value)) {
-      val = this.dateTimeFormatService.momentFromJson(value);
+      val = this._dateTimeFormatService.momentFromJson(value);
 
       if (val === null || !val.isValid()) {
         val = null;

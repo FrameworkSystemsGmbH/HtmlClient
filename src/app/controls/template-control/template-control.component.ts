@@ -21,11 +21,11 @@ export class TemplateControlComponent extends ControlComponent {
 
   public wrapperStyle: any;
 
-  private baseFormatService: BaseFormatService;
+  private _baseFormatService: BaseFormatService;
 
   protected init(): void {
     super.init();
-    this.baseFormatService = this.getInjector().get(BaseFormatService);
+    this._baseFormatService = this.getInjector().get(BaseFormatService);
   }
 
   public getWrapper(): TemplateControlWrapper {
@@ -48,7 +48,7 @@ export class TemplateControlComponent extends ControlComponent {
     const formattedValues: Array<string> = new Array<string>();
 
     for (const templateValue of wrapper.getViewTemplateValues()) {
-      formattedValues.push(this.baseFormatService.formatString(templateValue.getValue(), ParseMethod.Server, templateValue.getFormat(), templateValue.getFormatPattern()));
+      formattedValues.push(this._baseFormatService.formatString(templateValue.getValue(), ParseMethod.Server, templateValue.getFormat(), templateValue.getFormatPattern()));
     }
 
     this.contentEl.nativeElement.update(this.isEditable, formattedValues);

@@ -30,11 +30,11 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   public buttons: MsgBoxButtons;
   public buttonsType: typeof MsgBoxButtons = MsgBoxButtons;
 
-  private onBackButtonListener: () => boolean;
+  private _onBackButtonListener: () => boolean;
 
   public constructor(
-    private readonly backService: BackService,
-    private readonly dialogRef: MatDialogRef<MsgBoxComponent>,
+    private readonly _backService: BackService,
+    private readonly _dialogRef: MatDialogRef<MsgBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IMsgBoxData
   ) {
     this.title = data.title;
@@ -44,8 +44,8 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.onBackButtonListener = this.onBackButton.bind(this);
-    this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
+    this._onBackButtonListener = this.onBackButton.bind(this);
+    this._backService.addBackButtonListener(this._onBackButtonListener, BackButtonPriority.Overlay);
   }
 
   public ngAfterViewInit(): void {
@@ -53,50 +53,50 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.backService.removeBackButtonListener(this.onBackButtonListener);
+    this._backService.removeBackButtonListener(this._onBackButtonListener);
   }
 
   private onBackButton(): boolean {
     if (this.buttons === MsgBoxButtons.AbortRetryIgnore) {
-      this.dialogRef.close(MsgBoxResult.Abort);
+      this._dialogRef.close(MsgBoxResult.Abort);
     } else if (this.buttons === MsgBoxButtons.Ok) {
-      this.dialogRef.close(MsgBoxResult.Ok);
+      this._dialogRef.close(MsgBoxResult.Ok);
     } else if (this.buttons === MsgBoxButtons.OkCancel) {
-      this.dialogRef.close(MsgBoxResult.Cancel);
+      this._dialogRef.close(MsgBoxResult.Cancel);
     } else if (this.buttons === MsgBoxButtons.RetryCancel) {
-      this.dialogRef.close(MsgBoxResult.Cancel);
+      this._dialogRef.close(MsgBoxResult.Cancel);
     } else if (this.buttons === MsgBoxButtons.YesNoCancel) {
-      this.dialogRef.close(MsgBoxResult.Cancel);
+      this._dialogRef.close(MsgBoxResult.Cancel);
     }
 
     return true;
   }
 
   public onYesClick(): void {
-    this.dialogRef.close(MsgBoxResult.Yes);
+    this._dialogRef.close(MsgBoxResult.Yes);
   }
 
   public onNoClick(): void {
-    this.dialogRef.close(MsgBoxResult.No);
+    this._dialogRef.close(MsgBoxResult.No);
   }
 
   public onOkClick(): void {
-    this.dialogRef.close(MsgBoxResult.Ok);
+    this._dialogRef.close(MsgBoxResult.Ok);
   }
 
   public onAbortClick(): void {
-    this.dialogRef.close(MsgBoxResult.Abort);
+    this._dialogRef.close(MsgBoxResult.Abort);
   }
 
   public onRetryClick(): void {
-    this.dialogRef.close(MsgBoxResult.Retry);
+    this._dialogRef.close(MsgBoxResult.Retry);
   }
 
   public onIgnoreClick(): void {
-    this.dialogRef.close(MsgBoxResult.Ignore);
+    this._dialogRef.close(MsgBoxResult.Ignore);
   }
 
   public onCancelClick(): void {
-    this.dialogRef.close(MsgBoxResult.Cancel);
+    this._dialogRef.close(MsgBoxResult.Cancel);
   }
 }

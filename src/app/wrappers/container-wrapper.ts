@@ -17,7 +17,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   protected controls: Array<ControlWrapper>;
 
-  private buttonGroup: ButtonGroup;
+  private _buttonGroup: ButtonGroup;
 
   protected init(): void {
     super.init();
@@ -66,11 +66,11 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
       return null;
     }
 
-    if (!this.buttonGroup) {
-      this.buttonGroup = new ButtonGroup(this.getName());
+    if (!this._buttonGroup) {
+      this._buttonGroup = new ButtonGroup(this.getName());
     }
 
-    return this.buttonGroup;
+    return this._buttonGroup;
   }
 
   public supportsButtonGroup(): boolean {

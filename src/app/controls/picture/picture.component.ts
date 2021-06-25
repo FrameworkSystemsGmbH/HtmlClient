@@ -33,11 +33,11 @@ export class PictureComponent extends ControlComponent {
   public labelStyle: any;
   public imageClass: any;
 
-  private sanatizer: DomSanitizer;
+  private _sanatizer: DomSanitizer;
 
   protected init(): void {
     super.init();
-    this.sanatizer = this.getInjector().get(DomSanitizer);
+    this._sanatizer = this.getInjector().get(DomSanitizer);
   }
 
   public callPicClick(event: MouseEvent, double: boolean): void {
@@ -95,7 +95,7 @@ export class PictureComponent extends ControlComponent {
 
     this.id = wrapper.getName();
     this.label = wrapper.getCaption();
-    this.imageSrc = !String.isNullOrWhiteSpace(imageSrc) ? this.sanatizer.bypassSecurityTrustUrl(imageSrc) : null;
+    this.imageSrc = !String.isNullOrWhiteSpace(imageSrc) ? this._sanatizer.bypassSecurityTrustUrl(imageSrc) : null;
     this.showCaption = wrapper.showCaption();
   }
 

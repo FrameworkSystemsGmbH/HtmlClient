@@ -27,31 +27,31 @@ const DEFAULT_FONT: string = 'Roboto, Arial, Helvetica, Verdana';
 
 export class PropertyStore {
 
-  private readonly store: Map<PropertyLayer, PropertyData>;
+  private readonly _store: Map<PropertyLayer, PropertyData>;
 
   public constructor() {
-    this.store = new Map<PropertyLayer, PropertyData>();
-    this.store.set(PropertyLayer.ControlStyle, new PropertyData());
-    this.store.set(PropertyLayer.Control, new PropertyData());
-    this.store.set(PropertyLayer.Action, new PropertyData());
-    this.store.set(PropertyLayer.CSC, new PropertyData());
+    this._store = new Map<PropertyLayer, PropertyData>();
+    this._store.set(PropertyLayer.ControlStyle, new PropertyData());
+    this._store.set(PropertyLayer.Control, new PropertyData());
+    this._store.set(PropertyLayer.Action, new PropertyData());
+    this._store.set(PropertyLayer.CSC, new PropertyData());
   }
 
   // Layer
   public getLayer(layer: PropertyLayer): PropertyData {
-    return this.store.get(layer);
+    return this._store.get(layer);
   }
 
   public setLayer(layer: PropertyLayer, data: PropertyData): void {
-    this.store.set(layer, data);
+    this._store.set(layer, data);
   }
 
   // Get Property as new PropertyStore
   public getPropertyStore(getFromPropertyFunc: (data: PropertyData) => PropertyData): PropertyStore {
-    const propertyLayerControlStyle: PropertyData = getFromPropertyFunc(this.store.get(PropertyLayer.ControlStyle));
-    const propertyLayerControl: PropertyData = getFromPropertyFunc(this.store.get(PropertyLayer.Control));
-    const propertyLayerAction: PropertyData = getFromPropertyFunc(this.store.get(PropertyLayer.Action));
-    const propertyLayerCSC: PropertyData = getFromPropertyFunc(this.store.get(PropertyLayer.CSC));
+    const propertyLayerControlStyle: PropertyData = getFromPropertyFunc(this._store.get(PropertyLayer.ControlStyle));
+    const propertyLayerControl: PropertyData = getFromPropertyFunc(this._store.get(PropertyLayer.Control));
+    const propertyLayerAction: PropertyData = getFromPropertyFunc(this._store.get(PropertyLayer.Action));
+    const propertyLayerCSC: PropertyData = getFromPropertyFunc(this._store.get(PropertyLayer.CSC));
 
     const propertyStore: PropertyStore = new PropertyStore();
     propertyStore.setLayer(PropertyLayer.ControlStyle, propertyLayerControlStyle ? propertyLayerControlStyle : new PropertyData());
@@ -64,14 +64,14 @@ export class PropertyStore {
 
   // Get|Set Value
   private getValue<T>(getValueFunc: (data: PropertyData) => T): T {
-    let value: T = getValueFunc(this.store.get(PropertyLayer.CSC));
+    let value: T = getValueFunc(this._store.get(PropertyLayer.CSC));
 
     if (value === undefined) {
-      value = getValueFunc(this.store.get(PropertyLayer.Action));
+      value = getValueFunc(this._store.get(PropertyLayer.Action));
       if (value === undefined) {
-        value = getValueFunc(this.store.get(PropertyLayer.Control));
+        value = getValueFunc(this._store.get(PropertyLayer.Control));
         if (value === undefined) {
-          value = getValueFunc(this.store.get(PropertyLayer.ControlStyle));
+          value = getValueFunc(this._store.get(PropertyLayer.ControlStyle));
         }
       }
     }
@@ -80,11 +80,11 @@ export class PropertyStore {
   }
 
   private getValueForLayer<T>(layer: PropertyLayer, getValueFunc: (data: PropertyData) => T): T {
-    return getValueFunc(this.store.get(layer));
+    return getValueFunc(this._store.get(layer));
   }
 
   public setValue(layer: PropertyLayer, setValueFunc: (data: PropertyData) => void): void {
-    setValueFunc(this.store.get(layer));
+    setValueFunc(this._store.get(layer));
   }
 
   // Serialization

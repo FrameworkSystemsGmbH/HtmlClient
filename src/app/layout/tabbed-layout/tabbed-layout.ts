@@ -11,8 +11,8 @@ import { ITabbedLayoutControl } from '@app/layout/tabbed-layout/tabbed-layout-co
 
 export class TabbedLayout extends LayoutContainerBase {
 
-  private width: number = -1;
-  private wrappers: Array<LayoutableControlWrapper>;
+  private _width: number = -1;
+  private _wrappers: Array<LayoutableControlWrapper>;
 
   public constructor(container: ILayoutableContainer) {
     super(container);
@@ -26,10 +26,10 @@ export class TabbedLayout extends LayoutContainerBase {
     const controls: Array<ILayoutableControl> = this.getControl().getLayoutableControls();
     const controlCount: number = controls.length;
 
-    this.wrappers = new Array<LayoutableControlWrapper>(controlCount);
+    this._wrappers = new Array<LayoutableControlWrapper>(controlCount);
 
     for (let i = 0; i < controlCount; i++) {
-      this.wrappers[i] = new LayoutableControlWrapper(controls[i]);
+      this._wrappers[i] = new LayoutableControlWrapper(controls[i]);
     }
   }
 
@@ -45,7 +45,7 @@ export class TabbedLayout extends LayoutContainerBase {
     // Iterate wrappers to calculate total content min width (maximum of all min widths)
     let minWidth: number = 0;
 
-    for (const wrapper of this.wrappers) {
+    for (const wrapper of this._wrappers) {
       // Ignore invisible items (items with min width = 0 do not have an impact)
       if (wrapper.getIsControlVisible()) {
         minWidth = Math.max(minWidth, wrapper.getMinLayoutWidth());
@@ -84,7 +84,7 @@ export class TabbedLayout extends LayoutContainerBase {
 
   protected getContainerMinWidth(container: ITabbedLayoutControl): number {
     // If no visible tab pages exist -> do not render the control
-    if (this.wrappers.filter(w => w.getIsControlVisible()).length <= 0) {
+    if (this._wrappers.filter(w => w.getIsControlVisible()).length <= 0) {
       return 0;
     }
 
@@ -116,7 +116,7 @@ export class TabbedLayout extends LayoutContainerBase {
       return 0;
     }
 
-    this.width = width;
+    this._width = width;
 
     // Include insets (padding + border + margin) of the container
     const insetsLeft: number = container.getInsetsLeft();
@@ -146,13 +146,13 @@ export class TabbedLayout extends LayoutContainerBase {
 
     if (container.getIsMobileMode()) {
       const selectedTabIndex: number = container.getSelectedTabIndex();
-      const activeTab: LayoutableControlWrapper = selectedTabIndex >= 0 ? this.wrappers[selectedTabIndex] : null;
+      const activeTab: LayoutableControlWrapper = selectedTabIndex >= 0 ? this._wrappers[selectedTabIndex] : null;
 
       if (activeTab != null && activeTab.getIsControlVisible() && activeTab.getMinLayoutWidth() > 0) {
         minHeight += activeTab.getMinLayoutHeight(availableWidth);
       }
     } else {
-      for (const wrapper of this.wrappers) {
+      for (const wrapper of this._wrappers) {
         if (wrapper.getIsControlVisible() && wrapper.getMinLayoutWidth() > 0) {
           minHeight = Math.max(minHeight, wrapper.getMinLayoutHeight(availableWidth));
         }
@@ -189,7 +189,7 @@ export class TabbedLayout extends LayoutContainerBase {
 
   protected getContainerMinHeight(container: ITabbedLayoutControl): number {
     // If no visible tab pages exist -> do not render the control
-    if (this.wrappers.filter(w => w.getIsControlVisible()).length <= 0) {
+    if (this._wrappers.filter(w => w.getIsControlVisible()).length <= 0) {
       return 0;
     }
 
@@ -225,12 +225,12 @@ export class TabbedLayout extends LayoutContainerBase {
     const containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
     // Consistency check
-    if (containerWidth !== this.width) {
+    if (containerWidth !== this._width) {
       this.measureMinHeight(containerWidth);
     }
 
     const selectedTabIndex: number = container.getSelectedTabIndex();
-    const activeTab: LayoutableControlWrapper = selectedTabIndex >= 0 ? this.wrappers[selectedTabIndex] : null;
+    const activeTab: LayoutableControlWrapper = selectedTabIndex >= 0 ? this._wrappers[selectedTabIndex] : null;
 
     if (activeTab == null) {
       return;

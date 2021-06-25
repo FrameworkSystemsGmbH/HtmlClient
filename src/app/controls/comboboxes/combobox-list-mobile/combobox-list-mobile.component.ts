@@ -21,13 +21,13 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
   public iconCaretDown: IconDefinition = faCaretDown;
 
-  private overlayShown: boolean;
+  private _overlayShown: boolean;
 
-  private dialog: MatDialog;
+  private _dialog: MatDialog;
 
   protected init(): void {
     super.init();
-    this.dialog = this.getInjector().get(MatDialog);
+    this._dialog = this.getInjector().get(MatDialog);
   }
 
   public getControl(): ElementRef {
@@ -64,9 +64,9 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
   public onControlClick(event: any): void {
     if (this.isEditable) {
-      this.overlayShown = true;
+      this._overlayShown = true;
 
-      const dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent> = this.dialog.open(ComboBoxListMobileOverlayComponent, {
+      const dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent> = this._dialog.open(ComboBoxListMobileOverlayComponent, {
         backdropClass: 'hc-backdrop',
         data: {
           entries: this.entries,
@@ -76,7 +76,7 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
       dialogRef.afterClosed().subscribe(data => {
         this.control.nativeElement.focus();
-        this.overlayShown = false;
+        this._overlayShown = false;
         if (data.selected) {
           this.setSelectedIndex(data.index);
           this.callSelectionChanged(event);
@@ -86,13 +86,13 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
   }
 
   public callCtrlEnter(event: any): void {
-    if (!this.overlayShown) {
+    if (!this._overlayShown) {
       super.callCtrlEnter(event);
     }
   }
 
   public callCtrlLeave(event: any): void {
-    if (!this.overlayShown) {
+    if (!this._overlayShown) {
       super.callCtrlLeave(event);
     }
   }

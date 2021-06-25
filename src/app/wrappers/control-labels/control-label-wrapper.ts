@@ -22,32 +22,31 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   protected fittedWidth: number;
   protected fittedHeight: number;
 
-  private readonly name: string;
-  private readonly labelProvider: IControlLabelProvider;
-  private readonly labelTemplate: ControlLabelTemplate;
-  private readonly fieldRowWrp: FieldRowWrapper;
+  private readonly _name: string;
+  private readonly _labelProvider: IControlLabelProvider;
+  private readonly _labelTemplate: ControlLabelTemplate;
+  private readonly _fieldRowWrp: FieldRowWrapper;
+  private readonly _resolver: ComponentFactoryResolver;
+  private readonly _fontService: FontService;
 
-  private displayCaption: string;
-  private vchControl: VchControl;
-  private layout: LayoutBase;
-  private layoutableProperties: LayoutableProperties;
-  private componentRef: ComponentRef<ControlLabelComponent>;
-  private labelContainer: ControlLabelContainerBaseWrapper;
-
-  private readonly resolver: ComponentFactoryResolver;
-  private readonly fontService: FontService;
+  private _displayCaption: string;
+  private _vchControl: VchControl;
+  private _layout: LayoutBase;
+  private _layoutableProperties: LayoutableProperties;
+  private _componentRef: ComponentRef<ControlLabelComponent>;
+  private _labelContainer: ControlLabelContainerBaseWrapper;
 
   public constructor(
     injector: Injector,
     labelProvider: IControlLabelProvider,
     fieldRowWrp: FieldRowWrapper
   ) {
-    this.name = `${labelProvider.getName()}_ControlLabel`;
-    this.labelProvider = labelProvider;
-    this.labelTemplate = labelProvider.getLabelTemplate();
-    this.fieldRowWrp = fieldRowWrp;
-    this.resolver = injector.get(ComponentFactoryResolver);
-    this.fontService = injector.get(FontService);
+    this._name = `${labelProvider.getName()}_ControlLabel`;
+    this._labelProvider = labelProvider;
+    this._labelTemplate = labelProvider.getLabelTemplate();
+    this._fieldRowWrp = fieldRowWrp;
+    this._resolver = injector.get(ComponentFactoryResolver);
+    this._fontService = injector.get(FontService);
 
     this.updateFittedWidth();
     this.updateFittedHeight();
@@ -62,30 +61,30 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   protected getResolver(): ComponentFactoryResolver {
-    return this.resolver;
+    return this._resolver;
   }
 
   protected getFontService(): FontService {
-    return this.fontService;
+    return this._fontService;
   }
 
   protected getLabelProvider(): IControlLabelProvider {
-    return this.labelProvider;
+    return this._labelProvider;
   }
 
   protected getLabelTemplate(): ControlLabelTemplate {
-    return this.labelTemplate;
+    return this._labelTemplate;
   }
 
   public getFieldRowWrapper(): FieldRowWrapper {
-    return this.fieldRowWrp;
+    return this._fieldRowWrp;
   }
 
   public getVchControl(): VchControl {
-    if (!this.vchControl) {
-      this.vchControl = this.createVchControl();
+    if (!this._vchControl) {
+      this._vchControl = this.createVchControl();
     }
-    return this.vchControl;
+    return this._vchControl;
   }
 
   protected createVchControl(): VchControl {
@@ -93,10 +92,10 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   protected getLayout(): LayoutBase {
-    if (!this.layout) {
-      this.layout = this.createLayout();
+    if (!this._layout) {
+      this._layout = this.createLayout();
     }
-    return this.layout;
+    return this._layout;
   }
 
   protected createLayout(): LayoutBase {
@@ -104,10 +103,10 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   public getLayoutableProperties(): LayoutableProperties {
-    if (!this.layoutableProperties) {
-      this.layoutableProperties = this.createLayoutableProperties();
+    if (!this._layoutableProperties) {
+      this._layoutableProperties = this.createLayoutableProperties();
     }
-    return this.layoutableProperties;
+    return this._layoutableProperties;
   }
 
   protected createLayoutableProperties(): LayoutableProperties {
@@ -115,19 +114,19 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   protected getLabelContainer(): ControlLabelContainerBaseWrapper {
-    return this.labelContainer;
+    return this._labelContainer;
   }
 
   public setLabelContainer(labelContainer: ControlLabelContainerBaseWrapper): void {
-    this.labelContainer = labelContainer;
+    this._labelContainer = labelContainer;
   }
 
   protected getComponentRef(): ComponentRef<ControlLabelComponent> {
-    return this.componentRef;
+    return this._componentRef;
   }
 
   protected setComponentRef(componentRef: ComponentRef<ControlLabelComponent>): void {
-    this.componentRef = componentRef;
+    this._componentRef = componentRef;
   }
 
   protected getComponent(): ControlLabelComponent {
@@ -148,7 +147,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   public getName(): string {
-    return this.name;
+    return this._name;
   }
 
   public getCurrentIsEditable(): boolean {
@@ -160,11 +159,11 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   public getDisplayCaption(): string {
-    return !String.isNullOrEmpty(this.displayCaption) ? this.displayCaption : this.getCaption();
+    return !String.isNullOrEmpty(this._displayCaption) ? this._displayCaption : this.getCaption();
   }
 
   public setDisplayCaption(displayCaption: string): void {
-    this.displayCaption = displayCaption;
+    this._displayCaption = displayCaption;
     this.updateFittedWidth();
     this.updateFittedHeight();
   }
@@ -405,7 +404,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
     }
 
     // Clear the Angular Component reference
-    this.componentRef = null;
+    this._componentRef = null;
   }
 
   public canReceiveFocus(): boolean {

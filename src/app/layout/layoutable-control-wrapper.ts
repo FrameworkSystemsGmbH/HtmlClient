@@ -9,153 +9,153 @@ import { isIFieldLayoutSynchronized, isILayoutableContainer } from '@app/util/in
 
 export class LayoutableControlWrapper {
 
-  private readonly name: string;
+  private readonly _name: string;
 
-  private minLayoutHeight: number;
+  private _minLayoutHeight: number;
 
-  private readonly minLayoutWidth: number;
-  private readonly maxLayoutWidth: number;
-  private readonly maxLayoutHeight: number;
-  private readonly marginLeft: number;
-  private readonly marginRight: number;
-  private readonly marginTop: number;
-  private readonly marginBottom: number;
-  private readonly dockItemSize: number;
+  private readonly _minLayoutWidth: number;
+  private readonly _maxLayoutWidth: number;
+  private readonly _maxLayoutHeight: number;
+  private readonly _marginLeft: number;
+  private readonly _marginRight: number;
+  private readonly _marginTop: number;
+  private readonly _marginBottom: number;
+  private readonly _dockItemSize: number;
 
-  private readonly visibility: Visibility;
-  private readonly isControlVisible: boolean;
-  private readonly isLayoutVisible: boolean;
-  private readonly isSynchronizedHidden: boolean;
+  private readonly _visibility: Visibility;
+  private readonly _isControlVisible: boolean;
+  private readonly _isLayoutVisible: boolean;
+  private readonly _isSynchronizedHidden: boolean;
 
-  private readonly hAlign: HorizontalAlignment;
-  private readonly vAlign: VerticalAlignment;
+  private readonly _hAlign: HorizontalAlignment;
+  private readonly _vAlign: VerticalAlignment;
 
-  private readonly layoutableProperties: ILayoutableProperties;
+  private readonly _layoutableProperties: ILayoutableProperties;
 
-  private resultWdith: number;
-  private resultHeight: number;
+  private _resultWdith: number;
+  private _resultHeight: number;
 
-  private readonly layout: LayoutContainerBase;
+  private readonly _layout: LayoutContainerBase;
 
-  public constructor(private readonly control: ILayoutableControl) {
-    this.name = control.getName();
-    this.layoutableProperties = control.getLayoutableProperties();
-    this.minLayoutWidth = control.getMinLayoutWidth();
-    this.maxLayoutWidth = control.getMaxLayoutWidth();
-    this.maxLayoutHeight = control.getMaxLayoutHeight();
-    this.marginLeft = control.getMarginLeft();
-    this.marginRight = control.getMarginRight();
-    this.marginTop = control.getMarginTop();
-    this.marginBottom = control.getMarginBottom();
-    this.dockItemSize = control.getDockItemSize();
-    this.hAlign = control.getHorizontalAlignment();
-    this.vAlign = control.getVerticalAlignment();
-    this.visibility = control.getCurrentVisibility();
+  public constructor(private readonly _control: ILayoutableControl) {
+    this._name = _control.getName();
+    this._layoutableProperties = _control.getLayoutableProperties();
+    this._minLayoutWidth = _control.getMinLayoutWidth();
+    this._maxLayoutWidth = _control.getMaxLayoutWidth();
+    this._maxLayoutHeight = _control.getMaxLayoutHeight();
+    this._marginLeft = _control.getMarginLeft();
+    this._marginRight = _control.getMarginRight();
+    this._marginTop = _control.getMarginTop();
+    this._marginBottom = _control.getMarginBottom();
+    this._dockItemSize = _control.getDockItemSize();
+    this._hAlign = _control.getHorizontalAlignment();
+    this._vAlign = _control.getVerticalAlignment();
+    this._visibility = _control.getCurrentVisibility();
 
-    this.isControlVisible = this.visibility === Visibility.Visible;
-    this.isLayoutVisible = this.visibility !== Visibility.Collapsed;
+    this._isControlVisible = this._visibility === Visibility.Visible;
+    this._isLayoutVisible = this._visibility !== Visibility.Collapsed;
 
-    if (isILayoutableContainer(control)) {
-      this.layout = control.getLayout();
+    if (isILayoutableContainer(_control)) {
+      this._layout = _control.getLayout();
     }
 
-    if (isIFieldLayoutSynchronized(control)) {
-      this.isSynchronizedHidden = (control as IFieldLayoutSynchronized).isSynchronizedHidden();
+    if (isIFieldLayoutSynchronized(_control)) {
+      this._isSynchronizedHidden = (_control as IFieldLayoutSynchronized).isSynchronizedHidden();
     }
   }
 
   public getName(): string {
-    return this.name;
+    return this._name;
   }
 
   public getLayoutableProperties(): ILayoutableProperties {
-    return this.layoutableProperties;
+    return this._layoutableProperties;
   }
 
   public getMinLayoutWidth(): number {
-    return this.minLayoutWidth;
+    return this._minLayoutWidth;
   }
 
   public getMinLayoutHeight(width: number): number {
-    this.minLayoutHeight = this.control.getMinLayoutHeight(width);
-    return this.minLayoutHeight;
+    this._minLayoutHeight = this._control.getMinLayoutHeight(width);
+    return this._minLayoutHeight;
   }
 
   public getMinLayoutHeightBuffered(): number {
-    return Number.zeroIfNull(this.minLayoutHeight);
+    return Number.zeroIfNull(this._minLayoutHeight);
   }
 
   public getMaxLayoutWidth(): number {
-    return this.maxLayoutWidth;
+    return this._maxLayoutWidth;
   }
 
   public getMaxLayoutHeight(): number {
-    return this.maxLayoutHeight;
+    return this._maxLayoutHeight;
   }
 
   public getMarginLeft(): number {
-    return this.marginLeft;
+    return this._marginLeft;
   }
 
   public getMarginRight(): number {
-    return this.marginRight;
+    return this._marginRight;
   }
 
   public getMarginTop(): number {
-    return this.marginTop;
+    return this._marginTop;
   }
 
   public getMarginBottom(): number {
-    return this.marginBottom;
+    return this._marginBottom;
   }
 
   public getDockItemSize(): number {
-    return this.dockItemSize;
+    return this._dockItemSize;
   }
 
   public getHorizontalAlignment(): HorizontalAlignment {
-    return this.hAlign;
+    return this._hAlign;
   }
 
   public getVerticalAlignment(): VerticalAlignment {
-    return this.vAlign;
+    return this._vAlign;
   }
 
   public getVisibility(): Visibility {
-    return this.visibility;
+    return this._visibility;
   }
 
   public getIsControlVisible(): boolean {
-    return this.isControlVisible;
+    return this._isControlVisible;
   }
 
   public getIsLayoutVisible(): boolean {
-    return this.isLayoutVisible;
+    return this._isLayoutVisible;
   }
 
   public getIsSynchronizedVisible(): boolean {
-    return !this.isSynchronizedHidden;
+    return !this._isSynchronizedHidden;
   }
 
   public getResultWidth(): number {
-    return this.resultWdith;
+    return this._resultWdith;
   }
 
   public setResultWidth(measuredWidth: number): void {
-    this.resultWdith = Number.zeroIfNull(measuredWidth);
+    this._resultWdith = Number.zeroIfNull(measuredWidth);
   }
 
   public getResultHeight(): number {
-    return this.resultHeight;
+    return this._resultHeight;
   }
 
   public setResultHeight(measuredHeight: number): void {
-    this.resultHeight = Number.zeroIfNull(measuredHeight);
+    this._resultHeight = Number.zeroIfNull(measuredHeight);
   }
 
   public arrangeContainer(): void {
-    if (this.layout) {
-      this.layout.arrange();
+    if (this._layout) {
+      this._layout.arrange();
     }
   }
 }

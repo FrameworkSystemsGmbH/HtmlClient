@@ -20,37 +20,37 @@ import { Subscription } from 'rxjs';
 
 export class ComboBoxWrapper extends FittedDataWrapper {
 
-  private value: string;
-  private orgValue: string;
+  private _value: string;
+  private _orgValue: string;
 
-  private dataList: DataList;
+  private _dataList: DataList;
 
-  private selectionChangedSub: Subscription;
+  private _selectionChangedSub: Subscription;
 
   public getControlType(): ControlType {
     return ControlType.ComboBox;
   }
 
   public getValue(): string {
-    return this.value;
+    return this._value;
   }
 
   public setValue(value: string): void {
-    this.value = value;
+    this._value = value;
   }
 
   protected getValueJson(): string {
-    return this.value == null ? String.empty() : this.value;
+    return this._value == null ? String.empty() : this._value;
   }
 
   protected setValueJson(value: string): void {
     const val: string = value != null ? value : String.empty();
-    this.orgValue = val;
+    this._orgValue = val;
     this.setValue(val);
   }
 
   public getEntries(): DataList {
-    return this.dataList;
+    return this._dataList;
   }
 
   public getCaption(): string {
@@ -127,7 +127,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   protected hasChanges(): boolean {
-    return this.value !== this.orgValue;
+    return this._value !== this._orgValue;
   }
 
   public getJson(): any {
@@ -169,7 +169,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     const listCount: number = listJson.count;
 
     if (listCount === 0) {
-      this.dataList = null;
+      this._dataList = null;
     } else if (listCount > 0) {
       const newDataList: DataList = new DataList();
       for (const row of listJson.rows) {
@@ -177,7 +177,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
         const value: string = row.value != null ? row.value : String.empty();
         newDataList.push(new DataListEntry(pk, value));
       }
-      this.dataList = newDataList;
+      this._dataList = newDataList;
     }
   }
 
@@ -189,15 +189,15 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnSelectionChangedEvent()) {
-      this.selectionChangedSub = instance.selectionChanged.subscribe(() => this.getOnSelectionChangedSubscription()());
+      this._selectionChangedSub = instance.selectionChanged.subscribe(() => this.getOnSelectionChangedSubscription()());
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this.selectionChangedSub) {
-      this.selectionChangedSub.unsubscribe();
+    if (this._selectionChangedSub) {
+      this._selectionChangedSub.unsubscribe();
     }
   }
 
@@ -237,8 +237,8 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     const json: any = super.saveState();
     json.value = this.getValueJson();
 
-    if (this.dataList) {
-      json.entries = this.dataList;
+    if (this._dataList) {
+      json.entries = this._dataList;
     }
 
     return json;
@@ -252,7 +252,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     if (json.entries && json.entries.length) {
       const entries: DataList = new DataList();
       entries.deserialize(json.entries);
-      this.dataList = entries;
+      this._dataList = entries;
     }
   }
 

@@ -9,9 +9,9 @@ import { StringFormatService } from '@app/services/formatter/string-format.servi
 export class BaseFormatService {
 
   public constructor(
-    private readonly dateTimeFormatService: DateTimeFormatService,
-    private readonly numberFormatService: NumberFormatService,
-    private readonly stringFormatService: StringFormatService
+    private readonly _dateTimeFormatService: DateTimeFormatService,
+    private readonly _numberFormatService: NumberFormatService,
+    private readonly _stringFormatService: StringFormatService
   ) { }
 
   public formatString(value: string, parseMethod: ParseMethod, format: TextFormat, formatPattern: string): string {
@@ -21,7 +21,7 @@ export class BaseFormatService {
       case TextFormat.PositiveInteger:
       case TextFormat.NegativeInteger:
       case TextFormat.UserDefined:
-        return this.numberFormatService.formatString(value, parseMethod, format, formatPattern);
+        return this._numberFormatService.formatString(value, parseMethod, format, formatPattern);
       case TextFormat.DateTimeShort:
       case TextFormat.DateTimeMedium:
       case TextFormat.DateTimeLong:
@@ -33,15 +33,15 @@ export class BaseFormatService {
       case TextFormat.TimeOnlyLong:
         let val: any = null;
         if (!String.isNullOrWhiteSpace(value)) {
-          val = this.dateTimeFormatService.momentFromJson(value);
+          val = this._dateTimeFormatService.momentFromJson(value);
 
           if (val === null || !val.isValid()) {
             val = null;
           }
         }
-        return this.dateTimeFormatService.formatDate(val, format, formatPattern);
+        return this._dateTimeFormatService.formatDate(val, format, formatPattern);
       default:
-        return this.stringFormatService.formatString(value, format);
+        return this._stringFormatService.formatString(value, format);
     }
   }
 }

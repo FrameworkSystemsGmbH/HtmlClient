@@ -10,11 +10,11 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   protected value: string;
   protected orgValue: string;
 
-  private stringFormatService: StringFormatService;
+  private _stringFormatService: StringFormatService;
 
   protected init(): void {
     super.init();
-    this.stringFormatService = this.getInjector().get(StringFormatService);
+    this._stringFormatService = this.getInjector().get(StringFormatService);
   }
 
   public getTextBoxType(): TextBoxType {
@@ -22,7 +22,7 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
   }
 
   protected getStringFormatService(): StringFormatService {
-    return this.stringFormatService;
+    return this._stringFormatService;
   }
 
   public isPasswordField(): boolean {
@@ -44,7 +44,7 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
   protected setValueJson(value: string): void {
     let val: string = value != null ? value : String.empty();
-    val = this.stringFormatService.formatString(val, this.getFormat());
+    val = this._stringFormatService.formatString(val, this.getFormat());
     this.orgValue = val;
     this.setValue(val);
   }

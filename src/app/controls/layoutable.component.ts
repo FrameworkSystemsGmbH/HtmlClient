@@ -4,7 +4,7 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 @Directive()
 export abstract class LayoutableComponent implements OnInit, DoCheck, OnDestroy {
 
-  private wrapper: ILayoutableControlWrapper;
+  private _wrapper: ILayoutableControlWrapper;
 
   public ngOnInit(): void {
     this.updateComponent();
@@ -15,17 +15,17 @@ export abstract class LayoutableComponent implements OnInit, DoCheck, OnDestroy 
   }
 
   public ngOnDestroy(): void {
-    if (this.wrapper) {
-      this.wrapper.onComponentDestroyed();
+    if (this._wrapper) {
+      this._wrapper.onComponentDestroyed();
     }
   }
 
   public getWrapper(): ILayoutableControlWrapper {
-    return this.wrapper;
+    return this._wrapper;
   }
 
   public setWrapper(wrapper: ILayoutableControlWrapper): void {
-    this.wrapper = wrapper;
+    this._wrapper = wrapper;
   }
 
   public updateComponent(): void {

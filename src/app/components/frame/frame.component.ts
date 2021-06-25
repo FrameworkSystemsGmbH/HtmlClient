@@ -17,48 +17,48 @@ export class FrameComponent implements OnInit, OnDestroy {
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef;
 
-  private selectedForm: FormWrapper;
-  private selectedFormSub: Subscription;
+  private _selectedForm: FormWrapper;
+  private _selectedFormSub: Subscription;
 
   public constructor(
-    private readonly zone: NgZone,
-    private readonly formsService: FormsService,
-    private readonly framesService: FramesService
+    private readonly _zone: NgZone,
+    private readonly _formsService: FormsService,
+    private readonly _framesService: FramesService
   ) { }
 
   @HostListener('window:resize')
   public layout(): void {
-    this.zone.run(() => {
-      if (this.selectedForm) {
-        this.selectedForm.doLayout(this.frame.nativeElement.clientWidth, this.frame.nativeElement.clientHeight);
+    this._zone.run(() => {
+      if (this._selectedForm) {
+        this._selectedForm.doLayout(this.frame.nativeElement.clientWidth, this.frame.nativeElement.clientHeight);
       }
     });
   }
 
   public ngOnInit(): void {
-    this.framesService.registerFrame(this);
+    this._framesService.registerFrame(this);
 
-    this.selectedFormSub = this.formsService.getSelectedForm().subscribe(form => {
+    this._selectedFormSub = this._formsService.getSelectedForm().subscribe(form => {
       this.showForm(form);
     });
 
-    this.formsService.fireSelectCurrentForm();
+    this._formsService.fireSelectCurrentForm();
   }
 
   public ngOnDestroy(): void {
-    if (this.selectedFormSub) {
-      this.selectedFormSub.unsubscribe();
+    if (this._selectedFormSub) {
+      this._selectedFormSub.unsubscribe();
     }
   }
 
   private showForm(form: FormWrapper): void {
     this.anchor.clear();
     if (form) {
-      this.selectedForm = form;
-      this.selectedForm.attachComponentToFrame(this.anchor);
+      this._selectedForm = form;
+      this._selectedForm.attachComponentToFrame(this.anchor);
       setTimeout(() => this.layout());
     } else {
-      this.selectedForm = null;
+      this._selectedForm = null;
     }
   }
 }

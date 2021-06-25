@@ -4,10 +4,10 @@ import { ControlLabelTemplate } from '@app/wrappers/control-labels/control-label
 
 export class ControlLabelSeparatorProvider implements IControlLabelProvider {
 
-  private readonly rowLabelTemplate: ControlLabelTemplate;
+  private readonly _rowLabelTemplate: ControlLabelTemplate;
 
   public constructor(rowLabelTemplate: ControlLabelTemplate) {
-    this.rowLabelTemplate = rowLabelTemplate;
+    this._rowLabelTemplate = rowLabelTemplate;
   }
 
   public getName(): string {
@@ -19,7 +19,7 @@ export class ControlLabelSeparatorProvider implements IControlLabelProvider {
   }
 
   public getLabelTemplate(): ControlLabelTemplate {
-    return this.rowLabelTemplate;
+    return this._rowLabelTemplate;
   }
 
   public getCurrentVisibility(): Visibility {

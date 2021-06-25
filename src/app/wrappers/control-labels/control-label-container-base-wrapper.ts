@@ -27,24 +27,24 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
 
   protected readonly propError: string = 'This property should not get called!';
 
-  private readonly name: string;
-  private readonly fieldRowWrp: FieldRowWrapper;
-  private readonly rowLabelTemplate: ControlLabelTemplate;
+  private readonly _name: string;
+  private readonly _fieldRowWrp: FieldRowWrapper;
+  private readonly _rowLabelTemplate: ControlLabelTemplate;
+  private readonly _resolver: ComponentFactoryResolver;
 
-  private vchControl: VchControl;
-  private layout: LayoutContainerBase;
-  private layoutableProperties: LayoutableProperties;
-  private componentRef: ComponentRef<ControlLabelContainerComponent>;
-  private labelWrappers: Array<ControlLabelWrapper>;
+  private _vchControl: VchControl;
+  private _layout: LayoutContainerBase;
+  private _layoutableProperties: LayoutableProperties;
+  private _componentRef: ComponentRef<ControlLabelContainerComponent>;
+  private _labelWrappers: Array<ControlLabelWrapper>;
 
-  private readonly resolver: ComponentFactoryResolver;
 
   public constructor(injector: Injector, options: IControlLabelContainerBaseWrapperOptions) {
-    this.resolver = injector.get(ComponentFactoryResolver);
-    this.labelWrappers = options.labelWrappers;
-    this.fieldRowWrp = options.fieldRowWrp;
-    this.rowLabelTemplate = options.rowLabelTemplate;
-    this.name = this.createName();
+    this._resolver = injector.get(ComponentFactoryResolver);
+    this._labelWrappers = options.labelWrappers;
+    this._fieldRowWrp = options.fieldRowWrp;
+    this._rowLabelTemplate = options.rowLabelTemplate;
+    this._name = this.createName();
 
     this.setWrappersLabelContainer();
   }
@@ -58,36 +58,36 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   protected setWrappersLabelContainer(): void {
-    this.labelWrappers.forEach(labelWrapper => {
+    this._labelWrappers.forEach(labelWrapper => {
       labelWrapper.setLabelContainer(this);
     });
   }
 
   protected getResolver(): ComponentFactoryResolver {
-    return this.resolver;
+    return this._resolver;
   }
 
   public getFieldRowWrapper(): FieldRowWrapper {
-    return this.fieldRowWrp;
+    return this._fieldRowWrp;
   }
 
   protected getLabelWrappers(): Array<ControlLabelWrapper> {
-    return this.labelWrappers;
+    return this._labelWrappers;
   }
 
   protected setLabelWrappers(labelWrappers: Array<ControlLabelWrapper>): void {
-    this.labelWrappers = labelWrappers;
+    this._labelWrappers = labelWrappers;
   }
 
   protected getRowLabelTemplate(): ControlLabelTemplate {
-    return this.rowLabelTemplate;
+    return this._rowLabelTemplate;
   }
 
   public getVchControl(): VchControl {
-    if (!this.vchControl) {
-      this.vchControl = this.createVchControl();
+    if (!this._vchControl) {
+      this._vchControl = this.createVchControl();
     }
-    return this.vchControl;
+    return this._vchControl;
   }
 
   public getVchContainer(): VchContainer {
@@ -99,10 +99,10 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   public getLayout(): LayoutContainerBase {
-    if (!this.layout) {
-      this.layout = this.createLayout();
+    if (!this._layout) {
+      this._layout = this.createLayout();
     }
-    return this.layout;
+    return this._layout;
   }
 
   protected createLayout(): LayoutContainerBase {
@@ -110,10 +110,10 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   public getLayoutableProperties(): LayoutableProperties {
-    if (!this.layoutableProperties) {
-      this.layoutableProperties = this.createLayoutableProperties();
+    if (!this._layoutableProperties) {
+      this._layoutableProperties = this.createLayoutableProperties();
     }
-    return this.layoutableProperties;
+    return this._layoutableProperties;
   }
 
   protected createLayoutableProperties(): LayoutableProperties {
@@ -121,15 +121,15 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   public getLayoutableControls(): Array<ILayoutableControl> {
-    return this.labelWrappers;
+    return this._labelWrappers;
   }
 
   protected getComponentRef(): ComponentRef<ControlLabelContainerComponent> {
-    return this.componentRef;
+    return this._componentRef;
   }
 
   protected setComponentRef(componentRef: ComponentRef<ControlLabelContainerComponent>): void {
-    this.componentRef = componentRef;
+    this._componentRef = componentRef;
   }
 
   protected getComponent(): ControlLabelContainerComponent {
@@ -148,7 +148,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   public updateComponentRecursively(): void {
     this.updateComponent();
 
-    this.labelWrappers.forEach(labelWrp => {
+    this._labelWrappers.forEach(labelWrp => {
       labelWrp.updateComponentRecursively();
     });
   }
@@ -158,7 +158,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   public getName(): string {
-    return this.name;
+    return this._name;
   }
 
   public getInvertFlowDirection(): boolean {
@@ -166,7 +166,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   public getTextAlign(): TextAlign {
-    return this.rowLabelTemplate.getTextAlign();
+    return this._rowLabelTemplate.getTextAlign();
   }
 
   public getForeColor(): string {
@@ -294,7 +294,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   protected attachSubComponents(uiContainer: ILayoutableContainerWrapper, vchContainer: ILayoutableContainerWrapper): void {
-    for (const labelWrapper of this.labelWrappers) {
+    for (const labelWrapper of this._labelWrappers) {
       labelWrapper.attachComponent(uiContainer, vchContainer);
     }
   }
@@ -316,7 +316,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
     }
 
     // Clear the Angular Component reference
-    this.componentRef = null;
+    this._componentRef = null;
   }
 
   public canReceiveFocus(): boolean {

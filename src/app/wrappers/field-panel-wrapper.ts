@@ -11,7 +11,7 @@ import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-con
 
 export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFieldContainer {
 
-  private rowLabelTemplate: ControlLabelTemplate;
+  private _rowLabelTemplate: ControlLabelTemplate;
 
   public supportsButtonGroup(): boolean {
     return true;
@@ -34,11 +34,11 @@ export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFie
   }
 
   public getRowLabelTemplate(): ControlLabelTemplate {
-    if (!this.rowLabelTemplate) {
-      this.rowLabelTemplate = new ControlLabelTemplate(this.getPropertyStore().getPropertyStore(data => data.rowLabelTemplate));
+    if (!this._rowLabelTemplate) {
+      this._rowLabelTemplate = new ControlLabelTemplate(this.getPropertyStore().getPropertyStore(data => data.rowLabelTemplate));
     }
 
-    return this.rowLabelTemplate;
+    return this._rowLabelTemplate;
   }
 
   protected getComponentRef(): ComponentRef<FieldPanelComponent> {

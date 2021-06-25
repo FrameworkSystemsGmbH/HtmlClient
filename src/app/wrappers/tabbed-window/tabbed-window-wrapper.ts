@@ -19,20 +19,20 @@ import { Subscription } from 'rxjs';
 
 export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayoutControl {
 
-  private tabPageTemplateActive: TabPageTemplate;
-  private tabPageTemplateDisabled: TabPageTemplate;
-  private tabPageTemplateInactive: TabPageTemplate;
+  private _tabPageTemplateActive: TabPageTemplate;
+  private _tabPageTemplateDisabled: TabPageTemplate;
+  private _tabPageTemplateInactive: TabPageTemplate;
 
-  private selectedTabIndex: number;
-  private selectedTabIndexOrg: number;
+  private _selectedTabIndex: number;
+  private _selectedTabIndexOrg: number;
 
-  private framesService: FramesService;
+  private _framesService: FramesService;
 
-  private tabClickedSub: Subscription;
+  private _tabClickedSub: Subscription;
 
   protected init(): void {
     super.init();
-    this.framesService = this.getInjector().get(FramesService);
+    this._framesService = this.getInjector().get(FramesService);
   }
 
   public getControlType(): ControlType {
@@ -44,11 +44,11 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public getSelectedTabIndex(): number {
-    return this.selectedTabIndex;
+    return this._selectedTabIndex;
   }
 
   public setSelectedTabIndex(selectedTabIndex: number): void {
-    this.selectedTabIndex = selectedTabIndex;
+    this._selectedTabIndex = selectedTabIndex;
   }
 
   public getTabPages(): Array<TabPageWrapper> {
@@ -69,7 +69,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public isTabSelected(tabPage: TabPageWrapper): boolean {
-    return this.getTabPages().indexOf(tabPage) === this.selectedTabIndex;
+    return this.getTabPages().indexOf(tabPage) === this._selectedTabIndex;
   }
 
   public getWidestLayoutTabPageHeader(): number {
@@ -121,24 +121,24 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public getTabPageTemplateActive(): TabPageTemplate {
-    if (!this.tabPageTemplateActive) {
-      this.tabPageTemplateActive = this.createTabPageTemplateActive();
+    if (!this._tabPageTemplateActive) {
+      this._tabPageTemplateActive = this.createTabPageTemplateActive();
     }
-    return this.tabPageTemplateActive;
+    return this._tabPageTemplateActive;
   }
 
   public getTabPageTemplateDisabled(): TabPageTemplate {
-    if (!this.tabPageTemplateDisabled) {
-      this.tabPageTemplateDisabled = this.createTabPageTemplateDisabled();
+    if (!this._tabPageTemplateDisabled) {
+      this._tabPageTemplateDisabled = this.createTabPageTemplateDisabled();
     }
-    return this.tabPageTemplateDisabled;
+    return this._tabPageTemplateDisabled;
   }
 
   public getTabPageTemplateInactive(): TabPageTemplate {
-    if (!this.tabPageTemplateInactive) {
-      this.tabPageTemplateInactive = this.createTabPageTemplateInactive();
+    if (!this._tabPageTemplateInactive) {
+      this._tabPageTemplateInactive = this.createTabPageTemplateInactive();
     }
-    return this.tabPageTemplateInactive;
+    return this._tabPageTemplateInactive;
   }
 
   public getInactiveTabTemplateHeight(): number {
@@ -194,28 +194,28 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     super.attachEvents(instance);
 
     if (this.hasOnSelectedTabPageChangeEvent()) {
-      this.tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangeSubscription(tabPage)());
+      this._tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangeSubscription(tabPage)());
     } else if (this.hasOnSelectedTabPageChangedEvent()) {
-      this.tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangedSubscription(tabPage)());
+      this._tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangedSubscription(tabPage)());
     } else {
-      this.tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getNonEventTabPageChangedSubscription(tabPage)());
+      this._tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getNonEventTabPageChangedSubscription(tabPage)());
     }
   }
 
   protected detachEvents(): void {
-    if (this.tabClickedSub) {
-      this.tabClickedSub.unsubscribe();
+    if (this._tabClickedSub) {
+      this._tabClickedSub.unsubscribe();
     }
   }
 
   protected hasChanges(): boolean {
-    return this.selectedTabIndex >= 0 && this.selectedTabIndex !== this.selectedTabIndexOrg;
+    return this._selectedTabIndex >= 0 && this._selectedTabIndex !== this._selectedTabIndexOrg;
   }
 
   protected getNonEventTabPageChangedSubscription(tabPage: TabPageWrapper): () => void {
     return (): void => {
       this.changeSelectedTabPage(tabPage);
-      this.framesService.layout();
+      this._framesService.layout();
     };
   }
 
@@ -227,7 +227,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return (): void => this.getEventsService().fireSelectedTabPageChange(
       this.getForm().getId(),
       this.getName(),
-      this.getTabPages()[this.selectedTabIndex].getName(),
+      this.getTabPages()[this._selectedTabIndex].getName(),
       tabPage.getName(),
       tabPage,
       new InternalEventCallbacks<ClientSelectedTabPageChangeEvent>(
@@ -261,7 +261,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return (): void => this.getEventsService().fireSelectedTabPageChanged(
       this.getForm().getId(),
       this.getName(),
-      this.getTabPages()[this.selectedTabIndex].getName(),
+      this.getTabPages()[this._selectedTabIndex].getName(),
       tabPage.getName(),
       new InternalEventCallbacks<ClientSelectedTabPageChangedEvent>(
         this.canExecuteSelectedTabPageChanged.bind(this),
@@ -329,9 +329,9 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
       return;
     }
 
-    let actualTabIndex: number = this.selectedTabIndex != null ? this.selectedTabIndex : 0;
+    let actualTabIndex: number = this._selectedTabIndex != null ? this._selectedTabIndex : 0;
 
-    if (this.selectedTabIndex < 0 || this.selectedTabIndex >= tabPages.length) {
+    if (this._selectedTabIndex < 0 || this._selectedTabIndex >= tabPages.length) {
       actualTabIndex = 0;
     }
 
@@ -357,7 +357,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     let num: number = Number(value);
     num = !Number.isNaN(num) ? num : 0;
 
-    this.selectedTabIndexOrg = num;
+    this._selectedTabIndexOrg = num;
     this.setSelectedTabIndex(num);
 
     if (oldSelectedTabIndex !== num) {

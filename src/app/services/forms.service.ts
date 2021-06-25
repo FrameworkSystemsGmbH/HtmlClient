@@ -31,11 +31,11 @@ export class FormsService {
   private _lastOpenedForm: FormWrapper;
 
   public constructor(
-    private readonly injector: Injector,
-    private readonly titleService: TitleService,
-    private readonly dialogService: DialogService,
-    private readonly eventsService: EventsService,
-    private readonly controlsService: ControlsService
+    private readonly _injector: Injector,
+    private readonly _titleService: TitleService,
+    private readonly _dialogService: DialogService,
+    private readonly _eventsService: EventsService,
+    private readonly _controlsService: ControlsService
   ) {
     this._forms$$ = new BehaviorSubject<Array<FormWrapper>>(null);
     this._forms$ = this._forms$$.asObservable();
@@ -67,11 +67,11 @@ export class FormsService {
     if (closeButton) {
       closeButton.fireClick();
     } else if (this.isLastOpenForm(form)) {
-      this.dialogService.showMsgBoxBox({
+      this._dialogService.showMsgBoxBox({
         buttons: MsgBoxButtons.YesNo,
         icon: MsgBoxIcon.Question,
         message: 'Do you want to close the session?',
-        title: this.titleService.getTitle()
+        title: this._titleService.getTitle()
       }).subscribe(result => {
         if (result === MsgBoxResult.Yes) {
           this.closeForm(form);
@@ -85,7 +85,7 @@ export class FormsService {
   public closeForm(form: FormWrapper): void {
     form.closing = true;
     const formId: string = form.getId();
-    this.eventsService.fireClose(formId,
+    this._eventsService.fireClose(formId,
       new InternalEventCallbacks<ClientCloseEvent>(
         form.isCloseEventAttached.bind(form),
         null,
@@ -100,7 +100,7 @@ export class FormsService {
 
   protected getOnCloseCompletedCallback(formId: string, form: FormWrapper): () => void {
     return (): void => {
-      this.eventsService.fireDispose(formId,
+      this._eventsService.fireDispose(formId,
         new InternalEventCallbacks<ClientDisposeEvent>(
           () => true,
           null,
@@ -159,7 +159,7 @@ export class FormsService {
 
   public checkEmptyApp(): void {
     if (this._forms.length === 0) {
-      this.eventsService.fireApplicationQuit(false);
+      this._eventsService.fireApplicationQuit(false);
     }
   }
 
@@ -184,7 +184,7 @@ export class FormsService {
   public setJson(fromsJson: any): void {
     for (const formJson of fromsJson) {
       if (formJson.meta.new) {
-        const form: FormWrapper = new FormWrapper(this.injector);
+        const form: FormWrapper = new FormWrapper(this._injector);
         form.setJson(formJson, true);
 
         if (formJson.controls && formJson.controls.length) {
@@ -238,10 +238,10 @@ export class FormsService {
         };
 
         if (controlType === ControlType.TextBox) {
-          options.textBoxStyle = this.controlsService.getTextBoxTypeFromControlJson(controlJson);
+          options.textBoxStyle = this._controlsService.getTextBoxTypeFromControlJson(controlJson);
         }
 
-        const control: ControlWrapper = this.controlsService.createWrapperFromType(controlType, options);
+        const control: ControlWrapper = this._controlsService.createWrapperFromType(controlType, options);
 
         if (control) {
           control.setJson(controlJson, true);
@@ -297,7 +297,7 @@ export class FormsService {
   public loadState(json: any): void {
     if (json.forms) {
       json.forms.forEach(formJson => {
-        const form: FormWrapper = new FormWrapper(this.injector, { state: formJson });
+        const form: FormWrapper = new FormWrapper(this._injector, { state: formJson });
 
         if (formJson.controls && formJson.controls.length) {
           this.loadControlsState(form, formJson.controls);
@@ -344,7 +344,7 @@ export class FormsService {
         options.textBoxStyle = controlJson.textBoxType;
       }
 
-      this.controlsService.createWrapperFromType(controlType, options);
+      this._controlsService.createWrapperFromType(controlType, options);
     });
   }
 }

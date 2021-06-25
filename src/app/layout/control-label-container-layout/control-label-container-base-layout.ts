@@ -7,8 +7,8 @@ import { ILayoutableProperties } from '@app/layout/layoutable-properties.interfa
 
 export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBase {
 
-  private width: number = -1;
-  private wrappers: Array<LayoutableControlWrapper>;
+  private _width: number = -1;
+  private _wrappers: Array<LayoutableControlWrapper>;
 
   public constructor(container: IControlLabelContainer) {
     super(container);
@@ -22,10 +22,10 @@ export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBas
     const controls: Array<ILayoutableControl> = this.getControl().getLayoutableControls();
     const controlCount: number = controls.length;
 
-    this.wrappers = new Array<LayoutableControlWrapper>(controlCount);
+    this._wrappers = new Array<LayoutableControlWrapper>(controlCount);
 
     for (let i = 0; i < controlCount; i++) {
-      this.wrappers[i] = new LayoutableControlWrapper(controls[i]);
+      this._wrappers[i] = new LayoutableControlWrapper(controls[i]);
     }
   }
 
@@ -35,7 +35,7 @@ export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBas
     // Iterate wrappers to calculate total content min width (sum of all min widths)
     let minWidth: number = 0;
 
-    for (const wrapper of this.wrappers) {
+    for (const wrapper of this._wrappers) {
       // Ignore invisible items (items with min width = 0 do not have an impact)
       if (this.checkWrapperVisibility(wrapper)) {
         minWidth += wrapper.getMinLayoutWidth();
@@ -46,12 +46,12 @@ export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBas
   }
 
   public measureMinHeight(width: number): number {
-    this.width = width;
+    this._width = width;
 
     // Get the tallest control
     let minHeight: number = 0;
 
-    for (const wrapper of this.wrappers) {
+    for (const wrapper of this._wrappers) {
       if (this.checkWrapperVisibility(wrapper) && wrapper.getMinLayoutWidth() > 0) {
         minHeight = Math.max(minHeight, wrapper.getMinLayoutHeight(width));
       }
@@ -61,7 +61,7 @@ export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBas
   }
 
   public arrange(): void {
-    if (!this.wrappers) {
+    if (!this._wrappers) {
       return;
     }
 
@@ -73,11 +73,11 @@ export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBas
     let availableWidth: number = containerWidth;
 
     // Consistency check
-    if (containerWidth !== this.width) {
+    if (containerWidth !== this._width) {
       this.measureMinHeight(containerWidth);
     }
 
-    const visibleWrappers: Array<LayoutableControlWrapper> = this.wrappers.filter(wrapper => this.checkWrapperVisibility(wrapper));
+    const visibleWrappers: Array<LayoutableControlWrapper> = this._wrappers.filter(wrapper => this.checkWrapperVisibility(wrapper));
 
     if (!visibleWrappers.length) {
       return;

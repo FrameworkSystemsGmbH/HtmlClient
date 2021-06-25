@@ -16,14 +16,14 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
 
   public value: string;
 
-  private format: TextFormat;
-  private formatPattern: string;
+  private _format: TextFormat;
+  private _formatPattern: string;
 
-  private dateTimeFormatService: DateTimeFormatService;
+  private _dateTimeFormatService: DateTimeFormatService;
 
   protected init(): void {
     super.init();
-    this.dateTimeFormatService = this.getInjector().get(DateTimeFormatService);
+    this._dateTimeFormatService = this.getInjector().get(DateTimeFormatService);
   }
 
   public getInput(): ElementRef {
@@ -37,7 +37,7 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
           this.value = null;
           this.updateWrapper();
         } else {
-          const formattedValue: string = this.dateTimeFormatService.formatString(this.value, this.format, this.formatPattern);
+          const formattedValue: string = this._dateTimeFormatService.formatString(this.value, this._format, this._formatPattern);
           if (formattedValue == null) {
             this.updateComponent();
           } else {
@@ -56,13 +56,13 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
   }
 
   private updateWrapper(): void {
-    this.getWrapper().setValue(this.dateTimeFormatService.parseString(this.value, this.format, this.formatPattern));
+    this.getWrapper().setValue(this._dateTimeFormatService.parseString(this.value, this._format, this._formatPattern));
   }
 
   protected updateData(wrapper: TextBoxDateTimeWrapper): void {
     super.updateData(wrapper);
-    this.format = wrapper.getFormat();
-    this.formatPattern = wrapper.getFormatPattern();
-    this.value = this.dateTimeFormatService.formatDate(wrapper.getValue(), this.format, this.formatPattern);
+    this._format = wrapper.getFormat();
+    this._formatPattern = wrapper.getFormatPattern();
+    this.value = this._dateTimeFormatService.formatDate(wrapper.getValue(), this._format, this._formatPattern);
   }
 }

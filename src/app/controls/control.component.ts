@@ -18,35 +18,35 @@ export abstract class ControlComponent extends LayoutableComponent {
   public isFocused: boolean;
   public isOutlined: boolean;
 
-  private readonly injector: Injector;
+  private readonly _injector: Injector;
 
-  private focusService: FocusService;
-  private cdr: ChangeDetectorRef;
+  private _focusService: FocusService;
+  private _cdr: ChangeDetectorRef;
 
   public constructor(injector: Injector) {
     super();
-    this.injector = injector;
+    this._injector = injector;
     this.init();
   }
 
   protected init(): void {
-    this.focusService = this.injector.get(FocusService);
-    this.cdr = this.injector.get(ChangeDetectorRef);
+    this._focusService = this._injector.get(FocusService);
+    this._cdr = this._injector.get(ChangeDetectorRef);
   }
 
   protected getInjector(): Injector {
-    return this.injector;
+    return this._injector;
   }
 
   protected getFocusService(): FocusService {
-    return this.focusService;
+    return this._focusService;
   }
 
   public onFocusIn(event: FocusEvent): void {
     this.isFocused = true;
     this.isOutlined = this.getWrapper().isOutlineVisible(this.isFocused);
 
-    this.cdr.detectChanges();
+    this._cdr.detectChanges();
 
     this.callCtrlEnter(event);
   }
@@ -55,7 +55,7 @@ export abstract class ControlComponent extends LayoutableComponent {
     this.isFocused = false;
     this.isOutlined = this.getWrapper().isOutlineVisible(this.isFocused);
 
-    this.cdr.detectChanges();
+    this._cdr.detectChanges();
 
     this.callCtrlLeave(event);
   }

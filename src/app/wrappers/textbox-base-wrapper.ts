@@ -13,11 +13,11 @@ import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
 
 export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
 
-  private patternFormatService: PatternFormatService;
+  private _patternFormatService: PatternFormatService;
 
   protected init(): void {
     super.init();
-    this.patternFormatService = this.getInjector().get(PatternFormatService);
+    this._patternFormatService = this.getInjector().get(PatternFormatService);
   }
 
   public getControlType(): ControlType {
@@ -25,7 +25,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   protected getPatternFormatService(): PatternFormatService {
-    return this.patternFormatService;
+    return this._patternFormatService;
   }
 
   protected getComponent(): TextBoxComponent {
@@ -64,7 +64,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
 
   public getFormatPattern(): string {
     const formatPattern: string = this.getPropertyStore().getFormatPattern();
-    return formatPattern != null ? this.patternFormatService.javaToMoment(formatPattern) : null;
+    return formatPattern != null ? this._patternFormatService.javaToMoment(formatPattern) : null;
   }
 
   protected getDataMinWidth(): number {

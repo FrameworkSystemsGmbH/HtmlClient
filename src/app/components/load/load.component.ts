@@ -12,14 +12,14 @@ import { Subscription } from 'rxjs';
 })
 export class LoadComponent implements OnInit, OnDestroy {
 
-  private queryParamsSub: Subscription;
+  private _queryParamsSub: Subscription;
 
   public constructor(
-    private readonly route: ActivatedRoute,
-    private readonly brokerService: BrokerService) { }
+    private readonly _route: ActivatedRoute,
+    private readonly _brokerService: BrokerService) { }
 
   public ngOnInit(): void {
-    this.queryParamsSub = this.route.queryParams.subscribe(params => {
+    this._queryParamsSub = this._route.queryParams.subscribe(params => {
       const url = window.location.origin + window.location.pathname.trimStringRight('/html/');
 
       const loginBroker: LoginBroker = new LoginBroker();
@@ -33,13 +33,13 @@ export class LoadComponent implements OnInit, OnDestroy {
         loginOptions.languages = params.lang;
       }
 
-      this.brokerService.login(loginBroker, true, loginOptions);
+      this._brokerService.login(loginBroker, true, loginOptions);
     });
   }
 
   public ngOnDestroy(): void {
-    if (this.queryParamsSub) {
-      this.queryParamsSub.unsubscribe();
+    if (this._queryParamsSub) {
+      this._queryParamsSub.unsubscribe();
     }
   }
 }

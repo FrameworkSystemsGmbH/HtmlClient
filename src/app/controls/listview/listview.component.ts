@@ -56,14 +56,14 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   public bottomPaddingStyle: any;
   public hasBottomPadding: boolean;
 
-  private platformService: PlatformService;
+  private _platformService: PlatformService;
 
   protected init(): void {
-    this.platformService = this.getInjector().get(PlatformService);
+    this._platformService = this.getInjector().get(PlatformService);
   }
 
   public onFocusOut(event: FocusEvent): void {
-    if (this.platformService.isNative()) {
+    if (this._platformService.isNative()) {
       setTimeout(() => {
         const targetIsDescentant: boolean = DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, event.target as HTMLElement);
         const activeIsOutside: boolean = !DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, document.activeElement as HTMLElement);
@@ -138,7 +138,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
   public isHeaderVisible(): boolean {
     const wrapper: ListViewWrapper = this.getWrapper();
-    return wrapper.getSelectionMode() === ListViewSelectionMode.Multiple && (!this.platformService.isNative() || this.getWrapper().getMobileSelectionModeEnabled());
+    return wrapper.getSelectionMode() === ListViewSelectionMode.Multiple && (!this._platformService.isNative() || this.getWrapper().getMobileSelectionModeEnabled());
   }
 
   protected createWrapperStyle(wrapper: ListViewWrapper): any {
@@ -202,7 +202,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
     buttonCloseStyle = {
       ...buttonCloseStyle,
-      'display': this.platformService.isNative() ? 'inline' : 'none'
+      'display': this._platformService.isNative() ? 'inline' : 'none'
     };
 
     return buttonCloseStyle;

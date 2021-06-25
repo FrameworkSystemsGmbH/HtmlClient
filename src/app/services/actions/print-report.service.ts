@@ -10,8 +10,8 @@ export class PrintReportService {
 
   private _reportUrl: string;
 
-  public constructor(private readonly store: Store) {
-    this.store.select(selectBrokerReportUrl).subscribe(reportUrl => {
+  public constructor(private readonly _store: Store) {
+    this._store.select(selectBrokerReportUrl).subscribe(reportUrl => {
       this._reportUrl = reportUrl;
     });
   }

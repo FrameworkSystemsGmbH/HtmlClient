@@ -3,72 +3,72 @@ import { FieldLayoutCell } from '@app/layout/field-layout/field-layout-cell';
 
 export class FieldLayoutColumn {
 
-  private readonly cells: Array<FieldLayoutCell>;
-  private readonly minColumnWidth: number;
-  private readonly maxColumnWidth: number;
-  private readonly horizontalStretchable: boolean;
+  private readonly _cells: Array<FieldLayoutCell>;
+  private readonly _minColumnWidth: number;
+  private readonly _maxColumnWidth: number;
+  private readonly _horizontalStretchable: boolean;
 
-  private resultColumnWidth: number;
-  private minColumnHeight: number;
+  private _resultColumnWidth: number;
+  private _minColumnHeight: number;
 
   public constructor(cells: Array<FieldLayoutCell>) {
-    this.cells = new Array<FieldLayoutCell>();
-    this.minColumnWidth = 0;
-    this.maxColumnWidth = 0;
-    this.horizontalStretchable = false;
+    this._cells = new Array<FieldLayoutCell>();
+    this._minColumnWidth = 0;
+    this._maxColumnWidth = 0;
+    this._horizontalStretchable = false;
 
     for (const cell of cells) {
       cell.setColumn(this);
-      this.cells.push(cell);
+      this._cells.push(cell);
       if (cell.isVisible()) {
-        this.minColumnWidth = Math.max(this.minColumnWidth, cell.getMinWidth());
+        this._minColumnWidth = Math.max(this._minColumnWidth, cell.getMinWidth());
         if (cell.getAlignmentHorizontal() === HorizontalAlignment.Stretch) {
-          this.maxColumnWidth = Math.max(this.maxColumnWidth, cell.getMaxWidth());
-          this.horizontalStretchable = true;
+          this._maxColumnWidth = Math.max(this._maxColumnWidth, cell.getMaxWidth());
+          this._horizontalStretchable = true;
         }
       }
     }
 
-    if (!this.horizontalStretchable) {
-      this.maxColumnWidth = this.minColumnWidth;
+    if (!this._horizontalStretchable) {
+      this._maxColumnWidth = this._minColumnWidth;
     } else {
-      this.maxColumnWidth = Math.max(this.maxColumnWidth, this.minColumnWidth);
+      this._maxColumnWidth = Math.max(this._maxColumnWidth, this._minColumnWidth);
     }
   }
 
   public isHorizontalStretchable(): boolean {
-    return this.horizontalStretchable;
+    return this._horizontalStretchable;
   }
 
   public getCells(): Array<FieldLayoutCell> {
-    return this.cells;
+    return this._cells;
   }
 
   public getCellCount(): number {
-    return this.cells.length;
+    return this._cells.length;
   }
 
   public getMinColumnWidth(): number {
-    return this.minColumnWidth;
+    return this._minColumnWidth;
   }
 
   public getMaxColumnWidth(): number {
-    return this.maxColumnWidth;
+    return this._maxColumnWidth;
   }
 
   public getMinColumnHeight(): number {
-    return this.minColumnHeight;
+    return this._minColumnHeight;
   }
 
   public setMinColumnHeight(value: number): void {
-    this.minColumnHeight = value;
+    this._minColumnHeight = value;
   }
 
   public getResultColumnWidth(): number {
-    return this.resultColumnWidth;
+    return this._resultColumnWidth;
   }
 
   public setResultColumnWidth(value: number): void {
-    this.resultColumnWidth = value;
+    this._resultColumnWidth = value;
   }
 }

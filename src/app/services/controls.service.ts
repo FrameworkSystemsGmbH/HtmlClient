@@ -42,56 +42,56 @@ export interface IWrapperCreationOptions {
 export class ControlsService {
 
   public constructor(
-    private readonly injector: Injector,
-    private readonly controlStyleService: ControlStyleService
+    private readonly _injector: Injector,
+    private readonly _controlStyleService: ControlStyleService
   ) { }
 
   public createWrapperFromType(controlType: ControlType, options: IWrapperCreationOptions): ControlWrapper {
     switch (controlType) {
       case ControlType.Button:
-        return new ButtonPlainWrapper(this.injector, options);
+        return new ButtonPlainWrapper(this._injector, options);
       case ControlType.ImageButton:
-        return new ButtonImageWrapper(this.injector, options);
+        return new ButtonImageWrapper(this._injector, options);
       case ControlType.CheckBox:
-        return new CheckBoxWrapper(this.injector, options);
+        return new CheckBoxWrapper(this._injector, options);
       case ControlType.RadioButton:
-        return new RadioButtonWrapper(this.injector, options);
+        return new RadioButtonWrapper(this._injector, options);
       case ControlType.ComboBox:
-        return new ComboBoxWrapper(this.injector, options);
+        return new ComboBoxWrapper(this._injector, options);
       case ControlType.DockPanel:
-        return new DockPanelWrapper(this.injector, options);
+        return new DockPanelWrapper(this._injector, options);
       case ControlType.FieldPanel:
-        return new FieldPanelWrapper(this.injector, options);
+        return new FieldPanelWrapper(this._injector, options);
       case ControlType.FieldRow:
-        return new FieldRowWrapper(this.injector, options);
+        return new FieldRowWrapper(this._injector, options);
       case ControlType.Label:
-        return new LabelWrapper(this.injector, options);
+        return new LabelWrapper(this._injector, options);
       case ControlType.ListView:
-        return new ListViewWrapper(this.injector, options);
+        return new ListViewWrapper(this._injector, options);
       case ControlType.Picture:
-        return new PictureWrapper(this.injector, options);
+        return new PictureWrapper(this._injector, options);
       case ControlType.Form:
-        return new FormWrapper(this.injector, options);
+        return new FormWrapper(this._injector, options);
       case ControlType.TemplateControl:
-        return new TemplateControlWrapper(this.injector, options);
+        return new TemplateControlWrapper(this._injector, options);
       case ControlType.Variant:
-        return new VariantWrapper(this.injector, options);
+        return new VariantWrapper(this._injector, options);
       case ControlType.WrapPanel:
-        return new WrapPanelWrapper(this.injector, options);
+        return new WrapPanelWrapper(this._injector, options);
       case ControlType.TabbedWindow:
-        return new TabbedWindowWrapper(this.injector, options);
+        return new TabbedWindowWrapper(this._injector, options);
       case ControlType.TabPage:
-        return new TabPageWrapper(this.injector, options);
+        return new TabPageWrapper(this._injector, options);
       case ControlType.TextBox:
         switch (options.textBoxStyle) {
           case TextBoxType.Number:
-            return new TextBoxNumberWrapper(this.injector, options);
+            return new TextBoxNumberWrapper(this._injector, options);
           case TextBoxType.Date:
-            return new TextBoxDateTimeWrapper(this.injector, options);
+            return new TextBoxDateTimeWrapper(this._injector, options);
           case TextBoxType.Multiline:
-            return new TextBoxMultilineWrapper(this.injector, options);
+            return new TextBoxMultilineWrapper(this._injector, options);
           default:
-            return new TextBoxPlainWrapper(this.injector, options);
+            return new TextBoxPlainWrapper(this._injector, options);
         }
     }
 
@@ -142,7 +142,7 @@ export class ControlsService {
     }
 
     if (controlStyle) {
-      const style: PropertyData = this.controlStyleService.getControlStyle(controlStyle);
+      const style: PropertyData = this._controlStyleService.getControlStyle(controlStyle);
       if (style) {
         propertyStore.setLayer(PropertyLayer.ControlStyle, style);
       }

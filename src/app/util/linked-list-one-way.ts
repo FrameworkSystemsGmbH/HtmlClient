@@ -2,29 +2,29 @@ import { LinkedListNode } from '@app/util/linked-list-node';
 
 export class LinkedListOneWay<T> {
 
-  private length: number;
-  private head: LinkedListNode<T>;
+  private _length: number;
+  private _head: LinkedListNode<T>;
 
   public constructor() {
-    this.length = 0;
-    this.head = null;
+    this._length = 0;
+    this._head = null;
   }
 
   public getLength(): number {
-    return this.length;
+    return this._length;
   }
 
   public isEmpty(): boolean {
-    return !this.length;
+    return !this._length;
   }
 
   public add(data: T): void {
     const currentNode = new LinkedListNode<T>(data);
 
-    if (this.head === null || this.length === 0) {
-      this.head = currentNode;
+    if (this._head === null || this._length === 0) {
+      this._head = currentNode;
     } else {
-      let node = this.head;
+      let node = this._head;
 
       while (node.next) {
         node = node.next;
@@ -33,7 +33,7 @@ export class LinkedListOneWay<T> {
       node.next = currentNode;
     }
 
-    this.length++;
+    this._length++;
   }
 
   public remove(data: T): boolean {
@@ -48,9 +48,9 @@ export class LinkedListOneWay<T> {
     }
 
     if (index === 0) {
-      this.head = this.head.next;
+      this._head = this._head.next;
     } else {
-      let node = this.head;
+      let node = this._head;
 
       for (let i = 1; i < index; i++) {
         node = node.next;
@@ -59,17 +59,17 @@ export class LinkedListOneWay<T> {
       node.next = node.next.next;
     }
 
-    this.length--;
+    this._length--;
 
     return true;
   }
 
   public peek(): T {
-    return this.length ? this.head.data : undefined;
+    return this._length ? this._head.data : undefined;
   }
 
   public poll(): T {
-    if (this.length) {
+    if (this._length) {
       const data = this.peek();
       this.remove(data);
       return data;
@@ -79,10 +79,10 @@ export class LinkedListOneWay<T> {
   }
 
   public forEach(fn: (data: T) => void): void {
-    let node = this.head;
+    let node = this._head;
 
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < this._length; i++) {
       fn.call(node.data);
       node = node.next;
     }
@@ -93,9 +93,9 @@ export class LinkedListOneWay<T> {
       return -1;
     }
 
-    let node = this.head;
+    let node = this._head;
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < this._length; i++) {
       if (node.data === data) {
         return i;
       }
@@ -111,10 +111,10 @@ export class LinkedListOneWay<T> {
       return false;
     }
 
-    let node = this.head;
+    let node = this._head;
 
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < this._length; i++) {
       if (node.data === data) {
         return true;
       }
@@ -125,11 +125,11 @@ export class LinkedListOneWay<T> {
   }
 
   public toArray(): Array<T> {
-    const result: Array<T> = new Array<T>(this.length);
+    const result: Array<T> = new Array<T>(this._length);
 
-    let node = this.head;
+    let node = this._head;
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < this._length; i++) {
       result[i] = node.data;
       node = node.next;
     }

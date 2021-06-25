@@ -21,14 +21,14 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
 
   public iconCaretDown: IconDefinition = faCaretDown;
 
-  private inputValue: string;
-  private overlayShown: boolean;
+  private _inputValue: string;
+  private _overlayShown: boolean;
 
-  private dialog: MatDialog;
+  private _dialog: MatDialog;
 
   protected init(): void {
     super.init();
-    this.dialog = this.getInjector().get(MatDialog);
+    this._dialog = this.getInjector().get(MatDialog);
   }
 
   public getControl(): ElementRef {
@@ -40,11 +40,11 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
   }
 
   protected getInputValue(): string {
-    return this.inputValue;
+    return this._inputValue;
   }
 
   protected setInputValue(value: string): void {
-    this.inputValue = value;
+    this._inputValue = value;
   }
 
   public getSelectedPk(): string {
@@ -68,9 +68,9 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
 
   public onControlClick(event: any): void {
     if (this.isEditable) {
-      this.overlayShown = true;
+      this._overlayShown = true;
 
-      const dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent> = this.dialog.open(ComboBoxFreeMobileOverlayComponent, {
+      const dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent> = this._dialog.open(ComboBoxFreeMobileOverlayComponent, {
         backdropClass: 'hc-backdrop',
         minWidth: 300,
         maxWidth: '90%',
@@ -84,7 +84,7 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
 
       dialogRef.afterClosed().subscribe(data => {
         this.control.nativeElement.focus();
-        this.overlayShown = false;
+        this._overlayShown = false;
         if (data.selected) {
           if (data.index != null) {
             this.setSelectedIndex(data.index);
@@ -100,13 +100,13 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
   }
 
   public callCtrlEnter(event: any): void {
-    if (!this.overlayShown) {
+    if (!this._overlayShown) {
       super.callCtrlEnter(event);
     }
   }
 
   public callCtrlLeave(event: any): void {
-    if (!this.overlayShown) {
+    if (!this._overlayShown) {
       super.callCtrlLeave(event);
     }
   }

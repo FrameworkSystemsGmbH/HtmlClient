@@ -12,20 +12,20 @@ export class TextsService {
   public static OK: number = 17;
   public static DELETE: number = 21;
 
-  private texts: Map<number, string> = new Map<number, string>();
+  private _texts: Map<number, string> = new Map<number, string>();
 
   public getText(id: number): string {
-    return this.texts.get(id);
+    return this._texts.get(id);
   }
 
   public setText(id: number, value: string): void {
-    this.texts.set(id, value);
+    this._texts.set(id, value);
   }
 
   public saveState(): Array<any> {
     const json: Array<any> = new Array<any>();
 
-    this.texts.forEach((value, key) => {
+    this._texts.forEach((value, key) => {
       json.push({
         id: key,
         text: value
@@ -46,6 +46,6 @@ export class TextsService {
       texts.set(entry.id, entry.text);
     });
 
-    this.texts = texts;
+    this._texts = texts;
   }
 }

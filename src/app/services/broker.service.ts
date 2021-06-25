@@ -47,37 +47,37 @@ export class BrokerService {
   private readonly _onLoginComplete: Subject<any>;
   private readonly _onLoginComplete$: Observable<any>;
 
-  private storeSub: Subscription;
-  private eventFiredSub: Subscription;
-  private onBackButtonListener: () => boolean;
+  private _storeSub: Subscription;
+  private _eventFiredSub: Subscription;
+  private _onBackButtonListener: () => boolean;
 
-  private activeLoginBroker: LoginBroker;
-  private activeLoginOptions: LoginOptions;
-  private activeBrokerDirect: boolean;
-  private activeBrokerName: string;
-  private activeBrokerToken: string;
-  private activeBrokerRequestUrl: string;
-  private requestCounter: number;
-  private clientLanguages: string;
-  private lastRequestTime: Moment.Moment;
+  private _activeLoginBroker: LoginBroker;
+  private _activeLoginOptions: LoginOptions;
+  private _activeBrokerDirect: boolean;
+  private _activeBrokerName: string;
+  private _activeBrokerToken: string;
+  private _activeBrokerRequestUrl: string;
+  private _requestCounter: number;
+  private _clientLanguages: string;
+  private _lastRequestTime: Moment.Moment;
 
   public constructor(
-    private readonly httpClient: HttpClient,
-    private readonly actionsService: ActionsService,
-    private readonly clientDataService: ClientDataService,
-    private readonly controlStyleSerivce: ControlStyleService,
-    private readonly backService: BackService,
-    private readonly dialogService: DialogService,
-    private readonly eventsService: EventsService,
-    private readonly formsService: FormsService,
-    private readonly framesService: FramesService,
-    private readonly loaderService: LoaderService,
-    private readonly localeService: LocaleService,
-    private readonly platformService: PlatformService,
-    private readonly routingService: RoutingService,
-    private readonly textsService: TextsService,
-    private readonly titleService: TitleService,
-    private readonly store: Store
+    private readonly _httpClient: HttpClient,
+    private readonly _actionsService: ActionsService,
+    private readonly _clientDataService: ClientDataService,
+    private readonly _controlStyleSerivce: ControlStyleService,
+    private readonly _backService: BackService,
+    private readonly _dialogService: DialogService,
+    private readonly _eventsService: EventsService,
+    private readonly _formsService: FormsService,
+    private readonly _framesService: FramesService,
+    private readonly _loaderService: LoaderService,
+    private readonly _localeService: LocaleService,
+    private readonly _platformService: PlatformService,
+    private readonly _routingService: RoutingService,
+    private readonly _textsService: TextsService,
+    private readonly _titleService: TitleService,
+    private readonly _store: Store
   ) {
     this._onLoginComplete = new Subject<any>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();
@@ -86,22 +86,22 @@ export class BrokerService {
   }
 
   private subscribeToStore(): Subscription {
-    return this.store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
-      this.activeBrokerName = brokerState.activeBrokerName;
-      this.activeBrokerToken = brokerState.activeBrokerToken;
-      this.activeBrokerRequestUrl = brokerState.activeBrokerRequestUrl;
+    return this._store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
+      this._activeBrokerName = brokerState.activeBrokerName;
+      this._activeBrokerToken = brokerState.activeBrokerToken;
+      this._activeBrokerRequestUrl = brokerState.activeBrokerRequestUrl;
     });
   }
 
   private subscribeToEventFired(): Subscription {
-    return this.eventsService.eventFired.pipe(
+    return this._eventsService.eventFired.pipe(
       concatMap(event => this.handleEvent(event))
     ).subscribe();
   }
 
   private handleEvent(event: InternalEvent<ClientEvent>): Observable<void> {
     return obsOf(event).pipe(
-      tap(() => this.loaderService.fireLoadingChanged(true)),
+      tap(() => this._loaderService.fireLoadingChanged(true)),
       mergeMap(() => {
         if (!event.callbacks || event.callbacks.canExecute(event.clientEvent, event.payload)) {
           return this.createRequest(event.clientEvent).pipe(
@@ -123,7 +123,7 @@ export class BrokerService {
       map(handleResult => {
         const result: ResponseResult = handleResult.result;
 
-        this.loaderService.fireLoadingChanged(false);
+        this._loaderService.fireLoadingChanged(false);
 
         if (result === ResponseResult.CloseApplication) {
           this.closeApplication();
@@ -139,20 +139,20 @@ export class BrokerService {
   }
 
   public getActiveBrokerName(): string {
-    return this.activeBrokerName;
+    return this._activeBrokerName;
   }
 
   public login(broker: LoginBroker, direct: boolean, options?: LoginOptions): void {
-    if (this.activeBrokerName === broker.name) {
-      this.routingService.showViewer();
+    if (this._activeBrokerName === broker.name) {
+      this._routingService.showViewer();
     } else {
-      if (this.activeBrokerName) {
+      if (this._activeBrokerName) {
         this.resetActiveBroker();
       }
 
-      this.activeLoginBroker = broker;
-      this.activeLoginOptions = options;
-      this.activeBrokerDirect = direct;
+      this._activeLoginBroker = broker;
+      this._activeLoginOptions = options;
+      this._activeBrokerDirect = direct;
 
       const name = broker.name;
       const url: string = broker.url;
@@ -162,10 +162,10 @@ export class BrokerService {
       const requestUrl: string = `${url.trimCharsRight('/')}/api/process`;
 
       if (options != null && !String.isNullOrWhiteSpace(options.languages)) {
-        this.clientLanguages = options.languages;
+        this._clientLanguages = options.languages;
       }
 
-      this.store.dispatch(setBrokerState({
+      this._store.dispatch(setBrokerState({
         state: {
           activeBrokerDirect: direct,
           activeBrokerFilesUrl: fileUrl,
@@ -196,41 +196,41 @@ export class BrokerService {
   }
 
   private resetActiveBroker(): void {
-    if (this.storeSub) {
-      this.storeSub.unsubscribe();
+    if (this._storeSub) {
+      this._storeSub.unsubscribe();
     }
 
-    if (this.eventFiredSub) {
-      this.eventFiredSub.unsubscribe();
+    if (this._eventFiredSub) {
+      this._eventFiredSub.unsubscribe();
     }
 
-    if (this.onBackButtonListener) {
-      this.backService.removeBackButtonListener(this.onBackButtonListener);
+    if (this._onBackButtonListener) {
+      this._backService.removeBackButtonListener(this._onBackButtonListener);
     }
 
-    this.formsService.resetViews();
-    this.store.dispatch(resetBrokerState());
-    this.requestCounter = 0;
-    this.clientLanguages = this.localeService.getLocale().substring(0, 2);
-    this.lastRequestTime = null;
-    this.activeLoginBroker = null;
-    this.activeLoginOptions = null;
-    this.activeBrokerDirect = null;
+    this._formsService.resetViews();
+    this._store.dispatch(resetBrokerState());
+    this._requestCounter = 0;
+    this._clientLanguages = this._localeService.getLocale().substring(0, 2);
+    this._lastRequestTime = null;
+    this._activeLoginBroker = null;
+    this._activeLoginOptions = null;
+    this._activeBrokerDirect = null;
 
-    this.storeSub = this.subscribeToStore();
-    this.eventFiredSub = this.subscribeToEventFired();
+    this._storeSub = this.subscribeToStore();
+    this._eventFiredSub = this.subscribeToEventFired();
 
-    this.onBackButtonListener = this.onBackButton.bind(this);
-    this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ActiveBroker);
+    this._onBackButtonListener = this.onBackButton.bind(this);
+    this._backService.addBackButtonListener(this._onBackButtonListener, BackButtonPriority.ActiveBroker);
 
-    if (this.platformService.isAndroid()) {
+    if (this._platformService.isAndroid()) {
       WebViewCache.clearCache();
     }
   }
 
   private onBackButton(): boolean {
-    if (this.activeBrokerName != null) {
-      this.eventsService.fireApplicationQuitRequest();
+    if (this._activeBrokerName != null) {
+      this._eventsService.fireApplicationQuitRequest();
       return true;
     }
 
@@ -247,12 +247,12 @@ export class BrokerService {
   }
 
   private doRequest(requestJson: any): Observable<any> {
-    this.lastRequestTime = Moment.utc();
-    return this.httpClient.post(this.activeBrokerRequestUrl, requestJson).pipe(
+    this._lastRequestTime = Moment.utc();
+    return this._httpClient.post(this._activeBrokerRequestUrl, requestJson).pipe(
       retryWhen(attempts => attempts.pipe(
-        tap(() => this.loaderService.fireLoadingChanged(false)),
+        tap(() => this._loaderService.fireLoadingChanged(false)),
         mergeMap(error => this.createRequestRetryBox(error)),
-        tap(() => this.loaderService.fireLoadingChanged(true))
+        tap(() => this._loaderService.fireLoadingChanged(true))
       ))
     );
   }
@@ -260,11 +260,11 @@ export class BrokerService {
   private createRequestRetryBox(error: any): Observable<void> {
     return new Observable<void>(sub => {
       try {
-        const title: string = this.titleService.getTitle();
+        const title: string = this._titleService.getTitle();
         const message: string = error && error.status === 0 ? 'Request could not be sent because of a network error!' : error.message;
         const stackTrace = error && error.stack ? error.stack : null;
 
-        this.dialogService.showRetryBoxBox({
+        this._dialogService.showRetryBoxBox({
           title,
           message,
           stackTrace
@@ -283,24 +283,24 @@ export class BrokerService {
 
   private getMetaJson(initRequest: boolean): Observable<any> {
     const metaJson: any = {
-      token: this.activeBrokerToken,
-      requCounter: ++this.requestCounter,
-      languages: [this.clientLanguages],
+      token: this._activeBrokerToken,
+      requCounter: ++this._requestCounter,
+      languages: [this._clientLanguages],
       type: RequestType.Request
     };
 
     if (initRequest) {
       return forkJoin([
-        this.clientDataService.loadSessionData(),
-        this.clientDataService.getDeviceUuid()
+        this._clientDataService.loadSessionData(),
+        this._clientDataService.getDeviceUuid()
       ]).pipe(
         map(res => {
           const sessionData: string = res[0];
           const clientId: string = res[1];
 
-          const platform: string = this.platformService.isNative() ? 'Mobile' : 'Web';
-          const os: string = this.platformService.getOS();
-          const osversion: string = this.platformService.getOSVersion();
+          const platform: string = this._platformService.isNative() ? 'Mobile' : 'Web';
+          const os: string = this._platformService.getOS();
+          const osversion: string = this._platformService.getOSVersion();
 
           if (!String.isNullOrWhiteSpace(sessionData)) {
             metaJson.sessionData = sessionData;
@@ -337,7 +337,7 @@ export class BrokerService {
           event
         };
 
-        const formsJson: any = this.formsService.getFormsJson();
+        const formsJson: any = this._formsService.getFormsJson();
 
         if (!JsonUtil.isEmptyObject(formsJson)) {
           requestJson.forms = formsJson;
@@ -395,7 +395,7 @@ export class BrokerService {
     }
 
     if (metaJson.restartApplication !== true) {
-      this.store.dispatch(setBrokerState({
+      this._store.dispatch(setBrokerState({
         state: {
           activeBrokerToken: metaJson.token
         }
@@ -406,11 +406,11 @@ export class BrokerService {
 
     if (!String.isNullOrWhiteSpace(sessionData)) {
       if (sessionData === BrokerService.SESSION_DATA_DISCARD) {
-        return this.clientDataService.deleteSessionData().pipe(
+        return this._clientDataService.deleteSessionData().pipe(
           mergeMap(() => RxJsUtil.voidObs())
         );
       } else {
-        return this.clientDataService.saveSessionData(sessionData).pipe(
+        return this._clientDataService.saveSessionData(sessionData).pipe(
           mergeMap(() => RxJsUtil.voidObs())
         );
       }
@@ -434,7 +434,7 @@ export class BrokerService {
   private processApplication(applicationJson: any): Observable<void> {
     if (applicationJson && !String.isNullOrWhiteSpace(applicationJson.title)) {
       return RxJsUtil.voidObs().pipe(
-        tap(() => this.titleService.setTitle(applicationJson.title))
+        tap(() => this._titleService.setTitle(applicationJson.title))
       );
     } else {
       return RxJsUtil.voidObs();
@@ -446,7 +446,7 @@ export class BrokerService {
       return RxJsUtil.voidObs().pipe(
         tap(() => {
           for (const controlStyleJson of controlStylesJson) {
-            this.controlStyleSerivce.addControlStyle(controlStyleJson.name, controlStyleJson.properties);
+            this._controlStyleSerivce.addControlStyle(controlStyleJson.name, controlStyleJson.properties);
           }
         })
       );
@@ -460,7 +460,7 @@ export class BrokerService {
       return RxJsUtil.voidObs().pipe(
         tap(() => {
           for (const textJson of textsJson) {
-            this.textsService.setText(textJson.id, textJson.value);
+            this._textsService.setText(textJson.id, textJson.value);
           }
         })
       );
@@ -472,7 +472,7 @@ export class BrokerService {
   private processForms(formsJson: any): Observable<void> {
     if (formsJson && formsJson.length) {
       return RxJsUtil.voidObs().pipe(
-        tap(() => this.formsService.setJson(formsJson))
+        tap(() => this._formsService.setJson(formsJson))
       );
     } else {
       return RxJsUtil.voidObs();
@@ -482,7 +482,7 @@ export class BrokerService {
   private processActions(actionsJson: any): Observable<void> {
     if (actionsJson && actionsJson.length) {
       return RxJsUtil.voidObs().pipe(
-        tap(() => this.actionsService.processActions(actionsJson))
+        tap(() => this._actionsService.processActions(actionsJson))
       );
     } else {
       return RxJsUtil.voidObs();
@@ -492,13 +492,13 @@ export class BrokerService {
   private processError(errorJson: any): Observable<void> {
     if (errorJson && !JsonUtil.isEmptyObject(errorJson)) {
       return RxJsUtil.voidObs().pipe(
-        tap(() => this.loaderService.fireLoadingChanged(false)),
-        mergeMap(() => this.dialogService.showErrorBox({
-          title: this.titleService.getTitle(),
+        tap(() => this._loaderService.fireLoadingChanged(false)),
+        mergeMap(() => this._dialogService.showErrorBox({
+          title: this._titleService.getTitle(),
           message: errorJson.message,
           stackTrace: errorJson.stackTrace
         })),
-        tap(() => this.loaderService.fireLoadingChanged(true))
+        tap(() => this._loaderService.fireLoadingChanged(true))
       );
     } else {
       return RxJsUtil.voidObs();
@@ -512,9 +512,9 @@ export class BrokerService {
       const id: string = msgBoxJson.id;
 
       return RxJsUtil.voidObs().pipe(
-        tap(() => this.loaderService.fireLoadingChanged(false)),
-        mergeMap(() => this.dialogService.showMsgBoxBox({
-          title: this.titleService.getTitle(),
+        tap(() => this._loaderService.fireLoadingChanged(false)),
+        mergeMap(() => this._dialogService.showMsgBoxBox({
+          title: this._titleService.getTitle(),
           message: msgBoxJson.message,
           icon: msgBoxJson.icon,
           buttons: msgBoxJson.buttons
@@ -523,7 +523,7 @@ export class BrokerService {
             clientEvent: new ClientMsgBoxEvent(formId, id, result)
           }))
         )),
-        tap(() => this.loaderService.fireLoadingChanged(true))
+        tap(() => this._loaderService.fireLoadingChanged(true))
       );
     } else {
       return RxJsUtil.voidObs();
@@ -557,22 +557,22 @@ export class BrokerService {
       }
 
       return RxJsUtil.voidObs().pipe(
-        tap(() => this.loaderService.fireLoadingChanged(false)),
-        mergeMap(() => this.dialogService.showMsgBoxBox({
-          title: this.titleService.getTitle(),
+        tap(() => this._loaderService.fireLoadingChanged(false)),
+        mergeMap(() => this._dialogService.showMsgBoxBox({
+          title: this._titleService.getTitle(),
           message: msg,
           icon: msgBoxIcon,
           buttons: MsgBoxButtons.YesNo
         }).pipe(
           mergeMap(msgBoxResult => {
             if (msgBoxResult === MsgBoxResult.Yes) {
-              this.eventsService.fireApplicationQuit(restartRequested);
+              this._eventsService.fireApplicationQuit(restartRequested);
             }
 
             return RxJsUtil.voidObs();
           })
         )),
-        tap(() => this.loaderService.fireLoadingChanged(true))
+        tap(() => this._loaderService.fireLoadingChanged(true))
       );
     } else if (type === 'Cancel') {
       let msg: string = '';
@@ -588,25 +588,25 @@ export class BrokerService {
       }
 
       return RxJsUtil.voidObs().pipe(
-        tap(() => this.loaderService.fireLoadingChanged(false)),
-        mergeMap(() => this.dialogService.showErrorBox({
-          title: this.titleService.getTitle(),
+        tap(() => this._loaderService.fireLoadingChanged(false)),
+        mergeMap(() => this._dialogService.showErrorBox({
+          title: this._titleService.getTitle(),
           message: msg
         })),
-        tap(() => this.loaderService.fireLoadingChanged(true))
+        tap(() => this._loaderService.fireLoadingChanged(true))
       );
     } else if (type === 'Close' && !String.isNullOrWhiteSpace(partsStr)) {
       return RxJsUtil.voidObs().pipe(
-        tap(() => this.loaderService.fireLoadingChanged(false)),
-        mergeMap(() => this.dialogService.showMsgBoxBox({
-          title: this.titleService.getTitle(),
+        tap(() => this._loaderService.fireLoadingChanged(false)),
+        mergeMap(() => this._dialogService.showMsgBoxBox({
+          title: this._titleService.getTitle(),
           message: partsStr,
           icon: MsgBoxIcon.Exclamation,
           buttons: MsgBoxButtons.Ok
         }).pipe(
           mergeMap(() => RxJsUtil.voidObs())
         )),
-        tap(() => this.loaderService.fireLoadingChanged(true))
+        tap(() => this._loaderService.fireLoadingChanged(true))
       );
     }
 
@@ -614,14 +614,14 @@ export class BrokerService {
   }
 
   private restartApplication(): void {
-    const broker: LoginBroker = this.activeLoginBroker;
-    const options: LoginOptions = this.activeLoginOptions;
-    const direct: boolean = this.activeBrokerDirect;
-    const token: string = this.activeBrokerToken;
+    const broker: LoginBroker = this._activeLoginBroker;
+    const options: LoginOptions = this._activeLoginOptions;
+    const direct: boolean = this._activeBrokerDirect;
+    const token: string = this._activeBrokerToken;
 
     this.resetActiveBroker();
 
-    this.store.dispatch(setBrokerState({
+    this._store.dispatch(setBrokerState({
       state: {
         activeBrokerToken: token
       }
@@ -632,33 +632,33 @@ export class BrokerService {
 
   private closeApplication(): void {
     this.resetActiveBroker();
-    this.routingService.showLogin();
+    this._routingService.showLogin();
   }
 
   private onAfterResponse(): Observable<void> {
     return RxJsUtil.voidObs().pipe(
       tap(() => {
-        this.formsService.checkEmptyApp();
-        this.formsService.updateAllComponents();
-        this.framesService.layout();
-        this.routingService.showViewer();
-        this.actionsService.processFocusActions();
+        this._formsService.checkEmptyApp();
+        this._formsService.updateAllComponents();
+        this._framesService.layout();
+        this._routingService.showViewer();
+        this._actionsService.processFocusActions();
       })
     );
   }
 
   public getLastRequestTime(): Moment.Moment {
-    return this.lastRequestTime;
+    return this._lastRequestTime;
   }
 
   public saveState(): any {
     return {
-      requestCounter: this.requestCounter,
-      clientLanguages: this.clientLanguages,
-      lastRequestTime: this.lastRequestTime.toJSON(),
-      loginBroker: this.activeLoginBroker,
-      loginOptions: this.activeLoginOptions,
-      loginDirect: this.activeBrokerDirect
+      requestCounter: this._requestCounter,
+      clientLanguages: this._clientLanguages,
+      lastRequestTime: this._lastRequestTime.toJSON(),
+      loginBroker: this._activeLoginBroker,
+      loginOptions: this._activeLoginOptions,
+      loginDirect: this._activeBrokerDirect
     };
   }
 
@@ -667,11 +667,11 @@ export class BrokerService {
       return;
     }
 
-    this.requestCounter = json.requestCounter;
-    this.clientLanguages = json.clientLanguages;
-    this.lastRequestTime = Moment.utc(json.lastRequestTime);
-    this.activeLoginBroker = json.loginBroker;
-    this.activeLoginOptions = json.loginOptions;
-    this.activeBrokerDirect = json.loginDirect;
+    this._requestCounter = json.requestCounter;
+    this._clientLanguages = json.clientLanguages;
+    this._lastRequestTime = Moment.utc(json.lastRequestTime);
+    this._activeLoginBroker = json.loginBroker;
+    this._activeLoginOptions = json.loginOptions;
+    this._activeBrokerDirect = json.loginDirect;
   }
 }

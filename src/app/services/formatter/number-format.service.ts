@@ -7,42 +7,42 @@ import { LocaleService } from '@app/services/locale.service';
 @Injectable()
 export class NumberFormatService {
 
-  private static readonly formatDefault: string = '#.##';
-  private static readonly formatZero: string = '0';
-  private static readonly formatHash: string = '#';
-  private static readonly formatSeparator: string = ';';
-  private static readonly formatGroupSeparator: string = ',';
-  private static readonly formatDecimalSeparator: string = '.';
-  private static readonly formatStringChars: string = '\'"';
-  private static readonly formatNegativeSign: string = '-';
-  private static readonly formatPercentSign: string = '%';
-  private static readonly formatPermilleSign: string = '‰';
-  private static readonly formatEscapeChar: string = '\\';
+  private static readonly _formatDefault: string = '#.##';
+  private static readonly _formatZero: string = '0';
+  private static readonly _formatHash: string = '#';
+  private static readonly _formatSeparator: string = ';';
+  private static readonly _formatGroupSeparator: string = ',';
+  private static readonly _formatDecimalSeparator: string = '.';
+  private static readonly _formatStringChars: string = '\'"';
+  private static readonly _formatNegativeSign: string = '-';
+  private static readonly _formatPercentSign: string = '%';
+  private static readonly _formatPermilleSign: string = '‰';
+  private static readonly _formatEscapeChar: string = '\\';
 
-  private readonly numberFormat: Intl.NumberFormat;
+  private readonly _numberFormat: Intl.NumberFormat;
 
-  public constructor(private readonly localeService: LocaleService) {
-    this.numberFormat = Intl.NumberFormat(this.localeService.getLocale());
+  public constructor(private readonly _localeService: LocaleService) {
+    this._numberFormat = Intl.NumberFormat(this._localeService.getLocale());
   }
 
   private getGroupingCount(): number {
-    return this.numberFormat.resolvedOptions().maximumFractionDigits;
+    return this._numberFormat.resolvedOptions().maximumFractionDigits;
   }
 
   private getGroupingSeparator(): string {
-    return this.numberFormat.format(1111).substring(1, 2);
+    return this._numberFormat.format(1111).substring(1, 2);
   }
 
   private getDecimalSeparator(): string {
-    return this.numberFormat.format(1.1).substring(1, 2);
+    return this._numberFormat.format(1.1).substring(1, 2);
   }
 
   private isHash(char: string): boolean {
-    return char === NumberFormatService.formatHash;
+    return char === NumberFormatService._formatHash;
   }
 
   private isZero(char: string): boolean {
-    return char === NumberFormatService.formatZero;
+    return char === NumberFormatService._formatZero;
   }
 
   private isHashOrZero(char: string): boolean {
@@ -50,27 +50,27 @@ export class NumberFormatService {
   }
 
   private isGroupSeparator(char: string): boolean {
-    return char === NumberFormatService.formatGroupSeparator;
+    return char === NumberFormatService._formatGroupSeparator;
   }
 
   private isDecimalSeparator(char: string): boolean {
-    return char === NumberFormatService.formatDecimalSeparator;
+    return char === NumberFormatService._formatDecimalSeparator;
   }
 
   private isStringChar(char: string): boolean {
-    return NumberFormatService.formatStringChars.includes(char);
+    return NumberFormatService._formatStringChars.includes(char);
   }
 
   private isEscapeChar(char: string): boolean {
-    return char === NumberFormatService.formatEscapeChar;
+    return char === NumberFormatService._formatEscapeChar;
   }
 
   private isPercentSign(char: string): boolean {
-    return char === NumberFormatService.formatPercentSign;
+    return char === NumberFormatService._formatPercentSign;
   }
 
   private isPermilleSign(char: string): boolean {
-    return char === NumberFormatService.formatPermilleSign;
+    return char === NumberFormatService._formatPermilleSign;
   }
 
   public formatString(value: string, parseMethod: ParseMethod, textFormat: TextFormat, formatPattern: string): string {
@@ -118,7 +118,7 @@ export class NumberFormatService {
       return null;
     }
 
-    return this.numberFormat.format(value);
+    return this._numberFormat.format(value);
   }
 
   private formatNumberPattern(value: number, formatPattern: string): string {
@@ -129,12 +129,12 @@ export class NumberFormatService {
     let pattern: string = formatPattern;
 
     if (String.isNullOrWhiteSpace(formatPattern)) {
-      pattern = NumberFormatService.formatDefault;
+      pattern = NumberFormatService._formatDefault;
     }
 
     let activeFormat: string;
 
-    const formats: Array<string> = pattern.split(NumberFormatService.formatSeparator, 3);
+    const formats: Array<string> = pattern.split(NumberFormatService._formatSeparator, 3);
 
     if (value === 0 && formats.length === 3) {
       activeFormat = formats[2];
@@ -192,7 +192,7 @@ export class NumberFormatService {
 
     // Add negative sign if necessary
     if (valueNegative && !formatInfo.negativeFirst) {
-      resultStr += NumberFormatService.formatNegativeSign;
+      resultStr += NumberFormatService._formatNegativeSign;
     }
 
     if (formatInfo.hasDigitsPart()) {
@@ -252,7 +252,7 @@ export class NumberFormatService {
     }
 
     if (valueNegative && formatInfo.negativeFirst) {
-      resultStr = NumberFormatService.formatNegativeSign + resultStr;
+      resultStr = NumberFormatService._formatNegativeSign + resultStr;
     }
 
     return resultStr;
@@ -354,7 +354,7 @@ export class NumberFormatService {
 
   private getFormatInfo(format: string): NumberFormatInfo {
     let formatToDo = format;
-    const negativeFirst: boolean = formatToDo.startsWith(NumberFormatService.formatNegativeSign);
+    const negativeFirst: boolean = formatToDo.startsWith(NumberFormatService._formatNegativeSign);
 
     if (negativeFirst) {
       formatToDo = formatToDo.substring(1);
@@ -478,8 +478,8 @@ export class NumberFormatService {
       }
     }
 
-    const firstDigitZeroPos: number | undefined = digitsPart ? digitsPart.indexOf(NumberFormatService.formatZero) : undefined;
-    const lastDecimalZeroPos: number | undefined = decimalsPart ? decimalsPart.lastIndexOf(NumberFormatService.formatZero) : undefined;
+    const firstDigitZeroPos: number | undefined = digitsPart ? digitsPart.indexOf(NumberFormatService._formatZero) : undefined;
+    const lastDecimalZeroPos: number | undefined = decimalsPart ? decimalsPart.lastIndexOf(NumberFormatService._formatZero) : undefined;
 
     hasGrouping = firstDigitPos != null &&
       lastDigitPos != null &&
@@ -507,12 +507,12 @@ export class NumberFormatService {
       return null;
     }
 
-    const groupSep: string = parseMethod === ParseMethod.Client ? this.getGroupingSeparator() : NumberFormatService.formatGroupSeparator;
-    const decSep: string = parseMethod === ParseMethod.Client ? this.getDecimalSeparator() : NumberFormatService.formatDecimalSeparator;
+    const groupSep: string = parseMethod === ParseMethod.Client ? this.getGroupingSeparator() : NumberFormatService._formatGroupSeparator;
+    const decSep: string = parseMethod === ParseMethod.Client ? this.getDecimalSeparator() : NumberFormatService._formatDecimalSeparator;
 
     return value
       .replaceAll(groupSep, String.empty())
-      .replaceAll(decSep, NumberFormatService.formatDecimalSeparator)
+      .replaceAll(decSep, NumberFormatService._formatDecimalSeparator)
       .replace(/[^0-9\-.]/g, String.empty())
       .replace(/^([^.]*\.)(.*)$/, (_val: string, left: string, right: string) => left + right.replace(/\./g, String.empty()))
       .trim();

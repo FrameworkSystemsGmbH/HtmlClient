@@ -2,33 +2,33 @@ import { LinkedListNode } from '@app/util/linked-list-node';
 
 export class LinkedListTwoWay<T> {
 
-  private length: number;
-  private head: LinkedListNode<T>;
-  private tail: LinkedListNode<T>;
+  private _length: number;
+  private _head: LinkedListNode<T>;
+  private _tail: LinkedListNode<T>;
 
   public constructor() {
-    this.length = 0;
-    this.head = null;
-    this.tail = null;
+    this._length = 0;
+    this._head = null;
+    this._tail = null;
   }
 
   public getLength(): number {
-    return this.length;
+    return this._length;
   }
 
   public add(data: T): void {
     const currentNode = new LinkedListNode<T>(data);
 
-    if (this.head === null || this.length === 0) {
-      this.head = currentNode;
-      this.tail = currentNode;
+    if (this._head === null || this._length === 0) {
+      this._head = currentNode;
+      this._tail = currentNode;
     } else {
-      this.tail.next = currentNode;
-      currentNode.prev = this.tail;
+      this._tail.next = currentNode;
+      currentNode.prev = this._tail;
     }
 
-    this.tail = currentNode;
-    this.length++;
+    this._tail = currentNode;
+    this._length++;
   }
 
   public remove(data: T): boolean {
@@ -43,10 +43,10 @@ export class LinkedListTwoWay<T> {
     }
 
     if (index === 0) {
-      this.head = this.head.next;
-      this.head.prev = null;
+      this._head = this._head.next;
+      this._head.prev = null;
     } else {
-      let node = this.head;
+      let node = this._head;
 
       for (let i = 1; i < index; i++) {
         node = node.next;
@@ -56,22 +56,22 @@ export class LinkedListTwoWay<T> {
       node.next = deleteNode.next;
       deleteNode.next.prev = node;
 
-      if (index === this.length - 1) {
-        this.tail = node;
+      if (index === this._length - 1) {
+        this._tail = node;
       }
     }
 
-    this.length--;
+    this._length--;
 
     return true;
   }
 
   public peek(): T {
-    return this.length ? this.head.data : undefined;
+    return this._length ? this._head.data : undefined;
   }
 
   public poll(): T {
-    if (this.length) {
+    if (this._length) {
       const data = this.peek();
       this.remove(data);
       return data;
@@ -81,9 +81,9 @@ export class LinkedListTwoWay<T> {
   }
 
   public forEach(fn: (data: T) => void): void {
-    let node = this.head;
+    let node = this._head;
 
-    while (node !== this.tail) {
+    while (node !== this._tail) {
       fn.call(this, node.data);
       node = node.next;
     }
@@ -94,9 +94,9 @@ export class LinkedListTwoWay<T> {
       return -1;
     }
 
-    let node = this.head;
+    let node = this._head;
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < this._length; i++) {
       if (node.data === data) {
         return i;
       }
@@ -112,9 +112,9 @@ export class LinkedListTwoWay<T> {
       return false;
     }
 
-    let node = this.head;
+    let node = this._head;
 
-    while (node !== this.tail) {
+    while (node !== this._tail) {
       if (node.data === data) {
         return true;
       }
@@ -126,12 +126,12 @@ export class LinkedListTwoWay<T> {
   }
 
   public toArray(): Array<T> {
-    const result: Array<T> = new Array<T>(this.length);
+    const result: Array<T> = new Array<T>(this._length);
 
-    let node = this.head;
+    let node = this._head;
 
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < this._length; i++) {
       result.push(node.data);
       node = node.next;
     }

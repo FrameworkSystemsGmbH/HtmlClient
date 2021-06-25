@@ -9,11 +9,11 @@ export class LoginService {
   private readonly _brokers$$: BehaviorSubject<Array<LoginBroker>>;
   private readonly _brokers$: Observable<Array<LoginBroker>>;
 
-  public constructor(private readonly clientDataService: ClientDataService) {
+  public constructor(private readonly _clientDataService: ClientDataService) {
     this._brokers$$ = new BehaviorSubject<Array<LoginBroker>>(new Array<LoginBroker>());
     this._brokers$ = this._brokers$$.asObservable();
 
-    this.clientDataService.loadBrokerList().subscribe(brokerList => {
+    this._clientDataService.loadBrokerList().subscribe(brokerList => {
       this._brokers$$.next(brokerList);
     });
   }
@@ -37,12 +37,12 @@ export class LoginService {
       brokers.push(broker);
     }
 
-    this.clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
+    this._clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
   }
 
   public deleteBroker(broker: LoginBroker): void {
     const brokers: Array<LoginBroker> = this._brokers$$.getValue();
     brokers.remove(broker);
-    this.clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
+    this._clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
   }
 }

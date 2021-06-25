@@ -5,24 +5,24 @@ import { ErrorBoxComponent } from '@app/components/errorbox/errorbox.component';
 @Injectable()
 export class ErrorService extends ErrorHandler {
 
-  private zone: NgZone;
-  private errorDialog: MatDialog;
+  private _zone: NgZone;
+  private _errorDialog: MatDialog;
 
-  public constructor(private readonly injector: Injector) {
+  public constructor(private readonly _injector: Injector) {
     super();
   }
 
   public handleError(error: any): void {
-    if (!this.zone) {
-      this.zone = this.injector.get(NgZone);
+    if (!this._zone) {
+      this._zone = this._injector.get(NgZone);
     }
 
-    if (!this.errorDialog) {
-      this.errorDialog = this.injector.get(MatDialog);
+    if (!this._errorDialog) {
+      this._errorDialog = this._injector.get(MatDialog);
     }
 
-    this.zone.run(() => {
-      this.errorDialog.open(ErrorBoxComponent, {
+    this._zone.run(() => {
+      this._errorDialog.open(ErrorBoxComponent, {
         backdropClass: 'hc-backdrop',
         minWidth: 300,
         maxWidth: '90%',

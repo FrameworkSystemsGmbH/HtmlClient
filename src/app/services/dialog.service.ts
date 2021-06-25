@@ -14,10 +14,10 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class DialogService {
 
-  public constructor(private readonly dialog: MatDialog) { }
+  public constructor(private readonly _dialog: MatDialog) { }
 
   public showErrorBox(data: IErrorBoxData): Observable<void> {
-    const dialogRef: MatDialogRef<ErrorBoxComponent> = this.dialog.open(ErrorBoxComponent, {
+    const dialogRef: MatDialogRef<ErrorBoxComponent> = this._dialog.open(ErrorBoxComponent, {
       backdropClass: 'hc-backdrop',
       minWidth: 300,
       maxWidth: '90%',
@@ -30,7 +30,7 @@ export class DialogService {
   }
 
   public showMsgBoxBox(data: IMsgBoxData): Observable<MsgBoxResult> {
-    const msgBoxRef: MatDialogRef<MsgBoxComponent> = this.dialog.open(MsgBoxComponent, {
+    const msgBoxRef: MatDialogRef<MsgBoxComponent> = this._dialog.open(MsgBoxComponent, {
       backdropClass: 'hc-backdrop',
       minWidth: 300,
       maxWidth: '90%',
@@ -45,7 +45,7 @@ export class DialogService {
   }
 
   public showRetryBoxBox(data: IRetryBoxData): Observable<RetryBoxResult> {
-    const retryBoxRef: MatDialogRef<RetryBoxComponent> = this.dialog.open(RetryBoxComponent, {
+    const retryBoxRef: MatDialogRef<RetryBoxComponent> = this._dialog.open(RetryBoxComponent, {
       backdropClass: 'hc-backdrop',
       minWidth: 300,
       maxWidth: '90%',

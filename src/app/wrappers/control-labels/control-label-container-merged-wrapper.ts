@@ -10,11 +10,11 @@ import { FieldRowWrapper } from '@app/wrappers/field-row-wrapper';
 
 export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBaseWrapper {
 
-  private readonly injector: Injector;
+  private readonly _injector: Injector;
 
   public constructor(injector: Injector, options: IControlLabelContainerBaseWrapperOptions) {
     super(injector, options);
-    this.injector = injector;
+    this._injector = injector;
     this.initLabels();
   }
 
@@ -40,7 +40,7 @@ export class ControlLabelContainerMergedWrapper extends ControlLabelContainerBas
 
     for (let i = 0; i < labelWrappers.length; i++) {
       if (i > 0) {
-        labelsWithSeparators.push(new ControlLabelSeparatorWrapper(this.injector, new ControlLabelSeparatorProvider(this.getRowLabelTemplate()), this.getFieldRowWrapper()));
+        labelsWithSeparators.push(new ControlLabelSeparatorWrapper(this._injector, new ControlLabelSeparatorProvider(this.getRowLabelTemplate()), this.getFieldRowWrapper()));
       }
       labelsWithSeparators.push(labelWrappers[i]);
     }

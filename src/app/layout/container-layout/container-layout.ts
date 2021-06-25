@@ -10,8 +10,8 @@ import { LinkedListOneWay } from '@app/util/linked-list-one-way';
 
 export class ContainerLayout extends LayoutContainerBase {
 
-  private width: number = -1;
-  private wrappers: Array<LayoutableControlWrapper>;
+  private _width: number = -1;
+  private _wrappers: Array<LayoutableControlWrapper>;
 
   public constructor(container: ILayoutableContainer) {
     super(container);
@@ -25,10 +25,10 @@ export class ContainerLayout extends LayoutContainerBase {
     const controls: Array<ILayoutableControl> = this.getControl().getLayoutableControls();
     const controlCount: number = controls.length;
 
-    this.wrappers = new Array<LayoutableControlWrapper>(controlCount);
+    this._wrappers = new Array<LayoutableControlWrapper>(controlCount);
 
     for (let i = 0; i < controlCount; i++) {
-      this.wrappers[i] = new LayoutableControlWrapper(controls[i]);
+      this._wrappers[i] = new LayoutableControlWrapper(controls[i]);
     }
   }
 
@@ -44,7 +44,7 @@ export class ContainerLayout extends LayoutContainerBase {
     // Iterate wrappers to calculate total content min width (maximum of all min widths)
     let minWidth: number = 0;
 
-    for (const wrapper of this.wrappers) {
+    for (const wrapper of this._wrappers) {
       // Ignore invisible items (items with min width = 0 do not have an impact)
       if (wrapper.getIsLayoutVisible()) {
         minWidth = Math.max(minWidth, wrapper.getMinLayoutWidth());
@@ -74,7 +74,7 @@ export class ContainerLayout extends LayoutContainerBase {
       return 0;
     }
 
-    this.width = width;
+    this._width = width;
 
     // Include insets (padding + border + margin) of the container
     const insetsTop: number = container.getInsetsTop();
@@ -82,7 +82,7 @@ export class ContainerLayout extends LayoutContainerBase {
 
     let minHeight: number = 0;
 
-    for (const wrapper of this.wrappers) {
+    for (const wrapper of this._wrappers) {
       if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
         minHeight += wrapper.getMinLayoutHeight(width);
       }
@@ -115,11 +115,11 @@ export class ContainerLayout extends LayoutContainerBase {
     const containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
     // Consistency check
-    if (containerWidth !== this.width) {
+    if (containerWidth !== this._width) {
       this.measureMinHeight(containerWidth);
     }
 
-    if (!this.wrappers || !this.wrappers.length) {
+    if (!this._wrappers || !this._wrappers.length) {
       return;
     }
 
@@ -136,7 +136,7 @@ export class ContainerLayout extends LayoutContainerBase {
     let sumMinHeights: number = 0;
     const todo: LinkedListOneWay<LayoutableControlWrapper> = new LinkedListOneWay<LayoutableControlWrapper>();
 
-    for (const wrapper of this.wrappers) {
+    for (const wrapper of this._wrappers) {
       if (wrapper.getHorizontalAlignment() !== HorizontalAlignment.Stretch) {
         wrapper.setResultWidth(wrapper.getMinLayoutWidth());
       } else {
@@ -182,7 +182,7 @@ export class ContainerLayout extends LayoutContainerBase {
     const xPos: number = 0;
     let yPos: number = 0;
 
-    for (const wrapper of this.wrappers) {
+    for (const wrapper of this._wrappers) {
       let xOffset: number = 0;
       const hAlignment: HorizontalAlignment = wrapper.getHorizontalAlignment();
 

@@ -12,9 +12,9 @@ import { LinkedListOneWay } from '@app/util/linked-list-one-way';
 
 export class FieldLayout extends LayoutContainerBase {
 
-  private width: number = -1;
-  private rows: Array<FieldLayoutRow>;
-  private columns: Array<FieldLayoutColumn>;
+  private _width: number = -1;
+  private _rows: Array<FieldLayoutRow>;
+  private _columns: Array<FieldLayoutColumn>;
 
   public constructor(container: IFieldContainer) {
     super(container);
@@ -26,7 +26,7 @@ export class FieldLayout extends LayoutContainerBase {
 
   private initRows(): void {
     const container: IFieldContainer = this.getControl();
-    this.rows = new Array<FieldLayoutRow>();
+    this._rows = new Array<FieldLayoutRow>();
 
     // iterate children and fill wrapper array
     for (const control of container.getLayoutableControls()) {
@@ -41,7 +41,7 @@ export class FieldLayout extends LayoutContainerBase {
       }
 
       if (isRowVisible && row.getCurrentVisibility() !== Visibility.Collapsed) {
-        this.rows.push(new FieldLayoutRow(row));
+        this._rows.push(new FieldLayoutRow(row));
       }
     }
   }
@@ -60,22 +60,22 @@ export class FieldLayout extends LayoutContainerBase {
     const isGridMode: boolean = container.getSynchronizeColumns();
 
     if (isGridMode) {
-      this.columns = new Array<FieldLayoutColumn>();
+      this._columns = new Array<FieldLayoutColumn>();
 
       let maxCellCount: number = 0;
-      for (const row of this.rows) {
+      for (const row of this._rows) {
         maxCellCount = Math.max(maxCellCount, row.getCellsCount());
       }
 
       // build columns for all cells
       for (let i = 0; i < maxCellCount; i++) {
         const columnCells: Array<FieldLayoutCell> = new Array<FieldLayoutCell>();
-        for (const row of this.rows) {
+        for (const row of this._rows) {
           if (i < row.getCellsCount()) {
             columnCells.push(row.getCell(i));
           }
         }
-        this.columns.push(new FieldLayoutColumn(columnCells));
+        this._columns.push(new FieldLayoutColumn(columnCells));
       }
     }
 
@@ -86,7 +86,7 @@ export class FieldLayout extends LayoutContainerBase {
     const hSpacing: number = container.getSpacingHorizontal();
     let minWidth: number = 0;
 
-    for (const row of this.rows) {
+    for (const row of this._rows) {
       let rowMinWidth: number = 0;
       let isFirst: boolean = true;
       for (const cell of row.getCells()) {
@@ -126,7 +126,7 @@ export class FieldLayout extends LayoutContainerBase {
       return 0;
     }
 
-    this.width = width;
+    this._width = width;
 
     // include insets (padding + border + margin) of the container
     const insetsLeft: number = container.getInsetsLeft();
@@ -155,7 +155,7 @@ export class FieldLayout extends LayoutContainerBase {
       const todo: LinkedListOneWay<FieldLayoutColumn> = new LinkedListOneWay<FieldLayoutColumn>();
       let isFirstColumn: boolean = true;
 
-      for (const column of this.columns) {
+      for (const column of this._columns) {
         if (isFirstColumn) {
           column.setResultColumnWidth(column.getMinColumnWidth());
           availableWidth -= column.getResultColumnWidth();
@@ -216,7 +216,7 @@ export class FieldLayout extends LayoutContainerBase {
       }
     }
 
-    for (const row of this.rows) {
+    for (const row of this._rows) {
       if (isGridMode) {
         // grid mode
         for (const cell of row.getCells()) {
@@ -363,7 +363,7 @@ export class FieldLayout extends LayoutContainerBase {
     const containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
     // consistency check
-    if (containerWidth !== this.width) {
+    if (containerWidth !== this._width) {
       this.measureMinHeight(containerWidth);
     }
 
@@ -376,11 +376,11 @@ export class FieldLayout extends LayoutContainerBase {
     let availableHeight: number = containerHeight - insetsTop - insetsBottom;
 
     // reduce the available height by needed spacings
-    availableHeight -= Math.max(0, this.rows.length - 1) * vSpacing;
+    availableHeight -= Math.max(0, this._rows.length - 1) * vSpacing;
 
     // get sum of (visible) field row sizes
     let sumFieldRowSizes: number = 0;
-    for (const row of this.rows) {
+    for (const row of this._rows) {
       if (row.getSize() != null && row.isStretchable()) {
         sumFieldRowSizes += row.getSize();
       }
@@ -391,7 +391,7 @@ export class FieldLayout extends LayoutContainerBase {
      * and remember all dynamic rows to be processed later
      */
     const todo: Array<FieldLayoutRow> = new Array<FieldLayoutRow>();
-    for (const row of this.rows) {
+    for (const row of this._rows) {
       if (row.getSize() == null || !row.isStretchable()) {
         // auto sized rows: resultSize = minSize
         const minHeight: number = row.getMinRowHeight();
@@ -453,7 +453,7 @@ export class FieldLayout extends LayoutContainerBase {
     // layout rows
     let addSpacing: boolean = false;
     let yPos: number = 0;
-    for (const row of this.rows) {
+    for (const row of this._rows) {
       if (addSpacing) {
         yPos += vSpacing;
       } else {

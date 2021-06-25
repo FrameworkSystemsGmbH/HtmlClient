@@ -11,45 +11,45 @@ export class SelectorComponent implements OnInit {
 
   @Input()
   public get size(): number {
-    return this.sizeValue != null && this.sizeValue > 0 ? Math.min(20, this.sizeValue) : 20;
+    return this._sizeValue != null && this._sizeValue > 0 ? Math.min(20, this._sizeValue) : 20;
   }
 
   public set size(val: number) {
-    this.sizeValue = val;
+    this._sizeValue = val;
     this.setWrapperStyle();
   }
 
   @Input()
   public get enabled(): boolean {
-    return this.enabledValue;
+    return this._enabledValue;
   }
 
   public set enabled(val: boolean) {
-    this.enabledValue = val;
+    this._enabledValue = val;
     this.setWrapperStyle();
   }
 
   @Input()
   public get visible(): boolean {
-    return this.visibleValue;
+    return this._visibleValue;
   }
 
   public set visible(val: boolean) {
-    this.visibleValue = val;
+    this._visibleValue = val;
     this.setWrapperStyle();
   }
 
   @Input()
   public get checked(): boolean {
-    return this.checkedValue;
+    return this._checkedValue;
   }
 
   public set checked(val: boolean) {
-    if (this.checkedValue === val) {
+    if (this._checkedValue === val) {
       return;
     }
 
-    this.checkedValue = val;
+    this._checkedValue = val;
     this.checkedChange.emit(val);
   }
 
@@ -59,12 +59,12 @@ export class SelectorComponent implements OnInit {
   public isDisabledAttr: boolean;
   public wrapperStyle: any;
 
-  private sizeValue: number;
-  private enabledValue: boolean;
-  private visibleValue: boolean;
-  private checkedValue: boolean;
+  private _sizeValue: number;
+  private _enabledValue: boolean;
+  private _visibleValue: boolean;
+  private _checkedValue: boolean;
 
-  public constructor(private readonly platformService: PlatformService) { }
+  public constructor(private readonly _platformService: PlatformService) { }
 
   public ngOnInit(): void {
     this.setWrapperStyle();
@@ -83,6 +83,6 @@ export class SelectorComponent implements OnInit {
       };
     }
 
-    this.isDisabledAttr = this.platformService.isNative() || !this.enabled ? true : null;
+    this.isDisabledAttr = this._platformService.isNative() || !this.enabled ? true : null;
   }
 }

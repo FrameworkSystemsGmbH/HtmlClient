@@ -4,18 +4,18 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 
 export class VchContainer extends VchControl {
 
-  private readonly children: Array<ILayoutableControlWrapper> = new Array<ILayoutableControlWrapper>();
+  private readonly _children: Array<ILayoutableControlWrapper> = new Array<ILayoutableControlWrapper>();
 
-  public constructor(private readonly container: ILayoutableContainerWrapper) {
+  public constructor(private readonly _container: ILayoutableContainerWrapper) {
     super();
   }
 
   public getChildren(): Array<ILayoutableControlWrapper> {
-    if (this.container.getInvertFlowDirection()) {
-      const result: Array<ILayoutableControlWrapper> = this.children.clone();
+    if (this._container.getInvertFlowDirection()) {
+      const result: Array<ILayoutableControlWrapper> = this._children.clone();
       return result ? result.reverse() : result;
     } else {
-      return this.children;
+      return this._children;
     }
   }
 
@@ -27,13 +27,13 @@ export class VchContainer extends VchControl {
       oldParent.getVchContainer().removeChild(wrapper);
     }
 
-    this.children.push(wrapper);
+    this._children.push(wrapper);
 
-    wrapper.getVchControl().setParent(this.container);
+    wrapper.getVchControl().setParent(this._container);
   }
 
   public removeChild(wrapper: ILayoutableControlWrapper): void {
     wrapper.getVchControl().setParent(null);
-    this.children.remove(wrapper);
+    this._children.remove(wrapper);
   }
 }

@@ -12,15 +12,15 @@ import { Subscription } from 'rxjs';
 
 export class CheckBoxWrapper extends FittedWrapper {
 
-  private boxClickSub: Subscription;
+  private _value: boolean;
+  private _orgValue: boolean;
+  private _dataSourceType: DataSourceType;
 
-  private value: boolean;
-  private orgValue: boolean;
-  private dataSourceType: DataSourceType;
+  private _boxClickSub: Subscription;
 
   protected init(): void {
     super.init();
-    this.dataSourceType = DataSourceType.Bool;
+    this._dataSourceType = DataSourceType.Bool;
   }
 
   public getControlType(): ControlType {
@@ -28,11 +28,11 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   public getValue(): boolean {
-    return this.value;
+    return this._value;
   }
 
   public setValue(value: boolean): void {
-    this.value = value;
+    this._value = value;
   }
 
   // Width of the Material CheckBox
@@ -59,15 +59,15 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   protected hasChanges(): boolean {
-    return this.dataSourceType != null && this.value !== this.orgValue;
+    return this._dataSourceType != null && this._value !== this._orgValue;
   }
 
   protected getValueJson(): string {
     let val: string;
 
-    switch (this.dataSourceType) {
+    switch (this._dataSourceType) {
       case DataSourceType.Bool:
-        val = this.value ? 'true' : 'false';
+        val = this._value ? 'true' : 'false';
         break;
 
       case DataSourceType.Decimal:
@@ -77,7 +77,7 @@ export class CheckBoxWrapper extends FittedWrapper {
       case DataSourceType.Long:
       case DataSourceType.Short:
       case DataSourceType.String:
-        val = this.value ? '1' : '0';
+        val = this._value ? '1' : '0';
         break;
 
       default:
@@ -90,7 +90,7 @@ export class CheckBoxWrapper extends FittedWrapper {
   protected setValueJson(value: string): void {
     let val: boolean = false;
 
-    switch (this.dataSourceType) {
+    switch (this._dataSourceType) {
       case DataSourceType.Bool:
         val = value === 'true';
         break;
@@ -106,10 +106,10 @@ export class CheckBoxWrapper extends FittedWrapper {
         break;
 
       default:
-        throw new Error(`Incompatible datasource type '${this.dataSourceType}' for checkbox control!`);
+        throw new Error(`Incompatible datasource type '${this._dataSourceType}' for checkbox control!`);
     }
 
-    this.orgValue = val;
+    this._orgValue = val;
     this.setValue(val);
   }
 
@@ -138,7 +138,7 @@ export class CheckBoxWrapper extends FittedWrapper {
     }
 
     if (dataJson.text && dataJson.text.type !== undefined && dataJson.text.value !== undefined) {
-      this.dataSourceType = dataJson.text.type;
+      this._dataSourceType = dataJson.text.type;
       this.setValueJson(dataJson.text.value);
     }
   }
@@ -161,15 +161,15 @@ export class CheckBoxWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnClickEvent()) {
-      this.boxClickSub = instance.boxClick.subscribe(() => this.getBoxClickSubscription()());
+      this._boxClickSub = instance.boxClick.subscribe(() => this.getBoxClickSubscription()());
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this.boxClickSub) {
-      this.boxClickSub.unsubscribe();
+    if (this._boxClickSub) {
+      this._boxClickSub.unsubscribe();
     }
   }
 
@@ -215,14 +215,14 @@ export class CheckBoxWrapper extends FittedWrapper {
 
   public saveState(): any {
     const json: any = super.saveState();
-    json.type = this.dataSourceType;
+    json.type = this._dataSourceType;
     json.value = this.getValueJson();
     return json;
   }
 
   protected loadState(json: any): void {
     super.loadState(json);
-    this.dataSourceType = json.type;
+    this._dataSourceType = json.type;
     this.setValueJson(json.value);
   }
 }

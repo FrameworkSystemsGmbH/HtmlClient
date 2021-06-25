@@ -4,17 +4,17 @@ import { Router } from '@angular/router';
 @Injectable()
 export class RoutingService {
 
-  public constructor(private readonly router: Router) { }
+  public constructor(private readonly _router: Router) { }
 
   public showLogin(): void {
-    if (this.router.routerState.snapshot.url !== '/') {
-      void this.router.navigate(['/'], { skipLocationChange: true });
+    if (this._router.routerState.snapshot.url !== '/') {
+      void this._router.navigate(['/'], { skipLocationChange: true });
     }
   }
 
   public showViewer(): void {
-    if (this.router.routerState.snapshot.url !== '/viewer') {
-      void this.router.navigate(['/viewer'], { skipLocationChange: true });
+    if (this._router.routerState.snapshot.url !== '/viewer') {
+      void this._router.navigate(['/viewer'], { skipLocationChange: true });
     }
   }
 }

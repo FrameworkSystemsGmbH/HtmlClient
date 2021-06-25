@@ -9,14 +9,13 @@ import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-con
 
 export class ButtonImageWrapper extends ButtonBaseWrapper {
 
-  private imageService: ImageService;
-
-  private badgeImageData: string;
-  private dataSourceType: DataSourceType;
+  private _imageService: ImageService;
+  private _badgeImageData: string;
+  private _dataSourceType: DataSourceType;
 
   protected init(): void {
     super.init();
-    this.imageService = this.getInjector().get(ImageService);
+    this._imageService = this.getInjector().get(ImageService);
   }
 
   public getControlType(): ControlType {
@@ -24,7 +23,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   }
 
   protected getImageService(): ImageService {
-    return this.imageService;
+    return this._imageService;
   }
 
   public getCaptionAlign(): ContentAlignment {
@@ -43,7 +42,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
       return null;
     }
 
-    return this.imageService.getImageUrl(image);
+    return this._imageService.getImageUrl(image);
   }
 
   public getPressedImage(): string {
@@ -57,7 +56,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
       return null;
     }
 
-    return this.imageService.getImageUrl(image);
+    return this._imageService.getImageUrl(image);
   }
 
   public getMouseOverImage(): string {
@@ -71,7 +70,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
       return null;
     }
 
-    return this.imageService.getImageUrl(image);
+    return this._imageService.getImageUrl(image);
   }
 
   public getDisabledImage(): string {
@@ -85,15 +84,15 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
       return null;
     }
 
-    return this.imageService.getImageUrl(image);
+    return this._imageService.getImageUrl(image);
   }
 
   public getBadgeImageSrc(): string {
-    if (!String.isNullOrWhiteSpace(this.badgeImageData)) {
-      if (this.dataSourceType === DataSourceType.ByteArray) {
-        return `data:;base64,${this.badgeImageData}`;
+    if (!String.isNullOrWhiteSpace(this._badgeImageData)) {
+      if (this._dataSourceType === DataSourceType.ByteArray) {
+        return `data:;base64,${this._badgeImageData}`;
       } else {
-        return this.imageService.getImageUrl(this.badgeImageData);
+        return this._imageService.getImageUrl(this._badgeImageData);
       }
     }
 
@@ -108,8 +107,8 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
     }
 
     if (dataJson.badgeImage && dataJson.badgeImage.type != null && !String.isNullOrWhiteSpace(dataJson.badgeImage.value)) {
-      this.dataSourceType = dataJson.badgeImage.type;
-      this.badgeImageData = dataJson.badgeImage.value;
+      this._dataSourceType = dataJson.badgeImage.type;
+      this._badgeImageData = dataJson.badgeImage.value;
     }
   }
 
@@ -129,14 +128,14 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
 
   public saveState(): any {
     const json: any = super.saveState();
-    json.type = this.dataSourceType;
-    json.badgeImageData = this.badgeImageData;
+    json.type = this._dataSourceType;
+    json.badgeImageData = this._badgeImageData;
     return json;
   }
 
   protected loadState(json: any): void {
     super.loadState(json);
-    this.dataSourceType = json.type;
-    this.badgeImageData = json.badgeImageData;
+    this._dataSourceType = json.type;
+    this._badgeImageData = json.badgeImageData;
   }
 }

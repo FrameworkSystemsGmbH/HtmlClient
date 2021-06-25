@@ -2,43 +2,43 @@ import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper
 
 export class WrapLayoutColumn {
 
-  private minColumnHeight: number;
-  private resultColumnWidth: number;
+  private _minColumnHeight: number;
+  private _resultColumnWidth: number;
 
   public constructor(
-    private readonly wrappers: Array<LayoutableControlWrapper>,
-    private readonly minColumnWidth: number,
-    private readonly maxColumnWidth: number) { }
+    private readonly _wrappers: Array<LayoutableControlWrapper>,
+    private readonly _minColumnWidth: number,
+    private readonly _maxColumnWidth: number) { }
 
   public getWrappers(): Array<LayoutableControlWrapper> {
-    return this.wrappers;
+    return this._wrappers;
   }
 
   public getWrapperCount(): number {
-    return this.wrappers.length;
+    return this._wrappers.length;
   }
 
   public getMinColumnWidth(): number {
-    return this.minColumnWidth;
+    return this._minColumnWidth;
   }
 
   public getMaxColumnWidth(): number {
-    return this.maxColumnWidth;
+    return this._maxColumnWidth;
   }
 
   public getMinColumnHeight(): number {
-    return this.minColumnHeight;
+    return this._minColumnHeight;
   }
 
   public setMinColumnHeight(value: number): void {
-    this.minColumnHeight = value;
+    this._minColumnHeight = value;
   }
 
   public getResultColumnWidth(): number {
-    return this.resultColumnWidth;
+    return this._resultColumnWidth;
   }
 
   public setResultColumnWidth(value: number): void {
-    this.resultColumnWidth = value;
+    this._resultColumnWidth = value;
   }
 }

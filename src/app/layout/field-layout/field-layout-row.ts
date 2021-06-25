@@ -9,22 +9,22 @@ import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper
 
 export class FieldLayoutRow {
 
-  private readonly cells: Array<FieldLayoutCell>;
-  private readonly size: number;
-  private readonly labelMode: FieldRowLabelMode;
-  private readonly hasFirstColumnControl: boolean;
-  private readonly stretchable: boolean;
+  private readonly _cells: Array<FieldLayoutCell>;
+  private readonly _size: number;
+  private readonly _labelMode: FieldRowLabelMode;
+  private readonly _hasFirstColumnControl: boolean;
+  private readonly _stretchable: boolean;
 
-  private minRowHeight: number;
-  private resultRowHeight: number;
+  private _minRowHeight: number;
+  private _resultRowHeight: number;
 
   public constructor(fieldRow: IFieldRowControl) {
     const fieldContainer: IFieldContainer = fieldRow.getFieldContainer();
 
-    this.cells = new Array<FieldLayoutCell>();
-    this.size = fieldRow.getFieldRowSize();
-    this.labelMode = fieldRow.getFieldRowLabelMode();
-    this.hasFirstColumnControl = fieldRow.getHasFirstColumnControl();
+    this._cells = new Array<FieldLayoutCell>();
+    this._size = fieldRow.getFieldRowSize();
+    this._labelMode = fieldRow.getFieldRowLabelMode();
+    this._hasFirstColumnControl = fieldRow.getHasFirstColumnControl();
 
     // 1. Create layout control wrappers
     const synchronizedColumns: boolean = fieldContainer.getSynchronizeColumns();
@@ -40,72 +40,72 @@ export class FieldLayoutRow {
     const rowLabelTemplate: ILayoutableControlLabelTemplate = fieldContainer.getRowLabelTemplate();
     const firstControl: LayoutableControlWrapper = controlWrappers[0];
 
-    if (this.labelMode === FieldRowLabelMode.None
-      || this.labelMode === FieldRowLabelMode.Generated && !this.hasFirstColumnControl
-      || this.labelMode === FieldRowLabelMode.GeneratedMerged && !this.hasFirstColumnControl) {
+    if (this._labelMode === FieldRowLabelMode.None
+      || this._labelMode === FieldRowLabelMode.Generated && !this._hasFirstColumnControl
+      || this._labelMode === FieldRowLabelMode.GeneratedMerged && !this._hasFirstColumnControl) {
       // Add empty cell
-      this.cells.push(new FieldLayoutCell(null, rowLabelTemplate));
+      this._cells.push(new FieldLayoutCell(null, rowLabelTemplate));
     }
 
-    if (this.hasFirstColumnControl && (firstControl.getIsLayoutVisible() || synchronizedColumns && firstControl.getIsSynchronizedVisible())) {
-      this.cells.push(new FieldLayoutCell(firstControl, rowLabelTemplate));
+    if (this._hasFirstColumnControl && (firstControl.getIsLayoutVisible() || synchronizedColumns && firstControl.getIsSynchronizedVisible())) {
+      this._cells.push(new FieldLayoutCell(firstControl, rowLabelTemplate));
     }
 
     // 3. Add remaining wrappers
-    for (let i = this.hasFirstColumnControl ? 1 : 0; i < controlWrappers.length; i++) {
+    for (let i = this._hasFirstColumnControl ? 1 : 0; i < controlWrappers.length; i++) {
       const controlWrapper: LayoutableControlWrapper = controlWrappers[i];
       if (controlWrapper.getIsLayoutVisible() || synchronizedColumns && controlWrapper.getIsSynchronizedVisible()) {
-        this.cells.push(new FieldLayoutCell(controlWrapper, null));
+        this._cells.push(new FieldLayoutCell(controlWrapper, null));
       }
     }
 
     // 4. Check if this row is strechable
-    this.stretchable = false;
-    for (const cell of this.cells) {
+    this._stretchable = false;
+    for (const cell of this._cells) {
       if (cell.getAlignmentVertical() === VerticalAlignment.Stretch && cell.isVisible()) {
-        this.stretchable = true;
+        this._stretchable = true;
         break;
       }
     }
   }
 
   public isStretchable(): boolean {
-    return this.stretchable;
+    return this._stretchable;
   }
 
   public getCells(): Array<FieldLayoutCell> {
-    return this.cells;
+    return this._cells;
   }
 
   public getCellsCount(): number {
-    return this.cells.length;
+    return this._cells.length;
   }
 
   public getCell(index: number): FieldLayoutCell {
-    return this.cells[index];
+    return this._cells[index];
   }
 
   public getSize(): number {
-    return this.size;
+    return this._size;
   }
 
   public getLabelMode(): FieldRowLabelMode {
-    return this.labelMode;
+    return this._labelMode;
   }
 
   public getMinRowHeight(): number {
-    return this.minRowHeight;
+    return this._minRowHeight;
   }
 
   public setMinRowHeight(value: number): void {
-    this.minRowHeight = value;
+    this._minRowHeight = value;
   }
 
   public getResultRowHeight(): number {
-    return this.resultRowHeight;
+    return this._resultRowHeight;
   }
 
   public setResultRowHeight(value: number): void {
-    this.resultRowHeight = value;
+    this._resultRowHeight = value;
   }
 }

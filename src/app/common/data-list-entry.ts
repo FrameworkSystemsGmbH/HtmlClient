@@ -1,22 +1,22 @@
 export class DataListEntry {
 
-  private readonly pk: string;
-  private readonly value: string;
+  private readonly _pk: string;
+  private readonly _value: string;
 
   public constructor(pk: string, value: string) {
-    this.pk = pk;
-    this.value = value;
+    this._pk = pk;
+    this._value = value;
   }
 
   public getPk(): string {
-    return this.pk;
+    return this._pk;
   }
 
   public getValue(): string {
-    return this.value;
+    return this._value;
   }
 
   public isNullEntry(): boolean {
-    return !this.pk || !this.value;
+    return !this._pk || !this._value;
   }
 }

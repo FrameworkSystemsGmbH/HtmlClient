@@ -10,15 +10,15 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 @Injectable()
 export class FocusService {
 
-  private lastInput: LastInput;
-  private lastKeyEvent: KeyboardEvent;
-  private lastMouseEvent: MouseEvent;
+  private _lastInput: LastInput;
+  private _lastKeyEvent: KeyboardEvent;
+  private _lastMouseEvent: MouseEvent;
 
   public getLeaveActivator(): string {
-    if (this.lastInput === LastInput.Keyboard) {
-      switch (KeyUtil.getKeyString(this.lastKeyEvent)) {
+    if (this._lastInput === LastInput.Keyboard) {
+      switch (KeyUtil.getKeyString(this._lastKeyEvent)) {
         case 'Tab':
-          if (this.lastKeyEvent.shiftKey) {
+          if (this._lastKeyEvent.shiftKey) {
             return 'KeyboardTabBackward';
           } else {
             return 'KeyboardTabForward';
@@ -42,25 +42,25 @@ export class FocusService {
   }
 
   public getLastInput(): LastInput {
-    return this.lastInput;
+    return this._lastInput;
   }
 
   public getLastKeyEvent(): KeyboardEvent {
-    return this.lastKeyEvent;
+    return this._lastKeyEvent;
   }
 
   public setLastKeyEvent(lastKeyEvent: KeyboardEvent): void {
-    this.lastKeyEvent = lastKeyEvent;
-    this.lastInput = LastInput.Keyboard;
+    this._lastKeyEvent = lastKeyEvent;
+    this._lastInput = LastInput.Keyboard;
   }
 
   public getLastMouseEvent(): MouseEvent {
-    return this.lastMouseEvent;
+    return this._lastMouseEvent;
   }
 
   public setLastMouseEvent(lastMouseEvent: MouseEvent): void {
-    this.lastMouseEvent = lastMouseEvent;
-    this.lastInput = LastInput.Mouse;
+    this._lastMouseEvent = lastMouseEvent;
+    this._lastInput = LastInput.Mouse;
   }
 
   public findPreviousKeyboardFocusableControl(current: ControlWrapper): ILayoutableControlWrapper {

@@ -2,19 +2,19 @@ import { DataSourceType } from '@app/enums/datasource-type';
 
 export class ListViewTemplateDataSourceWrapper {
 
-  private readonly name: string;
-  private readonly dataSourceType: DataSourceType;
+  private readonly _name: string;
+  private readonly _dataSourceType: DataSourceType;
 
   public constructor(name: string, dataSourceType: DataSourceType) {
-    this.name = name;
-    this.dataSourceType = dataSourceType;
+    this._name = name;
+    this._dataSourceType = dataSourceType;
   }
 
   public getName(): string {
-    return this.name;
+    return this._name;
   }
 
   public getDataSourceType(): DataSourceType {
-    return this.dataSourceType;
+    return this._dataSourceType;
   }
 }

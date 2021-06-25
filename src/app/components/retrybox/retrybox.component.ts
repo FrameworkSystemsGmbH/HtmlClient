@@ -23,11 +23,11 @@ export class RetryBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   public stackTrace: string;
   public showStackTrace: boolean;
 
-  private onBackButtonListener: () => boolean;
+  private _onBackButtonListener: () => boolean;
 
   public constructor(
-    private readonly backService: BackService,
-    private readonly dialogRef: MatDialogRef<RetryBoxComponent>,
+    private readonly _backService: BackService,
+    private readonly _dialogRef: MatDialogRef<RetryBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IRetryBoxData
   ) {
     this.title = data.title;
@@ -36,8 +36,8 @@ export class RetryBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.onBackButtonListener = this.onBackButton.bind(this);
-    this.backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.Overlay);
+    this._onBackButtonListener = this.onBackButton.bind(this);
+    this._backService.addBackButtonListener(this._onBackButtonListener, BackButtonPriority.Overlay);
   }
 
   public ngAfterViewInit(): void {
@@ -45,11 +45,11 @@ export class RetryBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.backService.removeBackButtonListener(this.onBackButtonListener);
+    this._backService.removeBackButtonListener(this._onBackButtonListener);
   }
 
   private onBackButton(): boolean {
-    this.dialogRef.close(RetryBoxResult.Abort);
+    this._dialogRef.close(RetryBoxResult.Abort);
     return true;
   }
 
@@ -58,10 +58,10 @@ export class RetryBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onAbortClick(): void {
-    this.dialogRef.close(RetryBoxResult.Abort);
+    this._dialogRef.close(RetryBoxResult.Abort);
   }
 
   public onRetryClick(): void {
-    this.dialogRef.close(RetryBoxResult.Retry);
+    this._dialogRef.close(RetryBoxResult.Retry);
   }
 }

@@ -14,9 +14,9 @@ export class DockLayout extends LayoutContainerBase {
   private static readonly SCROLLING_MIN_WIDTH: number = 1;
   private static readonly SCROLLING_MIN_HEIGHT: number = 1;
 
-  private width: number = -1;
-  private isVertical: boolean = false;
-  private wrappers: Array<LayoutableControlWrapper>;
+  private _width: number = -1;
+  private _isVertical: boolean = false;
+  private _wrappers: Array<LayoutableControlWrapper>;
 
   public constructor(container: IDockContainer) {
     super(container);
@@ -30,10 +30,10 @@ export class DockLayout extends LayoutContainerBase {
     const controls: Array<ILayoutableControl> = this.getControl().getLayoutableControls();
     const controlCount: number = controls.length;
 
-    this.wrappers = new Array<LayoutableControlWrapper>(controlCount);
+    this._wrappers = new Array<LayoutableControlWrapper>(controlCount);
 
     for (let i = 0; i < controlCount; i++) {
-      this.wrappers[i] = new LayoutableControlWrapper(controls[i]);
+      this._wrappers[i] = new LayoutableControlWrapper(controls[i]);
     }
   }
 
@@ -54,7 +54,7 @@ export class DockLayout extends LayoutContainerBase {
     let minWidth: number = 0;
     let addSpacing: boolean = false;
 
-    for (const wrapper of this.wrappers) {
+    for (const wrapper of this._wrappers) {
       // Ignore invisible items and items with min width = 0
       if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
         // Add spacing if needed
@@ -112,16 +112,16 @@ export class DockLayout extends LayoutContainerBase {
 
     const scrolling: boolean = container.getDockPanelScrolling() !== DockPanelScrolling.None;
 
-    this.width = width;
+    this._width = width;
 
-    this.isVertical = orientation === DockOrientation.Vertical;
+    this._isVertical = orientation === DockOrientation.Vertical;
 
     if (orientation === DockOrientation.HorizontalOrVertical) {
       // Iterate children and add min sizes and spaces
       let neededWidth: number = 0;
       let addSpacing: boolean = false;
 
-      for (const wrapper of this.wrappers) {
+      for (const wrapper of this._wrappers) {
         // Ignore invisible items and items with minWidth = 0
         if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
 
@@ -141,16 +141,16 @@ export class DockLayout extends LayoutContainerBase {
       }
 
       // Do vertical layout if there is not enough available space for horizontal layout
-      this.isVertical = width < neededWidth;
+      this._isVertical = width < neededWidth;
     }
 
-    if (this.isVertical) {
+    if (this._isVertical) {
       const contentWidth = width - insetsLeft - insetsRight;
 
       let minHeight: number = 0;
       let addSpacing: boolean = false;
 
-      for (const wrapper of this.wrappers) {
+      for (const wrapper of this._wrappers) {
         let wrapperMeasureWidth: number = contentWidth;
 
         // If the DockPanel scrolls, the wrapper should not be narrower than its minimal width
@@ -191,7 +191,7 @@ export class DockLayout extends LayoutContainerBase {
       let sumMinWidths: number = 0;
       let countVisibleControls: number = 0;
 
-      for (const wrapper of this.wrappers) {
+      for (const wrapper of this._wrappers) {
         if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
           countVisibleControls++;
           sumMinWidths += wrapper.getMinLayoutWidth();
@@ -210,7 +210,7 @@ export class DockLayout extends LayoutContainerBase {
         availableWidth = sumMinWidths;
       }
 
-      for (const wrapper of this.wrappers) {
+      for (const wrapper of this._wrappers) {
         if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
           if (wrapper.getDockItemSize() == null) {
             // Auto sized items: resultWidth = minWidth
@@ -288,7 +288,7 @@ export class DockLayout extends LayoutContainerBase {
 
       // Find greatest min height of all dock items
       let minHeight: number = 0;
-      for (const wrapper of this.wrappers) {
+      for (const wrapper of this._wrappers) {
         if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
           minHeight = Math.max(minHeight, wrapper.getMinLayoutHeight(wrapper.getResultWidth()));
         }
@@ -327,7 +327,7 @@ export class DockLayout extends LayoutContainerBase {
     const containerHeight: number = container.getLayoutableProperties().getLayoutHeight();
 
     // Consistency check
-    if (containerWidth !== this.width) {
+    if (containerWidth !== this._width) {
       this.measureMinHeight(containerWidth);
     }
 
@@ -342,8 +342,8 @@ export class DockLayout extends LayoutContainerBase {
 
     container.getLayoutableProperties().setHBarNeeded(false);
 
-    if (this.isVertical) {
-      const contentWidth: number = this.width - insetsLeft - insetsRight;
+    if (this._isVertical) {
+      const contentWidth: number = this._width - insetsLeft - insetsRight;
 
       let countVisibleControls: number = 0;
       let sumDockItemSizes: number = 0;
@@ -353,7 +353,7 @@ export class DockLayout extends LayoutContainerBase {
 
       if (scrolling) {
         // Find the widest wrapper
-        for (const wrapper of this.wrappers) {
+        for (const wrapper of this._wrappers) {
           maxMinWidth = Math.max(maxMinWidth, wrapper.getMinLayoutWidth());
         }
         if (contentWidth < maxMinWidth) {
@@ -362,7 +362,7 @@ export class DockLayout extends LayoutContainerBase {
         }
       }
 
-      for (const wrapper of this.wrappers) {
+      for (const wrapper of this._wrappers) {
         if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutHeight(wrapperMeasureWidth) > 0) {
           sumMinHeights += wrapper.getMinLayoutHeightBuffered();
           countVisibleControls++;
@@ -381,7 +381,7 @@ export class DockLayout extends LayoutContainerBase {
         availableHeight = sumMinHeights;
       }
 
-      for (const wrapper of this.wrappers) {
+      for (const wrapper of this._wrappers) {
         if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutHeightBuffered() > 0) {
           const minHeight: number = wrapper.getMinLayoutHeightBuffered();
           if (wrapper.getDockItemSize() == null) {
@@ -461,7 +461,7 @@ export class DockLayout extends LayoutContainerBase {
       let addSpacing: boolean = false;
       let yPos: number = 0;
 
-      for (const wrapper of this.wrappers) {
+      for (const wrapper of this._wrappers) {
         const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
         if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutHeightBuffered() > 0) {
@@ -514,7 +514,7 @@ export class DockLayout extends LayoutContainerBase {
       let xPos: number = 0;
 
       if (scrolling) {
-        for (const wrapper of this.wrappers) {
+        for (const wrapper of this._wrappers) {
           sumMinWidths += wrapper.getResultWidth();
           maxMinHeight = Math.max(maxMinHeight, wrapper.getMinLayoutHeight(wrapper.getResultWidth()));
         }
@@ -526,7 +526,7 @@ export class DockLayout extends LayoutContainerBase {
         }
       }
 
-      for (const wrapper of this.wrappers) {
+      for (const wrapper of this._wrappers) {
         const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
 
         if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {

@@ -2,10 +2,10 @@ import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
 
 export abstract class LayoutBase {
 
-  public constructor(private readonly control: ILayoutableControl) { }
+  public constructor(private readonly _control: ILayoutableControl) { }
 
   public getControl(): ILayoutableControl {
-    return this.control;
+    return this._control;
   }
 
   public measureMaxWidth(): number {

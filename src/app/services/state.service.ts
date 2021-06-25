@@ -28,52 +28,52 @@ const { App } = Plugins;
 @Injectable()
 export class StateService {
 
-  private brokerState: IBrokerState;
+  private _brokerState: IBrokerState;
 
   public constructor(
-    private readonly zone: NgZone,
-    private readonly backService: BackService,
-    private readonly brokerService: BrokerService,
-    private readonly controlStyleService: ControlStyleService,
-    private readonly formsService: FormsService,
-    private readonly cameraService: CameraService,
-    private readonly platformService: PlatformService,
-    private readonly routingService: RoutingService,
-    private readonly storageService: StorageService,
-    private readonly store: Store,
-    private readonly textsService: TextsService,
-    private readonly titleService: TitleService
+    private readonly _zone: NgZone,
+    private readonly _backService: BackService,
+    private readonly _brokerService: BrokerService,
+    private readonly _controlStyleService: ControlStyleService,
+    private readonly _formsService: FormsService,
+    private readonly _cameraService: CameraService,
+    private readonly _platformService: PlatformService,
+    private readonly _routingService: RoutingService,
+    private readonly _storageService: StorageService,
+    private readonly _store: Store,
+    private readonly _textsService: TextsService,
+    private readonly _titleService: TitleService
   ) {
-    this.brokerService.onLoginComplete.pipe(
-      mergeMap(() => this.storageService.delete(SESSION_STORAGE_KEY))
+    this._brokerService.onLoginComplete.pipe(
+      mergeMap(() => this._storageService.delete(SESSION_STORAGE_KEY))
     ).subscribe();
 
-    this.store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
-      this.brokerState = brokerState;
+    this._store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
+      this._brokerState = brokerState;
     });
   }
 
   public attachHandlers(): void {
-    if (this.platformService.isAndroid()) {
+    if (this._platformService.isAndroid()) {
       App.addListener('appStateChange', this.onAppStateChange.bind(this));
       App.addListener('appRestoredResult', this.onPendingResult.bind(this));
     }
   }
 
   private onAppStateChange(state: AppState): void {
-    this.zone.run(() => {
+    this._zone.run(() => {
       if (state.isActive) {
         // Delete unnecessary stored session
-        this.storageService.delete(SESSION_STORAGE_KEY).subscribe();
+        this._storageService.delete(SESSION_STORAGE_KEY).subscribe();
 
         // Attach back button handler
-        this.backService.attachHandlers();
+        this._backService.attachHandlers();
       } else {
         // Detach back button handler
-        this.backService.removeHandlers();
+        this._backService.removeHandlers();
 
         // Save state only if there is an active broker session
-        if (this.brokerState.activeBrokerName != null) {
+        if (this._brokerState.activeBrokerName != null) {
           this.saveState();
         }
       }
@@ -81,9 +81,9 @@ export class StateService {
   }
 
   private onPendingResult(result: AppRestoredResult): void {
-    this.zone.run(() => {
+    this._zone.run(() => {
       if (result != null && result.pluginId === 'Camera' && result.methodName === 'getPhoto') {
-        this.cameraService.setPendingResult(result);
+        this._cameraService.setPendingResult(result);
       }
     });
   }
@@ -91,22 +91,22 @@ export class StateService {
   public resumeLastSession(): Observable<void> {
     return this.getLastSessionInfo().pipe(
       tap(() => {
-        this.storageService.delete(SESSION_STORAGE_KEY).subscribe();
+        this._storageService.delete(SESSION_STORAGE_KEY).subscribe();
       }),
       map(lastSessionInfo => {
         // Load state only if there is no active broker session
-        if (this.brokerState.activeBrokerName == null) {
+        if (this._brokerState.activeBrokerName == null) {
           this.loadState(lastSessionInfo);
         }
       }),
       map(() => {
-        this.cameraService.processPendingResult();
+        this._cameraService.processPendingResult();
       })
     );
   }
 
   public getLastSessionInfo(): Observable<LastSessionInfo> {
-    return this.storageService.load(SESSION_STORAGE_KEY).pipe(
+    return this._storageService.load(SESSION_STORAGE_KEY).pipe(
       mergeMap(data => {
         const stateJson: any = JSON.parse(data);
 
@@ -121,7 +121,7 @@ export class StateService {
               stateJson
             ));
           } else {
-            return this.storageService.delete(SESSION_STORAGE_KEY).pipe(
+            return this._storageService.delete(SESSION_STORAGE_KEY).pipe(
               map(() => null as LastSessionInfo)
             );
           }
@@ -137,34 +137,34 @@ export class StateService {
     const stateJson: any = {};
 
     // App Title
-    const title: string = this.titleService.getTitle();
+    const title: string = this._titleService.getTitle();
     if (!String.isNullOrWhiteSpace(title)) {
       stateJson.title = title;
     }
 
     // Meta
     stateJson.meta = {
-      lastBroker: this.brokerState.activeBrokerName,
-      lastRequestTime: this.brokerService.getLastRequestTime().toJSON()
+      lastBroker: this._brokerState.activeBrokerName,
+      lastRequestTime: this._brokerService.getLastRequestTime().toJSON()
     };
 
     // Store
     stateJson.store = {
-      activeBrokerName: this.brokerState.activeBrokerName,
-      activeBrokerToken: this.brokerState.activeBrokerToken,
-      activeBrokerUrl: this.brokerState.activeBrokerUrl,
-      activeBrokerDirect: this.brokerState.activeBrokerDirect,
-      activeBrokerFilesUrl: this.brokerState.activeBrokerFilesUrl,
-      activeBrokerImageUrl: this.brokerState.activeBrokerImageUrl,
-      activeBrokerReportUrl: this.brokerState.activeBrokerReportUrl,
-      activeBrokerRequestUrl: this.brokerState.activeBrokerRequestUrl
+      activeBrokerName: this._brokerState.activeBrokerName,
+      activeBrokerToken: this._brokerState.activeBrokerToken,
+      activeBrokerUrl: this._brokerState.activeBrokerUrl,
+      activeBrokerDirect: this._brokerState.activeBrokerDirect,
+      activeBrokerFilesUrl: this._brokerState.activeBrokerFilesUrl,
+      activeBrokerImageUrl: this._brokerState.activeBrokerImageUrl,
+      activeBrokerReportUrl: this._brokerState.activeBrokerReportUrl,
+      activeBrokerRequestUrl: this._brokerState.activeBrokerRequestUrl
     };
 
     // Services
-    const controlStyleServiceJson: any = this.controlStyleService.saveState();
-    const textsServiceJson: any = this.textsService.saveState();
-    const brokerServiceJson: any = this.brokerService.saveState();
-    const formsServiceJson: any = this.formsService.saveState();
+    const controlStyleServiceJson: any = this._controlStyleService.saveState();
+    const textsServiceJson: any = this._textsService.saveState();
+    const brokerServiceJson: any = this._brokerService.saveState();
+    const formsServiceJson: any = this._formsService.saveState();
 
     const servicesJson: any = {};
 
@@ -189,12 +189,12 @@ export class StateService {
     }
 
     if (!JsonUtil.isEmptyObject(stateJson)) {
-      this.storageService.save(SESSION_STORAGE_KEY, JSON.stringify(stateJson)).subscribe();
+      this._storageService.save(SESSION_STORAGE_KEY, JSON.stringify(stateJson)).subscribe();
     }
   }
 
   public loadState(lastSessionInfo: LastSessionInfo): void {
-    this.storageService.delete(SESSION_STORAGE_KEY).subscribe();
+    this._storageService.delete(SESSION_STORAGE_KEY).subscribe();
 
     if (lastSessionInfo == null) {
       return;
@@ -204,12 +204,12 @@ export class StateService {
 
     // Common Properties
     if (!String.isNullOrWhiteSpace(stateJson.title)) {
-      this.titleService.setTitle(stateJson.title);
+      this._titleService.setTitle(stateJson.title);
     }
 
     // Store
     const store: any = stateJson.store;
-    this.store.dispatch(setBrokerState({
+    this._store.dispatch(setBrokerState({
       state: {
         activeBrokerDirect: store.activeBrokerDirect,
         activeBrokerFilesUrl: store.activeBrokerFilesUrl,
@@ -227,23 +227,23 @@ export class StateService {
       const servicesJson: any = stateJson.services;
 
       if (servicesJson.controlStyleService) {
-        this.controlStyleService.loadState(servicesJson.controlStyleService);
+        this._controlStyleService.loadState(servicesJson.controlStyleService);
       }
 
       if (servicesJson.textsService) {
-        this.textsService.loadState(servicesJson.textsService);
+        this._textsService.loadState(servicesJson.textsService);
       }
 
       if (servicesJson.brokerService) {
-        this.brokerService.loadState(servicesJson.brokerService);
+        this._brokerService.loadState(servicesJson.brokerService);
       }
 
       if (servicesJson.formsService) {
-        this.formsService.loadState(servicesJson.formsService);
+        this._formsService.loadState(servicesJson.formsService);
       }
     }
 
     // Redirect to the viewer
-    this.routingService.showViewer();
+    this._routingService.showViewer();
   }
 }

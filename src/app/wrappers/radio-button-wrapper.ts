@@ -13,10 +13,10 @@ import { Subscription } from 'rxjs';
 
 export class RadioButtonWrapper extends FittedWrapper {
 
-  private radioClickSub: Subscription;
-  private onValueChangedSub: Subscription;
+  private _radioClickSub: Subscription;
+  private _onValueChangedSub: Subscription;
 
-  private value: string;
+  private _value: string;
 
   public getControlType(): ControlType {
     return ControlType.RadioButton;
@@ -50,7 +50,7 @@ export class RadioButtonWrapper extends FittedWrapper {
   }
 
   public getValue(): string {
-    return this.value;
+    return this._value;
   }
 
   public getCheckedValue(): string {
@@ -79,7 +79,7 @@ export class RadioButtonWrapper extends FittedWrapper {
   }
 
   private onButtonGroupValueChanged(value: string): void {
-    this.value = value;
+    this._value = value;
     this.updateComponent();
   }
 
@@ -101,25 +101,25 @@ export class RadioButtonWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnClickEvent()) {
-      this.radioClickSub = instance.radioClick.subscribe(() => this.getRadioClickSubscription()());
+      this._radioClickSub = instance.radioClick.subscribe(() => this.getRadioClickSubscription()());
     }
 
     const buttonGroup: ButtonGroup = this.getButtonGroup();
 
     if (buttonGroup) {
-      this.onValueChangedSub = buttonGroup.onValueChanged().subscribe(value => this.onButtonGroupValueChanged(value));
+      this._onValueChangedSub = buttonGroup.onValueChanged().subscribe(value => this.onButtonGroupValueChanged(value));
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this.radioClickSub) {
-      this.radioClickSub.unsubscribe();
+    if (this._radioClickSub) {
+      this._radioClickSub.unsubscribe();
     }
 
-    if (this.onValueChangedSub) {
-      this.onValueChangedSub.unsubscribe();
+    if (this._onValueChangedSub) {
+      this._onValueChangedSub.unsubscribe();
     }
   }
 
@@ -167,13 +167,13 @@ export class RadioButtonWrapper extends FittedWrapper {
 
   public saveState(): any {
     const stateJson: any = super.saveState();
-    stateJson.value = this.value;
+    stateJson.value = this._value;
     return stateJson;
   }
 
   public loadState(json: any): void {
     super.loadState(json);
-    this.value = json.value;
+    this._value = json.value;
   }
 
   public canReceiveKeyboardFocus(): boolean {

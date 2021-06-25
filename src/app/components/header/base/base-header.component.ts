@@ -84,28 +84,27 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public scrollerOptions: any;
 
-  private storeSub: Subscription;
-  private formsSub: Subscription;
-  private selectedFormSub: Subscription;
+  private _storeSub: Subscription;
+  private _formsSub: Subscription;
+  private _selectedFormSub: Subscription;
 
-  private scrollLeftInterval: any;
-  private scrollRightInterval: any;
+  private _scrollLeftInterval: any;
+  private _scrollRightInterval: any;
 
-  private readonly visibleClass: string = 'arrowVisible';
+  private readonly _visibleClass: string = 'arrowVisible';
 
-  private readonly scrollDelta: number = 100;
-  private readonly scrollAnimationTime: number = 250;
-  private readonly scrollAutoHideDelay: number = 500;
-
+  private readonly _scrollDelta: number = 100;
+  private readonly _scrollAnimationTime: number = 250;
+  private readonly _scrollAutoHideDelay: number = 500;
 
   public constructor(
-    private readonly zone: NgZone,
-    private readonly renderer: Renderer2,
-    private readonly eventsService: EventsService,
-    private readonly formsService: FormsService,
-    private readonly platformService: PlatformService,
-    private readonly titleService: TitleService,
-    private readonly store: Store
+    private readonly _zone: NgZone,
+    private readonly _renderer: Renderer2,
+    private readonly _eventsService: EventsService,
+    private readonly _formsService: FormsService,
+    private readonly _platformService: PlatformService,
+    private readonly _titleService: TitleService,
+    private readonly _store: Store
   ) {
     this.scrollerOptions = {
       className: 'os-thin',
@@ -116,7 +115,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
       },
       scrollbars: {
         autoHide: 'scroll',
-        autoHideDelay: this.scrollAutoHideDelay
+        autoHideDelay: this._scrollAutoHideDelay
       },
       callbacks: {
         onScroll: this.refreshScroller.bind(this),
@@ -128,7 +127,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   @HostListener('window:resize')
   public refreshScroller(): void {
-    this.zone.runOutsideAngular(() => {
+    this._zone.runOutsideAngular(() => {
       if (this.scroller != null && this.scroller.osInstance() != null) {
         const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
 
@@ -137,36 +136,36 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
           if (scrollPos === 0) {
             this.stopScrollingLeft();
-            this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
-            this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
+            this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
+            this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
           } else if (scrollPos >= overflow) {
             this.stopScrollingRight();
-            this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
-            this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+            this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
+            this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
           } else {
-            this.renderer.addClass(this.arrowLeft.nativeElement, this.visibleClass);
-            this.renderer.addClass(this.arrowRight.nativeElement, this.visibleClass);
+            this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
+            this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
           }
         } else {
           this.stopScrollingLeft();
           this.stopScrollingRight();
-          this.renderer.removeClass(this.arrowLeft.nativeElement, this.visibleClass);
-          this.renderer.removeClass(this.arrowRight.nativeElement, this.visibleClass);
+          this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
+          this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
         }
       }
     });
   }
 
   public ngOnInit(): void {
-    this.storeSub = this.store.select(selectBrokerDirect).subscribe(direct => {
+    this._storeSub = this._store.select(selectBrokerDirect).subscribe(direct => {
       this.directMode = direct;
     });
 
-    this.formsSub = this.formsService.getForms().subscribe(forms => {
+    this._formsSub = this._formsService.getForms().subscribe(forms => {
       this.forms = forms;
     });
 
-    this.selectedFormSub = this.formsService.getSelectedForm().subscribe(this.onSelectedFormChanged.bind(this));
+    this._selectedFormSub = this._formsService.getSelectedForm().subscribe(this.onSelectedFormChanged.bind(this));
 
     this.headerSideStyle = this.createheaderSideStyle();
     this.headerSideOverlayStyle = this.createheaderSideOverlayStyle();
@@ -179,9 +178,9 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   public ngOnDestroy(): void {
-    this.storeSub.unsubscribe();
-    this.formsSub.unsubscribe();
-    this.selectedFormSub.unsubscribe();
+    this._storeSub.unsubscribe();
+    this._formsSub.unsubscribe();
+    this._selectedFormSub.unsubscribe();
   }
 
   public mediaQueryChanged(matches: boolean): void {
@@ -202,12 +201,12 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   private createScrollOptions(): any {
-    if (this.platformService.isNative()) {
+    if (this._platformService.isNative()) {
       return {
         ...this.scrollerOptions,
         scrollbars: {
           autoHide: 'scroll',
-          autoHideDelay: this.scrollAutoHideDelay
+          autoHideDelay: this._scrollAutoHideDelay
         }
       };
     } else {
@@ -215,7 +214,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
         ...this.scrollerOptions,
         scrollbars: {
           autoHide: 'move',
-          autoHideDelay: this.scrollAutoHideDelay
+          autoHideDelay: this._scrollAutoHideDelay
         }
       };
     }
@@ -223,13 +222,13 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   private createheaderSideStyle(): any {
     return {
-      'top.rem': this.platformService.isIos() ? StyleUtil.pixToRem(StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.pixToRem(StyleUtil.headerHeight)
+      'top.rem': this._platformService.isIos() ? StyleUtil.pixToRem(StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.pixToRem(StyleUtil.headerHeight)
     };
   }
 
   private createheaderSideOverlayStyle(): any {
     return {
-      'top.rem': this.platformService.isIos() ? StyleUtil.pixToRem(StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.pixToRem(StyleUtil.headerHeight)
+      'top.rem': this._platformService.isIos() ? StyleUtil.pixToRem(StyleUtil.headerHeight + StyleUtil.iosMenubarHeight) : StyleUtil.pixToRem(StyleUtil.headerHeight)
     };
   }
 
@@ -243,14 +242,14 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public getTitle(): string {
     if (!this.sidebarEnabled || this.selectedForm == null) {
-      return this.titleService.getTitle();
+      return this._titleService.getTitle();
     } else {
       return this.selectedForm.getTitle();
     }
   }
 
   public getSidebarTitle(): string {
-    return this.titleService.getTitle();
+    return this._titleService.getTitle();
   }
 
   public toggleSidebar(): void {
@@ -258,7 +257,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   public switchBroker(): void {
-    this.eventsService.fireApplicationQuitRequest();
+    this._eventsService.fireApplicationQuitRequest();
   }
 
   public selectForm(event: any, form: FormWrapper): void {
@@ -268,7 +267,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
       return;
     }
 
-    this.formsService.selectForm(form);
+    this._formsService.selectForm(form);
 
     if (this.sidebarVisible) {
       this.toggleSidebar();
@@ -276,7 +275,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   public closeForm(form: FormWrapper): void {
-    this.formsService.closeFormByButton(form);
+    this._formsService.closeFormByButton(form);
   }
 
   public scrollIntoView(): void {
@@ -284,7 +283,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
       if (this.scroller != null && this.scroller.osInstance() != null && this.tabs != null) {
         const selectedTab: HTMLLIElement = this.tabs.nativeElement.querySelector('div.active');
         if (selectedTab) {
-          this.scroller.osInstance().scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this.scrollAnimationTime);
+          this.scroller.osInstance().scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
         }
       }
     });
@@ -292,37 +291,37 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public startScrollingLeft(event: any): void {
     if (event.button === 0) {
-      const value: string = `-= ${this.scrollDelta}px`;
+      const value: string = `-= ${this._scrollDelta}px`;
       this.scrollHorizontal(value);
-      this.scrollLeftInterval = setInterval(() => {
+      this._scrollLeftInterval = setInterval(() => {
         this.scrollHorizontal(value);
-      }, this.scrollAnimationTime);
+      }, this._scrollAnimationTime);
     }
   }
 
   public stopScrollingLeft(): void {
-    clearInterval(this.scrollLeftInterval);
+    clearInterval(this._scrollLeftInterval);
   }
 
   public startScrollingRight(event: any): void {
     if (event.button === 0) {
-      const value: string = `+= ${this.scrollDelta}px`;
+      const value: string = `+= ${this._scrollDelta}px`;
       this.scrollHorizontal(value);
-      this.scrollRightInterval = setInterval(() => {
+      this._scrollRightInterval = setInterval(() => {
         this.scrollHorizontal(value);
-      }, this.scrollAnimationTime);
+      }, this._scrollAnimationTime);
     }
   }
 
   public stopScrollingRight(): void {
-    clearInterval(this.scrollRightInterval);
+    clearInterval(this._scrollRightInterval);
   }
 
   protected scrollHorizontal(value: string): void {
-    this.scroller.osInstance().scroll({ x: value }, this.scrollAnimationTime);
+    this.scroller.osInstance().scroll({ x: value }, this._scrollAnimationTime);
   }
 
   protected scrollVertical(value: string): void {
-    this.scroller.osInstance().scroll({ y: value }, this.scrollAnimationTime);
+    this.scroller.osInstance().scroll({ y: value }, this._scrollAnimationTime);
   }
 }

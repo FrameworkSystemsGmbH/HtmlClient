@@ -32,40 +32,40 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   public containerStyle: any;
   public selectorStyle: any;
 
-  private id: string;
-  private width: number;
-  private height: number;
-  private selectedVal: boolean;
-  private isHover: boolean;
-  private selectionMode: ListViewSelectionMode;
-  private selectorPosition: ListViewSelectorPosition;
-  private itemWrapper: ListViewItemWrapper;
-  private listViewWrapper: ListViewWrapper;
+  private _id: string;
+  private _width: number;
+  private _height: number;
+  private _selectedVal: boolean;
+  private _isHover: boolean;
+  private _selectionMode: ListViewSelectionMode;
+  private _selectorPosition: ListViewSelectorPosition;
+  private _itemWrapper: ListViewItemWrapper;
+  private _listViewWrapper: ListViewWrapper;
 
   public constructor(
-    private readonly baseFormatService: BaseFormatService,
-    private readonly platformService: PlatformService,
-    private readonly framesService: FramesService
+    private readonly _baseFormatService: BaseFormatService,
+    private readonly _platformService: PlatformService,
+    private readonly _framesService: FramesService
   ) { }
 
   public get selected(): boolean {
-    return this.selectedVal;
+    return this._selectedVal;
   }
 
   public set selected(val: boolean) {
-    if (this.selectedVal === val) {
+    if (this._selectedVal === val) {
       return;
     }
 
-    this.selectedVal = val;
+    this._selectedVal = val;
 
     this.updateWrapper();
 
-    if (this.selectionMode === ListViewSelectionMode.Single && val) {
-      this.itemWrapper.notifySingleSelectionChanged();
+    if (this._selectionMode === ListViewSelectionMode.Single && val) {
+      this._itemWrapper.notifySingleSelectionChanged();
     }
 
-    this.listViewWrapper.callOnItemSelectionChanged();
+    this._listViewWrapper.callOnItemSelectionChanged();
   }
 
   public ngOnInit(): void {
@@ -73,17 +73,17 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.itemWrapper) {
-      this.itemWrapper.onComponentDestroyed();
+    if (this._itemWrapper) {
+      this._itemWrapper.onComponentDestroyed();
     }
   }
 
   public onMouseEnter(): void {
-    this.isHover = true;
+    this._isHover = true;
   }
 
   public onMouseLeave(): void {
-    this.isHover = false;
+    this._isHover = false;
     this.isMouseDown = false;
   }
 
@@ -98,54 +98,54 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   }
 
   public getId(): string {
-    return this.id;
+    return this._id;
   }
 
   public getSelectorVisible(): boolean {
-    if (this.selectionMode === ListViewSelectionMode.None) {
+    if (this._selectionMode === ListViewSelectionMode.None) {
       return false;
     }
 
-    if (this.platformService.isNative()) {
-      return this.selected || this.listViewWrapper.getMobileSelectionModeEnabled();
+    if (this._platformService.isNative()) {
+      return this.selected || this._listViewWrapper.getMobileSelectionModeEnabled();
     } else {
-      return this.selected || this.isEditable && this.isHover;
+      return this.selected || this.isEditable && this._isHover;
     }
   }
 
   public setWrapper(itemWrapper: ListViewItemWrapper): void {
-    this.itemWrapper = itemWrapper;
-    this.listViewWrapper = itemWrapper.getListViewWrapper();
+    this._itemWrapper = itemWrapper;
+    this._listViewWrapper = itemWrapper.getListViewWrapper();
 
-    const globalCss: string = this.listViewWrapper.getListViewItemCssGlobal();
-    const templateCss: string = this.listViewWrapper.getViewTemplateCss();
-    const templateHtml: string = this.listViewWrapper.getViewTemplateHtml();
+    const globalCss: string = this._listViewWrapper.getListViewItemCssGlobal();
+    const templateCss: string = this._listViewWrapper.getViewTemplateCss();
+    const templateHtml: string = this._listViewWrapper.getViewTemplateHtml();
 
     this.contentEl.nativeElement.init(globalCss, templateCss, templateHtml);
   }
 
   private updateWrapper(): void {
-    this.itemWrapper.setSelected(this.selected);
+    this._itemWrapper.setSelected(this.selected);
   }
 
   public updateComponent(): void {
-    this.updateData(this.itemWrapper);
-    this.updateStyles(this.itemWrapper, this.listViewWrapper);
+    this.updateData(this._itemWrapper);
+    this.updateStyles(this._itemWrapper, this._listViewWrapper);
   }
 
   private updateData(itemWrapper: ListViewItemWrapper): void {
-    this.id = itemWrapper.getId();
-    this.width = this.listViewWrapper.getItemWidth();
-    this.height = this.listViewWrapper.getItemHeight();
-    this.isEditable = this.listViewWrapper.getIsEditable();
-    this.selectionMode = this.listViewWrapper.getSelectionMode();
-    this.selectorPosition = this.listViewWrapper.getSelectorPosition();
-    this.selectedVal = itemWrapper.getSelected();
+    this._id = itemWrapper.getId();
+    this._width = this._listViewWrapper.getItemWidth();
+    this._height = this._listViewWrapper.getItemHeight();
+    this.isEditable = this._listViewWrapper.getIsEditable();
+    this._selectionMode = this._listViewWrapper.getSelectionMode();
+    this._selectorPosition = this._listViewWrapper.getSelectorPosition();
+    this._selectedVal = itemWrapper.getSelected();
 
     const formattedValues: Array<string> = new Array<string>();
 
     for (const templateValue of itemWrapper.getViewTemplateValues()) {
-      formattedValues.push(this.baseFormatService.formatString(templateValue.getValue(), ParseMethod.Server, templateValue.getFormat(), templateValue.getFormatPattern()));
+      formattedValues.push(this._baseFormatService.formatString(templateValue.getValue(), ParseMethod.Server, templateValue.getFormat(), templateValue.getFormatPattern()));
     }
 
     this.contentEl.nativeElement.update(this.isEditable, formattedValues);
@@ -160,9 +160,9 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
 
   private createContainerStyle(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper): any {
     return {
-      'min-width.rem': StyleUtil.pixToRem(this.width),
-      'min-height.rem': StyleUtil.pixToRem(this.height),
-      'max-height.rem': StyleUtil.pixToRem(this.height),
+      'min-width.rem': StyleUtil.pixToRem(this._width),
+      'min-height.rem': StyleUtil.pixToRem(this._height),
+      'max-height.rem': StyleUtil.pixToRem(this._height),
       'cursor': this.isEditable ? listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default' : 'not-allowed'
     };
   }
@@ -173,21 +173,21 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
     };
 
     // Set selector size depending on list item height
-    if (this.height >= 40) {
+    if (this._height >= 40) {
       this.selectorSize = ListViewItemComponent.maxSelectorSize;
-    } else if (this.height <= 20) {
+    } else if (this._height <= 20) {
       this.selectorSize = ListViewItemComponent.minSelectorSize;
     } else {
-      this.selectorSize = Math.min(ListViewItemComponent.minSelectorSize, Math.roundDec(this.height / 2, 0));
+      this.selectorSize = Math.min(ListViewItemComponent.minSelectorSize, Math.roundDec(this._height / 2, 0));
     }
 
     // Determine shorter edge of the list item
-    const shortEdge: number = Math.max(1, Math.min(this.width, this.height));
+    const shortEdge: number = Math.max(1, Math.min(this._width, this._height));
 
     // Selector margin is 10% of the length of the shorter edge (but 20 size units max)
     const margin: number = StyleUtil.pixToRem(Math.min(20, Math.roundDec(shortEdge * 0.1, 0)));
 
-    switch (this.selectorPosition) {
+    switch (this._selectorPosition) {
       case ListViewSelectorPosition.TopLeft:
         selectorStyle = {
           ...selectorStyle,
@@ -205,14 +205,14 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
       case ListViewSelectorPosition.MiddleLeft:
         selectorStyle = {
           ...selectorStyle,
-          'top.rem': StyleUtil.pixToRem(this.height / 2 - this.selectorSize / 2),
+          'top.rem': StyleUtil.pixToRem(this._height / 2 - this.selectorSize / 2),
           'left.rem': margin
         };
         break;
       case ListViewSelectorPosition.MiddleRight:
         selectorStyle = {
           ...selectorStyle,
-          'top.rem': StyleUtil.pixToRem(this.height / 2 - this.selectorSize / 2),
+          'top.rem': StyleUtil.pixToRem(this._height / 2 - this.selectorSize / 2),
           'right.rem': margin
         };
         break;
@@ -236,24 +236,24 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   }
 
   public onPress(event: any): void {
-    if (!this.isEditable || !this.platformService.isNative() || this.selectionMode === ListViewSelectionMode.None) {
+    if (!this.isEditable || !this._platformService.isNative() || this._selectionMode === ListViewSelectionMode.None) {
       return;
     }
 
-    if (this.selectionMode === ListViewSelectionMode.Single) {
+    if (this._selectionMode === ListViewSelectionMode.Single) {
       this.selected = !this.selected;
     } else {
-      if (this.listViewWrapper.getMobileSelectionModeEnabled()) {
-        this.listViewWrapper.setMobileSelectionModeEnabled(false);
+      if (this._listViewWrapper.getMobileSelectionModeEnabled()) {
+        this._listViewWrapper.setMobileSelectionModeEnabled(false);
       } else {
-        this.listViewWrapper.setMobileSelectionModeEnabled(true);
+        this._listViewWrapper.setMobileSelectionModeEnabled(true);
 
         if (!this.selected) {
           this.selected = true;
         }
       }
 
-      this.framesService.layout();
+      this._framesService.layout();
     }
 
     event.preventDefault();
@@ -264,14 +264,14 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.platformService.isNative() && this.listViewWrapper.getMobileSelectionModeEnabled()) {
+    if (this._platformService.isNative() && this._listViewWrapper.getMobileSelectionModeEnabled()) {
       this.selected = !this.selected;
 
-      if (this.listViewWrapper.getSelectedItems().length === 0) {
-        this.listViewWrapper.setMobileSelectionModeEnabled(false);
+      if (this._listViewWrapper.getSelectedItems().length === 0) {
+        this._listViewWrapper.setMobileSelectionModeEnabled(false);
       }
     } else if (event.target && !DomUtil.isDescentantOrSelf(this.selector.nativeElement, event.target)) {
-      this.listViewWrapper.callOnItemActivated(this.getId());
+      this._listViewWrapper.callOnItemActivated(this.getId());
     }
   }
 }

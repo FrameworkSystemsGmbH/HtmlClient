@@ -17,8 +17,8 @@ import * as LabelUtil from '@app/util/label-util';
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {
 
-  private hasFirstColumnControl: boolean;
-  private labelsToOptimize: Array<ControlLabelWrapper>;
+  private _hasFirstColumnControl: boolean;
+  private _labelsToOptimize: Array<ControlLabelWrapper>;
 
   public getControlType(): ControlType {
     return ControlType.FieldRow;
@@ -39,8 +39,8 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
   }
 
   public optimizeLabels(): void {
-    if (this.labelsToOptimize && this.labelsToOptimize.length > 0) {
-      LabelUtil.optimizeLabels(this.labelsToOptimize);
+    if (this._labelsToOptimize && this._labelsToOptimize.length > 0) {
+      LabelUtil.optimizeLabels(this._labelsToOptimize);
     }
   }
 
@@ -75,7 +75,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
 
       if (labelWrappers && labelWrappers.length) {
         if (this.getOptimizeGeneratedLabels()) {
-          this.labelsToOptimize = labelWrappers;
+          this._labelsToOptimize = labelWrappers;
         }
         return new ControlLabelContainerMergedWrapper(this.getInjector(), { labelWrappers, fieldRowWrp: this, rowLabelTemplate: this.getParent().getRowLabelTemplate() });
       }
@@ -85,7 +85,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
   }
 
   public getHasFirstColumnControl(): boolean {
-    return this.hasFirstColumnControl;
+    return this._hasFirstColumnControl;
   }
 
   public getParent(): FieldPanelWrapper {
@@ -121,7 +121,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     const labelsToOptimize: Array<ControlLabelWrapper> = new Array<ControlLabelWrapper>();
 
     // Reset first column indicator
-    this.hasFirstColumnControl = false;
+    this._hasFirstColumnControl = false;
 
     /*
      * Create the label for the first column and attach it if necessary
@@ -130,7 +130,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     if (labelMode === FieldRowLabelMode.Generated || labelMode === FieldRowLabelMode.GeneratedMerged) {
       const firstColumnLabel: ILayoutableControlWrapper = this.getControlLabelWrapper(this);
       if (firstColumnLabel) {
-        this.hasFirstColumnControl = true;
+        this._hasFirstColumnControl = true;
         firstColumnLabel.attachComponent(uiContainer, vchContainer);
       }
     }
@@ -153,14 +153,14 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
       }
 
       if (labelMode === FieldRowLabelMode.NoneAligned) {
-        this.hasFirstColumnControl = true;
+        this._hasFirstColumnControl = true;
       }
 
       wrapper.attachComponent(uiContainer, vchContainer);
     }
 
     if (labelsToOptimize.length) {
-      this.labelsToOptimize = labelsToOptimize;
+      this._labelsToOptimize = labelsToOptimize;
     }
 
     this.optimizeLabels();

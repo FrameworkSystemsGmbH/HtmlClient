@@ -41,20 +41,20 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   public tabIndexAttr: number;
   public valueStyle: any;
 
-  private keyDownSub: Subscription;
-  private inputSub: Subscription;
+  private _keyDownSub: Subscription;
+  private _inputSub: Subscription;
 
-  private readonly regEx: RegExp = /([a-z]|\d)/i;
+  private readonly _regEx: RegExp = /([a-z]|\d)/i;
 
   public ngAfterViewInit(): void {
-    this.regEx.compile();
+    this._regEx.compile();
 
     const keyDownObs: Observable<any> = fromEvent(this.control.nativeElement, 'keydown').pipe(share());
     const inputIdleObs: Observable<any> = keyDownObs.pipe(debounceTime(250), share());
 
-    this.keyDownSub = keyDownObs.subscribe(event => this.onKeyDown(event));
+    this._keyDownSub = keyDownObs.subscribe(event => this.onKeyDown(event));
 
-    this.inputSub = keyDownObs.pipe(
+    this._inputSub = keyDownObs.pipe(
       map(event => KeyUtil.getKeyString(event)),
       buffer(inputIdleObs)
     ).subscribe(events => this.onInput(events));
@@ -63,12 +63,12 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   public ngOnDestroy(): void {
     super.ngOnDestroy();
 
-    if (this.keyDownSub) {
-      this.keyDownSub.unsubscribe();
+    if (this._keyDownSub) {
+      this._keyDownSub.unsubscribe();
     }
 
-    if (this.inputSub) {
-      this.inputSub.unsubscribe();
+    if (this._inputSub) {
+      this._inputSub.unsubscribe();
     }
   }
 
@@ -141,7 +141,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
     let term: string = String.empty();
 
     for (const char of chars) {
-      if (!char || char.length !== 1 || !this.regEx.test(char)) {
+      if (!char || char.length !== 1 || !this._regEx.test(char)) {
         break;
       }
       term += char;

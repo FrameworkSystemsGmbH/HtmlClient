@@ -19,7 +19,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
 
   protected zone: NgZone;
 
-  private lastScrolledIndex: number;
+  private _lastScrolledIndex: number;
 
   protected init(): void {
     super.init();
@@ -29,8 +29,8 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
   public ngAfterViewChecked(): void {
     if (this.dropDownVisible) {
       const selectedListIndex: number = this.getSelectedListIndex();
-      if (selectedListIndex !== this.lastScrolledIndex) {
-        this.lastScrolledIndex = selectedListIndex;
+      if (selectedListIndex !== this._lastScrolledIndex) {
+        this._lastScrolledIndex = selectedListIndex;
         this.zone.runOutsideAngular(() => {
           this.scrollSelectedEntryIntoView();
         });
@@ -155,7 +155,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
 
   public hideList(): void {
     this.dropDownVisible = false;
-    this.lastScrolledIndex = null;
+    this._lastScrolledIndex = null;
     this.setSelectedListIndex(null);
   }
 

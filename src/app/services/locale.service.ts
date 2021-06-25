@@ -4,23 +4,23 @@ import * as Moment from 'moment-timezone';
 @Injectable()
 export class LocaleService {
 
-  private readonly locale: string;
-  private readonly timeZone: string;
+  private readonly _locale: string;
+  private readonly _timeZone: string;
 
   public constructor() {
     const browserTimeZone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const browserLocale: string = navigator.language;
 
-    this.locale = browserLocale ? browserLocale : 'de-DE';
-    this.timeZone = !String.isNullOrWhiteSpace(browserTimeZone) ? browserTimeZone : 'Europe/Berlin';
+    this._locale = browserLocale ? browserLocale : 'de-DE';
+    this._timeZone = !String.isNullOrWhiteSpace(browserTimeZone) ? browserTimeZone : 'Europe/Berlin';
   }
 
   public setMomentLocaleGlobally(): void {
-    Moment.locale(this.locale);
-    Moment.tz.setDefault(this.timeZone);
+    Moment.locale(this._locale);
+    Moment.tz.setDefault(this._timeZone);
   }
 
   public getLocale(): string {
-    return this.locale;
+    return this._locale;
   }
 }
