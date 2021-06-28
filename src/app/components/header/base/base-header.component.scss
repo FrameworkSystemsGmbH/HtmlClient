@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import '../../../../scss/variables.scss';
 
 @mixin header-list {
@@ -103,7 +105,7 @@
   .hc-header-left {
     flex: 1;
     display: flex;
-    margin-right: $header-height / 4;
+    margin-right: math.div($header-height, 4);
 
     @media (min-width: $breakpoint) {
       flex: 0 0 auto;
@@ -128,7 +130,7 @@
 
       @media (min-width: $breakpoint) {
         flex: 0 0 auto;
-        margin-left: $header-height / 4;
+        margin-left: math.div($header-height, 4);
       }
 
       .badgeImage {
@@ -199,7 +201,7 @@
   .hc-header-right {
     flex: 0 0 auto;
     display: none;
-    margin-left: $header-height / 4;
+    margin-left: math.div($header-height, 4);
 
     @media (min-width: $breakpoint) {
       display: flex;
