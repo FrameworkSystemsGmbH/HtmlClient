@@ -16,10 +16,7 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "eslint:all",
-        "plugin:@typescript-eslint/all",
-        "plugin:@angular-eslint/all",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "eslint:all"
       ],
       "rules": {
         "array-bracket-newline": "off",
@@ -37,6 +34,10 @@
         "function-call-argument-newline": "off",
         "function-paren-newline": "off",
         "id-length": "off",
+        "indent": [
+          "error",
+          2
+        ],
         "line-comment-position": "off",
         "linebreak-style": [
           "error",
@@ -77,6 +78,25 @@
         "require-unicode-regexp": "off",
         "sort-imports": "off",
         "sort-keys": "off",
+        "no-undefined": "off"
+      }
+    },
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@typescript-eslint/all",
+        "plugin:@angular-eslint/all",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
         "@typescript-eslint/array-type": [
           "error",
           {
@@ -86,6 +106,7 @@
         ],
         "@typescript-eslint/consistent-type-imports": "off",
         "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/indent": [
           "error",
           2
@@ -127,8 +148,16 @@
         ],
         "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/no-confusing-void-expression": "off",
+        "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-magic-numbers": "off",
+        "@typescript-eslint/no-parameter-properties": "off",
+        "@typescript-eslint/no-unnecessary-condition": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/no-unused-vars": [
           "error",
           {
@@ -174,17 +203,7 @@
             "style": "camelCase"
           }
         ],
-        "@angular-eslint/prefer-on-push-component-change-detection": "off",
-        "no-undefined": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-parameter-properties": "off",
-        "@typescript-eslint/no-unnecessary-condition": "off",
-        "@typescript-eslint/no-unsafe-argument": "off",
-        "@typescript-eslint/no-unsafe-assignment": "off",
-        "@typescript-eslint/no-unsafe-call": "off",
-        "@typescript-eslint/no-unsafe-member-access": "off",
-        "@typescript-eslint/no-unsafe-return": "off"
+        "@angular-eslint/prefer-on-push-component-change-detection": "off"
       }
     },
     {
