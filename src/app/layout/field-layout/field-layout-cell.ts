@@ -7,13 +7,19 @@ import { ILayoutableProperties } from '@app/layout/layoutable-properties.interfa
 
 export class FieldLayoutCell {
 
-  private _column: FieldLayoutColumn;
-  private _resultWidth: number;
+  private readonly _wrapper: LayoutableControlWrapper | null = null;
+  private readonly _rowlabelTemplate: ILayoutableControlLabelTemplate | null = null;
+
+  private _column: FieldLayoutColumn | null = null;
+  private _resultWidth: number = 0;
 
   public constructor(
-    private readonly _wrapper: LayoutableControlWrapper,
-    private readonly _rowlabelTemplate: ILayoutableControlLabelTemplate
-  ) { }
+    wrapper: LayoutableControlWrapper | null,
+    rowlabelTemplate: ILayoutableControlLabelTemplate | null
+  ) {
+    this._wrapper = wrapper;
+    this._rowlabelTemplate = rowlabelTemplate;
+  }
 
   public isVisible(): boolean {
     if (this._wrapper) {
@@ -87,7 +93,7 @@ export class FieldLayoutCell {
     }
   }
 
-  public getColumn(): FieldLayoutColumn {
+  public getColumn(): FieldLayoutColumn | null {
     return this._column;
   }
 

@@ -8,7 +8,11 @@ const { Keyboard } = Plugins;
 @Injectable({ providedIn: 'root' })
 export class KeyboardService {
 
-  public constructor(private readonly _platformService: PlatformService) { }
+  private readonly _platformService: PlatformService;
+
+  public constructor(platformService: PlatformService) {
+    this._platformService = platformService;
+  }
 
   public attachScrollHandler(): void {
     if (this._platformService.isAndroid()) {
@@ -19,7 +23,7 @@ export class KeyboardService {
   private scrollToFocusOnOpen(): void {
     if (document.activeElement) {
       const activeHtmlElement: HTMLElement = document.activeElement as HTMLElement;
-      const scroller: HTMLElement = DomUtil.getNearestParent(activeHtmlElement, 'hc-form-scroller');
+      const scroller: HTMLElement | null = DomUtil.getNearestParent(activeHtmlElement, 'hc-form-scroller');
       if (activeHtmlElement != null && scroller != null) {
         DomUtil.scrollIntoView(scroller, activeHtmlElement);
       }

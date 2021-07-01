@@ -1,6 +1,4 @@
 import { ComponentFactory, ComponentRef, ViewContainerRef } from '@angular/core';
-import { ClientSelectedTabPageChangeEvent } from '@app/common/events/client-selected-tab-page-change-event';
-import { ClientSelectedTabPageChangedEvent } from '@app/common/events/client-selected-tab-page-changed-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { TabbedWindowComponent } from '@app/controls/tabbed-window/tabbed-window.component';
 import { ClientEventType } from '@app/enums/client-event-type';
@@ -10,8 +8,8 @@ import { Visibility } from '@app/enums/visibility';
 import { LayoutBase } from '@app/layout/layout-base';
 import { TabbedLayout } from '@app/layout/tabbed-layout/tabbed-layout';
 import { ITabbedLayoutControl } from '@app/layout/tabbed-layout/tabbed-layout-control.interface';
-import { FramesService } from '@app/services/frames.service';
 import { ContainerWrapper } from '@app/wrappers/container-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { TabPageTemplate } from '@app/wrappers/tabbed-window/tab-page-template';
 import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
@@ -19,21 +17,14 @@ import { Subscription } from 'rxjs';
 
 export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayoutControl {
 
-  private _tabPageTemplateActive: TabPageTemplate;
-  private _tabPageTemplateDisabled: TabPageTemplate;
-  private _tabPageTemplateInactive: TabPageTemplate;
+  private _tabPageTemplateActive: TabPageTemplate | null = null;
+  private _tabPageTemplateDisabled: TabPageTemplate | null = null;
+  private _tabPageTemplateInactive: TabPageTemplate | null = null;
 
-  private _selectedTabIndex: number;
-  private _selectedTabIndexOrg: number;
+  private _selectedTabIndex: number = 0;
+  private _selectedTabIndexOrg: number = 0;
 
-  private _framesService: FramesService;
-
-  private _tabClickedSub: Subscription;
-
-  protected init(): void {
-    super.init();
-    this._framesService = this.getInjector().get(FramesService);
-  }
+  private _tabClickedSub: Subscription | null = null;
 
   public getControlType(): ControlType {
     return ControlType.TabbedWindow;
@@ -56,16 +47,18 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public getTabAlignment(): TabAlignment {
-    const alignment: TabAlignment = this.getPropertyStore().getTabAlignment();
+    const alignment: TabAlignment | undefined = this.getPropertyStore().getTabAlignment();
     return alignment != null ? alignment : TabAlignment.Top;
   }
 
-  public getActiveImage(): string {
-    return this.getPropertyStore().getActiveImage();
+  public getActiveImage(): string | null {
+    const activeImage: string | undefined = this.getPropertyStore().getActiveImage();
+    return activeImage != null ? activeImage : null;
   }
 
-  public getInactiveImage(): string {
-    return this.getPropertyStore().getInactiveImage();
+  public getInactiveImage(): string | null {
+    const inactiveImage: string | undefined = this.getPropertyStore().getInactiveImage();
+    return inactiveImage != null ? inactiveImage : null;
   }
 
   public isTabSelected(tabPage: TabPageWrapper): boolean {
@@ -172,17 +165,22 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     return new TabbedLayout(this);
   }
 
-  protected getComponentRef(): ComponentRef<TabbedWindowComponent> {
-    return super.getComponentRef() as ComponentRef<TabbedWindowComponent>;
+  protected getComponentRef(): ComponentRef<TabbedWindowComponent> | null {
+    return super.getComponentRef() as ComponentRef<TabbedWindowComponent> | null;
   }
 
-  protected getComponent(): TabbedWindowComponent {
-    const compRef: ComponentRef<TabbedWindowComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): TabbedWindowComponent | null {
+    const compRef: ComponentRef<TabbedWindowComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public getViewContainerRef(): ViewContainerRef {
-    return this.getComponent().anchor;
+    const comp: TabbedWindowComponent | null = this.getComponent();
+
+    if (comp == null) {
+      throw new Error('Tried to get TabbedWindowComponent ViewContainerRef but component is NULL');
+    }
+    return comp.getViewContainerRef();
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<TabbedWindowComponent> {
@@ -215,7 +213,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   protected getNonEventTabPageChangedSubscription(tabPage: TabPageWrapper): () => void {
     return (): void => {
       this.changeSelectedTabPage(tabPage);
-      this._framesService.layout();
+      this.getFramesService().layout();
     };
   }
 
@@ -224,29 +222,34 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   protected getOnSelectedTabPageChangeSubscription(tabPage: TabPageWrapper): () => void {
-    return (): void => this.getEventsService().fireSelectedTabPageChange(
-      this.getForm().getId(),
-      this.getName(),
-      this.getTabPages()[this._selectedTabIndex].getName(),
-      tabPage.getName(),
-      tabPage,
-      new InternalEventCallbacks<ClientSelectedTabPageChangeEvent>(
-        this.canExecuteSelectedTabPageChange.bind(this),
-        this.onSelectedTabPageChangeExecuted.bind(this),
-        this.onSelectedTabPageChangeCompleted.bind(this)
-      )
-    );
+    return (): void => {
+      const form: FormWrapper | null = this.getForm();
+      if (form) {
+        this.getEventsService().fireSelectedTabPageChange(
+          form.getId(),
+          this.getName(),
+          this.getTabPages()[this._selectedTabIndex].getName(),
+          tabPage.getName(),
+          tabPage,
+          new InternalEventCallbacks(
+            this.canExecuteSelectedTabPageChange.bind(this),
+            this.onSelectedTabPageChangeExecuted.bind(this),
+            this.onSelectedTabPageChangeCompleted.bind(this)
+          )
+        );
+      }
+    };
   }
 
-  protected canExecuteSelectedTabPageChange(clientEvent: ClientSelectedTabPageChangeEvent, payload: any): boolean {
+  protected canExecuteSelectedTabPageChange(payload: any): boolean {
     return this.hasOnSelectedTabPageChangeEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onSelectedTabPageChangeExecuted(clientEvent: ClientSelectedTabPageChangeEvent, payload: any, processedEvent: any): void {
+  protected onSelectedTabPageChangeExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onSelectedTabPageChangeCompleted(clientEvent: ClientSelectedTabPageChangeEvent, payload: any, processedEvent: any): void {
+  protected onSelectedTabPageChangeCompleted(payload: any, processedEvent: any): void {
     if (this.hasOnSelectedTabPageChangedEvent() && processedEvent != null && processedEvent.args != null && !processedEvent.args.cancel) {
       this.getOnSelectedTabPageChangedSubscription(payload)();
     }
@@ -258,28 +261,33 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
   protected getOnSelectedTabPageChangedSubscription(tabPage: TabPageWrapper): () => void {
     this.changeSelectedTabPage(tabPage);
-    return (): void => this.getEventsService().fireSelectedTabPageChanged(
-      this.getForm().getId(),
-      this.getName(),
-      this.getTabPages()[this._selectedTabIndex].getName(),
-      tabPage.getName(),
-      new InternalEventCallbacks<ClientSelectedTabPageChangedEvent>(
-        this.canExecuteSelectedTabPageChanged.bind(this),
-        this.onSelectedTabPageChangedExecuted.bind(this),
-        this.onSelectedTabPageChangedCompleted.bind(this)
-      )
-    );
+    return (): void => {
+      const form: FormWrapper | null = this.getForm();
+      if (form) {
+        this.getEventsService().fireSelectedTabPageChanged(
+          form.getId(),
+          this.getName(),
+          this.getTabPages()[this._selectedTabIndex].getName(),
+          tabPage.getName(),
+          new InternalEventCallbacks(
+            this.canExecuteSelectedTabPageChanged.bind(this),
+            this.onSelectedTabPageChangedExecuted.bind(this),
+            this.onSelectedTabPageChangedCompleted.bind(this)
+          )
+        );
+      }
+    };
   }
 
-  protected canExecuteSelectedTabPageChanged(clientEvent: ClientSelectedTabPageChangedEvent, payload: any): boolean {
+  protected canExecuteSelectedTabPageChanged(payload: any): boolean {
     return this.hasOnSelectedTabPageChangedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onSelectedTabPageChangedExecuted(clientEvent: ClientSelectedTabPageChangedEvent, payload: any, processedEvent: any): void {
+  protected onSelectedTabPageChangedExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onSelectedTabPageChangedCompleted(clientEvent: ClientSelectedTabPageChangedEvent, payload: any, processedEvent: any): void {
+  protected onSelectedTabPageChangedCompleted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
@@ -380,7 +388,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   protected scrollIntoView(): void {
-    const comp: TabbedWindowComponent = this.getComponent();
+    const comp: TabbedWindowComponent | null = this.getComponent();
     if (comp != null) {
       comp.scrollIntoView();
     }

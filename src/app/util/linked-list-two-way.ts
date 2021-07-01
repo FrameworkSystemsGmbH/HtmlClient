@@ -3,8 +3,8 @@ import { LinkedListNode } from '@app/util/linked-list-node';
 export class LinkedListTwoWay<T> {
 
   private _length: number;
-  private _head: LinkedListNode<T>;
-  private _tail: LinkedListNode<T>;
+  private _head: LinkedListNode<T> | null;
+  private _tail: LinkedListNode<T> | null;
 
   public constructor() {
     this._length = 0;
@@ -17,12 +17,12 @@ export class LinkedListTwoWay<T> {
   }
 
   public add(data: T): void {
-    const currentNode = new LinkedListNode<T>(data);
+    const currentNode: LinkedListNode<T> = new LinkedListNode<T>(data);
 
     if (this._head === null || this._length === 0) {
       this._head = currentNode;
       this._tail = currentNode;
-    } else {
+    } else if (this._tail) {
       this._tail.next = currentNode;
       currentNode.prev = this._tail;
     }
@@ -36,25 +36,31 @@ export class LinkedListTwoWay<T> {
       return false;
     }
 
-    const index = this.indexOf(data);
+    const index: number = this.indexOf(data);
 
     if (index === -1) {
       return false;
     }
 
     if (index === 0) {
-      this._head = this._head.next;
-      this._head.prev = null;
+      this._head = this._head ? this._head.next : null;
+      if (this._head) {
+        this._head.prev = null;
+      }
     } else {
-      let node = this._head;
+      let node: LinkedListNode<T> | null = this._head;
 
       for (let i = 1; i < index; i++) {
-        node = node.next;
+        node = node ? node.next : null;
       }
 
-      const deleteNode = node.next;
-      node.next = deleteNode.next;
-      deleteNode.next.prev = node;
+      if (node) {
+        const deleteNode: LinkedListNode<T> | null = node.next;
+        node.next = deleteNode ? deleteNode.next : null;
+        if (deleteNode && deleteNode.next) {
+          deleteNode.next.prev = node;
+        }
+      }
 
       if (index === this._length - 1) {
         this._tail = node;
@@ -66,26 +72,30 @@ export class LinkedListTwoWay<T> {
     return true;
   }
 
-  public peek(): T {
-    return this._length ? this._head.data : undefined;
+  public peek(): T | null {
+    return this._length && this._head ? this._head.data : null;
   }
 
-  public poll(): T {
+  public poll(): T | null {
     if (this._length) {
-      const data = this.peek();
-      this.remove(data);
+      const data: T | null = this.peek();
+      if (data) {
+        this.remove(data);
+      }
       return data;
     } else {
-      return undefined;
+      return null;
     }
   }
 
   public forEach(fn: (data: T) => void): void {
-    let node = this._head;
+    let node: LinkedListNode<T> | null = this._head;
 
     while (node !== this._tail) {
-      fn.call(this, node.data);
-      node = node.next;
+      if (node) {
+        fn.call(this, node.data);
+        node = node.next;
+      }
     }
   }
 
@@ -94,14 +104,15 @@ export class LinkedListTwoWay<T> {
       return -1;
     }
 
-    let node = this._head;
+    let node: LinkedListNode<T> | null = this._head;
 
     for (let i = 0; i < this._length; i++) {
-      if (node.data === data) {
-        return i;
+      if (node) {
+        if (node.data === data) {
+          return i;
+        }
+        node = node.next;
       }
-
-      node = node.next;
     }
 
     return -1;
@@ -112,14 +123,15 @@ export class LinkedListTwoWay<T> {
       return false;
     }
 
-    let node = this._head;
+    let node: LinkedListNode<T> | null = this._head;
 
     while (node !== this._tail) {
-      if (node.data === data) {
-        return true;
+      if (node) {
+        if (node.data === data) {
+          return true;
+        }
+        node = node.next;
       }
-
-      node = node.next;
     }
 
     return false;
@@ -128,12 +140,14 @@ export class LinkedListTwoWay<T> {
   public toArray(): Array<T> {
     const result: Array<T> = new Array<T>(this._length);
 
-    let node = this._head;
+    let node: LinkedListNode<T> | null = this._head;
 
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < this._length; i++) {
-      result.push(node.data);
-      node = node.next;
+      if (node) {
+        result.push(node.data);
+        node = node.next;
+      }
     }
 
     return result;

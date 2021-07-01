@@ -26,7 +26,8 @@ import { PlatformService } from '@app/services/platform.service';
 import { RoutingService } from '@app/services/routing.service';
 import { TextsService } from '@app/services/texts.service';
 import { TitleService } from '@app/services/title.service';
-import { resetBrokerState, setBrokerState } from '@app/store/broker/broker.actions';
+import { IAppState } from '@app/store/app.state';
+import { resetBrokerState, setBrokerStateNoToken, setBrokerStateToken } from '@app/store/broker/broker.actions';
 import { selectBrokerState } from '@app/store/broker/broker.selectors';
 import { IBrokerState } from '@app/store/broker/broker.state';
 import * as JsonUtil from '@app/util/json-util';
@@ -47,19 +48,19 @@ export class BrokerService {
   private readonly _onLoginComplete: Subject<any>;
   private readonly _onLoginComplete$: Observable<any>;
 
-  private _storeSub: Subscription;
-  private _eventFiredSub: Subscription;
-  private _onBackButtonListener: () => boolean;
+  private _storeSub: Subscription | null = null;
+  private _eventFiredSub: Subscription | null = null;
+  private _onBackButtonListener: (() => boolean) | null = null;
 
-  private _activeLoginBroker: LoginBroker;
-  private _activeLoginOptions: LoginOptions;
-  private _activeBrokerDirect: boolean;
-  private _activeBrokerName: string;
-  private _activeBrokerToken: string;
-  private _activeBrokerRequestUrl: string;
-  private _requestCounter: number;
-  private _clientLanguages: string;
-  private _lastRequestTime: Moment.Moment;
+  private _activeLoginBroker: LoginBroker | null = null;
+  private _activeLoginOptions: LoginOptions | null = null;
+  private _activeBrokerDirect: boolean = false;
+  private _activeBrokerName: string = String.empty();
+  private _activeBrokerToken: string = String.empty();
+  private _activeBrokerRequestUrl: string = String.empty();
+  private _clientLanguages: string | null = null;
+  private _lastRequestTime: Moment.Moment | null = null;
+  private _requestCounter: number = 0;
 
   public constructor(
     private readonly _httpClient: HttpClient,
@@ -77,7 +78,7 @@ export class BrokerService {
     private readonly _routingService: RoutingService,
     private readonly _textsService: TextsService,
     private readonly _titleService: TitleService,
-    private readonly _store: Store
+    private readonly _store: Store<IAppState>
   ) {
     this._onLoginComplete = new Subject<any>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();
@@ -103,7 +104,7 @@ export class BrokerService {
     return obsOf(event).pipe(
       tap(() => this._loaderService.fireLoadingChanged(true)),
       mergeMap(() => {
-        if (!event.callbacks || event.callbacks.canExecute(event.clientEvent, event.payload)) {
+        if (!event.callbacks || event.callbacks.canExecute(event.payload)) {
           return this.createRequest(event.clientEvent).pipe(
             mergeMap(requestJson => this.doRequest(requestJson)),
             mergeMap(responseJson => this.processResponse(responseJson))
@@ -114,10 +115,10 @@ export class BrokerService {
       }),
       tap(handleResult => {
         if (handleResult.result === ResponseResult.Executed && event.callbacks && event.callbacks.onExecuted) {
-          event.callbacks.onExecuted(event.clientEvent, event.payload, handleResult.processedEvent);
+          event.callbacks.onExecuted(event.payload, handleResult.processedEvent);
         }
         if (event.callbacks && event.callbacks.onCompleted) {
-          event.callbacks.onCompleted(event.clientEvent, event.payload, handleResult.processedEvent);
+          event.callbacks.onCompleted(event.payload, handleResult.processedEvent);
         }
       }),
       map(handleResult => {
@@ -138,7 +139,7 @@ export class BrokerService {
     return this._onLoginComplete$;
   }
 
-  public getActiveBrokerName(): string {
+  public getActiveBrokerName(): string | null {
     return this._activeBrokerName;
   }
 
@@ -151,7 +152,7 @@ export class BrokerService {
       }
 
       this._activeLoginBroker = broker;
-      this._activeLoginOptions = options;
+      this._activeLoginOptions = options != null ? options : null;
       this._activeBrokerDirect = direct;
 
       const name = broker.name;
@@ -165,7 +166,7 @@ export class BrokerService {
         this._clientLanguages = options.languages;
       }
 
-      this._store.dispatch(setBrokerState({
+      this._store.dispatch(setBrokerStateNoToken({
         state: {
           activeBrokerDirect: direct,
           activeBrokerFilesUrl: fileUrl,
@@ -215,7 +216,7 @@ export class BrokerService {
     this._lastRequestTime = null;
     this._activeLoginBroker = null;
     this._activeLoginOptions = null;
-    this._activeBrokerDirect = null;
+    this._activeBrokerDirect = false;
 
     this._storeSub = this.subscribeToStore();
     this._eventFiredSub = this.subscribeToEventFired();
@@ -270,7 +271,7 @@ export class BrokerService {
           stackTrace
         }).subscribe(result => {
           if (result === RetryBoxResult.Retry) {
-            sub.next(null);
+            sub.next();
           } else {
             this.closeApplication();
           }
@@ -295,7 +296,7 @@ export class BrokerService {
         this._clientDataService.getDeviceUuid()
       ]).pipe(
         map(res => {
-          const sessionData: string = res[0];
+          const sessionData: string | null = res[0];
           const clientId: string = res[1];
 
           const platform: string = this._platformService.isNative() ? 'Mobile' : 'Web';
@@ -395,10 +396,8 @@ export class BrokerService {
     }
 
     if (metaJson.restartApplication !== true) {
-      this._store.dispatch(setBrokerState({
-        state: {
-          activeBrokerToken: metaJson.token
-        }
+      this._store.dispatch(setBrokerStateToken({
+        token: metaJson.token
       }));
     }
 
@@ -519,9 +518,7 @@ export class BrokerService {
           icon: msgBoxJson.icon,
           buttons: msgBoxJson.buttons
         }).pipe(
-          mergeMap(result => this.handleEvent({
-            clientEvent: new ClientMsgBoxEvent(formId, id, result)
-          }))
+          mergeMap(result => this.handleEvent(new InternalEvent<ClientMsgBoxEvent>(new ClientMsgBoxEvent(formId, id, result))))
         )),
         tap(() => this._loaderService.fireLoadingChanged(true))
       );
@@ -614,20 +611,19 @@ export class BrokerService {
   }
 
   private restartApplication(): void {
-    const broker: LoginBroker = this._activeLoginBroker;
-    const options: LoginOptions = this._activeLoginOptions;
-    const direct: boolean = this._activeBrokerDirect;
-    const token: string = this._activeBrokerToken;
+    if (this._activeLoginBroker != null) {
 
-    this.resetActiveBroker();
+      const broker: LoginBroker = this._activeLoginBroker;
+      const options: LoginOptions | undefined = this._activeLoginOptions != null ? this._activeLoginOptions : undefined;
+      const direct: boolean = this._activeBrokerDirect;
+      const token: string = this._activeBrokerToken;
 
-    this._store.dispatch(setBrokerState({
-      state: {
-        activeBrokerToken: token
-      }
-    }));
+      this.resetActiveBroker();
 
-    this.login(broker, direct, options);
+      this._store.dispatch(setBrokerStateToken({ token }));
+
+      this.login(broker, direct, options);
+    }
   }
 
   private closeApplication(): void {
@@ -647,7 +643,7 @@ export class BrokerService {
     );
   }
 
-  public getLastRequestTime(): Moment.Moment {
+  public getLastRequestTime(): Moment.Moment | null {
     return this._lastRequestTime;
   }
 
@@ -655,7 +651,7 @@ export class BrokerService {
     return {
       requestCounter: this._requestCounter,
       clientLanguages: this._clientLanguages,
-      lastRequestTime: this._lastRequestTime.toJSON(),
+      lastRequestTime: this._lastRequestTime != null ? this._lastRequestTime.toJSON() : null,
       loginBroker: this._activeLoginBroker,
       loginOptions: this._activeLoginOptions,
       loginDirect: this._activeBrokerDirect
@@ -669,7 +665,7 @@ export class BrokerService {
 
     this._requestCounter = json.requestCounter;
     this._clientLanguages = json.clientLanguages;
-    this._lastRequestTime = Moment.utc(json.lastRequestTime);
+    this._lastRequestTime = json.lastRequestTime != null ? Moment.utc(json.lastRequestTime) : null;
     this._activeLoginBroker = json.loginBroker;
     this._activeLoginOptions = json.loginOptions;
     this._activeBrokerDirect = json.loginDirect;

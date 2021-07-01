@@ -6,18 +6,18 @@ import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
 
 export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
 
-  protected value: number;
-  protected orgValue: number;
+  protected value: number | null = null;
+  protected orgValue: number | null = null;
 
   public getTextBoxType(): TextBoxType {
     return TextBoxType.Number;
   }
 
-  public getValue(): number {
+  public getValue(): number | null {
     return this.value;
   }
 
-  public setValue(value: number): void {
+  public setValue(value: number | null): void {
     this.value = value;
   }
 
@@ -26,7 +26,7 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
   }
 
   protected setValueJson(value: string): void {
-    let val: number = null;
+    let val: number | null = null;
 
     if (!String.isNullOrWhiteSpace(value)) {
       val = parseFloat(value);
@@ -44,13 +44,13 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
     return this.value !== this.orgValue;
   }
 
-  protected getComponentRef(): ComponentRef<TextBoxNumberComponent> {
-    return super.getComponentRef() as ComponentRef<TextBoxNumberComponent>;
+  protected getComponentRef(): ComponentRef<TextBoxNumberComponent> | null {
+    return super.getComponentRef() as ComponentRef<TextBoxNumberComponent> | null;
   }
 
-  protected getComponent(): TextBoxNumberComponent {
-    const compRef: ComponentRef<TextBoxNumberComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): TextBoxNumberComponent | null {
+    const compRef: ComponentRef<TextBoxNumberComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<TextBoxNumberComponent> {

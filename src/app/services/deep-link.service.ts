@@ -1,8 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
+import { LoginBroker } from '@app/common/login-broker';
 import { StartBrokerInfo } from '@app/common/start-broker-info';
 import { BrokerService } from '@app/services/broker.service';
 import { LoginService } from '@app/services/login.service';
 import { PlatformService } from '@app/services/platform.service';
+import { IAppState } from '@app/store/app.state';
 import { selectBrokerName } from '@app/store/broker/broker.selectors';
 import { selectReady } from '@app/store/ready/ready.selectors';
 import { Plugins } from '@capacitor/core';
@@ -13,15 +15,15 @@ const { App } = Plugins;
 @Injectable({ providedIn: 'root' })
 export class DeepLinkService {
 
-  private _ready: boolean;
-  private _active: boolean;
-  private _pendingStartInfo: StartBrokerInfo;
+  private _ready: boolean = false;
+  private _active: boolean = false;
+  private _pendingStartInfo: StartBrokerInfo | null = null;
 
   public constructor(
     private readonly _brokerService: BrokerService,
     private readonly _loginService: LoginService,
     private readonly _platformService: PlatformService,
-    private readonly _store: Store,
+    private readonly _store: Store<IAppState>,
     private readonly _zone: NgZone
   ) { }
 
@@ -41,33 +43,42 @@ export class DeepLinkService {
           try {
             const urlInst: URL = new URL(openUrl.url);
 
-            let name: string;
-            let url: string;
+            let name: string | null = null;
+            let url: string | null = null;
             let login: boolean = true;
             let save: boolean = false;
 
             if (urlInst.searchParams.has('name')) {
-              name = decodeURIComponent(urlInst.searchParams.get('name'));
+              const nameStr: string | null = urlInst.searchParams.get('name');
+              if (nameStr != null) {
+                name = decodeURIComponent(nameStr);
+              }
             }
 
             if (urlInst.searchParams.has('url')) {
-              url = decodeURIComponent(urlInst.searchParams.get('url'));
+              const urlStr: string | null = urlInst.searchParams.get('url');
+              if (urlStr != null) {
+                url = decodeURIComponent(urlStr);
+              }
             }
 
             if (urlInst.searchParams.has('login')) {
-              login = urlInst.searchParams.get('login').toLowerCase() === 'true';
+              const loginStr: string | null = urlInst.searchParams.get('login');
+              if (loginStr != null) {
+                login = loginStr.toLowerCase() === 'true';
+              }
             }
 
             if (urlInst.searchParams.has('save')) {
-              save = urlInst.searchParams.get('save').toLowerCase() === 'true';
+              const saveStr: string | null = urlInst.searchParams.get('save');
+              if (saveStr != null) {
+                save = saveStr.toLowerCase() === 'true';
+              }
             }
 
-            if (!String.isNullOrWhiteSpace(name) && !String.isNullOrWhiteSpace(url)) {
+            if (name != null && name.trim().length && url != null && url.trim().length) {
               this._pendingStartInfo = {
-                broker: {
-                  name,
-                  url
-                },
+                broker: new LoginBroker(name, url),
                 login,
                 save
               };

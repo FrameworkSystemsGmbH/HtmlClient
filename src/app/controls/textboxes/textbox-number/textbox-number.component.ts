@@ -1,7 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { ParseMethod } from '@app/enums/parse-method';
 import { TextFormat } from '@app/enums/text-format';
+import { FocusService } from '@app/services/focus.service';
 import { NumberFormatService } from '@app/services/formatter/number-format.service';
 import { TextBoxNumberWrapper } from '@app/wrappers/textbox-number-wrapper';
 
@@ -13,32 +14,36 @@ import { TextBoxNumberWrapper } from '@app/wrappers/textbox-number-wrapper';
 export class TextBoxNumberComponent extends TextBoxComponent {
 
   @ViewChild('input', { static: true })
-  public input: ElementRef;
+  public input: ElementRef<HTMLInputElement> | null = null;
 
-  public value: string;
+  public value: string | null = null;
 
-  private _format: TextFormat;
-  private _formatPattern: string;
+  private _format: TextFormat = TextFormat.None;
+  private _formatPattern: string | null = null;
 
-  private _numberFormatService: NumberFormatService;
+  private readonly _numberFormatService: NumberFormatService;
 
-  protected init(): void {
-    super.init();
-    this._numberFormatService = this.getInjector().get(NumberFormatService);
+  public constructor(
+    cdr: ChangeDetectorRef,
+    focusService: FocusService,
+    numberFormatService: NumberFormatService
+  ) {
+    super(cdr, focusService);
+    this._numberFormatService = numberFormatService;
   }
 
-  public getInput(): ElementRef {
+  public getInput(): ElementRef<HTMLElement> | null {
     return this.input;
   }
 
   public callCtrlLeave(event: any): void {
-    if (this.isEditable) {
+    if (this.isEditable && this.input != null) {
       if (this.input.nativeElement.classList.contains('ng-dirty')) {
         if (String.isNullOrWhiteSpace(this.value)) {
           this.value = null;
           this.updateWrapper();
         } else {
-          const formattedValue: string = this._numberFormatService.formatString(this.value, ParseMethod.Client, this._format, this._formatPattern);
+          const formattedValue: string | null = this.value != null ? this._numberFormatService.formatString(this.value, ParseMethod.Client, this._format, this._formatPattern) : null;
           if (formattedValue == null) {
             this.updateComponent();
           } else {
@@ -57,13 +62,17 @@ export class TextBoxNumberComponent extends TextBoxComponent {
   }
 
   private updateWrapper(): void {
-    this.getWrapper().setValue(this._numberFormatService.parseString(this.value, ParseMethod.Client, this._format, this._formatPattern));
+    this.getWrapper().setValue(this.value != null ? this._numberFormatService.parseString(this.value, ParseMethod.Client, this._format, this._formatPattern) : null);
   }
 
   protected updateData(wrapper: TextBoxNumberWrapper): void {
     super.updateData(wrapper);
+
     this._format = wrapper.getFormat();
     this._formatPattern = wrapper.getFormatPattern();
-    this.value = this._numberFormatService.formatNumber(wrapper.getValue(), this._format, this._formatPattern);
+
+    const value: number | null = wrapper.getValue();
+
+    this.value = value != null ? this._numberFormatService.formatNumber(value, this._format, this._formatPattern) : null;
   }
 }

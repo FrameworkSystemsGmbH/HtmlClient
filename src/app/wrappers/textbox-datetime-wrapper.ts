@@ -1,48 +1,42 @@
 import { ComponentFactory, ComponentRef } from '@angular/core';
 import { TextBoxDateTimeComponent } from '@app/controls/textboxes/textbox-datetime/textbox-datetime.component';
 import { TextBoxType } from '@app/enums/textbox-type';
-import { DateTimeFormatService } from '@app/services/formatter/datetime-format.service';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
 import * as Moment from 'moment-timezone';
 
 export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
 
-  protected value: Moment.Moment;
-  protected orgValue: Moment.Moment;
-
-  private _dateTimeFormatService: DateTimeFormatService;
-
-  protected init(): void {
-    super.init();
-    this._dateTimeFormatService = this.getInjector().get(DateTimeFormatService);
-  }
+  protected value: Moment.Moment | null = null;
+  protected orgValue: Moment.Moment | null = null;
 
   public getTextBoxType(): TextBoxType {
     return TextBoxType.Date;
   }
 
-  protected getDateTimeFormatService(): DateTimeFormatService {
-    return this._dateTimeFormatService;
-  }
-
-  public getValue(): Moment.Moment {
+  public getValue(): Moment.Moment | null {
     return this.value;
   }
 
-  public setValue(value: Moment.Moment): void {
+  public setValue(value: Moment.Moment | null): void {
     this.value = value;
   }
 
   protected getValueJson(): string {
-    return this.value == null ? String.empty() : this._dateTimeFormatService.momentToJson(this.value);
+    if (this.value == null) {
+      return String.empty();
+    }
+
+    const jsonStr: string | null = this.getDateTimeFormatService().momentToJson(this.value);
+
+    return jsonStr != null ? jsonStr : String.empty();
   }
 
   protected setValueJson(value: string): void {
-    let val: Moment.Moment = null;
+    let val: Moment.Moment | null = null;
 
     if (!String.isNullOrWhiteSpace(value)) {
-      val = this._dateTimeFormatService.momentFromJson(value);
+      val = this.getDateTimeFormatService().momentFromJson(value);
 
       if (val === null || !val.isValid()) {
         val = null;
@@ -57,13 +51,13 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     return this.value !== this.orgValue;
   }
 
-  protected getComponentRef(): ComponentRef<TextBoxDateTimeComponent> {
-    return super.getComponentRef() as ComponentRef<TextBoxDateTimeComponent>;
+  protected getComponentRef(): ComponentRef<TextBoxDateTimeComponent> | null {
+    return super.getComponentRef() as ComponentRef<TextBoxDateTimeComponent> | null;
   }
 
-  protected getComponent(): TextBoxDateTimeComponent {
-    const compRef: ComponentRef<TextBoxDateTimeComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): TextBoxDateTimeComponent | null {
+    const compRef: ComponentRef<TextBoxDateTimeComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<TextBoxDateTimeComponent> {

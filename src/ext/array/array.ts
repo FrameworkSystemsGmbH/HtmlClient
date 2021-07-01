@@ -20,7 +20,7 @@ Array.prototype.isEmpty = function (): boolean {
   return this.length === 0;
 };
 
-Array.prototype.remove = function (item: Array<unknown>): unknown {
+Array.prototype.remove = function (item: unknown): unknown {
   const index = this.indexOf(item);
   if (index >= 0) {
     return this.splice(index, 1)[0] as unknown;

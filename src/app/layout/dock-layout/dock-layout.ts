@@ -16,7 +16,7 @@ export class DockLayout extends LayoutContainerBase {
 
   private _width: number = -1;
   private _isVertical: boolean = false;
-  private _wrappers: Array<LayoutableControlWrapper>;
+  private _wrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
 
   public constructor(container: IDockContainer) {
     super(container);
@@ -195,9 +195,7 @@ export class DockLayout extends LayoutContainerBase {
         if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutWidth() > 0) {
           countVisibleControls++;
           sumMinWidths += wrapper.getMinLayoutWidth();
-          if (wrapper.getDockItemSize()) {
-            sumDockItemSizes += wrapper.getDockItemSize();
-          }
+          sumDockItemSizes += wrapper.getDockItemSizeInt();
         }
       }
 
@@ -232,11 +230,11 @@ export class DockLayout extends LayoutContainerBase {
         let maxMinFail: number = 0;
         let sumMaxFails: number = 0;
         let maxMaxFail: number = 0;
-        let maxMinFailWrapper: LayoutableControlWrapper;
-        let maxMaxFailWrapper: LayoutableControlWrapper;
+        let maxMinFailWrapper: LayoutableControlWrapper | null = null;
+        let maxMaxFailWrapper: LayoutableControlWrapper | null = null;
 
         for (const wrapper of todo) {
-          const dockItemSizeRatio: number = wrapper.getDockItemSize() / sumDockItemSizes;
+          const dockItemSizeRatio: number = wrapper.getDockItemSizeInt() / sumDockItemSizes;
           const desiredWidth: number = dockItemSizeRatio * availableWidth;
           const minFail: number = Math.max(0, wrapper.getMinLayoutWidth() - desiredWidth);
 
@@ -261,29 +259,31 @@ export class DockLayout extends LayoutContainerBase {
         if (sumMinFails === 0 && sumMaxFails === 0) {
           // No problems concerning min and max size
           allMinMaxProblemsSolved = true;
-        } else if (sumMaxFails > sumMinFails) {
+        } else if (sumMaxFails > sumMinFails && maxMaxFailWrapper != null) {
           // Max
           todo.remove(maxMaxFailWrapper);
           maxMaxFailWrapper.setResultWidth(maxMaxFailWrapper.getMaxLayoutWidth());
           availableWidth -= maxMaxFailWrapper.getResultWidth();
-          sumDockItemSizes -= maxMaxFailWrapper.getDockItemSize();
-        } else {
+          sumDockItemSizes -= maxMaxFailWrapper.getDockItemSizeInt();
+        } else if (maxMinFailWrapper != null) {
           // Min
           todo.remove(maxMinFailWrapper);
           maxMinFailWrapper.setResultWidth(maxMinFailWrapper.getMinLayoutWidth());
           availableWidth -= maxMinFailWrapper.getResultWidth();
-          sumDockItemSizes -= maxMinFailWrapper.getDockItemSize();
+          sumDockItemSizes -= maxMinFailWrapper.getDockItemSizeInt();
         }
       }
 
       // Calculate result width for dynamic items without problems concerning min and max width
       while (!todo.isEmpty()) {
-        const wrapper: LayoutableControlWrapper = todo.shift();
-        const dockItemSizeRatio: number = wrapper.getDockItemSize() / sumDockItemSizes;
-        const desiredWidth: number = Math.round(dockItemSizeRatio * availableWidth);
-        wrapper.setResultWidth(desiredWidth);
-        availableWidth -= wrapper.getResultWidth();
-        sumDockItemSizes -= wrapper.getDockItemSize();
+        const wrapper: LayoutableControlWrapper | undefined = todo.shift();
+        if (wrapper != null) {
+          const dockItemSizeRatio: number = wrapper.getDockItemSizeInt() / sumDockItemSizes;
+          const desiredWidth: number = Math.round(dockItemSizeRatio * availableWidth);
+          wrapper.setResultWidth(desiredWidth);
+          availableWidth -= wrapper.getResultWidth();
+          sumDockItemSizes -= wrapper.getDockItemSizeInt();
+        }
       }
 
       // Find greatest min height of all dock items
@@ -366,9 +366,7 @@ export class DockLayout extends LayoutContainerBase {
         if (wrapper.getIsLayoutVisible() && wrapper.getMinLayoutHeight(wrapperMeasureWidth) > 0) {
           sumMinHeights += wrapper.getMinLayoutHeightBuffered();
           countVisibleControls++;
-          if (wrapper.getDockItemSize()) {
-            sumDockItemSizes += wrapper.getDockItemSize();
-          }
+          sumDockItemSizes += wrapper.getDockItemSizeInt();
         }
       }
 
@@ -404,11 +402,11 @@ export class DockLayout extends LayoutContainerBase {
         let maxMinFail: number = 0;
         let sumMaxFails: number = 0;
         let maxMaxFail: number = 0;
-        let maxMinFailWrapper: LayoutableControlWrapper;
-        let maxMaxFailWrapper: LayoutableControlWrapper;
+        let maxMinFailWrapper: LayoutableControlWrapper | null = null;
+        let maxMaxFailWrapper: LayoutableControlWrapper | null = null;
 
         for (const wrapper of todo) {
-          const dockItemSizeRatio: number = wrapper.getDockItemSize() / sumDockItemSizes;
+          const dockItemSizeRatio: number = wrapper.getDockItemSizeInt() / sumDockItemSizes;
           const desiredHeight: number = dockItemSizeRatio * availableHeight;
           const minFail: number = Math.max(0, wrapper.getMinLayoutHeightBuffered() - desiredHeight);
           if (minFail > 0) {
@@ -432,29 +430,31 @@ export class DockLayout extends LayoutContainerBase {
         if (sumMinFails === 0 && sumMaxFails === 0) {
           // No problems concerning min and max size
           allMinMaxProblemsSolved = true;
-        } else if (sumMaxFails > sumMinFails) {
+        } else if (sumMaxFails > sumMinFails && maxMaxFailWrapper != null) {
           // Max
           todo.remove(maxMaxFailWrapper);
           maxMaxFailWrapper.setResultHeight(maxMaxFailWrapper.getMaxLayoutHeight());
           availableHeight -= maxMaxFailWrapper.getResultHeight();
-          sumDockItemSizes -= maxMaxFailWrapper.getDockItemSize();
-        } else {
+          sumDockItemSizes -= maxMaxFailWrapper.getDockItemSizeInt();
+        } else if (maxMinFailWrapper != null) {
           // Min
           todo.remove(maxMinFailWrapper);
           maxMinFailWrapper.setResultHeight(maxMinFailWrapper.getMinLayoutHeightBuffered());
           availableHeight -= maxMinFailWrapper.getResultHeight();
-          sumDockItemSizes -= maxMinFailWrapper.getDockItemSize();
+          sumDockItemSizes -= maxMinFailWrapper.getDockItemSizeInt();
         }
       }
 
       // Calculate result height for dynamic items without problems concerning min and max height
       while (!todo.isEmpty()) {
-        const wrapper: LayoutableControlWrapper = todo.shift();
-        const dockItemSizeRatio: number = wrapper.getDockItemSize() / sumDockItemSizes;
-        const desiredHeight: number = Math.round(dockItemSizeRatio * availableHeight);
-        wrapper.setResultHeight(desiredHeight);
-        availableHeight -= wrapper.getResultHeight();
-        sumDockItemSizes -= wrapper.getDockItemSize();
+        const wrapper: LayoutableControlWrapper | undefined = todo.shift();
+        if (wrapper != null) {
+          const dockItemSizeRatio: number = wrapper.getDockItemSizeInt() / sumDockItemSizes;
+          const desiredHeight: number = Math.round(dockItemSizeRatio * availableHeight);
+          wrapper.setResultHeight(desiredHeight);
+          availableHeight -= wrapper.getResultHeight();
+          sumDockItemSizes -= wrapper.getDockItemSizeInt();
+        }
       }
 
       // Layout vertical

@@ -14,7 +14,7 @@ import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-w
 @Injectable({ providedIn: 'root' })
 export class ActionsService {
 
-  private _focusActions: Array<() => void>;
+  private _focusActions: Array<() => void> = new Array<() => void>();
 
   public constructor(
     private readonly _barcodeService: BarcodeService,
@@ -30,57 +30,58 @@ export class ActionsService {
       return;
     }
 
-    let reportId: string = null;
-    let viewDocumentUrl: string = null;
+    let reportId: string | null = null;
+    let viewDocumentUrl: string | null = null;
 
     this.clearFocusActions();
 
     for (const actionJson of actionsJson) {
       if (actionJson.form != null && actionJson.control != null) {
-        const form: FormWrapper = this._formsService.findFormById(actionJson.form);
-        const control: ControlWrapper = form.findControlRecursive(actionJson.control);
-
-        if (control) {
-          switch (actionJson.name) {
-            case 'SetCaption':
-              control.setCaptionAction(actionJson.value);
-              break;
-            case 'SetCloseButton':
-              form.setCloseButtonAction(control as ButtonBaseWrapper);
-              break;
-            case 'SetEnabled':
-              control.setIsEditableAction(actionJson.value);
-              break;
-            case 'SetEnabledAt':
-              const tabbedWindow: TabbedWindowWrapper = control as TabbedWindowWrapper;
-              if (tabbedWindow != null) {
-                tabbedWindow.setIsEditableAtAction(actionJson.pos, actionJson.value);
-              }
-              break;
-            case 'SetFocus':
-              this._focusActions.push(control.setFocus.bind(control));
-              break;
-            case 'SetVisible':
-              control.setVisibilityAction(actionJson.value);
-              break;
-            case 'SetImageUrl':
-              const pictureUrl: PictureWrapper = control as PictureWrapper;
-              if (pictureUrl) {
-                pictureUrl.setImageUrlAction(actionJson.value);
-              }
-              break;
-            case 'SetImageBytes':
-              const pictureBytes: PictureWrapper = control as PictureWrapper;
-              if (pictureBytes) {
-                pictureBytes.setImageBytesAction(actionJson.value);
-              }
-              break;
-          }
-        } else {
-          switch (actionJson.name) {
-            case 'SetTitle':
-              form.setTitleAction(actionJson.value);
-              break;
+        const form: FormWrapper | null = this._formsService.findFormById(actionJson.form);
+        if (form != null) {
+          const control: ControlWrapper | null = form.findControlRecursive(actionJson.control);
+          if (control) {
+            switch (actionJson.name) {
+              case 'SetCaption':
+                control.setCaptionAction(actionJson.value);
+                break;
+              case 'SetCloseButton':
+                form.setCloseButtonAction(control as ButtonBaseWrapper);
+                break;
+              case 'SetEnabled':
+                control.setIsEditableAction(actionJson.value);
+                break;
+              case 'SetEnabledAt':
+                const tabbedWindow: TabbedWindowWrapper = control as TabbedWindowWrapper;
+                if (tabbedWindow != null) {
+                  tabbedWindow.setIsEditableAtAction(actionJson.pos, actionJson.value);
+                }
+                break;
+              case 'SetFocus':
+                this._focusActions.push(control.setFocus.bind(control));
+                break;
+              case 'SetVisible':
+                control.setVisibilityAction(actionJson.value);
+                break;
+              case 'SetImageUrl':
+                const pictureUrl: PictureWrapper = control as PictureWrapper;
+                if (pictureUrl) {
+                  pictureUrl.setImageUrlAction(actionJson.value);
+                }
+                break;
+              case 'SetImageBytes':
+                const pictureBytes: PictureWrapper = control as PictureWrapper;
+                if (pictureBytes) {
+                  pictureBytes.setImageBytesAction(actionJson.value);
+                }
+                break;
+            }
+          } else {
+            switch (actionJson.name) {
+              case 'SetTitle':
+                form.setTitleAction(actionJson.value);
+                break;
+            }
           }
         }
       } else {
@@ -104,11 +105,11 @@ export class ActionsService {
       }
     }
 
-    if (!String.isNullOrWhiteSpace(reportId)) {
+    if (reportId != null && reportId.trim().length) {
       this._printReportService.printReport(reportId);
     }
 
-    if (!String.isNullOrWhiteSpace(viewDocumentUrl)) {
+    if (viewDocumentUrl != null && viewDocumentUrl.trim().length) {
       this._viewDocService.viewDocument(viewDocumentUrl);
     }
   }

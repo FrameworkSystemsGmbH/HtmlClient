@@ -7,8 +7,8 @@ import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
 
 export class TextBoxMultilineWrapper extends TextBoxBaseWrapper {
 
-  protected value: string;
-  protected orgValue: string;
+  protected value: string | null = null;
+  protected orgValue: string | null = null;
 
   public updateFittedHeight(): void {
     this.setFittedContentHeight(null);
@@ -19,7 +19,7 @@ export class TextBoxMultilineWrapper extends TextBoxBaseWrapper {
   }
 
   public getScrollBars(): ScrollBars {
-    const scrollBars: ScrollBars = this.getPropertyStore().getScrollBars();
+    const scrollBars: ScrollBars | undefined = this.getPropertyStore().getScrollBars();
     return scrollBars != null ? scrollBars : ScrollBars.None;
   }
 
@@ -31,11 +31,11 @@ export class TextBoxMultilineWrapper extends TextBoxBaseWrapper {
     return Math.ceilDec(super.getLineHeight() * 1.1, 0);
   }
 
-  public getValue(): string {
+  public getValue(): string | null {
     return this.value;
   }
 
-  public setValue(value: string): void {
+  public setValue(value: string | null): void {
     this.value = value;
   }
 
@@ -53,13 +53,13 @@ export class TextBoxMultilineWrapper extends TextBoxBaseWrapper {
     return this.value !== this.orgValue;
   }
 
-  protected getComponentRef(): ComponentRef<TextBoxMultilineComponent> {
-    return super.getComponentRef() as ComponentRef<TextBoxMultilineComponent>;
+  protected getComponentRef(): ComponentRef<TextBoxMultilineComponent> | null {
+    return super.getComponentRef() as ComponentRef<TextBoxMultilineComponent> | null;
   }
 
-  protected getComponent(): TextBoxMultilineComponent {
-    const compRef: ComponentRef<TextBoxMultilineComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): TextBoxMultilineComponent | null {
+    const compRef: ComponentRef<TextBoxMultilineComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<TextBoxMultilineComponent> {

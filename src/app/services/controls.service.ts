@@ -41,12 +41,18 @@ export interface IWrapperCreationOptions {
 @Injectable({ providedIn: 'root' })
 export class ControlsService {
 
-  public constructor(
-    private readonly _injector: Injector,
-    private readonly _controlStyleService: ControlStyleService
-  ) { }
+  private readonly _injector: Injector;
+  private readonly _controlStyleService: ControlStyleService;
 
-  public createWrapperFromType(controlType: ControlType, options: IWrapperCreationOptions): ControlWrapper {
+  public constructor(
+    injector: Injector,
+    controlStyleService: ControlStyleService
+  ) {
+    this._injector = injector;
+    this._controlStyleService = controlStyleService;
+  }
+
+  public createWrapperFromType(controlType: ControlType, options: IWrapperCreationOptions): ControlWrapper | null {
     switch (controlType) {
       case ControlType.Button:
         return new ButtonPlainWrapper(this._injector, options);
@@ -142,8 +148,8 @@ export class ControlsService {
     }
 
     if (controlStyle) {
-      const style: PropertyData = this._controlStyleService.getControlStyle(controlStyle);
-      if (style) {
+      const style: PropertyData | null = this._controlStyleService.getControlStyle(controlStyle);
+      if (style != null) {
         propertyStore.setLayer(PropertyLayer.ControlStyle, style);
       }
     }

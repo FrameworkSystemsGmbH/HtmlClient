@@ -7,7 +7,7 @@ import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 @Directive()
 export abstract class ComboBoxMobileComponent extends ComboBoxComponent {
 
-  public tabIndexAttr: number;
+  public tabIndexAttr: number | null = null;
   public containerStyle: any;
   public controlStyle: any;
   public valueStyle: any;

@@ -10,13 +10,13 @@ import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper
 export class FieldLayoutRow {
 
   private readonly _cells: Array<FieldLayoutCell>;
-  private readonly _size: number;
+  private readonly _size: number | null;
   private readonly _labelMode: FieldRowLabelMode;
   private readonly _hasFirstColumnControl: boolean;
   private readonly _stretchable: boolean;
 
-  private _minRowHeight: number;
-  private _resultRowHeight: number;
+  private _minRowHeight: number = 0;
+  private _resultRowHeight: number = 0;
 
   public constructor(fieldRow: IFieldRowControl) {
     const fieldContainer: IFieldContainer = fieldRow.getFieldContainer();
@@ -85,8 +85,12 @@ export class FieldLayoutRow {
     return this._cells[index];
   }
 
-  public getSize(): number {
+  public getSize(): number | null {
     return this._size;
+  }
+
+  public getSizeInt(): number {
+    return Number.zeroIfNull(this._size);
   }
 
   public getLabelMode(): FieldRowLabelMode {

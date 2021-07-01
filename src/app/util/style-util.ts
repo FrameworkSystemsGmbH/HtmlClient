@@ -25,7 +25,7 @@ export function getBackgroundColor(color: string, isEditable: boolean): string {
   return isEditable ? color : '#E8E8E8';
 }
 
-export function getBackgroundColorTextInput(color: string, isEditable: boolean, isFocused: boolean): string {
+export function getBackgroundColorTextInput(color: string, isEditable: boolean, isFocused: boolean | null): string {
   if (isFocused) {
     return '#FFFFE1';
   } else if (!isEditable) {

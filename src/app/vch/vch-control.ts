@@ -2,13 +2,13 @@ import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-con
 
 export class VchControl {
 
-  private _parent: ILayoutableContainerWrapper;
+  private _parent: ILayoutableContainerWrapper | null = null;
 
-  public getParent(): ILayoutableContainerWrapper {
+  public getParent(): ILayoutableContainerWrapper | null {
     return this._parent;
   }
 
-  public setParent(parent: ILayoutableContainerWrapper): void {
+  public setParent(parent: ILayoutableContainerWrapper | null): void {
     this._parent = parent;
   }
 }

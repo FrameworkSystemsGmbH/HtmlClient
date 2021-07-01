@@ -1,7 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComboBoxListMobileOverlayComponent } from '@app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile-overlay.component';
 import { ComboBoxMobileComponent } from '@app/controls/comboboxes/combobox-mobile.component';
+import { FocusService } from '@app/services/focus.service';
 import * as DomUtil from '@app/util/dom-util';
 import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 import { faCaretDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -14,50 +15,63 @@ import { faCaretDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
   @ViewChild('control', { static: true })
-  public control: ElementRef;
+  public control: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('arrow', { static: true })
-  public arrow: ElementRef;
+  public arrow: ElementRef<HTMLDivElement> | null = null;
 
   public iconCaretDown: IconDefinition = faCaretDown;
 
-  private _overlayShown: boolean;
+  private readonly _dialog: MatDialog;
 
-  private _dialog: MatDialog;
+  private _overlayShown: boolean = false;
 
-  protected init(): void {
-    super.init();
-    this._dialog = this.getInjector().get(MatDialog);
+  public constructor(
+    cdr: ChangeDetectorRef,
+    focusService: FocusService,
+    dialog: MatDialog
+  ) {
+    super(cdr, focusService);
+    this._dialog = dialog;
   }
 
-  public getControl(): ElementRef {
+  public getControl(): ElementRef<HTMLElement> | null {
     return this.control;
   }
 
   public getArrowWidth(): number {
-    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width as number : 0;
+    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width : 0;
   }
 
-  public getSelectedPk(): string {
-    const selectedIndex: number = this.getSelectedIndex();
+  public getSelectedPk(): string | null {
+    const selectedIndex: number | null = this.getSelectedIndex();
     if (selectedIndex == null || selectedIndex < 0) {
       return this.getWrapper().getValue();
-    } else {
+    } else if (this.entries != null) {
       return this.entries[selectedIndex].getPk();
+    } else {
+      return null;
     }
   }
 
-  public getSelectedValue(): string {
-    const selectedIndex: number = this.getSelectedIndex();
+  public getSelectedValue(): string | null {
+    const selectedIndex: number | null = this.getSelectedIndex();
     if (selectedIndex == null || selectedIndex < 0) {
-      return `## ${this.getWrapper().getValue()} ##`;
-    } else {
+      const wrpValue: string | null = this.getWrapper().getValue();
+      if (wrpValue != null) {
+        return `## ${wrpValue} ##`;
+      } else {
+        return '## NULL ##';
+      }
+    } else if (this.entries != null) {
       return this.entries[selectedIndex].getValue();
+    } else {
+      return null;
     }
   }
 
   public onContainerMouseDown(event: any): void {
-    if (!event.target || !DomUtil.isDescentantOrSelf(this.control.nativeElement, event.target)) {
+    if (this.control != null && (!event.target || !DomUtil.isDescentantOrSelf(this.control.nativeElement, event.target))) {
       event.preventDefault();
     }
   }
@@ -75,8 +89,12 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
       });
 
       dialogRef.afterClosed().subscribe(data => {
-        this.control.nativeElement.focus();
+        if (this.control != null) {
+          this.control.nativeElement.focus();
+        }
+
         this._overlayShown = false;
+
         if (data.selected) {
           this.setSelectedIndex(data.index);
           this.callSelectionChanged(event);
@@ -99,6 +117,7 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
   protected updateData(wrapper: ComboBoxWrapper): void {
     super.updateData(wrapper);
-    this.setSelectedIndex(this.entries.findIndexOnPk(wrapper.getValue()));
+    const wrpValue: string | null = wrapper.getValue();
+    this.setSelectedIndex(this.entries != null && wrpValue != null ? this.entries.findIndexOnPk(wrpValue) : null);
   }
 }

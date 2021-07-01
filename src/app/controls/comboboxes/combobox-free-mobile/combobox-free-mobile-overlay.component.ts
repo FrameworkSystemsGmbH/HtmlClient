@@ -15,21 +15,21 @@ import { Subscription } from 'rxjs';
 export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
 
   @ViewChild('scroller', { static: true })
-  public scroller: ElementRef;
+  public scroller: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('list', { static: true })
-  public list: ElementRef;
+  public list: ElementRef<HTMLUListElement> | null = null;
 
   @ViewChild('input', { static: true })
-  public input: ElementRef;
+  public input: ElementRef<HTMLInputElement> | null = null;
 
   public entries: DataList;
   public selectedIndex: number;
   public inputValue: string;
 
-  private _afterOpenSub: Subscription;
-  private _backdropClickSub: Subscription;
-  private _onBackButtonListener: () => boolean;
+  private _afterOpenSub: Subscription | null = null;
+  private _backdropClickSub: Subscription | null = null;
+  private _onBackButtonListener: (() => boolean) | null = null;
 
   public constructor(
     private readonly _backService: BackService,
@@ -75,14 +75,18 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
     this._afterOpenSub = this._dialogRef.afterOpened().subscribe(() => {
       setTimeout(() => {
         this.scrollSelectedEntryIntoView();
-        DomUtil.setSelection(this.input.nativeElement);
-        this.input.nativeElement.focus();
+        if (this.input != null) {
+          DomUtil.setSelection(this.input.nativeElement);
+          this.input.nativeElement.focus();
+        }
       });
     });
   }
 
   public ngOnDestroy(): void {
-    this._backService.removeBackButtonListener(this._onBackButtonListener);
+    if (this._onBackButtonListener != null) {
+      this._backService.removeBackButtonListener(this._onBackButtonListener);
+    }
 
     if (this._backdropClickSub) {
       this._backdropClickSub.unsubscribe();
@@ -125,7 +129,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
     if (!this.scroller || !this.list) {
       return;
     }
-    const selectedLi: HTMLLIElement = this.list.nativeElement.querySelector('li.selected');
+    const selectedLi: HTMLLIElement | null = this.list.nativeElement.querySelector('li.selected');
     if (selectedLi) {
       DomUtil.scrollIntoView(this.scroller.nativeElement, selectedLi, { center: true });
     }

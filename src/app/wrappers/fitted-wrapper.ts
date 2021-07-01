@@ -2,8 +2,8 @@ import { ControlWrapper } from '@app/wrappers/control-wrapper';
 
 export abstract class FittedWrapper extends ControlWrapper {
 
-  private _fittedWidth: number;
-  private _fittedHeight: number;
+  private _fittedWidth: number | null = null;
+  private _fittedHeight: number | null = null;
 
   public getMinWidth(): number {
     return Math.max(Number.zeroIfNull(super.getMinWidth()), Number.zeroIfNull(this._fittedWidth));
@@ -29,7 +29,7 @@ export abstract class FittedWrapper extends ControlWrapper {
     this.setFittedContentHeight(this.getFontService().measureTextHeight(this.getFontFamily(), this.getFontSize()));
   }
 
-  protected setFittedContentWidth(fittedWidth: number): void {
+  protected setFittedContentWidth(fittedWidth: number | null): void {
     if (fittedWidth == null || fittedWidth <= 0) {
       this._fittedWidth = null;
     } else {
@@ -37,7 +37,7 @@ export abstract class FittedWrapper extends ControlWrapper {
     }
   }
 
-  protected setFittedContentHeight(fittedHeight: number): void {
+  protected setFittedContentHeight(fittedHeight: number | null): void {
     if (fittedHeight == null || fittedHeight <= 0) {
       this._fittedHeight = null;
     } else {

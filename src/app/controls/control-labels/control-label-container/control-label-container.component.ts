@@ -13,9 +13,9 @@ import { ControlLabelContainerBaseWrapper } from '@app/wrappers/control-labels/c
 export class ControlLabelContainerComponent extends LayoutableComponent {
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+  public anchor: ViewContainerRef | null = null;
 
-  public isVisible: boolean;
+  public isVisible: boolean = true;
   public wrapperStyle: any;
 
   public getWrapper(): ControlLabelContainerBaseWrapper {
@@ -23,6 +23,10 @@ export class ControlLabelContainerComponent extends LayoutableComponent {
   }
 
   public getViewContainerRef(): ViewContainerRef {
+    if (this.anchor == null) {
+      throw new Error('Tried to access uninitialized ViewContainerRef of \'ControlLabelContainerComponent\'');
+    }
+
     return this.anchor;
   }
 

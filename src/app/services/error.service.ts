@@ -5,11 +5,15 @@ import { ErrorBoxComponent } from '@app/components/errorbox/errorbox.component';
 @Injectable({ providedIn: 'root' })
 export class ErrorService extends ErrorHandler {
 
-  private _zone: NgZone;
-  private _errorDialog: MatDialog;
+  private readonly _injector: Injector;
 
-  public constructor(private readonly _injector: Injector) {
+  private _zone: NgZone | null = null;
+  private _errorDialog: MatDialog | null = null;
+
+  public constructor(injector: Injector) {
     super();
+
+    this._injector = injector;
   }
 
   public handleError(error: any): void {
@@ -22,16 +26,18 @@ export class ErrorService extends ErrorHandler {
     }
 
     this._zone.run(() => {
-      this._errorDialog.open(ErrorBoxComponent, {
-        backdropClass: 'hc-backdrop',
-        minWidth: 300,
-        maxWidth: '90%',
-        maxHeight: '90%',
-        data: {
-          message: error && error.message ? error.message : 'An unknown error occured!',
-          stackTrace: error && error.stack ? error.stack : null
-        }
-      });
+      if (this._errorDialog != null) {
+        this._errorDialog.open(ErrorBoxComponent, {
+          backdropClass: 'hc-backdrop',
+          minWidth: 300,
+          maxWidth: '90%',
+          maxHeight: '90%',
+          data: {
+            message: error && error.message ? error.message : 'An unknown error occured!',
+            stackTrace: error && error.stack ? error.stack : null
+          }
+        });
+      }
     });
 
     super.handleError(error);

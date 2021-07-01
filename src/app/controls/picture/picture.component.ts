@@ -1,10 +1,11 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ClientPictureClickEventArgs } from '@app/common/events/eventargs/client-picture-click-eventargs';
 import { ControlComponent } from '@app/controls/control.component';
 import { ContentAlignment } from '@app/enums/content-alignment';
 import { PictureScaleMode } from '@app/enums/picture-scale-mode';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
+import { FocusService } from '@app/services/focus.service';
 import * as StyleUtil from '@app/util/style-util';
 import { PictureWrapper } from '@app/wrappers/picture-wrapper';
 
@@ -19,25 +20,29 @@ export class PictureComponent extends ControlComponent {
   public readonly picClick: EventEmitter<ClientPictureClickEventArgs> = new EventEmitter<ClientPictureClickEventArgs>();
 
   @ViewChild('wrapper')
-  public wrapperEl: ElementRef;
+  public wrapperEl: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('image')
-  public imageEl: ElementRef;
+  public imageEl: ElementRef<HTMLImageElement> | null = null;
 
-  public id: string;
-  public label: string;
-  public imageSrc: SafeUrl;
-  public showCaption: boolean;
+  public id: string | null = null;
+  public label: string | null = null;
+  public imageSrc: SafeUrl | null = null;
+  public showCaption: boolean = true;
 
   public wrapperStyle: any;
   public labelStyle: any;
   public imageClass: any;
 
-  private _sanatizer: DomSanitizer;
+  private readonly _sanatizer: DomSanitizer;
 
-  protected init(): void {
-    super.init();
-    this._sanatizer = this.getInjector().get(DomSanitizer);
+  public constructor(
+    cdr: ChangeDetectorRef,
+    focusService: FocusService,
+    sanitizer: DomSanitizer
+  ) {
+    super(cdr, focusService);
+    this._sanatizer = sanitizer;
   }
 
   public callPicClick(event: MouseEvent, double: boolean): void {
@@ -83,11 +88,11 @@ export class PictureComponent extends ControlComponent {
   protected updateData(wrapper: PictureWrapper): void {
     super.updateData(wrapper);
 
-    const imageSrc: string = wrapper.getImageSrc();
+    const imageSrc: string | null = wrapper.getImageSrc();
 
     this.id = wrapper.getName();
     this.label = wrapper.getCaption();
-    this.imageSrc = !String.isNullOrWhiteSpace(imageSrc) ? this._sanatizer.bypassSecurityTrustUrl(imageSrc) : null;
+    this.imageSrc = imageSrc != null && imageSrc.trim().length ? this._sanatizer.bypassSecurityTrustUrl(imageSrc) : null;
     this.showCaption = wrapper.showCaption();
   }
 

@@ -1,13 +1,11 @@
 import * as BrokerActions from '@app/store/broker/broker.actions';
-import { IBrokerState, initialBrokerState } from '@app/store/broker/broker.state';
-import { Action, createReducer, on } from '@ngrx/store';
+import { IBrokerState, IBrokerStateNoToken, initialBrokerState } from '@app/store/broker/broker.state';
+import { ActionReducer, createReducer, on } from '@ngrx/store';
 
-const reducer = createReducer(
+export const brokerReducer: ActionReducer<IBrokerState> = createReducer(
   initialBrokerState,
   on(BrokerActions.setBrokerState, (state: IBrokerState, payload: { state: IBrokerState }) => ({ ...state, ...payload.state })),
+  on(BrokerActions.setBrokerStateNoToken, (state: IBrokerState, payload: { state: IBrokerStateNoToken }) => ({ ...state, ...payload.state })),
+  on(BrokerActions.setBrokerStateToken, (state: IBrokerState, payload: { token: string }) => ({ ...state, activeBrokerToken: payload.token })),
   on(BrokerActions.resetBrokerState, () => initialBrokerState)
 );
-
-export function brokerStateReducer(state: IBrokerState, action: Action): IBrokerState {
-  return reducer(state, action);
-}

@@ -19,8 +19,8 @@ import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties
 
 export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSynchronized {
 
-  protected fittedWidth: number;
-  protected fittedHeight: number;
+  protected fittedWidth: number | null = null;
+  protected fittedHeight: number | null = null;
 
   private readonly _name: string;
   private readonly _labelProvider: IControlLabelProvider;
@@ -29,12 +29,12 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   private readonly _resolver: ComponentFactoryResolver;
   private readonly _fontService: FontService;
 
-  private _displayCaption: string;
-  private _vchControl: VchControl;
-  private _layout: LayoutBase;
-  private _layoutableProperties: LayoutableProperties;
-  private _componentRef: ComponentRef<ControlLabelComponent>;
-  private _labelContainer: ControlLabelContainerBaseWrapper;
+  private _displayCaption: string | null = null;
+  private _vchControl: VchControl | null = null;
+  private _layout: LayoutBase | null = null;
+  private _layoutableProperties: LayoutableProperties | null = null;
+  private _componentRef: ComponentRef<ControlLabelComponent> | null = null;
+  private _labelContainer: ControlLabelContainerBaseWrapper | null = null;
 
   public constructor(
     injector: Injector,
@@ -113,7 +113,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
     return new LayoutableProperties(this);
   }
 
-  protected getLabelContainer(): ControlLabelContainerBaseWrapper {
+  protected getLabelContainer(): ControlLabelContainerBaseWrapper | null {
     return this._labelContainer;
   }
 
@@ -121,7 +121,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
     this._labelContainer = labelContainer;
   }
 
-  protected getComponentRef(): ComponentRef<ControlLabelComponent> {
+  protected getComponentRef(): ComponentRef<ControlLabelComponent> | null {
     return this._componentRef;
   }
 
@@ -129,13 +129,13 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
     this._componentRef = componentRef;
   }
 
-  protected getComponent(): ControlLabelComponent {
-    const compRef: ComponentRef<ControlLabelComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): ControlLabelComponent | null {
+    const compRef: ComponentRef<ControlLabelComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public updateComponent(): void {
-    const comp: ControlLabelComponent = this.getComponent();
+    const comp: ControlLabelComponent | null = this.getComponent();
 
     if (comp) {
       comp.updateComponent();
@@ -154,15 +154,15 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
     return this.getLabelProvider().getCurrentIsEditable();
   }
 
-  public getCaption(): string {
+  public getCaption(): string | null {
     return this.getLabelProvider().getCaption();
   }
 
-  public getDisplayCaption(): string {
-    return !String.isNullOrEmpty(this._displayCaption) ? this._displayCaption : this.getCaption();
+  public getDisplayCaption(): string | null {
+    return this._displayCaption != null && this._displayCaption.trim().length ? this._displayCaption : this.getCaption();
   }
 
-  public setDisplayCaption(displayCaption: string): void {
+  public setDisplayCaption(displayCaption: string | null): void {
     this._displayCaption = displayCaption;
     this.updateFittedWidth();
     this.updateFittedHeight();
@@ -176,7 +176,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
       fieldRowWrp.optimizeLabels();
     }
 
-    const labelContainer: ControlLabelContainerBaseWrapper = this.getLabelContainer();
+    const labelContainer: ControlLabelContainerBaseWrapper | null = this.getLabelContainer();
     if (labelContainer) {
       labelContainer.onWrapperCaptionChanged();
     }
@@ -206,7 +206,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   public onWrapperVisibilityChanged(): void {
-    const labelContainer: ControlLabelContainerBaseWrapper = this.getLabelContainer();
+    const labelContainer: ControlLabelContainerBaseWrapper | null = this.getLabelContainer();
     if (labelContainer) {
       labelContainer.onWrapperVisibilityChanged();
     }
@@ -293,7 +293,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   public getDockItemSize(): number {
-    return null;
+    return 0;
   }
 
   public getHorizontalAlignment(): HorizontalAlignment {
@@ -388,7 +388,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   public detachComponent(): void {
-    const compRef: ComponentRef<ControlLabelComponent> = this.getComponentRef();
+    const compRef: ComponentRef<ControlLabelComponent> | null = this.getComponentRef();
 
     if (compRef != null) {
       compRef.destroy();
@@ -397,7 +397,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
 
   public onComponentDestroyed(): void {
     // Detach wrapper from VCH
-    const vchParent: ILayoutableContainerWrapper = this.getVchControl().getParent();
+    const vchParent: ILayoutableContainerWrapper | null = this.getVchControl().getParent();
 
     if (vchParent) {
       vchParent.getVchContainer().removeChild(this);

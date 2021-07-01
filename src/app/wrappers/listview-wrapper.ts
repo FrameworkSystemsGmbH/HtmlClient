@@ -1,7 +1,6 @@
-import { ComponentFactory, ComponentRef, Injector } from '@angular/core';
-import { ClientItemActivatedEvent } from '@app/common/events/client-item-activated-event';
-import { ClientSelectionChangedEvent } from '@app/common/events/client-selection-changed-event';
+import { ComponentFactory, ComponentRef } from '@angular/core';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
+import { PropertyData } from '@app/common/property-data';
 import { PropertyLayer } from '@app/common/property-layer';
 import { PropertyStore } from '@app/common/property-store';
 import { ListViewComponent } from '@app/controls/listview/listview.component';
@@ -15,9 +14,8 @@ import { Visibility } from '@app/enums/visibility';
 import { LayoutBase } from '@app/layout/layout-base';
 import { ListViewLayout } from '@app/layout/listview-layout/listview-layout';
 import { IListViewLayoutControl } from '@app/layout/listview-layout/listview-layout-control.interface';
-import { PatternFormatService } from '@app/services/formatter/pattern-format.service';
-import { ImageService } from '@app/services/image.service';
 import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { ListViewItemValueWrapper } from '@app/wrappers/listview-item-value-wrapper';
 import { ListViewItemWrapper } from '@app/wrappers/listview-item-wrapper';
@@ -36,31 +34,24 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   public static readonly PART_F: string = 'f:';
   public static readonly PART_FP: string = 'fp:';
 
-  private _baseControlStyle: PropertyStore;
-  private _imageService: ImageService;
-  private _patternFormatService: PatternFormatService;
-  private _mobileSelectionModeEnabled: boolean;
-  private _templateHtml: string;
-  private _templateCss: string;
-  private _templateDataSources: Array<ListViewTemplateDataSourceWrapper>;
-  private _templateVariables: Array<ListViewTemplateVariableWrapper>;
-  private _items: Array<ListViewItemWrapper>;
+  private _baseControlStyle: PropertyStore | null = null;
+  private _mobileSelectionModeEnabled: boolean = false;
+  private _templateHtml: string | null = null;
+  private _templateCss: string | null = null;
+  private _templateDataSources: Array<ListViewTemplateDataSourceWrapper> = new Array<ListViewTemplateDataSourceWrapper>();
+  private _templateVariables: Array<ListViewTemplateVariableWrapper> = new Array<ListViewTemplateVariableWrapper>();
+  private _items: Array<ListViewItemWrapper> = new Array<ListViewItemWrapper>();
 
-  protected init(): void {
-    super.init();
-    const injector: Injector = this.getInjector();
-    this._templateDataSources = new Array<ListViewTemplateDataSourceWrapper>();
-    this._templateVariables = new Array<ListViewTemplateVariableWrapper>();
-    this._items = new Array<ListViewItemWrapper>();
-    this._imageService = injector.get(ImageService);
-    this._patternFormatService = injector.get(PatternFormatService);
-  }
-
-  private initBaseControlStyle(): void {
-    if (!this._baseControlStyle) {
+  private get baseControlStyle(): PropertyStore {
+    if (this._baseControlStyle == null) {
       this._baseControlStyle = new PropertyStore();
-      this._baseControlStyle.setLayer(PropertyLayer.ControlStyle, this.getControlStyleService().getBaseControlStyle());
+      const data: PropertyData | null = this.getControlStyleService().getBaseControlStyle();
+      if (data != null) {
+        this._baseControlStyle.setLayer(PropertyLayer.ControlStyle, data);
+      }
     }
+
+    return this._baseControlStyle;
   }
 
   public getControlType(): ControlType {
@@ -71,27 +62,27 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     return new ListViewLayout(this);
   }
 
-  protected getComponentRef(): ComponentRef<ListViewComponent> {
-    return super.getComponentRef() as ComponentRef<ListViewComponent>;
+  protected getComponentRef(): ComponentRef<ListViewComponent> | null {
+    return super.getComponentRef() as ComponentRef<ListViewComponent> | null;
   }
 
-  protected getComponent(): ListViewComponent {
-    const compRef: ComponentRef<ListViewComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): ListViewComponent | null {
+    const compRef: ComponentRef<ListViewComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
-  public getListViewItemCssGlobal(): string {
-    this.initBaseControlStyle();
-    return this._baseControlStyle.getListViewItemCssGlobal();
+  public getListViewItemCssGlobal(): string | null {
+    const globalCss: string | undefined = this.baseControlStyle.getListViewItemCssGlobal();
+    return globalCss != null ? globalCss : null;
   }
 
   public getSelectionMode(): ListViewSelectionMode {
-    const selectionMode: ListViewSelectionMode = this.getPropertyStore().getSelectionMode();
+    const selectionMode: ListViewSelectionMode | undefined = this.getPropertyStore().getSelectionMode();
     return selectionMode != null ? selectionMode : ListViewSelectionMode.None;
   }
 
   public getSelectorPosition(): ListViewSelectorPosition {
-    const selectorPosition: ListViewSelectorPosition = this.getPropertyStore().getSelectorPosition();
+    const selectorPosition: ListViewSelectorPosition | undefined = this.getPropertyStore().getSelectorPosition();
     return selectorPosition != null ? selectorPosition : ListViewSelectorPosition.TopRight;
   }
 
@@ -112,7 +103,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   public getItemArrangement(): ListViewItemArrangement {
-    const itemArrangement: ListViewItemArrangement = this.getPropertyStore().getItemArrangement();
+    const itemArrangement: ListViewItemArrangement | undefined = this.getPropertyStore().getItemArrangement();
     return itemArrangement != null ? itemArrangement : ListViewItemArrangement.List;
   }
 
@@ -132,19 +123,21 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     return Number.zeroIfNull(this.getPropertyStore().getItemHeight());
   }
 
-  public getTemplateCss(): string {
-    return this.getPropertyStore().getTemplateCss();
+  public getTemplateCss(): string | null {
+    const templateCss: string | undefined = this.getPropertyStore().getTemplateCss();
+    return templateCss != null ? templateCss : null;
   }
 
-  public getTemplateHtml(): string {
-    return this.getPropertyStore().getTemplateHtml();
+  public getTemplateHtml(): string | null {
+    const templateHtml: string | undefined = this.getPropertyStore().getTemplateHtml();
+    return templateHtml != null ? templateHtml : null;
   }
 
-  public getViewTemplateCss(): string {
+  public getViewTemplateCss(): string | null {
     return this._templateCss;
   }
 
-  public getViewTemplateHtml(): string {
+  public getViewTemplateHtml(): string | null {
     return this._templateHtml;
   }
 
@@ -251,7 +244,8 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     super.setPropertiesJson(propertiesJson);
 
     if (propertiesJson.templateDataSourceList && propertiesJson.templateDataSourceList.length) {
-      this._templateDataSources = this.parseTemplateDataSourceList(propertiesJson.templateDataSourceList);
+      const parsedDataSources: Array<ListViewTemplateDataSourceWrapper> | null = this.parseTemplateDataSourceList(propertiesJson.templateDataSourceList);
+      this._templateDataSources = parsedDataSources != null ? parsedDataSources : new Array<ListViewTemplateDataSourceWrapper>();
     }
 
     this._templateCss = this.getTemplateCss();
@@ -285,7 +279,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       const id: string = itemJson.id;
 
       if (itemJson.deleted) {
-        const item: ListViewItemWrapper = this._items.find(i => i.getId() === id);
+        const item: ListViewItemWrapper | undefined = this._items.find(i => i.getId() === id);
         if (item) {
           item.detachComponent();
           this._items.remove(item);
@@ -306,7 +300,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
         if (isNew) {
           this._items.push(new ListViewItemWrapper(this.getInjector(), { id, listViewWrapper: this, pos, values: templateValues }));
         } else {
-          const item: ListViewItemWrapper = this._items.find(i => i.getId() === id);
+          const item: ListViewItemWrapper | undefined = this._items.find(i => i.getId() === id);
           if (item) {
             item.setPosJson(pos);
             item.setValuesJson(templateValues);
@@ -316,9 +310,16 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     }
 
     this._items = this._items.sort((a, b) => {
-      const aPos: number = a.getPos();
-      const bPos: number = b.getPos();
-      if (aPos > bPos) {
+      const aPos: number | null = a.getPos();
+      const bPos: number | null = b.getPos();
+
+      if (aPos == null && bPos == null) {
+        return 0;
+      } else if (bPos == null) {
+        return 1;
+      } else if (aPos == null) {
+        return -1;
+      } else if (aPos > bPos) {
         return 1;
       } else if (aPos < bPos) {
         return -1;
@@ -332,8 +333,8 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     const templateValues: Array<ListViewItemValueWrapper> = new Array<ListViewItemValueWrapper>();
 
     for (const templateVar of this._templateVariables) {
-      const valueStr: string = valueMap.get(templateVar.getDataSource().getName());
-      templateValues.push(new ListViewItemValueWrapper(valueStr, templateVar.getFormat(), templateVar.getFormatPattern()));
+      const valueStr: string | undefined = valueMap.get(templateVar.getDataSource().getName());
+      templateValues.push(new ListViewItemValueWrapper(valueStr != null ? valueStr : null, templateVar.getFormat(), templateVar.getFormatPattern()));
     }
 
     return templateValues;
@@ -355,7 +356,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     }
   }
 
-  private parseTemplateDataSourceList(templateDataSourceListJson: Array<any>): Array<ListViewTemplateDataSourceWrapper> {
+  private parseTemplateDataSourceList(templateDataSourceListJson: Array<any>): Array<ListViewTemplateDataSourceWrapper> | null {
     if (!templateDataSourceListJson || !templateDataSourceListJson.length) {
       return null;
     }
@@ -369,19 +370,23 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     return templateDataSourceList;
   }
 
-  private parseViewTemplate(): string {
-    let templateHtml: string = this.getTemplateHtml();
+  private parseViewTemplate(): string | null {
+    let templateHtml: string | null = this.getTemplateHtml();
 
     this._templateVariables = new Array<ListViewTemplateVariableWrapper>();
 
-    if (String.isNullOrWhiteSpace(templateHtml)) {
+    if (templateHtml == null || !templateHtml.trim().length) {
       return null;
     }
 
-    templateHtml = templateHtml.replace(/%FILESURL%/g, this._imageService.getFilesUrl());
+    const filesUrl: string | null = this.getImageService().getFilesUrl();
+
+    if (filesUrl != null) {
+      templateHtml = templateHtml.replace(/%FILESURL%/g, filesUrl);
+    }
 
     const regEx: RegExp = /{{2}([^}]|[^}])*}{2}/g;
-    const matches: RegExpMatchArray = templateHtml.match(regEx);
+    const matches: RegExpMatchArray | null = templateHtml.match(regEx);
 
     if (!matches || !matches.length) {
       return templateHtml;
@@ -391,9 +396,9 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       const matchTrimmed: string = match.trimStringLeft('{{').trimCharsRight('}}').trim();
       const parts: Array<string> = matchTrimmed.split('|');
 
-      let ds: ListViewTemplateDataSourceWrapper;
-      let format: TextFormat;
-      let formatPattern: string;
+      let ds: ListViewTemplateDataSourceWrapper | undefined;
+      let format: TextFormat | undefined;
+      let formatPattern: string | undefined;
 
       for (const part of parts) {
         const partTrimmed = part.trim();
@@ -408,7 +413,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
           const dsStr: string = partTrimmed.substr(partIndex + ListViewWrapper.PART_DS.length);
           ds = this._templateDataSources.find(tds => tds.getName() === dsStr);
 
-          if (!ds) {
+          if (ds == null) {
             throw new Error(`Could not find TemplateDataSource '${dsStr}' for TemplateVariable '${match}'!`);
           }
 
@@ -427,23 +432,27 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
         if (partIndex >= 0) {
           const formatPatternStr: string = partTrimmed.substr(partIndex + ListViewWrapper.PART_FP.length);
-          formatPattern = this._patternFormatService.javaToMoment(formatPatternStr);
+          formatPattern = this.getPatternFormatService().javaToMoment(formatPatternStr);
           continue;
         }
       }
 
-      let options: IListViewTemplateVariableWrapperOptions = null;
+      if (ds != null) {
+        let options: IListViewTemplateVariableWrapperOptions | undefined;
 
-      if (format || !String.isNullOrWhiteSpace(formatPattern)) {
-        options = {
-          format,
-          formatPattern
-        };
+        if (format != null || formatPattern != null) {
+          options = {
+            format,
+            formatPattern
+          };
+        }
+
+        this._templateVariables.push(new ListViewTemplateVariableWrapper(ds, options));
+
+        if (templateHtml != null) {
+          templateHtml = templateHtml.replace(match, `{{${index}}}`);
+        }
       }
-
-      this._templateVariables.push(new ListViewTemplateVariableWrapper(ds, options));
-
-      templateHtml = templateHtml.replace(match, `{{${index}}}`);
     });
 
     return templateHtml;
@@ -468,27 +477,30 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
   public callOnItemSelectionChanged(): void {
     if (this.hasOnItemSelectionChangedEvent()) {
-      this.getEventsService().fireItemSelectionChanged(
-        this.getForm().getId(),
-        this.getName(),
-        new InternalEventCallbacks<ClientSelectionChangedEvent>(
-          this.canExecuteItemSelectionChanged.bind(this),
-          this.onItemSelectionChangedExecuted.bind(this),
-          this.onItemSelectionChangedCompleted.bind(this)
-        )
-      );
+      const form: FormWrapper | null = this.getForm();
+      if (form != null) {
+        this.getEventsService().fireItemSelectionChanged(
+          form.getId(),
+          this.getName(),
+          new InternalEventCallbacks(
+            this.canExecuteItemSelectionChanged.bind(this),
+            this.onItemSelectionChangedExecuted.bind(this),
+            this.onItemSelectionChangedCompleted.bind(this)
+          )
+        );
+      }
     }
   }
 
-  protected canExecuteItemSelectionChanged(clientEvent: ClientSelectionChangedEvent, payload: any): boolean {
+  protected canExecuteItemSelectionChanged(payload: any): boolean {
     return this.hasOnItemSelectionChangedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onItemSelectionChangedExecuted(clientEvent: ClientSelectionChangedEvent, payload: any, processedEvent: any): void {
+  protected onItemSelectionChangedExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onItemSelectionChangedCompleted(clientEvent: ClientSelectionChangedEvent, payload: any, processedEvent: any): void {
+  protected onItemSelectionChangedCompleted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
@@ -498,29 +510,32 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
   public callOnItemActivated(itemId: string): void {
     if (this.hasOnItemActivatedEvent()) {
-      this.getEventsService().fireItemActivated(
-        this.getForm().getId(),
-        this.getName(),
-        itemId,
-        this._items.findIndex(i => i.getId() === itemId),
-        new InternalEventCallbacks<ClientItemActivatedEvent>(
-          this.canExecuteItemActivated.bind(this),
-          this.onItemActivatedExecuted.bind(this),
-          this.onItemActivatedCompleted.bind(this)
-        )
-      );
+      const form: FormWrapper | null = this.getForm();
+      if (form != null) {
+        this.getEventsService().fireItemActivated(
+          form.getId(),
+          this.getName(),
+          itemId,
+          this._items.findIndex(i => i.getId() === itemId),
+          new InternalEventCallbacks(
+            this.canExecuteItemActivated.bind(this),
+            this.onItemActivatedExecuted.bind(this),
+            this.onItemActivatedCompleted.bind(this)
+          )
+        );
+      }
     }
   }
 
-  protected canExecuteItemActivated(clientEvent: ClientItemActivatedEvent, payload: any): boolean {
+  protected canExecuteItemActivated(payload: any): boolean {
     return this.hasOnItemActivatedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onItemActivatedExecuted(clientEvent: ClientItemActivatedEvent, payload: any, processedEvent: any): void {
+  protected onItemActivatedExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onItemActivatedCompleted(clientEvent: ClientItemActivatedEvent, payload: any, processedEvent: any): void {
+  protected onItemActivatedCompleted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
@@ -586,20 +601,22 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
     if (json.templateVariables && json.templateVariables.length) {
       for (const varJson of json.templateVariables) {
-        const ds: ListViewTemplateDataSourceWrapper = this._templateDataSources.find(d => d.getName() === varJson.dsName);
+        const ds: ListViewTemplateDataSourceWrapper | undefined = this._templateDataSources.find(d => d.getName() === varJson.dsName);
         const format: TextFormat = varJson.format;
         const formatPattern: string = varJson.formatPattern;
 
-        let options: IListViewTemplateVariableWrapperOptions = null;
+        if (ds != null) {
+          let options: IListViewTemplateVariableWrapperOptions | undefined;
 
-        if (format || !String.isNullOrWhiteSpace(formatPattern)) {
-          options = {
-            format,
-            formatPattern
-          };
+          if (format != null || formatPattern != null) {
+            options = {
+              format,
+              formatPattern
+            };
+          }
+
+          this._templateVariables.push(new ListViewTemplateVariableWrapper(ds, options));
         }
-
-        this._templateVariables.push(new ListViewTemplateVariableWrapper(ds, options));
       }
     }
 

@@ -4,7 +4,7 @@ import { ILayoutableContainer } from '@app/layout/layoutable-container.interface
 
 export interface IFieldRowControl extends ILayoutableContainer {
 
-  getFieldRowSize: () => number;
+  getFieldRowSize: () => number | null;
 
   getFieldRowLabelMode: () => FieldRowLabelMode;
 

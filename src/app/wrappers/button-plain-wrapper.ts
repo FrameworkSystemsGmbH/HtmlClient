@@ -10,13 +10,13 @@ export class ButtonPlainWrapper extends ButtonBaseWrapper {
     return ControlType.Button;
   }
 
-  protected getComponentRef(): ComponentRef<ButtonPlainComponent> {
-    return super.getComponentRef() as ComponentRef<ButtonPlainComponent>;
+  protected getComponentRef(): ComponentRef<ButtonPlainComponent> | null {
+    return super.getComponentRef() as ComponentRef<ButtonPlainComponent> | null;
   }
 
-  protected getComponent(): ButtonPlainComponent {
-    const compRef: ComponentRef<ButtonPlainComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): ButtonPlainComponent | null {
+    const compRef: ComponentRef<ButtonPlainComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ButtonPlainComponent> {

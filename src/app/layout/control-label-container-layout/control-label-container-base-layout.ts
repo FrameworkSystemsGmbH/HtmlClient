@@ -8,7 +8,7 @@ import { ILayoutableProperties } from '@app/layout/layoutable-properties.interfa
 export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBase {
 
   private _width: number = -1;
-  private _wrappers: Array<LayoutableControlWrapper>;
+  private _wrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
 
   public constructor(container: IControlLabelContainer) {
     super(container);

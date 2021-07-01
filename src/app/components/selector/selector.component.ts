@@ -56,13 +56,13 @@ export class SelectorComponent implements OnInit {
   @Output()
   public readonly checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  public isDisabledAttr: boolean;
   public wrapperStyle: any;
+  public isDisabledAttr: boolean | null = null;
 
-  private _sizeValue: number;
-  private _enabledValue: boolean;
-  private _visibleValue: boolean;
-  private _checkedValue: boolean;
+  private _sizeValue: number | null = null;
+  private _enabledValue: boolean = false;
+  private _visibleValue: boolean = false;
+  private _checkedValue: boolean = false;
 
   public constructor(private readonly _platformService: PlatformService) { }
 

@@ -7,7 +7,12 @@ export class ClientBarcodeScannedEvent extends ClientEvent {
 
   protected args: ClientBarcodeScannedEventArgs;
 
-  public constructor(cancelled: boolean, hasError: boolean, errorMessage: string, value: string, format: BarcodeFormat) {
+  public constructor(cancelled?: boolean,
+    hasError?: boolean,
+    errorMessage?: string,
+    value?: string,
+    format?: BarcodeFormat
+  ) {
     super(ClientEventType[ClientEventType.BarcodeScanned]);
     this.args = new ClientBarcodeScannedEventArgs(cancelled, hasError, errorMessage, value, format);
   }

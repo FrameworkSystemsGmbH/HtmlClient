@@ -1,6 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { TextFormat } from '@app/enums/text-format';
+import { FocusService } from '@app/services/focus.service';
 import { StringFormatService } from '@app/services/formatter/string-format.service';
 import { TextBoxPlainWrapper } from '@app/wrappers/textbox-plain-wrapper';
 
@@ -12,21 +13,25 @@ import { TextBoxPlainWrapper } from '@app/wrappers/textbox-plain-wrapper';
 export class TextBoxPlainComponent extends TextBoxComponent {
 
   @ViewChild('input', { static: true })
-  public input: ElementRef;
+  public input: ElementRef<HTMLInputElement> | null = null;
 
-  public value: string;
-  public isPasswordField: boolean;
+  public value: string | null = null;
+  public isPasswordField: boolean = false;
 
-  private _format: TextFormat;
+  private _format: TextFormat = TextFormat.None;
 
-  private _stringFormatService: StringFormatService;
+  private readonly _stringFormatService: StringFormatService;
 
-  protected init(): void {
-    super.init();
-    this._stringFormatService = this.getInjector().get(StringFormatService);
+  public constructor(
+    cdr: ChangeDetectorRef,
+    focusService: FocusService,
+    stringFormatService: StringFormatService
+  ) {
+    super(cdr, focusService);
+    this._stringFormatService = stringFormatService;
   }
 
-  public getInput(): ElementRef {
+  public getInput(): ElementRef<HTMLElement> | null {
     return this.input;
   }
 
@@ -45,8 +50,16 @@ export class TextBoxPlainComponent extends TextBoxComponent {
     return super.getWrapper() as TextBoxPlainWrapper;
   }
 
-  private formatValue(value: string): string {
-    return this.isPasswordField ? value : this._stringFormatService.formatString(value, this._format);
+  private formatValue(value: string | null): string | null {
+    if (value == null) {
+      return null;
+    }
+
+    if (this.isPasswordField) {
+      return value;
+    }
+
+    return this._stringFormatService.formatString(value, this._format);
   }
 
   private updateWrapper(): void {

@@ -112,10 +112,6 @@ export class PatternFormatService {
   }
 
   private translateFormat(formatPattern: string, map: Map<string, string>, escapeStartChar: string, escapeEndChar: string, targetEscapeStartChar: string, targetEscapeEndChar: string): string {
-    if (String.isNullOrWhiteSpace(formatPattern)) {
-      return null;
-    }
-
     let resultPattern: string = String.empty();
     let pendingPattern: string = String.empty();
     let isEscaped: boolean = false;

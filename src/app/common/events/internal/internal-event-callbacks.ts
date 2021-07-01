@@ -1,9 +1,28 @@
-import { ClientEvent } from '@app/common/events/client-event';
+export class InternalEventCallbacks {
 
-export class InternalEventCallbacks<T extends ClientEvent> {
+  private readonly _canExecute: (payload: any) => boolean;
+  private readonly _onExecuted: ((payload: any, processedEvent: any) => void) | null = null;
+  private readonly _onCompleted: ((payload: any, processedEvent: any) => void) | null = null;
+
   public constructor(
-    public canExecute: (clientEvent: T, payload: any) => boolean,
-    public onExecuted: (clientEvent: T, payload: any, processedEvent: any) => void = null,
-    public onCompleted: (clientEvent: T, payload: any, processedEvent: any) => void = null
-  ) { }
+    canExecute: (payload: any) => boolean,
+    onExecuted: ((payload: any, processedEvent: any) => void) | null,
+    onCompleted: ((payload: any, processedEvent: any) => void) | null
+  ) {
+    this._canExecute = canExecute;
+    this._onExecuted = onExecuted;
+    this._onCompleted = onCompleted;
+  }
+
+  public get canExecute(): (payload: any) => boolean {
+    return this._canExecute;
+  }
+
+  public get onExecuted(): (((payload: any, processedEvent: any) => void) | null) {
+    return this._onExecuted;
+  }
+
+  public get onCompleted(): (((payload: any, processedEvent: any) => void) | null) {
+    return this._onCompleted;
+  }
 }

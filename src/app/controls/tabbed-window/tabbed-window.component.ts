@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Injector, NgZone, OnInit, Output, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, NgZone, OnInit, Output, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { TabAlignment } from '@app/enums/tab-alignment';
 import { Visibility } from '@app/enums/visibility';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
+import { FocusService } from '@app/services/focus.service';
 import { ImageService } from '@app/services/image.service';
 import { PlatformService } from '@app/services/platform.service';
 import * as StyleUtil from '@app/util/style-util';
@@ -10,6 +11,7 @@ import { TabPageTemplate } from '@app/wrappers/tabbed-window/tab-page-template';
 import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
 import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
 import { faAngleDown, faAngleLeft, faAngleRight, faAngleUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import OverlayScrollbars from 'overlayscrollbars';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 @Component({
@@ -23,33 +25,33 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   public readonly tabClicked: EventEmitter<TabPageWrapper> = new EventEmitter<TabPageWrapper>();
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+  public anchor: ViewContainerRef | null = null;
 
   @ViewChild('scroller', { static: true })
-  public scroller: OverlayScrollbarsComponent;
+  public scroller: OverlayScrollbarsComponent | null = null;
 
   @ViewChild('arrowLeft', { static: true })
-  public arrowLeft: ElementRef;
+  public arrowLeft: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('arrowRight', { static: true })
-  public arrowRight: ElementRef;
+  public arrowRight: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('arrowUp', { static: true })
-  public arrowUp: ElementRef;
+  public arrowUp: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('arrowDown', { static: true })
-  public arrowDown: ElementRef;
+  public arrowDown: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('tabs', { static: true })
-  public tabs: ElementRef;
+  public tabs: ElementRef<HTMLDivElement> | null = null;
 
   public iconAngleLeft: IconDefinition = faAngleLeft;
   public iconAngleRight: IconDefinition = faAngleRight;
   public iconAngleUp: IconDefinition = faAngleUp;
   public iconAngleDown: IconDefinition = faAngleDown;
 
-  public tabPages: Array<TabPageWrapper>;
-  public tabAlignment: TabAlignment;
+  public tabPages: Array<TabPageWrapper> = new Array<TabPageWrapper>();
+  public tabAlignment: TabAlignment = TabAlignment.Top;
 
   public wrapperStyle: any;
   public headerStyle: any;
@@ -60,11 +62,10 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   public scrollerOptions: any;
 
-  private _zone: NgZone;
-  private _renderer: Renderer2;
-  private _imageService: ImageService;
-  private _platformService: PlatformService;
-
+  private readonly _zone: NgZone;
+  private readonly _renderer: Renderer2;
+  private readonly _imageService: ImageService;
+  private readonly _platformService: PlatformService;
 
   private _scrollLeftInterval: any;
   private _scrollRightInterval: any;
@@ -75,8 +76,20 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   private readonly _scrollAnimationTime: number = 250;
   private readonly _scrollAutoHideDelay: number = 500;
 
-  public constructor(injector: Injector) {
-    super(injector);
+  public constructor(
+    cdr: ChangeDetectorRef,
+    zone: NgZone,
+    renderer: Renderer2,
+    focusService: FocusService,
+    imageService: ImageService,
+    platformService: PlatformService
+  ) {
+    super(cdr, focusService);
+
+    this._zone = zone;
+    this._renderer = renderer;
+    this._imageService = imageService;
+    this._platformService = platformService;
 
     this.scrollerOptions = {
       className: 'os-thin',
@@ -100,73 +113,76 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   @HostListener('window:resize')
   public refreshScroller(): void {
     this._zone.runOutsideAngular(() => {
-      if (this.scroller != null && this.scroller.osInstance() != null) {
-        if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
-          this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
-          this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
+      if (this.scroller == null) {
+        return;
+      }
 
-          const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
+      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
 
-          if (overflow > 0) {
-            const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
+      if (osInstance == null) {
+        return;
+      }
 
-            if (scrollPos === 0) {
-              this.stopScrollingUpOrLeft();
-              this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
-              this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
-            } else if (scrollPos >= overflow) {
-              this.stopScrollingDownOrRight();
-              this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
-              this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
-            } else {
-              this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
-              this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
-            }
-          } else {
+      if (!this.arrowUp || !this.arrowDown || !this.arrowLeft || !this.arrowRight) {
+        return;
+      }
+
+      if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
+        this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
+        this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
+
+        const overflow: number = osInstance.getState().overflowAmount.x;
+
+        if (overflow > 0) {
+          const scrollPos: number = osInstance.getElements().viewport.scrollLeft;
+
+          if (scrollPos === 0) {
             this.stopScrollingUpOrLeft();
-            this.stopScrollingDownOrRight();
             this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
+            this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
+          } else if (scrollPos >= overflow) {
+            this.stopScrollingDownOrRight();
+            this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
             this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
+          } else {
+            this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
+            this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
           }
         } else {
+          this.stopScrollingUpOrLeft();
+          this.stopScrollingDownOrRight();
           this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
           this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
+        }
+      } else {
+        this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
+        this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
 
-          const overflow: number = this.scroller.osInstance().getState().overflowAmount.y;
+        const overflow: number = osInstance.getState().overflowAmount.y;
 
-          if (overflow > 0) {
-            const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollTop;
+        if (overflow > 0) {
+          const scrollPos: number = osInstance.getElements().viewport.scrollTop;
 
-            if (scrollPos === 0) {
-              this.stopScrollingUpOrLeft();
-              this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
-              this._renderer.addClass(this.arrowDown.nativeElement, this._visibleClass);
-            } else if (scrollPos >= overflow) {
-              this.stopScrollingDownOrRight();
-              this._renderer.addClass(this.arrowUp.nativeElement, this._visibleClass);
-              this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
-            } else {
-              this._renderer.addClass(this.arrowUp.nativeElement, this._visibleClass);
-              this._renderer.addClass(this.arrowDown.nativeElement, this._visibleClass);
-            }
-          } else {
+          if (scrollPos === 0) {
             this.stopScrollingUpOrLeft();
-            this.stopScrollingDownOrRight();
             this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
+            this._renderer.addClass(this.arrowDown.nativeElement, this._visibleClass);
+          } else if (scrollPos >= overflow) {
+            this.stopScrollingDownOrRight();
+            this._renderer.addClass(this.arrowUp.nativeElement, this._visibleClass);
             this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
+          } else {
+            this._renderer.addClass(this.arrowUp.nativeElement, this._visibleClass);
+            this._renderer.addClass(this.arrowDown.nativeElement, this._visibleClass);
           }
+        } else {
+          this.stopScrollingUpOrLeft();
+          this.stopScrollingDownOrRight();
+          this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
+          this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
         }
       }
     });
-  }
-
-  protected init(): void {
-    super.init();
-    const injector: Injector = this.getInjector();
-    this._zone = injector.get(NgZone);
-    this._renderer = injector.get(Renderer2);
-    this._imageService = injector.get(ImageService);
-    this._platformService = injector.get(PlatformService);
   }
 
   public ngAfterViewInit(): void {
@@ -181,6 +197,10 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   }
 
   public getViewContainerRef(): ViewContainerRef {
+    if (this.anchor == null) {
+      throw new Error('Tried to access uninitialized ViewContainerRef of \'TabbedWindowComponent\'');
+    }
+
     return this.anchor;
   }
 
@@ -207,10 +227,11 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   public scrollIntoView(): void {
     setTimeout(() => {
-      if (this.scroller != null && this.scroller.osInstance() != null && this.tabs != null) {
-        const selectedTab: HTMLLIElement = this.tabs.nativeElement.querySelector('div.selected');
-        if (selectedTab) {
-          this.scroller.osInstance().scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
+      if (this.scroller != null && this.tabs != null) {
+        const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
+        const selectedTab: HTMLLIElement | null = this.tabs.nativeElement.querySelector('div.selected');
+        if (osInstance && selectedTab) {
+          osInstance.scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
         }
       }
     });
@@ -255,33 +276,37 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
       'text-decoration': StyleUtil.getTextDecoration(template.getFontUnderline())
     };
 
-    const activeImageWrapper: string = wrapper.getActiveImage();
-    const activeImageTabPage: string = tabPage.getActiveImage();
+    const activeImageWrapper: string | null = wrapper.getActiveImage();
+    const activeImageTabPage: string | null = tabPage.getActiveImage();
 
-    const inactiveImageWrapper: string = wrapper.getInactiveImage();
-    const inactiveImageTabPage: string = tabPage.getInactiveImage();
+    const inactiveImageWrapper: string | null = wrapper.getInactiveImage();
+    const inactiveImageTabPage: string | null = tabPage.getInactiveImage();
 
-    const activeImage: string = !String.isNullOrWhiteSpace(activeImageTabPage) ? activeImageTabPage : activeImageWrapper;
-    const inactiveImage: string = !String.isNullOrWhiteSpace(inactiveImageTabPage) ? inactiveImageTabPage : inactiveImageWrapper;
+    const activeImage: string | null = !String.isNullOrWhiteSpace(activeImageTabPage) ? activeImageTabPage : activeImageWrapper;
+    const inactiveImage: string | null = !String.isNullOrWhiteSpace(inactiveImageTabPage) ? inactiveImageTabPage : inactiveImageWrapper;
 
-    if (tabPage.isTabSelected() && !String.isNullOrWhiteSpace(activeImage)) {
-      const activeImageUrl: string = this._imageService.getImageUrl(activeImage);
+    if (tabPage.isTabSelected() && activeImage != null && activeImage.trim().length) {
+      const activeImageUrl: string | null = this._imageService.getImageUrl(activeImage);
 
-      tabStyle = {
-        ...tabStyle,
-        'background-image': `url(${activeImageUrl})`,
-        'background-size': 'cover'
-      };
+      if (activeImageUrl != null && activeImageUrl.trim().length) {
+        tabStyle = {
+          ...tabStyle,
+          'background-image': `url(${activeImageUrl})`,
+          'background-size': 'cover'
+        };
+      }
     }
 
-    if (!tabPage.isTabSelected() && !String.isNullOrWhiteSpace(inactiveImage)) {
-      const inactiveImageUrl: string = this._imageService.getImageUrl(inactiveImage);
+    if (!tabPage.isTabSelected() && inactiveImage != null && inactiveImage.trim().length) {
+      const inactiveImageUrl: string | null = this._imageService.getImageUrl(inactiveImage);
 
-      tabStyle = {
-        ...tabStyle,
-        'background-image': `url(${inactiveImageUrl})`,
-        'background-size': 'cover'
-      };
+      if (inactiveImageUrl != null && inactiveImageUrl.trim().length) {
+        tabStyle = {
+          ...tabStyle,
+          'background-image': `url(${inactiveImageUrl})`,
+          'background-size': 'cover'
+        };
+      }
     }
 
     return tabStyle;
@@ -511,10 +536,20 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   }
 
   protected scrollHorizontal(value: string): void {
-    this.scroller.osInstance().scroll({ x: value }, this._scrollAnimationTime);
+    if (this.scroller != null) {
+      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
+      if (osInstance != null) {
+        osInstance.scroll({ x: value }, this._scrollAnimationTime);
+      }
+    }
   }
 
   protected scrollVertical(value: string): void {
-    this.scroller.osInstance().scroll({ y: value }, this._scrollAnimationTime);
+    if (this.scroller != null) {
+      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
+      if (osInstance != null) {
+        osInstance.scroll({ y: value }, this._scrollAnimationTime);
+      }
+    }
   }
 }

@@ -20,10 +20,10 @@ export class Queue<T> {
     this._queue.push(item);
   }
 
-  public dequeue(): T {
+  public dequeue(): T | null {
 
     if (this.isEmpty()) {
-      return undefined;
+      return null;
     }
 
     const item: T = this._queue[this._offset];
@@ -36,8 +36,8 @@ export class Queue<T> {
     return item;
   }
 
-  public peek(): T {
-    return !this.isEmpty() ? this._queue[this._offset] : undefined;
+  public peek(): T | null {
+    return !this.isEmpty() ? this._queue[this._offset] : null;
   }
 
   public toArray(): Array<T> {

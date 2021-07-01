@@ -8,5 +8,4 @@ export abstract class LayoutContainerBase extends LayoutBase {
   }
 
   public abstract arrange(): void;
-
 }

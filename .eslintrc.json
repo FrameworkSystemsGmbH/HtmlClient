@@ -55,6 +55,7 @@
         "newline-per-chained-call": "off",
         "no-bitwise": "off",
         "no-case-declarations": "off",
+        "no-confusing-arrow": "off",
         "no-console": "off",
         "no-continue": "off",
         "no-else-return": "off",
@@ -67,6 +68,7 @@
         "no-plusplus": "off",
         "no-ternary": "off",
         "no-underscore-dangle": "off",
+        "no-undefined": "off",
         "no-void": "off",
         "object-property-newline": "off",
         "one-var": "off",
@@ -77,8 +79,7 @@
         "quote-props": "off",
         "require-unicode-regexp": "off",
         "sort-imports": "off",
-        "sort-keys": "off",
-        "no-undefined": "off"
+        "sort-keys": "off"
       }
     },
     {

@@ -2,8 +2,8 @@ import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper
 
 export class WrapLayoutColumn {
 
-  private _minColumnHeight: number;
-  private _resultColumnWidth: number;
+  private _minColumnHeight: number = 0;
+  private _resultColumnWidth: number = 0;
 
   public constructor(
     private readonly _wrappers: Array<LayoutableControlWrapper>,

@@ -14,16 +14,16 @@ import { faExclamationCircle, IconDefinition } from '@fortawesome/free-solid-svg
 export class RetryBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('footer', { static: true })
-  public footer: ElementRef;
+  public footer: ElementRef<HTMLDivElement> | null = null;
 
   public iconExclamation: IconDefinition = faExclamationCircle;
 
   public title: string;
   public message: string;
-  public stackTrace: string;
-  public showStackTrace: boolean;
+  public stackTrace?: string;
+  public showStackTrace: boolean = false;
 
-  private _onBackButtonListener: () => boolean;
+  private _onBackButtonListener: (() => boolean) | null = null;
 
   public constructor(
     private readonly _backService: BackService,
@@ -41,11 +41,15 @@ export class RetryBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.footer.nativeElement.focus();
+    if (this.footer != null) {
+      this.footer.nativeElement.focus();
+    }
   }
 
   public ngOnDestroy(): void {
-    this._backService.removeBackButtonListener(this._onBackButtonListener);
+    if (this._onBackButtonListener != null) {
+      this._backService.removeBackButtonListener(this._onBackButtonListener);
+    }
   }
 
   private onBackButton(): boolean {

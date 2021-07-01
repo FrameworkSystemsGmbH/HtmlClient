@@ -23,7 +23,7 @@ import { WrapArrangement } from '@app/layout/wrap-layout/wrap-arrangement';
 import * as JsonUtil from '@app/util/json-util';
 
 
-const DEFAULT_FONT: string = 'Roboto, Arial, Helvetica, Verdana';
+const DEFAULT_FONT: string | undefined = 'Roboto, Arial, Helvetica, Verdana';
 
 export class PropertyStore {
 
@@ -39,7 +39,13 @@ export class PropertyStore {
 
   // Layer
   public getLayer(layer: PropertyLayer): PropertyData {
-    return this._store.get(layer);
+    const data: PropertyData | undefined = this._store.get(layer);
+
+    if (data == null) {
+      throw new Error(`Could not find property store layer '${PropertyLayer[layer]}'`);
+    }
+
+    return data;
   }
 
   public setLayer(layer: PropertyLayer, data: PropertyData): void {
@@ -47,31 +53,31 @@ export class PropertyStore {
   }
 
   // Get Property as new PropertyStore
-  public getPropertyStore(getFromPropertyFunc: (data: PropertyData) => PropertyData): PropertyStore {
-    const propertyLayerControlStyle: PropertyData = getFromPropertyFunc(this._store.get(PropertyLayer.ControlStyle));
-    const propertyLayerControl: PropertyData = getFromPropertyFunc(this._store.get(PropertyLayer.Control));
-    const propertyLayerAction: PropertyData = getFromPropertyFunc(this._store.get(PropertyLayer.Action));
-    const propertyLayerCSC: PropertyData = getFromPropertyFunc(this._store.get(PropertyLayer.CSC));
+  public getPropertyStore(getFromPropertyFunc: (data: PropertyData) => PropertyData | undefined): PropertyStore {
+    const propertyLayerControlStyle: PropertyData | undefined = getFromPropertyFunc(this.getLayer(PropertyLayer.ControlStyle));
+    const propertyLayerControl: PropertyData | undefined = getFromPropertyFunc(this.getLayer(PropertyLayer.Control));
+    const propertyLayerAction: PropertyData | undefined = getFromPropertyFunc(this.getLayer(PropertyLayer.Action));
+    const propertyLayerCSC: PropertyData | undefined = getFromPropertyFunc(this.getLayer(PropertyLayer.CSC));
 
     const propertyStore: PropertyStore = new PropertyStore();
-    propertyStore.setLayer(PropertyLayer.ControlStyle, propertyLayerControlStyle ? propertyLayerControlStyle : new PropertyData());
-    propertyStore.setLayer(PropertyLayer.Control, propertyLayerControl ? propertyLayerControl : new PropertyData());
-    propertyStore.setLayer(PropertyLayer.Action, propertyLayerAction ? propertyLayerAction : new PropertyData());
-    propertyStore.setLayer(PropertyLayer.CSC, propertyLayerCSC ? propertyLayerCSC : new PropertyData());
+    propertyStore.setLayer(PropertyLayer.ControlStyle, propertyLayerControlStyle != null ? propertyLayerControlStyle : new PropertyData());
+    propertyStore.setLayer(PropertyLayer.Control, propertyLayerControl != null ? propertyLayerControl : new PropertyData());
+    propertyStore.setLayer(PropertyLayer.Action, propertyLayerAction != null ? propertyLayerAction : new PropertyData());
+    propertyStore.setLayer(PropertyLayer.CSC, propertyLayerCSC != null ? propertyLayerCSC : new PropertyData());
 
     return propertyStore;
   }
 
   // Get|Set Value
   private getValue<T>(getValueFunc: (data: PropertyData) => T): T {
-    let value: T = getValueFunc(this._store.get(PropertyLayer.CSC));
+    let value: T = getValueFunc(this.getLayer(PropertyLayer.CSC));
 
     if (value === undefined) {
-      value = getValueFunc(this._store.get(PropertyLayer.Action));
+      value = getValueFunc(this.getLayer(PropertyLayer.Action));
       if (value === undefined) {
-        value = getValueFunc(this._store.get(PropertyLayer.Control));
+        value = getValueFunc(this.getLayer(PropertyLayer.Control));
         if (value === undefined) {
-          value = getValueFunc(this._store.get(PropertyLayer.ControlStyle));
+          value = getValueFunc(this.getLayer(PropertyLayer.ControlStyle));
         }
       }
     }
@@ -80,11 +86,11 @@ export class PropertyStore {
   }
 
   private getValueForLayer<T>(layer: PropertyLayer, getValueFunc: (data: PropertyData) => T): T {
-    return getValueFunc(this._store.get(layer));
+    return getValueFunc(this.getLayer(layer));
   }
 
   public setValue(layer: PropertyLayer, setValueFunc: (data: PropertyData) => void): void {
-    setValueFunc(this._store.get(layer));
+    setValueFunc(this.getLayer(layer));
   }
 
   // Serialization
@@ -129,12 +135,12 @@ export class PropertyStore {
   }
 
   // ListVIewItemCssGlobal
-  public getListViewItemCssGlobal(): string {
-    return this.getValue<string>((data: PropertyData) => data.listViewItemCssGlobal);
+  public getListViewItemCssGlobal(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.listViewItemCssGlobal);
   }
 
-  public getListViewItemCssGlobalForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.listViewItemCssGlobal);
+  public getListViewItemCssGlobalForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.listViewItemCssGlobal);
   }
 
   public setListViewItemCssGlobal(layer: PropertyLayer, value: string): void {
@@ -144,12 +150,12 @@ export class PropertyStore {
   }
 
   // TemplateControlCssGlobal
-  public getTemplateControlCssGlobal(): string {
-    return this.getValue<string>((data: PropertyData) => data.templateControlCssGlobal);
+  public getTemplateControlCssGlobal(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.templateControlCssGlobal);
   }
 
-  public getTemplateControlCssGlobalForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.templateControlCssGlobal);
+  public getTemplateControlCssGlobalForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.templateControlCssGlobal);
   }
 
   public setTemplateControlCssGlobal(layer: PropertyLayer, value: string): void {
@@ -159,12 +165,12 @@ export class PropertyStore {
   }
 
   // MeasureText
-  public getMeasureText(): string {
-    return this.getValue<string>((data: PropertyData) => data.measureText);
+  public getMeasureText(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.measureText);
   }
 
-  public getMeasureTextForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.measureText);
+  public getMeasureTextForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.measureText);
   }
 
   public setMeasureText(layer: PropertyLayer, value: string): void {
@@ -174,12 +180,12 @@ export class PropertyStore {
   }
 
   // MinWidthRaster
-  public getMinWidthRaster(): number {
-    return this.getValue<number>((data: PropertyData) => data.minWidthRaster);
+  public getMinWidthRaster(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.minWidthRaster);
   }
 
-  public getMinWidthRasterForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.minWidthRaster);
+  public getMinWidthRasterForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.minWidthRaster);
   }
 
   public setMinWidthRaster(layer: PropertyLayer, value: number): void {
@@ -189,12 +195,12 @@ export class PropertyStore {
   }
 
   // MaxWidthRaster
-  public getMaxWidthRaster(): number {
-    return this.getValue<number>((data: PropertyData) => data.maxWidthRaster);
+  public getMaxWidthRaster(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.maxWidthRaster);
   }
 
-  public getMaxWidthRasterForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.maxWidthRaster);
+  public getMaxWidthRasterForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.maxWidthRaster);
   }
 
   public setMaxWidthRaster(layer: PropertyLayer, value: number): void {
@@ -204,12 +210,12 @@ export class PropertyStore {
   }
 
   // ForeColor
-  public getForeColor(): string {
-    return this.getValue<string>((data: PropertyData) => data.foreColor);
+  public getForeColor(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.foreColor);
   }
 
-  public getForeColorForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.foreColor);
+  public getForeColorForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.foreColor);
   }
 
   public setForeColor(layer: PropertyLayer, value: string): void {
@@ -219,12 +225,12 @@ export class PropertyStore {
   }
 
   // BackColor
-  public getBackColor(): string {
-    return this.getValue<string>((data: PropertyData) => data.backColor);
+  public getBackColor(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.backColor);
   }
 
-  public getBackColorForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.backColor);
+  public getBackColorForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.backColor);
   }
 
   public setBackColor(layer: PropertyLayer, value: string): void {
@@ -234,12 +240,12 @@ export class PropertyStore {
   }
 
   // DisabledBackColor
-  public getDisabledBackColor(): string {
-    return this.getValue<string>((data: PropertyData) => data.disabledBackColor);
+  public getDisabledBackColor(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.disabledBackColor);
   }
 
-  public getDisabledBackColorForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.disabledBackColor);
+  public getDisabledBackColorForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.disabledBackColor);
   }
 
   public setDisabledBackColor(layer: PropertyLayer, value: string): void {
@@ -249,12 +255,12 @@ export class PropertyStore {
   }
 
   // BorderColor
-  public getBorderColor(): string {
-    return this.getValue<string>((data: PropertyData) => data.borderColor);
+  public getBorderColor(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.borderColor);
   }
 
-  public getBorderColorForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.borderColor);
+  public getBorderColorForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.borderColor);
   }
 
   public setBorderColor(layer: PropertyLayer, value: string): void {
@@ -264,12 +270,12 @@ export class PropertyStore {
   }
 
   // MinWidth
-  public getMinWidth(): number {
-    return this.getValue<number>((data: PropertyData) => data.minWidth);
+  public getMinWidth(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.minWidth);
   }
 
-  public getMinWidthForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.minWidth);
+  public getMinWidthForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.minWidth);
   }
 
   public setMinWidth(layer: PropertyLayer, value: number): void {
@@ -279,12 +285,12 @@ export class PropertyStore {
   }
 
   // MinHeight
-  public getMinHeight(): number {
-    return this.getValue<number>((data: PropertyData) => data.minHeight);
+  public getMinHeight(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.minHeight);
   }
 
-  public getMinHeightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.minHeight);
+  public getMinHeightForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.minHeight);
   }
 
   public setMinHeight(layer: PropertyLayer, value: number): void {
@@ -294,12 +300,12 @@ export class PropertyStore {
   }
 
   // MaxWidth
-  public getMaxWidth(): number {
-    return this.getValue<number>((data: PropertyData) => data.maxWidth);
+  public getMaxWidth(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.maxWidth);
   }
 
-  public getMaxWidthForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.maxWidth);
+  public getMaxWidthForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.maxWidth);
   }
 
   public setMaxWidth(layer: PropertyLayer, value: number): void {
@@ -309,12 +315,12 @@ export class PropertyStore {
   }
 
   // MaxHeight
-  public getMaxHeight(): number {
-    return this.getValue<number>((data: PropertyData) => data.maxHeight);
+  public getMaxHeight(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.maxHeight);
   }
 
-  public getMaxHeightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.maxHeight);
+  public getMaxHeightForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.maxHeight);
   }
 
   public setMaxHeight(layer: PropertyLayer, value: number): void {
@@ -324,12 +330,12 @@ export class PropertyStore {
   }
 
   // DisplayMinLines
-  public getDisplayMinLines(): number {
-    return this.getValue<number>((data: PropertyData) => data.displayMinLines);
+  public getDisplayMinLines(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.displayMinLines);
   }
 
-  public getDisplayMinLinesForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.displayMinLines);
+  public getDisplayMinLinesForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.displayMinLines);
   }
 
   public setDisplayMinLines(layer: PropertyLayer, value: number): void {
@@ -339,12 +345,12 @@ export class PropertyStore {
   }
 
   // DisplayMaxLines
-  public getDisplayMaxLines(): number {
-    return this.getValue<number>((data: PropertyData) => data.displayMaxLines);
+  public getDisplayMaxLines(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.displayMaxLines);
   }
 
-  public getDisplayMaxLinesForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.displayMaxLines);
+  public getDisplayMaxLinesForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.displayMaxLines);
   }
 
   public setDisplayMaxLines(layer: PropertyLayer, value: number): void {
@@ -354,12 +360,12 @@ export class PropertyStore {
   }
 
   // DisplayMinLength
-  public getDisplayMinLength(): number {
-    return this.getValue<number>((data: PropertyData) => data.displayMinLength);
+  public getDisplayMinLength(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.displayMinLength);
   }
 
-  public getDisplayMinLengthForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.displayMinLength);
+  public getDisplayMinLengthForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.displayMinLength);
   }
 
   public setDisplayMinLength(layer: PropertyLayer, value: number): void {
@@ -369,12 +375,12 @@ export class PropertyStore {
   }
 
   // DisplayMaxLength
-  public getDisplayMaxLength(): number {
-    return this.getValue<number>((data: PropertyData) => data.displayMaxLength);
+  public getDisplayMaxLength(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.displayMaxLength);
   }
 
-  public getDisplayMaxLengthForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.displayMaxLength);
+  public getDisplayMaxLengthForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.displayMaxLength);
   }
 
   public setDisplayMaxLength(layer: PropertyLayer, value: number): void {
@@ -384,12 +390,12 @@ export class PropertyStore {
   }
 
   // MarginLeft
-  public getMarginLeft(): number {
-    return this.getValue<number>((data: PropertyData) => data.marginLeft);
+  public getMarginLeft(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.marginLeft);
   }
 
-  public getMarginLeftForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.marginLeft);
+  public getMarginLeftForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.marginLeft);
   }
 
   public setMarginLeft(layer: PropertyLayer, value: number): void {
@@ -399,12 +405,12 @@ export class PropertyStore {
   }
 
   // MarginRight
-  public getMarginRight(): number {
-    return this.getValue<number>((data: PropertyData) => data.marginRight);
+  public getMarginRight(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.marginRight);
   }
 
-  public getMarginRightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.marginRight);
+  public getMarginRightForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.marginRight);
   }
 
   public setMarginRight(layer: PropertyLayer, value: number): void {
@@ -414,12 +420,12 @@ export class PropertyStore {
   }
 
   // MarginTop
-  public getMarginTop(): number {
-    return this.getValue<number>((data: PropertyData) => data.marginTop);
+  public getMarginTop(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.marginTop);
   }
 
-  public getMarginTopForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.marginTop);
+  public getMarginTopForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.marginTop);
   }
 
   public setMarginTop(layer: PropertyLayer, value: number): void {
@@ -429,12 +435,12 @@ export class PropertyStore {
   }
 
   // MarginBottom
-  public getMarginBottom(): number {
-    return this.getValue<number>((data: PropertyData) => data.marginBottom);
+  public getMarginBottom(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.marginBottom);
   }
 
-  public getMarginBottomForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.marginBottom);
+  public getMarginBottomForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.marginBottom);
   }
 
   public setMarginBottom(layer: PropertyLayer, value: number): void {
@@ -444,12 +450,12 @@ export class PropertyStore {
   }
 
   // BorderRadiusTopLeft
-  public getBorderRadiusTopLeft(): number {
-    return this.getValue<number>((data: PropertyData) => data.borderRadiusTopLeft);
+  public getBorderRadiusTopLeft(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.borderRadiusTopLeft);
   }
 
-  public getBorderRadiusTopLeftForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.borderRadiusTopLeft);
+  public getBorderRadiusTopLeftForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.borderRadiusTopLeft);
   }
 
   public setBorderRadiusTopLeft(layer: PropertyLayer, value: number): void {
@@ -459,12 +465,12 @@ export class PropertyStore {
   }
 
   // BorderRadiusTopRight
-  public getBorderRadiusTopRight(): number {
-    return this.getValue<number>((data: PropertyData) => data.borderRadiusTopRight);
+  public getBorderRadiusTopRight(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.borderRadiusTopRight);
   }
 
-  public getBorderRadiusTopRightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.borderRadiusTopRight);
+  public getBorderRadiusTopRightForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.borderRadiusTopRight);
   }
 
   public setBorderRadiusTopRight(layer: PropertyLayer, value: number): void {
@@ -474,12 +480,12 @@ export class PropertyStore {
   }
 
   // BorderRadiusBottomLeft
-  public getBorderRadiusBottomLeft(): number {
-    return this.getValue<number>((data: PropertyData) => data.borderRadiusBottomLeft);
+  public getBorderRadiusBottomLeft(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.borderRadiusBottomLeft);
   }
 
-  public getBorderRadiusBottomLeftForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.borderRadiusBottomLeft);
+  public getBorderRadiusBottomLeftForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.borderRadiusBottomLeft);
   }
 
   public setBorderRadiusBottomLeft(layer: PropertyLayer, value: number): void {
@@ -489,12 +495,12 @@ export class PropertyStore {
   }
 
   // BorderRadiusBottomRight
-  public getBorderRadiusBottomRight(): number {
-    return this.getValue<number>((data: PropertyData) => data.borderRadiusBottomRight);
+  public getBorderRadiusBottomRight(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.borderRadiusBottomRight);
   }
 
-  public getBorderRadiusBottomRightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.borderRadiusBottomRight);
+  public getBorderRadiusBottomRightForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.borderRadiusBottomRight);
   }
 
   public setBorderRadiusBottomRight(layer: PropertyLayer, value: number): void {
@@ -504,12 +510,12 @@ export class PropertyStore {
   }
 
   // BorderThicknessLeft
-  public getBorderThicknessLeft(): number {
-    return this.getValue<number>((data: PropertyData) => data.borderThicknessLeft);
+  public getBorderThicknessLeft(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.borderThicknessLeft);
   }
 
-  public getBorderThicknessLeftForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.borderThicknessLeft);
+  public getBorderThicknessLeftForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.borderThicknessLeft);
   }
 
   public setBorderThicknessLeft(layer: PropertyLayer, value: number): void {
@@ -519,12 +525,12 @@ export class PropertyStore {
   }
 
   // BorderThicknessRight
-  public getBorderThicknessRight(): number {
-    return this.getValue<number>((data: PropertyData) => data.borderThicknessRight);
+  public getBorderThicknessRight(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.borderThicknessRight);
   }
 
-  public getBorderThicknessRightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.borderThicknessRight);
+  public getBorderThicknessRightForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.borderThicknessRight);
   }
 
   public setBorderThicknessRight(layer: PropertyLayer, value: number): void {
@@ -534,12 +540,12 @@ export class PropertyStore {
   }
 
   // BorderThicknessTop
-  public getBorderThicknessTop(): number {
-    return this.getValue<number>((data: PropertyData) => data.borderThicknessTop);
+  public getBorderThicknessTop(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.borderThicknessTop);
   }
 
-  public getBorderThicknessTopForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.borderThicknessTop);
+  public getBorderThicknessTopForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.borderThicknessTop);
   }
 
   public setBorderThicknessTop(layer: PropertyLayer, value: number): void {
@@ -549,12 +555,12 @@ export class PropertyStore {
   }
 
   // BorderThicknessBottom
-  public getBorderThicknessBottom(): number {
-    return this.getValue<number>((data: PropertyData) => data.borderThicknessBottom);
+  public getBorderThicknessBottom(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.borderThicknessBottom);
   }
 
-  public getBorderThicknessBottomForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.borderThicknessBottom);
+  public getBorderThicknessBottomForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.borderThicknessBottom);
   }
 
   public setBorderThicknessBottom(layer: PropertyLayer, value: number): void {
@@ -564,12 +570,12 @@ export class PropertyStore {
   }
 
   // PaddingLeft
-  public getPaddingLeft(): number {
-    return this.getValue<number>((data: PropertyData) => data.paddingLeft);
+  public getPaddingLeft(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.paddingLeft);
   }
 
-  public getPaddingLeftForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.paddingLeft);
+  public getPaddingLeftForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.paddingLeft);
   }
 
   public setPaddingLeft(layer: PropertyLayer, value: number): void {
@@ -579,12 +585,12 @@ export class PropertyStore {
   }
 
   // PaddingRight
-  public getPaddingRight(): number {
-    return this.getValue<number>((data: PropertyData) => data.paddingRight);
+  public getPaddingRight(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.paddingRight);
   }
 
-  public getPaddingRightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.paddingRight);
+  public getPaddingRightForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.paddingRight);
   }
 
   public setPaddingRight(layer: PropertyLayer, value: number): void {
@@ -594,12 +600,12 @@ export class PropertyStore {
   }
 
   // PaddingTop
-  public getPaddingTop(): number {
-    return this.getValue<number>((data: PropertyData) => data.paddingTop);
+  public getPaddingTop(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.paddingTop);
   }
 
-  public getPaddingTopForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.paddingTop);
+  public getPaddingTopForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.paddingTop);
   }
 
   public setPaddingTop(layer: PropertyLayer, value: number): void {
@@ -609,12 +615,12 @@ export class PropertyStore {
   }
 
   // PaddingBottom
-  public getPaddingBottom(): number {
-    return this.getValue<number>((data: PropertyData) => data.paddingBottom);
+  public getPaddingBottom(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.paddingBottom);
   }
 
-  public getPaddingBottomForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.paddingBottom);
+  public getPaddingBottomForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.paddingBottom);
   }
 
   public setPaddingBottom(layer: PropertyLayer, value: number): void {
@@ -624,12 +630,12 @@ export class PropertyStore {
   }
 
   // HorizontalAlignment
-  public getHorizontalAlignment(): HorizontalAlignment {
-    return this.getValue<HorizontalAlignment>((data: PropertyData) => data.alignmentHorizontal);
+  public getHorizontalAlignment(): HorizontalAlignment | undefined {
+    return this.getValue<HorizontalAlignment | undefined>((data: PropertyData) => data.alignmentHorizontal);
   }
 
-  public getHorizontalAlignmentForLayer(layer: PropertyLayer): HorizontalAlignment {
-    return this.getValueForLayer<HorizontalAlignment>(layer, (data: PropertyData) => data.alignmentHorizontal);
+  public getHorizontalAlignmentForLayer(layer: PropertyLayer): HorizontalAlignment | undefined {
+    return this.getValueForLayer<HorizontalAlignment | undefined>(layer, (data: PropertyData) => data.alignmentHorizontal);
   }
 
   public setHorizontalAlignment(layer: PropertyLayer, value: HorizontalAlignment): void {
@@ -639,12 +645,12 @@ export class PropertyStore {
   }
 
   // VerticalAlignment
-  public getVerticalAlignment(): VerticalAlignment {
-    return this.getValue<VerticalAlignment>((data: PropertyData) => data.alignmentVertical);
+  public getVerticalAlignment(): VerticalAlignment | undefined {
+    return this.getValue<VerticalAlignment | undefined>((data: PropertyData) => data.alignmentVertical);
   }
 
-  public getVerticalAlignmentForLayer(layer: PropertyLayer): VerticalAlignment {
-    return this.getValueForLayer<VerticalAlignment>(layer, (data: PropertyData) => data.alignmentVertical);
+  public getVerticalAlignmentForLayer(layer: PropertyLayer): VerticalAlignment | undefined {
+    return this.getValueForLayer<VerticalAlignment | undefined>(layer, (data: PropertyData) => data.alignmentVertical);
   }
 
   public setVerticalAlignment(layer: PropertyLayer, value: VerticalAlignment): void {
@@ -654,12 +660,12 @@ export class PropertyStore {
   }
 
   // HorizontalContentAlignment
-  public getHorizontalContentAlignment(): HorizontalContentAlignment {
-    return this.getValue<HorizontalContentAlignment>((data: PropertyData) => data.horizontalContentAlignment);
+  public getHorizontalContentAlignment(): HorizontalContentAlignment | undefined {
+    return this.getValue<HorizontalContentAlignment | undefined>((data: PropertyData) => data.horizontalContentAlignment);
   }
 
-  public getHorizontalContentAlignmentForLayer(layer: PropertyLayer): HorizontalContentAlignment {
-    return this.getValueForLayer<HorizontalContentAlignment>(layer, (data: PropertyData) => data.horizontalContentAlignment);
+  public getHorizontalContentAlignmentForLayer(layer: PropertyLayer): HorizontalContentAlignment | undefined {
+    return this.getValueForLayer<HorizontalContentAlignment | undefined>(layer, (data: PropertyData) => data.horizontalContentAlignment);
   }
 
   public setHorizontalContentAlignment(layer: PropertyLayer, value: HorizontalContentAlignment): void {
@@ -669,12 +675,12 @@ export class PropertyStore {
   }
 
   // VerticalContentAlignment
-  public getVerticalContentAlignment(): VerticalContentAlignment {
-    return this.getValue<VerticalContentAlignment>((data: PropertyData) => data.verticalContentAlignment);
+  public getVerticalContentAlignment(): VerticalContentAlignment | undefined {
+    return this.getValue<VerticalContentAlignment | undefined>((data: PropertyData) => data.verticalContentAlignment);
   }
 
-  public getVerticalContentAlignmentForLayer(layer: PropertyLayer): VerticalContentAlignment {
-    return this.getValueForLayer<VerticalContentAlignment>(layer, (data: PropertyData) => data.verticalContentAlignment);
+  public getVerticalContentAlignmentForLayer(layer: PropertyLayer): VerticalContentAlignment | undefined {
+    return this.getValueForLayer<VerticalContentAlignment | undefined>(layer, (data: PropertyData) => data.verticalContentAlignment);
   }
 
   public setVerticalContentAlignment(layer: PropertyLayer, value: VerticalContentAlignment): void {
@@ -684,12 +690,12 @@ export class PropertyStore {
   }
 
   // HorizontalSpacing
-  public getHorizontalSpacing(): number {
-    return this.getValue<number>((data: PropertyData) => data.spacingHorizontal);
+  public getHorizontalSpacing(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.spacingHorizontal);
   }
 
-  public getHorizontalSpacingForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.spacingHorizontal);
+  public getHorizontalSpacingForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.spacingHorizontal);
   }
 
   public setHorizontalSpacing(layer: PropertyLayer, value: number): void {
@@ -699,12 +705,12 @@ export class PropertyStore {
   }
 
   // VerticalSpacing
-  public getVerticalSpacing(): number {
-    return this.getValue<number>((data: PropertyData) => data.spacingVertical);
+  public getVerticalSpacing(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.spacingVertical);
   }
 
-  public getVerticalSpacingForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.spacingVertical);
+  public getVerticalSpacingForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.spacingVertical);
   }
 
   public setVerticalSpacing(layer: PropertyLayer, value: number): void {
@@ -714,12 +720,12 @@ export class PropertyStore {
   }
 
   // FontBold
-  public getFontBold(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.fontBold);
+  public getFontBold(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.fontBold);
   }
 
-  public getFontBoldForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.fontBold);
+  public getFontBoldForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.fontBold);
   }
 
   public setFontBold(layer: PropertyLayer, value: boolean): void {
@@ -729,11 +735,11 @@ export class PropertyStore {
   }
 
   // FontFamily
-  public getFontFamily(): string {
+  public getFontFamily(): string | undefined {
     return DEFAULT_FONT;
   }
 
-  public getFontFamilyForLayer(layer: PropertyLayer): string {
+  public getFontFamilyForLayer(layer: PropertyLayer): string | undefined {
     return DEFAULT_FONT;
   }
 
@@ -744,12 +750,12 @@ export class PropertyStore {
   }
 
   // FontItalic
-  public getFontItalic(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.fontItalic);
+  public getFontItalic(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.fontItalic);
   }
 
-  public getFontItalicForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.fontItalic);
+  public getFontItalicForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.fontItalic);
   }
 
   public setFontItalic(layer: PropertyLayer, value: boolean): void {
@@ -759,12 +765,12 @@ export class PropertyStore {
   }
 
   // FontSize
-  public getFontSize(): number {
-    return this.getValue<number>((data: PropertyData) => data.fontSize);
+  public getFontSize(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.fontSize);
   }
 
-  public getFontSizeForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.fontSize);
+  public getFontSizeForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.fontSize);
   }
 
   public setFontSize(layer: PropertyLayer, value: number): void {
@@ -774,12 +780,12 @@ export class PropertyStore {
   }
 
   // FontUnderline
-  public getFontUnderline(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.fontUnderline);
+  public getFontUnderline(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.fontUnderline);
   }
 
-  public getFontUnderlineForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.fontUnderline);
+  public getFontUnderlineForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.fontUnderline);
   }
 
   public setFontUnderline(layer: PropertyLayer, value: boolean): void {
@@ -789,12 +795,12 @@ export class PropertyStore {
   }
 
   // Image
-  public getImage(): string {
-    return this.getValue<string>((data: PropertyData) => data.image);
+  public getImage(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.image);
   }
 
-  public getImageForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.image);
+  public getImageForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.image);
   }
 
   public setImage(layer: PropertyLayer, value: string): void {
@@ -804,12 +810,12 @@ export class PropertyStore {
   }
 
   // ImageBack
-  public getImageBack(): string {
-    return this.getValue<string>((data: PropertyData) => data.imageBack);
+  public getImageBack(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.imageBack);
   }
 
-  public getImageBackForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.imageBack);
+  public getImageBackForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.imageBack);
   }
 
   public setImageBack(layer: PropertyLayer, value: string): void {
@@ -819,12 +825,12 @@ export class PropertyStore {
   }
 
   // ImageForward
-  public getImageForward(): string {
-    return this.getValue<string>((data: PropertyData) => data.imageForward);
+  public getImageForward(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.imageForward);
   }
 
-  public getImageForwardForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.imageForward);
+  public getImageForwardForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.imageForward);
   }
 
   public setImageForward(layer: PropertyLayer, value: string): void {
@@ -834,12 +840,12 @@ export class PropertyStore {
   }
 
   // InactiveImage
-  public getInactiveImage(): string {
-    return this.getValue<string>((data: PropertyData) => data.inactiveImage);
+  public getInactiveImage(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.inactiveImage);
   }
 
-  public getInactiveImageForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.inactiveImage);
+  public getInactiveImageForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.inactiveImage);
   }
 
   public setInactiveImage(layer: PropertyLayer, value: string): void {
@@ -849,12 +855,12 @@ export class PropertyStore {
   }
 
   // ActiveImage
-  public getActiveImage(): string {
-    return this.getValue<string>((data: PropertyData) => data.activeImage);
+  public getActiveImage(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.activeImage);
   }
 
-  public getActiveImageForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.activeImage);
+  public getActiveImageForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.activeImage);
   }
 
   public setActiveImage(layer: PropertyLayer, value: string): void {
@@ -864,12 +870,12 @@ export class PropertyStore {
   }
 
   // DisabledImage
-  public getDisabledImage(): string {
-    return this.getValue<string>((data: PropertyData) => data.disabledImage);
+  public getDisabledImage(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.disabledImage);
   }
 
-  public getDisabledImageForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.disabledImage);
+  public getDisabledImageForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.disabledImage);
   }
 
   public setDisabledImage(layer: PropertyLayer, value: string): void {
@@ -879,12 +885,12 @@ export class PropertyStore {
   }
 
   // HighlightImage
-  public getHighlightImage(): string {
-    return this.getValue<string>((data: PropertyData) => data.highlightImage);
+  public getHighlightImage(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.highlightImage);
   }
 
-  public getHighlightImageForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.highlightImage);
+  public getHighlightImageForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.highlightImage);
   }
 
   public setHighlightImage(layer: PropertyLayer, value: string): void {
@@ -894,12 +900,12 @@ export class PropertyStore {
   }
 
   // MouseOverImage
-  public getMouseOverImage(): string {
-    return this.getValue<string>((data: PropertyData) => data.mouseOverImage);
+  public getMouseOverImage(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.mouseOverImage);
   }
 
-  public getMouseOverImageForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.mouseOverImage);
+  public getMouseOverImageForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.mouseOverImage);
   }
 
   public setMouseOverImage(layer: PropertyLayer, value: string): void {
@@ -909,12 +915,12 @@ export class PropertyStore {
   }
 
   // PressedImage
-  public getPressedImage(): string {
-    return this.getValue<string>((data: PropertyData) => data.pressedImage);
+  public getPressedImage(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.pressedImage);
   }
 
-  public getPressedImageForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.pressedImage);
+  public getPressedImageForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.pressedImage);
   }
 
   public setPressedImage(layer: PropertyLayer, value: string): void {
@@ -924,12 +930,12 @@ export class PropertyStore {
   }
 
   // BackgroundImage
-  public getBackgroundImage(): string {
-    return this.getValue<string>((data: PropertyData) => data.backgroundImage);
+  public getBackgroundImage(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.backgroundImage);
   }
 
-  public getBackgroundImageForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.backgroundImage);
+  public getBackgroundImageForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.backgroundImage);
   }
 
   public setBackgroundImage(layer: PropertyLayer, value: string): void {
@@ -939,12 +945,12 @@ export class PropertyStore {
   }
 
   // Caption
-  public getCaption(): string {
-    return this.getValue<string>((data: PropertyData) => data.caption);
+  public getCaption(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.caption);
   }
 
-  public getCaptionForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.caption);
+  public getCaptionForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.caption);
   }
 
   public setCaption(layer: PropertyLayer, value: string): void {
@@ -954,12 +960,12 @@ export class PropertyStore {
   }
 
   // CaptionAlign
-  public getCaptionAlign(): ContentAlignment {
-    return this.getValue<ContentAlignment>((data: PropertyData) => data.captionAlign);
+  public getCaptionAlign(): ContentAlignment | undefined {
+    return this.getValue<ContentAlignment | undefined>((data: PropertyData) => data.captionAlign);
   }
 
-  public getCaptionAlignForLayer(layer: PropertyLayer): ContentAlignment {
-    return this.getValueForLayer<ContentAlignment>(layer, (data: PropertyData) => data.captionAlign);
+  public getCaptionAlignForLayer(layer: PropertyLayer): ContentAlignment | undefined {
+    return this.getValueForLayer<ContentAlignment | undefined>(layer, (data: PropertyData) => data.captionAlign);
   }
 
   public setCaptionAlign(layer: PropertyLayer, value: ContentAlignment): void {
@@ -969,12 +975,12 @@ export class PropertyStore {
   }
 
   // DatasourceOnValue
-  public getDatasourceOnValue(): string {
-    return this.getValue<string>((data: PropertyData) => data.datasourceOnValue);
+  public getDatasourceOnValue(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.datasourceOnValue);
   }
 
-  public getDatasourceOnValueForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.datasourceOnValue);
+  public getDatasourceOnValueForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.datasourceOnValue);
   }
 
   public setDatasourceOnValue(layer: PropertyLayer, value: string): void {
@@ -984,12 +990,12 @@ export class PropertyStore {
   }
 
   // DataSourceType
-  public getDataSourceType(): DataSourceType {
-    return this.getValue<DataSourceType>((data: PropertyData) => data.dataSourceTypeID);
+  public getDataSourceType(): DataSourceType | undefined {
+    return this.getValue<DataSourceType | undefined>((data: PropertyData) => data.dataSourceTypeID);
   }
 
-  public getDataSourceTypeForLayer(layer: PropertyLayer): DataSourceType {
-    return this.getValueForLayer<DataSourceType>(layer, (data: PropertyData) => data.dataSourceTypeID);
+  public getDataSourceTypeForLayer(layer: PropertyLayer): DataSourceType | undefined {
+    return this.getValueForLayer<DataSourceType | undefined>(layer, (data: PropertyData) => data.dataSourceTypeID);
   }
 
   public setDataSourceType(layer: PropertyLayer, value: DataSourceType): void {
@@ -999,12 +1005,12 @@ export class PropertyStore {
   }
 
   // DockItemSize
-  public getDockItemSize(): number {
-    return this.getValue<number>((data: PropertyData) => data.dockPanel_ItemSize);
+  public getDockItemSize(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.dockPanel_ItemSize);
   }
 
-  public getDockItemSizeForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.dockPanel_ItemSize);
+  public getDockItemSizeForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.dockPanel_ItemSize);
   }
 
   public setDockItemSize(layer: PropertyLayer, value: number): void {
@@ -1014,12 +1020,12 @@ export class PropertyStore {
   }
 
   // DockOrientation
-  public getDockOrientation(): DockOrientation {
-    return this.getValue<DockOrientation>((data: PropertyData) => data.dockPanelOrientation);
+  public getDockOrientation(): DockOrientation | undefined {
+    return this.getValue<DockOrientation | undefined>((data: PropertyData) => data.dockPanelOrientation);
   }
 
-  public getDockOrientationForLayer(layer: PropertyLayer): DockOrientation {
-    return this.getValueForLayer<DockOrientation>(layer, (data: PropertyData) => data.dockPanelOrientation);
+  public getDockOrientationForLayer(layer: PropertyLayer): DockOrientation | undefined {
+    return this.getValueForLayer<DockOrientation | undefined>(layer, (data: PropertyData) => data.dockPanelOrientation);
   }
 
   public setDockOrientation(layer: PropertyLayer, value: DockOrientation): void {
@@ -1029,12 +1035,12 @@ export class PropertyStore {
   }
 
   // DockPanelScrolling
-  public getDockPanelScrolling(): DockPanelScrolling {
-    return this.getValue<DockPanelScrolling>((data: PropertyData) => data.dockPanelScrolling);
+  public getDockPanelScrolling(): DockPanelScrolling | undefined {
+    return this.getValue<DockPanelScrolling | undefined>((data: PropertyData) => data.dockPanelScrolling);
   }
 
-  public getDockPanelScrollingForLayer(layer: PropertyLayer): DockPanelScrolling {
-    return this.getValueForLayer<DockPanelScrolling>(layer, (data: PropertyData) => data.dockPanelScrolling);
+  public getDockPanelScrollingForLayer(layer: PropertyLayer): DockPanelScrolling | undefined {
+    return this.getValueForLayer<DockPanelScrolling | undefined>(layer, (data: PropertyData) => data.dockPanelScrolling);
   }
 
   public setDockPanelScrolling(layer: PropertyLayer, value: DockPanelScrolling): void {
@@ -1044,12 +1050,12 @@ export class PropertyStore {
   }
 
   // EditStyle
-  public getEditStyle(): EditStyle {
-    return this.getValue<EditStyle>((data: PropertyData) => data.editStyle);
+  public getEditStyle(): EditStyle | undefined {
+    return this.getValue<EditStyle | undefined>((data: PropertyData) => data.editStyle);
   }
 
-  public getEditStyleForLayer(layer: PropertyLayer): EditStyle {
-    return this.getValueForLayer<EditStyle>(layer, (data: PropertyData) => data.editStyle);
+  public getEditStyleForLayer(layer: PropertyLayer): EditStyle | undefined {
+    return this.getValueForLayer<EditStyle | undefined>(layer, (data: PropertyData) => data.editStyle);
   }
 
   public setEditStyle(layer: PropertyLayer, value: EditStyle): void {
@@ -1059,12 +1065,12 @@ export class PropertyStore {
   }
 
   // FieldRowSize
-  public getFieldRowSize(): number {
-    return this.getValue<number>((data: PropertyData) => data.fieldRowSize);
+  public getFieldRowSize(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.fieldRowSize);
   }
 
-  public getFieldRowSizeForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.fieldRowSize);
+  public getFieldRowSizeForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.fieldRowSize);
   }
 
   public setFieldRowSize(layer: PropertyLayer, value: number): void {
@@ -1074,12 +1080,12 @@ export class PropertyStore {
   }
 
   // Format
-  public getFormat(): TextFormat {
-    return this.getValue<TextFormat>((data: PropertyData) => data.format);
+  public getFormat(): TextFormat | undefined {
+    return this.getValue<TextFormat | undefined>((data: PropertyData) => data.format);
   }
 
-  public getFormatForLayer(layer: PropertyLayer): TextFormat {
-    return this.getValueForLayer<TextFormat>(layer, (data: PropertyData) => data.format);
+  public getFormatForLayer(layer: PropertyLayer): TextFormat | undefined {
+    return this.getValueForLayer<TextFormat | undefined>(layer, (data: PropertyData) => data.format);
   }
 
   public setFormat(layer: PropertyLayer, value: TextFormat): void {
@@ -1089,12 +1095,12 @@ export class PropertyStore {
   }
 
   // FormatPattern
-  public getFormatPattern(): string {
-    return this.getValue<string>((data: PropertyData) => data.formatPattern);
+  public getFormatPattern(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.formatPattern);
   }
 
-  public getFormatPatternForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.formatPattern);
+  public getFormatPatternForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.formatPattern);
   }
 
   public setFormatPattern(layer: PropertyLayer, value: string): void {
@@ -1104,12 +1110,12 @@ export class PropertyStore {
   }
 
   // InvertFlowDirection
-  public getInvertFlowDirection(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.invertFlowDirection);
+  public getInvertFlowDirection(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.invertFlowDirection);
   }
 
-  public getInvertFlowDirectionForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.invertFlowDirection);
+  public getInvertFlowDirectionForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.invertFlowDirection);
   }
 
   public setInvertFlowDirection(layer: PropertyLayer, value: boolean): void {
@@ -1119,12 +1125,12 @@ export class PropertyStore {
   }
 
   // ItemArrangement
-  public getItemArrangement(): ListViewItemArrangement {
-    return this.getValue<ListViewItemArrangement>((data: PropertyData) => data.itemArrangement);
+  public getItemArrangement(): ListViewItemArrangement | undefined {
+    return this.getValue<ListViewItemArrangement | undefined>((data: PropertyData) => data.itemArrangement);
   }
 
-  public getListViewItemArrangementForLayer(layer: PropertyLayer): ListViewItemArrangement {
-    return this.getValueForLayer<ListViewItemArrangement>(layer, (data: PropertyData) => data.itemArrangement);
+  public getListViewItemArrangementForLayer(layer: PropertyLayer): ListViewItemArrangement | undefined {
+    return this.getValueForLayer<ListViewItemArrangement | undefined>(layer, (data: PropertyData) => data.itemArrangement);
   }
 
   public setListViewItemArrangement(layer: PropertyLayer, value: ListViewItemArrangement): void {
@@ -1134,12 +1140,12 @@ export class PropertyStore {
   }
 
   // ItemMinWidth
-  public getItemWidth(): number {
-    return this.getValue<number>((data: PropertyData) => data.itemWidth);
+  public getItemWidth(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.itemWidth);
   }
 
-  public getItemWidthForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemWidth);
+  public getItemWidthForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.itemWidth);
   }
 
   public setItemWidth(layer: PropertyLayer, value: number): void {
@@ -1149,12 +1155,12 @@ export class PropertyStore {
   }
 
   // ItemMinHeight
-  public getItemHeight(): number {
-    return this.getValue<number>((data: PropertyData) => data.itemHeight);
+  public getItemHeight(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.itemHeight);
   }
 
-  public getItemHeightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.itemHeight);
+  public getItemHeightForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.itemHeight);
   }
 
   public setItemHeight(layer: PropertyLayer, value: number): void {
@@ -1164,12 +1170,12 @@ export class PropertyStore {
   }
 
   // IsCloseIconVisible
-  public getIsCloseIconVisible(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.isCloseIconVisible);
+  public getIsCloseIconVisible(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.isCloseIconVisible);
   }
 
-  public getIsCloseIconVisibleForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.isCloseIconVisible);
+  public getIsCloseIconVisibleForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.isCloseIconVisible);
   }
 
   public setIsCloseIconVisible(layer: PropertyLayer, value: boolean): void {
@@ -1179,12 +1185,12 @@ export class PropertyStore {
   }
 
   // HideModalHeader
-  public getHideModalHeader(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.hideModalHeader);
+  public getHideModalHeader(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.hideModalHeader);
   }
 
-  public getHideModalHeaderForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.hideModalHeader);
+  public getHideModalHeaderForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.hideModalHeader);
   }
 
   public setHideModalHeader(layer: PropertyLayer, value: boolean): void {
@@ -1194,12 +1200,12 @@ export class PropertyStore {
   }
 
   // IsEditable
-  public getIsEditable(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.isEditable);
+  public getIsEditable(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.isEditable);
   }
 
-  public getIsEditableForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.isEditable);
+  public getIsEditableForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.isEditable);
   }
 
   public setIsEditable(layer: PropertyLayer, value: boolean): void {
@@ -1209,12 +1215,12 @@ export class PropertyStore {
   }
 
   // IsEnabled
-  public getIsEnabled(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.isEnabled);
+  public getIsEnabled(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.isEnabled);
   }
 
-  public getIsEnabledForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.isEnabled);
+  public getIsEnabledForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.isEnabled);
   }
 
   public setIsEnabled(layer: PropertyLayer, value: boolean): void {
@@ -1224,12 +1230,12 @@ export class PropertyStore {
   }
 
   // LabelMode
-  public getLabelMode(): FieldRowLabelMode {
-    return this.getValue<FieldRowLabelMode>((data: PropertyData) => data.labelMode);
+  public getLabelMode(): FieldRowLabelMode | undefined {
+    return this.getValue<FieldRowLabelMode | undefined>((data: PropertyData) => data.labelMode);
   }
 
-  public getLabelModeForLayer(layer: PropertyLayer): FieldRowLabelMode {
-    return this.getValueForLayer<FieldRowLabelMode>(layer, (data: PropertyData) => data.labelMode);
+  public getLabelModeForLayer(layer: PropertyLayer): FieldRowLabelMode | undefined {
+    return this.getValueForLayer<FieldRowLabelMode | undefined>(layer, (data: PropertyData) => data.labelMode);
   }
 
   public setLabelMode(layer: PropertyLayer, value: FieldRowLabelMode): void {
@@ -1239,12 +1245,12 @@ export class PropertyStore {
   }
 
   // ListDisplayMinLength
-  public getListDisplayMinLength(): number {
-    return this.getValue<number>((data: PropertyData) => data.listDisplayMinLength);
+  public getListDisplayMinLength(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.listDisplayMinLength);
   }
 
-  public getListDisplayMinLengthForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.listDisplayMinLength);
+  public getListDisplayMinLengthForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.listDisplayMinLength);
   }
 
   public setListDisplayMinLength(layer: PropertyLayer, value: number): void {
@@ -1254,12 +1260,12 @@ export class PropertyStore {
   }
 
   // ListDisplayMaxLength
-  public getListDisplayMaxLength(): number {
-    return this.getValue<number>((data: PropertyData) => data.listDisplayMaxLength);
+  public getListDisplayMaxLength(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.listDisplayMaxLength);
   }
 
-  public ListDisplayMaxLengthForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.listDisplayMaxLength);
+  public ListDisplayMaxLengthForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.listDisplayMaxLength);
   }
 
   public setListDisplayMaxLength(layer: PropertyLayer, value: number): void {
@@ -1269,12 +1275,12 @@ export class PropertyStore {
   }
 
   // ListType
-  public getListType(): DataSourceType {
-    return this.getValue<DataSourceType>((data: PropertyData) => data.listType);
+  public getListType(): DataSourceType | undefined {
+    return this.getValue<DataSourceType | undefined>((data: PropertyData) => data.listType);
   }
 
-  public getListTypeForLayer(layer: PropertyLayer): DataSourceType {
-    return this.getValueForLayer<DataSourceType>(layer, (data: PropertyData) => data.listType);
+  public getListTypeForLayer(layer: PropertyLayer): DataSourceType | undefined {
+    return this.getValueForLayer<DataSourceType | undefined>(layer, (data: PropertyData) => data.listType);
   }
 
   public setListType(layer: PropertyLayer, value: DataSourceType): void {
@@ -1284,12 +1290,12 @@ export class PropertyStore {
   }
 
   // MapEnterToTab
-  public getMapEnterToTab(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.mapEnterToTab);
+  public getMapEnterToTab(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.mapEnterToTab);
   }
 
-  public getMapEnterToTabForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.mapEnterToTab);
+  public getMapEnterToTabForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.mapEnterToTab);
   }
 
   public setMapEnterToTab(layer: PropertyLayer, value: boolean): void {
@@ -1299,12 +1305,12 @@ export class PropertyStore {
   }
 
   // MaxDropDownWidth
-  public getMaxDropDownWidth(): number {
-    return this.getValue<number>((data: PropertyData) => data.maxDropDownWidth);
+  public getMaxDropDownWidth(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.maxDropDownWidth);
   }
 
-  public getMaxDropDownWidthForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.maxDropDownWidth);
+  public getMaxDropDownWidthForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.maxDropDownWidth);
   }
 
   public setMaxDropDownWidth(layer: PropertyLayer, value: number): void {
@@ -1314,12 +1320,12 @@ export class PropertyStore {
   }
 
   // MaxDropDownHeight
-  public getMaxDropDownHeight(): number {
-    return this.getValue<number>((data: PropertyData) => data.maxDropDownHeight);
+  public getMaxDropDownHeight(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.maxDropDownHeight);
   }
 
-  public getMaxDropDownHeightForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.maxDropDownHeight);
+  public getMaxDropDownHeightForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.maxDropDownHeight);
   }
 
   public setMaxDropDownHeight(layer: PropertyLayer, value: number): void {
@@ -1329,12 +1335,12 @@ export class PropertyStore {
   }
 
   // MaxSize
-  public getMaxSize(): number {
-    return this.getValue<number>((data: PropertyData) => data.maxSize);
+  public getMaxSize(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.maxSize);
   }
 
-  public getMaxSizeForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.maxSize);
+  public getMaxSizeForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.maxSize);
   }
 
   public setMaxSize(layer: PropertyLayer, value: number): void {
@@ -1344,12 +1350,12 @@ export class PropertyStore {
   }
 
   // MaxScale
-  public getMaxScale(): number {
-    return this.getValue<number>((data: PropertyData) => data.maxScale);
+  public getMaxScale(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.maxScale);
   }
 
-  public getMaxScaleForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.maxScale);
+  public getMaxScaleForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.maxScale);
   }
 
   public setMaxScale(layer: PropertyLayer, value: number): void {
@@ -1359,12 +1365,12 @@ export class PropertyStore {
   }
 
   // IsMultiline
-  public getIsMultiline(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.multiline);
+  public getIsMultiline(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.multiline);
   }
 
-  public getIsMultilineForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.multiline);
+  public getIsMultilineForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.multiline);
   }
 
   public setIsMultiline(layer: PropertyLayer, value: boolean): void {
@@ -1374,12 +1380,12 @@ export class PropertyStore {
   }
 
   // MaxPrec
-  public getMaxPrec(): number {
-    return this.getValue<number>((data: PropertyData) => data.maxPrec);
+  public getMaxPrec(): number | undefined {
+    return this.getValue<number | undefined>((data: PropertyData) => data.maxPrec);
   }
 
-  public getMaxPrecForLayer(layer: PropertyLayer): number {
-    return this.getValueForLayer<number>(layer, (data: PropertyData) => data.maxPrec);
+  public getMaxPrecForLayer(layer: PropertyLayer): number | undefined {
+    return this.getValueForLayer<number | undefined>(layer, (data: PropertyData) => data.maxPrec);
   }
 
   public setMaxPrec(layer: PropertyLayer, value: number): void {
@@ -1389,12 +1395,12 @@ export class PropertyStore {
   }
 
   // PasswordChar
-  public getPasswordChar(): string {
-    return this.getValue<string>((data: PropertyData) => data.passwordChar);
+  public getPasswordChar(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.passwordChar);
   }
 
-  public getPasswordCharForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.passwordChar);
+  public getPasswordCharForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.passwordChar);
   }
 
   public setPasswordChar(layer: PropertyLayer, value: string): void {
@@ -1404,12 +1410,12 @@ export class PropertyStore {
   }
 
   // OptimizeGeneratedLabels
-  public getOptimizeGeneratedLabels(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.optimizeGeneratedLabels);
+  public getOptimizeGeneratedLabels(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.optimizeGeneratedLabels);
   }
 
-  public getOptimizeGeneratedLabelsForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.optimizeGeneratedLabels);
+  public getOptimizeGeneratedLabelsForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.optimizeGeneratedLabels);
   }
 
   public setOptimizeGeneratedLabels(layer: PropertyLayer, value: boolean): void {
@@ -1419,12 +1425,12 @@ export class PropertyStore {
   }
 
   // ScaleMode
-  public getScaleMode(): PictureScaleMode {
-    return this.getValue<PictureScaleMode>((data: PropertyData) => data.scaleMode);
+  public getScaleMode(): PictureScaleMode | undefined {
+    return this.getValue<PictureScaleMode | undefined>((data: PropertyData) => data.scaleMode);
   }
 
-  public getScaleModeForLayer(layer: PropertyLayer): PictureScaleMode {
-    return this.getValueForLayer<PictureScaleMode>(layer, (data: PropertyData) => data.scaleMode);
+  public getScaleModeForLayer(layer: PropertyLayer): PictureScaleMode | undefined {
+    return this.getValueForLayer<PictureScaleMode | undefined>(layer, (data: PropertyData) => data.scaleMode);
   }
 
   public setScaleMode(layer: PropertyLayer, value: PictureScaleMode): void {
@@ -1434,12 +1440,12 @@ export class PropertyStore {
   }
 
   // ScrollBars
-  public getScrollBars(): ScrollBars {
-    return this.getValue<ScrollBars>((data: PropertyData) => data.scrollBars);
+  public getScrollBars(): ScrollBars | undefined {
+    return this.getValue<ScrollBars | undefined>((data: PropertyData) => data.scrollBars);
   }
 
-  public getScrollBarsForLayer(layer: PropertyLayer): ScrollBars {
-    return this.getValueForLayer<ScrollBars>(layer, (data: PropertyData) => data.scrollBars);
+  public getScrollBarsForLayer(layer: PropertyLayer): ScrollBars | undefined {
+    return this.getValueForLayer<ScrollBars | undefined>(layer, (data: PropertyData) => data.scrollBars);
   }
 
   public setScrollBars(layer: PropertyLayer, value: ScrollBars): void {
@@ -1449,12 +1455,12 @@ export class PropertyStore {
   }
 
   // SelectionMode
-  public getSelectionMode(): ListViewSelectionMode {
-    return this.getValue<ListViewSelectionMode>((data: PropertyData) => data.selectionMode);
+  public getSelectionMode(): ListViewSelectionMode | undefined {
+    return this.getValue<ListViewSelectionMode | undefined>((data: PropertyData) => data.selectionMode);
   }
 
-  public getSelectionModeForLayer(layer: PropertyLayer): ListViewSelectionMode {
-    return this.getValueForLayer<ListViewSelectionMode>(layer, (data: PropertyData) => data.selectionMode);
+  public getSelectionModeForLayer(layer: PropertyLayer): ListViewSelectionMode | undefined {
+    return this.getValueForLayer<ListViewSelectionMode | undefined>(layer, (data: PropertyData) => data.selectionMode);
   }
 
   public setSelectionMode(layer: PropertyLayer, value: ListViewSelectionMode): void {
@@ -1464,12 +1470,12 @@ export class PropertyStore {
   }
 
   // SelectorPosition
-  public getSelectorPosition(): ListViewSelectorPosition {
-    return this.getValue<ListViewSelectorPosition>((data: PropertyData) => data.selectorPosition);
+  public getSelectorPosition(): ListViewSelectorPosition | undefined {
+    return this.getValue<ListViewSelectorPosition | undefined>((data: PropertyData) => data.selectorPosition);
   }
 
-  public getSelectorPositionForLayer(layer: PropertyLayer): ListViewSelectorPosition {
-    return this.getValueForLayer<ListViewSelectorPosition>(layer, (data: PropertyData) => data.selectorPosition);
+  public getSelectorPositionForLayer(layer: PropertyLayer): ListViewSelectorPosition | undefined {
+    return this.getValueForLayer<ListViewSelectorPosition | undefined>(layer, (data: PropertyData) => data.selectorPosition);
   }
 
   public setSelectorPosition(layer: PropertyLayer, value: ListViewSelectionMode): void {
@@ -1479,12 +1485,12 @@ export class PropertyStore {
   }
 
   // ShowCaption
-  public getShowCaption(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.showCaption);
+  public getShowCaption(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.showCaption);
   }
 
-  public getShowCaptionForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.showCaption);
+  public getShowCaptionForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.showCaption);
   }
 
   public setShowCaption(layer: PropertyLayer, value: boolean): void {
@@ -1494,12 +1500,12 @@ export class PropertyStore {
   }
 
   // SynchronizeColumns
-  public getSynchronizeColumns(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.synchronizeColumns);
+  public getSynchronizeColumns(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.synchronizeColumns);
   }
 
-  public getSynchronizeColumnsForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.synchronizeColumns);
+  public getSynchronizeColumnsForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.synchronizeColumns);
   }
 
   public setSynchronizeColumns(layer: PropertyLayer, value: boolean): void {
@@ -1509,12 +1515,12 @@ export class PropertyStore {
   }
 
   // TabAlignment
-  public getTabAlignment(): TabAlignment {
-    return this.getValue<TabAlignment>((data: PropertyData) => data.tabAlignment);
+  public getTabAlignment(): TabAlignment | undefined {
+    return this.getValue<TabAlignment | undefined>((data: PropertyData) => data.tabAlignment);
   }
 
-  public getTabAlignmentForLayer(layer: PropertyLayer): TabAlignment {
-    return this.getValueForLayer<TabAlignment>(layer, (data: PropertyData) => data.tabAlignment);
+  public getTabAlignmentForLayer(layer: PropertyLayer): TabAlignment | undefined {
+    return this.getValueForLayer<TabAlignment | undefined>(layer, (data: PropertyData) => data.tabAlignment);
   }
 
   public setTabAlignment(layer: PropertyLayer, value: TabAlignment): void {
@@ -1524,12 +1530,12 @@ export class PropertyStore {
   }
 
   // TabStop
-  public getTabStop(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.tabStop);
+  public getTabStop(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.tabStop);
   }
 
-  public getTabStopForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.tabStop);
+  public getTabStopForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.tabStop);
   }
 
   public setTabStop(layer: PropertyLayer, value: boolean): void {
@@ -1539,12 +1545,12 @@ export class PropertyStore {
   }
 
   // TemplateCss
-  public getTemplateCss(): string {
-    return this.getValue<string>((data: PropertyData) => data.templateCss);
+  public getTemplateCss(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.templateCss);
   }
 
-  public getTemplateCssForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.templateCss);
+  public getTemplateCssForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.templateCss);
   }
 
   public setTemplateCss(layer: PropertyLayer, value: string): void {
@@ -1554,12 +1560,12 @@ export class PropertyStore {
   }
 
   // TemplateHtml
-  public getTemplateHtml(): string {
-    return this.getValue<string>((data: PropertyData) => data.templateHtml);
+  public getTemplateHtml(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.templateHtml);
   }
 
-  public getTemplateHtmlForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.templateHtml);
+  public getTemplateHtmlForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.templateHtml);
   }
 
   public setTemplateHtml(layer: PropertyLayer, value: string): void {
@@ -1569,12 +1575,12 @@ export class PropertyStore {
   }
 
   // TextAlign
-  public getTextAlign(): TextAlign {
-    return this.getValue<TextAlign>((data: PropertyData) => data.textAlign);
+  public getTextAlign(): TextAlign | undefined {
+    return this.getValue<TextAlign | undefined>((data: PropertyData) => data.textAlign);
   }
 
-  public getTextAlignForLayer(layer: PropertyLayer): TextAlign {
-    return this.getValueForLayer<TextAlign>(layer, (data: PropertyData) => data.textAlign);
+  public getTextAlignForLayer(layer: PropertyLayer): TextAlign | undefined {
+    return this.getValueForLayer<TextAlign | undefined>(layer, (data: PropertyData) => data.textAlign);
   }
 
   public setTextAlign(layer: PropertyLayer, value: TextAlign): void {
@@ -1584,12 +1590,12 @@ export class PropertyStore {
   }
 
   // Title
-  public getTitle(): string {
-    return this.getValue<string>((data: PropertyData) => data.title);
+  public getTitle(): string | undefined {
+    return this.getValue<string | undefined>((data: PropertyData) => data.title);
   }
 
-  public getTitleForLayer(layer: PropertyLayer): string {
-    return this.getValueForLayer<string>(layer, (data: PropertyData) => data.title);
+  public getTitleForLayer(layer: PropertyLayer): string | undefined {
+    return this.getValueForLayer<string | undefined>(layer, (data: PropertyData) => data.title);
   }
 
   public setTitle(layer: PropertyLayer, value: string): void {
@@ -1599,12 +1605,12 @@ export class PropertyStore {
   }
 
   // Visibility
-  public getVisibility(): Visibility {
-    return this.getValue<Visibility>((data: PropertyData) => data.visibility);
+  public getVisibility(): Visibility | undefined {
+    return this.getValue<Visibility | undefined>((data: PropertyData) => data.visibility);
   }
 
-  public getVisibilityForLayer(layer: PropertyLayer): Visibility {
-    return this.getValueForLayer<Visibility>(layer, (data: PropertyData) => data.visibility);
+  public getVisibilityForLayer(layer: PropertyLayer): Visibility | undefined {
+    return this.getValueForLayer<Visibility | undefined>(layer, (data: PropertyData) => data.visibility);
   }
 
   public setVisibility(layer: PropertyLayer, value: Visibility): void {
@@ -1614,12 +1620,12 @@ export class PropertyStore {
   }
 
   // IsVisible
-  public getIsVisible(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.isVisible);
+  public getIsVisible(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.isVisible);
   }
 
-  public getIsVisibleForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.isVisible);
+  public getIsVisibleForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.isVisible);
   }
 
   public setIsVisible(layer: PropertyLayer, value: boolean): void {
@@ -1629,12 +1635,12 @@ export class PropertyStore {
   }
 
   // WordWrap
-  public getWordWrap(): boolean {
-    return this.getValue<boolean>((data: PropertyData) => data.wordWrap);
+  public getWordWrap(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.wordWrap);
   }
 
-  public getWordWrapForLayer(layer: PropertyLayer): boolean {
-    return this.getValueForLayer<boolean>(layer, (data: PropertyData) => data.wordWrap);
+  public getWordWrapForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.wordWrap);
   }
 
   public setWordWrap(layer: PropertyLayer, value: boolean): void {
@@ -1644,12 +1650,12 @@ export class PropertyStore {
   }
 
   // WrapArrangement
-  public getWrapArrangement(): WrapArrangement {
-    return this.getValue<WrapArrangement>((data: PropertyData) => data.wrapArrangement);
+  public getWrapArrangement(): WrapArrangement | undefined {
+    return this.getValue<WrapArrangement | undefined>((data: PropertyData) => data.wrapArrangement);
   }
 
-  public getWrapArrangementForLayer(layer: PropertyLayer): WrapArrangement {
-    return this.getValueForLayer<WrapArrangement>(layer, (data: PropertyData) => data.wrapArrangement);
+  public getWrapArrangementForLayer(layer: PropertyLayer): WrapArrangement | undefined {
+    return this.getValueForLayer<WrapArrangement | undefined>(layer, (data: PropertyData) => data.wrapArrangement);
   }
 
   public setWrapArrangement(layer: PropertyLayer, value: WrapArrangement): void {

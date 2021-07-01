@@ -24,31 +24,36 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements IWrap
     return new WrapLayout(this);
   }
 
-  protected getComponentRef(): ComponentRef<WrapPanelComponent> {
-    return super.getComponentRef() as ComponentRef<WrapPanelComponent>;
+  protected getComponentRef(): ComponentRef<WrapPanelComponent> | null {
+    return super.getComponentRef() as ComponentRef<WrapPanelComponent> | null;
   }
 
-  protected getComponent(): WrapPanelComponent {
-    const compRef: ComponentRef<WrapPanelComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): WrapPanelComponent | null {
+    const compRef: ComponentRef<WrapPanelComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public getViewContainerRef(): ViewContainerRef {
-    return this.getComponent().anchor;
+    const comp: WrapPanelComponent | null = this.getComponent();
+
+    if (comp == null) {
+      throw new Error('Tried to get WrapPanelComponent ViewContainerRef but component is NULL');
+    }
+    return comp.getViewContainerRef();
   }
 
   public getWrapArrangement(): WrapArrangement {
-    const wrapArrangement: WrapArrangement = this.getPropertyStore().getWrapArrangement();
+    const wrapArrangement: WrapArrangement | undefined = this.getPropertyStore().getWrapArrangement();
     return wrapArrangement != null ? wrapArrangement : WrapArrangement.Horizontal;
   }
 
   public getHorizontalContentAlignment(): HorizontalContentAlignment {
-    const horizontalContentAlignment: HorizontalContentAlignment = this.getPropertyStore().getHorizontalContentAlignment();
+    const horizontalContentAlignment: HorizontalContentAlignment | undefined = this.getPropertyStore().getHorizontalContentAlignment();
     return horizontalContentAlignment != null ? horizontalContentAlignment : HorizontalContentAlignment.Left;
   }
 
   public getVerticalContentAlignment(): VerticalContentAlignment {
-    const verticalContentAlignment: VerticalContentAlignment = this.getPropertyStore().getVerticalContentAlignment();
+    const verticalContentAlignment: VerticalContentAlignment | undefined = this.getPropertyStore().getVerticalContentAlignment();
     return verticalContentAlignment != null ? verticalContentAlignment : VerticalContentAlignment.Top;
   }
 

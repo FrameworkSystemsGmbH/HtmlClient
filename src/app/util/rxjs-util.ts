@@ -1,8 +1,8 @@
-import { Observable, of as obsOf } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export function voidObs(): Observable<void> {
-  return obsOf(null).pipe(
-    take(1)
-  );
+  return new Observable<void>(sub => {
+    sub.next();
+    sub.complete();
+  });
 }

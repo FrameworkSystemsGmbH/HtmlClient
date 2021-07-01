@@ -1,9 +1,11 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
 import { ParseMethod } from '@app/enums/parse-method';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
+import { FocusService } from '@app/services/focus.service';
 import { BaseFormatService } from '@app/services/formatter/base-format.service';
 import * as StyleUtil from '@app/util/style-util';
+import { TemplateControlContentWebComp } from '@app/webcomponents/template-control-content/template-control-content.webcomp';
 import { TemplateControlWrapper } from '@app/wrappers/template-control-wrapper';
 
 @Component({
@@ -14,18 +16,22 @@ import { TemplateControlWrapper } from '@app/wrappers/template-control-wrapper';
 export class TemplateControlComponent extends ControlComponent {
 
   @ViewChild('wrapper', { static: true })
-  public wrapperEl: ElementRef;
+  public wrapperEl: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('content', { static: true })
-  public contentEl: ElementRef;
+  public contentEl: ElementRef<TemplateControlContentWebComp> | null = null;
 
   public wrapperStyle: any;
 
-  private _baseFormatService: BaseFormatService;
+  private readonly _baseFormatService: BaseFormatService;
 
-  protected init(): void {
-    super.init();
-    this._baseFormatService = this.getInjector().get(BaseFormatService);
+  public constructor(
+    cdr: ChangeDetectorRef,
+    focusService: FocusService,
+    baseFormatService: BaseFormatService
+  ) {
+    super(cdr, focusService);
+    this._baseFormatService = baseFormatService;
   }
 
   public getWrapper(): TemplateControlWrapper {
@@ -35,23 +41,28 @@ export class TemplateControlComponent extends ControlComponent {
   public setWrapper(wrapper: TemplateControlWrapper): void {
     super.setWrapper(wrapper);
 
-    const globalCss: string = wrapper.getTemplateControlCssGlobal();
-    const templateCss: string = wrapper.getViewTemplateCss();
-    const templateHtml: string = wrapper.getViewTemplateHtml();
+    const globalCss: string | null = wrapper.getTemplateControlCssGlobal();
+    const templateCss: string | null = wrapper.getViewTemplateCss();
+    const templateHtml: string | null = wrapper.getViewTemplateHtml();
 
-    this.contentEl.nativeElement.init(globalCss, templateCss, templateHtml);
+    if (this.contentEl != null) {
+      this.contentEl.nativeElement.init(globalCss, templateCss, templateHtml);
+    }
   }
 
   protected updateData(wrapper: TemplateControlWrapper): void {
     super.updateData(wrapper);
 
-    const formattedValues: Array<string> = new Array<string>();
+    const formattedValues: Array<string | null> = new Array<string | null>();
 
     for (const templateValue of wrapper.getViewTemplateValues()) {
-      formattedValues.push(this._baseFormatService.formatString(templateValue.getValue(), ParseMethod.Server, templateValue.getFormat(), templateValue.getFormatPattern()));
+      const value: string | null = templateValue.getValue();
+      formattedValues.push(value != null ? this._baseFormatService.formatString(value, ParseMethod.Server, templateValue.getFormat(), templateValue.getFormatPattern()) : null);
     }
 
-    this.contentEl.nativeElement.update(this.isEditable, formattedValues);
+    if (this.contentEl != null) {
+      this.contentEl.nativeElement.update(this.isEditable, formattedValues);
+    }
   }
 
   protected updateStyles(wrapper: TemplateControlWrapper): void {

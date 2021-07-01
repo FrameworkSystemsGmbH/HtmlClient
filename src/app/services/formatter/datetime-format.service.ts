@@ -37,20 +37,20 @@ export class DateTimeFormatService {
 
   private readonly _onlyDigitRegExp: RegExp = /^\d+$/;
 
-  public momentToJson(value: Moment.Moment): string {
-    return value ? value.format(this._jsonFormat) : null;
+  public momentToJson(value: Moment.Moment): string | null {
+    return value.isValid() ? value.format(this._jsonFormat) : null;
   }
 
   public momentFromJson(value: string): Moment.Moment {
     return Moment(value, this._jsonFormat, true);
   }
 
-  public formatString(value: string, textFormat: TextFormat, formatPattern: string): string {
-    if (String.isNullOrWhiteSpace(value)) {
+  public formatString(value: string, textFormat: TextFormat, formatPattern: string | null): string | null {
+    if (value.trim().length === 0) {
       return null;
     }
 
-    const dateTime: Moment.Moment = this.parseString(value, textFormat, formatPattern);
+    const dateTime: Moment.Moment | null = this.parseString(value, textFormat, formatPattern);
 
     if (dateTime == null || !dateTime.isValid()) {
       return null;
@@ -59,12 +59,12 @@ export class DateTimeFormatService {
     return this.formatDate(dateTime, textFormat, formatPattern);
   }
 
-  public formatDate(value: Moment.Moment, textFormat: TextFormat, formatPattern: string): string {
-    if (value == null || !value.isValid()) {
+  public formatDate(value: Moment.Moment, textFormat: TextFormat, formatPattern: string | null): string | null {
+    if (!value.isValid()) {
       return null;
     }
 
-    if (!String.isNullOrWhiteSpace(formatPattern)) {
+    if (formatPattern != null && formatPattern.trim().length) {
       return value.format(formatPattern);
     } else if (textFormat != null) {
       if (textFormat === TextFormat.DateOnlyShort) {
@@ -91,12 +91,12 @@ export class DateTimeFormatService {
     return null;
   }
 
-  public parseString(value: string, textFormat: TextFormat, formatPattern: string): Moment.Moment {
-    if (String.isNullOrWhiteSpace(value)) {
+  public parseString(value: string, textFormat: TextFormat, formatPattern: string | null): Moment.Moment | null {
+    if (value.trim().length === 0) {
       return null;
     }
 
-    let dateTime: Moment.Moment = null;
+    let dateTime: Moment.Moment | null = null;
 
     dateTime = this.parseMomentFromFormatPattern(value, formatPattern);
     if (dateTime == null) {
@@ -109,26 +109,26 @@ export class DateTimeFormatService {
     return dateTime;
   }
 
-  private parseMomentFromFormatPattern(value: string, formatPattern: string): Moment.Moment {
-    if (String.isNullOrWhiteSpace(value) || String.isNullOrWhiteSpace(formatPattern)) {
+  private parseMomentFromFormatPattern(value: string, formatPattern: string | null): Moment.Moment | null {
+    if (value.trim().length === 0 || formatPattern == null || formatPattern.trim().length === 0) {
       return null;
     }
 
     const dateTime: Moment.Moment = Moment(value, formatPattern, true);
 
-    if (dateTime == null || !dateTime.isValid()) {
+    if (!dateTime.isValid()) {
       return null;
     }
 
     return dateTime;
   }
 
-  private parseMomentFromTextFormat(value: string, textFormat: TextFormat): Moment.Moment {
-    if (String.isNullOrWhiteSpace(value) || textFormat == null) {
+  private parseMomentFromTextFormat(value: string, textFormat: TextFormat): Moment.Moment | null {
+    if (value.trim().length === 0 || textFormat == null) {
       return null;
     }
 
-    let dateTime: Moment.Moment = null;
+    let dateTime: Moment.Moment | null = null;
 
     if (textFormat === TextFormat.DateOnlyShort) {
       dateTime = Moment(value, this._dateOnlyShortFormat, true);
@@ -157,8 +157,8 @@ export class DateTimeFormatService {
     return dateTime;
   }
 
-  private parseMomentFromShortcut(value: string, textFormat: TextFormat, formatPattern: string): Moment.Moment {
-    let dateTime: Moment.Moment = null;
+  private parseMomentFromShortcut(value: string, textFormat: TextFormat, formatPattern: string | null): Moment.Moment | null {
+    let dateTime: Moment.Moment | null = null;
 
     if (textFormat === TextFormat.DateOnlyShort || textFormat === TextFormat.DateOnlyMedium || textFormat === TextFormat.DateOnlyLong) {
       dateTime = this.getDateFromShortcut(value, formatPattern);
@@ -186,8 +186,8 @@ export class DateTimeFormatService {
    * DDMMYY      MMDDYY      DDYYMM      MMYYDD      YYDDMM      YYMMDD
    * DDMMYYYY    MMDDYYYY    DDYYYYMM    MMYYYYDD    YYYYDDMM    YYYYMMDD
    */
-  private getDateFromShortcut(value: string, formatPattern: string): Moment.Moment {
-    if (String.isNullOrWhiteSpace(value)) {
+  private getDateFromShortcut(value: string, formatPattern: string | null): Moment.Moment | null {
+    if (value.trim().length === 0) {
       return null;
     }
 
@@ -201,9 +201,9 @@ export class DateTimeFormatService {
       return null;
     }
 
-    const formatOrder: string = this.getDateFormatOrderFromPattern(formatPattern);
+    const formatOrder: string | null = this.getDateFormatOrderFromPattern(formatPattern);
 
-    let date: Moment.Moment = null;
+    let date: Moment.Moment | null = null;
 
     if (length === 1) {
       date = Moment(value, 'D');
@@ -265,6 +265,8 @@ export class DateTimeFormatService {
             date = Moment(value, 'YYYYMMDD');
           }
           break;
+        default:
+          break;
       }
     }
 
@@ -287,8 +289,8 @@ export class DateTimeFormatService {
    * Hmmss       Hssmm       mmHss       ssHmm       mmssH       ssmmH
    * HHmmss      HHssmm      mmHHss      ssHHmm      mmssHH      ssmmHH
    */
-  private getTimeFromShortcut(value: string, formatPattern: string): Moment.Moment {
-    if (String.isNullOrWhiteSpace(value)) {
+  private getTimeFromShortcut(value: string, formatPattern: string | null): Moment.Moment | null {
+    if (value.trim().length === 0) {
       return null;
     }
 
@@ -302,9 +304,9 @@ export class DateTimeFormatService {
       return null;
     }
 
-    const formatOrder: string = this.getTimeFormatOrderFromPattern(formatPattern);
+    const formatOrder: string | null = this.getTimeFormatOrderFromPattern(formatPattern);
 
-    let time: Moment.Moment = null;
+    let time: Moment.Moment | null = null;
 
     if (length === 1) {
       time = Moment(value, 'H');
@@ -378,6 +380,8 @@ export class DateTimeFormatService {
             time = Moment(value, 'ssmmHH');
           }
           break;
+        default:
+          break;
       }
     }
 
@@ -395,12 +399,12 @@ export class DateTimeFormatService {
    * [datepart][separator]             Example: DDMM/
    * [datepart][separator][timepart]   Example: DDMMYY/HHmm
    */
-  private getDateTimeFromShortcut(value: string, formatPattern: string): Moment.Moment {
-    if (String.isNullOrWhiteSpace(value)) {
+  private getDateTimeFromShortcut(value: string, formatPattern: string | null): Moment.Moment | null {
+    if (value.trim().length === 0) {
       return null;
     }
 
-    let separatorPos: number = null;
+    let separatorPos: number | null = null;
 
     for (let i = 0; i < value.length; i++) {
       const char: string = value.charAt(i);
@@ -414,7 +418,7 @@ export class DateTimeFormatService {
       }
     }
 
-    let dateTime: Moment.Moment = null;
+    let dateTime: Moment.Moment | null = null;
 
     if (separatorPos != null) {
       if (separatorPos === 0) {
@@ -431,13 +435,10 @@ export class DateTimeFormatService {
         const datePart: string = value.substring(0, separatorPos);
         const timePart: string = value.substring(separatorPos + 1);
 
-        const date: Moment.Moment = this.getDateFromShortcut(datePart, formatPattern);
-        const time: Moment.Moment = this.getTimeFromShortcut(timePart, formatPattern);
+        const date: Moment.Moment | null = this.getDateFromShortcut(datePart, formatPattern);
+        const time: Moment.Moment | null = this.getTimeFromShortcut(timePart, formatPattern);
 
-        const dateValid: boolean = date != null && date.isValid();
-        const timeValid: boolean = time != null && time.isValid();
-
-        if (!dateValid || !timeValid) {
+        if (date == null || !date.isValid() || time == null || !time.isValid()) {
           return null;
         }
 
@@ -458,10 +459,10 @@ export class DateTimeFormatService {
     return dateTime;
   }
 
-  private getDateFormatOrderFromPattern(formatPattern: string): string {
-    const patternValid: (str: string) => boolean = pattern => !String.isNullOrWhiteSpace(pattern) && pattern.length === 3;
+  private getDateFormatOrderFromPattern(formatPattern: string | null): string | null {
+    const patternValid: (str: string | null) => boolean = pattern => pattern != null && pattern.length === 3;
 
-    let shortPattern: string = this.getShortDatePattern(formatPattern);
+    let shortPattern: string | null = this.getShortDatePattern(formatPattern);
 
     if (!patternValid(shortPattern)) {
       shortPattern = this.getShortDatePattern(Moment.localeData().longDateFormat('L'));
@@ -473,8 +474,8 @@ export class DateTimeFormatService {
     return shortPattern;
   }
 
-  private getShortDatePattern(formatPattern: string): string {
-    if (String.isNullOrWhiteSpace(formatPattern)) {
+  private getShortDatePattern(formatPattern: string | null): string | null {
+    if (formatPattern == null || formatPattern.trim().length === 0) {
       return null;
     }
 
@@ -489,10 +490,10 @@ export class DateTimeFormatService {
     return shortPattern;
   }
 
-  private getTimeFormatOrderFromPattern(formatPattern: string): string {
-    const patternValid: (str: string) => boolean = pattern => !String.isNullOrWhiteSpace(pattern) && pattern.length === 3;
+  private getTimeFormatOrderFromPattern(formatPattern: string | null): string | null {
+    const patternValid: (str: string | null) => boolean = pattern => pattern != null && pattern.length === 3;
 
-    let shortPattern: string = this.getShortTimePattern(formatPattern);
+    let shortPattern: string | null = this.getShortTimePattern(formatPattern);
 
     if (!patternValid(shortPattern)) {
       shortPattern = this.getShortTimePattern(Moment.localeData().longDateFormat('LTS'));
@@ -504,8 +505,8 @@ export class DateTimeFormatService {
     return shortPattern;
   }
 
-  private getShortTimePattern(formatPattern: string): string {
-    if (String.isNullOrWhiteSpace(formatPattern)) {
+  private getShortTimePattern(formatPattern: string | null): string | null {
+    if (formatPattern == null || formatPattern.trim().length === 0) {
       return null;
     }
 
@@ -522,40 +523,40 @@ export class DateTimeFormatService {
     return shortPattern;
   }
 
-  private getDateFromSpecialChar(value: string): Moment.Moment {
-    if (String.isNullOrWhiteSpace(value) || !value.startsWith('*')) {
+  private getDateFromSpecialChar(value: string): Moment.Moment | null {
+    if (value.trim().length === 0 || !value.startsWith('*')) {
       return null;
     }
 
     const date: Moment.Moment = Moment();
 
     if (value.startsWith('*+++')) {
-      const amount: number = this.getAmoutToAdd(value.substring(4));
+      const amount: number | null = this.getAmoutToAdd(value.substring(4));
       if (amount != null) {
         date.add(amount, 'years');
       }
     } else if (value.startsWith('*++')) {
-      const amount: number = this.getAmoutToAdd(value.substring(3));
+      const amount: number | null = this.getAmoutToAdd(value.substring(3));
       if (amount != null) {
         date.add(amount, 'months');
       }
     } else if (value.startsWith('*+')) {
-      const amount: number = this.getAmoutToAdd(value.substring(2));
+      const amount: number | null = this.getAmoutToAdd(value.substring(2));
       if (amount != null) {
         date.add(amount, 'days');
       }
     } else if (value.startsWith('*---')) {
-      const amount: number = this.getAmoutToAdd(value.substring(4));
+      const amount: number | null = this.getAmoutToAdd(value.substring(4));
       if (amount != null) {
         date.subtract(amount, 'years');
       }
     } else if (value.startsWith('*--')) {
-      const amount: number = this.getAmoutToAdd(value.substring(3));
+      const amount: number | null = this.getAmoutToAdd(value.substring(3));
       if (amount != null) {
         date.subtract(amount, 'months');
       }
     } else if (value.startsWith('*-')) {
-      const amount: number = this.getAmoutToAdd(value.substring(2));
+      const amount: number | null = this.getAmoutToAdd(value.substring(2));
       if (amount != null) {
         date.subtract(amount, 'days');
       }
@@ -564,7 +565,7 @@ export class DateTimeFormatService {
     return date;
   }
 
-  private getTimeFromSpecialChar(value: string): Moment.Moment {
+  private getTimeFromSpecialChar(value: string): Moment.Moment | null {
     if (!value.startsWith('*')) {
       return null;
     }
@@ -572,32 +573,32 @@ export class DateTimeFormatService {
     const time: Moment.Moment = Moment();
 
     if (value.startsWith('*+++')) {
-      const amount: number = this.getAmoutToAdd(value.substring(4));
+      const amount: number | null = this.getAmoutToAdd(value.substring(4));
       if (amount != null) {
         time.add(amount, 'hours');
       }
     } else if (value.startsWith('*++')) {
-      const amount: number = this.getAmoutToAdd(value.substring(3));
+      const amount: number | null = this.getAmoutToAdd(value.substring(3));
       if (amount != null) {
         time.add(amount, 'minutes');
       }
     } else if (value.startsWith('*+')) {
-      const amount: number = this.getAmoutToAdd(value.substring(2));
+      const amount: number | null = this.getAmoutToAdd(value.substring(2));
       if (amount != null) {
         time.add(amount, 'seconds');
       }
     } else if (value.startsWith('*---')) {
-      const amount: number = this.getAmoutToAdd(value.substring(4));
+      const amount: number | null = this.getAmoutToAdd(value.substring(4));
       if (amount != null) {
         time.subtract(amount, 'hours');
       }
     } else if (value.startsWith('*--')) {
-      const amount: number = this.getAmoutToAdd(value.substring(3));
+      const amount: number | null = this.getAmoutToAdd(value.substring(3));
       if (amount != null) {
         time.subtract(amount, 'minutes');
       }
     } else if (value.startsWith('*-')) {
-      const amount: number = this.getAmoutToAdd(value.substring(2));
+      const amount: number | null = this.getAmoutToAdd(value.substring(2));
       if (amount != null) {
         time.subtract(amount, 'seconds');
       }
@@ -606,8 +607,8 @@ export class DateTimeFormatService {
     return time;
   }
 
-  private getAmoutToAdd(value: string): number {
-    if (String.isNullOrWhiteSpace(value) || !this._onlyDigitRegExp.test(value)) {
+  private getAmoutToAdd(value: string): number | null {
+    if (value.trim().length === 0 || !this._onlyDigitRegExp.test(value)) {
       return null;
     }
 

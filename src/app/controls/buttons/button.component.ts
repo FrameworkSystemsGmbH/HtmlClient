@@ -11,11 +11,11 @@ export abstract class ButtonComponent extends ControlComponent {
   @Output()
   public readonly btnClick: EventEmitter<any> = new EventEmitter<any>();
 
-  public caption: string;
-  public mapEnterToTab: boolean;
-  public showCaption: boolean;
-  public tabIndexAttr: number;
-  public disabledAttr: boolean;
+  public caption: string | null = null;
+  public mapEnterToTab: boolean = false;
+  public showCaption: boolean = true;
+  public tabIndexAttr: number | null = null;
+  public disabledAttr: boolean | null = null;
   public buttonStyle: any;
 
   public callBtnClick(event?: any): void {
@@ -102,8 +102,8 @@ export abstract class ButtonComponent extends ControlComponent {
     };
   }
 
-  public getFocusElement(): any {
-    const button: ElementRef = this.getButton();
+  public getFocusElement(): HTMLElement | null {
+    const button: ElementRef<HTMLButtonElement> | null = this.getButton();
 
     if (button) {
       return button.nativeElement;
@@ -112,5 +112,5 @@ export abstract class ButtonComponent extends ControlComponent {
     return null;
   }
 
-  protected abstract getButton(): ElementRef;
+  protected abstract getButton(): ElementRef<HTMLButtonElement> | null;
 }

@@ -23,26 +23,31 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDock
     return new DockLayout(this);
   }
 
-  protected getComponentRef(): ComponentRef<DockPanelComponent> {
-    return super.getComponentRef() as ComponentRef<DockPanelComponent>;
+  protected getComponentRef(): ComponentRef<DockPanelComponent> | null {
+    return super.getComponentRef() as ComponentRef<DockPanelComponent> | null;
   }
 
-  protected getComponent(): DockPanelComponent {
-    const compRef: ComponentRef<DockPanelComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): DockPanelComponent | null {
+    const compRef: ComponentRef<DockPanelComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public getViewContainerRef(): ViewContainerRef {
-    return this.getComponent().anchor;
+    const comp: DockPanelComponent | null = this.getComponent();
+
+    if (comp == null) {
+      throw new Error('Tried to get DockPanelComponent ViewContainerRef but component is NULL');
+    }
+    return comp.getViewContainerRef();
   }
 
   public getDockOrientation(): DockOrientation {
-    const dockOrientation: DockOrientation = this.getPropertyStore().getDockOrientation();
+    const dockOrientation: DockOrientation | undefined = this.getPropertyStore().getDockOrientation();
     return dockOrientation != null ? dockOrientation : DockOrientation.Vertical;
   }
 
   public getDockPanelScrolling(): DockPanelScrolling {
-    const dockPanelScrolling: DockPanelScrolling = this.getPropertyStore().getDockPanelScrolling();
+    const dockPanelScrolling: DockPanelScrolling | undefined = this.getPropertyStore().getDockPanelScrolling();
     return dockPanelScrolling != null ? dockPanelScrolling : DockPanelScrolling.None;
   }
 

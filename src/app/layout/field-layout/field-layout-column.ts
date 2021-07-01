@@ -8,8 +8,8 @@ export class FieldLayoutColumn {
   private readonly _maxColumnWidth: number;
   private readonly _horizontalStretchable: boolean;
 
-  private _resultColumnWidth: number;
-  private _minColumnHeight: number;
+  private _resultColumnWidth: number = 0;
+  private _minColumnHeight: number = 0;
 
   public constructor(cells: Array<FieldLayoutCell>) {
     this._cells = new Array<FieldLayoutCell>();

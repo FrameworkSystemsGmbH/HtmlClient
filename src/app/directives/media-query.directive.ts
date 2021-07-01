@@ -4,26 +4,30 @@ import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 export class MediaQueryDirective implements OnInit, OnDestroy {
 
   @Input()
-  public mediaQuery: string;
+  public mediaQuery: string | null = null;
 
   @Output()
   public readonly mediaQueryChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  private _mediaQueryList: MediaQueryList;
+  private _mediaQueryList: MediaQueryList | null = null;
 
-  private _mediaQueryListener: (event: MediaQueryListEvent) => void;
+  private _mediaQueryListener: ((event: MediaQueryListEvent) => void) | null = null;
 
   public ngOnInit(): void {
-    this._mediaQueryListener = this.fireMediaQueryChanged.bind(this);
+    if (this.mediaQuery != null && this.mediaQuery.trim().length) {
+      this._mediaQueryListener = this.fireMediaQueryChanged.bind(this);
 
-    this._mediaQueryList = window.matchMedia(this.mediaQuery);
-    this._mediaQueryList.addListener(this._mediaQueryListener);
+      this._mediaQueryList = window.matchMedia(this.mediaQuery);
+      this._mediaQueryList.addListener(this._mediaQueryListener);
 
-    this.mediaQueryChanged.emit(this._mediaQueryList.matches);
+      this.mediaQueryChanged.emit(this._mediaQueryList.matches);
+    }
   }
 
   public ngOnDestroy(): void {
-    this._mediaQueryList.removeListener(this._mediaQueryListener);
+    if (this._mediaQueryList && this._mediaQueryListener) {
+      this._mediaQueryList.removeListener(this._mediaQueryListener);
+    }
   }
 
   private fireMediaQueryChanged(event: MediaQueryListEvent): void {

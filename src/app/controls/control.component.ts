@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, EventEmitter, Injector, Output } from '@angular/core';
+import { ChangeDetectorRef, Directive, EventEmitter, Output } from '@angular/core';
 import { LayoutableComponent } from '@app/controls/layoutable.component';
 import { Visibility } from '@app/enums/visibility';
 import { FocusService } from '@app/services/focus.service';
@@ -13,29 +13,25 @@ export abstract class ControlComponent extends LayoutableComponent {
   @Output()
   public readonly ctrlLeave: EventEmitter<any> = new EventEmitter<any>();
 
-  public isVisible: boolean;
-  public isEditable: boolean;
-  public isFocused: boolean;
-  public isOutlined: boolean;
+  public isVisible: boolean = true;
+  public isEditable: boolean = true;
+  public isFocused: boolean = false;
+  public isOutlined: boolean = false;
 
-  private readonly _injector: Injector;
+  private readonly _cdr: ChangeDetectorRef;
+  private readonly _focusService: FocusService;
 
-  private _focusService: FocusService;
-  private _cdr: ChangeDetectorRef;
-
-  public constructor(injector: Injector) {
+  public constructor(
+    cdr: ChangeDetectorRef,
+    focusService: FocusService
+  ) {
     super();
-    this._injector = injector;
-    this.init();
+    this._cdr = cdr;
+    this._focusService = focusService;
   }
 
-  protected init(): void {
-    this._focusService = this._injector.get(FocusService);
-    this._cdr = this._injector.get(ChangeDetectorRef);
-  }
-
-  protected getInjector(): Injector {
-    return this._injector;
+  protected getChangeDetectorRef(): ChangeDetectorRef {
+    return this._cdr;
   }
 
   protected getFocusService(): FocusService {
@@ -82,7 +78,7 @@ export abstract class ControlComponent extends LayoutableComponent {
     this.isVisible = wrapper.getCurrentVisibility() === Visibility.Visible;
   }
 
-  public getFocusElement(): any {
+  public getFocusElement(): HTMLElement | null {
     // Override in subclasses
     return null;
   }

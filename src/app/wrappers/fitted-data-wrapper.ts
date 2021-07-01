@@ -3,10 +3,10 @@ import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
 
 export abstract class FittedDataWrapper extends FittedWrapper {
 
-  protected minWidth: number;
-  protected maxWidth: number;
-  protected minHeight: number;
-  protected maxHeight: number;
+  protected minWidth: number | null = null;
+  protected maxWidth: number | null = null;
+  protected minHeight: number | null = null;
+  protected maxHeight: number | null = null;
 
   public getDisplayMinLines(): number {
     return Number.zeroIfNull(this.getPropertyStore().getDisplayMinLines());
@@ -25,7 +25,7 @@ export abstract class FittedDataWrapper extends FittedWrapper {
   }
 
   public getDataSourceType(): DataSourceType {
-    const dataSourceType: DataSourceType = this.getPropertyStore().getDataSourceType();
+    const dataSourceType: DataSourceType | undefined = this.getPropertyStore().getDataSourceType();
     return dataSourceType != null ? dataSourceType : DataSourceType.None;
   }
 
@@ -58,8 +58,8 @@ export abstract class FittedDataWrapper extends FittedWrapper {
 
       if (this.getShouldMeasureMinWidth(specifiedMinWidth)) {
         const dataMinWidth: number = this.getDataMinWidth();
-        if (!dataMinWidth || dataMinWidth <= 0) {
-          this.minWidth = null;
+        if (dataMinWidth <= 0) {
+          this.minWidth = 0;
         } else {
           this.minWidth = this.getBorderThicknessLeft() + this.getPaddingLeft() + dataMinWidth + this.getPaddingRight() + this.getBorderThicknessRight();
         }
@@ -76,8 +76,8 @@ export abstract class FittedDataWrapper extends FittedWrapper {
 
       if (this.getShouldMeasureMaxWidth(specifiedMaxWidth)) {
         const dataMaxWidth: number = this.getDataMaxWidth();
-        if (!dataMaxWidth || dataMaxWidth <= 0) {
-          this.maxWidth = null;
+        if (dataMaxWidth <= 0) {
+          this.maxWidth = 0;
         } else {
           this.maxWidth = this.getBorderThicknessLeft() + this.getPaddingLeft() + dataMaxWidth + this.getPaddingRight() + this.getBorderThicknessRight();
         }
@@ -94,8 +94,8 @@ export abstract class FittedDataWrapper extends FittedWrapper {
 
       if (this.getShouldMeasureMinHeight(specifiedMinHeight)) {
         const dataMinHeight: number = this.getDataMinHeight();
-        if (!dataMinHeight || dataMinHeight <= 0) {
-          this.minHeight = null;
+        if (dataMinHeight <= 0) {
+          this.minHeight = 0;
         } else {
           this.minHeight = this.getBorderThicknessTop() + this.getPaddingTop() + dataMinHeight + this.getPaddingBottom() + this.getBorderThicknessBottom();
         }
@@ -112,8 +112,8 @@ export abstract class FittedDataWrapper extends FittedWrapper {
 
       if (this.getShouldMeasureMaxHeight(specifiedMaxHeight)) {
         const dataMaxHeight: number = this.getDataMaxHeight();
-        if (!dataMaxHeight || dataMaxHeight <= 0) {
-          this.maxHeight = null;
+        if (dataMaxHeight <= 0) {
+          this.maxHeight = 0;
         } else {
           this.maxHeight = this.getBorderThicknessTop() + this.getPaddingTop() + dataMaxHeight + this.getPaddingBottom() + this.getBorderThicknessBottom();
         }

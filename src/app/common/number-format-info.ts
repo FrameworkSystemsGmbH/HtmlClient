@@ -4,8 +4,8 @@ export class NumberFormatInfo {
   public decimalsPart: string = String.empty();
   public suffixPart: string = String.empty();
 
-  public firstDigitZeroPos: number;
-  public lastDecimalZeroPos: number;
+  public firstDigitZeroPos: number | null = null;
+  public lastDecimalZeroPos: number | null = null;
 
   public isPercent: boolean = false;
   public isPermille: boolean = false;
@@ -26,14 +26,6 @@ export class NumberFormatInfo {
 
   public hasSuffixPart(): boolean {
     return !String.isNullOrEmpty(this.suffixPart);
-  }
-
-  public hasFirstDigitZero(): boolean {
-    return this.firstDigitZeroPos != null;
-  }
-
-  public hasLastDecimalZero(): boolean {
-    return this.lastDecimalZeroPos != null;
   }
 
   public getDigitsCount(): number {

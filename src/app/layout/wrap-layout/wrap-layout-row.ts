@@ -2,7 +2,7 @@ import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper
 
 export class WrapLayoutRow {
 
-  private _resultRowHeight: number;
+  private _resultRowHeight: number = 0;
 
   public constructor(
     private readonly _wrappers: Array<LayoutableControlWrapper>,

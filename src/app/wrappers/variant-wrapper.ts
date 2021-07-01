@@ -4,28 +4,21 @@ import { VariantComponent } from '@app/controls/variant/variant.component';
 import { ClientEventType } from '@app/enums/client-event-type';
 import { ControlType } from '@app/enums/control-type';
 import { DataSourceType } from '@app/enums/datasource-type';
-import { ImageService } from '@app/services/image.service';
 import { ContainerWrapper } from '@app/wrappers/container-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
 export class VariantWrapper extends ContainerWrapper {
 
-  private _imageService: ImageService;
-
-  private _badgeImageData: string;
-  private _dataSourceType: DataSourceType;
-
-  protected init(): void {
-    super.init();
-    this._imageService = this.getInjector().get(ImageService);
-  }
+  private _badgeImageData: string | null = null;
+  private _dataSourceType: DataSourceType | null = null;
 
   public getControlType(): ControlType {
     return ControlType.Variant;
   }
 
-  public getTitle(): string {
-    return this.getPropertyStore().getTitle();
+  public getTitle(): string | null {
+    const title: string | undefined = this.getPropertyStore().getTitle();
+    return title != null ? title : null;
   }
 
   public setTitle(title: string): void {
@@ -33,12 +26,12 @@ export class VariantWrapper extends ContainerWrapper {
   }
 
   public getIsCloseIconVisible(): boolean {
-    const isCloseIconVisible: boolean = this.getPropertyStore().getIsCloseIconVisible();
+    const isCloseIconVisible: boolean | undefined = this.getPropertyStore().getIsCloseIconVisible();
     return isCloseIconVisible != null ? isCloseIconVisible : false;
   }
 
   public getHideModalHeader(): boolean {
-    const hideModalHeader: boolean = this.getPropertyStore().getHideModalHeader();
+    const hideModalHeader: boolean | undefined = this.getPropertyStore().getHideModalHeader();
     return hideModalHeader != null ? hideModalHeader : false;
   }
 
@@ -46,12 +39,12 @@ export class VariantWrapper extends ContainerWrapper {
     return (this.getEvents() & ClientEventType.OnClose) === ClientEventType.OnClose;
   }
 
-  public getBadgeImageSrc(): string {
-    if (!String.isNullOrWhiteSpace(this._badgeImageData)) {
+  public getBadgeImageSrc(): string | null {
+    if (this._badgeImageData != null && this._badgeImageData.trim().length) {
       if (this._dataSourceType === DataSourceType.ByteArray) {
         return `data:;base64,${this._badgeImageData}`;
       } else {
-        return this._imageService.getImageUrl(this._badgeImageData);
+        return this.getImageService().getImageUrl(this._badgeImageData);
       }
     }
 
@@ -71,17 +64,22 @@ export class VariantWrapper extends ContainerWrapper {
     }
   }
 
-  protected getComponentRef(): ComponentRef<VariantComponent> {
-    return super.getComponentRef() as ComponentRef<VariantComponent>;
+  protected getComponentRef(): ComponentRef<VariantComponent> | null {
+    return super.getComponentRef() as ComponentRef<VariantComponent> | null;
   }
 
-  protected getComponent(): VariantComponent {
-    const compRef: ComponentRef<VariantComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): VariantComponent | null {
+    const compRef: ComponentRef<VariantComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public getViewContainerRef(): ViewContainerRef {
-    return this.getComponent().anchor;
+    const comp: VariantComponent | null = this.getComponent();
+
+    if (comp == null) {
+      throw new Error('Tried to get VariantComponent ViewContainerRef but component is NULL');
+    }
+    return comp.getViewContainerRef();
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<VariantComponent> {

@@ -10,6 +10,7 @@ import { RoutingService } from '@app/services/routing.service';
 import { StorageService } from '@app/services/storage.service';
 import { TextsService } from '@app/services/texts.service';
 import { TitleService } from '@app/services/title.service';
+import { IAppState } from '@app/store/app.state';
 import { setBrokerState } from '@app/store/broker/broker.actions';
 import { selectBrokerState } from '@app/store/broker/broker.selectors';
 import { IBrokerState } from '@app/store/broker/broker.state';
@@ -28,7 +29,7 @@ const { App } = Plugins;
 @Injectable({ providedIn: 'root' })
 export class StateService {
 
-  private _brokerState: IBrokerState;
+  private _brokerState: IBrokerState | null = null;
 
   public constructor(
     private readonly _zone: NgZone,
@@ -40,7 +41,7 @@ export class StateService {
     private readonly _platformService: PlatformService,
     private readonly _routingService: RoutingService,
     private readonly _storageService: StorageService,
-    private readonly _store: Store,
+    private readonly _store: Store<IAppState>,
     private readonly _textsService: TextsService,
     private readonly _titleService: TitleService
   ) {
@@ -73,7 +74,7 @@ export class StateService {
         this._backService.removeHandlers();
 
         // Save state only if there is an active broker session
-        if (this._brokerState.activeBrokerName != null) {
+        if (this._brokerState != null && this._brokerState.activeBrokerName != null) {
           this.saveState();
         }
       }
@@ -95,7 +96,7 @@ export class StateService {
       }),
       map(lastSessionInfo => {
         // Load state only if there is no active broker session
-        if (this._brokerState.activeBrokerName == null) {
+        if (this._brokerState != null && this._brokerState.activeBrokerName == null) {
           this.loadState(lastSessionInfo);
         }
       }),
@@ -108,7 +109,7 @@ export class StateService {
   public getLastSessionInfo(): Observable<LastSessionInfo> {
     return this._storageService.load(SESSION_STORAGE_KEY).pipe(
       mergeMap(data => {
-        const stateJson: any = JSON.parse(data);
+        const stateJson: any = data != null ? JSON.parse(data) : null;
 
         if (!JsonUtil.isEmptyObject(stateJson)) {
           const lastRequestTime: Moment.Moment = Moment.utc(stateJson.meta.lastRequestTime);
@@ -122,12 +123,12 @@ export class StateService {
             ));
           } else {
             return this._storageService.delete(SESSION_STORAGE_KEY).pipe(
-              map(() => null as LastSessionInfo)
+              map(() => null as unknown as LastSessionInfo)
             );
           }
         }
 
-        return obsOf(null as LastSessionInfo);
+        return obsOf(null as unknown as LastSessionInfo);
       })
     );
   }
@@ -143,22 +144,26 @@ export class StateService {
     }
 
     // Meta
+    const lastRequestTime: Moment.Moment | null = this._brokerService.getLastRequestTime();
+
     stateJson.meta = {
-      lastBroker: this._brokerState.activeBrokerName,
-      lastRequestTime: this._brokerService.getLastRequestTime().toJSON()
+      lastBroker: this._brokerState != null ? this._brokerState.activeBrokerName : null,
+      lastRequestTime: lastRequestTime != null ? lastRequestTime.toJSON() : null
     };
 
     // Store
-    stateJson.store = {
-      activeBrokerName: this._brokerState.activeBrokerName,
-      activeBrokerToken: this._brokerState.activeBrokerToken,
-      activeBrokerUrl: this._brokerState.activeBrokerUrl,
-      activeBrokerDirect: this._brokerState.activeBrokerDirect,
-      activeBrokerFilesUrl: this._brokerState.activeBrokerFilesUrl,
-      activeBrokerImageUrl: this._brokerState.activeBrokerImageUrl,
-      activeBrokerReportUrl: this._brokerState.activeBrokerReportUrl,
-      activeBrokerRequestUrl: this._brokerState.activeBrokerRequestUrl
-    };
+    if (this._brokerState != null) {
+      stateJson.store = {
+        activeBrokerName: this._brokerState.activeBrokerName,
+        activeBrokerToken: this._brokerState.activeBrokerToken,
+        activeBrokerUrl: this._brokerState.activeBrokerUrl,
+        activeBrokerDirect: this._brokerState.activeBrokerDirect,
+        activeBrokerFilesUrl: this._brokerState.activeBrokerFilesUrl,
+        activeBrokerImageUrl: this._brokerState.activeBrokerImageUrl,
+        activeBrokerReportUrl: this._brokerState.activeBrokerReportUrl,
+        activeBrokerRequestUrl: this._brokerState.activeBrokerRequestUrl
+      };
+    }
 
     // Services
     const controlStyleServiceJson: any = this._controlStyleService.saveState();
@@ -195,10 +200,6 @@ export class StateService {
 
   public loadState(lastSessionInfo: LastSessionInfo): void {
     this._storageService.delete(SESSION_STORAGE_KEY).subscribe();
-
-    if (lastSessionInfo == null) {
-      return;
-    }
 
     const stateJson: any = lastSessionInfo.getStateJson();
 

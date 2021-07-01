@@ -3,7 +3,7 @@ import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-
 
 export class ControlLabelSeparatorWrapper extends ControlLabelWrapper {
 
-  private _visibility: Visibility;
+  private _visibility: Visibility | null = null;
 
   public getCurrentIsEditable(): boolean {
     return this.getLabelProvider().getCurrentIsEditable();

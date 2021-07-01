@@ -6,7 +6,7 @@ export class ClientApplicationQuitEvent extends ClientControlEvent {
 
   protected args: ClientApplicationQuitEventArgs;
 
-  public constructor(restartRequested: boolean = null) {
+  public constructor(restartRequested: boolean) {
     super(ClientEventType[ClientEventType.OnApplicationQuit], 'Application');
     this.args = new ClientApplicationQuitEventArgs(restartRequested);
   }

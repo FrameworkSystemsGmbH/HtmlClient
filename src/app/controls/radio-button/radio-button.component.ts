@@ -15,18 +15,18 @@ import { RadioButtonWrapper } from '@app/wrappers/radio-button-wrapper';
 export class RadioButtonComponent extends ControlComponent {
 
   @ViewChild('input', { static: true })
-  public input: ElementRef;
+  public input: ElementRef<HTMLInputElement> | null = null;
 
   @Output()
   public readonly radioClick: EventEmitter<any> = new EventEmitter<any>();
 
-  public id: string;
-  public value: string;
-  public checkedValue: string;
-  public groupName: string;
-  public caption: string;
-  public disabledAttr: boolean;
-  public tabIndexAttr: number;
+  public id: string | null = null;
+  public value: string | null = null;
+  public checkedValue: string | null = null;
+  public caption: string | null = null;
+  public disabledAttr: boolean | null = null;
+  public tabIndexAttr: number | null = null;
+  public groupName: string = String.empty();
 
   public wrapperStyle: any;
   public labelStyle: any;
@@ -54,13 +54,16 @@ export class RadioButtonComponent extends ControlComponent {
   }
 
   public onWrapperMouseDown(event: any): void {
-    if (!event.target || !DomUtil.isDescentantOrSelf(this.input.nativeElement, event.target)) {
+    if (this.input != null && (!event.target || !DomUtil.isDescentantOrSelf(this.input.nativeElement, event.target))) {
       event.preventDefault();
     }
   }
 
   public onLabelMouseDown(): void {
-    this.getFocusElement().focus();
+    const focusElement: HTMLElement | null = this.getFocusElement();
+    if (focusElement != null) {
+      focusElement.focus();
+    }
   }
 
   public getWrapper(): RadioButtonWrapper {
@@ -72,10 +75,12 @@ export class RadioButtonComponent extends ControlComponent {
     this.id = wrapper.getName();
     this.value = wrapper.getValue();
     this.checkedValue = wrapper.getCheckedValue();
-    this.groupName = wrapper.getButtonGroupName();
     this.caption = wrapper.getCaption();
     this.disabledAttr = Boolean.nullIfFalse(!this.isEditable);
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
+
+    const groupNameVal: string | null = wrapper.getButtonGroupName();
+    this.groupName = groupNameVal != null ? groupNameVal : String.empty();
   }
 
   protected updateStyles(wrapper: CheckBoxWrapper): void {
@@ -143,7 +148,7 @@ export class RadioButtonComponent extends ControlComponent {
     };
   }
 
-  public getFocusElement(): any {
+  public getFocusElement(): HTMLElement | null {
     if (this.input) {
       return this.input.nativeElement;
     }

@@ -16,17 +16,17 @@ export class ListViewItemWrapper {
   private readonly _listViewWrapper: ListViewWrapper;
   private readonly _cfr: ComponentFactoryResolver;
 
-  private _id: string;
-  private _pos: number;
-  private _selected: boolean;
-  private _selectedOrg: boolean;
-  private _values: Array<ListViewItemValueWrapper>;
-  private _componentRef: ComponentRef<ListViewItemComponent>;
+  private _id: string = String.empty();
+  private _pos: number | null = null;
+  private _selected: boolean = false;
+  private _selectedOrg: boolean = false;
+  private _values: Array<ListViewItemValueWrapper> = new Array<ListViewItemValueWrapper>();
+  private _componentRef: ComponentRef<ListViewItemComponent> | null = null;
 
   private _isNew: boolean;
   private _isAttached: boolean;
-  private _hasPosChanged: boolean;
-  private _hasContentChanged: boolean;
+  private _hasPosChanged: boolean = false;
+  private _hasContentChanged: boolean = false;
 
   public constructor(injector: Injector, options: IListViewItemWrapperOptions) {
     this._isNew = true;
@@ -38,9 +38,9 @@ export class ListViewItemWrapper {
     if (options.state) {
       this.loadState(options.state);
     } else {
-      this._id = options.id;
-      this._pos = options.pos;
-      this._values = options.values;
+      this._id = options.id ? options.id : String.empty();
+      this._pos = options.pos ? options.pos : null;
+      this._values = options.values ? options.values : new Array<ListViewItemValueWrapper>();
     }
   }
 
@@ -48,7 +48,7 @@ export class ListViewItemWrapper {
     return this._id;
   }
 
-  public getPos(): number {
+  public getPos(): number | null {
     return this._pos;
   }
 
@@ -76,7 +76,7 @@ export class ListViewItemWrapper {
     return this._cfr.resolveComponentFactory(ListViewItemComponent).create(listViewAnchor.injector);
   }
 
-  private getComponentRef(): ComponentRef<ListViewItemComponent> {
+  private getComponentRef(): ComponentRef<ListViewItemComponent> | null {
     return this._componentRef;
   }
 
@@ -84,18 +84,18 @@ export class ListViewItemWrapper {
     this._componentRef = componentRef;
   }
 
-  private getComponent(): ListViewItemComponent {
-    const compRef: ComponentRef<ListViewItemComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  private getComponent(): ListViewItemComponent | null {
+    const compRef: ComponentRef<ListViewItemComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
-  private getHostView(): ViewRef {
-    const compRef: ComponentRef<ListViewItemComponent> = this.getComponentRef();
-    return compRef ? compRef.hostView : undefined;
+  private getHostView(): ViewRef | null {
+    const compRef: ComponentRef<ListViewItemComponent> | null = this.getComponentRef();
+    return compRef ? compRef.hostView : null;
   }
 
   public updateComponent(): void {
-    const comp: ListViewItemComponent = this.getComponent();
+    const comp: ListViewItemComponent | null = this.getComponent();
 
     if (comp) {
       comp.updateComponent();
@@ -123,7 +123,7 @@ export class ListViewItemWrapper {
   }
 
   public detachComponent(): void {
-    const compRef: ComponentRef<ListViewItemComponent> = this.getComponentRef();
+    const compRef: ComponentRef<ListViewItemComponent> | null = this.getComponentRef();
 
     if (compRef != null) {
       compRef.destroy();
@@ -137,13 +137,18 @@ export class ListViewItemWrapper {
   }
 
   public ensureItemPos(listViewAnchor: ViewContainerRef): void {
-    const hostView: ViewRef = this.getHostView();
+    const hostView: ViewRef | null = this.getHostView();
 
     if (!hostView) {
       return;
     }
 
-    const wrapperPos = this.getPos();
+    const wrapperPos: number | null = this.getPos();
+
+    if (wrapperPos == null) {
+      return;
+    }
+
     const viewPos: number = listViewAnchor.indexOf(hostView);
 
     if (wrapperPos !== viewPos) {

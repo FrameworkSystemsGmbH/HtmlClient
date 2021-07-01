@@ -1,6 +1,7 @@
-import { AfterViewChecked, Directive, ElementRef, NgZone } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Directive, ElementRef, NgZone } from '@angular/core';
 import { ComboBoxComponent } from '@app/controls/comboboxes/combobox.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
+import { FocusService } from '@app/services/focus.service';
 import * as DomUtil from '@app/util/dom-util';
 import * as KeyUtil from '@app/util/key-util';
 import * as StyleUtil from '@app/util/style-util';
@@ -9,42 +10,46 @@ import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 @Directive()
 export abstract class ComboBoxDesktopComponent extends ComboBoxComponent implements AfterViewChecked {
 
-  public selectedListIndex: number;
-  public dropDownVisible: boolean;
+  public selectedListIndex: number | null = null;
+  public dropDownVisible: boolean = false;
 
   public containerStyle: any;
   public controlStyle: any;
   public dropDownStyle: any;
   public dropDownScrollerStyle: any;
 
-  protected zone: NgZone;
+  protected readonly _zone: NgZone;
 
-  private _lastScrolledIndex: number;
+  private _lastScrolledIndex: number | null = null;
 
-  protected init(): void {
-    super.init();
-    this.zone = this.getInjector().get(NgZone);
+  public constructor(
+    cdr: ChangeDetectorRef,
+    focusService: FocusService,
+    zone: NgZone
+  ) {
+    super(cdr, focusService);
+    this._zone = zone;
   }
 
   public ngAfterViewChecked(): void {
     if (this.dropDownVisible) {
-      const selectedListIndex: number = this.getSelectedListIndex();
+      const selectedListIndex: number | null = this.getSelectedListIndex();
       if (selectedListIndex !== this._lastScrolledIndex) {
         this._lastScrolledIndex = selectedListIndex;
-        this.zone.runOutsideAngular(() => {
+        this._zone.runOutsideAngular(() => {
           this.scrollSelectedEntryIntoView();
         });
       }
     }
   }
 
-  protected setSelectedIndex(index: number): void {
+  protected setSelectedIndex(index: number | null): void {
     super.setSelectedIndex(index);
     this.setSelectedListIndex(null);
   }
 
-  public getSelectedListIndex(): number {
-    const selectedIndex: number = this.getSelectedIndex();
+  public getSelectedListIndex(): number | null {
+    const selectedIndex: number | null = this.getSelectedIndex();
 
     if (this.selectedListIndex != null) {
       return this.selectedListIndex;
@@ -55,7 +60,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     }
   }
 
-  protected setSelectedListIndex(index: number): void {
+  protected setSelectedListIndex(index: number | null): void {
     this.selectedListIndex = index;
   }
 
@@ -115,13 +120,13 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
   }
 
   protected scrollSelectedEntryIntoView(): void {
-    const scroller: ElementRef = this.getScroller();
-    const list: ElementRef = this.getList();
+    const scroller: ElementRef<HTMLDivElement> | null = this.getScroller();
+    const list: ElementRef<HTMLUListElement> | null = this.getList();
 
     if (!scroller || !list) {
       return;
     }
-    const selectedLi: HTMLLIElement = list.nativeElement.querySelector('li.selected');
+    const selectedLi: HTMLLIElement | null = list.nativeElement.querySelector('li.selected');
     if (selectedLi) {
       DomUtil.scrollIntoView(scroller.nativeElement, selectedLi);
     }
@@ -133,7 +138,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
     }
 
     if (this.dropDownVisible) {
-      const currentListIndex: number = this.getSelectedListIndex();
+      const currentListIndex: number | null = this.getSelectedListIndex();
       this.setSelectedListIndex(currentListIndex != null ? Math.min(currentListIndex + 1, this.entries.length - 1) : 0);
     } else {
       this.showList();
@@ -142,7 +147,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
 
   protected selectPrevious(): void {
     if (this.dropDownVisible) {
-      const currentListIndex: number = this.getSelectedListIndex();
+      const currentListIndex: number | null = this.getSelectedListIndex();
       this.setSelectedListIndex(currentListIndex != null ? Math.max(currentListIndex - 1, 0) : 0);
     } else {
       this.showList();
@@ -259,7 +264,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
 
   public abstract onEnterKey(event: KeyboardEvent): void;
 
-  protected abstract getScroller(): ElementRef;
+  protected abstract getScroller(): ElementRef<HTMLDivElement> | null;
 
-  protected abstract getList(): ElementRef;
+  protected abstract getList(): ElementRef<HTMLUListElement> | null;
 }

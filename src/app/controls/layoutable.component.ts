@@ -4,7 +4,7 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 @Directive()
 export abstract class LayoutableComponent implements OnInit, DoCheck, OnDestroy {
 
-  private _wrapper: ILayoutableControlWrapper;
+  private _wrapper: ILayoutableControlWrapper | null = null;
 
   public ngOnInit(): void {
     this.updateComponent();
@@ -21,6 +21,10 @@ export abstract class LayoutableComponent implements OnInit, DoCheck, OnDestroy 
   }
 
   public getWrapper(): ILayoutableControlWrapper {
+    if (this._wrapper == null) {
+      throw new Error('Tried to access uninitialized component wrapper');
+    }
+
     return this._wrapper;
   }
 
@@ -29,9 +33,11 @@ export abstract class LayoutableComponent implements OnInit, DoCheck, OnDestroy 
   }
 
   public updateComponent(): void {
-    const wrapper: ILayoutableControlWrapper = this.getWrapper();
-    this.updateData(wrapper);
-    this.updateStyles(wrapper);
+    const wrapper: ILayoutableControlWrapper | null = this.getWrapper();
+    if (wrapper != null) {
+      this.updateData(wrapper);
+      this.updateStyles(wrapper);
+    }
   }
 
   protected updateData(wrapper: ILayoutableControlWrapper): void {

@@ -2,17 +2,17 @@ export class HeightBuffer {
 
   public static defaultSize: number = 3;
 
-  protected size: number = HeightBuffer.defaultSize;
-  protected widths: Array<number>;
-  protected heights: Array<number>;
-  protected generations: Array<number>;
-  protected generationCounter: number = 0;
+  protected _size: number = HeightBuffer.defaultSize;
+  protected _widths: Array<number> = new Array<number>(this._size);
+  protected _heights: Array<number> = new Array<number>(this._size);
+  protected _generations: Array<number> = new Array<number>(this._size);
+  protected _generationCounter: number = 0;
 
   public setSize(size: number): void {
     if (!size || size < 1) {
-      this.size = HeightBuffer.defaultSize;
+      this._size = HeightBuffer.defaultSize;
     } else {
-      this.size = size;
+      this._size = size;
     }
 
     this.clear();
@@ -30,10 +30,10 @@ export class HeightBuffer {
     }
 
     // 1. Search in buffer (and refresh generation if found)
-    for (let i = 0; i < this.size; i++) {
-      if (this.widths[i] === width) {
-        this.generations[i] = ++this.generationCounter;
-        return this.heights[i];
+    for (let i = 0; i < this._size; i++) {
+      if (this._widths[i] === width) {
+        this._generations[i] = ++this._generationCounter;
+        return this._heights[i];
       }
     }
 
@@ -43,8 +43,8 @@ export class HeightBuffer {
      */
     let firstGenerationPos: number = 0;
     let firstGenerationValue: number = Number.MAX_SAFE_INTEGER;
-    for (let i = 0; i < this.size; i++) {
-      const currentGenerationValue: number = this.generations[i];
+    for (let i = 0; i < this._size; i++) {
+      const currentGenerationValue: number = this._generations[i];
       if (currentGenerationValue < firstGenerationValue) {
         firstGenerationValue = currentGenerationValue;
         firstGenerationPos = i;
@@ -53,17 +53,17 @@ export class HeightBuffer {
 
     // 3. Calculate the value and save it
     const result: number = heightCalculator();
-    this.widths[firstGenerationPos] = width;
-    this.heights[firstGenerationPos] = result;
-    this.generations[firstGenerationPos] = ++this.generationCounter;
+    this._widths[firstGenerationPos] = width;
+    this._heights[firstGenerationPos] = result;
+    this._generations[firstGenerationPos] = ++this._generationCounter;
 
     return result;
   }
 
   public clear(): void {
-    this.widths = new Array<number>(this.size);
-    this.heights = new Array<number>(this.size);
-    this.generations = new Array<number>(this.size);
-    this.generationCounter = 0;
+    this._widths = new Array<number>(this._size);
+    this._heights = new Array<number>(this._size);
+    this._generations = new Array<number>(this._size);
+    this._generationCounter = 0;
   }
 }

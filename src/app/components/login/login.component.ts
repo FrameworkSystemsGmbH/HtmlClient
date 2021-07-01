@@ -6,6 +6,7 @@ import { BrokerService } from '@app/services/broker.service';
 import { LoginService } from '@app/services/login.service';
 import { StateService } from '@app/services/state.service';
 import { TitleService } from '@app/services/title.service';
+import { IAppState } from '@app/store/app.state';
 import { selectBrokerName } from '@app/store/broker/broker.selectors';
 import * as DomUtil from '@app/util/dom-util';
 import { faEdit, faPlus, faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -23,25 +24,29 @@ export class LoginComponent implements OnInit, OnDestroy {
   public iconEdit: IconDefinition = faEdit;
   public iconTrash: IconDefinition = faTrash;
 
-  public brokers$: Observable<Array<LoginBroker>>;
-  public lastSessionInfo: LastSessionInfo;
-  public activeBrokerName: string;
-  public addForm: FormGroup;
-  public nameControl: FormControl;
-  public urlControl: FormControl;
-  public editorShown: boolean;
-  public editingExisting: boolean;
+  public brokers$: Observable<Array<LoginBroker> | null> | null = null;
+  public lastSessionInfo: LastSessionInfo | null = null;
+  public activeBrokerName: string | null = null;
+  public editorShown: boolean = false;
+  public editingExisting: boolean = false;
+
+  public nameControl: FormControl = new FormControl(null);
+  public urlControl: FormControl = new FormControl(null, Validators.required.bind(this));
+  public addForm: FormGroup = new FormGroup({
+    name: this.nameControl,
+    url: this.urlControl
+  });
 
   private _brokerValidator: any;
-  private _activeBrokerNameSub: Subscription;
-  private _lastSessionInfoSub: Subscription;
+  private _activeBrokerNameSub: Subscription | null = null;
+  private _lastSessionInfoSub: Subscription | null = null;
 
   public constructor(
     private readonly _titleService: TitleService,
     private readonly _loginService: LoginService,
     private readonly _brokerService: BrokerService,
     private readonly _stateService: StateService,
-    private readonly _store: Store) { }
+    private readonly _store: Store<IAppState>) { }
 
   public ngOnInit(): void {
     this._brokerValidator = this.createBrokerValidator(this._loginService);
@@ -50,14 +55,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this._activeBrokerNameSub = this._store.select(selectBrokerName).subscribe(name => {
       this.activeBrokerName = name;
-    });
-
-    this.nameControl = new FormControl(null);
-    this.urlControl = new FormControl(null, Validators.required.bind(this));
-
-    this.addForm = new FormGroup({
-      name: this.nameControl,
-      url: this.urlControl
     });
 
     this._lastSessionInfoSub = this._stateService.getLastSessionInfo().subscribe(lastSessionInfo => {
@@ -79,12 +76,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getLastRequestTimeLocalString(): string {
+  public getLastRequestTimeLocalString(): string | null {
     return this.lastSessionInfo != null ? this.lastSessionInfo.getLastRequestTime().local().format('L LTS') : null;
   }
 
   public continueSession(): void {
-    this._stateService.loadState(this.lastSessionInfo);
+    if (this.lastSessionInfo) {
+      this._stateService.loadState(this.lastSessionInfo);
+    }
   }
 
   public openEditorNew(): void {
@@ -108,19 +107,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public exitEditor(): void {
-    this.addForm.reset();
+    if (this.addForm != null) {
+      this.addForm.reset();
+    }
+
     this.editorShown = false;
     this.editingExisting = false;
   }
 
   public saveBroker(): void {
-    const broker: LoginBroker = new LoginBroker();
-    broker.name = this.nameControl.value;
-    broker.url = this.urlControl.value;
+    const broker: LoginBroker = new LoginBroker(this.nameControl.value, this.urlControl.value);
 
     this._loginService.addOrUpdateBroker(broker);
 
-    this.addForm.reset();
+    if (this.addForm != null) {
+      this.addForm.reset();
+    }
+
     this.exitEditor();
   }
 

@@ -1,8 +1,6 @@
 import { ComponentFactory, ComponentRef } from '@angular/core';
 import { DataList } from '@app/common/data-list';
 import { DataListEntry } from '@app/common/data-list-entry';
-import { ClientEnterEvent } from '@app/common/events/client-enter-event';
-import { ClientSelectionChangedEvent } from '@app/common/events/client-selection-changed-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { ComboBoxFreeMobileComponent } from '@app/controls/comboboxes/combobox-free-mobile/combobox-free-mobile.component';
 import { ComboBoxFreeComponent } from '@app/controls/comboboxes/combobox-free/combobox-free.component';
@@ -15,27 +13,28 @@ import { DataSourceType } from '@app/enums/datasource-type';
 import { EditStyle } from '@app/enums/edit-style';
 import { Visibility } from '@app/enums/visibility';
 import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { Subscription } from 'rxjs';
 
 export class ComboBoxWrapper extends FittedDataWrapper {
 
-  private _value: string;
-  private _orgValue: string;
+  private _value: string | null = null;
+  private _orgValue: string | null = null;
 
-  private _dataList: DataList;
+  private _dataList: DataList | null = null;
 
-  private _selectionChangedSub: Subscription;
+  private _selectionChangedSub: Subscription | null = null;
 
   public getControlType(): ControlType {
     return ControlType.ComboBox;
   }
 
-  public getValue(): string {
+  public getValue(): string | null {
     return this._value;
   }
 
-  public setValue(value: string): void {
+  public setValue(value: string | null): void {
     this._value = value;
   }
 
@@ -49,22 +48,22 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     this.setValue(val);
   }
 
-  public getEntries(): DataList {
+  public getEntries(): DataList | null {
     return this._dataList;
   }
 
-  public getCaption(): string {
-    const caption: string = this.getPropertyStore().getCaption();
+  public getCaption(): string | null {
+    const caption: string | undefined = this.getPropertyStore().getCaption();
     return caption != null ? caption : null;
   }
 
   public getEditStyle(): EditStyle {
-    const editStyle: EditStyle = this.getPropertyStore().getEditStyle();
+    const editStyle: EditStyle | undefined = this.getPropertyStore().getEditStyle();
     return editStyle != null ? editStyle : EditStyle.ListValuesInput;
   }
 
   public getListType(): DataSourceType {
-    const listType: DataSourceType = this.getPropertyStore().getListType();
+    const listType: DataSourceType | undefined = this.getPropertyStore().getListType();
     return listType != null ? listType : DataSourceType.None;
   }
 
@@ -85,7 +84,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   protected getArrowWidth(): number {
-    const comp: ComboBoxComponent = this.getComponent();
+    const comp: ComboBoxComponent | null = this.getComponent();
     return comp ? comp.getArrowWidth() : 0;
   }
 
@@ -105,13 +104,13 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     return 0;
   }
 
-  protected getComponentRef(): ComponentRef<ComboBoxComponent> {
-    return super.getComponentRef() as ComponentRef<ComboBoxComponent>;
+  protected getComponentRef(): ComponentRef<ComboBoxComponent> | null {
+    return super.getComponentRef() as ComponentRef<ComboBoxComponent> | null;
   }
 
-  protected getComponent(): ComboBoxComponent {
-    const compRef: ComponentRef<ComboBoxComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): ComboBoxComponent | null {
+    const compRef: ComponentRef<ComboBoxComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ComboBoxComponent> {
@@ -201,8 +200,11 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     }
   }
 
-  protected ctrlEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
-    this.getComponent().onAfterEnter();
+  protected ctrlEnterCompleted(payload: any, processedEvent: any): void {
+    const comp: ComboBoxComponent | null = this.getComponent();
+    if (comp != null) {
+      comp.onAfterEnter();
+    }
   }
 
   public hasOnSelectionChangedEvent(): boolean {
@@ -210,26 +212,31 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   protected getOnSelectionChangedSubscription(): () => void {
-    return (): void => this.getEventsService().fireSelectionChanged(
-      this.getForm().getId(),
-      this.getName(),
-      new InternalEventCallbacks<ClientSelectionChangedEvent>(
-        this.canExecuteSelectionChanged.bind(this),
-        this.onSelectionChangedExecuted.bind(this),
-        this.onSelectionChangedCompleted.bind(this)
-      )
-    );
+    return (): void => {
+      const form: FormWrapper | null = this.getForm();
+      if (form != null) {
+        this.getEventsService().fireSelectionChanged(
+          form.getId(),
+          this.getName(),
+          new InternalEventCallbacks(
+            this.canExecuteSelectionChanged.bind(this),
+            this.onSelectionChangedExecuted.bind(this),
+            this.onSelectionChangedCompleted.bind(this)
+          )
+        );
+      }
+    };
   }
 
-  protected canExecuteSelectionChanged(clientEvent: ClientSelectionChangedEvent, payload: any): boolean {
+  protected canExecuteSelectionChanged(payload: any): boolean {
     return this.hasOnSelectionChangedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected onSelectionChangedExecuted(clientEvent: ClientSelectionChangedEvent, payload: any, processedEvent: any): void {
+  protected onSelectionChangedExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onSelectionChangedCompleted(clientEvent: ClientSelectionChangedEvent, payload: any, processedEvent: any): void {
+  protected onSelectionChangedCompleted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

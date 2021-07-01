@@ -12,7 +12,7 @@ import { VariantWrapper } from '@app/wrappers/variant-wrapper';
 export class VariantComponent extends ContainerComponent {
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+  public anchor: ViewContainerRef | null = null;
 
   public wrapperStyle: any;
 
@@ -21,6 +21,10 @@ export class VariantComponent extends ContainerComponent {
   }
 
   public getViewContainerRef(): ViewContainerRef {
+    if (this.anchor == null) {
+      throw new Error('Tried to access uninitialized ViewContainerRef of \'VariantComponent\'');
+    }
+
     return this.anchor;
   }
 

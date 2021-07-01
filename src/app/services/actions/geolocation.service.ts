@@ -7,15 +7,15 @@ const { Geolocation } = Plugins;
 @Injectable({ providedIn: 'root' })
 export class GeoLocationService {
 
-  private _hasError: boolean;
-  private _errorMessage: string;
-  private _latitude: number;
-  private _longitude: number;
-  private _altitude: number;
-  private _accuracy: number;
-  private _heading: number;
-  private _speed: number;
-  private _timestamp: number;
+  private _hasError?: boolean;
+  private _errorMessage?: string;
+  private _timestamp?: number;
+  private _latitude?: number;
+  private _longitude?: number;
+  private _accuracy?: number;
+  private _altitude?: number;
+  private _heading?: number;
+  private _speed?: number;
 
   public constructor(
     private readonly _zone: NgZone,
@@ -69,11 +69,11 @@ export class GeoLocationService {
   }
 
   private reset(): void {
-    this._hasError = null;
-    this._errorMessage = null;
+    this._hasError = false;
+    this._errorMessage = undefined;
   }
 
   private fireGotGeoLocation(): void {
-    this._eventsService.fireGotGeoLocation(this._hasError, this._errorMessage, this._latitude, this._longitude, this._altitude, this._accuracy, this._heading, this._speed, this._timestamp);
+    this._eventsService.fireGotGeoLocation(this._hasError, this._errorMessage, this._timestamp, this._latitude, this._longitude, this._accuracy, this._altitude, this._heading, this._speed);
   }
 }

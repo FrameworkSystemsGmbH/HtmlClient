@@ -13,7 +13,7 @@ export class LabelWrapper extends FittedWrapper {
   }
 
   public getTextAlign(): TextAlign {
-    const textAlign: TextAlign = this.getPropertyStore().getTextAlign();
+    const textAlign: TextAlign | undefined = this.getPropertyStore().getTextAlign();
     return textAlign != null ? textAlign : TextAlign.Center;
   }
 
@@ -33,13 +33,13 @@ export class LabelWrapper extends FittedWrapper {
     }
   }
 
-  protected getComponentRef(): ComponentRef<LabelComponent> {
-    return super.getComponentRef() as ComponentRef<LabelComponent>;
+  protected getComponentRef(): ComponentRef<LabelComponent> | null {
+    return super.getComponentRef() as ComponentRef<LabelComponent> | null;
   }
 
-  protected getComponent(): LabelComponent {
-    const compRef: ComponentRef<LabelComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): LabelComponent | null {
+    const compRef: ComponentRef<LabelComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<LabelComponent> {

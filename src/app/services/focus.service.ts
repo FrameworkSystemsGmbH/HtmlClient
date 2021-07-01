@@ -10,42 +10,46 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 @Injectable({ providedIn: 'root' })
 export class FocusService {
 
-  private _lastInput: LastInput;
-  private _lastKeyEvent: KeyboardEvent;
-  private _lastMouseEvent: MouseEvent;
+  private _lastInput: LastInput | null = null;
+  private _lastKeyEvent: KeyboardEvent | null = null;
+  private _lastMouseEvent: MouseEvent | null = null;
 
   public getLeaveActivator(): string {
     if (this._lastInput === LastInput.Keyboard) {
-      switch (KeyUtil.getKeyString(this._lastKeyEvent)) {
-        case 'Tab':
-          if (this._lastKeyEvent.shiftKey) {
-            return 'KeyboardTabBackward';
-          } else {
-            return 'KeyboardTabForward';
-          }
-        case 'Enter':
-          return 'KeyboardEnter';
-        case 'ArrowUp':
-        case 'ArrowLeft':
-          return 'KeyboardUp';
-        case 'ArrowDown':
-        case 'ArrowRight':
-          return 'KeyboardDown';
-        case 'F2':
-          return 'KeyboardF2';
-        default:
-          return 'Undefined';
+      if (this._lastKeyEvent != null) {
+        switch (KeyUtil.getKeyString(this._lastKeyEvent)) {
+          case 'Tab':
+            if (this._lastKeyEvent.shiftKey) {
+              return 'KeyboardTabBackward';
+            } else {
+              return 'KeyboardTabForward';
+            }
+          case 'Enter':
+            return 'KeyboardEnter';
+          case 'ArrowUp':
+          case 'ArrowLeft':
+            return 'KeyboardUp';
+          case 'ArrowDown':
+          case 'ArrowRight':
+            return 'KeyboardDown';
+          case 'F2':
+            return 'KeyboardF2';
+          default:
+            return 'Undefined';
+        }
+      } else {
+        return 'Undefined';
       }
     } else {
       return 'Mouse';
     }
   }
 
-  public getLastInput(): LastInput {
+  public getLastInput(): LastInput | null {
     return this._lastInput;
   }
 
-  public getLastKeyEvent(): KeyboardEvent {
+  public getLastKeyEvent(): KeyboardEvent | null {
     return this._lastKeyEvent;
   }
 
@@ -54,7 +58,7 @@ export class FocusService {
     this._lastInput = LastInput.Keyboard;
   }
 
-  public getLastMouseEvent(): MouseEvent {
+  public getLastMouseEvent(): MouseEvent | null {
     return this._lastMouseEvent;
   }
 
@@ -63,28 +67,28 @@ export class FocusService {
     this._lastInput = LastInput.Mouse;
   }
 
-  public findPreviousKeyboardFocusableControl(current: ControlWrapper): ILayoutableControlWrapper {
+  public findPreviousKeyboardFocusableControl(current: ControlWrapper): ILayoutableControlWrapper | null {
     // Find next control in predecessor tree
-    let foundControl: ILayoutableControlWrapper = this.findPreviousKeyboardFocusableControlInSubTreeRecursive(current);
+    let foundControl: ILayoutableControlWrapper | null = this.findPreviousKeyboardFocusableControlInSubTreeRecursive(current);
 
     if (foundControl) {
       return foundControl;
     }
 
     // Find next control starting at form level recursively
-    const form: FormWrapper = current.getForm();
+    const form: FormWrapper | null = current.getForm();
 
     foundControl = this.findPreviousKeyboardFocusableControlRecursive(form);
 
     return foundControl;
   }
 
-  private findPreviousKeyboardFocusableControlInSubTreeRecursive(current: ILayoutableControlWrapper): ILayoutableControlWrapper {
+  private findPreviousKeyboardFocusableControlInSubTreeRecursive(current: ILayoutableControlWrapper): ILayoutableControlWrapper | null {
     if (current == null) {
       return null;
     }
 
-    const parent: ILayoutableContainerWrapper = current.getVchControl().getParent();
+    const parent: ILayoutableContainerWrapper | null = current.getVchControl().getParent();
 
     if (parent == null) {
       return null;
@@ -107,7 +111,7 @@ export class FocusService {
       const child: ILayoutableControlWrapper = siblings[i];
 
       if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
-        const containerChild: ILayoutableControlWrapper = this.findPreviousKeyboardFocusableControlRecursive(child);
+        const containerChild: ILayoutableControlWrapper | null = this.findPreviousKeyboardFocusableControlRecursive(child);
 
         if (containerChild) {
           return containerChild;
@@ -122,7 +126,7 @@ export class FocusService {
     return this.findPreviousKeyboardFocusableControlInSubTreeRecursive(parent);
   }
 
-  private findPreviousKeyboardFocusableControlRecursive(container: ILayoutableContainerWrapper): ILayoutableControlWrapper {
+  private findPreviousKeyboardFocusableControlRecursive(container: ILayoutableContainerWrapper | null): ILayoutableControlWrapper | null {
     if (container == null) {
       return null;
     }
@@ -133,7 +137,7 @@ export class FocusService {
       const child: ILayoutableControlWrapper = children[i];
 
       if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
-        const containerChild: ILayoutableControlWrapper = this.findPreviousKeyboardFocusableControlRecursive(child);
+        const containerChild: ILayoutableControlWrapper | null = this.findPreviousKeyboardFocusableControlRecursive(child);
 
         if (containerChild) {
           return containerChild;
@@ -152,28 +156,28 @@ export class FocusService {
     return null;
   }
 
-  public findNextKeyboardFocusableControl(current: ControlWrapper): ILayoutableControlWrapper {
+  public findNextKeyboardFocusableControl(current: ControlWrapper): ILayoutableControlWrapper | null {
     // Find next control in successor tree
-    let foundControl: ILayoutableControlWrapper = this.findNextKeyboardFocusableControlInSubTreeRecursive(current);
+    let foundControl: ILayoutableControlWrapper | null = this.findNextKeyboardFocusableControlInSubTreeRecursive(current);
 
     if (foundControl) {
       return foundControl;
     }
 
     // Find next control starting at form level recursively
-    const form: FormWrapper = current.getForm();
+    const form: FormWrapper | null = current.getForm();
 
     foundControl = this.findNextKeyboardFocusableControlRecursive(form);
 
     return foundControl;
   }
 
-  private findNextKeyboardFocusableControlInSubTreeRecursive(current: ILayoutableControlWrapper): ILayoutableControlWrapper {
+  private findNextKeyboardFocusableControlInSubTreeRecursive(current: ILayoutableControlWrapper): ILayoutableControlWrapper | null {
     if (current == null) {
       return null;
     }
 
-    const parent: ILayoutableContainerWrapper = current.getVchControl().getParent();
+    const parent: ILayoutableContainerWrapper | null = current.getVchControl().getParent();
 
     if (parent == null) {
       return null;
@@ -200,7 +204,7 @@ export class FocusService {
       }
 
       if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
-        const containerChild: ILayoutableControlWrapper = this.findNextKeyboardFocusableControlRecursive(child);
+        const containerChild: ILayoutableControlWrapper | null = this.findNextKeyboardFocusableControlRecursive(child);
 
         if (containerChild) {
           return containerChild;
@@ -211,7 +215,7 @@ export class FocusService {
     return this.findNextKeyboardFocusableControlInSubTreeRecursive(parent);
   }
 
-  private findNextKeyboardFocusableControlRecursive(container: ILayoutableContainerWrapper): ILayoutableControlWrapper {
+  private findNextKeyboardFocusableControlRecursive(container: ILayoutableContainerWrapper | null): ILayoutableControlWrapper | null {
     if (container == null) {
       return null;
     }
@@ -228,7 +232,7 @@ export class FocusService {
       }
 
       if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
-        const containerChild: ILayoutableControlWrapper = this.findNextKeyboardFocusableControlRecursive(child);
+        const containerChild: ILayoutableControlWrapper | null = this.findNextKeyboardFocusableControlRecursive(child);
 
         if (containerChild) {
           return containerChild;
@@ -239,7 +243,7 @@ export class FocusService {
     return null;
   }
 
-  public findFirstFocusableControlInContainerRecursive(container: ILayoutableContainerWrapper): ILayoutableControlWrapper {
+  public findFirstFocusableControlInContainerRecursive(container: ILayoutableContainerWrapper): ILayoutableControlWrapper | null {
     if (container == null || !container.canReceiveFocus()) {
       return null;
     }
@@ -248,7 +252,7 @@ export class FocusService {
 
     for (const child of children) {
       if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
-        const containerChild: ILayoutableControlWrapper = this.findFirstFocusableControlInContainerRecursive(child);
+        const containerChild: ILayoutableControlWrapper | null = this.findFirstFocusableControlInContainerRecursive(child);
 
         if (containerChild) {
           return containerChild;

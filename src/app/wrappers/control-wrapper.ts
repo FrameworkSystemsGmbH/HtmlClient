@@ -1,6 +1,5 @@
 import { ComponentFactoryResolver, ComponentRef, Injector } from '@angular/core';
-import { ClientEnterEvent } from '@app/common/events/client-enter-event';
-import { ClientLeaveEvent } from '@app/common/events/client-leave-event';
+import { DomSanitizer } from '@angular/platform-browser';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { PropertyData } from '@app/common/property-data';
 import { PropertyLayer } from '@app/common/property-layer';
@@ -18,7 +17,14 @@ import { IWrapperCreationOptions } from '@app/services/controls.service';
 import { EventsService } from '@app/services/events.service';
 import { FocusService } from '@app/services/focus.service';
 import { FontService } from '@app/services/font.service';
+import { DateTimeFormatService } from '@app/services/formatter/datetime-format.service';
+import { NumberFormatService } from '@app/services/formatter/number-format.service';
+import { PatternFormatService } from '@app/services/formatter/pattern-format.service';
+import { StringFormatService } from '@app/services/formatter/string-format.service';
+import { FramesService } from '@app/services/frames.service';
+import { ImageService } from '@app/services/image.service';
 import { PlatformService } from '@app/services/platform.service';
+import * as EnumUtil from '@app/util/enum-util';
 import * as JsonUtil from '@app/util/json-util';
 import { VchControl } from '@app/vch/vch-control';
 import { ContainerWrapper } from '@app/wrappers/container-wrapper';
@@ -36,30 +42,38 @@ import { Subscription } from 'rxjs';
 export abstract class ControlWrapper implements ILayoutableControlWrapper, IControlLabelProvider {
 
   private readonly _injector: Injector;
-  private readonly _form: FormWrapper;
-  private readonly _parent: ContainerWrapper;
-  private readonly _controlStyle: string;
+  private readonly _resolver: ComponentFactoryResolver;
+  private readonly _sanitizer: DomSanitizer;
+  private readonly _controlStyleService: ControlStyleService;
+  private readonly _eventsService: EventsService;
+  private readonly _focusService: FocusService;
+  private readonly _fontService: FontService;
+  private readonly _framesService: FramesService;
+  private readonly _imageService: ImageService;
+  private readonly _platformService: PlatformService;
+  private readonly _dateTimeFormatService: DateTimeFormatService;
+  private readonly _numberFormatService: NumberFormatService;
+  private readonly _patternFormatService: PatternFormatService;
+  private readonly _stringFormatService: StringFormatService;
 
-  private _name: string;
-  private _propertyStore: PropertyStore;
-  private _vchControl: VchControl;
-  private _layout: LayoutBase;
-  private _layoutableProperties: LayoutableProperties;
-  private _labelTemplate: ControlLabelTemplate;
-  private _componentRef: ComponentRef<ControlComponent>;
-  private _events: ClientEventType;
+  private readonly _form: FormWrapper | null = null;
+  private readonly _parent: ContainerWrapper | null = null;
+  private readonly _controlStyle: string | null = null;
+
+  private _name: string = String.empty();
+  private _propertyStore: PropertyStore | null = null;
+  private _vchControl: VchControl | null = null;
+  private _layout: LayoutBase | null = null;
+  private _layoutableProperties: LayoutableProperties | null = null;
+  private _labelTemplate: ControlLabelTemplate | null = null;
+  private _componentRef: ComponentRef<ControlComponent> | null = null;
+  private _events: ClientEventType = ClientEventType.None;
   private _isEditableParent: boolean;
-  private _visibilityParent: Visibility;
-  private _controlLabel: IControlLabelWrapper;
-  private _resolver: ComponentFactoryResolver;
-  private _controlStyleService: ControlStyleService;
-  private _eventsService: EventsService;
-  private _focusService: FocusService;
-  private _fontService: FontService;
-  private _platformService: PlatformService;
+  private _visibilityParent: Visibility = Visibility.Visible;
+  private _controlLabel: IControlLabelWrapper | null = null;
 
-  private _ctrlEnterSub: Subscription;
-  private _ctrlLeaveSub: Subscription;
+  private _ctrlEnterSub: Subscription | null = null;
+  private _ctrlLeaveSub: Subscription | null = null;
 
   public constructor(
     injector: Injector,
@@ -68,12 +82,26 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     this._injector = injector;
     this._isEditableParent = true;
 
+    this._resolver = this._injector.get(ComponentFactoryResolver);
+    this._sanitizer = this._injector.get(DomSanitizer);
+    this._controlStyleService = this._injector.get(ControlStyleService);
+    this._eventsService = this._injector.get(EventsService);
+    this._focusService = this._injector.get(FocusService);
+    this._fontService = this._injector.get(FontService);
+    this._framesService = this._injector.get(FramesService);
+    this._imageService = this._injector.get(ImageService);
+    this._platformService = this._injector.get(PlatformService);
+    this._dateTimeFormatService = this._injector.get(DateTimeFormatService);
+    this._numberFormatService = this._injector.get(NumberFormatService);
+    this._patternFormatService = this._injector.get(PatternFormatService);
+    this._stringFormatService = this._injector.get(StringFormatService);
+
     this.init();
 
     if (options) {
-      this._form = options.form;
-      this._parent = options.parent;
-      this._controlStyle = options.controlStyle;
+      this._form = options.form ? options.form : null;
+      this._parent = options.parent ? options.parent : null;
+      this._controlStyle = options.controlStyle ? options.controlStyle : null;
 
       if (options.state) {
         this.loadState(options.state);
@@ -86,12 +114,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected init(): void {
-    this._resolver = this._injector.get(ComponentFactoryResolver);
-    this._controlStyleService = this._injector.get(ControlStyleService);
-    this._eventsService = this._injector.get(EventsService);
-    this._focusService = this._injector.get(FocusService);
-    this._fontService = this._injector.get(FontService);
-    this._platformService = this._injector.get(PlatformService);
+    // Override in subclasses
   }
 
   protected updateRecursiveProperties(): void {
@@ -105,6 +128,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected getResolver(): ComponentFactoryResolver {
     return this._resolver;
+  }
+
+  protected getSanitizer(): DomSanitizer {
+    return this._sanitizer;
   }
 
   protected getControlStyleService(): ControlStyleService {
@@ -123,8 +150,32 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return this._fontService;
   }
 
+  protected getFramesService(): FramesService {
+    return this._framesService;
+  }
+
+  protected getImageService(): ImageService {
+    return this._imageService;
+  }
+
   protected getPlatformService(): PlatformService {
     return this._platformService;
+  }
+
+  protected getDateTimeFormatService(): DateTimeFormatService {
+    return this._dateTimeFormatService;
+  }
+
+  protected getNumberFormatService(): NumberFormatService {
+    return this._numberFormatService;
+  }
+
+  protected getPatternFormatService(): PatternFormatService {
+    return this._patternFormatService;
+  }
+
+  protected getStringFormatService(): StringFormatService {
+    return this._stringFormatService;
   }
 
   public getName(): string {
@@ -175,7 +226,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return this._layoutableProperties;
   }
 
-  protected getComponentRef(): ComponentRef<ControlComponent> {
+  protected getComponentRef(): ComponentRef<ControlComponent> | null {
     return this._componentRef;
   }
 
@@ -183,13 +234,13 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     this._componentRef = componentRef;
   }
 
-  protected getComponent(): ControlComponent {
-    const compRef: ComponentRef<ControlComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): ControlComponent | null {
+    const compRef: ComponentRef<ControlComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public updateComponent(): void {
-    const comp: ControlComponent = this.getComponent();
+    const comp: ControlComponent | null = this.getComponent();
 
     if (comp) {
       comp.updateComponent();
@@ -211,8 +262,8 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     }
   }
 
-  public getCaption(): string {
-    const caption: string = this.getPropertyStore().getCaption();
+  public getCaption(): string | null {
+    const caption: string | undefined = this.getPropertyStore().getCaption();
     return caption != null ? caption : null;
   }
 
@@ -228,7 +279,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public getVisibility(): Visibility {
-    const visibility: Visibility = this.getPropertyStore().getVisibility();
+    const visibility: Visibility | undefined = this.getPropertyStore().getVisibility();
     return visibility != null ? visibility : Visibility.Visible;
   }
 
@@ -296,12 +347,12 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public getForeColor(): string {
-    const foreColor: string = this.getPropertyStore().getForeColor();
+    const foreColor: string | undefined = this.getPropertyStore().getForeColor();
     return foreColor != null ? foreColor : '#000000';
   }
 
   public getBackColor(): string {
-    const backColor: string = this.getPropertyStore().getBackColor();
+    const backColor: string | undefined = this.getPropertyStore().getBackColor();
     return backColor != null ? backColor : '#FFFFFF';
   }
 
@@ -362,7 +413,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public getBorderColor(): string {
-    const borderColor: string = this.getPropertyStore().getBorderColor();
+    const borderColor: string | undefined = this.getPropertyStore().getBorderColor();
     return borderColor != null ? borderColor : '#808080';
   }
 
@@ -430,28 +481,28 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return this.getPaddingBottom() + this.getBorderThicknessBottom() + this.getMarginBottom();
   }
 
-  public getDockItemSize(): number {
-    const dockItemSize: number = this.getPropertyStore().getDockItemSize();
+  public getDockItemSize(): number | null {
+    const dockItemSize: number | undefined = this.getPropertyStore().getDockItemSize();
     return dockItemSize != null ? dockItemSize : null;
   }
 
   public getHorizontalAlignment(): HorizontalAlignment {
-    const hAlign: HorizontalAlignment = this.getPropertyStore().getHorizontalAlignment();
+    const hAlign: HorizontalAlignment | undefined = this.getPropertyStore().getHorizontalAlignment();
     return hAlign != null ? hAlign : HorizontalAlignment.Stretch;
   }
 
   public getVerticalAlignment(): VerticalAlignment {
-    const vAlign: VerticalAlignment = this.getPropertyStore().getVerticalAlignment();
+    const vAlign: VerticalAlignment | undefined = this.getPropertyStore().getVerticalAlignment();
     return vAlign != null ? vAlign : VerticalAlignment.Stretch;
   }
 
   public getFontFamily(): string {
-    const fontFamily: string = this.getPropertyStore().getFontFamily();
+    const fontFamily: string | undefined = this.getPropertyStore().getFontFamily();
     return fontFamily != null ? fontFamily : 'Arial';
   }
 
   public getFontSize(): number {
-    const fontSize: number = this.getPropertyStore().getFontSize();
+    const fontSize: number | undefined = this.getPropertyStore().getFontSize();
     return fontSize != null ? fontSize : 14;
   }
 
@@ -475,14 +526,14 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return !String.isNullOrEmpty(this.getCaption());
   }
 
-  public getControlLabelWrapper(fieldRowWrp: FieldRowWrapper): IControlLabelWrapper {
+  public getControlLabelWrapper(fieldRowWrp: FieldRowWrapper): IControlLabelWrapper | null {
     if (!this._controlLabel) {
       this._controlLabel = this.createControlLabelWrapper(fieldRowWrp);
     }
     return this._controlLabel;
   }
 
-  protected createControlLabelWrapper(fieldRowWrp: FieldRowWrapper): IControlLabelWrapper {
+  protected createControlLabelWrapper(fieldRowWrp: FieldRowWrapper): IControlLabelWrapper | null {
     return new ControlLabelWrapper(this._injector, this, fieldRowWrp);
   }
 
@@ -503,11 +554,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return new ControlLabelTemplate(this.getPropertyStore().getPropertyStore(data => data.labelTemplate));
   }
 
-  public getForm(): FormWrapper {
+  public getForm(): FormWrapper | null {
     return this._form;
   }
 
-  public getParent(): ContainerWrapper {
+  public getParent(): ContainerWrapper | null {
     return this._parent;
   }
 
@@ -516,7 +567,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public getJson(): any {
-    return null; // Override in derived classes
+    return null; // Override in subclasses
   }
 
   public setJson(json: any, isNew: boolean): void {
@@ -552,7 +603,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     }
 
     for (const eventJson of eventsJson) {
-      const event: ClientEventType = ClientEventType[eventJson as string];
+      const event: ClientEventType | null = EnumUtil.getNumberEnumFromString(ClientEventType, eventJson);
       if (event != null) {
         this._events |= event;
       }
@@ -565,8 +616,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected setControlStyle(): void {
     if (this._controlStyle) {
-      const controlStyleData: PropertyData = this._controlStyleService.getControlStyle(this._controlStyle);
-      this.getPropertyStore().setLayer(PropertyLayer.ControlStyle, controlStyleData);
+      const controlStyleData: PropertyData | null = this._controlStyleService.getControlStyle(this._controlStyle);
+      if (controlStyleData != null) {
+        this.getPropertyStore().setLayer(PropertyLayer.ControlStyle, controlStyleData);
+      }
     }
   }
 
@@ -595,7 +648,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public detachComponent(): void {
-    const compRef: ComponentRef<ControlComponent> = this.getComponentRef();
+    const compRef: ComponentRef<ControlComponent> | null = this.getComponentRef();
 
     if (compRef != null) {
       compRef.destroy();
@@ -607,7 +660,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     this.detachEvents();
 
     // Detach wrapper from VCH
-    const vchParent: ILayoutableContainerWrapper = this.getVchControl().getParent();
+    const vchParent: ILayoutableContainerWrapper | null = this.getVchControl().getParent();
 
     if (vchParent) {
       vchParent.getVchContainer().removeChild(this);
@@ -642,26 +695,31 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected getCtrlEnterSubscription(): () => void {
-    return (): void => this._eventsService.fireEnter(
-      this.getForm().getId(),
-      this.getName(),
-      new InternalEventCallbacks<ClientEnterEvent>(
-        this.canExecuteCtrlEnter.bind(this),
-        this.ctrlEnterExecuted.bind(this),
-        this.ctrlEnterCompleted.bind(this)
-      )
-    );
+    return (): void => {
+      const form: FormWrapper | null = this.getForm();
+      if (form != null) {
+        this._eventsService.fireEnter(
+          form.getId(),
+          this.getName(),
+          new InternalEventCallbacks(
+            this.canExecuteCtrlEnter.bind(this),
+            this.ctrlEnterExecuted.bind(this),
+            this.ctrlEnterCompleted.bind(this)
+          )
+        );
+      }
+    };
   }
 
-  protected canExecuteCtrlEnter(clientEvent: ClientEnterEvent, payload: any): boolean {
+  protected canExecuteCtrlEnter(payload: any): boolean {
     return this.hasOnEnterEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected ctrlEnterExecuted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
+  protected ctrlEnterExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected ctrlEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
+  protected ctrlEnterCompleted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
@@ -670,28 +728,33 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected getCtrlLeaveSubscription(): () => void {
-    return (): void => this._eventsService.fireLeave(
-      this.getForm().getId(),
-      this.getName(),
-      this._focusService.getLeaveActivator(),
-      this.hasChangesLeave(),
-      new InternalEventCallbacks<ClientLeaveEvent>(
-        this.canExecuteCtrlLeave.bind(this),
-        this.ctrlLeaveExecuted.bind(this),
-        this.ctrlLeaveCompleted.bind(this)
-      )
-    );
+    return (): void => {
+      const form: FormWrapper | null = this.getForm();
+      if (form != null) {
+        this._eventsService.fireLeave(
+          form.getId(),
+          this.getName(),
+          this._focusService.getLeaveActivator(),
+          this.hasChangesLeave(),
+          new InternalEventCallbacks(
+            this.canExecuteCtrlLeave.bind(this),
+            this.ctrlLeaveExecuted.bind(this),
+            this.ctrlLeaveCompleted.bind(this)
+          )
+        );
+      }
+    };
   }
 
-  protected canExecuteCtrlLeave(clientEvent: ClientLeaveEvent, payload: any): boolean {
+  protected canExecuteCtrlLeave(payload: any): boolean {
     return this.hasOnLeaveEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected ctrlLeaveExecuted(clientEvent: ClientLeaveEvent, payload: any, processedEvent: any): void {
+  protected ctrlLeaveExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected ctrlLeaveCompleted(clientEvent: ClientLeaveEvent, payload: any, processedEvent: any): void {
+  protected ctrlLeaveCompleted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
@@ -746,7 +809,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public focusKeyboardPrevious(): void {
-    const previousControl: ILayoutableControlWrapper = this._focusService.findPreviousKeyboardFocusableControl(this);
+    const previousControl: ILayoutableControlWrapper | null = this._focusService.findPreviousKeyboardFocusableControl(this);
 
     if (previousControl) {
       previousControl.setFocus();
@@ -754,7 +817,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public focusKeyboardNext(): void {
-    const nextControl: ILayoutableControlWrapper = this._focusService.findNextKeyboardFocusableControl(this);
+    const nextControl: ILayoutableControlWrapper | null = this._focusService.findNextKeyboardFocusableControl(this);
 
     if (nextControl) {
       nextControl.setFocus();
@@ -763,7 +826,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public setFocus(): void {
     if (this.canReceiveFocus()) {
-      const form: FormWrapper = this.getForm();
+      const form: FormWrapper | null = this.getForm();
 
       if (form) {
         form.requestFocus(this);
@@ -771,7 +834,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     }
   }
 
-  public getFocusElement(): any {
+  public getFocusElement(): HTMLElement | null {
     const comp = this.getComponent();
 
     if (comp) {
@@ -782,7 +845,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public isOutlineVisible(isFocused: boolean): boolean {
-    return isFocused && !this.getPlatformService().isNative();
+    return isFocused && !this._platformService.isNative();
   }
 
   public abstract getControlType(): ControlType;

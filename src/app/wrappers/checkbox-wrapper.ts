@@ -1,5 +1,4 @@
 import { ComponentFactory, ComponentRef } from '@angular/core';
-import { ClientClickEvent } from '@app/common/events/client-click-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { CheckBoxComponent } from '@app/controls/checkbox/checkbox.component';
 import { ClientEventType } from '@app/enums/client-event-type';
@@ -7,21 +6,17 @@ import { ControlType } from '@app/enums/control-type';
 import { DataSourceType } from '@app/enums/datasource-type';
 import { Visibility } from '@app/enums/visibility';
 import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { Subscription } from 'rxjs';
 
 export class CheckBoxWrapper extends FittedWrapper {
 
-  private _value: boolean;
-  private _orgValue: boolean;
-  private _dataSourceType: DataSourceType;
+  private _value: boolean = false;
+  private _orgValue: boolean = false;
+  private _dataSourceType: DataSourceType = DataSourceType.Bool;
 
-  private _boxClickSub: Subscription;
-
-  protected init(): void {
-    super.init();
-    this._dataSourceType = DataSourceType.Bool;
-  }
+  private _boxClickSub: Subscription | null = null;
 
   public getControlType(): ControlType {
     return ControlType.CheckBox;
@@ -143,13 +138,13 @@ export class CheckBoxWrapper extends FittedWrapper {
     }
   }
 
-  protected getComponentRef(): ComponentRef<CheckBoxComponent> {
-    return super.getComponentRef() as ComponentRef<CheckBoxComponent>;
+  protected getComponentRef(): ComponentRef<CheckBoxComponent> | null {
+    return super.getComponentRef() as ComponentRef<CheckBoxComponent> | null;
   }
 
-  protected getComponent(): CheckBoxComponent {
-    const compRef: ComponentRef<CheckBoxComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): CheckBoxComponent | null {
+    const compRef: ComponentRef<CheckBoxComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<CheckBoxComponent> {
@@ -178,26 +173,32 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   protected getBoxClickSubscription(): () => void {
-    return (): void => this.getEventsService().fireClick(
-      this.getForm().getId(),
-      this.getName(),
-      new InternalEventCallbacks<ClientClickEvent>(
-        this.canExecuteBoxClick.bind(this),
-        this.boxClickExecuted.bind(this),
-        this.boxClickCompleted.bind(this)
-      )
-    );
+    return (): void => {
+      const form: FormWrapper | null = this.getForm();
+      if (form != null) {
+
+        this.getEventsService().fireClick(
+          form.getId(),
+          this.getName(),
+          new InternalEventCallbacks(
+            this.canExecuteBoxClick.bind(this),
+            this.boxClickExecuted.bind(this),
+            this.boxClickCompleted.bind(this)
+          )
+        );
+      }
+    };
   }
 
-  protected canExecuteBoxClick(clientEvent: ClientClickEvent, payload: any): boolean {
+  protected canExecuteBoxClick(payload: any): boolean {
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected boxClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected boxClickExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected boxClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected boxClickCompleted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

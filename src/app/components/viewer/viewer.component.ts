@@ -10,12 +10,12 @@ import { Subscription } from 'rxjs';
 })
 export class ViewerComponent implements OnInit, OnDestroy {
 
-  public isModal: boolean;
-  public isLoading: boolean;
+  public isModal: boolean = false;
+  public isLoading: boolean = false;
   public modalHeaderStyle: any;
 
-  private _selectedFormSub: Subscription;
-  private _loadingChangedSub: Subscription;
+  private _selectedFormSub: Subscription | null = null;
+  private _loadingChangedSub: Subscription | null = null;
 
   public constructor(
     private readonly _formsService: FormsService,

@@ -1,8 +1,8 @@
-Boolean.trueIfNull = function (value: boolean | null): boolean {
+Boolean.trueIfNull = function (value: boolean | null | undefined): boolean {
   return value == null ? true : value;
 };
 
-Boolean.falseIfNull = function (value: boolean | null): boolean {
+Boolean.falseIfNull = function (value: boolean | null | undefined): boolean {
   return value == null ? false : value;
 };
 

@@ -2,11 +2,11 @@ String.empty = function (): string {
   return '';
 };
 
-String.isNullOrEmpty = function (str: string | undefined): boolean {
+String.isNullOrEmpty = function (str: string | null | undefined): boolean {
   return str == null || str === String.empty();
 };
 
-String.isNullOrWhiteSpace = function (str: string | undefined): boolean {
+String.isNullOrWhiteSpace = function (str: string | null | undefined): boolean {
   return str == null || str.trim() === String.empty();
 };
 

@@ -12,7 +12,7 @@ import { WrapPanelWrapper } from '@app/wrappers/wrap-panel-wrapper';
 export class WrapPanelComponent extends ContainerComponent {
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+  public anchor: ViewContainerRef | null = null;
 
   public wrapperStyle: any;
 
@@ -21,6 +21,10 @@ export class WrapPanelComponent extends ContainerComponent {
   }
 
   public getViewContainerRef(): ViewContainerRef {
+    if (this.anchor == null) {
+      throw new Error('Tried to access uninitialized ViewContainerRef of \'WrapPanelComponent\'');
+    }
+
     return this.anchor;
   }
 

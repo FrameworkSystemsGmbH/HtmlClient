@@ -1,23 +1,28 @@
 import { Injectable } from '@angular/core';
+import { IAppState } from '@app/store/app.state';
 import { selectBrokerFilesUrl } from '@app/store/broker/broker.selectors';
 import { Store } from '@ngrx/store';
 
 @Injectable({ providedIn: 'root' })
 export class ImageService {
 
-  private _filesUrl: string;
+  private readonly _store: Store<IAppState>;
 
-  public constructor(private readonly store: Store) {
-    this.store.select(selectBrokerFilesUrl).subscribe(filesUrl => {
+  private _filesUrl: string | null = null;
+
+  public constructor(store: Store<IAppState>) {
+    this._store = store;
+
+    this._store.select(selectBrokerFilesUrl).subscribe(filesUrl => {
       this._filesUrl = filesUrl;
     });
   }
 
-  public getFilesUrl(): string {
+  public getFilesUrl(): string | null {
     return this._filesUrl;
   }
 
-  public getImageUrl(image: string): string {
+  public getImageUrl(image: string): string | null {
     if (String.isNullOrWhiteSpace(image)) {
       return null;
     }
@@ -28,7 +33,7 @@ export class ImageService {
       return image;
     }
 
-    if (!image.startsWith('/')) {
+    if (this._filesUrl != null && !image.startsWith('/')) {
       return `${this._filesUrl}/${image}`;
     }
 

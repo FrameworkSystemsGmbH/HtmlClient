@@ -6,6 +6,7 @@ import { KeyboardService } from '@app/services/keyboard.service';
 import { LocaleService } from '@app/services/locale.service';
 import { PlatformService } from '@app/services/platform.service';
 import { StateService } from '@app/services/state.service';
+import { IAppState } from '@app/store/app.state';
 import { setReady } from '@app/store/ready/ready.actions';
 import { selectReady } from '@app/store/ready/ready.selectors';
 import * as StyleUtil from '@app/util/style-util';
@@ -21,8 +22,8 @@ const { SplashScreen } = Plugins;
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  public ready: boolean;
   public style: any;
+  public ready: boolean = false;
 
   public constructor(
     private readonly _backService: BackService,
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private readonly _keyboardService: KeyboardService,
     private readonly _platformService: PlatformService,
     private readonly _stateService: StateService,
-    private readonly _store: Store
+    private readonly _store: Store<IAppState>
   ) {
     this._backService.attachHandlers();
     this._deepLinkService.attachHandlers();
@@ -47,7 +48,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this._store.select(selectReady).subscribe(ready => {
+    this._store.select(selectReady).subscribe((ready: boolean) => {
       this.ready = ready;
     });
 

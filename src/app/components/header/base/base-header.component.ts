@@ -5,6 +5,7 @@ import { EventsService } from '@app/services/events.service';
 import { FormsService } from '@app/services/forms.service';
 import { PlatformService } from '@app/services/platform.service';
 import { TitleService } from '@app/services/title.service';
+import { IAppState } from '@app/store/app.state';
 import { selectBrokerDirect } from '@app/store/broker/broker.selectors';
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
@@ -56,16 +57,16 @@ import { Subscription } from 'rxjs';
 export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChild('scroller', { static: true })
-  public scroller: OverlayScrollbarsComponent;
+  public scroller: OverlayScrollbarsComponent | null = null;
 
   @ViewChild('arrowLeft', { static: true })
-  public arrowLeft: ElementRef;
+  public arrowLeft: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('arrowRight', { static: true })
-  public arrowRight: ElementRef;
+  public arrowRight: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('tabs', { static: true })
-  public tabs: ElementRef;
+  public tabs: ElementRef<HTMLDivElement> | null = null;
 
   public iconBars: IconDefinition = faBars;
   public iconTimes: IconDefinition = faTimes;
@@ -73,9 +74,9 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   public iconAngleRight: IconDefinition = faAngleRight;
   public iconSignOut: IconDefinition = faSignOutAlt;
 
-  public forms: Array<FormWrapper>;
-  public selectedForm: FormWrapper;
-  public directMode: boolean;
+  public forms: Array<FormWrapper> | null = null;
+  public selectedForm: FormWrapper | null = null;
+  public directMode: boolean = false;
   public sidebarEnabled: boolean = false;
   public sidebarVisible: boolean = false;
 
@@ -84,9 +85,9 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public scrollerOptions: any;
 
-  private _storeSub: Subscription;
-  private _formsSub: Subscription;
-  private _selectedFormSub: Subscription;
+  private _storeSub: Subscription | null = null;
+  private _formsSub: Subscription | null = null;
+  private _selectedFormSub: Subscription | null = null;
 
   private _scrollLeftInterval: any;
   private _scrollRightInterval: any;
@@ -104,7 +105,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     private readonly _formsService: FormsService,
     private readonly _platformService: PlatformService,
     private readonly _titleService: TitleService,
-    private readonly _store: Store
+    private readonly _store: Store<IAppState>
   ) {
     this.scrollerOptions = {
       className: 'os-thin',
@@ -128,30 +129,42 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   @HostListener('window:resize')
   public refreshScroller(): void {
     this._zone.runOutsideAngular(() => {
-      if (this.scroller != null && this.scroller.osInstance() != null) {
-        const overflow: number = this.scroller.osInstance().getState().overflowAmount.x;
+      if (this.scroller == null) {
+        return;
+      }
 
-        if (overflow > 0) {
-          const scrollPos: number = this.scroller.osInstance().getElements().viewport.scrollLeft;
+      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
 
-          if (scrollPos === 0) {
-            this.stopScrollingLeft();
-            this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
-            this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
-          } else if (scrollPos >= overflow) {
-            this.stopScrollingRight();
-            this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
-            this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
-          } else {
-            this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
-            this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
-          }
-        } else {
+      if (osInstance == null) {
+        return;
+      }
+
+      if (!this.arrowLeft || !this.arrowRight) {
+        return;
+      }
+
+      const overflow: number = osInstance.getState().overflowAmount.x;
+
+      if (overflow > 0) {
+        const scrollPos: number = osInstance.getElements().viewport.scrollLeft;
+
+        if (scrollPos === 0) {
           this.stopScrollingLeft();
-          this.stopScrollingRight();
           this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
+          this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
+        } else if (scrollPos >= overflow) {
+          this.stopScrollingRight();
+          this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
           this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
+        } else {
+          this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
+          this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
         }
+      } else {
+        this.stopScrollingLeft();
+        this.stopScrollingRight();
+        this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
+        this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
       }
     });
   }
@@ -178,9 +191,9 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   public ngOnDestroy(): void {
-    this._storeSub.unsubscribe();
-    this._formsSub.unsubscribe();
-    this._selectedFormSub.unsubscribe();
+    this._storeSub?.unsubscribe();
+    this._formsSub?.unsubscribe();
+    this._selectedFormSub?.unsubscribe();
   }
 
   public mediaQueryChanged(matches: boolean): void {
@@ -191,7 +204,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
   }
 
-  private onSelectedFormChanged(form: FormWrapper): void {
+  private onSelectedFormChanged(form: FormWrapper | null): void {
     const changed: boolean = this.selectedForm !== form;
     this.selectedForm = form;
 
@@ -232,7 +245,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     };
   }
 
-  public getBadgeImageSrc(): SafeUrl {
+  public getBadgeImageSrc(): SafeUrl | null {
     if (!this.sidebarEnabled || this.selectedForm == null) {
       return null;
     } else {
@@ -280,10 +293,11 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public scrollIntoView(): void {
     setTimeout(() => {
-      if (this.scroller != null && this.scroller.osInstance() != null && this.tabs != null) {
-        const selectedTab: HTMLLIElement = this.tabs.nativeElement.querySelector('div.active');
-        if (selectedTab) {
-          this.scroller.osInstance().scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
+      if (this.scroller != null && this.tabs != null) {
+        const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
+        const selectedTab: HTMLLIElement | null = this.tabs.nativeElement.querySelector('div.active');
+        if (osInstance && selectedTab) {
+          osInstance.scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
         }
       }
     });
@@ -318,10 +332,20 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   protected scrollHorizontal(value: string): void {
-    this.scroller.osInstance().scroll({ x: value }, this._scrollAnimationTime);
+    if (this.scroller != null) {
+      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
+      if (osInstance != null) {
+        osInstance.scroll({ x: value }, this._scrollAnimationTime);
+      }
+    }
   }
 
   protected scrollVertical(value: string): void {
-    this.scroller.osInstance().scroll({ y: value }, this._scrollAnimationTime);
+    if (this.scroller != null) {
+      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
+      if (osInstance != null) {
+        osInstance.scroll({ y: value }, this._scrollAnimationTime);
+      }
+    }
   }
 }

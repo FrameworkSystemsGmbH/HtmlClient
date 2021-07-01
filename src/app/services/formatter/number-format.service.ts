@@ -73,37 +73,32 @@ export class NumberFormatService {
     return char === NumberFormatService._formatPermilleSign;
   }
 
-  public formatString(value: string, parseMethod: ParseMethod, textFormat: TextFormat, formatPattern: string): string {
-    if (value == null) {
-      return null;
-    }
-
-    const valueStr: string = this.cleanNumberString(value, parseMethod);
-
-    if (String.isNullOrWhiteSpace(valueStr)) {
-      return null;
-    }
+  public formatString(value: string, parseMethod: ParseMethod, textFormat: TextFormat, formatPattern: string | null): string | null {
+    const valueStr: string | null = this.cleanNumberString(value, parseMethod);
 
     const valueNum: number = Number(valueStr);
 
     return this.formatNumber(valueNum, textFormat, formatPattern);
   }
 
-  public formatNumber(value: number, textFormat: TextFormat, formatPattern: string): string {
-    if (value == null || Number.isNaN(value)) {
+  public formatNumber(value: number, textFormat: TextFormat, formatPattern: string | null): string | null {
+    if (Number.isNaN(value)) {
       return null;
     }
 
     switch (textFormat) {
       case TextFormat.Integer:
-        return this.adjustNumberInteger(value).toString();
+        const numInt: number | null = this.adjustNumberInteger(value);
+        return numInt != null ? numInt.toString() : null;
       case TextFormat.PositiveInteger:
-        return this.adjustNumberPositiveInteger(value).toString();
+        const numIntPos: number | null = this.adjustNumberPositiveInteger(value);
+        return numIntPos != null ? numIntPos.toString() : null;
       case TextFormat.NegativeInteger:
-        return this.adjustNumberNegativeInteger(value).toString();
+        const numIntNeg: number | null = this.adjustNumberNegativeInteger(value);
+        return numIntNeg != null ? numIntNeg.toString() : null;
       case TextFormat.Decimal:
       case TextFormat.UserDefined:
-        if (formatPattern) {
+        if (formatPattern != null) {
           return this.formatNumberPattern(value, formatPattern);
         } else {
           return this.formatNumberDefault(value);
@@ -113,16 +108,16 @@ export class NumberFormatService {
     }
   }
 
-  private formatNumberDefault(value: number): string {
-    if (value == null || Number.isNaN(value)) {
+  private formatNumberDefault(value: number): string | null {
+    if (Number.isNaN(value)) {
       return null;
     }
 
     return this._numberFormat.format(value);
   }
 
-  private formatNumberPattern(value: number, formatPattern: string): string {
-    if (value == null || Number.isNaN(value)) {
+  private formatNumberPattern(value: number, formatPattern: string): string | null {
+    if (Number.isNaN(value)) {
       return null;
     }
 
@@ -169,9 +164,9 @@ export class NumberFormatService {
     const valueAbsStr: string = valueAbs.toString();
     const valueDecimalPointPos: number = valueAbsStr.indexOf('.');
 
-    let valueDigitsStr: string;
+    let valueDigitsStr: string | null = null;
     let valueDigitsCount: number = 0;
-    let valueDecimalsStr: string;
+    let valueDecimalsStr: string | null = null;
     let valueDecimalsCount: number = 0;
 
     if (valueDecimalPointPos >= 0) {
@@ -199,7 +194,7 @@ export class NumberFormatService {
       let digitsStr: string = String.empty();
 
       // Pad zeros on left side if necessary
-      if (formatInfo.hasFirstDigitZero()) {
+      if (formatInfo.firstDigitZeroPos != null) {
         const padZeroCount: number = formatInfo.getDigitsCount() - valueDigitsCount - formatInfo.firstDigitZeroPos;
         if (padZeroCount > 0) {
           for (let i = 0; i < padZeroCount; i++) {
@@ -229,7 +224,7 @@ export class NumberFormatService {
       }
     }
 
-    if (formatInfo.hasDecimalsPart() && valueDecimalPointPos >= 0 || formatInfo.hasLastDecimalZero()) {
+    if (formatInfo.hasDecimalsPart() && valueDecimalPointPos >= 0 || formatInfo.lastDecimalZeroPos != null) {
       resultStr += this.getDecimalSeparator();
 
       if (!String.isNullOrWhiteSpace(valueDecimalsStr)) {
@@ -237,7 +232,7 @@ export class NumberFormatService {
       }
 
       // Pad zeros on right side if necessary
-      if (formatInfo.hasLastDecimalZero()) {
+      if (formatInfo.lastDecimalZeroPos != null) {
         const padZeroCount: number = formatInfo.lastDecimalZeroPos + 1 - valueDecimalsCount;
         if (padZeroCount > 0) {
           for (let i = 0; i < padZeroCount; i++) {
@@ -258,12 +253,8 @@ export class NumberFormatService {
     return resultStr;
   }
 
-  public parseString(value: string, parseMethod: ParseMethod, textFormat: TextFormat, formatPattern: string = null): number {
+  public parseString(value: string, parseMethod: ParseMethod, textFormat: TextFormat, formatPattern: string | null = null): number | null {
     let valueStr: string = value;
-
-    if (valueStr == null) {
-      return null;
-    }
 
     if (formatPattern == null) {
       return Number(this.cleanNumberString(valueStr, parseMethod));
@@ -279,7 +270,7 @@ export class NumberFormatService {
       valueStr = valueStr.trimStringRight(formatInfo.suffixPart);
     }
 
-    let valueNum: number = Number(this.cleanNumberString(valueStr, parseMethod));
+    let valueNum: number | null = Number(this.cleanNumberString(valueStr, parseMethod));
 
     if (Number.isNaN(valueNum)) {
       return null;
@@ -300,24 +291,24 @@ export class NumberFormatService {
     return valueNum;
   }
 
-  private adjustNumberInteger(value: number): number {
-    if (value == null || Number.isNaN(value)) {
+  private adjustNumberInteger(value: number): number | null {
+    if (Number.isNaN(value)) {
       return null;
     }
 
     return Math.roundDec(value, 0);
   }
 
-  private adjustNumberPositiveInteger(value: number): number {
-    if (value == null || Number.isNaN(value)) {
+  private adjustNumberPositiveInteger(value: number): number | null {
+    if (Number.isNaN(value)) {
       return null;
     }
 
     return Math.abs(Math.roundDec(value, 0));
   }
 
-  private adjustNumberNegativeInteger(value: number): number {
-    if (value == null || Number.isNaN(value)) {
+  private adjustNumberNegativeInteger(value: number): number | null {
+    if (Number.isNaN(value)) {
       return null;
     }
 
@@ -330,8 +321,8 @@ export class NumberFormatService {
     return num;
   }
 
-  private adjustNumberPattern(value: number, formatPattern: string): number {
-    if (value == null || Number.isNaN(value)) {
+  private adjustNumberPattern(value: number, formatPattern: string): number | null {
+    if (Number.isNaN(value)) {
       return null;
     }
 
@@ -353,7 +344,7 @@ export class NumberFormatService {
   }
 
   private getFormatInfo(format: string): NumberFormatInfo {
-    let formatToDo = format;
+    let formatToDo: string = format;
     const negativeFirst: boolean = formatToDo.startsWith(NumberFormatService._formatNegativeSign);
 
     if (negativeFirst) {
@@ -365,12 +356,12 @@ export class NumberFormatService {
     let isPercent: boolean = false;
     let isPermille: boolean = false;
 
-    let digitsPos: number;
-    let decimalsPos: number;
-    let suffixPos: number;
-    let firstDigitPos: number;
-    let lastDigitPos: number;
-    let groupingSeparatorPos: number;
+    let digitsPos: number | null = null;
+    let decimalsPos: number | null = null;
+    let suffixPos: number | null = null;
+    let firstDigitPos: number | null = null;
+    let lastDigitPos: number | null = null;
+    let groupingSeparatorPos: number | null = null;
 
     let prefixPart: string = String.empty();
     let digitsPart: string = String.empty();
@@ -451,7 +442,7 @@ export class NumberFormatService {
     // Get the suffix part if available
     if (suffixPos != null) {
       formatToDo = formatToDo.substring(suffixPos);
-      if (formatToDo != null) {
+      if (formatToDo.length) {
         isInString = false;
         for (let i = 0; i < formatToDo.length; i++) {
           const char: string = formatToDo.charAt(i);
@@ -492,8 +483,8 @@ export class NumberFormatService {
     formatInfo.digitsPart = digitsPart;
     formatInfo.decimalsPart = decimalsPart;
     formatInfo.suffixPart = suffixPart;
-    formatInfo.firstDigitZeroPos = firstDigitZeroPos != null && firstDigitZeroPos >= 0 ? firstDigitZeroPos : undefined;
-    formatInfo.lastDecimalZeroPos = lastDecimalZeroPos != null && lastDecimalZeroPos >= 0 ? lastDecimalZeroPos : undefined;
+    formatInfo.firstDigitZeroPos = firstDigitZeroPos != null && firstDigitZeroPos >= 0 ? firstDigitZeroPos : null;
+    formatInfo.lastDecimalZeroPos = lastDecimalZeroPos != null && lastDecimalZeroPos >= 0 ? lastDecimalZeroPos : null;
     formatInfo.isPercent = isPercent;
     formatInfo.isPermille = isPermille;
     formatInfo.hasGrouping = hasGrouping;
@@ -502,7 +493,7 @@ export class NumberFormatService {
     return formatInfo;
   }
 
-  private cleanNumberString(value: string, parseMethod: ParseMethod): string {
+  private cleanNumberString(value: string, parseMethod: ParseMethod): string | null {
     if (String.isNullOrWhiteSpace(value)) {
       return null;
     }

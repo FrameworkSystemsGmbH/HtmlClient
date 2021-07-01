@@ -20,7 +20,8 @@ import { ALL_COMPONENTS } from '@app/components/_all.components';
 import { ALL_CONTROLS } from '@app/controls/_all.controls';
 import { ALL_DIRECTIVES } from '@app/directives/_all.direcives';
 import { ErrorService } from '@app/services/error.service';
-import { appReducer } from '@app/store/app.reducers';
+import { brokerReducer } from '@app/store/broker/broker.reducers';
+import { readyReducer } from '@app/store/ready/ready.reducers';
 import { environment } from '@env/env.dev';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { StoreModule } from '@ngrx/store';
@@ -60,7 +61,10 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
     OverlayscrollbarsModule,
     ReactiveFormsModule,
     RouterModule,
-    StoreModule.forRoot(appReducer),
+    StoreModule.forRoot({
+      broker: brokerReducer,
+      ready: readyReducer
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 10,
       logOnly: environment.production

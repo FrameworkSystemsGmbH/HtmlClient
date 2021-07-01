@@ -1,5 +1,4 @@
 import { ComponentFactory, ComponentRef } from '@angular/core';
-import { ClientClickEvent } from '@app/common/events/client-click-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { RadioButtonComponent } from '@app/controls/radio-button/radio-button.component';
 import { ClientEventType } from '@app/enums/client-event-type';
@@ -8,24 +7,25 @@ import { Visibility } from '@app/enums/visibility';
 import { ButtonGroup } from '@app/wrappers/button-group/button-group';
 import { ContainerWrapper } from '@app/wrappers/container-wrapper';
 import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { Subscription } from 'rxjs';
 
 export class RadioButtonWrapper extends FittedWrapper {
 
-  private _radioClickSub: Subscription;
-  private _onValueChangedSub: Subscription;
+  private _radioClickSub: Subscription | null = null;
+  private _onValueChangedSub: Subscription | null = null;
 
-  private _value: string;
+  private _value: string | null = null;
 
   public getControlType(): ControlType {
     return ControlType.RadioButton;
   }
 
   public fireValueChanged(): void {
-    const buttonGroup: ButtonGroup = this.getButtonGroup();
+    const buttonGroup: ButtonGroup | null = this.getButtonGroup();
 
-    if (buttonGroup) {
+    if (buttonGroup != null) {
       buttonGroup.fireValueChanged(this.getCheckedValue());
     }
   }
@@ -49,24 +49,25 @@ export class RadioButtonWrapper extends FittedWrapper {
     return 3;
   }
 
-  public getValue(): string {
+  public getValue(): string | null {
     return this._value;
   }
 
-  public getCheckedValue(): string {
-    return this.getPropertyStore().getDatasourceOnValue();
+  public getCheckedValue(): string | null {
+    const checkedValue: string | undefined = this.getPropertyStore().getDatasourceOnValue();
+    return checkedValue != null ? checkedValue : null;
   }
 
-  public getButtonGroupName(): string {
-    const buttonGroup: ButtonGroup = this.getButtonGroup();
+  public getButtonGroupName(): string | null {
+    const buttonGroup: ButtonGroup | null = this.getButtonGroup();
     return buttonGroup ? buttonGroup.getGroupName() : null;
   }
 
-  private getButtonGroup(): ButtonGroup {
+  private getButtonGroup(): ButtonGroup | null {
     return this.getButtonGroupRecursively(this.getParent());
   }
 
-  private getButtonGroupRecursively(parent: ContainerWrapper): ButtonGroup {
+  private getButtonGroupRecursively(parent: ContainerWrapper | null): ButtonGroup | null {
     if (!parent) {
       return null;
     }
@@ -78,18 +79,18 @@ export class RadioButtonWrapper extends FittedWrapper {
     return this.getButtonGroupRecursively(parent.getParent());
   }
 
-  private onButtonGroupValueChanged(value: string): void {
+  private onButtonGroupValueChanged(value: string | null): void {
     this._value = value;
     this.updateComponent();
   }
 
-  protected getComponentRef(): ComponentRef<RadioButtonComponent> {
-    return super.getComponentRef() as ComponentRef<RadioButtonComponent>;
+  protected getComponentRef(): ComponentRef<RadioButtonComponent> | null {
+    return super.getComponentRef() as ComponentRef<RadioButtonComponent> | null;
   }
 
-  protected getComponent(): RadioButtonComponent {
-    const compRef: ComponentRef<RadioButtonComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): RadioButtonComponent | null {
+    const compRef: ComponentRef<RadioButtonComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<RadioButtonComponent> {
@@ -104,9 +105,9 @@ export class RadioButtonWrapper extends FittedWrapper {
       this._radioClickSub = instance.radioClick.subscribe(() => this.getRadioClickSubscription()());
     }
 
-    const buttonGroup: ButtonGroup = this.getButtonGroup();
+    const buttonGroup: ButtonGroup | null = this.getButtonGroup();
 
-    if (buttonGroup) {
+    if (buttonGroup != null) {
       this._onValueChangedSub = buttonGroup.onValueChanged().subscribe(value => this.onButtonGroupValueChanged(value));
     }
   }
@@ -128,33 +129,38 @@ export class RadioButtonWrapper extends FittedWrapper {
   }
 
   protected getRadioClickSubscription(): () => void {
-    return (): void => this.getEventsService().fireClick(
-      this.getForm().getId(),
-      this.getName(),
-      new InternalEventCallbacks<ClientClickEvent>(
-        this.canExecuteRadioClick.bind(this),
-        this.radioClickExecuted.bind(this),
-        this.radioClickCompleted.bind(this)
-      )
-    );
+    return (): void => {
+      const form: FormWrapper | null = this.getForm();
+      if (form != null) {
+        this.getEventsService().fireClick(
+          form.getId(),
+          this.getName(),
+          new InternalEventCallbacks(
+            this.canExecuteRadioClick.bind(this),
+            this.radioClickExecuted.bind(this),
+            this.radioClickCompleted.bind(this)
+          )
+        );
+      }
+    };
   }
 
-  protected canExecuteRadioClick(clientEvent: ClientClickEvent, payload: any): boolean {
+  protected canExecuteRadioClick(payload: any): boolean {
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected radioClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected radioClickExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected radioClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected radioClickCompleted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
   public updateFittedWidth(): void {
-    const caption: string = this.getCaption();
+    const caption: string | null = this.getCaption();
 
-    if (!String.isNullOrEmpty(caption)) {
+    if (caption != null && caption.trim().length) {
       this.setFittedContentWidth(this.getFontService().measureTextWidth(caption, this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()) + this.getButtonWidth() + this.getLabelGap());
     } else {
       this.setFittedContentWidth(this.getButtonWidth());

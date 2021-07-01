@@ -5,13 +5,13 @@ export class LayoutableProperties implements ILayoutableProperties {
 
   private readonly _wrapper: ILayoutableControlWrapper;
 
-  private _x: number;
-  private _y: number;
+  private _x: number = 0;
+  private _y: number = 0;
 
-  private _hBarNeeded: boolean;
+  private _hBarNeeded: boolean = false;
 
-  private _layoutWidth: number;
-  private _layoutHeight: number;
+  private _layoutWidth: number = 0;
+  private _layoutHeight: number = 0;
 
   public constructor(wrapper: ILayoutableControlWrapper) {
     this._wrapper = wrapper;

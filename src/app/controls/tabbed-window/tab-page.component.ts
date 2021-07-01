@@ -12,14 +12,18 @@ import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
 export class TabPageComponent extends ContainerComponent implements OnInit {
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+  public anchor: ViewContainerRef | null = null;
 
   @ViewChild('wrapper', { static: true })
-  public wrapperEl: ElementRef;
+  public wrapperEl: ElementRef<HTMLDivElement> | null = null;
 
   public wrapperStyle: any;
 
   public getViewContainerRef(): ViewContainerRef {
+    if (this.anchor == null) {
+      throw new Error('Tried to access uninitialized ViewContainerRef of \'TabPageComponent\'');
+    }
+
     return this.anchor;
   }
 

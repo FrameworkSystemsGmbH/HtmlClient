@@ -12,13 +12,13 @@ import { Subscription } from 'rxjs';
 export class FrameComponent implements OnInit, OnDestroy {
 
   @ViewChild('frame', { static: true })
-  public frame: ElementRef;
+  public frame: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+  public anchor: ViewContainerRef | null = null;
 
-  private _selectedForm: FormWrapper;
-  private _selectedFormSub: Subscription;
+  private _selectedForm: FormWrapper | null = null;
+  private _selectedFormSub: Subscription | null = null;
 
   public constructor(
     private readonly _zone: NgZone,
@@ -29,7 +29,7 @@ export class FrameComponent implements OnInit, OnDestroy {
   @HostListener('window:resize')
   public layout(): void {
     this._zone.run(() => {
-      if (this._selectedForm) {
+      if (this._selectedForm && this.frame) {
         this._selectedForm.doLayout(this.frame.nativeElement.clientWidth, this.frame.nativeElement.clientHeight);
       }
     });
@@ -51,14 +51,16 @@ export class FrameComponent implements OnInit, OnDestroy {
     }
   }
 
-  private showForm(form: FormWrapper): void {
-    this.anchor.clear();
-    if (form) {
-      this._selectedForm = form;
-      this._selectedForm.attachComponentToFrame(this.anchor);
-      setTimeout(() => this.layout());
-    } else {
-      this._selectedForm = null;
+  private showForm(form: FormWrapper | null): void {
+    if (this.anchor != null) {
+      this.anchor.clear();
+      if (form) {
+        this._selectedForm = form;
+        this._selectedForm.attachComponentToFrame(this.anchor);
+        setTimeout(() => this.layout());
+      } else {
+        this._selectedForm = null;
+      }
     }
   }
 }

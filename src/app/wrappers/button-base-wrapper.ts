@@ -1,16 +1,16 @@
 import { ComponentRef } from '@angular/core';
-import { ClientClickEvent } from '@app/common/events/client-click-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { PropertyLayer } from '@app/common/property-layer';
 import { ButtonComponent } from '@app/controls/buttons/button.component';
 import { ClientEventType } from '@app/enums/client-event-type';
 import { Visibility } from '@app/enums/visibility';
 import { FittedWrapper } from '@app/wrappers/fitted-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { Subscription } from 'rxjs';
 
 export abstract class ButtonBaseWrapper extends FittedWrapper {
 
-  private _btnClickSub: Subscription;
+  private _btnClickSub: Subscription | null = null;
 
   public mapEnterToTab(): boolean {
     return Boolean.falseIfNull(this.getPropertyStore().getMapEnterToTab());
@@ -24,13 +24,13 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     return false;
   }
 
-  protected getComponentRef(): ComponentRef<ButtonComponent> {
-    return super.getComponentRef() as ComponentRef<ButtonComponent>;
+  protected getComponentRef(): ComponentRef<ButtonComponent> | null {
+    return super.getComponentRef() as ComponentRef<ButtonComponent> | null;
   }
 
-  protected getComponent(): ButtonComponent {
-    const compRef: ComponentRef<ButtonComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): ButtonComponent | null {
+    const compRef: ComponentRef<ButtonComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   protected setDataJson(dataJson: any): void {
@@ -66,31 +66,36 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
   }
 
   protected getBtnClickSubscription(): () => void {
-    return (): void => this.getEventsService().fireClick(
-      this.getForm().getId(),
-      this.getName(),
-      new InternalEventCallbacks<ClientClickEvent>(
-        this.canExecuteBtnClick.bind(this),
-        this.btnClickExecuted.bind(this),
-        this.btnClickCompleted.bind(this)
-      )
-    );
+    return (): void => {
+      const form: FormWrapper | null = this.getForm();
+      if (form != null) {
+        this.getEventsService().fireClick(
+          form.getId(),
+          this.getName(),
+          new InternalEventCallbacks(
+            this.canExecuteBtnClick.bind(this),
+            this.btnClickExecuted.bind(this),
+            this.btnClickCompleted.bind(this)
+          )
+        );
+      }
+    };
   }
 
-  protected canExecuteBtnClick(clientEvent: ClientClickEvent, payload: any): boolean {
+  protected canExecuteBtnClick(payload: any): boolean {
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected btnClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected btnClickExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected btnClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected btnClickCompleted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
   public fireClick(): void {
-    const comp: ButtonComponent = this.getComponent();
+    const comp: ButtonComponent | null = this.getComponent();
 
     if (comp) {
       comp.callBtnClick();
@@ -98,8 +103,9 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
   }
 
   public updateFittedWidth(): void {
-    if (this.showCaption()) {
-      this.setFittedContentWidth(this.getFontService().measureTextWidth(this.getCaption(), this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
+    const caption: string | null = this.getCaption();
+    if (this.showCaption() && caption != null) {
+      this.setFittedContentWidth(this.getFontService().measureTextWidth(caption, this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()));
     } else {
       this.setFittedContentWidth(null);
     }

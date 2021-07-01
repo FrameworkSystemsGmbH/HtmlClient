@@ -1,5 +1,5 @@
 import { ComponentFactory, ComponentRef, ViewContainerRef } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { SafeUrl } from '@angular/platform-browser';
 import { ControlComponent } from '@app/controls/control.component';
 import { FormComponent } from '@app/controls/form/form.component';
 import { ControlType } from '@app/enums/control-type';
@@ -13,20 +13,14 @@ import { VariantWrapper } from '@app/wrappers/variant-wrapper';
 
 export class FormWrapper extends ContainerWrapper {
 
-  private _id: string;
-  private _fullName: string;
-  private _closing: boolean;
-  private _isModal: boolean;
-  private _variant: VariantWrapper;
-  private _closeButton: ButtonBaseWrapper;
-  private _sanatizer: DomSanitizer;
-  private _focusWrapper: ControlWrapper;
-  private _firstLayoutDone: boolean;
-
-  protected init(): void {
-    super.init();
-    this._sanatizer = this.getInjector().get(DomSanitizer);
-  }
+  private _id: string = String.empty();
+  private _fullName: string = String.empty();
+  private _closing: boolean = false;
+  private _isModal: boolean = false;
+  private _variant: VariantWrapper | null = null;
+  private _closeButton: ButtonBaseWrapper | null = null;
+  private _focusWrapper: ControlWrapper | null = null;
+  private _firstLayoutDone: boolean = false;
 
   public get closing(): boolean {
     return this._closing;
@@ -49,8 +43,8 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   public getTitle(): string {
-    const title: string = this.getDefaultVariant().getTitle();
-    return title ? title : this._fullName;
+    const title: string | null = this.getDefaultVariant().getTitle();
+    return title != null ? title : this.getName();
   }
 
   public setTitleAction(title: string): void {
@@ -61,7 +55,7 @@ export class FormWrapper extends ContainerWrapper {
     return this._isModal;
   }
 
-  public getCloseButton(): ButtonBaseWrapper {
+  public getCloseButton(): ButtonBaseWrapper | null {
     return this._closeButton;
   }
 
@@ -81,9 +75,9 @@ export class FormWrapper extends ContainerWrapper {
     this._closeButton = button;
   }
 
-  public getBadgeImageSrc(): SafeUrl {
-    const badgeImageSrc: string = this.getDefaultVariant().getBadgeImageSrc();
-    return !String.isNullOrWhiteSpace(badgeImageSrc) ? this._sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
+  public getBadgeImageSrc(): SafeUrl | null {
+    const badgeImageSrc: string | null = this.getDefaultVariant().getBadgeImageSrc();
+    return badgeImageSrc != null && badgeImageSrc.trim().length ? this.getSanitizer().bypassSecurityTrustUrl(badgeImageSrc) : null;
   }
 
   public onComponentDestroyed(): void {
@@ -117,17 +111,22 @@ export class FormWrapper extends ContainerWrapper {
     this._focusWrapper = null;
   }
 
-  protected getComponentRef(): ComponentRef<FormComponent> {
-    return super.getComponentRef() as ComponentRef<FormComponent>;
+  protected getComponentRef(): ComponentRef<FormComponent> | null {
+    return super.getComponentRef() as ComponentRef<FormComponent> | null;
   }
 
-  protected getComponent(): FormComponent {
-    const compRef: ComponentRef<FormComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): FormComponent | null {
+    const compRef: ComponentRef<FormComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public getViewContainerRef(): ViewContainerRef {
-    return this.getComponent().anchor;
+    const comp: FormComponent | null = this.getComponent();
+
+    if (comp == null) {
+      throw new Error('Tried to get FormComponent ViewContainerRef but component is NULL');
+    }
+    return comp.getViewContainerRef();
   }
 
   public getMetaJson(): any {

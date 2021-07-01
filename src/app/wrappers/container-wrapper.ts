@@ -15,14 +15,9 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 
 export abstract class ContainerWrapper extends ControlWrapper implements ILayoutableContainerWrapper {
 
-  protected controls: Array<ControlWrapper>;
+  protected controls: Array<ControlWrapper> = new Array<ControlWrapper>();
 
-  private _buttonGroup: ButtonGroup;
-
-  protected init(): void {
-    super.init();
-    this.controls = new Array<ControlWrapper>();
-  }
+  private _buttonGroup: ButtonGroup | null = null;
 
   public isILayoutableContainer(): void {
     // Interface Marker
@@ -40,13 +35,13 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     return new ContainerLayout(this);
   }
 
-  protected getComponentRef(): ComponentRef<ContainerComponent> {
-    return super.getComponentRef() as ComponentRef<ContainerComponent>;
+  protected getComponentRef(): ComponentRef<ContainerComponent> | null {
+    return super.getComponentRef() as ComponentRef<ContainerComponent> | null;
   }
 
-  protected getComponent(): ContainerComponent {
-    const compRef: ComponentRef<ContainerComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): ContainerComponent | null {
+    const compRef: ComponentRef<ContainerComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public updateComponentRecursively(): void {
@@ -58,10 +53,10 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
   }
 
   public getInvertFlowDirection(): boolean {
-    return this.getPropertyStore().getInvertFlowDirection();
+    return Boolean.falseIfNull(this.getPropertyStore().getInvertFlowDirection());
   }
 
-  public getButtonGroup(): ButtonGroup {
+  public getButtonGroup(): ButtonGroup | null {
     if (!this.supportsButtonGroup()) {
       return null;
     }
@@ -126,7 +121,9 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
       return null;
     }
 
-    const dataJson: any = this.getButtonGroup().getDataJson();
+    const buttonGroup: ButtonGroup | null = this.getButtonGroup();
+
+    const dataJson: any = buttonGroup ? buttonGroup.getDataJson() : null;
 
     if (JsonUtil.isEmptyObject(dataJson)) {
       return null;
@@ -160,7 +157,10 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     super.setDataJson(dataJson);
 
     if (this.supportsButtonGroup() && dataJson) {
-      this.getButtonGroup().setDataJson(dataJson);
+      const buttonGroup: ButtonGroup | null = this.getButtonGroup();
+      if (buttonGroup != null) {
+        buttonGroup.setDataJson(dataJson);
+      }
     }
   }
 
@@ -177,7 +177,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     }
   }
 
-  public findControl(name: string): ControlWrapper {
+  public findControl(name: string): ControlWrapper | null {
     for (const control of this.controls) {
       if (control.getName() === name) {
         return control;
@@ -187,8 +187,8 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     return null;
   }
 
-  public findControlRecursive(name: string): ControlWrapper {
-    let control: ControlWrapper = this.findControl(name);
+  public findControlRecursive(name: string): ControlWrapper | null {
+    let control: ControlWrapper | null = this.findControl(name);
     if (!control) {
       for (const subControl of this.controls) {
         if (subControl instanceof ContainerWrapper) {
@@ -222,7 +222,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
   }
 
   public setFocus(): void {
-    const focusableControl: ILayoutableControlWrapper = this.getFocusService().findFirstFocusableControlInContainerRecursive(this);
+    const focusableControl: ILayoutableControlWrapper | null = this.getFocusService().findFirstFocusableControlInContainerRecursive(this);
 
     if (focusableControl) {
       focusableControl.setFocus();

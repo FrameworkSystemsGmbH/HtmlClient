@@ -10,12 +10,14 @@ export class ControlStyleService {
     this._controlStyles.set(key, data);
   }
 
-  public getControlStyle(key: string): PropertyData {
-    return this._controlStyles.get(key);
+  public getControlStyle(key: string): PropertyData | null {
+    const data: PropertyData | undefined = this._controlStyles.get(key);
+    return data != null ? data : null;
   }
 
-  public getBaseControlStyle(): PropertyData {
-    return this._controlStyles.get('BaseControl');
+  public getBaseControlStyle(): PropertyData | null {
+    const data: PropertyData | undefined = this._controlStyles.get('BaseControl');
+    return data != null ? data : null;
   }
 
   public saveState(): Array<any> {

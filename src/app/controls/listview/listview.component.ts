@@ -1,9 +1,10 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
 import { ListViewItemArrangement } from '@app/enums/listview-item-arrangement';
 import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
+import { FocusService } from '@app/services/focus.service';
 import { PlatformService } from '@app/services/platform.service';
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
@@ -40,10 +41,10 @@ import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 export class ListViewComponent extends ControlComponent implements OnInit {
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+  public anchor: ViewContainerRef | null = null;
 
   @ViewChild('wrapper', { static: true })
-  public wrapperEl: ElementRef;
+  public wrapperEl: ElementRef<HTMLDivElement> | null = null;
 
   public iconTimes: IconDefinition = faTimes;
 
@@ -54,22 +55,37 @@ export class ListViewComponent extends ControlComponent implements OnInit {
   public itemContainerStyle: any;
   public itemListStyle: any;
   public bottomPaddingStyle: any;
-  public hasBottomPadding: boolean;
+  public hasBottomPadding: boolean = false;
 
-  private _platformService: PlatformService;
+  private readonly _platformService: PlatformService;
 
-  protected init(): void {
-    this._platformService = this.getInjector().get(PlatformService);
+  public constructor(
+    cdr: ChangeDetectorRef,
+    focusService: FocusService,
+    platformService: PlatformService
+  ) {
+    super(cdr, focusService);
+    this._platformService = platformService;
+  }
+
+  private getViewContainerRef(): ViewContainerRef {
+    if (this.anchor == null) {
+      throw new Error('Tried to access uninitialized ViewContainerRef of \'ListViewComponent\'');
+    }
+
+    return this.anchor;
   }
 
   public onFocusOut(event: FocusEvent): void {
     if (this._platformService.isNative()) {
       setTimeout(() => {
-        const targetIsDescentant: boolean = DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, event.target as HTMLElement);
-        const activeIsOutside: boolean = !DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, document.activeElement as HTMLElement);
+        if (this.wrapperEl != null) {
+          const targetIsDescentant: boolean = DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, event.target as HTMLElement);
+          const activeIsOutside: boolean = !DomUtil.isDescentantOrSelf(this.wrapperEl.nativeElement, document.activeElement as HTMLElement);
 
-        if (targetIsDescentant && activeIsOutside) {
-          this.getWrapper().setMobileSelectionModeEnabled(false);
+          if (targetIsDescentant && activeIsOutside) {
+            this.getWrapper().setMobileSelectionModeEnabled(false);
+          }
         }
       });
     }
@@ -114,14 +130,14 @@ export class ListViewComponent extends ControlComponent implements OnInit {
       }
 
       if (itemWrapper.isNew() || !itemWrapper.isAttached()) {
-        itemWrapper.attachComponent(this.anchor);
+        itemWrapper.attachComponent(this.getViewContainerRef());
       } else if (itemWrapper.hasContentChanged()) {
         itemWrapper.updateComponent();
       }
     }
 
     if (posChange) {
-      itemWrappers.forEach(i => i.ensureItemPos(this.anchor));
+      itemWrappers.forEach(i => i.ensureItemPos(this.getViewContainerRef()));
     }
   }
 

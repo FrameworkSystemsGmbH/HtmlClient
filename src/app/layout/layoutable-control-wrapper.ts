@@ -11,7 +11,7 @@ export class LayoutableControlWrapper {
 
   private readonly _name: string;
 
-  private _minLayoutHeight: number;
+  private _minLayoutHeight: number = 0;
 
   private readonly _minLayoutWidth: number;
   private readonly _maxLayoutWidth: number;
@@ -20,22 +20,22 @@ export class LayoutableControlWrapper {
   private readonly _marginRight: number;
   private readonly _marginTop: number;
   private readonly _marginBottom: number;
-  private readonly _dockItemSize: number;
+  private readonly _dockItemSize: number | null;
 
   private readonly _visibility: Visibility;
   private readonly _isControlVisible: boolean;
   private readonly _isLayoutVisible: boolean;
-  private readonly _isSynchronizedHidden: boolean;
+  private readonly _isSynchronizedHidden: boolean = false;
 
   private readonly _hAlign: HorizontalAlignment;
   private readonly _vAlign: VerticalAlignment;
 
   private readonly _layoutableProperties: ILayoutableProperties;
 
-  private _resultWdith: number;
-  private _resultHeight: number;
+  private _resultWdith: number = 0;
+  private _resultHeight: number = 0;
 
-  private readonly _layout: LayoutContainerBase;
+  private readonly _layout: LayoutContainerBase | null = null;
 
   public constructor(private readonly _control: ILayoutableControl) {
     this._name = _control.getName();
@@ -109,8 +109,12 @@ export class LayoutableControlWrapper {
     return this._marginBottom;
   }
 
-  public getDockItemSize(): number {
+  public getDockItemSize(): number | null {
     return this._dockItemSize;
+  }
+
+  public getDockItemSizeInt(): number {
+    return Number.zeroIfNull(this._dockItemSize);
   }
 
   public getHorizontalAlignment(): HorizontalAlignment {

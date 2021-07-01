@@ -2,17 +2,17 @@ import { TextFormat } from '@app/enums/text-format';
 
 export class TemplateControlValueWrapper {
 
-  private readonly _value: string;
-  private readonly _format: TextFormat;
-  private readonly _formatPattern: string;
+  private readonly _value: string | null;
+  private readonly _format: TextFormat = TextFormat.None;
+  private readonly _formatPattern: string | null;
 
-  public constructor(value: string, format: TextFormat, formatPattern: string) {
+  public constructor(value: string | null, format: TextFormat, formatPattern: string | null) {
     this._value = value;
     this._format = format;
     this._formatPattern = formatPattern;
   }
 
-  public getValue(): string {
+  public getValue(): string | null {
     return this._value;
   }
 
@@ -20,7 +20,7 @@ export class TemplateControlValueWrapper {
     return this._format;
   }
 
-  public getFormatPattern(): string {
+  public getFormatPattern(): string | null {
     return this._formatPattern;
   }
 }

@@ -1,8 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { TextFormat } from '@app/enums/text-format';
+import { FocusService } from '@app/services/focus.service';
 import { DateTimeFormatService } from '@app/services/formatter/datetime-format.service';
 import { TextBoxDateTimeWrapper } from '@app/wrappers/textbox-datetime-wrapper';
+import * as Moment from 'moment-timezone';
 
 @Component({
   selector: 'hc-txt-datetime',
@@ -12,32 +14,36 @@ import { TextBoxDateTimeWrapper } from '@app/wrappers/textbox-datetime-wrapper';
 export class TextBoxDateTimeComponent extends TextBoxComponent {
 
   @ViewChild('input', { static: true })
-  public input: ElementRef;
+  public input: ElementRef<HTMLInputElement> | null = null;
 
-  public value: string;
+  public value: string | null = null;
 
-  private _format: TextFormat;
-  private _formatPattern: string;
+  private _format: TextFormat = TextFormat.None;
+  private _formatPattern: string | null = null;
 
-  private _dateTimeFormatService: DateTimeFormatService;
+  private readonly _dateTimeFormatService: DateTimeFormatService;
 
-  protected init(): void {
-    super.init();
-    this._dateTimeFormatService = this.getInjector().get(DateTimeFormatService);
+  public constructor(
+    cdr: ChangeDetectorRef,
+    focusService: FocusService,
+    dateTimeFormatService: DateTimeFormatService
+  ) {
+    super(cdr, focusService);
+    this._dateTimeFormatService = dateTimeFormatService;
   }
 
-  public getInput(): ElementRef {
+  public getInput(): ElementRef<HTMLInputElement> | null {
     return this.input;
   }
 
   public callCtrlLeave(event: any): void {
-    if (this.isEditable) {
+    if (this.isEditable && this.input != null) {
       if (this.input.nativeElement.classList.contains('ng-dirty')) {
         if (String.isNullOrWhiteSpace(this.value)) {
           this.value = null;
           this.updateWrapper();
         } else {
-          const formattedValue: string = this._dateTimeFormatService.formatString(this.value, this._format, this._formatPattern);
+          const formattedValue: string | null = this.value != null ? this._dateTimeFormatService.formatString(this.value, this._format, this._formatPattern) : null;
           if (formattedValue == null) {
             this.updateComponent();
           } else {
@@ -56,13 +62,16 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
   }
 
   private updateWrapper(): void {
-    this.getWrapper().setValue(this._dateTimeFormatService.parseString(this.value, this._format, this._formatPattern));
+    this.getWrapper().setValue(this.value != null ? this._dateTimeFormatService.parseString(this.value, this._format, this._formatPattern) : null);
   }
 
   protected updateData(wrapper: TextBoxDateTimeWrapper): void {
     super.updateData(wrapper);
+
     this._format = wrapper.getFormat();
     this._formatPattern = wrapper.getFormatPattern();
-    this.value = this._dateTimeFormatService.formatDate(wrapper.getValue(), this._format, this._formatPattern);
+
+    const value: Moment.Moment | null = wrapper.getValue();
+    this.value = value != null ? this._dateTimeFormatService.formatDate(value, this._format, this._formatPattern) : null;
   }
 }

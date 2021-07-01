@@ -11,7 +11,7 @@ import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-con
 
 export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFieldContainer {
 
-  private _rowLabelTemplate: ControlLabelTemplate;
+  private _rowLabelTemplate: ControlLabelTemplate | null = null;
 
   public supportsButtonGroup(): boolean {
     return true;
@@ -41,17 +41,22 @@ export class FieldPanelWrapper extends ContainerWrapperSpaceable implements IFie
     return this._rowLabelTemplate;
   }
 
-  protected getComponentRef(): ComponentRef<FieldPanelComponent> {
-    return super.getComponentRef() as ComponentRef<FieldPanelComponent>;
+  protected getComponentRef(): ComponentRef<FieldPanelComponent> | null {
+    return super.getComponentRef() as ComponentRef<FieldPanelComponent> | null;
   }
 
-  protected getComponent(): FieldPanelComponent {
-    const compRef: ComponentRef<FieldPanelComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): FieldPanelComponent | null {
+    const compRef: ComponentRef<FieldPanelComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public getViewContainerRef(): ViewContainerRef {
-    return this.getComponent().anchor;
+    const comp: FieldPanelComponent | null = this.getComponent();
+
+    if (comp == null) {
+      throw new Error('Tried to get FieldPanelComponent ViewContainerRef but component is NULL');
+    }
+    return comp.getViewContainerRef();
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<FieldPanelComponent> {

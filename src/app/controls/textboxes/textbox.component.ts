@@ -9,8 +9,8 @@ import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
 @Directive()
 export abstract class TextBoxComponent extends ControlComponent {
 
-  public readOnlyAttr: boolean;
-  public tabIndexAttr: number;
+  public readOnlyAttr: boolean | null = null;
+  public tabIndexAttr: number | null = null;
   public inputStyle: any;
 
   protected mapEnterToTab(): boolean {
@@ -26,7 +26,7 @@ export abstract class TextBoxComponent extends ControlComponent {
   }
 
   public onAfterEnter(): void {
-    const input: ElementRef = this.getInput();
+    const input: ElementRef<HTMLElement> | null = this.getInput();
 
     if (input) {
       setTimeout(() => DomUtil.setSelection(input.nativeElement));
@@ -110,8 +110,8 @@ export abstract class TextBoxComponent extends ControlComponent {
     };
   }
 
-  public getFocusElement(): any {
-    const input: ElementRef = this.getInput();
+  public getFocusElement(): HTMLElement | null {
+    const input: ElementRef<HTMLElement> | null = this.getInput();
 
     if (input) {
       return input.nativeElement;
@@ -120,5 +120,5 @@ export abstract class TextBoxComponent extends ControlComponent {
     return null;
   }
 
-  protected abstract getInput(): ElementRef;
+  protected abstract getInput(): ElementRef<HTMLElement> | null;
 }

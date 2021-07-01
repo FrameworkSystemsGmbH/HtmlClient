@@ -6,10 +6,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class LoginService {
 
+  private readonly _clientDataService: ClientDataService;
+
   private readonly _brokers$$: BehaviorSubject<Array<LoginBroker>>;
   private readonly _brokers$: Observable<Array<LoginBroker>>;
 
-  public constructor(private readonly _clientDataService: ClientDataService) {
+  public constructor(clientDataService: ClientDataService) {
+    this._clientDataService = clientDataService;
+
     this._brokers$$ = new BehaviorSubject<Array<LoginBroker>>(new Array<LoginBroker>());
     this._brokers$ = this._brokers$$.asObservable();
 
@@ -18,7 +22,7 @@ export class LoginService {
     });
   }
 
-  public getBrokers(): Observable<Array<LoginBroker>> {
+  public getBrokers(): Observable<Array<LoginBroker> | null> {
     return this._brokers$;
   }
 

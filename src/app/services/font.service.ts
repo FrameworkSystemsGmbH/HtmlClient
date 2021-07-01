@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { PropertyData } from '@app/common/property-data';
 import { PropertyLayer } from '@app/common/property-layer';
 import { PropertyStore } from '@app/common/property-store';
 import { DataSourceType } from '@app/enums/datasource-type';
@@ -18,6 +19,9 @@ export class FontService {
 
   // Common constants
   private readonly _separator: string = '|';
+  private readonly _measureTextFallback: string = 'WWWiniel Esrai tdhUcen IsnetLorem iPsum Dolor sitAmet consetetur SadipsciNg eliTri';
+  private readonly _minWidthRasterFallback: number = 25;
+  private readonly _maxWidthRasterFallback: number = 50;
 
   // Constants for DateTime width calculation
   private readonly _dateYear: number = 2022;
@@ -41,41 +45,57 @@ export class FontService {
   private readonly _canvas: HTMLCanvasElement;
   private readonly _context: CanvasRenderingContext2D;
 
-  private _baseControlStyle: PropertyStore;
+  private _baseControlStyle: PropertyStore | null = null;
 
   public constructor(
     private readonly _controlStyleService: ControlStyleService,
     private readonly _numberFormatService: NumberFormatService,
     private readonly _dateTimeFormatService: DateTimeFormatService
   ) {
-    this._span = document.getElementById('measureHeightSpan');
+    const span: HTMLSpanElement | null = document.getElementById('measureHeightSpan');
+
+    if (span == null) {
+      throw new Error('Cannot find HTML element with ID \'measureHeightSpan\'');
+    }
+
+    this._span = span;
+
     this._canvas = document.createElement('canvas');
-    this._context = this._canvas.getContext('2d');
+
+    const context: CanvasRenderingContext2D | null = this._canvas.getContext('2d');
+
+    if (context == null) {
+      throw new Error('Canvas element does not provide a 2D rendering context');
+    }
+
+    this._context = context;
   }
 
-  private initBaseControlStyle(): void {
-    if (!this._baseControlStyle) {
+  private get baseControlStyle(): PropertyStore {
+    if (this._baseControlStyle == null) {
       this._baseControlStyle = new PropertyStore();
-      this._baseControlStyle.setLayer(PropertyLayer.ControlStyle, this._controlStyleService.getBaseControlStyle());
+      const data: PropertyData | null = this._controlStyleService.getBaseControlStyle();
+      if (data != null) {
+        this._baseControlStyle.setLayer(PropertyLayer.ControlStyle, data);
+      }
     }
+
+    return this._baseControlStyle;
   }
 
   private getMeasureText(): string {
-    this.initBaseControlStyle();
-    return this._baseControlStyle.getMeasureText();
+    return this.baseControlStyle.getMeasureText() ?? this._measureTextFallback;
   }
 
   private getMinWidthRaster(): number {
-    this.initBaseControlStyle();
-    return this._baseControlStyle.getMinWidthRaster();
+    return this.baseControlStyle.getMinWidthRaster() ?? this._minWidthRasterFallback;
   }
 
   private getMaxWidthRaster(): number {
-    this.initBaseControlStyle();
-    return this._baseControlStyle.getMaxWidthRaster();
+    return this.baseControlStyle.getMaxWidthRaster() ?? this._maxWidthRasterFallback;
   }
 
-  private getMeasuredWidth(wrapper: FittedDataWrapper, type: DataSourceType, length: number, scale: number, format: TextFormat, formatPattern: string, raster: number): number {
+  private getMeasuredWidth(wrapper: FittedDataWrapper, type: DataSourceType, length: number, scale: number, format: TextFormat, formatPattern: string | null, raster: number): number {
     switch (type) {
       case DataSourceType.String:
         return this.getStringWidthRastered(wrapper, length, format, raster);
@@ -92,7 +112,7 @@ export class FontService {
     let bufferKey: string = this.getFontKey(wrapper);
     bufferKey = this.addKey(bufferKey, lines);
 
-    let bufferValue: number = this._linesHeightBuffer.get(bufferKey);
+    let bufferValue: number | undefined = this._linesHeightBuffer.get(bufferKey);
 
     if (bufferValue == null) {
       bufferValue = this.measureLinesHeight(wrapper, lines);
@@ -117,7 +137,7 @@ export class FontService {
 
   private getMaxWidthDigit(wrapper: FittedDataWrapper): number {
     const bufferKey: string = this.getFontKey(wrapper);
-    let bufferedValue: number = this._maxWidthDigitBuffer.get(bufferKey);
+    let bufferedValue: number | undefined = this._maxWidthDigitBuffer.get(bufferKey);
 
     if (bufferedValue == null) {
       let digit: number = 0;
@@ -167,7 +187,7 @@ export class FontService {
     bufferKey = this.addKey(bufferKey, format);
     bufferKey = this.addKey(bufferKey, raster);
 
-    let bufferValue: number = this._stringWidthBuffer.get(bufferKey);
+    let bufferValue: number | undefined = this._stringWidthBuffer.get(bufferKey);
 
     if (bufferValue == null) {
       bufferValue = this.getRasteredValue(this.measureStringWidth(wrapper, length, format), raster);
@@ -177,13 +197,13 @@ export class FontService {
     return Number.zeroIfNull(bufferValue);
   }
 
-  private getDateTimeWidthRastered(wrapper: FittedDataWrapper, format: TextFormat, formatPattern: string, raster: number): number {
+  private getDateTimeWidthRastered(wrapper: FittedDataWrapper, format: TextFormat, formatPattern: string | null, raster: number): number {
     let bufferKey: string = this.getFontKey(wrapper);
     bufferKey = this.addKey(bufferKey, format);
     bufferKey = this.addKey(bufferKey, formatPattern);
     bufferKey = this.addKey(bufferKey, raster);
 
-    let bufferValue: number = this._dateTimeWidthBuffer.get(bufferKey);
+    let bufferValue: number | undefined = this._dateTimeWidthBuffer.get(bufferKey);
 
     if (bufferValue == null) {
       bufferValue = this.getRasteredValue(this.measureDateTimeWidth(wrapper, format, formatPattern), raster);
@@ -194,7 +214,7 @@ export class FontService {
   }
 
   private getNumberWidthRastered(wrapper: FittedDataWrapper, type: DataSourceType, scale: number,
-    precision: number, format: TextFormat, formatPattern: string, raster: number): number {
+    precision: number, format: TextFormat, formatPattern: string | null, raster: number): number {
 
     let bufferKey: string = this.getFontKey(wrapper);
     bufferKey = this.addKey(bufferKey, type);
@@ -204,7 +224,7 @@ export class FontService {
     bufferKey = this.addKey(bufferKey, formatPattern);
     bufferKey = this.addKey(bufferKey, raster);
 
-    let bufferValue: number = this._numberWidthBuffer.get(bufferKey);
+    let bufferValue: number | undefined = this._numberWidthBuffer.get(bufferKey);
 
     if (bufferValue == null) {
       bufferValue = this.getRasteredValue(this.measureNumberWidth(wrapper, type, scale, precision, format, formatPattern), raster);
@@ -253,7 +273,7 @@ export class FontService {
     return measureTextWidth * factor;
   }
 
-  private measureDateTimeWidth(wrapper: FittedDataWrapper, textFormat: TextFormat, formatPattern: string): number {
+  private measureDateTimeWidth(wrapper: FittedDataWrapper, textFormat: TextFormat, formatPattern: string | null): number {
     let result: number = 0;
 
     const fontFamily: string = wrapper.getFontFamily();
@@ -272,7 +292,7 @@ export class FontService {
           seconds: this._dateSeconds
         });
 
-        const measureString: string = this._dateTimeFormatService.formatDate(date, textFormat, formatPattern);
+        const measureString: string | null = this._dateTimeFormatService.formatDate(date, textFormat, formatPattern);
 
         result = Math.max(result, this.measureTextWidth(measureString, fontFamily, fontSize, fontBold, fontItalic));
       }
@@ -282,7 +302,7 @@ export class FontService {
   }
 
   private measureNumberWidth(wrapper: FittedDataWrapper, type: DataSourceType, scale: number,
-    precision: number, textFormat: TextFormat, formatPattern: string): number {
+    precision: number, textFormat: TextFormat, formatPattern: string | null): number {
 
     const maxWidthDigit: number = this.getMaxWidthDigit(wrapper);
     let value: string = String.empty();
@@ -319,7 +339,7 @@ export class FontService {
         break;
     }
 
-    const measureString: string = this._numberFormatService.formatString(value, ParseMethod.Server, textFormat, formatPattern);
+    const measureString: string | null = this._numberFormatService.formatString(value, ParseMethod.Server, textFormat, formatPattern);
 
     const fontFamily: string = wrapper.getFontFamily();
     const fontSize: number = wrapper.getFontSize();
@@ -348,14 +368,14 @@ export class FontService {
   }
 
   public getDataMinWidthComboBox(wrapper: ComboBoxWrapper): number {
-    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMinLength(), null, null, null, this.getMinWidthRaster());
+    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMinLength(), 0, TextFormat.None, null, this.getMinWidthRaster());
   }
 
   public getDataMaxWidthComboBox(wrapper: ComboBoxWrapper): number {
-    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMaxLength(), null, null, null, this.getMaxWidthRaster());
+    return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMaxLength(), 0, TextFormat.None, null, this.getMaxWidthRaster());
   }
 
-  public measureTextWidth(text: string, font: string, size: number, isBold: boolean, isItalic: boolean): number {
+  public measureTextWidth(text: string | null, font: string, size: number, isBold: boolean, isItalic: boolean): number {
     if (text == null || String.isNullOrWhiteSpace(font) || size == null || size <= 0) {
       return 0;
     }
@@ -366,13 +386,13 @@ export class FontService {
   }
 
   public measureTextHeight(font: string, size: number): number {
-    if (String.isNullOrWhiteSpace(font) || size == null || size <= 0) {
+    if (!font.trim().length || size <= 0) {
       return 0;
     }
 
     const fontKey: string = font + this._separator + size.toString();
 
-    let bufferedHeight: number = this._stringHeightBuffer.get(fontKey);
+    let bufferedHeight: number | undefined = this._stringHeightBuffer.get(fontKey);
 
     if (bufferedHeight == null) {
       this._span.style.fontFamily = font;

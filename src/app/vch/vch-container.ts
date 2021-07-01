@@ -21,7 +21,7 @@ export class VchContainer extends VchControl {
 
   public addChild(wrapper: ILayoutableControlWrapper): void {
     // Remove child from old parent first
-    const oldParent: ILayoutableContainerWrapper = wrapper.getVchControl().getParent();
+    const oldParent: ILayoutableContainerWrapper | null = wrapper.getVchControl().getParent();
 
     if (oldParent) {
       oldParent.getVchContainer().removeChild(wrapper);

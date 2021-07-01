@@ -12,7 +12,7 @@ export class DialogResizeDirective implements OnInit {
   public maxWidth: number = 900;
 
   @Input()
-  public ignoreHeight: boolean;
+  public ignoreHeight: boolean = false;
 
   public constructor(
     private readonly _elRef: ElementRef,

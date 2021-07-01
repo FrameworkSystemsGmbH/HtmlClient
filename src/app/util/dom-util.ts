@@ -46,9 +46,9 @@ export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrol
       container.scrollTop = scroll + offset - contHeight + childHeight + contHeight / 2 - childHeight / 2;
     }
   } else if (offset < 0) {
-    container.scrollTop = scroll + offset - (options.offset > 0 ? options.offset : 0);
+    container.scrollTop = scroll + offset - (options.offset != null && options.offset > 0 ? options.offset : 0);
   } else if (offset + childHeight > contHeight) {
-    container.scrollTop = scroll + offset - contHeight + childHeight + (options.offset > 0 ? options.offset : 0);
+    container.scrollTop = scroll + offset - contHeight + childHeight + (options.offset != null && options.offset > 0 ? options.offset : 0);
   }
 }
 
@@ -108,12 +108,12 @@ export function isInClass(element: HTMLElement, className: string): boolean {
   return false;
 }
 
-export function getNearestParent(element: HTMLElement, className: string): HTMLElement {
+export function getNearestParent(element: HTMLElement, className: string): HTMLElement | null {
   if (!element) {
     return null;
   }
 
-  const parent: HTMLElement = element.parentElement;
+  const parent: HTMLElement | null = element.parentElement;
 
   if (!parent) {
     return null;

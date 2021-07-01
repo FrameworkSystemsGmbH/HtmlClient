@@ -6,7 +6,11 @@ export class ClientPhotoTakenEvent extends ClientEvent {
 
   protected args: ClientPhotoTakenEventArgs;
 
-  public constructor(hasError: boolean, errorMessage: string, imageData: string) {
+  public constructor(
+    hasError?: boolean,
+    errorMessage?: string,
+    imageData?: string
+  ) {
     super(ClientEventType[ClientEventType.PhotoTaken]);
     this.args = new ClientPhotoTakenEventArgs(hasError, errorMessage, imageData);
   }

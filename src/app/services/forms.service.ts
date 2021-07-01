@@ -1,6 +1,4 @@
 import { Injectable, Injector } from '@angular/core';
-import { ClientCloseEvent } from '@app/common/events/client-close-event';
-import { ClientDisposeEvent } from '@app/common/events/client-dispose-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { ControlType } from '@app/enums/control-type';
 import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
@@ -20,31 +18,43 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class FormsService {
 
+  private readonly _injector: Injector;
+  private readonly _titleService: TitleService;
+  private readonly _dialogService: DialogService;
+  private readonly _eventsService: EventsService;
+  private readonly _controlsService: ControlsService;
+
+  private readonly _forms$$: BehaviorSubject<Array<FormWrapper> | null>;
+  private readonly _forms$: Observable<Array<FormWrapper> | null>;
+
+  private readonly _selectedForm$$: BehaviorSubject<FormWrapper | null>;
+  private readonly _selectedForm$: Observable<FormWrapper | null>;
+
   private _forms: Array<FormWrapper> = new Array<FormWrapper>();
 
-  private readonly _forms$$: BehaviorSubject<Array<FormWrapper>>;
-  private readonly _forms$: Observable<Array<FormWrapper>>;
-
-  private readonly _selectedForm$$: BehaviorSubject<FormWrapper>;
-  private readonly _selectedForm$: Observable<FormWrapper>;
-
-  private _lastOpenedForm: FormWrapper;
+  private _lastOpenedForm: FormWrapper | null = null;
 
   public constructor(
-    private readonly _injector: Injector,
-    private readonly _titleService: TitleService,
-    private readonly _dialogService: DialogService,
-    private readonly _eventsService: EventsService,
-    private readonly _controlsService: ControlsService
+    injector: Injector,
+    titleService: TitleService,
+    dialogService: DialogService,
+    eventsService: EventsService,
+    controlsService: ControlsService
   ) {
-    this._forms$$ = new BehaviorSubject<Array<FormWrapper>>(null);
+    this._injector = injector;
+    this._titleService = titleService;
+    this._dialogService = dialogService;
+    this._eventsService = eventsService;
+    this._controlsService = controlsService;
+
+    this._forms$$ = new BehaviorSubject<Array<FormWrapper> | null>(null);
     this._forms$ = this._forms$$.asObservable();
 
-    this._selectedForm$$ = new BehaviorSubject<FormWrapper>(null);
+    this._selectedForm$$ = new BehaviorSubject<FormWrapper | null>(null);
     this._selectedForm$ = this._selectedForm$$.asObservable();
   }
 
-  public getForms(): Observable<Array<FormWrapper>> {
+  public getForms(): Observable<Array<FormWrapper> | null> {
     return this._forms$;
   }
 
@@ -52,17 +62,17 @@ export class FormsService {
     this._forms$$.next(this._forms);
   }
 
-  public selectForm(form: FormWrapper): void {
+  public selectForm(form: FormWrapper | null): void {
     this._lastOpenedForm = this._selectedForm$$.getValue();
     this._selectedForm$$.next(form);
   }
 
-  public getSelectedForm(): Observable<FormWrapper> {
+  public getSelectedForm(): Observable<FormWrapper | null> {
     return this._selectedForm$;
   }
 
   public closeFormByButton(form: FormWrapper): void {
-    const closeButton: ButtonBaseWrapper = form.getCloseButton();
+    const closeButton: ButtonBaseWrapper | null = form.getCloseButton();
 
     if (closeButton) {
       closeButton.fireClick();
@@ -86,7 +96,7 @@ export class FormsService {
     form.closing = true;
     const formId: string = form.getId();
     this._eventsService.fireClose(formId,
-      new InternalEventCallbacks<ClientCloseEvent>(
+      new InternalEventCallbacks(
         form.isCloseEventAttached.bind(form),
         null,
         this.getOnCloseCompletedCallback(formId, form).bind(this)
@@ -101,7 +111,7 @@ export class FormsService {
   protected getOnCloseCompletedCallback(formId: string, form: FormWrapper): () => void {
     return (): void => {
       this._eventsService.fireDispose(formId,
-        new InternalEventCallbacks<ClientDisposeEvent>(
+        new InternalEventCallbacks(
           () => true,
           null,
           this.getOnDisposeCompletedCallback(form).bind(this)
@@ -119,7 +129,13 @@ export class FormsService {
       if (form === this._selectedForm$$.getValue()) {
         let lastFound: boolean = false;
         if (this._lastOpenedForm) {
-          const lastOpened: FormWrapper = this._forms.find(f => f.getId() === this._lastOpenedForm.getId());
+          const lastOpened: FormWrapper | undefined = this._forms.find(f => {
+            if (this._lastOpenedForm) {
+              return f.getId() === this._lastOpenedForm.getId();
+            } else {
+              return false;
+            }
+          });
           if (lastOpened) {
             lastFound = true;
             this.selectForm(lastOpened);
@@ -241,13 +257,13 @@ export class FormsService {
           options.textBoxStyle = this._controlsService.getTextBoxTypeFromControlJson(controlJson);
         }
 
-        const control: ControlWrapper = this._controlsService.createWrapperFromType(controlType, options);
+        const control: ControlWrapper | null = this._controlsService.createWrapperFromType(controlType, options);
 
         if (control) {
           control.setJson(controlJson, true);
         }
       } else {
-        const control: ControlWrapper = form.findControlRecursive(controlJson.meta.name);
+        const control: ControlWrapper | null = form.findControlRecursive(controlJson.meta.name);
 
         if (control) {
           control.setJson(controlJson, false);
@@ -256,7 +272,7 @@ export class FormsService {
     }
   }
 
-  public findFormById(id: string): FormWrapper {
+  public findFormById(id: string): FormWrapper | null {
     for (const form of this._forms) {
       if (form.getId() === id) {
         return form;
@@ -265,7 +281,7 @@ export class FormsService {
     return null;
   }
 
-  public findFormByName(name: string): FormWrapper {
+  public findFormByName(name: string): FormWrapper | null {
     for (const form of this._forms) {
       if (form.getName() === name) {
         return form;
@@ -275,7 +291,7 @@ export class FormsService {
   }
 
   public saveState(): any {
-    const selectedForm: FormWrapper = this._selectedForm$$.getValue();
+    const selectedForm: FormWrapper | null = this._selectedForm$$.getValue();
 
     const json: any = {
       selectedForm: selectedForm ? selectedForm.getId() : null
@@ -296,7 +312,7 @@ export class FormsService {
 
   public loadState(json: any): void {
     if (json.forms) {
-      json.forms.forEach(formJson => {
+      json.forms.forEach((formJson: any) => {
         const form: FormWrapper = new FormWrapper(this._injector, { state: formJson });
 
         if (formJson.controls && formJson.controls.length) {
@@ -312,7 +328,7 @@ export class FormsService {
     }
 
     if (json.selectedForm) {
-      const form: FormWrapper = this.findFormById(json.selectedForm);
+      const form: FormWrapper | null = this.findFormById(json.selectedForm);
       if (form) {
         this.selectForm(form);
       }

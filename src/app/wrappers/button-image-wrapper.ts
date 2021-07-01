@@ -3,96 +3,89 @@ import { ButtonImageComponent } from '@app/controls/buttons/button-image/button-
 import { ContentAlignment } from '@app/enums/content-alignment';
 import { ControlType } from '@app/enums/control-type';
 import { DataSourceType } from '@app/enums/datasource-type';
-import { ImageService } from '@app/services/image.service';
 import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 
 export class ButtonImageWrapper extends ButtonBaseWrapper {
 
-  private _imageService: ImageService;
-  private _badgeImageData: string;
-  private _dataSourceType: DataSourceType;
-
-  protected init(): void {
-    super.init();
-    this._imageService = this.getInjector().get(ImageService);
-  }
+  private _badgeImageData: string | null = null;
+  private _dataSourceType: DataSourceType | null = null;
 
   public getControlType(): ControlType {
     return ControlType.ImageButton;
   }
 
-  protected getImageService(): ImageService {
-    return this._imageService;
-  }
-
   public getCaptionAlign(): ContentAlignment {
-    const captionAlign: ContentAlignment = this.getPropertyStore().getCaptionAlign();
+    const captionAlign: ContentAlignment | undefined = this.getPropertyStore().getCaptionAlign();
     return captionAlign != null ? captionAlign : ContentAlignment.MiddleCenter;
   }
 
-  public getImage(): string {
-    return this.getPropertyStore().getImage();
+  public getImage(): string | null {
+    const image: string | undefined = this.getPropertyStore().getImage();
+    return image != null ? image : null;
   }
 
-  public getImageUrl(): string {
-    const image: string = this.getImage();
+  public getImageUrl(): string | null {
+    const image: string | null = this.getImage();
 
-    if (String.isNullOrWhiteSpace(image)) {
-      return null;
+    if (image != null && image.trim().length) {
+      return this.getImageService().getImageUrl(image);
     }
 
-    return this._imageService.getImageUrl(image);
+    return null;
   }
 
-  public getPressedImage(): string {
-    return this.getPropertyStore().getPressedImage();
+  public getPressedImage(): string | null {
+    const pressedImage: string | undefined = this.getPropertyStore().getPressedImage();
+    return pressedImage != null ? pressedImage : null;
   }
 
-  public getPressedImageUrl(): string {
-    const image: string = this.getPressedImage();
+  public getPressedImageUrl(): string | null {
+    const pressedImage: string | null = this.getPressedImage();
 
-    if (String.isNullOrWhiteSpace(image)) {
-      return null;
+    if (pressedImage != null && pressedImage.trim().length) {
+      return this.getImageService().getImageUrl(pressedImage);
     }
 
-    return this._imageService.getImageUrl(image);
+    return null;
   }
 
-  public getMouseOverImage(): string {
-    return this.getPropertyStore().getMouseOverImage();
+  public getMouseOverImage(): string | null {
+    const mouseOverImage: string | undefined = this.getPropertyStore().getMouseOverImage();
+    return mouseOverImage != null ? mouseOverImage : null;
   }
 
-  public getMouseOverImageUrl(): string {
-    const image: string = this.getMouseOverImage();
+  public getMouseOverImageUrl(): string | null {
+    const mouseOverImage: string | null = this.getMouseOverImage();
 
-    if (String.isNullOrWhiteSpace(image)) {
-      return null;
+    if (mouseOverImage != null && mouseOverImage.trim().length) {
+      return this.getImageService().getImageUrl(mouseOverImage);
     }
 
-    return this._imageService.getImageUrl(image);
+    return null;
   }
 
-  public getDisabledImage(): string {
-    return this.getPropertyStore().getDisabledImage();
+  public getDisabledImage(): string | null {
+    const disabledImage: string | undefined = this.getPropertyStore().getDisabledImage();
+    return disabledImage != null ? disabledImage : null;
   }
 
-  public getDisabledImageUrl(): string {
-    const image: string = this.getDisabledImage();
+  public getDisabledImageUrl(): string | null {
+    const disabledImage: string | null = this.getDisabledImage();
 
-    if (String.isNullOrWhiteSpace(image)) {
-      return null;
+    if (disabledImage != null && disabledImage.trim().length) {
+      return this.getImageService().getImageUrl(disabledImage);
     }
 
-    return this._imageService.getImageUrl(image);
+    return null;
   }
 
-  public getBadgeImageSrc(): string {
-    if (!String.isNullOrWhiteSpace(this._badgeImageData)) {
+  public getBadgeImageSrc(): string | null {
+    if (this._badgeImageData != null && this._badgeImageData.trim().length) {
       if (this._dataSourceType === DataSourceType.ByteArray) {
         return `data:;base64,${this._badgeImageData}`;
       } else {
-        return this._imageService.getImageUrl(this._badgeImageData);
+        return this.getImageService().getImageUrl(this._badgeImageData);
       }
     }
 
@@ -112,13 +105,13 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
     }
   }
 
-  protected getComponentRef(): ComponentRef<ButtonImageComponent> {
-    return super.getComponentRef() as ComponentRef<ButtonImageComponent>;
+  protected getComponentRef(): ComponentRef<ButtonImageComponent> | null {
+    return super.getComponentRef() as ComponentRef<ButtonImageComponent> | null;
   }
 
-  protected getComponent(): ButtonImageComponent {
-    const compRef: ComponentRef<ButtonImageComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): ButtonImageComponent | null {
+    const compRef: ComponentRef<ButtonImageComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ButtonImageComponent> {

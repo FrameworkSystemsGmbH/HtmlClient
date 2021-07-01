@@ -5,7 +5,7 @@ export interface IControlLabelProvider {
 
   getName: () => string;
 
-  getCaption: () => string;
+  getCaption: () => string | null;
 
   getCurrentIsEditable: () => boolean;
 

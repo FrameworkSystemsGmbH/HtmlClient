@@ -9,8 +9,8 @@ export interface IListViewTemplateVariableWrapperOptions {
 export class ListViewTemplateVariableWrapper {
 
   private readonly _dataSource: ListViewTemplateDataSourceWrapper;
-  private readonly _format: TextFormat;
-  private readonly _formatPattern: string;
+  private readonly _format: TextFormat = TextFormat.None;
+  private readonly _formatPattern: string | null = null;
 
   public constructor(dataSource: ListViewTemplateDataSourceWrapper, options?: IListViewTemplateVariableWrapperOptions) {
     this._dataSource = dataSource;
@@ -19,7 +19,7 @@ export class ListViewTemplateVariableWrapper {
       this._format = options.format;
     }
 
-    if (options && !String.isNullOrWhiteSpace(options.formatPattern)) {
+    if (options && options.formatPattern && options.formatPattern.trim().length) {
       this._formatPattern = options.formatPattern;
     }
   }
@@ -32,7 +32,7 @@ export class ListViewTemplateVariableWrapper {
     return this._format;
   }
 
-  public getFormatPattern(): string {
+  public getFormatPattern(): string | null {
     return this._formatPattern;
   }
 }

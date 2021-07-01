@@ -14,7 +14,7 @@ export class BaseFormatService {
     private readonly _stringFormatService: StringFormatService
   ) { }
 
-  public formatString(value: string, parseMethod: ParseMethod, format: TextFormat, formatPattern: string): string {
+  public formatString(value: string, parseMethod: ParseMethod, format: TextFormat, formatPattern: string | null): string | null {
     switch (format) {
       case TextFormat.Decimal:
       case TextFormat.Integer:

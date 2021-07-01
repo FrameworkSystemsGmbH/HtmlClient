@@ -9,14 +9,14 @@ export abstract class ComboBoxComponent extends ControlComponent {
   @Output()
   public readonly selectionChanged: EventEmitter<any> = new EventEmitter<any>();
 
-  public entries: DataList;
-  public selectedIndex: number;
+  public entries: DataList | null = null;
+  public selectedIndex: number | null = null;
 
-  protected getSelectedIndex(): number {
+  protected getSelectedIndex(): number | null {
     return this.selectedIndex;
   }
 
-  protected setSelectedIndex(index: number): void {
+  protected setSelectedIndex(index: number | null): void {
     this.selectedIndex = index;
   }
 
@@ -51,8 +51,8 @@ export abstract class ComboBoxComponent extends ControlComponent {
     this.entries = wrapper.getEntries();
   }
 
-  public getFocusElement(): any {
-    const control: ElementRef = this.getControl();
+  public getFocusElement(): HTMLElement | null {
+    const control: ElementRef<HTMLElement> | null = this.getControl();
 
     if (control) {
       return control.nativeElement;
@@ -61,9 +61,9 @@ export abstract class ComboBoxComponent extends ControlComponent {
     return null;
   }
 
-  public abstract getControl(): ElementRef;
+  public abstract getControl(): ElementRef<HTMLElement> | null;
 
-  public abstract getSelectedPk(): string;
+  public abstract getSelectedPk(): string | null;
 
   public abstract getArrowWidth(): number;
 }

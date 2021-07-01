@@ -11,7 +11,7 @@ import { LinkedListOneWay } from '@app/util/linked-list-one-way';
 export class ContainerLayout extends LayoutContainerBase {
 
   private _width: number = -1;
-  private _wrappers: Array<LayoutableControlWrapper>;
+  private _wrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
 
   public constructor(container: ILayoutableContainer) {
     super(container);
@@ -171,11 +171,13 @@ export class ContainerLayout extends LayoutContainerBase {
     }
 
     while (!todo.isEmpty()) {
-      const wrapper: LayoutableControlWrapper = todo.poll();
-      wrapper.setResultHeight(Math.round(verticalStretchFactor * wrapper.getMinLayoutHeightBuffered()));
-      sumMinHeights -= wrapper.getMinLayoutHeightBuffered();
-      availableHeight -= wrapper.getResultHeight();
-      verticalStretchFactor = availableHeight / sumMinHeights;
+      const wrapper: LayoutableControlWrapper | null = todo.poll();
+      if (wrapper != null) {
+        wrapper.setResultHeight(Math.round(verticalStretchFactor * wrapper.getMinLayoutHeightBuffered()));
+        sumMinHeights -= wrapper.getMinLayoutHeightBuffered();
+        availableHeight -= wrapper.getResultHeight();
+        verticalStretchFactor = availableHeight / sumMinHeights;
+      }
     }
 
     // Do alignment

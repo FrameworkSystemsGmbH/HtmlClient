@@ -1,4 +1,4 @@
 export class LoginOptions {
-  public languages: string;
-  public themeId: string;
+  public languages: string | null = null;
+  public themeId: string | null = null;
 }

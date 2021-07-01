@@ -15,7 +15,7 @@ export class BackService {
 
   private readonly _listener: () => any;
 
-  private _listenerSub: PluginListenerHandle;
+  private _listenerSub: PluginListenerHandle | null = null;
   private _listeners: Array<IListenerInfo> = new Array<IListenerInfo>();
 
 
@@ -63,7 +63,7 @@ export class BackService {
   }
 
   public removeBackButtonListener(listener: () => boolean): void {
-    const info: IListenerInfo = this._listeners.find(i => i.listener === listener);
+    const info: IListenerInfo | undefined = this._listeners.find(i => i.listener === listener);
 
     if (info) {
       this._listeners.remove(info);

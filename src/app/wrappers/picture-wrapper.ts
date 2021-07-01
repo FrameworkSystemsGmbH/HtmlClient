@@ -1,6 +1,4 @@
 import { ComponentFactory, ComponentRef } from '@angular/core';
-import { ClientClickEvent } from '@app/common/events/client-click-event';
-import { ClientPictureClickEvent } from '@app/common/events/client-picture-click-event';
 import { ClientPictureClickEventArgs } from '@app/common/events/eventargs/client-picture-click-eventargs';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { PictureComponent } from '@app/controls/picture/picture.component';
@@ -10,41 +8,33 @@ import { ControlType } from '@app/enums/control-type';
 import { DataSourceType } from '@app/enums/datasource-type';
 import { PictureScaleMode } from '@app/enums/picture-scale-mode';
 import { Visibility } from '@app/enums/visibility';
-import { ImageService } from '@app/services/image.service';
 import { ControlWrapper } from '@app/wrappers/control-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { Subscription } from 'rxjs';
 
 export class PictureWrapper extends ControlWrapper {
 
-  private _picClickSub: Subscription;
+  private _picClickSub: Subscription | null = null;
 
-  private _imageData: string;
-  private _dataSourceType: DataSourceType;
-
-  private _imageService: ImageService;
-
-  protected init(): void {
-    super.init();
-    this._imageService = this.getInjector().get(ImageService);
-    this._dataSourceType = DataSourceType.ByteArray;
-  }
+  private _imageData: string | null = null;
+  private _dataSourceType: DataSourceType = DataSourceType.ByteArray;
 
   public getControlType(): ControlType {
     return ControlType.Picture;
   }
 
-  public getImageSrc(): string {
-    if (!String.isNullOrWhiteSpace(this._imageData)) {
+  public getImageSrc(): string | null {
+    if (this._imageData != null && this._imageData.trim().length) {
       if (this._dataSourceType === DataSourceType.ByteArray) {
         return `data:;base64,${this._imageData}`;
       } else {
-        return this._imageService.getImageUrl(this._imageData);
+        return this.getImageService().getImageUrl(this._imageData);
       }
     } else {
-      const imageUrl: string = this.getPropertyStore().getImage();
-      if (!String.isNullOrWhiteSpace(imageUrl)) {
-        return this._imageService.getImageUrl(imageUrl);
+      const imageUrl: string | undefined = this.getPropertyStore().getImage();
+      if (imageUrl != null && imageUrl.trim().length) {
+        return this.getImageService().getImageUrl(imageUrl);
       }
     }
 
@@ -52,7 +42,7 @@ export class PictureWrapper extends ControlWrapper {
   }
 
   public getScaleMode(): PictureScaleMode {
-    const scaleMode: PictureScaleMode = this.getPropertyStore().getScaleMode();
+    const scaleMode: PictureScaleMode | undefined = this.getPropertyStore().getScaleMode();
     return scaleMode != null ? scaleMode : PictureScaleMode.Stretch;
   }
 
@@ -61,7 +51,7 @@ export class PictureWrapper extends ControlWrapper {
   }
 
   public getCaptionAlign(): ContentAlignment {
-    const captionAlign: ContentAlignment = this.getPropertyStore().getCaptionAlign();
+    const captionAlign: ContentAlignment | undefined = this.getPropertyStore().getCaptionAlign();
     return captionAlign != null ? captionAlign : ContentAlignment.MiddleCenter;
   }
 
@@ -92,13 +82,13 @@ export class PictureWrapper extends ControlWrapper {
     }
   }
 
-  protected getComponentRef(): ComponentRef<PictureComponent> {
-    return super.getComponentRef() as ComponentRef<PictureComponent>;
+  protected getComponentRef(): ComponentRef<PictureComponent> | null {
+    return super.getComponentRef() as ComponentRef<PictureComponent> | null;
   }
 
-  protected getComponent(): PictureComponent {
-    const compRef: ComponentRef<PictureComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): PictureComponent | null {
+    const compRef: ComponentRef<PictureComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<PictureComponent> {
@@ -127,27 +117,32 @@ export class PictureWrapper extends ControlWrapper {
   }
 
   protected getPicClickSubscription(args: ClientPictureClickEventArgs): () => void {
-    return (): void => this.getEventsService().firePictureClick(
-      this.getForm().getId(),
-      this.getName(),
-      args,
-      new InternalEventCallbacks<ClientPictureClickEvent>(
-        this.canExecutePicClick.bind(this),
-        this.picClickExecuted.bind(this),
-        this.picClickCompleted.bind(this)
-      )
-    );
+    return (): void => {
+      const form: FormWrapper | null = this.getForm();
+      if (form != null) {
+        this.getEventsService().firePictureClick(
+          form.getId(),
+          this.getName(),
+          args,
+          new InternalEventCallbacks(
+            this.canExecutePicClick.bind(this),
+            this.picClickExecuted.bind(this),
+            this.picClickCompleted.bind(this)
+          )
+        );
+      }
+    };
   }
 
-  protected canExecutePicClick(clientEvent: ClientClickEvent, payload: any): boolean {
+  protected canExecutePicClick(payload: any): boolean {
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
-  protected picClickExecuted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected picClickExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected picClickCompleted(clientEvent: ClientClickEvent, payload: any, processedEvent: any): void {
+  protected picClickCompleted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 

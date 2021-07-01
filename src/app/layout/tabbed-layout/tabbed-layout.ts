@@ -12,7 +12,7 @@ import { ITabbedLayoutControl } from '@app/layout/tabbed-layout/tabbed-layout-co
 export class TabbedLayout extends LayoutContainerBase {
 
   private _width: number = -1;
-  private _wrappers: Array<LayoutableControlWrapper>;
+  private _wrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
 
   public constructor(container: ILayoutableContainer) {
     super(container);
@@ -146,7 +146,7 @@ export class TabbedLayout extends LayoutContainerBase {
 
     if (container.getIsMobileMode()) {
       const selectedTabIndex: number = container.getSelectedTabIndex();
-      const activeTab: LayoutableControlWrapper = selectedTabIndex >= 0 ? this._wrappers[selectedTabIndex] : null;
+      const activeTab: LayoutableControlWrapper | null = selectedTabIndex >= 0 ? this._wrappers[selectedTabIndex] : null;
 
       if (activeTab != null && activeTab.getIsControlVisible() && activeTab.getMinLayoutWidth() > 0) {
         minHeight += activeTab.getMinLayoutHeight(availableWidth);
@@ -230,7 +230,7 @@ export class TabbedLayout extends LayoutContainerBase {
     }
 
     const selectedTabIndex: number = container.getSelectedTabIndex();
-    const activeTab: LayoutableControlWrapper = selectedTabIndex >= 0 ? this._wrappers[selectedTabIndex] : null;
+    const activeTab: LayoutableControlWrapper | null = selectedTabIndex >= 0 ? this._wrappers[selectedTabIndex] : null;
 
     if (activeTab == null) {
       return;

@@ -16,9 +16,9 @@ import { LinkedListOneWay } from '@app/util/linked-list-one-way';
 export class WrapLayout extends LayoutContainerBase {
 
   private _width: number = -1;
-  private _wrappers: Array<LayoutableControlWrapper>;
-  private _wrapRows: Array<WrapLayoutRow>;
-  private _wrapColumns: Array<WrapLayoutColumn>;
+  private _wrappers: Array<LayoutableControlWrapper> = new Array<LayoutableControlWrapper>();
+  private _wrapRows: Array<WrapLayoutRow> | null = null;
+  private _wrapColumns: Array<WrapLayoutColumn> | null = null;
 
   public getControl(): IWrapContainer {
     return super.getControl() as IWrapContainer;
@@ -182,21 +182,25 @@ export class WrapLayout extends LayoutContainerBase {
     let addSpacing: boolean = false;
 
     while (!widthExceeded && !pendingWrappers.isEmpty()) {
-      const wrapper: LayoutableControlWrapper = pendingWrappers.peek();
+      const wrapper: LayoutableControlWrapper | null = pendingWrappers.peek();
+      if (wrapper != null) {
+        // add spacing if needed
+        if (addSpacing) {
+          neededWidth += hSpacing;
+        } else {
+          addSpacing = true;
+        }
 
-      // add spacing if needed
-      if (addSpacing) {
-        neededWidth += hSpacing;
-      } else {
-        addSpacing = true;
-      }
+        neededWidth += wrapper.getMinLayoutWidth();
+        widthExceeded = neededWidth > availableWidth;
 
-      neededWidth += wrapper.getMinLayoutWidth();
-      widthExceeded = neededWidth > availableWidth;
-
-      if (!widthExceeded) {
-        rowWrappers.push(pendingWrappers.poll());
-        sumMinWidths += wrapper.getMinLayoutWidth();
+        if (!widthExceeded) {
+          const pendingWrp: LayoutableControlWrapper | null = pendingWrappers.poll();
+          if (pendingWrp != null) {
+            rowWrappers.push(pendingWrp);
+            sumMinWidths += wrapper.getMinLayoutWidth();
+          }
+        }
       }
     }
 
@@ -277,13 +281,15 @@ export class WrapLayout extends LayoutContainerBase {
        * they will not have any problems
        */
       while (!todo.isEmpty()) {
-        const wrapper: LayoutableControlWrapper = todo.poll();
-        wrapper.setResultWidth(Math.round(stretchFactor * wrapper.getMinLayoutWidth()));
+        const wrapper: LayoutableControlWrapper | null = todo.poll();
+        if (wrapper != null) {
+          wrapper.setResultWidth(Math.round(stretchFactor * wrapper.getMinLayoutWidth()));
 
-        // recalculate stretch factor to aviod rounding errors
-        sumMinWidths -= wrapper.getMinLayoutWidth();
-        availableWidth -= wrapper.getResultWidth();
-        stretchFactor = availableWidth / sumMinWidths;
+          // recalculate stretch factor to aviod rounding errors
+          sumMinWidths -= wrapper.getMinLayoutWidth();
+          availableWidth -= wrapper.getResultWidth();
+          stretchFactor = availableWidth / sumMinWidths;
+        }
       }
 
     } else {
@@ -369,7 +375,7 @@ export class WrapLayout extends LayoutContainerBase {
     }
 
     // find the minimal height where the arrangement is still ok
-    let lastSuccessfulWrapColumns: Array<WrapLayoutColumn> = null;
+    let lastSuccessfulWrapColumns: Array<WrapLayoutColumn> | null = null;
 
     while (lowerHeightLimit < upperHeightLimit) {
       const currentHeight: number = lowerHeightLimit + (upperHeightLimit - lowerHeightLimit) / 2;
@@ -467,12 +473,14 @@ export class WrapLayout extends LayoutContainerBase {
 
       // stretch columns without problems (concerning max size)
       while (!todoColumns.isEmpty()) {
-        const wrapColumn: WrapLayoutColumn = todoColumns.poll();
-        wrapColumn.setResultColumnWidth(Math.round(horizontalStretchFactor * wrapColumn.getMinColumnWidth()));
+        const wrapColumn: WrapLayoutColumn | null = todoColumns.poll();
+        if (wrapColumn != null) {
+          wrapColumn.setResultColumnWidth(Math.round(horizontalStretchFactor * wrapColumn.getMinColumnWidth()));
 
-        sumMinWidths -= wrapColumn.getMinColumnWidth();
-        availableWidth -= wrapColumn.getResultColumnWidth();
-        horizontalStretchFactor = availableWidth / sumMinWidths;
+          sumMinWidths -= wrapColumn.getMinColumnWidth();
+          availableWidth -= wrapColumn.getResultColumnWidth();
+          horizontalStretchFactor = availableWidth / sumMinWidths;
+        }
       }
 
     } else {
@@ -551,28 +559,32 @@ export class WrapLayout extends LayoutContainerBase {
     let addSpacing: boolean = false;
 
     while (!heightExceeded && !pendingWrappers.isEmpty()) {
-      const wrapper: LayoutableControlWrapper = pendingWrappers.peek();
+      const wrapper: LayoutableControlWrapper | null = pendingWrappers.peek();
+      if (wrapper != null) {
+        if (wrapper.getMinLayoutHeightBuffered() > 0) {
+          // add spacing if needed
+          if (addSpacing) {
+            neededHeight += vSpacing;
+          } else {
+            addSpacing = true;
+          }
 
-      if (wrapper.getMinLayoutHeightBuffered() > 0) {
-        // add spacing if needed
-        if (addSpacing) {
-          neededHeight += vSpacing;
+          neededHeight += wrapper.getMinLayoutHeightBuffered();
+          heightExceeded = neededHeight > availableHeight;
+
+          if (!heightExceeded) {
+            minWidth = Math.max(minWidth, wrapper.getMinLayoutWidth());
+            maxWidth = Math.max(maxWidth, wrapper.getMaxLayoutWidth());
+            sumMinHeight = neededHeight;
+            horizontalStretchable = horizontalStretchable || wrapper.getHorizontalAlignment() === HorizontalAlignment.Stretch;
+            const pendingWrp: LayoutableControlWrapper | null = pendingWrappers.poll();
+            if (pendingWrp != null) {
+              columnWrappers.push(pendingWrp);
+            }
+          }
         } else {
-          addSpacing = true;
+          pendingWrappers.poll();
         }
-
-        neededHeight += wrapper.getMinLayoutHeightBuffered();
-        heightExceeded = neededHeight > availableHeight;
-
-        if (!heightExceeded) {
-          minWidth = Math.max(minWidth, wrapper.getMinLayoutWidth());
-          maxWidth = Math.max(maxWidth, wrapper.getMaxLayoutWidth());
-          sumMinHeight = neededHeight;
-          horizontalStretchable = horizontalStretchable || wrapper.getHorizontalAlignment() === HorizontalAlignment.Stretch;
-          columnWrappers.push(pendingWrappers.poll());
-        }
-      } else {
-        pendingWrappers.poll();
       }
     }
 
@@ -666,12 +678,14 @@ export class WrapLayout extends LayoutContainerBase {
       }
 
       while (!todo.isEmpty()) {
-        const wrapRow: WrapLayoutRow = todo.poll();
-        const desiredRowHeight: number = Math.round(verticalStretchFactor * wrapRow.getMinRowHeight());
-        wrapRow.setResultRowHeight(desiredRowHeight);
-        spaceForRows -= desiredRowHeight;
-        sumMinHeights -= wrapRow.getMinRowHeight();
-        verticalStretchFactor = spaceForRows / sumMinHeights;
+        const wrapRow: WrapLayoutRow | null = todo.poll();
+        if (wrapRow != null) {
+          const desiredRowHeight: number = Math.round(verticalStretchFactor * wrapRow.getMinRowHeight());
+          wrapRow.setResultRowHeight(desiredRowHeight);
+          spaceForRows -= desiredRowHeight;
+          sumMinHeights -= wrapRow.getMinRowHeight();
+          verticalStretchFactor = spaceForRows / sumMinHeights;
+        }
       }
 
     } else {
@@ -860,11 +874,13 @@ export class WrapLayout extends LayoutContainerBase {
         }
 
         while (!todo.isEmpty()) {
-          const wrapper: LayoutableControlWrapper = todo.poll();
-          wrapper.setResultHeight(Math.round(verticalStretchFactor * wrapper.getMinLayoutHeightBuffered()));
-          sumMinHeights -= wrapper.getMinLayoutHeightBuffered();
-          verticalSpaceForColumn -= wrapper.getResultHeight();
-          verticalStretchFactor = verticalSpaceForColumn / sumMinHeights;
+          const wrapper: LayoutableControlWrapper | null = todo.poll();
+          if (wrapper != null) {
+            wrapper.setResultHeight(Math.round(verticalStretchFactor * wrapper.getMinLayoutHeightBuffered()));
+            sumMinHeights -= wrapper.getMinLayoutHeightBuffered();
+            verticalSpaceForColumn -= wrapper.getResultHeight();
+            verticalStretchFactor = verticalSpaceForColumn / sumMinHeights;
+          }
         }
       } else {
         // do not fill content vertically

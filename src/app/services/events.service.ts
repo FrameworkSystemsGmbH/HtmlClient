@@ -41,32 +41,32 @@ export class EventsService {
   public fireClick(
     formId: string,
     controlName: string,
-    callbacks: InternalEventCallbacks<ClientClickEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientClickEvent(controlName, formId),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientClickEvent> = new InternalEvent<ClientClickEvent>(new ClientClickEvent(controlName, formId));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 
   public firePictureClick(
     formId: string,
     controlName: string,
     args: ClientPictureClickEventArgs,
-    callbacks: InternalEventCallbacks<ClientPictureClickEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientPictureClickEvent(controlName, formId, args),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientPictureClickEvent> = new InternalEvent<ClientPictureClickEvent>(new ClientPictureClickEvent(controlName, formId, args));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 
   public fireEnter(
     formId: string,
     controlName: string,
-    callbacks: InternalEventCallbacks<ClientEnterEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientEnterEvent(controlName, formId),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientEnterEvent> = new InternalEvent<ClientEnterEvent>(new ClientEnterEvent(controlName, formId));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 
   public fireLeave(
@@ -74,41 +74,41 @@ export class EventsService {
     controlName: string,
     activator: string,
     hasValueChanged: boolean,
-    callbacks: InternalEventCallbacks<ClientLeaveEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientLeaveEvent(controlName, formId, activator, hasValueChanged),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientLeaveEvent> = new InternalEvent<ClientLeaveEvent>(new ClientLeaveEvent(controlName, formId, activator, hasValueChanged));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 
   public fireValidated(
     formId: string,
     controlName: string,
-    callbacks: InternalEventCallbacks<ClientValidatedEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientValidatedEvent(controlName, formId),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientValidatedEvent> = new InternalEvent<ClientValidatedEvent>(new ClientValidatedEvent(controlName, formId));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 
   public fireSelectionChanged(
     formId: string,
     controlName: string,
-    callbacks: InternalEventCallbacks<ClientSelectionChangedEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientSelectionChangedEvent(controlName, formId),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientSelectionChangedEvent> = new InternalEvent<ClientSelectionChangedEvent>(new ClientSelectionChangedEvent(controlName, formId));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 
   public fireItemSelectionChanged(
     formId: string,
     controlName: string,
-    callbacks: InternalEventCallbacks<ClientItemSelectionChangedEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientItemSelectionChangedEvent(controlName, formId),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientItemSelectionChangedEvent> = new InternalEvent<ClientItemSelectionChangedEvent>(new ClientItemSelectionChangedEvent(controlName, formId));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 
   public fireItemActivated(
@@ -116,60 +116,70 @@ export class EventsService {
     controlName: string,
     itemId: string,
     itemIndex: number,
-    callbacks: InternalEventCallbacks<ClientItemActivatedEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientItemActivatedEvent(controlName, formId, itemId, itemIndex),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientItemActivatedEvent> = new InternalEvent<ClientItemActivatedEvent>(new ClientItemActivatedEvent(controlName, formId, itemId, itemIndex));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 
   public fireClose(
     formId: string,
-    callbacks: InternalEventCallbacks<ClientCloseEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientCloseEvent(formId),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientCloseEvent> = new InternalEvent<ClientCloseEvent>(new ClientCloseEvent(formId));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 
   public fireDispose(
     formId: string,
-    callbacks: InternalEventCallbacks<ClientDisposeEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientDisposeEvent(formId),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientDisposeEvent> = new InternalEvent<ClientDisposeEvent>(new ClientDisposeEvent(formId));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 
   public fireApplicationQuitRequest(): void {
-    this._eventFired.next({
-      clientEvent: new ClientApplicationQuitRequestEvent()
-    });
+    this._eventFired.next(new InternalEvent<ClientApplicationQuitRequestEvent>(new ClientApplicationQuitRequestEvent()));
   }
 
   public fireApplicationQuit(restartRequested: boolean): void {
-    this._eventFired.next({
-      clientEvent: new ClientApplicationQuitEvent(restartRequested)
-    });
+    this._eventFired.next(new InternalEvent<ClientApplicationQuitRequestEvent>(new ClientApplicationQuitEvent(restartRequested)));
   }
 
-  public fireBarcodeScanned(cancelled: boolean, hasError: boolean, errorMessage: string, value: string, format: BarcodeFormat): void {
-    this._eventFired.next({
-      clientEvent: new ClientBarcodeScannedEvent(cancelled, hasError, errorMessage, value, format)
-    });
+  public fireBarcodeScanned(
+    cancelled?: boolean,
+    hasError?: boolean,
+    errorMessage?: string,
+    value?: string,
+    format?: BarcodeFormat
+  ): void {
+    this._eventFired.next(new InternalEvent<ClientBarcodeScannedEvent>(new ClientBarcodeScannedEvent(cancelled, hasError, errorMessage, value, format)));
   }
 
-  public firePhotoTaken(hasError: boolean, errorMessage: string, imageData: string): void {
-    this._eventFired.next({
-      clientEvent: new ClientPhotoTakenEvent(hasError, errorMessage, imageData),
-      payload: null
-    });
+  public firePhotoTaken(
+    hasError?: boolean,
+    errorMessage?: string,
+    imageData?: string
+  ): void {
+    const event: InternalEvent<ClientPhotoTakenEvent> = new InternalEvent<ClientPhotoTakenEvent>(new ClientPhotoTakenEvent(hasError, errorMessage, imageData));
+    this._eventFired.next(event);
   }
 
-  public fireGotGeoLocation(hasError: boolean, errorMessage: string, latitude: number, longitude: number, altitude: number, accuracy: number, heading: number, speed: number, timestamp: number): void {
-    this._eventFired.next({
-      clientEvent: new ClientGotGeoLocationEvent(hasError, errorMessage, latitude, longitude, altitude, accuracy, heading, speed, timestamp)
-    });
+  public fireGotGeoLocation(
+    hasError?: boolean,
+    errorMessage?: string,
+    latitude?: number,
+    longitude?: number,
+    altitude?: number,
+    accuracy?: number,
+    heading?: number,
+    speed?: number,
+    timestamp?: number
+  ): void {
+    this._eventFired.next(new InternalEvent<ClientGotGeoLocationEvent>(new ClientGotGeoLocationEvent(hasError, errorMessage, latitude, longitude, altitude, accuracy, heading, speed, timestamp)));
   }
 
   public fireSelectedTabPageChange(
@@ -178,12 +188,12 @@ export class EventsService {
     lastTab: string,
     selectedTab: string,
     payload: any,
-    callbacks: InternalEventCallbacks<ClientSelectedTabPageChangeEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientSelectedTabPageChangeEvent(controlName, formId, lastTab, selectedTab),
-      payload,
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientSelectedTabPageChangeEvent> = new InternalEvent<ClientSelectedTabPageChangeEvent>(new ClientSelectedTabPageChangeEvent(controlName, formId, lastTab, selectedTab));
+    event.callbacks = callbacks;
+    event.payload = payload;
+    this._eventFired.next(event);
   }
 
   public fireSelectedTabPageChanged(
@@ -191,10 +201,10 @@ export class EventsService {
     controlName: string,
     lastTab: string,
     selectedTab: string,
-    callbacks: InternalEventCallbacks<ClientSelectedTabPageChangedEvent>): void {
-    this._eventFired.next({
-      clientEvent: new ClientSelectedTabPageChangedEvent(controlName, formId, lastTab, selectedTab),
-      callbacks
-    });
+    callbacks: InternalEventCallbacks
+  ): void {
+    const event: InternalEvent<ClientSelectedTabPageChangedEvent> = new InternalEvent<ClientSelectedTabPageChangedEvent>(new ClientSelectedTabPageChangedEvent(controlName, formId, lastTab, selectedTab));
+    event.callbacks = callbacks;
+    this._eventFired.next(event);
   }
 }

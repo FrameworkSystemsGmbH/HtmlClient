@@ -16,7 +16,7 @@ import { faExclamationCircle, faExclamationTriangle, faInfoCircle, faQuestionCir
 export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('footer', { static: true })
-  public footer: ElementRef;
+  public footer: ElementRef<HTMLDivElement> | null = null;
 
   public iconExclamationCircle: IconDefinition = faExclamationCircle;
   public iconExclamationTriangle: IconDefinition = faExclamationTriangle;
@@ -30,7 +30,7 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   public buttons: MsgBoxButtons;
   public buttonsType: typeof MsgBoxButtons = MsgBoxButtons;
 
-  private _onBackButtonListener: () => boolean;
+  private _onBackButtonListener: (() => boolean) | null = null;
 
   public constructor(
     private readonly _backService: BackService,
@@ -49,11 +49,15 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.footer.nativeElement.focus();
+    if (this.footer != null) {
+      this.footer.nativeElement.focus();
+    }
   }
 
   public ngOnDestroy(): void {
-    this._backService.removeBackButtonListener(this._onBackButtonListener);
+    if (this._onBackButtonListener != null) {
+      this._backService.removeBackButtonListener(this._onBackButtonListener);
+    }
   }
 
   private onBackButton(): boolean {

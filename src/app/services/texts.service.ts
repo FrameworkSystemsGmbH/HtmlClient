@@ -14,7 +14,7 @@ export class TextsService {
 
   private _texts: Map<number, string> = new Map<number, string>();
 
-  public getText(id: number): string {
+  public getText(id: number): string | undefined {
     return this._texts.get(id);
   }
 

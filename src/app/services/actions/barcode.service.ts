@@ -6,11 +6,11 @@ import { PlatformService } from '@app/services/platform.service';
 @Injectable({ providedIn: 'root' })
 export class BarcodeService {
 
-  private _cancelled: boolean;
-  private _hasError: boolean;
-  private _errorMessage: string;
-  private _value: string;
-  private _format: BarcodeFormat;
+  private _cancelled?: boolean;
+  private _hasError?: boolean;
+  private _errorMessage?: string;
+  private _value?: string;
+  private _format?: BarcodeFormat;
 
   public constructor(
     private readonly _zone: NgZone,
@@ -52,11 +52,11 @@ export class BarcodeService {
   }
 
   private reset(): void {
-    this._cancelled = null;
-    this._hasError = null;
-    this._errorMessage = null;
-    this._value = null;
-    this._format = null;
+    this._cancelled = undefined;
+    this._hasError = undefined;
+    this._errorMessage = undefined;
+    this._value = undefined;
+    this._format = undefined;
   }
 
   private fireBarcodeScanned(): void {

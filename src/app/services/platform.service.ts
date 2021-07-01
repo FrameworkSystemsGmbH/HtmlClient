@@ -4,7 +4,6 @@ import { Capacitor } from '@capacitor/core';
 @Injectable({ providedIn: 'root' })
 export class PlatformService {
 
-  private readonly _isNative: boolean;
   private readonly _isAndroid: boolean;
   private readonly _isIos: boolean;
 
@@ -12,7 +11,6 @@ export class PlatformService {
   private readonly _osVersion: string;
 
   public constructor() {
-    this._isNative = Capacitor.isNative;
     this._isAndroid = Capacitor.getPlatform() === 'android';
     this._isIos = Capacitor.getPlatform() === 'ios';
     this._os = this.initOS();
@@ -20,7 +18,7 @@ export class PlatformService {
   }
 
   public isNative(): boolean {
-    return this._isNative;
+    return Capacitor.isNative === true;
   }
 
   public isAndroid(): boolean {
@@ -40,7 +38,7 @@ export class PlatformService {
   }
 
   private initOS(): string {
-    if (this._isNative) {
+    if (this.isNative()) {
       if (this._isAndroid) {
         return 'Android';
       } else if (this._isIos) {

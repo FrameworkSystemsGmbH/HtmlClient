@@ -13,12 +13,12 @@ import { TextBoxMultilineWrapper } from '@app/wrappers/textbox-multiline-wrapper
 export class TextBoxMultilineComponent extends TextBoxComponent {
 
   @ViewChild('textarea', { static: true })
-  public textarea: ElementRef;
+  public textarea: ElementRef<HTMLTextAreaElement> | null = null;
 
-  public value: string;
+  public value: string | null = null;
   public wrapperStyle: any;
 
-  public getInput(): ElementRef {
+  public getInput(): ElementRef<HTMLElement> | null {
     return this.textarea;
   }
 

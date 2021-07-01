@@ -12,22 +12,22 @@ export class TabPageTemplate {
   }
 
   public getForeColor(): string {
-    const foreColor: string = this._propertyStore.getForeColor();
+    const foreColor: string | undefined = this._propertyStore.getForeColor();
     return foreColor != null ? foreColor : '#000000';
   }
 
   public getBackColor(): string {
-    const backColor: string = this._propertyStore.getBackColor();
+    const backColor: string | undefined = this._propertyStore.getBackColor();
     return backColor != null ? backColor : '#FFFFFF';
   }
 
   public getFontFamily(): string {
-    const fontFamily: string = this._propertyStore.getFontFamily();
+    const fontFamily: string | undefined = this._propertyStore.getFontFamily();
     return fontFamily != null ? fontFamily : 'Arial';
   }
 
   public getFontSize(): number {
-    const fontSize: number = this._propertyStore.getFontSize();
+    const fontSize: number | undefined = this._propertyStore.getFontSize();
     return fontSize != null ? fontSize : 14;
   }
 
@@ -48,7 +48,7 @@ export class TabPageTemplate {
   }
 
   public getBorderColor(): string {
-    const borderColor: string = this._propertyStore.getBorderColor();
+    const borderColor: string | undefined = this._propertyStore.getBorderColor();
     return borderColor != null ? borderColor : '#808080';
   }
 

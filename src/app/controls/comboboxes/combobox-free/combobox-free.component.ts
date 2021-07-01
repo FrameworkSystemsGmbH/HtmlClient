@@ -23,34 +23,36 @@ import { fromEvent, Subscription } from 'rxjs';
 export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('input', { static: true })
-  public input: ElementRef;
+  public input: ElementRef<HTMLInputElement> | null = null;
 
   @ViewChild('arrow', { static: true })
-  public arrow: ElementRef;
+  public arrow: ElementRef<HTMLDivElement> | null = null;
 
   @ViewChild('list', { static: true })
-  public list: ElementRef;
+  public list: ElementRef<HTMLUListElement> | null = null;
 
   @ViewChild('scroller', { static: true })
-  public scroller: ElementRef;
+  public scroller: ElementRef<HTMLDivElement> | null = null;
 
   public iconCaretDown: IconDefinition = faCaretDown;
 
-  public tabIndexAttr: number;
-  public isReadOnlyAttr: boolean;
+  public tabIndexAttr: number | null = null;
+  public isReadOnlyAttr: boolean | null = null;
   public inputStyle: any;
   public arrowStyle: any;
 
-  private _inputValue: string;
-  private _keyDownSub: Subscription;
-  private _arrowHover: boolean;
+  private _inputValue: string | null = null;
+  private _keyDownSub: Subscription | null = null;
+  private _arrowHover: boolean = false;
 
   private readonly _regEx: RegExp = /([a-z]|\d)/i;
 
   public ngAfterViewInit(): void {
     this._regEx.compile();
 
-    this._keyDownSub = fromEvent<KeyboardEvent>(this.input.nativeElement, 'keydown').subscribe(event => this.onKeyDown(event));
+    if (this.input != null) {
+      this._keyDownSub = fromEvent<KeyboardEvent>(this.input.nativeElement, 'keydown').subscribe(event => this.onKeyDown(event));
+    }
   }
 
   public ngOnDestroy(): void {
@@ -61,45 +63,47 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
-  protected getInputValue(): string {
+  protected getInputValue(): string | null {
     return this._inputValue;
   }
 
-  protected setInputValue(value: string): void {
+  protected setInputValue(value: string | null): void {
     this._inputValue = value;
   }
 
-  public getControl(): ElementRef {
+  public getControl(): ElementRef<HTMLDivElement> | null {
     return this.input;
   }
 
   public getArrowWidth(): number {
-    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width as number : 0;
+    return this.arrow ? this.arrow.nativeElement.getBoundingClientRect().width : 0;
   }
 
-  public getSelectedPk(): string {
+  public getSelectedPk(): string | null {
     return this.getSelectedValue();
   }
 
-  public getSelectedValue(): string {
-    const selectedIndex: number = this.getSelectedIndex();
+  public getSelectedValue(): string | null {
+    const selectedIndex: number | null = this.getSelectedIndex();
     if (selectedIndex == null || selectedIndex < 0) {
       return this.getInputValue();
-    } else {
+    } else if (this.entries != null) {
       return this.entries[selectedIndex].getValue();
+    } else {
+      return null;
     }
   }
 
-  protected getScroller(): ElementRef {
+  protected getScroller(): ElementRef<HTMLDivElement> | null {
     return this.scroller;
   }
 
-  protected getList(): ElementRef {
+  protected getList(): ElementRef<HTMLUListElement> | null {
     return this.list;
   }
 
   public onContainerMouseDown(event: any): void {
-    if (!event.target || event.target !== this.input.nativeElement) {
+    if (this.input != null && (!event.target || event.target !== this.input.nativeElement)) {
       event.preventDefault();
     }
   }
@@ -117,19 +121,22 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   }
 
   public onArrowClick(): void {
-    this.getFocusElement().focus();
-    if (this.isEditable) {
-      if (this.dropDownVisible) {
-        this.hideList();
-      } else {
-        this.showList();
+    const focusElement: HTMLElement | null = this.getFocusElement();
+    if (focusElement != null) {
+      focusElement.focus();
+      if (this.isEditable) {
+        if (this.dropDownVisible) {
+          this.hideList();
+        } else {
+          this.showList();
+        }
       }
     }
   }
 
   public onEnterKey(event: any): void {
     if (this.isEditable && this.dropDownVisible) {
-      const selectedListIndex: number = this.getSelectedListIndex();
+      const selectedListIndex: number | null = this.getSelectedListIndex();
       if (selectedListIndex != null && selectedListIndex >= 0) {
         this.hideList();
         this.setSelectedIndex(selectedListIndex);
@@ -140,7 +147,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   }
 
   public onInput(): void {
-    if (this.isEditable) {
+    if (this.isEditable && this.input != null) {
       this.setInputValue(this.input.nativeElement.value);
       this.setSelectedIndex(null);
     }
@@ -162,8 +169,12 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   }
 
   public onAfterEnter(): void {
-    if (this.input) {
-      setTimeout(() => DomUtil.setSelection(this.input.nativeElement));
+    if (this.input != null) {
+      setTimeout(() => {
+        if (this.input != null) {
+          DomUtil.setSelection(this.input.nativeElement);
+        }
+      });
     }
   }
 
@@ -176,7 +187,8 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
     this.isReadOnlyAttr = Boolean.nullIfFalse(!this.isEditable);
     this.setInputValue(wrapper.getValue());
-    this.setSelectedIndex(this.entries.findIndexOnValue(wrapper.getValue()));
+    const wrpValue: string | null = wrapper.getValue();
+    this.setSelectedIndex(this.entries != null && wrpValue != null ? this.entries.findIndexOnValue(wrpValue) : null);
   }
 
   protected updateStyles(wrapper: ComboBoxWrapper): void {

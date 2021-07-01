@@ -32,10 +32,10 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   private readonly _rowLabelTemplate: ControlLabelTemplate;
   private readonly _resolver: ComponentFactoryResolver;
 
-  private _vchControl: VchControl;
-  private _layout: LayoutContainerBase;
-  private _layoutableProperties: LayoutableProperties;
-  private _componentRef: ComponentRef<ControlLabelContainerComponent>;
+  private _vchControl: VchControl | null = null;
+  private _layout: LayoutContainerBase | null = null;
+  private _layoutableProperties: LayoutableProperties | null = null;
+  private _componentRef: ComponentRef<ControlLabelContainerComponent> | null = null;
   private _labelWrappers: Array<ControlLabelWrapper>;
 
 
@@ -124,7 +124,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
     return this._labelWrappers;
   }
 
-  protected getComponentRef(): ComponentRef<ControlLabelContainerComponent> {
+  protected getComponentRef(): ComponentRef<ControlLabelContainerComponent> | null {
     return this._componentRef;
   }
 
@@ -132,13 +132,13 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
     this._componentRef = componentRef;
   }
 
-  protected getComponent(): ControlLabelContainerComponent {
-    const compRef: ComponentRef<ControlLabelContainerComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): ControlLabelContainerComponent | null {
+    const compRef: ComponentRef<ControlLabelContainerComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public updateComponent(): void {
-    const comp: ControlLabelContainerComponent = this.getComponent();
+    const comp: ControlLabelContainerComponent | null = this.getComponent();
 
     if (comp) {
       comp.updateComponent();
@@ -154,7 +154,12 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   public getViewContainerRef(): ViewContainerRef {
-    return this.getComponent().anchor;
+    const comp: ControlLabelContainerComponent | null = this.getComponent();
+
+    if (comp == null) {
+      throw new Error('Tried to get ControlLabelContainerComponent ViewContainerRef but component is NULL');
+    }
+    return comp.getViewContainerRef();
   }
 
   public getName(): string {
@@ -254,7 +259,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   public getDockItemSize(): number {
-    return null;
+    return 0;
   }
 
   public getHorizontalAlignment(): HorizontalAlignment {
@@ -300,7 +305,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
   }
 
   public detachComponent(): void {
-    const compRef: ComponentRef<ControlLabelContainerComponent> = this.getComponentRef();
+    const compRef: ComponentRef<ControlLabelContainerComponent> | null = this.getComponentRef();
 
     if (compRef != null) {
       compRef.destroy();
@@ -309,7 +314,7 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
 
   public onComponentDestroyed(): void {
     // Detach wrapper from VCH
-    const vchParent: ILayoutableContainerWrapper = this.getVchControl().getParent();
+    const vchParent: ILayoutableContainerWrapper | null = this.getVchControl().getParent();
 
     if (vchParent) {
       vchParent.getVchContainer().removeChild(this);

@@ -15,10 +15,10 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
 
   public iconTimes: IconDefinition = faTimes;
 
-  private _form: FormWrapper;
-  private _selectedFormSub: Subscription;
+  private _form: FormWrapper | null = null;
+  private _selectedFormSub: Subscription | null = null;
 
-  private onBackButtonListener: () => boolean;
+  private onBackButtonListener: (() => boolean) | null = null;
 
   public constructor(
     private readonly _backService: BackService,
@@ -45,22 +45,24 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
   }
 
   private onBackButton(): boolean {
-    if (this._form.isCloseIconVisible() || this._form.getCloseButton()) {
+    if (this._form != null && (this._form.isCloseIconVisible() || this._form.getCloseButton())) {
       this.closeForm();
     }
 
     return true;
   }
 
-  public getTitle(): string {
+  public getTitle(): string | null {
     return this._form ? this._form.getTitle() : null;
   }
 
   public getIsCloseIconVisible(): boolean {
-    return this._form ? this._form.isCloseIconVisible() : null;
+    return this._form ? this._form.isCloseIconVisible() : false;
   }
 
   public closeForm(): void {
-    this._formsService.closeFormByButton(this._form);
+    if (this._form != null) {
+      this._formsService.closeFormByButton(this._form);
+    }
   }
 }

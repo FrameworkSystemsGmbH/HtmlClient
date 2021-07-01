@@ -11,7 +11,7 @@ import { LabelWrapper } from '@app/wrappers/label-wrapper';
 })
 export class LabelComponent extends ControlComponent {
 
-  public caption: string;
+  public caption: string | null = null;
   public labelStyle: any;
 
   public getWrapper(): LabelWrapper {

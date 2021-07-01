@@ -12,9 +12,9 @@ import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-
 })
 export class ControlLabelComponent extends LayoutableComponent {
 
-  public caption: string;
-  public isEditable: boolean;
-  public isVisible: boolean;
+  public caption: string | null = null;
+  public isEditable: boolean = true;
+  public isVisible: boolean = true;
   public labelStyle: any;
 
   public getWrapper(): ControlLabelWrapper {

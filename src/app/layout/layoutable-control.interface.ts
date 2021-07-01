@@ -43,7 +43,7 @@ export interface ILayoutableControl {
 
   getInsetsBottom: () => number;
 
-  getDockItemSize: () => number;
+  getDockItemSize: () => number | null;
 
   getHorizontalAlignment: () => HorizontalAlignment;
 

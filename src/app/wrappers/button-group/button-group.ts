@@ -4,16 +4,16 @@ export class ButtonGroup {
 
   private readonly _groupName: string;
 
-  private _value: string;
-  private _orgValue: string;
+  private _value: string | null = null;
+  private _orgValue: string | null = null;
 
-  private readonly _onValueChanged: BehaviorSubject<string>;
-  private readonly _onValueChanged$: Observable<string>;
+  private readonly _onValueChanged: BehaviorSubject<string | null>;
+  private readonly _onValueChanged$: Observable<string | null>;
 
   public constructor(groupName: string) {
     this._groupName = groupName;
 
-    this._onValueChanged = new BehaviorSubject<string>(null);
+    this._onValueChanged = new BehaviorSubject<string | null>(null);
     this._onValueChanged$ = this._onValueChanged.asObservable();
   }
 
@@ -21,11 +21,11 @@ export class ButtonGroup {
     return this._groupName;
   }
 
-  public onValueChanged(): Observable<string> {
+  public onValueChanged(): Observable<string | null> {
     return this._onValueChanged$;
   }
 
-  public fireValueChanged(value: string): void {
+  public fireValueChanged(value: string | null): void {
     this._value = value;
     this._onValueChanged.next(this._value);
   }

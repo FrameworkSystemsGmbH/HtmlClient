@@ -8,7 +8,7 @@ const { Storage } = Plugins;
 @Injectable({ providedIn: 'root' })
 export abstract class StorageService {
 
-  public load(key: string): Observable<string> {
+  public load(key: string): Observable<string | null> {
     return from(Storage.get({ key })).pipe(map(obj => obj.value));
   }
 

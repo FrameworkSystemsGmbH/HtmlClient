@@ -11,86 +11,91 @@ export class ControlLabelTemplate implements ILayoutableControlLabelTemplate {
   }
 
   public getIsVisible(): boolean {
-    return this._propertyStore.getIsVisible();
+    return Boolean.falseIfNull(this._propertyStore.getIsVisible());
   }
 
   public getForeColor(): string {
-    return this._propertyStore.getForeColor();
+    const foreColor: string | undefined = this._propertyStore.getForeColor();
+    return foreColor != null ? foreColor : '#000000';
   }
 
   public getBackColor(): string {
-    return this._propertyStore.getBackColor();
+    const backColor: string | undefined = this._propertyStore.getBackColor();
+    return backColor != null ? backColor : '#FFFFFF';
   }
 
   public getFontFamily(): string {
-    return this._propertyStore.getFontFamily();
+    const fontFamily: string | undefined = this._propertyStore.getFontFamily();
+    return fontFamily != null ? fontFamily : 'Arial';
   }
 
   public getFontSize(): number {
-    return this._propertyStore.getFontSize();
+    const fontSize: number | undefined = this._propertyStore.getFontSize();
+    return fontSize != null ? fontSize : 14;
   }
 
   public getFontBold(): boolean {
-    return this._propertyStore.getFontBold();
+    return Boolean.falseIfNull(this._propertyStore.getFontBold());
   }
 
   public getFontItalic(): boolean {
-    return this._propertyStore.getFontItalic();
+    return Boolean.falseIfNull(this._propertyStore.getFontItalic());
   }
 
   public getFontUnderline(): boolean {
-    return this._propertyStore.getFontUnderline();
+    return Boolean.falseIfNull(this._propertyStore.getFontUnderline());
   }
 
   public getTextAlign(): TextAlign {
-    return this._propertyStore.getTextAlign();
+    const textAlign: TextAlign | undefined = this._propertyStore.getTextAlign();
+    return textAlign != null ? textAlign : TextAlign.Left;
   }
 
   public getMarginLeft(): number {
-    return this._propertyStore.getMarginLeft();
+    return Number.zeroIfNull(this._propertyStore.getMarginLeft());
   }
 
   public getMarginRight(): number {
-    return this._propertyStore.getMarginRight();
+    return Number.zeroIfNull(this._propertyStore.getMarginRight());
   }
 
   public getMarginTop(): number {
-    return this._propertyStore.getMarginTop();
+    return Number.zeroIfNull(this._propertyStore.getMarginTop());
   }
 
   public getMarginBottom(): number {
-    return this._propertyStore.getMarginBottom();
+    return Number.zeroIfNull(this._propertyStore.getMarginBottom());
   }
 
   public getPaddingLeft(): number {
-    return this._propertyStore.getPaddingLeft();
+    return Number.zeroIfNull(this._propertyStore.getPaddingLeft());
   }
 
   public getPaddingRight(): number {
-    return this._propertyStore.getPaddingRight();
+    return Number.zeroIfNull(this._propertyStore.getPaddingRight());
   }
 
   public getPaddingTop(): number {
-    return this._propertyStore.getPaddingTop();
+    return Number.zeroIfNull(this._propertyStore.getPaddingTop());
   }
 
   public getPaddingBottom(): number {
-    return this._propertyStore.getPaddingBottom();
+    return Number.zeroIfNull(this._propertyStore.getPaddingBottom());
   }
 
   public getMinWidth(): number {
-    return this._propertyStore.getMinWidth();
+    return Number.zeroIfNull(this._propertyStore.getMinWidth());
   }
 
   public getMinHeight(): number {
-    return this._propertyStore.getMinHeight();
+    return Number.zeroIfNull(this._propertyStore.getMinHeight());
   }
 
   public getMaxWidth(): number {
-    return this._propertyStore.getMaxWidth();
+    return Number.zeroIfNull(this._propertyStore.getMaxWidth());
   }
 
   public getMaxHeight(): number {
-    return this._propertyStore.getMaxHeight();
+    return Number.zeroIfNull(this._propertyStore.getMaxHeight());
   }
 }

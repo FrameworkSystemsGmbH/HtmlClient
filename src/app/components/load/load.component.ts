@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class LoadComponent implements OnInit, OnDestroy {
 
-  private _queryParamsSub: Subscription;
+  private _queryParamsSub: Subscription | null = null;
 
   public constructor(
     private readonly _route: ActivatedRoute,
@@ -22,11 +22,9 @@ export class LoadComponent implements OnInit, OnDestroy {
     this._queryParamsSub = this._route.queryParams.subscribe(params => {
       const url = window.location.origin + window.location.pathname.trimStringRight('/html/');
 
-      const loginBroker: LoginBroker = new LoginBroker();
-      loginBroker.name = 'External';
-      loginBroker.url = url;
+      const loginBroker: LoginBroker = new LoginBroker('External', url);
 
-      let loginOptions: LoginOptions = null;
+      let loginOptions: LoginOptions | undefined;
 
       if (params.lang != null) {
         loginOptions = new LoginOptions();

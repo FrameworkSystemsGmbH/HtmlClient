@@ -11,7 +11,7 @@ import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties
 export class FormComponent extends ContainerComponent implements AfterViewChecked {
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+  public anchor: ViewContainerRef | null = null;
 
   public scrollerStyle: any;
   public contentStyle: any;
@@ -27,6 +27,10 @@ export class FormComponent extends ContainerComponent implements AfterViewChecke
   }
 
   public getViewContainerRef(): ViewContainerRef {
+    if (this.anchor == null) {
+      throw new Error('Tried to access uninitialized ViewContainerRef of \'FormComponent\'');
+    }
+
     return this.anchor;
   }
 

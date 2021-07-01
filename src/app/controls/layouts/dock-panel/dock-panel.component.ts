@@ -12,7 +12,7 @@ import { DockPanelWrapper } from '@app/wrappers/dock-panel-wrapper';
 export class DockPanelComponent extends ContainerComponent {
 
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
-  public anchor: ViewContainerRef;
+  public anchor: ViewContainerRef | null = null;
 
   public wrapperStyle: any;
 
@@ -21,6 +21,10 @@ export class DockPanelComponent extends ContainerComponent {
   }
 
   public getViewContainerRef(): ViewContainerRef {
+    if (this.anchor == null) {
+      throw new Error('Tried to access uninitialized ViewContainerRef of \'DockPanelComponent\'');
+    }
+
     return this.anchor;
   }
 

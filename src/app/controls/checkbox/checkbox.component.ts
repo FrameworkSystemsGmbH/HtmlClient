@@ -14,17 +14,17 @@ import { CheckBoxWrapper } from '@app/wrappers/checkbox-wrapper';
 export class CheckBoxComponent extends ControlComponent {
 
   @ViewChild('input', { static: true })
-  public input: ElementRef;
+  public input: ElementRef<HTMLInputElement> | null = null;
 
   @Output()
   public readonly boxClick: EventEmitter<any> = new EventEmitter<any>();
 
-  public id: string;
-  public value: boolean;
-  public caption: string;
-  public showCaption: boolean;
-  public disabledAttr: boolean;
-  public tabIndexAttr: number;
+  public id: string | null = null;
+  public value: boolean = false;
+  public caption: string | null = null;
+  public showCaption: boolean = true;
+  public disabledAttr: boolean | null = null;
+  public tabIndexAttr: number | null = null;
 
   public wrapperStyle: any;
   public labelStyle: any;
@@ -52,13 +52,16 @@ export class CheckBoxComponent extends ControlComponent {
   }
 
   public onWrapperMouseDown(event: any): void {
-    if (!event.target || !DomUtil.isDescentantOrSelf(this.input.nativeElement, event.target)) {
+    if (this.input != null && (!event.target || !DomUtil.isDescentantOrSelf(this.input.nativeElement, event.target))) {
       event.preventDefault();
     }
   }
 
   public onLabelMouseDown(): void {
-    this.getFocusElement().focus();
+    const focusEl: HTMLElement | null = this.getFocusElement();
+    if (focusEl != null) {
+      focusEl.focus();
+    }
   }
 
   public getWrapper(): CheckBoxWrapper {
@@ -84,10 +87,6 @@ export class CheckBoxComponent extends ControlComponent {
     this.wrapperStyle = this.createWrapperStyle(wrapper);
     this.labelStyle = this.createLabelStyle(wrapper);
     this.captionStyle = this.createCaptionStyle(wrapper);
-
-    if (this.input) {
-      (this.input.nativeElement as HTMLInputElement).tabIndex = this.tabIndexAttr;
-    }
   }
 
   protected createWrapperStyle(wrapper: CheckBoxWrapper): any {
@@ -148,7 +147,7 @@ export class CheckBoxComponent extends ControlComponent {
     };
   }
 
-  public getFocusElement(): any {
+  public getFocusElement(): HTMLElement | null {
     if (this.input) {
       return this.input.nativeElement;
     }

@@ -7,6 +7,7 @@ import { FramesService } from '@app/services/frames.service';
 import { PlatformService } from '@app/services/platform.service';
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
+import { ListViewItemContentWebComp } from '@app/webcomponents/listview-item-content/listview-item-content.webcomp';
 import { ListViewItemWrapper } from '@app/wrappers/listview-item-wrapper';
 import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
 
@@ -21,26 +22,26 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   private static readonly maxSelectorSize: number = 20;
 
   @ViewChild('selector', { read: ElementRef, static: true })
-  public selector: ElementRef;
+  public selector: ElementRef | null = null;
 
   @ViewChild('content', { static: true })
-  public contentEl: ElementRef;
+  public contentEl: ElementRef<ListViewItemContentWebComp> | null = null;
 
-  public isMouseDown: boolean;
-  public isEditable: boolean;
-  public selectorSize: number;
+  public isMouseDown: boolean = false;
+  public isEditable: boolean = true;
+  public selectorSize: number = ListViewItemComponent.minSelectorSize;
   public containerStyle: any;
   public selectorStyle: any;
 
-  private _id: string;
-  private _width: number;
-  private _height: number;
-  private _selectedVal: boolean;
-  private _isHover: boolean;
-  private _selectionMode: ListViewSelectionMode;
-  private _selectorPosition: ListViewSelectorPosition;
-  private _itemWrapper: ListViewItemWrapper;
-  private _listViewWrapper: ListViewWrapper;
+  private _id: string = String.empty();
+  private _width: number = 0;
+  private _height: number = 0;
+  private _selectedVal: boolean = false;
+  private _isHover: boolean = false;
+  private _selectionMode: ListViewSelectionMode = ListViewSelectionMode.None;
+  private _selectorPosition: ListViewSelectorPosition = ListViewSelectorPosition.MiddleRight;
+  private _itemWrapper: ListViewItemWrapper | null = null;
+  private _listViewWrapper: ListViewWrapper | null = null;
 
   public constructor(
     private readonly _baseFormatService: BaseFormatService,
@@ -61,11 +62,13 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
 
     this.updateWrapper();
 
-    if (this._selectionMode === ListViewSelectionMode.Single && val) {
+    if (this._selectionMode === ListViewSelectionMode.Single && val && this._itemWrapper != null) {
       this._itemWrapper.notifySingleSelectionChanged();
     }
 
-    this._listViewWrapper.callOnItemSelectionChanged();
+    if (this._listViewWrapper != null) {
+      this._listViewWrapper.callOnItemSelectionChanged();
+    }
   }
 
   public ngOnInit(): void {
@@ -88,7 +91,7 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   }
 
   public onMouseDown(event: any): void {
-    if (event.buttons === 1 && event.target && !DomUtil.isDescentantOrSelf(this.selector.nativeElement, event.target)) {
+    if (this.selector != null && (event.buttons === 1 && event.target && !DomUtil.isDescentantOrSelf(this.selector.nativeElement, event.target))) {
       this.isMouseDown = true;
     }
   }
@@ -107,7 +110,7 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
     }
 
     if (this._platformService.isNative()) {
-      return this.selected || this._listViewWrapper.getMobileSelectionModeEnabled();
+      return this._listViewWrapper != null && (this.selected || this._listViewWrapper.getMobileSelectionModeEnabled());
     } else {
       return this.selected || this.isEditable && this._isHover;
     }
@@ -117,40 +120,52 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
     this._itemWrapper = itemWrapper;
     this._listViewWrapper = itemWrapper.getListViewWrapper();
 
-    const globalCss: string = this._listViewWrapper.getListViewItemCssGlobal();
-    const templateCss: string = this._listViewWrapper.getViewTemplateCss();
-    const templateHtml: string = this._listViewWrapper.getViewTemplateHtml();
+    const globalCss: string | null = this._listViewWrapper.getListViewItemCssGlobal();
+    const templateCss: string | null = this._listViewWrapper.getViewTemplateCss();
+    const templateHtml: string | null = this._listViewWrapper.getViewTemplateHtml();
 
-    this.contentEl.nativeElement.init(globalCss, templateCss, templateHtml);
+    if (this.contentEl != null) {
+      this.contentEl.nativeElement.init(globalCss, templateCss, templateHtml);
+    }
   }
 
   private updateWrapper(): void {
-    this._itemWrapper.setSelected(this.selected);
+    if (this._itemWrapper != null) {
+      this._itemWrapper.setSelected(this.selected);
+    }
   }
 
   public updateComponent(): void {
-    this.updateData(this._itemWrapper);
-    this.updateStyles(this._itemWrapper, this._listViewWrapper);
+    if (this._itemWrapper != null && this._listViewWrapper != null) {
+      this.updateData(this._itemWrapper);
+      this.updateStyles(this._itemWrapper, this._listViewWrapper);
+    }
   }
 
   private updateData(itemWrapper: ListViewItemWrapper): void {
-    this._id = itemWrapper.getId();
-    this._width = this._listViewWrapper.getItemWidth();
-    this._height = this._listViewWrapper.getItemHeight();
-    this.isEditable = this._listViewWrapper.getIsEditable();
-    this._selectionMode = this._listViewWrapper.getSelectionMode();
-    this._selectorPosition = this._listViewWrapper.getSelectorPosition();
-    this._selectedVal = itemWrapper.getSelected();
+    if (this._listViewWrapper != null) {
 
-    const formattedValues: Array<string> = new Array<string>();
+      this._id = itemWrapper.getId();
+      this._width = this._listViewWrapper.getItemWidth();
+      this._height = this._listViewWrapper.getItemHeight();
+      this.isEditable = this._listViewWrapper.getIsEditable();
+      this._selectionMode = this._listViewWrapper.getSelectionMode();
+      this._selectorPosition = this._listViewWrapper.getSelectorPosition();
+      this._selectedVal = itemWrapper.getSelected();
 
-    for (const templateValue of itemWrapper.getViewTemplateValues()) {
-      formattedValues.push(this._baseFormatService.formatString(templateValue.getValue(), ParseMethod.Server, templateValue.getFormat(), templateValue.getFormatPattern()));
+      const formattedValues: Array<string | null> = new Array<string | null>();
+
+      for (const templateValue of itemWrapper.getViewTemplateValues()) {
+        const value: string | null = templateValue.getValue();
+        formattedValues.push(value != null ? this._baseFormatService.formatString(value, ParseMethod.Server, templateValue.getFormat(), templateValue.getFormatPattern()) : null);
+      }
+
+      if (this.contentEl != null) {
+        this.contentEl.nativeElement.update(this.isEditable, formattedValues);
+      }
+
+      itemWrapper.confirmContentUpdate();
     }
-
-    this.contentEl.nativeElement.update(this.isEditable, formattedValues);
-
-    itemWrapper.confirmContentUpdate();
   }
 
   private updateStyles(itemWrapper: ListViewItemWrapper, listViewWrapper: ListViewWrapper): void {
@@ -242,7 +257,7 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
 
     if (this._selectionMode === ListViewSelectionMode.Single) {
       this.selected = !this.selected;
-    } else {
+    } else if (this._listViewWrapper != null) {
       if (this._listViewWrapper.getMobileSelectionModeEnabled()) {
         this._listViewWrapper.setMobileSelectionModeEnabled(false);
       } else {
@@ -264,14 +279,16 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this._platformService.isNative() && this._listViewWrapper.getMobileSelectionModeEnabled()) {
+    if (this._platformService.isNative() && this._listViewWrapper != null && this._listViewWrapper.getMobileSelectionModeEnabled()) {
       this.selected = !this.selected;
 
       if (this._listViewWrapper.getSelectedItems().length === 0) {
         this._listViewWrapper.setMobileSelectionModeEnabled(false);
       }
-    } else if (event.target && !DomUtil.isDescentantOrSelf(this.selector.nativeElement, event.target)) {
-      this._listViewWrapper.callOnItemActivated(this.getId());
+    } else if (this.selector != null && (event.target && !DomUtil.isDescentantOrSelf(this.selector.nativeElement, event.target))) {
+      if (this._listViewWrapper != null) {
+        this._listViewWrapper.callOnItemActivated(this.getId());
+      }
     }
   }
 }

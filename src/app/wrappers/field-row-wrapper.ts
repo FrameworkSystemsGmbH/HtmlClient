@@ -17,20 +17,20 @@ import * as LabelUtil from '@app/util/label-util';
 
 export class FieldRowWrapper extends ContainerWrapper implements IFieldRowControl {
 
-  private _hasFirstColumnControl: boolean;
-  private _labelsToOptimize: Array<ControlLabelWrapper>;
+  private _hasFirstColumnControl: boolean = false;
+  private _labelsToOptimize: Array<ControlLabelWrapper> | null = null;
 
   public getControlType(): ControlType {
     return ControlType.FieldRow;
   }
 
-  public getFieldRowSize(): number {
-    const fieldRowSize: number = this.getPropertyStore().getFieldRowSize();
+  public getFieldRowSize(): number | null {
+    const fieldRowSize: number | undefined = this.getPropertyStore().getFieldRowSize();
     return fieldRowSize != null ? fieldRowSize : null;
   }
 
   public getFieldRowLabelMode(): FieldRowLabelMode {
-    const labelMode: FieldRowLabelMode = this.getPropertyStore().getLabelMode();
+    const labelMode: FieldRowLabelMode | undefined = this.getPropertyStore().getLabelMode();
     return labelMode != null ? labelMode : FieldRowLabelMode.Generated;
   }
 
@@ -44,7 +44,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     }
   }
 
-  protected createControlLabelWrapper(): IControlLabelWrapper {
+  protected createControlLabelWrapper(): IControlLabelWrapper | null {
     const wrappers: Array<ControlWrapper> = this.controls;
 
     if (wrappers.length === 0) {
@@ -128,7 +128,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
      * This is either the label of the first control or the merged label for all controls in the row
      */
     if (labelMode === FieldRowLabelMode.Generated || labelMode === FieldRowLabelMode.GeneratedMerged) {
-      const firstColumnLabel: ILayoutableControlWrapper = this.getControlLabelWrapper(this);
+      const firstColumnLabel: ILayoutableControlWrapper | null = this.getControlLabelWrapper(this);
       if (firstColumnLabel) {
         this._hasFirstColumnControl = true;
         firstColumnLabel.attachComponent(uiContainer, vchContainer);

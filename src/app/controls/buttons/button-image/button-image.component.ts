@@ -1,6 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ButtonComponent } from '@app/controls/buttons/button.component';
+import { FocusService } from '@app/services/focus.service';
 import * as StyleUtil from '@app/util/style-util';
 import { ButtonImageWrapper } from '@app/wrappers/button-image-wrapper';
 
@@ -12,28 +13,32 @@ import { ButtonImageWrapper } from '@app/wrappers/button-image-wrapper';
 export class ButtonImageComponent extends ButtonComponent {
 
   @ViewChild('button', { static: true })
-  public button: ElementRef;
+  public button: ElementRef<HTMLButtonElement> | null = null;
 
-  public currentImageUrl: string;
-  public isHovered: boolean;
-  public isMouseDown: boolean;
-  public wasMouseDownOnLeave: boolean;
+  public currentImageUrl: string | null = null;
+  public isHovered: boolean = false;
+  public isMouseDown: boolean = false;
+  public wasMouseDownOnLeave: boolean = false;
   public textStyle: any;
-  public badgeImageSrc: SafeUrl;
+  public badgeImageSrc: SafeUrl | null = null;
 
-  private _normaleImageUrl: string;
-  private _disabledImageUrl: string;
-  private _mouseOverImageUrl: string;
-  private _pressedImageUrl: string;
+  private readonly _sanatizer: DomSanitizer;
 
-  private _sanatizer: DomSanitizer;
+  private _normaleImageUrl: string | null = null;
+  private _disabledImageUrl: string | null = null;
+  private _mouseOverImageUrl: string | null = null;
+  private _pressedImageUrl: string | null = null;
 
-  protected init(): void {
-    super.init();
-    this._sanatizer = this.getInjector().get(DomSanitizer);
+  public constructor(
+    cdr: ChangeDetectorRef,
+    focusService: FocusService,
+    sanitizer: DomSanitizer
+  ) {
+    super(cdr, focusService);
+    this._sanatizer = sanitizer;
   }
 
-  protected getButton(): ElementRef {
+  protected getButton(): ElementRef<HTMLButtonElement> | null {
     return this.button;
   }
 
@@ -92,6 +97,8 @@ export class ButtonImageComponent extends ButtonComponent {
     } else {
       this.currentImageUrl = this._normaleImageUrl;
     }
+
+    this.getChangeDetectorRef().detectChanges();
   }
 
   protected updateData(wrapper: ButtonImageWrapper): void {
@@ -102,8 +109,8 @@ export class ButtonImageComponent extends ButtonComponent {
     this._pressedImageUrl = wrapper.getPressedImageUrl();
     this.updateImageUrl();
 
-    const badgeImageSrc: string = wrapper.getBadgeImageSrc();
-    this.badgeImageSrc = !String.isNullOrWhiteSpace(badgeImageSrc) ? this._sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
+    const badgeImageSrc: string | null = wrapper.getBadgeImageSrc();
+    this.badgeImageSrc = badgeImageSrc != null && badgeImageSrc.trim().length ? this._sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
   }
 
   protected updateStyles(wrapper: ButtonImageWrapper): void {

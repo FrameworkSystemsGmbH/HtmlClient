@@ -13,8 +13,8 @@ import { LinkedListOneWay } from '@app/util/linked-list-one-way';
 export class FieldLayout extends LayoutContainerBase {
 
   private _width: number = -1;
-  private _rows: Array<FieldLayoutRow>;
-  private _columns: Array<FieldLayoutColumn>;
+  private _rows: Array<FieldLayoutRow> = new Array<FieldLayoutRow>();
+  private _columns: Array<FieldLayoutColumn> = new Array<FieldLayoutColumn>();
 
   public constructor(container: IFieldContainer) {
     super(container);
@@ -206,13 +206,15 @@ export class FieldLayout extends LayoutContainerBase {
        * they will not have any problems
        */
       while (!todo.isEmpty()) {
-        const column: FieldLayoutColumn = todo.poll();
-        column.setResultColumnWidth(Math.round(stretchFactor * column.getMinColumnWidth()));
+        const column: FieldLayoutColumn | null = todo.poll();
+        if (column != null) {
+          column.setResultColumnWidth(Math.round(stretchFactor * column.getMinColumnWidth()));
 
-        // recalculate stretch factor to aviod rounding errors
-        sumMinWidths -= column.getMinColumnWidth();
-        availableWidth -= column.getResultColumnWidth();
-        stretchFactor = availableWidth / sumMinWidths;
+          // recalculate stretch factor to aviod rounding errors
+          sumMinWidths -= column.getMinColumnWidth();
+          availableWidth -= column.getResultColumnWidth();
+          stretchFactor = availableWidth / sumMinWidths;
+        }
       }
     }
 
@@ -221,7 +223,13 @@ export class FieldLayout extends LayoutContainerBase {
         // grid mode
         for (const cell of row.getCells()) {
           if (cell.getAlignmentHorizontal() === HorizontalAlignment.Stretch) {
-            cell.setResultWidth(Math.min(cell.getColumn().getResultColumnWidth(), cell.getMaxWidth()));
+            const column: FieldLayoutColumn | null = cell.getColumn();
+
+            if (column == null) {
+              throw new Error('FieldLayoutColumn of cell should not be NULL when using grid mode!');
+            }
+
+            cell.setResultWidth(Math.min(column.getResultColumnWidth(), cell.getMaxWidth()));
           } else {
             cell.setResultWidth(cell.getMinWidth());
           }
@@ -303,13 +311,15 @@ export class FieldLayout extends LayoutContainerBase {
          * they will not have any problems
          */
         while (!todo.isEmpty()) {
-          const cell: FieldLayoutCell = todo.poll();
-          cell.setResultWidth(Math.round(stretchFactor * cell.getMinWidth()));
+          const cell: FieldLayoutCell | null = todo.poll();
+          if (cell != null) {
+            cell.setResultWidth(Math.round(stretchFactor * cell.getMinWidth()));
 
-          // recalculate stretch factor to aviod rounding errors
-          sumMinWidths -= cell.getMinWidth();
-          availableWidth -= cell.getResultWidth();
-          stretchFactor = availableWidth / sumMinWidths;
+            // recalculate stretch factor to aviod rounding errors
+            sumMinWidths -= cell.getMinWidth();
+            availableWidth -= cell.getResultWidth();
+            stretchFactor = availableWidth / sumMinWidths;
+          }
         }
       }
 
@@ -381,8 +391,9 @@ export class FieldLayout extends LayoutContainerBase {
     // get sum of (visible) field row sizes
     let sumFieldRowSizes: number = 0;
     for (const row of this._rows) {
-      if (row.getSize() != null && row.isStretchable()) {
-        sumFieldRowSizes += row.getSize();
+      const rowSize: number | null = row.getSize();
+      if (rowSize != null && row.isStretchable()) {
+        sumFieldRowSizes += rowSize;
       }
     }
 
@@ -413,10 +424,10 @@ export class FieldLayout extends LayoutContainerBase {
        */
       let hasMinFail: boolean = false;
       let maxMinFail: number = 0;
-      let maxMinFailWrapper: FieldLayoutRow = null;
+      let maxMinFailWrapper: FieldLayoutRow | null = null;
 
       for (const row of todo) {
-        const rowSizeRatio: number = row.getSize() / sumFieldRowSizes;
+        const rowSizeRatio: number = row.getSizeInt() / sumFieldRowSizes;
         const desiredHeight: number = rowSizeRatio * availableHeight;
         const minFail: number = Math.max(0, row.getMinRowHeight() - desiredHeight);
         if (minFail > 0) {
@@ -431,23 +442,25 @@ export class FieldLayout extends LayoutContainerBase {
       if (!hasMinFail) {
         // no problems concerning min and max size
         allMinProblemsSolved = true;
-      } else {
+      } else if (maxMinFailWrapper != null) {
         // min problem
         todo.remove(maxMinFailWrapper);
         maxMinFailWrapper.setResultRowHeight(maxMinFailWrapper.getMinRowHeight());
         availableHeight -= maxMinFailWrapper.getResultRowHeight();
-        sumFieldRowSizes -= maxMinFailWrapper.getSize();
+        sumFieldRowSizes -= maxMinFailWrapper.getSizeInt();
       }
     }
 
     // calculate result height for dynamic rows without problems concerning min height
     while (!todo.isEmpty()) {
-      const row: FieldLayoutRow = todo.shift();
-      const rowSizeRatio: number = row.getSize() / sumFieldRowSizes;
-      const desiredHeight: number = Math.round(rowSizeRatio * availableHeight);
-      row.setResultRowHeight(desiredHeight);
-      availableHeight -= row.getResultRowHeight();
-      sumFieldRowSizes -= row.getSize();
+      const row: FieldLayoutRow | undefined = todo.shift();
+      if (row != null) {
+        const rowSizeRatio: number = row.getSizeInt() / sumFieldRowSizes;
+        const desiredHeight: number = Math.round(rowSizeRatio * availableHeight);
+        row.setResultRowHeight(desiredHeight);
+        availableHeight -= row.getResultRowHeight();
+        sumFieldRowSizes -= row.getSizeInt();
+      }
     }
 
     // layout rows
@@ -493,16 +506,22 @@ export class FieldLayout extends LayoutContainerBase {
       }
 
       if (isGridMode) {
+        const column: FieldLayoutColumn | null = cell.getColumn();
+
+        if (column == null) {
+          throw new Error('FieldLayoutColumn of cell should not be NULL when using grid mode!');
+        }
+
         const alignmentHorizontal: HorizontalAlignment = cell.getAlignmentHorizontal();
         let xOffset: number = 0;
         if (alignmentHorizontal === HorizontalAlignment.Right) {
-          xOffset = cell.getColumn().getResultColumnWidth() - cell.getResultWidth();
+          xOffset = column.getResultColumnWidth() - cell.getResultWidth();
         } else if (alignmentHorizontal === HorizontalAlignment.Center) {
-          xOffset = (cell.getColumn().getResultColumnWidth() - cell.getResultWidth()) / 2;
+          xOffset = (column.getResultColumnWidth() - cell.getResultWidth()) / 2;
         }
 
         cell.arrange(xPos + xOffset, y + yOffset, cell.getResultWidth(), cellHeight);
-        xPos += cell.getColumn().getResultColumnWidth();
+        xPos += column.getResultColumnWidth();
 
       } else {
         cell.arrange(xPos, y + yOffset, cell.getResultWidth(), cellHeight);

@@ -11,12 +11,14 @@ export class TabPageWrapper extends ContainerWrapper implements ILayoutableConta
     return ControlType.TabPage;
   }
 
-  public getActiveImage(): string {
-    return this.getPropertyStore().getActiveImage();
+  public getActiveImage(): string | null {
+    const activeImage: string | undefined = this.getPropertyStore().getActiveImage();
+    return activeImage != null ? activeImage : null;
   }
 
-  public getInactiveImage(): string {
-    return this.getPropertyStore().getInactiveImage();
+  public getInactiveImage(): string | null {
+    const inactiveImage: string | undefined = this.getPropertyStore().getInactiveImage();
+    return inactiveImage != null ? inactiveImage : null;
   }
 
   public isTabSelected(): boolean {
@@ -27,17 +29,22 @@ export class TabPageWrapper extends ContainerWrapper implements ILayoutableConta
     return this.getParent() as TabbedWindowWrapper;
   }
 
-  protected getComponentRef(): ComponentRef<TabPageComponent> {
-    return super.getComponentRef() as ComponentRef<TabPageComponent>;
+  protected getComponentRef(): ComponentRef<TabPageComponent> | null {
+    return super.getComponentRef() as ComponentRef<TabPageComponent> | null;
   }
 
-  protected getComponent(): TabPageComponent {
-    const compRef: ComponentRef<TabPageComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): TabPageComponent | null {
+    const compRef: ComponentRef<TabPageComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public getViewContainerRef(): ViewContainerRef {
-    return this.getComponent().anchor;
+    const comp: TabPageComponent | null = this.getComponent();
+
+    if (comp == null) {
+      throw new Error('Tried to get TabPageComponent ViewContainerRef but component is NULL');
+    }
+    return comp.getViewContainerRef();
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<TabPageComponent> {

@@ -1,40 +1,28 @@
 import { ComponentFactory, ComponentRef } from '@angular/core';
 import { TextBoxPlainComponent } from '@app/controls/textboxes/textbox-plain/textbox-plain.component';
 import { TextBoxType } from '@app/enums/textbox-type';
-import { StringFormatService } from '@app/services/formatter/string-format.service';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
 import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
 
 export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
-  protected value: string;
-  protected orgValue: string;
-
-  private _stringFormatService: StringFormatService;
-
-  protected init(): void {
-    super.init();
-    this._stringFormatService = this.getInjector().get(StringFormatService);
-  }
+  protected value: string | null = null;
+  protected orgValue: string | null = null;
 
   public getTextBoxType(): TextBoxType {
     return TextBoxType.Plain;
   }
 
-  protected getStringFormatService(): StringFormatService {
-    return this._stringFormatService;
-  }
-
   public isPasswordField(): boolean {
-    const pwChar: string = this.getPropertyStore().getPasswordChar();
-    return !String.isNullOrWhiteSpace(pwChar);
+    const pwChar: string | undefined = this.getPropertyStore().getPasswordChar();
+    return pwChar != null && pwChar.trim().length > 0;
   }
 
-  public getValue(): string {
+  public getValue(): string | null {
     return this.value;
   }
 
-  public setValue(value: string): void {
+  public setValue(value: string | null): void {
     this.value = value;
   }
 
@@ -44,7 +32,7 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
 
   protected setValueJson(value: string): void {
     let val: string = value != null ? value : String.empty();
-    val = this._stringFormatService.formatString(val, this.getFormat());
+    val = this.getStringFormatService().formatString(val, this.getFormat());
     this.orgValue = val;
     this.setValue(val);
   }
@@ -57,9 +45,9 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
     return super.getComponentRef() as ComponentRef<TextBoxPlainComponent>;
   }
 
-  protected getComponent(): TextBoxPlainComponent {
-    const compRef: ComponentRef<TextBoxPlainComponent> = this.getComponentRef();
-    return compRef ? compRef.instance : undefined;
+  protected getComponent(): TextBoxPlainComponent | null {
+    const compRef: ComponentRef<TextBoxPlainComponent> | null = this.getComponentRef();
+    return compRef ? compRef.instance : null;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<TextBoxPlainComponent> {

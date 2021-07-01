@@ -7,23 +7,23 @@ export class DataList extends Array<DataListEntry> {
     Object.setPrototypeOf(this, DataList.prototype);
   }
 
-  public findIndexOnPk(pk: string): number {
+  public findIndexOnPk(pk: string | null): number {
     return this.findIndex(entry => entry.getPk() === pk);
   }
 
-  public findIndexOnValue(value: string): number {
+  public findIndexOnValue(value: string | null): number {
     return this.findIndex(entry => entry.getValue() === value);
   }
 
-  public findIndexOnTerm(term: string): number {
+  public findIndexOnTerm(term: string | null): number {
     if (term == null) {
       return -1;
     }
 
     const index: number = this.findIndex(entry => {
-      const value: string = entry.getValue();
+      const value: string | null = entry.getValue();
 
-      if (String.isNullOrWhiteSpace(value) || value.length === 0) {
+      if (value == null || value.trim().length === 0) {
         return false;
       }
 
@@ -36,7 +36,7 @@ export class DataList extends Array<DataListEntry> {
     return index;
   }
 
-  public getNullEntry(): DataListEntry {
+  public getNullEntry(): DataListEntry | null {
     if (!this.length) {
       return null;
     }

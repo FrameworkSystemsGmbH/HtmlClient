@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BrokerCameraSource } from '@app/enums/broker-camera-source';
 import { EventsService } from '@app/services/events.service';
+import { IAppState } from '@app/store/app.state';
 import { selectBrokerName } from '@app/store/broker/broker.selectors';
 import { AppRestoredResult, CameraDirection, CameraResultType, CameraSource, Plugins } from '@capacitor/core';
 import { Store } from '@ngrx/store';
@@ -10,19 +11,19 @@ const { Camera } = Plugins;
 @Injectable({ providedIn: 'root' })
 export class CameraService {
 
-  private _hasError: boolean;
-  private _errorMessage: string;
-  private _imageData: string;
-  private _brokerName: string;
-  private _pendingResult: AppRestoredResult;
+  private _hasError?: boolean;
+  private _errorMessage?: string;
+  private _imageData?: string;
+  private _brokerName: string | null = null;
+  private _pendingResult: AppRestoredResult | null = null;
 
   public constructor(
     private readonly _zone: NgZone,
-    private readonly _store: Store,
+    private readonly _store: Store<IAppState>,
     private readonly _eventsService: EventsService
   ) {
     this._store.select(selectBrokerName).subscribe(brokerName => {
-      this._brokerName = brokerName;
+      this._brokerName = brokerName != null ? brokerName : null;
     });
   }
 
@@ -35,14 +36,19 @@ export class CameraService {
       resultType: CameraResultType.Base64,
       saveToGallery: true,
       source: source === BrokerCameraSource.CAMERA ? CameraSource.Camera : CameraSource.Photos
-    }).then(img => this.onSuccess(img.base64String))
-      .catch(err => {
-        if (typeof err === 'string') {
-          this.onError(err);
-        } else {
-          this.onError(err.message);
-        }
-      });
+    }).then(img => {
+      if (img.base64String != null) {
+        this.onSuccess(img.base64String);
+      } else {
+        this.onError('Could not retrieve image data!');
+      }
+    }).catch(err => {
+      if (typeof err === 'string') {
+        this.onError(err);
+      } else {
+        this.onError(err.message);
+      }
+    });
   }
 
   private onSuccess(base64img: string): void {
@@ -97,9 +103,9 @@ export class CameraService {
   }
 
   private reset(): void {
-    this._hasError = null;
-    this._errorMessage = null;
-    this._imageData = null;
+    this._hasError = undefined;
+    this._errorMessage = undefined;
+    this._imageData = undefined;
   }
 
   private firePhotoTaken(): void {

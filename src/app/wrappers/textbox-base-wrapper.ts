@@ -1,5 +1,3 @@
-import { ClientEnterEvent } from '@app/common/events/client-enter-event';
-import { ClientValidatedEvent } from '@app/common/events/client-validated-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { ClientEventType } from '@app/enums/client-event-type';
@@ -8,63 +6,52 @@ import { TextAlign } from '@app/enums/text-align';
 import { TextFormat } from '@app/enums/text-format';
 import { TextBoxType } from '@app/enums/textbox-type';
 import { Visibility } from '@app/enums/visibility';
-import { PatternFormatService } from '@app/services/formatter/pattern-format.service';
 import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
+import { FormWrapper } from '@app/wrappers/form-wrapper';
 
 export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
-
-  private _patternFormatService: PatternFormatService;
-
-  protected init(): void {
-    super.init();
-    this._patternFormatService = this.getInjector().get(PatternFormatService);
-  }
 
   public getControlType(): ControlType {
     return ControlType.TextBox;
   }
 
-  protected getPatternFormatService(): PatternFormatService {
-    return this._patternFormatService;
-  }
-
-  protected getComponent(): TextBoxComponent {
-    return super.getComponent() as TextBoxComponent;
+  protected getComponent(): TextBoxComponent | null {
+    return super.getComponent() as TextBoxComponent | null;
   }
 
   public getDisabledBackColor(): string {
-    const disabledBackColor: string = this.getPropertyStore().getDisabledBackColor();
+    const disabledBackColor: string | undefined = this.getPropertyStore().getDisabledBackColor();
     return disabledBackColor != null ? disabledBackColor : '#CCCCCC';
   }
 
-  public getCaption(): string {
-    const caption: string = this.getPropertyStore().getCaption();
+  public getCaption(): string | null {
+    const caption: string | undefined = this.getPropertyStore().getCaption();
     return caption != null ? caption : null;
   }
 
   public getTextAlign(): TextAlign {
-    const textAlign: TextAlign = this.getPropertyStore().getTextAlign();
+    const textAlign: TextAlign | undefined = this.getPropertyStore().getTextAlign();
     return textAlign != null ? textAlign : TextAlign.Left;
   }
 
   public getMaxScale(): number {
-    const maxScale: number = this.getPropertyStore().getMaxScale();
+    const maxScale: number | undefined = this.getPropertyStore().getMaxScale();
     return maxScale != null ? maxScale : 2;
   }
 
   public getMaxPrec(): number {
-    const maxPrec: number = this.getPropertyStore().getMaxPrec();
+    const maxPrec: number | undefined = this.getPropertyStore().getMaxPrec();
     return maxPrec != null ? maxPrec : 18;
   }
 
   public getFormat(): TextFormat {
-    const textFormat: TextFormat = this.getPropertyStore().getFormat();
+    const textFormat: TextFormat | undefined = this.getPropertyStore().getFormat();
     return textFormat != null ? textFormat : TextFormat.None;
   }
 
-  public getFormatPattern(): string {
-    const formatPattern: string = this.getPropertyStore().getFormatPattern();
-    return formatPattern != null ? this._patternFormatService.javaToMoment(formatPattern) : null;
+  public getFormatPattern(): string | null {
+    const formatPattern: string | undefined = this.getPropertyStore().getFormatPattern();
+    return formatPattern != null ? this.getPatternFormatService().javaToMoment(formatPattern) : null;
   }
 
   protected getDataMinWidth(): number {
@@ -120,23 +107,26 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
     this.setFittedContentWidth(null);
   }
 
-  protected ctrlEnterCompleted(clientEvent: ClientEnterEvent, payload: any, processedEvent: any): void {
-    this.getComponent().onAfterEnter();
+  protected ctrlEnterCompleted(payload: any, processedEvent: any): void {
+    const comp: TextBoxComponent | null = this.getComponent();
+    if (comp != null) {
+      comp.onAfterEnter();
+    }
   }
 
   public hasOnValidatedEvent(): boolean {
     return (this.getEvents() & ClientEventType.OnValidated) === ClientEventType.OnValidated;
   }
 
-  protected canExecuteValidated(clientEvent: ClientValidatedEvent, payload: any): boolean {
+  protected canExecuteValidated(payload: any): boolean {
     return this.hasOnValidatedEvent() && this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible && this.hasChanges();
   }
 
-  protected onValidatedExecuted(clientEvent: ClientValidatedEvent, payload: any, processedEvent: any): void {
+  protected onValidatedExecuted(payload: any, processedEvent: any): void {
     // Override in subclasses
   }
 
-  protected onValidatedCompleted(clientEvent: ClientValidatedEvent, payload: any, processedEvent: any): void {
+  protected onValidatedCompleted(payload: any, processedEvent: any): void {
     super.getCtrlLeaveSubscription()();
   }
 
@@ -145,15 +135,20 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   protected getCtrlLeaveSubscription(): () => void {
-    return (): void => this.getEventsService().fireValidated(
-      this.getForm().getId(),
-      this.getName(),
-      new InternalEventCallbacks<ClientValidatedEvent>(
-        this.canExecuteValidated.bind(this),
-        this.onValidatedExecuted.bind(this),
-        this.onValidatedCompleted.bind(this)
-      )
-    );
+    return (): void => {
+      const form: FormWrapper | null = this.getForm();
+      if (form != null) {
+        this.getEventsService().fireValidated(
+          form.getId(),
+          this.getName(),
+          new InternalEventCallbacks(
+            this.canExecuteValidated.bind(this),
+            this.onValidatedExecuted.bind(this),
+            this.onValidatedCompleted.bind(this)
+          )
+        );
+      }
+    };
   }
 
   public saveState(): any {
