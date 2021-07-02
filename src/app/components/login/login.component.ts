@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public iconEdit: IconDefinition = faEdit;
   public iconTrash: IconDefinition = faTrash;
 
-  public brokers$: Observable<Array<LoginBroker> | null> | null = null;
+  public brokers$: Observable<Array<LoginBroker>> | null = null;
   public lastSessionInfo: LastSessionInfo | null = null;
   public activeBrokerName: string | null = null;
   public editorShown: boolean = false;
@@ -151,7 +151,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private createBrokerValidator(ls: LoginService): any {
     return (c: FormControl): Observable<any> => new Observable<any>(subscriber => {
       ls.getBrokers().subscribe(brokers => {
-        if (brokers && brokers.length && brokers.find(b => String.equals(b.name, c.value, true))) {
+        if (brokers.length && brokers.find(b => String.equals(b.name, c.value, true))) {
           subscriber.next({ broker: true });
         } else {
           subscriber.next(null);

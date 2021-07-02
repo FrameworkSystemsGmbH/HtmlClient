@@ -22,7 +22,7 @@ export class LoginService {
     });
   }
 
-  public getBrokers(): Observable<Array<LoginBroker> | null> {
+  public getBrokers(): Observable<Array<LoginBroker>> {
     return this._brokers$;
   }
 

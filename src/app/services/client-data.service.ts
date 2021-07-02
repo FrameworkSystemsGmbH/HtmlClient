@@ -23,7 +23,17 @@ export class ClientDataService {
     return this._storageService.load(ClientDataService.BROKER_LIST).pipe(
       map(brokerListStr => {
         if (brokerListStr != null) {
-          return JSON.parse(brokerListStr) as Array<LoginBroker>;
+          const brokerArrJson: any = JSON.parse(brokerListStr);
+          const brokerArr: Array<LoginBroker> = new Array<LoginBroker>();
+          if (brokerArrJson.length) {
+            for (const brokerJson of brokerArrJson) {
+              const broker: LoginBroker | null = LoginBroker.getFromJson(brokerJson);
+              if (broker != null) {
+                brokerArr.push(broker);
+              }
+            }
+          }
+          return brokerArr;
         } else {
           return new Array<LoginBroker>();
         }
@@ -32,7 +42,13 @@ export class ClientDataService {
   }
 
   public saveBrokerList(brokerList: Array<LoginBroker>): Observable<void> {
-    return this._storageService.save(ClientDataService.BROKER_LIST, JSON.stringify(brokerList));
+    const storageArr: Array<any> = new Array<any>();
+
+    for (const broker of brokerList) {
+      storageArr.push(broker.getJson());
+    }
+
+    return this._storageService.save(ClientDataService.BROKER_LIST, JSON.stringify(storageArr));
   }
 
   public loadSessionData(): Observable<string | null> {

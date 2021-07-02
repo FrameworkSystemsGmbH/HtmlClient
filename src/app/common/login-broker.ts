@@ -19,4 +19,19 @@ export class LoginBroker {
   public set url(value: string) {
     this._url = value;
   }
+
+  public static getFromJson(json: any): LoginBroker | null {
+    if (!json || !json.name || !json.url) {
+      return null;
+    }
+
+    return new LoginBroker(json.name, json.url);
+  }
+
+  public getJson(): any {
+    return {
+      name: this._name,
+      url: this._url
+    };
+  }
 }
