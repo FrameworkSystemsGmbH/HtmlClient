@@ -6,6 +6,10 @@ import { PlatformService } from '@app/services/platform.service';
 @Injectable({ providedIn: 'root' })
 export class BarcodeService {
 
+  private readonly _zone: NgZone;
+  private readonly _eventsService: EventsService;
+  private readonly _platformService: PlatformService;
+
   private _cancelled?: boolean;
   private _hasError?: boolean;
   private _errorMessage?: string;
@@ -13,10 +17,14 @@ export class BarcodeService {
   private _format?: BarcodeFormat;
 
   public constructor(
-    private readonly _zone: NgZone,
-    private readonly _eventsService: EventsService,
-    private readonly _platformService: PlatformService
-  ) { }
+    zone: NgZone,
+    eventsService: EventsService,
+    platformService: PlatformService
+  ) {
+    this._zone = zone;
+    this._eventsService = eventsService;
+    this._platformService = platformService;
+  }
 
   public scan(format: BarcodeFormat): void {
     if (this._platformService.isNative() && format !== BarcodeFormat.NONE) {

@@ -7,6 +7,9 @@ const { Geolocation } = Plugins;
 @Injectable({ providedIn: 'root' })
 export class GeoLocationService {
 
+  private readonly _zone: NgZone;
+  private readonly _eventsService: EventsService;
+
   private _hasError?: boolean;
   private _errorMessage?: string;
   private _timestamp?: number;
@@ -18,9 +21,12 @@ export class GeoLocationService {
   private _speed?: number;
 
   public constructor(
-    private readonly _zone: NgZone,
-    private readonly _eventsService: EventsService
-  ) { }
+    zone: NgZone,
+    eventsService: EventsService
+  ) {
+    this._zone = zone;
+    this._eventsService = eventsService;
+  }
 
   public getGeoLocation(): void {
     Geolocation.getCurrentPosition({

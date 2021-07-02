@@ -45,6 +45,23 @@ export class BrokerService {
 
   private static readonly SESSION_DATA_DISCARD: string = 'DISCARD';
 
+  private readonly _httpClient: HttpClient;
+  private readonly _actionsService: ActionsService;
+  private readonly _clientDataService: ClientDataService;
+  private readonly _controlStyleSerivce: ControlStyleService;
+  private readonly _backService: BackService;
+  private readonly _dialogService: DialogService;
+  private readonly _eventsService: EventsService;
+  private readonly _formsService: FormsService;
+  private readonly _framesService: FramesService;
+  private readonly _loaderService: LoaderService;
+  private readonly _localeService: LocaleService;
+  private readonly _platformService: PlatformService;
+  private readonly _routingService: RoutingService;
+  private readonly _textsService: TextsService;
+  private readonly _titleService: TitleService;
+  private readonly _store: Store<IAppState>;
+
   private readonly _onLoginComplete: Subject<any>;
   private readonly _onLoginComplete$: Observable<any>;
 
@@ -63,23 +80,40 @@ export class BrokerService {
   private _requestCounter: number = 0;
 
   public constructor(
-    private readonly _httpClient: HttpClient,
-    private readonly _actionsService: ActionsService,
-    private readonly _clientDataService: ClientDataService,
-    private readonly _controlStyleSerivce: ControlStyleService,
-    private readonly _backService: BackService,
-    private readonly _dialogService: DialogService,
-    private readonly _eventsService: EventsService,
-    private readonly _formsService: FormsService,
-    private readonly _framesService: FramesService,
-    private readonly _loaderService: LoaderService,
-    private readonly _localeService: LocaleService,
-    private readonly _platformService: PlatformService,
-    private readonly _routingService: RoutingService,
-    private readonly _textsService: TextsService,
-    private readonly _titleService: TitleService,
-    private readonly _store: Store<IAppState>
+    httpClient: HttpClient,
+    actionsService: ActionsService,
+    clientDataService: ClientDataService,
+    controlStyleSerivce: ControlStyleService,
+    backService: BackService,
+    dialogService: DialogService,
+    eventsService: EventsService,
+    formsService: FormsService,
+    framesService: FramesService,
+    loaderService: LoaderService,
+    localeService: LocaleService,
+    platformService: PlatformService,
+    routingService: RoutingService,
+    textsService: TextsService,
+    titleService: TitleService,
+    store: Store<IAppState>
   ) {
+    this._httpClient = httpClient;
+    this._actionsService = actionsService;
+    this._clientDataService = clientDataService;
+    this._controlStyleSerivce = controlStyleSerivce;
+    this._backService = backService;
+    this._dialogService = dialogService;
+    this._eventsService = eventsService;
+    this._formsService = formsService;
+    this._framesService = framesService;
+    this._loaderService = loaderService;
+    this._localeService = localeService;
+    this._platformService = platformService;
+    this._routingService = routingService;
+    this._textsService = textsService;
+    this._titleService = titleService;
+    this._store = store;
+
     this._onLoginComplete = new Subject<any>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();
 

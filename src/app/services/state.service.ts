@@ -29,22 +29,48 @@ const { App } = Plugins;
 @Injectable({ providedIn: 'root' })
 export class StateService {
 
+  private readonly _zone: NgZone;
+  private readonly _backService: BackService;
+  private readonly _brokerService: BrokerService;
+  private readonly _controlStyleService: ControlStyleService;
+  private readonly _formsService: FormsService;
+  private readonly _cameraService: CameraService;
+  private readonly _platformService: PlatformService;
+  private readonly _routingService: RoutingService;
+  private readonly _storageService: StorageService;
+  private readonly _store: Store<IAppState>;
+  private readonly _textsService: TextsService;
+  private readonly _titleService: TitleService;
+
   private _brokerState: IBrokerState | null = null;
 
   public constructor(
-    private readonly _zone: NgZone,
-    private readonly _backService: BackService,
-    private readonly _brokerService: BrokerService,
-    private readonly _controlStyleService: ControlStyleService,
-    private readonly _formsService: FormsService,
-    private readonly _cameraService: CameraService,
-    private readonly _platformService: PlatformService,
-    private readonly _routingService: RoutingService,
-    private readonly _storageService: StorageService,
-    private readonly _store: Store<IAppState>,
-    private readonly _textsService: TextsService,
-    private readonly _titleService: TitleService
+    zone: NgZone,
+    backService: BackService,
+    brokerService: BrokerService,
+    controlStyleService: ControlStyleService,
+    formsService: FormsService,
+    cameraService: CameraService,
+    platformService: PlatformService,
+    routingService: RoutingService,
+    storageService: StorageService,
+    store: Store<IAppState>,
+    textsService: TextsService,
+    titleService: TitleService
   ) {
+    this._zone = zone;
+    this._backService = backService;
+    this._brokerService = brokerService;
+    this._controlStyleService = controlStyleService;
+    this._formsService = formsService;
+    this._cameraService = cameraService;
+    this._platformService = platformService;
+    this._routingService = routingService;
+    this._storageService = storageService;
+    this._store = store;
+    this._textsService = textsService;
+    this._titleService = titleService;
+
     this._brokerService.onLoginComplete.pipe(
       mergeMap(() => this._storageService.delete(SESSION_STORAGE_KEY))
     ).subscribe();

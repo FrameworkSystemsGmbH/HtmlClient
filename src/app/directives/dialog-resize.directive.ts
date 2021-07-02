@@ -14,10 +14,16 @@ export class DialogResizeDirective implements OnInit {
   @Input()
   public ignoreHeight: boolean = false;
 
+  private readonly _elRef: ElementRef;
+  private readonly _renderer: Renderer2;
+
   public constructor(
-    private readonly _elRef: ElementRef,
-    private readonly _renderer: Renderer2
-  ) { }
+    elRef: ElementRef,
+    renderer: Renderer2
+  ) {
+    this._elRef = elRef;
+    this._renderer = renderer;
+  }
 
   @HostListener('window:keyboardDidShow')
   public onKeyboardShown(): void {

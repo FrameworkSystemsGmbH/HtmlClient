@@ -27,15 +27,21 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   public selectedIndex: number;
   public inputValue: string;
 
+  private readonly _backService: BackService;
+  private readonly _dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent>;
+
   private _afterOpenSub: Subscription | null = null;
   private _backdropClickSub: Subscription | null = null;
   private _onBackButtonListener: (() => boolean) | null = null;
 
   public constructor(
-    private readonly _backService: BackService,
-    private readonly _dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    backService: BackService,
+    dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent>,
+    @Inject(MAT_DIALOG_DATA) data: any
   ) {
+    this._backService = backService;
+    this._dialogRef = dialogRef;
+
     this.entries = data.entries;
     this.selectedIndex = data.selectedIndex;
     this.inputValue = data.value;

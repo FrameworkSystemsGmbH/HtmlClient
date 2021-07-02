@@ -17,14 +17,22 @@ export class FrameComponent implements OnInit, OnDestroy {
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef | null = null;
 
+  private readonly _zone: NgZone;
+  private readonly _formsService: FormsService;
+  private readonly _framesService: FramesService;
+
   private _selectedForm: FormWrapper | null = null;
   private _selectedFormSub: Subscription | null = null;
 
   public constructor(
-    private readonly _zone: NgZone,
-    private readonly _formsService: FormsService,
-    private readonly _framesService: FramesService
-  ) { }
+    zone: NgZone,
+    formsService: FormsService,
+    framesService: FramesService
+  ) {
+    this._zone = zone;
+    this._formsService = formsService;
+    this._framesService = framesService;
+  }
 
   @HostListener('window:resize')
   public layout(): void {

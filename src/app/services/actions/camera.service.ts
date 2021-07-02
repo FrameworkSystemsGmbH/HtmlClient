@@ -11,6 +11,10 @@ const { Camera } = Plugins;
 @Injectable({ providedIn: 'root' })
 export class CameraService {
 
+  private readonly _zone: NgZone;
+  private readonly _store: Store<IAppState>;
+  private readonly _eventsService: EventsService;
+
   private _hasError?: boolean;
   private _errorMessage?: string;
   private _imageData?: string;
@@ -18,10 +22,14 @@ export class CameraService {
   private _pendingResult: AppRestoredResult | null = null;
 
   public constructor(
-    private readonly _zone: NgZone,
-    private readonly _store: Store<IAppState>,
-    private readonly _eventsService: EventsService
+    zone: NgZone,
+    store: Store<IAppState>,
+    eventsService: EventsService
   ) {
+    this._zone = zone;
+    this._store = store;
+    this._eventsService = eventsService;
+
     this._store.select(selectBrokerName).subscribe(brokerName => {
       this._brokerName = brokerName != null ? brokerName : null;
     });

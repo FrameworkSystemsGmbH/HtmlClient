@@ -15,17 +15,29 @@ const { App } = Plugins;
 @Injectable({ providedIn: 'root' })
 export class DeepLinkService {
 
+  private readonly _brokerService: BrokerService;
+  private readonly _loginService: LoginService;
+  private readonly _platformService: PlatformService;
+  private readonly _store: Store<IAppState>;
+  private readonly _zone: NgZone;
+
   private _ready: boolean = false;
   private _active: boolean = false;
   private _pendingStartInfo: StartBrokerInfo | null = null;
 
   public constructor(
-    private readonly _brokerService: BrokerService,
-    private readonly _loginService: LoginService,
-    private readonly _platformService: PlatformService,
-    private readonly _store: Store<IAppState>,
-    private readonly _zone: NgZone
-  ) { }
+    brokerService: BrokerService,
+    loginService: LoginService,
+    platformService: PlatformService,
+    store: Store<IAppState>,
+    zone: NgZone
+  ) {
+    this._brokerService = brokerService;
+    this._loginService = loginService;
+    this._platformService = platformService;
+    this._store = store;
+    this._zone = zone;
+  }
 
   public attachHandlers(): void {
     if (this._platformService.isAndroid()) {

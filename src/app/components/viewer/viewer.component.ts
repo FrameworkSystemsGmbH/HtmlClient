@@ -14,13 +14,19 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public modalHeaderStyle: any;
 
+  private readonly _formsService: FormsService;
+  private readonly _loaderService: LoaderService;
+
   private _selectedFormSub: Subscription | null = null;
   private _loadingChangedSub: Subscription | null = null;
 
   public constructor(
-    private readonly _formsService: FormsService,
-    private readonly _loaderService: LoaderService
-  ) { }
+    formsService: FormsService,
+    loaderService: LoaderService
+  ) {
+    this._formsService = formsService;
+    this._loaderService = loaderService;
+  }
 
   public ngOnInit(): void {
     this._selectedFormSub = this._formsService.getSelectedForm().subscribe(form => {

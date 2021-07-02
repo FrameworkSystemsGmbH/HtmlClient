@@ -22,13 +22,19 @@ export class ErrorBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   public stackTrace?: string;
   public showStackTrace: boolean = false;
 
+  private readonly _backService: BackService;
+  private readonly _dialogRef: MatDialogRef<ErrorBoxComponent>;
+
   private _onBackButtonListener: (() => boolean) | null = null;
 
   public constructor(
-    private readonly _backService: BackService,
-    private readonly _dialogRef: MatDialogRef<ErrorBoxComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IErrorBoxData
+    backService: BackService,
+    dialogRef: MatDialogRef<ErrorBoxComponent>,
+    @Inject(MAT_DIALOG_DATA) data: IErrorBoxData
   ) {
+    this._backService = backService;
+    this._dialogRef = dialogRef;
+
     this.title = data.title;
     this.message = data.message;
     this.stackTrace = data.stackTrace;

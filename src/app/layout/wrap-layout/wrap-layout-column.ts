@@ -2,13 +2,22 @@ import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper
 
 export class WrapLayoutColumn {
 
+  private readonly _wrappers: Array<LayoutableControlWrapper>;
+  private readonly _minColumnWidth: number;
+  private readonly _maxColumnWidth: number;
+
   private _minColumnHeight: number = 0;
   private _resultColumnWidth: number = 0;
 
   public constructor(
-    private readonly _wrappers: Array<LayoutableControlWrapper>,
-    private readonly _minColumnWidth: number,
-    private readonly _maxColumnWidth: number) { }
+    wrappers: Array<LayoutableControlWrapper>,
+    minColumnWidth: number,
+    maxColumnWidth: number
+  ) {
+    this._wrappers = wrappers;
+    this._minColumnWidth = minColumnWidth;
+    this._maxColumnWidth = maxColumnWidth;
+  }
 
   public getWrappers(): Array<LayoutableControlWrapper> {
     return this._wrappers;

@@ -14,16 +14,30 @@ import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-w
 @Injectable({ providedIn: 'root' })
 export class ActionsService {
 
+  private readonly _barcodeService: BarcodeService;
+  private readonly _formsService: FormsService;
+  private readonly _geoLocationService: GeoLocationService;
+  private readonly _cameraService: CameraService;
+  private readonly _printReportService: PrintReportService;
+  private readonly _viewDocService: ViewDocService;
+
   private _focusActions: Array<() => void> = new Array<() => void>();
 
   public constructor(
-    private readonly _barcodeService: BarcodeService,
-    private readonly _formsService: FormsService,
-    private readonly _geoLocationService: GeoLocationService,
-    private readonly _cameraService: CameraService,
-    private readonly _printReportService: PrintReportService,
-    private readonly _viewDocService: ViewDocService
-  ) { }
+    barcodeService: BarcodeService,
+    formsService: FormsService,
+    geoLocationService: GeoLocationService,
+    cameraService: CameraService,
+    printReportService: PrintReportService,
+    viewDocService: ViewDocService
+  ) {
+    this._barcodeService = barcodeService;
+    this._formsService = formsService;
+    this._geoLocationService = geoLocationService;
+    this._cameraService = cameraService;
+    this._printReportService = printReportService;
+    this._viewDocService = viewDocService;
+  }
 
   public processActions(actionsJson: any): void {
     if (!actionsJson || !actionsJson.length) {

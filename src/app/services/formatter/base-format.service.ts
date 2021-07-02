@@ -8,11 +8,19 @@ import { StringFormatService } from '@app/services/formatter/string-format.servi
 @Injectable({ providedIn: 'root' })
 export class BaseFormatService {
 
+  private readonly _dateTimeFormatService: DateTimeFormatService;
+  private readonly _numberFormatService: NumberFormatService;
+  private readonly _stringFormatService: StringFormatService;
+
   public constructor(
-    private readonly _dateTimeFormatService: DateTimeFormatService,
-    private readonly _numberFormatService: NumberFormatService,
-    private readonly _stringFormatService: StringFormatService
-  ) { }
+    dateTimeFormatService: DateTimeFormatService,
+    numberFormatService: NumberFormatService,
+    stringFormatService: StringFormatService
+  ) {
+    this._dateTimeFormatService = dateTimeFormatService;
+    this._numberFormatService = numberFormatService;
+    this._stringFormatService = stringFormatService;
+  }
 
   public formatString(value: string, parseMethod: ParseMethod, format: TextFormat, formatPattern: string | null): string | null {
     switch (format) {

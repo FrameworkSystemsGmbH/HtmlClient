@@ -15,15 +15,21 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
 
   public iconTimes: IconDefinition = faTimes;
 
+  private readonly _backService: BackService;
+  private readonly _formsService: FormsService;
+
   private _form: FormWrapper | null = null;
   private _selectedFormSub: Subscription | null = null;
 
   private onBackButtonListener: (() => boolean) | null = null;
 
   public constructor(
-    private readonly _backService: BackService,
-    private readonly _formsService: FormsService
-  ) { }
+    backService: BackService,
+    formsService: FormsService
+  ) {
+    this._backService = backService;
+    this._formsService = formsService;
+  }
 
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);

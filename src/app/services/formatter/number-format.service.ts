@@ -21,8 +21,8 @@ export class NumberFormatService {
 
   private readonly _numberFormat: Intl.NumberFormat;
 
-  public constructor(private readonly _localeService: LocaleService) {
-    this._numberFormat = Intl.NumberFormat(this._localeService.getLocale());
+  public constructor(localeService: LocaleService) {
+    this._numberFormat = Intl.NumberFormat(localeService.getLocale());
   }
 
   private getGroupingCount(): number {

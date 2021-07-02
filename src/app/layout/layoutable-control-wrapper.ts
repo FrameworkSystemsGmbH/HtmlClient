@@ -9,10 +9,8 @@ import { isIFieldLayoutSynchronized, isILayoutableContainer } from '@app/util/in
 
 export class LayoutableControlWrapper {
 
+  private readonly _control: ILayoutableControl;
   private readonly _name: string;
-
-  private _minLayoutHeight: number = 0;
-
   private readonly _minLayoutWidth: number;
   private readonly _maxLayoutWidth: number;
   private readonly _maxLayoutHeight: number;
@@ -21,46 +19,45 @@ export class LayoutableControlWrapper {
   private readonly _marginTop: number;
   private readonly _marginBottom: number;
   private readonly _dockItemSize: number | null;
-
   private readonly _visibility: Visibility;
   private readonly _isControlVisible: boolean;
   private readonly _isLayoutVisible: boolean;
   private readonly _isSynchronizedHidden: boolean = false;
-
   private readonly _hAlign: HorizontalAlignment;
   private readonly _vAlign: VerticalAlignment;
-
+  private readonly _layout: LayoutContainerBase | null = null;
   private readonly _layoutableProperties: ILayoutableProperties;
 
+  private _minLayoutHeight: number = 0;
   private _resultWdith: number = 0;
   private _resultHeight: number = 0;
 
-  private readonly _layout: LayoutContainerBase | null = null;
 
-  public constructor(private readonly _control: ILayoutableControl) {
-    this._name = _control.getName();
-    this._layoutableProperties = _control.getLayoutableProperties();
-    this._minLayoutWidth = _control.getMinLayoutWidth();
-    this._maxLayoutWidth = _control.getMaxLayoutWidth();
-    this._maxLayoutHeight = _control.getMaxLayoutHeight();
-    this._marginLeft = _control.getMarginLeft();
-    this._marginRight = _control.getMarginRight();
-    this._marginTop = _control.getMarginTop();
-    this._marginBottom = _control.getMarginBottom();
-    this._dockItemSize = _control.getDockItemSize();
-    this._hAlign = _control.getHorizontalAlignment();
-    this._vAlign = _control.getVerticalAlignment();
-    this._visibility = _control.getCurrentVisibility();
+  public constructor(control: ILayoutableControl) {
+    this._control = control;
+    this._name = control.getName();
+    this._layoutableProperties = control.getLayoutableProperties();
+    this._minLayoutWidth = control.getMinLayoutWidth();
+    this._maxLayoutWidth = control.getMaxLayoutWidth();
+    this._maxLayoutHeight = control.getMaxLayoutHeight();
+    this._marginLeft = control.getMarginLeft();
+    this._marginRight = control.getMarginRight();
+    this._marginTop = control.getMarginTop();
+    this._marginBottom = control.getMarginBottom();
+    this._dockItemSize = control.getDockItemSize();
+    this._hAlign = control.getHorizontalAlignment();
+    this._vAlign = control.getVerticalAlignment();
+    this._visibility = control.getCurrentVisibility();
 
     this._isControlVisible = this._visibility === Visibility.Visible;
     this._isLayoutVisible = this._visibility !== Visibility.Collapsed;
 
-    if (isILayoutableContainer(_control)) {
-      this._layout = _control.getLayout();
+    if (isILayoutableContainer(control)) {
+      this._layout = control.getLayout();
     }
 
-    if (isIFieldLayoutSynchronized(_control)) {
-      this._isSynchronizedHidden = (_control as IFieldLayoutSynchronized).isSynchronizedHidden();
+    if (isIFieldLayoutSynchronized(control)) {
+      this._isSynchronizedHidden = (control as IFieldLayoutSynchronized).isSynchronizedHidden();
     }
   }
 

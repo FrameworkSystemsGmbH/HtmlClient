@@ -17,6 +17,10 @@ import * as Moment from 'moment-timezone';
 @Injectable({ providedIn: 'root' })
 export class FontService {
 
+  private readonly _controlStyleService: ControlStyleService;
+  private readonly _numberFormatService: NumberFormatService;
+  private readonly _dateTimeFormatService: DateTimeFormatService;
+
   // Common constants
   private readonly _separator: string = '|';
   private readonly _measureTextFallback: string = 'WWWiniel Esrai tdhUcen IsnetLorem iPsum Dolor sitAmet consetetur SadipsciNg eliTri';
@@ -48,10 +52,14 @@ export class FontService {
   private _baseControlStyle: PropertyStore | null = null;
 
   public constructor(
-    private readonly _controlStyleService: ControlStyleService,
-    private readonly _numberFormatService: NumberFormatService,
-    private readonly _dateTimeFormatService: DateTimeFormatService
+    controlStyleService: ControlStyleService,
+    numberFormatService: NumberFormatService,
+    dateTimeFormatService: DateTimeFormatService
   ) {
+    this._controlStyleService = controlStyleService;
+    this._numberFormatService = numberFormatService;
+    this._dateTimeFormatService = dateTimeFormatService;
+
     const span: HTMLSpanElement | null = document.getElementById('measureHeightSpan');
 
     if (span == null) {

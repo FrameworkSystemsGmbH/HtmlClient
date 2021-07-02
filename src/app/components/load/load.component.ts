@@ -12,11 +12,18 @@ import { Subscription } from 'rxjs';
 })
 export class LoadComponent implements OnInit, OnDestroy {
 
+  private readonly _route: ActivatedRoute;
+  private readonly _brokerService: BrokerService;
+
   private _queryParamsSub: Subscription | null = null;
 
   public constructor(
-    private readonly _route: ActivatedRoute,
-    private readonly _brokerService: BrokerService) { }
+    route: ActivatedRoute,
+    brokerService: BrokerService
+  ) {
+    this._route = route;
+    this._brokerService = brokerService;
+  }
 
   public ngOnInit(): void {
     this._queryParamsSub = this._route.queryParams.subscribe(params => {

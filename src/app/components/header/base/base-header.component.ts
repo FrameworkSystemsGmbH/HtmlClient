@@ -85,12 +85,13 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public scrollerOptions: any;
 
-  private _storeSub: Subscription | null = null;
-  private _formsSub: Subscription | null = null;
-  private _selectedFormSub: Subscription | null = null;
-
-  private _scrollLeftInterval: any;
-  private _scrollRightInterval: any;
+  private readonly _zone: NgZone;
+  private readonly _renderer: Renderer2;
+  private readonly _eventsService: EventsService;
+  private readonly _formsService: FormsService;
+  private readonly _platformService: PlatformService;
+  private readonly _titleService: TitleService;
+  private readonly _store: Store<IAppState>;
 
   private readonly _visibleClass: string = 'arrowVisible';
 
@@ -98,15 +99,31 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   private readonly _scrollAnimationTime: number = 250;
   private readonly _scrollAutoHideDelay: number = 500;
 
+  private _storeSub: Subscription | null = null;
+  private _formsSub: Subscription | null = null;
+  private _selectedFormSub: Subscription | null = null;
+
+  private _scrollLeftInterval: any;
+  private _scrollRightInterval: any;
+
+
   public constructor(
-    private readonly _zone: NgZone,
-    private readonly _renderer: Renderer2,
-    private readonly _eventsService: EventsService,
-    private readonly _formsService: FormsService,
-    private readonly _platformService: PlatformService,
-    private readonly _titleService: TitleService,
-    private readonly _store: Store<IAppState>
+    zone: NgZone,
+    renderer: Renderer2,
+    eventsService: EventsService,
+    formsService: FormsService,
+    platformService: PlatformService,
+    titleService: TitleService,
+    store: Store<IAppState>
   ) {
+    this._zone = zone;
+    this._renderer = renderer;
+    this._eventsService = eventsService;
+    this._formsService = formsService;
+    this._platformService = platformService;
+    this._titleService = titleService;
+    this._store = store;
+
     this.scrollerOptions = {
       className: 'os-thin',
       paddingAbsolute: true,

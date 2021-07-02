@@ -33,6 +33,10 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   public containerStyle: any;
   public selectorStyle: any;
 
+  private readonly _baseFormatService: BaseFormatService;
+  private readonly _platformService: PlatformService;
+  private readonly _framesService: FramesService;
+
   private _id: string = String.empty();
   private _width: number = 0;
   private _height: number = 0;
@@ -44,10 +48,14 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   private _listViewWrapper: ListViewWrapper | null = null;
 
   public constructor(
-    private readonly _baseFormatService: BaseFormatService,
-    private readonly _platformService: PlatformService,
-    private readonly _framesService: FramesService
-  ) { }
+    baseFormatService: BaseFormatService,
+    platformService: PlatformService,
+    framesService: FramesService
+  ) {
+    this._baseFormatService = baseFormatService;
+    this._platformService = platformService;
+    this._framesService = framesService;
+  }
 
   public get selected(): boolean {
     return this._selectedVal;

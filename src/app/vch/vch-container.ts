@@ -4,10 +4,12 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 
 export class VchContainer extends VchControl {
 
+  private readonly _container: ILayoutableContainerWrapper;
   private readonly _children: Array<ILayoutableControlWrapper> = new Array<ILayoutableControlWrapper>();
 
-  public constructor(private readonly _container: ILayoutableContainerWrapper) {
+  public constructor(container: ILayoutableContainerWrapper) {
     super();
+    this._container = container;
   }
 
   public getChildren(): Array<ILayoutableControlWrapper> {

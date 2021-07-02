@@ -23,13 +23,19 @@ export class RetryBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   public stackTrace?: string;
   public showStackTrace: boolean = false;
 
+  private readonly _backService: BackService;
+  private readonly _dialogRef: MatDialogRef<RetryBoxComponent>;
+
   private _onBackButtonListener: (() => boolean) | null = null;
 
   public constructor(
-    private readonly _backService: BackService,
-    private readonly _dialogRef: MatDialogRef<RetryBoxComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IRetryBoxData
+    backService: BackService,
+    dialogRef: MatDialogRef<RetryBoxComponent>,
+    @Inject(MAT_DIALOG_DATA) data: IRetryBoxData
   ) {
+    this._backService = backService;
+    this._dialogRef = dialogRef;
+
     this.title = data.title;
     this.message = data.message;
     this.stackTrace = data.stackTrace;

@@ -25,21 +25,31 @@ export class AppComponent implements OnInit, AfterViewInit {
   public style: any;
   public ready: boolean = false;
 
+  private readonly _focusService: FocusService;
+  private readonly _platformService: PlatformService;
+  private readonly _stateService: StateService;
+  private readonly _store: Store<IAppState>;
+
   public constructor(
-    private readonly _backService: BackService,
-    private readonly _deepLinkService: DeepLinkService,
-    private readonly _focusService: FocusService,
-    private readonly _localeService: LocaleService,
-    private readonly _keyboardService: KeyboardService,
-    private readonly _platformService: PlatformService,
-    private readonly _stateService: StateService,
-    private readonly _store: Store<IAppState>
+    backService: BackService,
+    deepLinkService: DeepLinkService,
+    focusService: FocusService,
+    localeService: LocaleService,
+    keyboardService: KeyboardService,
+    platformService: PlatformService,
+    stateService: StateService,
+    store: Store<IAppState>
   ) {
-    this._backService.attachHandlers();
-    this._deepLinkService.attachHandlers();
-    this._localeService.setMomentLocaleGlobally();
-    this._keyboardService.attachScrollHandler();
-    this._stateService.attachHandlers();
+    this._focusService = focusService;
+    this._platformService = platformService;
+    this._stateService = stateService;
+    this._store = store;
+
+    backService.attachHandlers();
+    deepLinkService.attachHandlers();
+    localeService.setMomentLocaleGlobally();
+    keyboardService.attachScrollHandler();
+    stateService.attachHandlers();
   }
 
   @HostListener('window:mousedown', ['$event'])

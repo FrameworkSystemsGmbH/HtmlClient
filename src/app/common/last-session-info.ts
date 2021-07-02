@@ -2,11 +2,19 @@ import * as Moment from 'moment-timezone';
 
 export class LastSessionInfo {
 
+  private readonly _lastBroker: string;
+  private readonly _lastRequestTime: Moment.Moment;
+  private readonly _stateJson: any;
+
   public constructor(
-    private readonly _lastBroker: string,
-    private readonly _lastRequestTime: Moment.Moment,
-    private readonly _stateJson: any
-  ) { }
+    lastBroker: string,
+    lastRequestTime: Moment.Moment,
+    stateJson: any
+  ) {
+    this._lastBroker = lastBroker;
+    this._lastRequestTime = lastRequestTime;
+    this._stateJson = stateJson;
+  }
 
   public getLastBroker(): string {
     return this._lastBroker;

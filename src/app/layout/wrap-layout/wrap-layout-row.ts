@@ -2,12 +2,21 @@ import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper
 
 export class WrapLayoutRow {
 
+  private readonly _wrappers: Array<LayoutableControlWrapper>;
+  private readonly _minRowHeight: number;
+  private readonly _maxRowHeight: number;
+
   private _resultRowHeight: number = 0;
 
   public constructor(
-    private readonly _wrappers: Array<LayoutableControlWrapper>,
-    private readonly _minRowHeight: number,
-    private readonly _maxRowHeight: number) { }
+    wrappers: Array<LayoutableControlWrapper>,
+    minRowHeight: number,
+    maxRowHeight: number
+  ) {
+    this._wrappers = wrappers;
+    this._minRowHeight = minRowHeight;
+    this._maxRowHeight = maxRowHeight;
+  }
 
   public getWrappers(): Array<LayoutableControlWrapper> {
     return this._wrappers;

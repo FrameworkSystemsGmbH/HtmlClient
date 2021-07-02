@@ -13,6 +13,9 @@ interface IListenerInfo {
 @Injectable({ providedIn: 'root' })
 export class BackService {
 
+  private readonly _zone: NgZone;
+  private readonly _platformService: PlatformService;
+
   private readonly _listener: () => any;
 
   private _listenerSub: PluginListenerHandle | null = null;
@@ -20,9 +23,12 @@ export class BackService {
 
 
   public constructor(
-    private readonly _zone: NgZone,
-    private readonly _platformService: PlatformService
+    zone: NgZone,
+    platformService: PlatformService
   ) {
+    this._zone = zone;
+    this._platformService = platformService;
+
     this._listener = this.onBackButton.bind(this);
   }
 
