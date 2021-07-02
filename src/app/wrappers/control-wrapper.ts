@@ -594,7 +594,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected setPropertiesJson(propertiesJson: any): void {
-    this.getPropertyStore().setLayer(PropertyLayer.Control, propertiesJson as PropertyData);
+    this.getPropertyStore().setLayer(PropertyLayer.Control, propertiesJson);
   }
 
   protected setEventsJson(eventsJson: any): void {
