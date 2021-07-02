@@ -35,8 +35,8 @@ export class TextsService {
     return json;
   }
 
-  public loadState(json: Array<any>): void {
-    if (!json || !json.length) {
+  public loadState(json: Array<any> | null): void {
+    if (!json || json.length === 0) {
       return;
     }
 

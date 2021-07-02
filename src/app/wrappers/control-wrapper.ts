@@ -780,9 +780,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       json.propertyStore = propertyStore;
     }
 
-    if (this._events != null) {
-      json.events = this._events;
-    }
+    json.events = this._events;
 
     return json;
   }

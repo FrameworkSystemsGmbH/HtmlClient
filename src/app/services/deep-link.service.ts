@@ -39,7 +39,7 @@ export class DeepLinkService {
       });
 
       App.addListener('appUrlOpen', openUrl => {
-        if (openUrl != null && !String.isNullOrWhiteSpace(openUrl.url)) {
+        if (openUrl.url.trim().length) {
           try {
             const urlInst: URL = new URL(openUrl.url);
 

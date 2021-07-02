@@ -1,11 +1,11 @@
 export interface IBrokerStateNoToken {
-  activeBrokerName: string;
-  activeBrokerUrl: string;
+  activeBrokerName: string | null;
+  activeBrokerUrl: string | null;
   activeBrokerDirect: boolean;
-  activeBrokerFilesUrl: string;
-  activeBrokerImageUrl: string;
-  activeBrokerReportUrl: string;
-  activeBrokerRequestUrl: string;
+  activeBrokerFilesUrl: string | null;
+  activeBrokerImageUrl: string | null;
+  activeBrokerReportUrl: string | null;
+  activeBrokerRequestUrl: string | null;
 }
 
 export interface IBrokerState extends IBrokerStateNoToken {
@@ -13,12 +13,12 @@ export interface IBrokerState extends IBrokerStateNoToken {
 }
 
 export const initialBrokerState: IBrokerState = {
-  activeBrokerName: String.empty(),
+  activeBrokerName: null,
   activeBrokerToken: String.empty(),
-  activeBrokerUrl: String.empty(),
+  activeBrokerUrl: null,
   activeBrokerDirect: false,
-  activeBrokerFilesUrl: String.empty(),
-  activeBrokerImageUrl: String.empty(),
-  activeBrokerReportUrl: String.empty(),
-  activeBrokerRequestUrl: String.empty()
+  activeBrokerFilesUrl: null,
+  activeBrokerImageUrl: null,
+  activeBrokerReportUrl: null,
+  activeBrokerRequestUrl: null
 };

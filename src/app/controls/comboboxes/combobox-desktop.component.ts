@@ -65,7 +65,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
-    if (!event || !this.isEditable) {
+    if (!this.isEditable) {
       return;
     }
 

@@ -81,7 +81,7 @@ export class StateService {
     });
   }
 
-  private onPendingResult(result: AppRestoredResult): void {
+  private onPendingResult(result: AppRestoredResult | null): void {
     this._zone.run(() => {
       if (result != null && result.pluginId === 'Camera' && result.methodName === 'getPhoto') {
         this._cameraService.setPendingResult(result);
@@ -96,7 +96,7 @@ export class StateService {
       }),
       map(lastSessionInfo => {
         // Load state only if there is no active broker session
-        if (this._brokerState != null && this._brokerState.activeBrokerName == null) {
+        if (lastSessionInfo != null && this._brokerState != null && this._brokerState.activeBrokerName == null) {
           this.loadState(lastSessionInfo);
         }
       }),
@@ -106,7 +106,7 @@ export class StateService {
     );
   }
 
-  public getLastSessionInfo(): Observable<LastSessionInfo> {
+  public getLastSessionInfo(): Observable<LastSessionInfo | null> {
     return this._storageService.load(SESSION_STORAGE_KEY).pipe(
       mergeMap(data => {
         const stateJson: any = data != null ? JSON.parse(data) : null;
@@ -123,12 +123,12 @@ export class StateService {
             ));
           } else {
             return this._storageService.delete(SESSION_STORAGE_KEY).pipe(
-              map(() => null as unknown as LastSessionInfo)
+              map(() => null)
             );
           }
         }
 
-        return obsOf(null as unknown as LastSessionInfo);
+        return obsOf(null);
       })
     );
   }

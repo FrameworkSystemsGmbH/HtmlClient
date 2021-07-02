@@ -3,10 +3,6 @@
  * These browsers need to fall back to the deprecated 'event.keyCode' property
  */
 export function getKeyString(event: KeyboardEvent): string {
-  if (event == null) {
-    return 'Unknown';
-  }
-
   if (event.key === 'Enter' || event.keyCode === 13) {
     return 'Enter';
   }

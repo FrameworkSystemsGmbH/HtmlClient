@@ -36,6 +36,12 @@ export class TemplateControlWrapper extends ControlWrapper {
     return this._baseControlStyle;
   }
 
+  protected init(): void {
+    this._templateDataSources = new Array<TemplateControlTemplateDataSourceWrapper>();
+    this._templateVariables = new Array<TemplateControlTemplateVariableWrapper>();
+    this._templateValues = new Array<TemplateControlValueWrapper>();
+  }
+
   public getControlType(): ControlType {
     return ControlType.TemplateControl;
   }
@@ -128,7 +134,7 @@ export class TemplateControlWrapper extends ControlWrapper {
     return templateValues;
   }
 
-  private parseTemplateDataSourceList(templateDataSourceListJson: Array<any>): Array<TemplateControlTemplateDataSourceWrapper> | null {
+  private parseTemplateDataSourceList(templateDataSourceListJson: Array<any> | null): Array<TemplateControlTemplateDataSourceWrapper> | null {
     if (!templateDataSourceListJson || !templateDataSourceListJson.length) {
       return null;
     }

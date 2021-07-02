@@ -52,10 +52,7 @@ export class ActionsService {
                 control.setIsEditableAction(actionJson.value);
                 break;
               case 'SetEnabledAt':
-                const tabbedWindow: TabbedWindowWrapper = control as TabbedWindowWrapper;
-                if (tabbedWindow != null) {
-                  tabbedWindow.setIsEditableAtAction(actionJson.pos, actionJson.value);
-                }
+                (control as TabbedWindowWrapper).setIsEditableAtAction(actionJson.pos, actionJson.value);
                 break;
               case 'SetFocus':
                 this._focusActions.push(control.setFocus.bind(control));
@@ -64,16 +61,10 @@ export class ActionsService {
                 control.setVisibilityAction(actionJson.value);
                 break;
               case 'SetImageUrl':
-                const pictureUrl: PictureWrapper = control as PictureWrapper;
-                if (pictureUrl) {
-                  pictureUrl.setImageUrlAction(actionJson.value);
-                }
+                (control as PictureWrapper).setImageUrlAction(actionJson.value);
                 break;
               case 'SetImageBytes':
-                const pictureBytes: PictureWrapper = control as PictureWrapper;
-                if (pictureBytes) {
-                  pictureBytes.setImageBytesAction(actionJson.value);
-                }
+                (control as PictureWrapper).setImageBytesAction(actionJson.value);
                 break;
             }
           } else {
@@ -115,13 +106,11 @@ export class ActionsService {
   }
 
   public processFocusActions(): void {
-    if (this._focusActions != null) {
-      for (const focusAction of this._focusActions) {
-        focusAction();
-      }
-
-      this.clearFocusActions();
+    for (const focusAction of this._focusActions) {
+      focusAction();
     }
+
+    this.clearFocusActions();
   }
 
   private clearFocusActions(): void {

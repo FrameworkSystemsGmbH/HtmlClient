@@ -43,7 +43,7 @@ export class TextBoxMultilineWrapper extends TextBoxBaseWrapper {
     return this.value == null ? String.empty() : this.value;
   }
 
-  protected setValueJson(value: string): void {
+  protected setValueJson(value: string | null): void {
     const val: string = value != null ? value : String.empty();
     this.orgValue = val;
     this.setValue(val);

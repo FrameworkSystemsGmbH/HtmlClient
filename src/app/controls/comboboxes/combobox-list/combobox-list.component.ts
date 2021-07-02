@@ -145,7 +145,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   }
 
   protected onInput(chars: Array<string>): void {
-    if (!chars || !chars.length || !this.isEditable) {
+    if (!chars.length || !this.isEditable) {
       return;
     }
 

@@ -27,11 +27,7 @@ export class LoginService {
   }
 
   public addOrUpdateBroker(broker: LoginBroker): void {
-    let brokers: Array<LoginBroker> = this._brokers$$.getValue();
-
-    if (!brokers) {
-      brokers = new Array<LoginBroker>();
-    }
+    const brokers: Array<LoginBroker> = this._brokers$$.getValue();
 
     const index: number = brokers.findIndex(b => b.name.toLowerCase() === broker.name.toLowerCase());
 

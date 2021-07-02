@@ -79,26 +79,14 @@ export function setSelection(input: any, start?: any, end?: any): void {
 }
 
 export function isDescendant(container: HTMLElement, element: HTMLElement): boolean {
-  if (!container || !element) {
-    return false;
-  }
-
   return container.contains(element);
 }
 
 export function isDescentantOrSelf(container: HTMLElement, element: HTMLElement): boolean {
-  if (!container || !element) {
-    return false;
-  }
-
   return container === element || isDescendant(container, element);
 }
 
 export function isInClass(element: HTMLElement, className: string): boolean {
-  if (!element) {
-    return false;
-  }
-
   if (element.classList.contains(className)) {
     return true;
   } else if (element.parentElement) {
@@ -109,10 +97,6 @@ export function isInClass(element: HTMLElement, className: string): boolean {
 }
 
 export function getNearestParent(element: HTMLElement, className: string): HTMLElement | null {
-  if (!element) {
-    return null;
-  }
-
   const parent: HTMLElement | null = element.parentElement;
 
   if (!parent) {

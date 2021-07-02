@@ -141,7 +141,7 @@ export class ControlsService {
     }
 
     const controlStyle: string = controlJson.meta.style;
-    const properties: PropertyData = controlJson.properties;
+    const properties: PropertyData | null = controlJson.properties;
 
     if (properties) {
       propertyStore.setLayer(PropertyLayer.Control, properties);

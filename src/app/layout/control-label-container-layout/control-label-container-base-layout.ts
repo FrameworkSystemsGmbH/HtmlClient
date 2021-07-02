@@ -61,10 +61,6 @@ export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBas
   }
 
   public arrange(): void {
-    if (!this._wrappers) {
-      return;
-    }
-
     const container: IControlLabelContainer = this.getControl();
 
     const containerWidth: number = container.getLayoutableProperties().getLayoutWidth();

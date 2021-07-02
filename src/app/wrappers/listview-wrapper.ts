@@ -54,6 +54,12 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     return this._baseControlStyle;
   }
 
+  protected init(): void {
+    this._templateDataSources = new Array<ListViewTemplateDataSourceWrapper>();
+    this._templateVariables = new Array<ListViewTemplateVariableWrapper>();
+    this._items = new Array<ListViewItemWrapper>();
+  }
+
   public getControlType(): ControlType {
     return ControlType.ListView;
   }
@@ -356,7 +362,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     }
   }
 
-  private parseTemplateDataSourceList(templateDataSourceListJson: Array<any>): Array<ListViewTemplateDataSourceWrapper> | null {
+  private parseTemplateDataSourceList(templateDataSourceListJson: Array<any> | null): Array<ListViewTemplateDataSourceWrapper> | null {
     if (!templateDataSourceListJson || !templateDataSourceListJson.length) {
       return null;
     }
@@ -602,8 +608,8 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     if (json.templateVariables && json.templateVariables.length) {
       for (const varJson of json.templateVariables) {
         const ds: ListViewTemplateDataSourceWrapper | undefined = this._templateDataSources.find(d => d.getName() === varJson.dsName);
-        const format: TextFormat = varJson.format;
-        const formatPattern: string = varJson.formatPattern;
+        const format: TextFormat | undefined = varJson.format;
+        const formatPattern: string | undefined = varJson.formatPattern;
 
         if (ds != null) {
           let options: IListViewTemplateVariableWrapperOptions | undefined;

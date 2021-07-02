@@ -84,10 +84,6 @@ export class FocusService {
   }
 
   private findPreviousKeyboardFocusableControlInSubTreeRecursive(current: ILayoutableControlWrapper): ILayoutableControlWrapper | null {
-    if (current == null) {
-      return null;
-    }
-
     const parent: ILayoutableContainerWrapper | null = current.getVchControl().getParent();
 
     if (parent == null) {
@@ -173,10 +169,6 @@ export class FocusService {
   }
 
   private findNextKeyboardFocusableControlInSubTreeRecursive(current: ILayoutableControlWrapper): ILayoutableControlWrapper | null {
-    if (current == null) {
-      return null;
-    }
-
     const parent: ILayoutableContainerWrapper | null = current.getVchControl().getParent();
 
     if (parent == null) {
@@ -244,7 +236,7 @@ export class FocusService {
   }
 
   public findFirstFocusableControlInContainerRecursive(container: ILayoutableContainerWrapper): ILayoutableControlWrapper | null {
-    if (container == null || !container.canReceiveFocus()) {
+    if (!container.canReceiveFocus()) {
       return null;
     }
 

@@ -46,7 +46,7 @@ export class DataList extends Array<DataListEntry> {
     return firstEntry.isNullEntry() ? firstEntry : null;
   }
 
-  public deserialize(json: Array<any>): void {
+  public deserialize(json: Array<any> | null): void {
     if (!json || !json.length) {
       return;
     }

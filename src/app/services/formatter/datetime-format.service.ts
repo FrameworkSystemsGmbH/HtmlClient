@@ -66,26 +66,24 @@ export class DateTimeFormatService {
 
     if (formatPattern != null && formatPattern.trim().length) {
       return value.format(formatPattern);
-    } else if (textFormat != null) {
-      if (textFormat === TextFormat.DateOnlyShort) {
-        return value.format(this._dateOnlyShortFormat);
-      } else if (textFormat === TextFormat.DateOnlyMedium) {
-        return value.format(this._dateOnlyMediumFormat);
-      } else if (textFormat === TextFormat.DateOnlyLong) {
-        return value.format(this._dateOnlyLongFormat);
-      } else if (textFormat === TextFormat.TimeOnlyShort) {
-        return value.format(this._timeOnlyShortFormat);
-      } else if (textFormat === TextFormat.TimeOnlyMedium) {
-        return value.format(this._timeOnlyMediumFormat);
-      } else if (textFormat === TextFormat.TimeOnlyLong) {
-        return value.format(this._timeOnlyLongFormat);
-      } else if (textFormat === TextFormat.DateTimeShort) {
-        return value.format(this._dateTimeShortFormat);
-      } else if (textFormat === TextFormat.DateTimeMedium) {
-        return value.format(this._dateTimeMediumFormat);
-      } else if (textFormat === TextFormat.DateTimeLong) {
-        return value.format(this._dateTimeLongFormat);
-      }
+    } else if (textFormat === TextFormat.DateOnlyShort) {
+      return value.format(this._dateOnlyShortFormat);
+    } else if (textFormat === TextFormat.DateOnlyMedium) {
+      return value.format(this._dateOnlyMediumFormat);
+    } else if (textFormat === TextFormat.DateOnlyLong) {
+      return value.format(this._dateOnlyLongFormat);
+    } else if (textFormat === TextFormat.TimeOnlyShort) {
+      return value.format(this._timeOnlyShortFormat);
+    } else if (textFormat === TextFormat.TimeOnlyMedium) {
+      return value.format(this._timeOnlyMediumFormat);
+    } else if (textFormat === TextFormat.TimeOnlyLong) {
+      return value.format(this._timeOnlyLongFormat);
+    } else if (textFormat === TextFormat.DateTimeShort) {
+      return value.format(this._dateTimeShortFormat);
+    } else if (textFormat === TextFormat.DateTimeMedium) {
+      return value.format(this._dateTimeMediumFormat);
+    } else if (textFormat === TextFormat.DateTimeLong) {
+      return value.format(this._dateTimeLongFormat);
     }
 
     return null;
@@ -124,7 +122,7 @@ export class DateTimeFormatService {
   }
 
   private parseMomentFromTextFormat(value: string, textFormat: TextFormat): Moment.Moment | null {
-    if (value.trim().length === 0 || textFormat == null) {
+    if (value.trim().length === 0) {
       return null;
     }
 

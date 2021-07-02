@@ -171,10 +171,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   public onWrapperCaptionChanged(): void {
     this.setDisplayCaption(null);
 
-    const fieldRowWrp: FieldRowWrapper = this.getFieldRowWrapper();
-    if (fieldRowWrp) {
-      fieldRowWrp.optimizeLabels();
-    }
+    this.getFieldRowWrapper().optimizeLabels();
 
     const labelContainer: ControlLabelContainerBaseWrapper | null = this.getLabelContainer();
     if (labelContainer) {
@@ -183,18 +180,15 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   public getTextAlign(): TextAlign {
-    const textAlign: TextAlign = this.getLabelTemplate().getTextAlign();
-    return textAlign != null ? textAlign : TextAlign.Center;
+    return this.getLabelTemplate().getTextAlign();
   }
 
   public getForeColor(): string {
-    const foreColor: string = this.getLabelTemplate().getForeColor();
-    return foreColor != null ? foreColor : '#000000';
+    return this.getLabelTemplate().getForeColor();
   }
 
   public getBackColor(): string {
-    const backColor: string = this.getLabelTemplate().getBackColor();
-    return backColor != null ? backColor : '#FFFFFF';
+    return this.getLabelTemplate().getBackColor();
   }
 
   public getCurrentVisibility(): Visibility {
@@ -312,13 +306,11 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   public getFontFamily(): string {
-    const fontFamily: string = this.getLabelTemplate().getFontFamily();
-    return fontFamily != null ? fontFamily : 'Arial';
+    return this.getLabelTemplate().getFontFamily();
   }
 
   public getFontSize(): number {
-    const fontSize: number = this.getLabelTemplate().getFontSize();
-    return fontSize != null ? fontSize : 14;
+    return this.getLabelTemplate().getFontSize();
   }
 
   public getFontBold(): boolean {
@@ -346,7 +338,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   protected setFittedContentWidth(fittedWidth: number): void {
-    if (fittedWidth == null || fittedWidth <= 0) {
+    if (fittedWidth <= 0) {
       this.fittedWidth = null;
     } else {
       this.fittedWidth = this.getPaddingLeft() + fittedWidth + this.getPaddingRight();
@@ -354,7 +346,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   protected setFittedContentHeight(fittedHeight: number): void {
-    if (fittedHeight == null || fittedHeight <= 0) {
+    if (fittedHeight <= 0) {
       this.fittedHeight = null;
     } else {
       this.fittedHeight = this.getPaddingTop() + fittedHeight + this.getPaddingBottom();

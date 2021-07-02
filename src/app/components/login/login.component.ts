@@ -107,10 +107,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public exitEditor(): void {
-    if (this.addForm != null) {
-      this.addForm.reset();
-    }
-
+    this.addForm.reset();
     this.editorShown = false;
     this.editingExisting = false;
   }
@@ -120,10 +117,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this._loginService.addOrUpdateBroker(broker);
 
-    if (this.addForm != null) {
-      this.addForm.reset();
-    }
-
+    this.addForm.reset();
     this.exitEditor();
   }
 

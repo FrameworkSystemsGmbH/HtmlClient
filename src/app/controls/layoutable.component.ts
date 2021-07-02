@@ -33,11 +33,9 @@ export abstract class LayoutableComponent implements OnInit, DoCheck, OnDestroy 
   }
 
   public updateComponent(): void {
-    const wrapper: ILayoutableControlWrapper | null = this.getWrapper();
-    if (wrapper != null) {
-      this.updateData(wrapper);
-      this.updateStyles(wrapper);
-    }
+    const wrapper: ILayoutableControlWrapper = this.getWrapper();
+    this.updateData(wrapper);
+    this.updateStyles(wrapper);
   }
 
   protected updateData(wrapper: ILayoutableControlWrapper): void {

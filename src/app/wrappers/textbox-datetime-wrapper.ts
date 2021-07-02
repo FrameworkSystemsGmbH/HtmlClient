@@ -32,13 +32,13 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
     return jsonStr != null ? jsonStr : String.empty();
   }
 
-  protected setValueJson(value: string): void {
+  protected setValueJson(value: string | null): void {
     let val: Moment.Moment | null = null;
 
-    if (!String.isNullOrWhiteSpace(value)) {
+    if (value != null && value.trim().length) {
       val = this.getDateTimeFormatService().momentFromJson(value);
 
-      if (val === null || !val.isValid()) {
+      if (!val.isValid()) {
         val = null;
       }
     }

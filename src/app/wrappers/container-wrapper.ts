@@ -19,6 +19,10 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   private _buttonGroup: ButtonGroup | null = null;
 
+  protected init(): void {
+    this.controls = new Array<ControlWrapper>();
+  }
+
   public isILayoutableContainer(): void {
     // Interface Marker
   }
@@ -95,7 +99,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   public updateVisibilityParent(): void {
     super.updateVisibilityParent();
-    if (this.controls && this.controls.length) {
+    if (this.controls.length) {
       this.controls.forEach(control => {
         control.updateVisibilityParent();
       });
@@ -109,7 +113,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   public updateIsEditableParent(): void {
     super.updateIsEditableParent();
-    if (this.controls && this.controls.length) {
+    if (this.controls.length) {
       this.controls.forEach(control => {
         control.updateIsEditableParent();
       });

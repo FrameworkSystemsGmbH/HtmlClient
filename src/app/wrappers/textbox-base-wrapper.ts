@@ -176,5 +176,5 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
 
   protected abstract getValueJson(): string;
 
-  protected abstract setValueJson(value: string): void;
+  protected abstract setValueJson(value: string | null): void;
 }

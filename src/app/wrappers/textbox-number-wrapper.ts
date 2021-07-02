@@ -25,10 +25,10 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
     return this.value == null ? String.empty() : this.value.toString();
   }
 
-  protected setValueJson(value: string): void {
+  protected setValueJson(value: string | null): void {
     let val: number | null = null;
 
-    if (!String.isNullOrWhiteSpace(value)) {
+    if (value != null && value.trim().length) {
       val = parseFloat(value);
 
       if (isNaN(val)) {

@@ -47,7 +47,7 @@ function endEqualsLength(s1: string | null, s2: string | null): number {
 
 export function optimizeLabels(labelWrappers: Array<ControlLabelWrapper>): void {
   // Check if there is anything to do
-  if (!labelWrappers || !labelWrappers.length) {
+  if (labelWrappers.length === 0) {
     return;
   }
 

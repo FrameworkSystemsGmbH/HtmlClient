@@ -54,7 +54,7 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   protected hasChanges(): boolean {
-    return this._dataSourceType != null && this._value !== this._orgValue;
+    return this._value !== this._orgValue;
   }
 
   protected getValueJson(): string {

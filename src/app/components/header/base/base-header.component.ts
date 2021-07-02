@@ -274,7 +274,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   public selectForm(event: any, form: FormWrapper): void {
-    const target: HTMLElement = event.target;
+    const target: HTMLElement | null = event.target;
 
     if (target && DomUtil.isInClass(target, 'hc-header-close-icon-event-span')) {
       return;

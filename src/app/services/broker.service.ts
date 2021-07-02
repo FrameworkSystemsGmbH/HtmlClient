@@ -55,9 +55,9 @@ export class BrokerService {
   private _activeLoginBroker: LoginBroker | null = null;
   private _activeLoginOptions: LoginOptions | null = null;
   private _activeBrokerDirect: boolean = false;
-  private _activeBrokerName: string = String.empty();
+  private _activeBrokerName: string | null = null;
   private _activeBrokerToken: string = String.empty();
-  private _activeBrokerRequestUrl: string = String.empty();
+  private _activeBrokerRequestUrl: string | null = null;
   private _clientLanguages: string | null = null;
   private _lastRequestTime: Moment.Moment | null = null;
   private _requestCounter: number = 0;
@@ -248,7 +248,12 @@ export class BrokerService {
   }
 
   private doRequest(requestJson: any): Observable<any> {
+    if (this._activeBrokerRequestUrl == null || !this._activeBrokerRequestUrl.trim().length) {
+      throw new Error('Broker request url is not set!');
+    }
+
     this._lastRequestTime = Moment.utc();
+
     return this._httpClient.post(this._activeBrokerRequestUrl, requestJson).pipe(
       retryWhen(attempts => attempts.pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
@@ -531,7 +536,7 @@ export class BrokerService {
     let partsStr: string = '';
 
     const type: string = quitMessages.type;
-    const parts: Array<string> = quitMessages.parts;
+    const parts: Array<string> | null = quitMessages.parts;
 
     if (parts && parts.length) {
       partsStr = parts.join('\n');
@@ -612,7 +617,6 @@ export class BrokerService {
 
   private restartApplication(): void {
     if (this._activeLoginBroker != null) {
-
       const broker: LoginBroker = this._activeLoginBroker;
       const options: LoginOptions | undefined = this._activeLoginOptions != null ? this._activeLoginOptions : undefined;
       const direct: boolean = this._activeBrokerDirect;

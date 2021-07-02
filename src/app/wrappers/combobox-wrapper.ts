@@ -42,7 +42,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     return this._value == null ? String.empty() : this._value;
   }
 
-  protected setValueJson(value: string): void {
+  protected setValueJson(value: string | null): void {
     const val: string = value != null ? value : String.empty();
     this._orgValue = val;
     this.setValue(val);

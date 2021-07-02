@@ -34,11 +34,11 @@ export abstract class FittedDataWrapper extends FittedWrapper {
   }
 
   protected getShouldMeasureMinWidth(specifiedWidth: number): boolean {
-    return specifiedWidth == null || specifiedWidth <= 0;
+    return specifiedWidth <= 0;
   }
 
   protected getShouldMeasureMaxWidth(specifiedWidth: number): boolean {
-    if (specifiedWidth == null || specifiedWidth <= 0) {
+    if (specifiedWidth <= 0) {
       return this.getDataSourceType() === DataSourceType.DateTime ? true : this.getDisplayMaxLength() > 0;
     } else {
       return false;
@@ -46,10 +46,10 @@ export abstract class FittedDataWrapper extends FittedWrapper {
   }
 
   protected getShouldMeasureMinHeight(specifiedHeight: number): boolean {
-    return (specifiedHeight == null || specifiedHeight <= 0) && this.getIsMultiline();
+    return specifiedHeight <= 0 && this.getIsMultiline();
   }
   protected getShouldMeasureMaxHeight(specifiedHeight: number): boolean {
-    return (specifiedHeight == null || specifiedHeight <= 0) && this.getDisplayMaxLines() > 0;
+    return specifiedHeight <= 0 && this.getDisplayMaxLines() > 0;
   }
 
   public getMinWidth(): number {

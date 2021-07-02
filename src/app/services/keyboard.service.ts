@@ -22,10 +22,12 @@ export class KeyboardService {
 
   private scrollToFocusOnOpen(): void {
     if (document.activeElement) {
-      const activeHtmlElement: HTMLElement = document.activeElement as HTMLElement;
-      const scroller: HTMLElement | null = DomUtil.getNearestParent(activeHtmlElement, 'hc-form-scroller');
-      if (activeHtmlElement != null && scroller != null) {
-        DomUtil.scrollIntoView(scroller, activeHtmlElement);
+      const activeHtmlElement: HTMLElement | null = document.activeElement as HTMLElement | null;
+      if (activeHtmlElement != null) {
+        const scroller: HTMLElement | null = DomUtil.getNearestParent(activeHtmlElement, 'hc-form-scroller');
+        if (scroller != null) {
+          DomUtil.scrollIntoView(scroller, activeHtmlElement);
+        }
       }
     }
   }

@@ -13,7 +13,7 @@ export class VchContainer extends VchControl {
   public getChildren(): Array<ILayoutableControlWrapper> {
     if (this._container.getInvertFlowDirection()) {
       const result: Array<ILayoutableControlWrapper> = this._children.clone();
-      return result ? result.reverse() : result;
+      return result.reverse();
     } else {
       return this._children;
     }

@@ -21,7 +21,7 @@ export class TemplateControlContentWebComp extends HTMLElement {
 
     let newContent: string = this._templateContent;
 
-    if (values != null && values.length) {
+    if (values.length) {
       values.forEach((value, index) => {
         newContent = newContent.replaceAll(`{{${index}}}`, value != null ? value : String.empty());
       });

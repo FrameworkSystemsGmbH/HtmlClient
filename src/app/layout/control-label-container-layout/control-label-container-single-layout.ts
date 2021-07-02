@@ -4,6 +4,6 @@ import { LayoutableControlWrapper } from '@app/layout/layoutable-control-wrapper
 export class ControlLabelContainerSingleLayout extends ControlLabelContainerBaseLayout {
 
   protected checkWrapperVisibility(wrapper: LayoutableControlWrapper): boolean {
-    return wrapper ? wrapper.getIsLayoutVisible() : false;
+    return wrapper.getIsLayoutVisible();
   }
 }

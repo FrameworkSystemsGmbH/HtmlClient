@@ -337,7 +337,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
       return;
     }
 
-    let actualTabIndex: number = this._selectedTabIndex != null ? this._selectedTabIndex : 0;
+    let actualTabIndex: number = this._selectedTabIndex;
 
     if (this._selectedTabIndex < 0 || this._selectedTabIndex >= tabPages.length) {
       actualTabIndex = 0;

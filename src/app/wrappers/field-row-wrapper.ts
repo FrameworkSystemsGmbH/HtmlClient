@@ -56,7 +56,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     if (labelMode === FieldRowLabelMode.Generated) {
       const firstWrapper: ControlWrapper = wrappers[0];
       if (firstWrapper.providesControlLabelWrapper()) {
-        const controlLabelWrapper: ControlLabelWrapper = wrappers[0].getControlLabelWrapper(this) as ControlLabelWrapper;
+        const controlLabelWrapper: ControlLabelWrapper | null = wrappers[0].getControlLabelWrapper(this) as ControlLabelWrapper | null;
         if (controlLabelWrapper) {
           return new ControlLabelContainerSingleWrapper(this.getInjector(), { labelWrapper: controlLabelWrapper, fieldRowWrp: this, rowLabelTemplate: this.getParent().getRowLabelTemplate() });
         }
@@ -66,14 +66,14 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
 
       for (const wrapper of wrappers) {
         if (wrapper.providesControlLabelWrapper()) {
-          const labelWrapper: ControlLabelWrapper = wrapper.getControlLabelWrapper(this) as ControlLabelWrapper;
+          const labelWrapper: ControlLabelWrapper | null = wrapper.getControlLabelWrapper(this) as ControlLabelWrapper | null;
           if (labelWrapper) {
             labelWrappers.push(labelWrapper);
           }
         }
       }
 
-      if (labelWrappers && labelWrappers.length) {
+      if (labelWrappers.length) {
         if (this.getOptimizeGeneratedLabels()) {
           this._labelsToOptimize = labelWrappers;
         }
@@ -139,7 +139,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
     for (let i = 0; i < wrappers.length; i++) {
       const wrapper: ControlWrapper = wrappers[i];
       if (labelMode === FieldRowLabelMode.Generated && wrapper.providesControlLabelWrapper()) {
-        const controlLabelWrapper: ControlLabelWrapper = wrapper.getControlLabelWrapper(this) as ControlLabelWrapper;
+        const controlLabelWrapper: ControlLabelWrapper | null = wrapper.getControlLabelWrapper(this) as ControlLabelWrapper | null;
         if (controlLabelWrapper) {
           if (this.getOptimizeGeneratedLabels()) {
             labelsToOptimize.push(controlLabelWrapper);

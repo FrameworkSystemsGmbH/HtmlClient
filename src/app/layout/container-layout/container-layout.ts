@@ -119,7 +119,7 @@ export class ContainerLayout extends LayoutContainerBase {
       this.measureMinHeight(containerWidth);
     }
 
-    if (!this._wrappers || !this._wrappers.length) {
+    if (!this._wrappers.length) {
       return;
     }
 

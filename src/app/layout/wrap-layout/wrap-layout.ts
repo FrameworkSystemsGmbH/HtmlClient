@@ -519,7 +519,7 @@ export class WrapLayout extends LayoutContainerBase {
 
     let minHeight: number = 0;
     // content min height is the maximum of all columns min heights
-    if (this._wrapColumns && this._wrapColumns.length) {
+    if (this._wrapColumns.length) {
       for (const wrapColumn of this._wrapColumns) {
         minHeight = Math.max(minHeight, wrapColumn.getMinColumnHeight());
       }

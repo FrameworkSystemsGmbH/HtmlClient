@@ -217,7 +217,7 @@ export class FormsService {
         const formId: string = formJson.meta.id;
         const formWrps: Array<FormWrapper> = this._forms.filter((formWrp: FormWrapper) => formWrp.getId() === formId);
 
-        if (formWrps && formWrps.length) {
+        if (formWrps.length) {
           const form: FormWrapper = formWrps[0];
           form.setJson(formJson, false);
 
@@ -335,7 +335,7 @@ export class FormsService {
     }
   }
 
-  private loadControlsState(form: FormWrapper, controlsJson: Array<any>): void {
+  private loadControlsState(form: FormWrapper, controlsJson: Array<any> | null): void {
     if (!controlsJson || !controlsJson.length) {
       return;
     }

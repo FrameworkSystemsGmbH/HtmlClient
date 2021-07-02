@@ -122,17 +122,13 @@ export class FontService {
   }
 
   private getRasteredValue(value: number, raster: number): number {
-    if (raster == null) {
+    const rasterPos: number = Math.round(value / raster);
+
+    if (rasterPos * raster === value) {
       return value;
-    } else {
-      const rasterPos: number = Math.round(value / raster);
-
-      if (rasterPos * raster === value) {
-        return value;
-      }
-
-      return (rasterPos + 1) * raster;
     }
+
+    return (rasterPos + 1) * raster;
   }
 
   private getMaxWidthDigit(wrapper: FittedDataWrapper): number {
@@ -178,7 +174,7 @@ export class FontService {
   }
 
   private getStringWidthRastered(wrapper: FittedDataWrapper, length: number, format: TextFormat, raster: number): number {
-    if (length == null || length <= 0) {
+    if (length <= 0) {
       return raster;
     }
 
@@ -376,7 +372,7 @@ export class FontService {
   }
 
   public measureTextWidth(text: string | null, font: string, size: number, isBold: boolean, isItalic: boolean): number {
-    if (text == null || String.isNullOrWhiteSpace(font) || size == null || size <= 0) {
+    if (text == null || String.isNullOrWhiteSpace(font) || size <= 0) {
       return 0;
     }
 
