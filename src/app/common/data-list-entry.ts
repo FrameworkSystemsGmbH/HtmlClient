@@ -8,6 +8,21 @@ export class DataListEntry {
     this._value = value;
   }
 
+  public static getFromJson(json: any): DataListEntry | null {
+    if (!json) {
+      return null;
+    }
+
+    return new DataListEntry(json.pk, json.value);
+  }
+
+  public getJson(): any {
+    return {
+      pk: this._pk,
+      value: this._value
+    };
+  }
+
   public getPk(): string | null {
     return this._pk;
   }

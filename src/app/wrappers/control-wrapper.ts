@@ -77,7 +77,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public constructor(
     injector: Injector,
-    options?: IWrapperCreationOptions
+    options: IWrapperCreationOptions
   ) {
     this._injector = injector;
     this._isEditableParent = true;
@@ -98,16 +98,21 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
     this.init();
 
-    if (options) {
-      this._form = options.form ? options.form : null;
-      this._parent = options.parent ? options.parent : null;
-      this._controlStyle = options.controlStyle ? options.controlStyle : null;
+    this._form = options.form ? options.form : null;
+    this._parent = options.parent ? options.parent : null;
+    this._controlStyle = options.controlStyle ? options.controlStyle : null;
 
-      if (options.state) {
-        this.loadState(options.state);
-      }
+    if (options.init) {
+      this.afterInitComplete();
     }
+  }
 
+  public initFromState(state: any): void {
+    this.loadState(state);
+    this.afterInitComplete();
+  }
+
+  protected afterInitComplete(): void {
     this.setControlStyle();
     this.addToParent();
     this.updateRecursiveProperties();

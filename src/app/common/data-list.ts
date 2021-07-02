@@ -7,6 +7,24 @@ export class DataList extends Array<DataListEntry> {
     Object.setPrototypeOf(this, DataList.prototype);
   }
 
+  public static getFromJson(json: Array<any> | null): DataList | null {
+    if (!json || !json.length) {
+      return null;
+    }
+
+    const dataList: DataList = new DataList();
+
+    json.forEach(entryJson => {
+      dataList.push(new DataListEntry(entryJson.pk, entryJson.value));
+    });
+
+    return dataList;
+  }
+
+  public getJson(): any {
+    return this.map(entry => entry.getJson());
+  }
+
   public findIndexOnPk(pk: string | null): number {
     return this.findIndex(entry => entry.getPk() === pk);
   }
@@ -44,15 +62,5 @@ export class DataList extends Array<DataListEntry> {
     const firstEntry: DataListEntry = this[0];
 
     return firstEntry.isNullEntry() ? firstEntry : null;
-  }
-
-  public deserialize(json: Array<any> | null): void {
-    if (!json || !json.length) {
-      return;
-    }
-
-    json.forEach(entryJson => {
-      this.push(new DataListEntry(entryJson.pk, entryJson.value));
-    });
   }
 }

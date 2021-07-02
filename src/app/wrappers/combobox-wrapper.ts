@@ -245,7 +245,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     json.value = this.getValueJson();
 
     if (this._dataList) {
-      json.entries = this._dataList;
+      json.entries = this._dataList.getJson();
     }
 
     return json;
@@ -257,9 +257,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     this.setValueJson(json.value);
 
     if (json.entries && json.entries.length) {
-      const entries: DataList = new DataList();
-      entries.deserialize(json.entries);
-      this._dataList = entries;
+      this._dataList = DataList.getFromJson(json.entries);
     }
   }
 

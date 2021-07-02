@@ -200,7 +200,7 @@ export class FormsService {
   public setJson(fromsJson: any): void {
     for (const formJson of fromsJson) {
       if (formJson.meta.new) {
-        const form: FormWrapper = new FormWrapper(this._injector);
+        const form: FormWrapper = new FormWrapper(this._injector, { init: true });
         form.setJson(formJson, true);
 
         if (formJson.controls && formJson.controls.length) {
@@ -248,6 +248,7 @@ export class FormsService {
         const controlStyle: string = controlJson.meta.style;
 
         const options: IWrapperCreationOptions = {
+          init: true,
           form,
           parent,
           controlStyle
@@ -313,7 +314,9 @@ export class FormsService {
   public loadState(json: any): void {
     if (json.forms) {
       json.forms.forEach((formJson: any) => {
-        const form: FormWrapper = new FormWrapper(this._injector, { state: formJson });
+        const form: FormWrapper = new FormWrapper(this._injector, { init: false });
+
+        form.initFromState(formJson);
 
         if (formJson.controls && formJson.controls.length) {
           this.loadControlsState(form, formJson.controls);
@@ -350,17 +353,21 @@ export class FormsService {
       const controlType: ControlType = controlJson.controlType;
 
       const options: IWrapperCreationOptions = {
+        init: false,
         form,
         parent,
-        controlStyle: controlJson.controlStyle,
-        state: controlJson
+        controlStyle: controlJson.controlStyle
       };
 
       if (controlType === ControlType.TextBox) {
         options.textBoxStyle = controlJson.textBoxType;
       }
 
-      this._controlsService.createWrapperFromType(controlType, options);
+      const controlWrp: ControlWrapper | null = this._controlsService.createWrapperFromType(controlType, options);
+
+      if (controlWrp) {
+        controlWrp.initFromState(controlJson);
+      }
     });
   }
 }

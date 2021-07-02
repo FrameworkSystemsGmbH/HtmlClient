@@ -31,11 +31,11 @@ import { VariantWrapper } from '@app/wrappers/variant-wrapper';
 import { WrapPanelWrapper } from '@app/wrappers/wrap-panel-wrapper';
 
 export interface IWrapperCreationOptions {
+  init: boolean;
   form?: FormWrapper;
   parent?: ContainerWrapper;
   controlStyle?: string;
   textBoxStyle?: TextBoxType;
-  state?: any;
 }
 
 @Injectable({ providedIn: 'root' })
