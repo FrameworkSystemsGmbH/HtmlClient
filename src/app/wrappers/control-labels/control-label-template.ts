@@ -92,10 +92,10 @@ export class ControlLabelTemplate implements ILayoutableControlLabelTemplate {
   }
 
   public getMaxWidth(): number {
-    return Number.zeroIfNull(this._propertyStore.getMaxWidth());
+    return Number.maxIfNull(this._propertyStore.getMaxWidth());
   }
 
   public getMaxHeight(): number {
-    return Number.zeroIfNull(this._propertyStore.getMaxHeight());
+    return Number.maxIfNull(this._propertyStore.getMaxHeight());
   }
 }
