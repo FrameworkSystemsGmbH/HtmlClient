@@ -7,7 +7,7 @@ import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 export abstract class ComboBoxComponent extends ControlComponent {
 
   @Output()
-  public readonly selectionChanged: EventEmitter<any> = new EventEmitter<any>();
+  public readonly selectionChanged: EventEmitter<void> = new EventEmitter<void>();
 
   public entries: DataList | null = null;
   public selectedIndex: number | null = null;
@@ -31,10 +31,10 @@ export abstract class ComboBoxComponent extends ControlComponent {
     }
   }
 
-  protected callSelectionChanged(event?: any): void {
+  protected callSelectionChanged(): void {
     this.updateWrapper();
     if (this.getWrapper().hasOnSelectionChangedEvent()) {
-      this.selectionChanged.emit(event);
+      this.selectionChanged.emit();
     }
   }
 

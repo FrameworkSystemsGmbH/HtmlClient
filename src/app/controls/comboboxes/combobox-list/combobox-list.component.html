@@ -12,7 +12,7 @@
   <div *ngIf="dropDownVisible" class="hc-cmb-list-list" [ngStyle]="dropDownStyle" [@listState]>
     <div #scroller class="hc-cmb-list-list-scroller" [ngStyle]="dropDownScrollerStyle">
       <ul #list>
-        <li *ngFor="let entry of entries; index as i;" [ngClass]="{ 'selected': i === getSelectedListIndex() }" (click)="onEntryClicked($event, i)">
+        <li *ngFor="let entry of entries; index as i;" [ngClass]="{ 'selected': i === getSelectedListIndex() }" (click)="onEntryClicked(i)">
           <span *ngIf="entry.getValue()">{{ entry.getValue() }}</span>
           <span *ngIf="!entry.getValue()">&nbsp;</span>
         </li>

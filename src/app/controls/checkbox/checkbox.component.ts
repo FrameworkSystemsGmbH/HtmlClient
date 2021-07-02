@@ -17,7 +17,7 @@ export class CheckBoxComponent extends ControlComponent {
   public input: ElementRef<HTMLInputElement> | null = null;
 
   @Output()
-  public readonly boxClick: EventEmitter<any> = new EventEmitter<any>();
+  public readonly boxClick: EventEmitter<void> = new EventEmitter<void>();
 
   public id: string | null = null;
   public value: boolean = false;
@@ -30,10 +30,10 @@ export class CheckBoxComponent extends ControlComponent {
   public labelStyle: any;
   public captionStyle: any;
 
-  public callBoxClick(event: any): void {
+  public callBoxClick(): void {
     this.updateWrapper();
     if (this.getWrapper().hasOnClickEvent()) {
-      this.boxClick.emit(event);
+      this.boxClick.emit();
     }
   }
 

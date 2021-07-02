@@ -18,7 +18,7 @@ export class RadioButtonComponent extends ControlComponent {
   public input: ElementRef<HTMLInputElement> | null = null;
 
   @Output()
-  public readonly radioClick: EventEmitter<any> = new EventEmitter<any>();
+  public readonly radioClick: EventEmitter<void> = new EventEmitter<void>();
 
   public id: string | null = null;
   public value: string | null = null;
@@ -32,10 +32,10 @@ export class RadioButtonComponent extends ControlComponent {
   public labelStyle: any;
   public captionStyle: any;
 
-  public callRadioClick(event: any): void {
+  public callRadioClick(): void {
     this.getWrapper().fireValueChanged();
     if (this.getWrapper().hasOnClickEvent()) {
-      this.radioClick.emit(event);
+      this.radioClick.emit();
     }
   }
 

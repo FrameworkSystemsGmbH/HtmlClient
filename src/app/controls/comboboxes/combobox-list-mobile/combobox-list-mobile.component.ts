@@ -76,7 +76,7 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
     }
   }
 
-  public onControlClick(event: any): void {
+  public onControlClick(): void {
     if (this.isEditable) {
       this._overlayShown = true;
 
@@ -97,7 +97,7 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
         if (data.selected) {
           this.setSelectedIndex(data.index);
-          this.callSelectionChanged(event);
+          this.callSelectionChanged();
         }
       });
     }

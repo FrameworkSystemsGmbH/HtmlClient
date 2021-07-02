@@ -1,5 +1,5 @@
 <div class="hc-cmb-list-mobile" [ngStyle]="containerStyle" (mousedown)="onContainerMouseDown($event)">
-  <div #control class="hc-cmb-list-mobile-ctrl" [ngStyle]="controlStyle" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (click)="onControlClick($event)" [attr.tabindex]="tabIndexAttr">
+  <div #control class="hc-cmb-list-mobile-ctrl" [ngStyle]="controlStyle" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (click)="onControlClick()" [attr.tabindex]="tabIndexAttr">
     <div class="hc-cmb-list-mobile-value" [ngStyle]="valueStyle">
       <span>{{ getSelectedValue() }}</span>
     </div>

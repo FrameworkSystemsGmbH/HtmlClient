@@ -9,7 +9,7 @@ import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
 export abstract class ButtonComponent extends ControlComponent {
 
   @Output()
-  public readonly btnClick: EventEmitter<any> = new EventEmitter<any>();
+  public readonly btnClick: EventEmitter<void> = new EventEmitter<void>();
 
   public caption: string | null = null;
   public mapEnterToTab: boolean = false;
@@ -18,9 +18,9 @@ export abstract class ButtonComponent extends ControlComponent {
   public disabledAttr: boolean | null = null;
   public buttonStyle: any;
 
-  public callBtnClick(event?: any): void {
+  public callBtnClick(): void {
     if (this.getWrapper().hasOnClickEvent()) {
-      this.btnClick.emit(event);
+      this.btnClick.emit();
     }
   }
 

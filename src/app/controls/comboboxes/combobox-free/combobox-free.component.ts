@@ -134,14 +134,14 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
-  public onEnterKey(event: any): void {
+  public onEnterKey(): void {
     if (this.isEditable && this.dropDownVisible) {
       const selectedListIndex: number | null = this.getSelectedListIndex();
       if (selectedListIndex != null && selectedListIndex >= 0) {
         this.hideList();
         this.setSelectedIndex(selectedListIndex);
         this.setInputValue(null);
-        this.callSelectionChanged(event);
+        this.callSelectionChanged();
       }
     }
   }
@@ -153,11 +153,11 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
-  public onEntryClicked(event: any, index: number): void {
+  public onEntryClicked(index: number): void {
     this.hideList();
     this.setSelectedIndex(index);
     this.setInputValue(null);
-    this.callSelectionChanged(event);
+    this.callSelectionChanged();
   }
 
   public callCtrlEnter(event: any): void {
