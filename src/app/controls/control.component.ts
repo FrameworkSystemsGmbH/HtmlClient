@@ -39,8 +39,12 @@ export abstract class ControlComponent extends LayoutableComponent {
   }
 
   public onFocusIn(event: FocusEvent): void {
+    const wrapper: ControlWrapper = this.getWrapper();
+
     this.isFocused = true;
-    this.isOutlined = this.getWrapper().isOutlineVisible(this.isFocused);
+    this.isOutlined = wrapper.isOutlineVisible(this.isFocused);
+
+    this.updateStyles(wrapper);
 
     this._cdr.detectChanges();
 
@@ -48,8 +52,12 @@ export abstract class ControlComponent extends LayoutableComponent {
   }
 
   public onFocusOut(event: FocusEvent): void {
+    const wrapper: ControlWrapper = this.getWrapper();
+
     this.isFocused = false;
-    this.isOutlined = this.getWrapper().isOutlineVisible(this.isFocused);
+    this.isOutlined = wrapper.isOutlineVisible(this.isFocused);
+
+    this.updateStyles(wrapper);
 
     this._cdr.detectChanges();
 
