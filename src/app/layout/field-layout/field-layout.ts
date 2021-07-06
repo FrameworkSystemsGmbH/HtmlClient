@@ -416,7 +416,7 @@ export class FieldLayout extends LayoutContainerBase {
 
     // calculate result height for dynamic rows respecting min and max height
     let allMinProblemsSolved: boolean = false;
-    while (!todo.isEmpty() && !allMinProblemsSolved) {
+    while (todo.length > 0 && !allMinProblemsSolved) {
 
       /*
        * sum up all distances below minimum
@@ -452,7 +452,7 @@ export class FieldLayout extends LayoutContainerBase {
     }
 
     // calculate result height for dynamic rows without problems concerning min height
-    while (!todo.isEmpty()) {
+    while (todo.length > 0) {
       const row: FieldLayoutRow | undefined = todo.shift();
       if (row != null) {
         const rowSizeRatio: number = row.getSizeInt() / sumFieldRowSizes;

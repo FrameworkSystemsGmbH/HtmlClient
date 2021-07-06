@@ -16,10 +16,6 @@ Array.prototype.pushAll = function (items: Array<unknown>): void {
   }
 };
 
-Array.prototype.isEmpty = function (): boolean {
-  return this.length === 0;
-};
-
 Array.prototype.remove = function (item: unknown): unknown {
   const index = this.indexOf(item);
   if (index >= 0) {

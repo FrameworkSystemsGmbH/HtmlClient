@@ -4,8 +4,6 @@ interface Array<T> {
 
   pushAll: (items: Array<T>) => void;
 
-  isEmpty: () => boolean;
-
   remove: (item: T) => T;
 
 }

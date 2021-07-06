@@ -224,7 +224,7 @@ export class DockLayout extends LayoutContainerBase {
       // Calculate result width for dynamic items respecting min and max widths
       let allMinMaxProblemsSolved: boolean = false;
 
-      while (!todo.isEmpty() && !allMinMaxProblemsSolved) {
+      while (todo.length > 0 && !allMinMaxProblemsSolved) {
         // Sum up all distances below minimum and above maximum and remember the greatest distance item
         let sumMinFails: number = 0;
         let maxMinFail: number = 0;
@@ -275,7 +275,7 @@ export class DockLayout extends LayoutContainerBase {
       }
 
       // Calculate result width for dynamic items without problems concerning min and max width
-      while (!todo.isEmpty()) {
+      while (todo.length > 0) {
         const wrapper: LayoutableControlWrapper | undefined = todo.shift();
         if (wrapper != null) {
           const dockItemSizeRatio: number = wrapper.getDockItemSizeInt() / sumDockItemSizes;
@@ -396,7 +396,7 @@ export class DockLayout extends LayoutContainerBase {
       // Calculate result height for dynamic items respecting min and max height
       let allMinMaxProblemsSolved: boolean = false;
 
-      while (!todo.isEmpty() && !allMinMaxProblemsSolved) {
+      while (todo.length > 0 && !allMinMaxProblemsSolved) {
         // Sum up all distances below minimum and above maximum and remember the greatest distance item
         let sumMinFails: number = 0;
         let maxMinFail: number = 0;
@@ -446,7 +446,7 @@ export class DockLayout extends LayoutContainerBase {
       }
 
       // Calculate result height for dynamic items without problems concerning min and max height
-      while (!todo.isEmpty()) {
+      while (todo.length > 0) {
         const wrapper: LayoutableControlWrapper | undefined = todo.shift();
         if (wrapper != null) {
           const dockItemSizeRatio: number = wrapper.getDockItemSizeInt() / sumDockItemSizes;
