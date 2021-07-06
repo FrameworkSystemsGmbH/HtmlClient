@@ -15,11 +15,11 @@ export class ListViewTemplateVariableWrapper {
   public constructor(dataSource: ListViewTemplateDataSourceWrapper, options?: IListViewTemplateVariableWrapperOptions) {
     this._dataSource = dataSource;
 
-    if (options && options.format) {
+    if (options != null && options.format != null) {
       this._format = options.format;
     }
 
-    if (options && options.formatPattern && options.formatPattern.trim().length) {
+    if (options != null && options.formatPattern != null && options.formatPattern.trim().length > 0) {
       this._formatPattern = options.formatPattern;
     }
   }

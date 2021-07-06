@@ -28,7 +28,7 @@ export class TextBoxNumberWrapper extends TextBoxBaseWrapper {
   protected setValueJson(value: string | null): void {
     let val: number | null = null;
 
-    if (value != null && value.trim().length) {
+    if (value != null && value.trim().length > 0) {
       val = parseFloat(value);
 
       if (isNaN(val)) {

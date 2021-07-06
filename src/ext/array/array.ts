@@ -9,7 +9,7 @@ Array.prototype.clone = function (): Array<unknown> {
 };
 
 Array.prototype.pushAll = function (items: Array<unknown>): void {
-  if (items.length) {
+  if (items.length > 0) {
     for (const item of items) {
       this.push(item);
     }

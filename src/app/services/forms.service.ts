@@ -145,7 +145,7 @@ export class FormsService {
         if (!lastFound) {
           if (index < this._forms.length && index >= 0) {
             this.selectForm(this._forms[index]);
-          } else if (this._forms.length) {
+          } else if (this._forms.length > 0) {
             this.selectForm(this._forms[this._forms.length - 1]);
           } else {
             this.selectForm(null);
@@ -203,7 +203,7 @@ export class FormsService {
         const form: FormWrapper = new FormWrapper(this._injector, { init: true });
         form.setJson(formJson, true);
 
-        if (formJson.controls && formJson.controls.length) {
+        if (formJson.controls != null && formJson.controls.length > 0) {
           this.setControlsJson(form, formJson.controls, true);
         }
 
@@ -217,11 +217,11 @@ export class FormsService {
         const formId: string = formJson.meta.id;
         const formWrps: Array<FormWrapper> = this._forms.filter((formWrp: FormWrapper) => formWrp.getId() === formId);
 
-        if (formWrps.length) {
+        if (formWrps.length > 0) {
           const form: FormWrapper = formWrps[0];
           form.setJson(formJson, false);
 
-          if (formJson.controls && formJson.controls.length) {
+          if (formJson.controls != null && formJson.controls.length > 0) {
             this.setControlsJson(form, formJson.controls, false);
           }
 
@@ -304,7 +304,7 @@ export class FormsService {
       forms.push(form.saveState());
     });
 
-    if (forms.length) {
+    if (forms.length > 0) {
       json.forms = forms;
     }
 
@@ -318,7 +318,7 @@ export class FormsService {
 
         form.initFromState(formJson);
 
-        if (formJson.controls && formJson.controls.length) {
+        if (formJson.controls != null && formJson.controls.length > 0) {
           this.loadControlsState(form, formJson.controls);
         }
 
@@ -339,7 +339,7 @@ export class FormsService {
   }
 
   private loadControlsState(form: FormWrapper, controlsJson: Array<any> | null): void {
-    if (!controlsJson || !controlsJson.length) {
+    if (controlsJson == null || controlsJson.length === 0) {
       return;
     }
 

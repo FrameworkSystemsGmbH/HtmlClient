@@ -64,7 +64,7 @@ export class DateTimeFormatService {
       return null;
     }
 
-    if (formatPattern != null && formatPattern.trim().length) {
+    if (formatPattern != null && formatPattern.trim().length > 0) {
       return value.format(formatPattern);
     } else if (textFormat === TextFormat.DateOnlyShort) {
       return value.format(this._dateOnlyShortFormat);

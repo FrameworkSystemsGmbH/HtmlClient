@@ -94,7 +94,7 @@ export class TemplateControlWrapper extends ControlWrapper {
   protected setPropertiesJson(propertiesJson: any): void {
     super.setPropertiesJson(propertiesJson);
 
-    if (propertiesJson.templateDataSourceList && propertiesJson.templateDataSourceList.length) {
+    if (propertiesJson.templateDataSourceList != null && propertiesJson.templateDataSourceList.length > 0) {
       const parsedDataSources: Array<TemplateControlTemplateDataSourceWrapper> | null = this.parseTemplateDataSourceList(propertiesJson.templateDataSourceList);
       this._templateDataSources = parsedDataSources != null ? parsedDataSources : new Array<TemplateControlTemplateDataSourceWrapper>();
     }
@@ -113,7 +113,7 @@ export class TemplateControlWrapper extends ControlWrapper {
     if (dataJson && dataJson.templateControlData) {
       const dsValueMap: Map<string, string> = new Map<string, string>();
 
-      if (dataJson.templateControlData.values && dataJson.templateControlData.values.length) {
+      if (dataJson.templateControlData.values != null && dataJson.templateControlData.values.length > 0) {
         for (const value of dataJson.templateControlData.values) {
           dsValueMap.set(value.name, value.value);
         }
@@ -135,7 +135,7 @@ export class TemplateControlWrapper extends ControlWrapper {
   }
 
   private parseTemplateDataSourceList(templateDataSourceListJson: Array<any> | null): Array<TemplateControlTemplateDataSourceWrapper> | null {
-    if (!templateDataSourceListJson || !templateDataSourceListJson.length) {
+    if (templateDataSourceListJson == null || templateDataSourceListJson.length === 0) {
       return null;
     }
 
@@ -153,7 +153,7 @@ export class TemplateControlWrapper extends ControlWrapper {
 
     this._templateVariables = new Array<TemplateControlTemplateVariableWrapper>();
 
-    if (templateHtml == null || !templateHtml.trim().length) {
+    if (templateHtml == null || templateHtml.trim().length === 0) {
       return null;
     }
 
@@ -166,7 +166,7 @@ export class TemplateControlWrapper extends ControlWrapper {
     const regEx: RegExp = /{{2}([^}]|[^}])*}{2}/g;
     const matches: RegExpMatchArray | null = templateHtml.match(regEx);
 
-    if (!matches || !matches.length) {
+    if (matches == null || matches.length === 0) {
       return templateHtml;
     }
 
@@ -218,7 +218,7 @@ export class TemplateControlWrapper extends ControlWrapper {
       if (ds != null) {
         let options: ITemplateControlTemplateVariableWrapperOptions | undefined;
 
-        if (format || formatPattern != null && formatPattern.trim().length > 0) {
+        if (format != null || formatPattern != null && formatPattern.trim().length > 0) {
           options = {
             format,
             formatPattern
@@ -256,7 +256,7 @@ export class TemplateControlWrapper extends ControlWrapper {
       });
     }
 
-    if (dataSourcesJson.length) {
+    if (dataSourcesJson.length > 0) {
       json.templateDataSources = dataSourcesJson;
     }
 
@@ -270,7 +270,7 @@ export class TemplateControlWrapper extends ControlWrapper {
       });
     }
 
-    if (variablesJson.length) {
+    if (variablesJson.length > 0) {
       json.templateVariables = variablesJson;
     }
 
@@ -284,7 +284,7 @@ export class TemplateControlWrapper extends ControlWrapper {
       });
     }
 
-    if (valuesJson.length) {
+    if (valuesJson.length > 0) {
       json.values = valuesJson;
     }
 
@@ -297,13 +297,13 @@ export class TemplateControlWrapper extends ControlWrapper {
     this._templateCss = json.templateCss;
     this._templateHtml = json.templateHtml;
 
-    if (json.templateDataSources && json.templateDataSources.length) {
+    if (json.templateDataSources != null && json.templateDataSources.length > 0) {
       for (const dsJson of json.templateDataSources) {
         this._templateDataSources.push(new TemplateControlTemplateDataSourceWrapper(dsJson.name, dsJson.dsType));
       }
     }
 
-    if (json.templateVariables && json.templateVariables.length) {
+    if (json.templateVariables != null && json.templateVariables.length > 0) {
       for (const varJson of json.templateVariables) {
         const ds: TemplateControlTemplateDataSourceWrapper | undefined = this._templateDataSources.find(d => d.getName() === varJson.dsName);
         const format: TextFormat | undefined = varJson.format;
@@ -312,7 +312,7 @@ export class TemplateControlWrapper extends ControlWrapper {
         if (ds != null) {
           let options: ITemplateControlTemplateVariableWrapperOptions | undefined;
 
-          if (format || formatPattern != null && formatPattern.trim().length > 0) {
+          if (format != null || formatPattern != null && formatPattern.trim().length > 0) {
             options = {
               format,
               formatPattern
@@ -324,7 +324,7 @@ export class TemplateControlWrapper extends ControlWrapper {
       }
     }
 
-    if (json.values && json.values.length) {
+    if (json.values != null && json.values.length > 0) {
       this._templateValues = new Array<TemplateControlValueWrapper>();
       for (const valueJson of json.values) {
         this._templateValues.push(new TemplateControlValueWrapper(valueJson.value, valueJson.format, valueJson.formatPattern));

@@ -25,7 +25,7 @@ export class ClientDataService {
         if (brokerListStr != null) {
           const brokerArrJson: any = JSON.parse(brokerListStr);
           const brokerArr: Array<LoginBroker> = new Array<LoginBroker>();
-          if (brokerArrJson.length) {
+          if (brokerArrJson.length > 0) {
             for (const brokerJson of brokerArrJson) {
               const broker: LoginBroker | null = LoginBroker.getFromJson(brokerJson);
               if (broker != null) {

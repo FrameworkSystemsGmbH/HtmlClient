@@ -159,7 +159,7 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   }
 
   public getDisplayCaption(): string | null {
-    return this._displayCaption != null && this._displayCaption.trim().length ? this._displayCaption : this.getCaption();
+    return this._displayCaption != null && this._displayCaption.trim().length > 0 ? this._displayCaption : this.getCaption();
   }
 
   public setDisplayCaption(displayCaption: string | null): void {

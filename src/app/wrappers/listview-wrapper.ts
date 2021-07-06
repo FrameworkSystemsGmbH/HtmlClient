@@ -249,7 +249,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   protected setPropertiesJson(propertiesJson: any): void {
     super.setPropertiesJson(propertiesJson);
 
-    if (propertiesJson.templateDataSourceList && propertiesJson.templateDataSourceList.length) {
+    if (propertiesJson.templateDataSourceList != null && propertiesJson.templateDataSourceList.length > 0) {
       const parsedDataSources: Array<ListViewTemplateDataSourceWrapper> | null = this.parseTemplateDataSourceList(propertiesJson.templateDataSourceList);
       this._templateDataSources = parsedDataSources != null ? parsedDataSources : new Array<ListViewTemplateDataSourceWrapper>();
     }
@@ -295,7 +295,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
         const pos: number = itemJson.pos;
         const dsValueMap: Map<string, string> = new Map<string, string>();
 
-        if (itemJson.values && itemJson.values.length) {
+        if (itemJson.values != null && itemJson.values.length > 0) {
           for (const value of itemJson.values) {
             dsValueMap.set(value.name, value.value);
           }
@@ -347,7 +347,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   private setSelectedItemsJson(selectedItemsJson: any): void {
-    let selectedIds: Array<string> = selectedItemsJson && selectedItemsJson.length ? selectedItemsJson : new Array<string>();
+    let selectedIds: Array<string> = selectedItemsJson != null && selectedItemsJson.length > 0 ? selectedItemsJson : new Array<string>();
 
     if (this.getSelectionMode() === ListViewSelectionMode.Single && selectedIds.length > 1) {
       selectedIds = new Array<string>(selectedIds[0]);
@@ -363,7 +363,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   private parseTemplateDataSourceList(templateDataSourceListJson: Array<any> | null): Array<ListViewTemplateDataSourceWrapper> | null {
-    if (!templateDataSourceListJson || !templateDataSourceListJson.length) {
+    if (templateDataSourceListJson == null || templateDataSourceListJson.length === 0) {
       return null;
     }
 
@@ -381,7 +381,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
     this._templateVariables = new Array<ListViewTemplateVariableWrapper>();
 
-    if (templateHtml == null || !templateHtml.trim().length) {
+    if (templateHtml == null || templateHtml.trim().length === 0) {
       return null;
     }
 
@@ -394,7 +394,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     const regEx: RegExp = /{{2}([^}]|[^}])*}{2}/g;
     const matches: RegExpMatchArray | null = templateHtml.match(regEx);
 
-    if (!matches || !matches.length) {
+    if (matches == null || matches.length === 0) {
       return templateHtml;
     }
 
@@ -561,7 +561,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       });
     }
 
-    if (dataSourcesJson.length) {
+    if (dataSourcesJson.length > 0) {
       json.templateDataSources = dataSourcesJson;
     }
 
@@ -575,7 +575,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       });
     }
 
-    if (variablesJson.length) {
+    if (variablesJson.length > 0) {
       json.templateVariables = variablesJson;
     }
 
@@ -585,7 +585,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       itemsJson.push(item.saveState());
     }
 
-    if (itemsJson.length) {
+    if (itemsJson.length > 0) {
       json.items = itemsJson;
     }
 
@@ -599,13 +599,13 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     this._templateCss = json.templateCss;
     this._templateHtml = json.templateHtml;
 
-    if (json.templateDataSources && json.templateDataSources.length) {
+    if (json.templateDataSources != null && json.templateDataSources.length > 0) {
       for (const dsJson of json.templateDataSources) {
         this._templateDataSources.push(new ListViewTemplateDataSourceWrapper(dsJson.name, dsJson.dsType));
       }
     }
 
-    if (json.templateVariables && json.templateVariables.length) {
+    if (json.templateVariables != null && json.templateVariables.length > 0) {
       for (const varJson of json.templateVariables) {
         const ds: ListViewTemplateDataSourceWrapper | undefined = this._templateDataSources.find(d => d.getName() === varJson.dsName);
         const format: TextFormat | undefined = varJson.format;
@@ -626,7 +626,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       }
     }
 
-    if (json.items && json.items.length) {
+    if (json.items != null && json.items.length > 0) {
       for (const itemJson of json.items) {
         this._items.push(new ListViewItemWrapper(this.getInjector(), { listViewWrapper: this, state: itemJson }));
       }

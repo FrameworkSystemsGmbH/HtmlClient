@@ -39,7 +39,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
   }
 
   public optimizeLabels(): void {
-    if (this._labelsToOptimize && this._labelsToOptimize.length > 0) {
+    if (this._labelsToOptimize != null && this._labelsToOptimize.length > 0) {
       LabelUtil.optimizeLabels(this._labelsToOptimize);
     }
   }
@@ -73,7 +73,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
         }
       }
 
-      if (labelWrappers.length) {
+      if (labelWrappers.length > 0) {
         if (this.getOptimizeGeneratedLabels()) {
           this._labelsToOptimize = labelWrappers;
         }
@@ -159,7 +159,7 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
       wrapper.attachComponent(uiContainer, vchContainer);
     }
 
-    if (labelsToOptimize.length) {
+    if (labelsToOptimize.length > 0) {
       this._labelsToOptimize = labelsToOptimize;
     }
 

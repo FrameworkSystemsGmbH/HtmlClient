@@ -28,7 +28,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   public getImageUrl(): string | null {
     const image: string | null = this.getImage();
 
-    if (image != null && image.trim().length) {
+    if (image != null && image.trim().length > 0) {
       return this.getImageService().getImageUrl(image);
     }
 
@@ -43,7 +43,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   public getPressedImageUrl(): string | null {
     const pressedImage: string | null = this.getPressedImage();
 
-    if (pressedImage != null && pressedImage.trim().length) {
+    if (pressedImage != null && pressedImage.trim().length > 0) {
       return this.getImageService().getImageUrl(pressedImage);
     }
 
@@ -58,7 +58,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   public getMouseOverImageUrl(): string | null {
     const mouseOverImage: string | null = this.getMouseOverImage();
 
-    if (mouseOverImage != null && mouseOverImage.trim().length) {
+    if (mouseOverImage != null && mouseOverImage.trim().length > 0) {
       return this.getImageService().getImageUrl(mouseOverImage);
     }
 
@@ -73,7 +73,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   public getDisabledImageUrl(): string | null {
     const disabledImage: string | null = this.getDisabledImage();
 
-    if (disabledImage != null && disabledImage.trim().length) {
+    if (disabledImage != null && disabledImage.trim().length > 0) {
       return this.getImageService().getImageUrl(disabledImage);
     }
 
@@ -81,7 +81,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
   }
 
   public getBadgeImageSrc(): string | null {
-    if (this._badgeImageData != null && this._badgeImageData.trim().length) {
+    if (this._badgeImageData != null && this._badgeImageData.trim().length > 0) {
       if (this._dataSourceType === DataSourceType.ByteArray) {
         return `data:;base64,${this._badgeImageData}`;
       } else {
@@ -99,7 +99,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
       return;
     }
 
-    if (dataJson.badgeImage != null && dataJson.badgeImage.type != null && dataJson.badgeImage.value != null && dataJson.badgeImage.value.trim().length) {
+    if (dataJson.badgeImage != null && dataJson.badgeImage.type != null && dataJson.badgeImage.value != null && dataJson.badgeImage.value.trim().length > 0) {
       this._dataSourceType = dataJson.badgeImage.type;
       this._badgeImageData = dataJson.badgeImage.value;
     }

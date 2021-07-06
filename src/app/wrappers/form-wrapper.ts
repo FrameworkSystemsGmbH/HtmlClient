@@ -77,7 +77,7 @@ export class FormWrapper extends ContainerWrapper {
 
   public getBadgeImageSrc(): SafeUrl | null {
     const badgeImageSrc: string | null = this.getDefaultVariant().getBadgeImageSrc();
-    return badgeImageSrc != null && badgeImageSrc.trim().length ? this.getSanitizer().bypassSecurityTrustUrl(badgeImageSrc) : null;
+    return badgeImageSrc != null && badgeImageSrc.trim().length > 0 ? this.getSanitizer().bypassSecurityTrustUrl(badgeImageSrc) : null;
   }
 
   public onComponentDestroyed(): void {

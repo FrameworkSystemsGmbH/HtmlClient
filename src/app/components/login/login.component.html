@@ -55,7 +55,7 @@
         <mat-card *ngIf="(brokers$ | async) == null || !(brokers$ | async)?.length">
           <span>No brokers defined...</span>
         </mat-card>
-        <div class="broker-list-wrapper" *ngIf="(brokers$ | async) && (brokers$ | async)?.length">
+        <div class="broker-list-wrapper" *ngIf="(brokers$ | async) != null && (brokers$ | async)?.length">
           <mat-card *ngFor="let broker of (brokers$ | async)" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
             <div class="broker">
               <h3 class="broker-name">{{ broker.name }}</h3>

@@ -92,7 +92,7 @@ export class PictureComponent extends ControlComponent {
 
     this.id = wrapper.getName();
     this.label = wrapper.getCaption();
-    this.imageSrc = imageSrc != null && imageSrc.trim().length ? this._sanatizer.bypassSecurityTrustUrl(imageSrc) : null;
+    this.imageSrc = imageSrc != null && imageSrc.trim().length > 0 ? this._sanatizer.bypassSecurityTrustUrl(imageSrc) : null;
     this.showCaption = wrapper.showCaption();
   }
 

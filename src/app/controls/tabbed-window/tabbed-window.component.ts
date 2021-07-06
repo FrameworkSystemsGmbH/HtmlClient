@@ -285,10 +285,10 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     const activeImage: string | null = activeImageTabPage != null && activeImageTabPage.trim().length > 0 ? activeImageTabPage : activeImageWrapper;
     const inactiveImage: string | null = inactiveImageTabPage != null && inactiveImageTabPage.trim().length > 0 ? inactiveImageTabPage : inactiveImageWrapper;
 
-    if (tabPage.isTabSelected() && activeImage != null && activeImage.trim().length) {
+    if (tabPage.isTabSelected() && activeImage != null && activeImage.trim().length > 0) {
       const activeImageUrl: string | null = this._imageService.getImageUrl(activeImage);
 
-      if (activeImageUrl != null && activeImageUrl.trim().length) {
+      if (activeImageUrl != null && activeImageUrl.trim().length > 0) {
         tabStyle = {
           ...tabStyle,
           'background-image': `url(${activeImageUrl})`,
@@ -297,10 +297,10 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
       }
     }
 
-    if (!tabPage.isTabSelected() && inactiveImage != null && inactiveImage.trim().length) {
+    if (!tabPage.isTabSelected() && inactiveImage != null && inactiveImage.trim().length > 0) {
       const inactiveImageUrl: string | null = this._imageService.getImageUrl(inactiveImage);
 
-      if (inactiveImageUrl != null && inactiveImageUrl.trim().length) {
+      if (inactiveImageUrl != null && inactiveImageUrl.trim().length > 0) {
         tabStyle = {
           ...tabStyle,
           'background-image': `url(${inactiveImageUrl})`,

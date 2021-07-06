@@ -75,7 +75,7 @@ export abstract class ControlLabelContainerBaseLayout extends LayoutContainerBas
 
     const visibleWrappers: Array<LayoutableControlWrapper> = this._wrappers.filter(wrapper => this.checkWrapperVisibility(wrapper));
 
-    if (!visibleWrappers.length) {
+    if (visibleWrappers.length === 0) {
       return;
     }
 

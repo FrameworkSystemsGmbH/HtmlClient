@@ -51,7 +51,7 @@ export class DeepLinkService {
       });
 
       App.addListener('appUrlOpen', openUrl => {
-        if (openUrl.url.trim().length) {
+        if (openUrl.url.trim().length > 0) {
           try {
             const urlInst: URL = new URL(openUrl.url);
 
@@ -88,7 +88,7 @@ export class DeepLinkService {
               }
             }
 
-            if (name != null && name.trim().length && url != null && url.trim().length) {
+            if (name != null && name.trim().length > 0 && url != null && url.trim().length > 0) {
               this._pendingStartInfo = {
                 broker: new LoginBroker(name, url),
                 login,

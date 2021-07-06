@@ -390,7 +390,7 @@ export class FontService {
   }
 
   public measureTextHeight(font: string, size: number): number {
-    if (!font.trim().length || size <= 0) {
+    if (font.trim().length === 0 || size <= 0) {
       return 0;
     }
 

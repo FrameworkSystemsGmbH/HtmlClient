@@ -40,7 +40,7 @@ export class VariantWrapper extends ContainerWrapper {
   }
 
   public getBadgeImageSrc(): string | null {
-    if (this._badgeImageData != null && this._badgeImageData.trim().length) {
+    if (this._badgeImageData != null && this._badgeImageData.trim().length > 0) {
       if (this._dataSourceType === DataSourceType.ByteArray) {
         return `data:;base64,${this._badgeImageData}`;
       } else {

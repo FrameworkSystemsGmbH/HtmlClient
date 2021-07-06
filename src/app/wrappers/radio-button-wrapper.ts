@@ -160,7 +160,7 @@ export class RadioButtonWrapper extends FittedWrapper {
   public updateFittedWidth(): void {
     const caption: string | null = this.getCaption();
 
-    if (caption != null && caption.trim().length) {
+    if (caption != null && caption.trim().length > 0) {
       this.setFittedContentWidth(this.getFontService().measureTextWidth(caption, this.getFontFamily(), this.getFontSize(), this.getFontBold(), this.getFontItalic()) + this.getButtonWidth() + this.getLabelGap());
     } else {
       this.setFittedContentWidth(this.getButtonWidth());

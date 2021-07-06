@@ -133,7 +133,7 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
   }
 
   protected selectNext(): void {
-    if (!this.entries || !this.entries.length) {
+    if (this.entries == null || this.entries.length === 0) {
       return;
     }
 

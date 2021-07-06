@@ -40,7 +40,7 @@ export class ActionsService {
   }
 
   public processActions(actionsJson: any): void {
-    if (!actionsJson || !actionsJson.length) {
+    if (actionsJson == null || actionsJson.length === 0) {
       return;
     }
 
@@ -110,11 +110,11 @@ export class ActionsService {
       }
     }
 
-    if (reportId != null && reportId.trim().length) {
+    if (reportId != null && reportId.trim().length > 0) {
       this._printReportService.printReport(reportId);
     }
 
-    if (viewDocumentUrl != null && viewDocumentUrl.trim().length) {
+    if (viewDocumentUrl != null && viewDocumentUrl.trim().length > 0) {
       this._viewDocService.viewDocument(viewDocumentUrl);
     }
   }

@@ -36,7 +36,7 @@ export class TextsService {
   }
 
   public loadState(json: Array<any> | null): void {
-    if (!json || json.length === 0) {
+    if (json == null || json.length === 0) {
       return;
     }
 

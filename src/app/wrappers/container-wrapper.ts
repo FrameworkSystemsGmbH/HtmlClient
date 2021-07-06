@@ -99,7 +99,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   public updateVisibilityParent(): void {
     super.updateVisibilityParent();
-    if (this.controls.length) {
+    if (this.controls.length > 0) {
       this.controls.forEach(control => {
         control.updateVisibilityParent();
       });
@@ -113,7 +113,7 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
 
   public updateIsEditableParent(): void {
     super.updateIsEditableParent();
-    if (this.controls.length) {
+    if (this.controls.length > 0) {
       this.controls.forEach(control => {
         control.updateIsEditableParent();
       });

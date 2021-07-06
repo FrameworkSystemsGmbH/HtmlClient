@@ -136,7 +136,7 @@ export class WrapLayout extends LayoutContainerBase {
     let minHeight: number = 0;
 
     // content min height is the sum of all rows min height plus spacings
-    if (this._wrapRows.length) {
+    if (this._wrapRows.length > 0) {
       for (const wrapRow of this._wrapRows) {
         minHeight += wrapRow.getMinRowHeight();
       }
@@ -519,7 +519,7 @@ export class WrapLayout extends LayoutContainerBase {
 
     let minHeight: number = 0;
     // content min height is the maximum of all columns min heights
-    if (this._wrapColumns.length) {
+    if (this._wrapColumns.length > 0) {
       for (const wrapColumn of this._wrapColumns) {
         minHeight = Math.max(minHeight, wrapColumn.getMinColumnHeight());
       }
@@ -622,7 +622,7 @@ export class WrapLayout extends LayoutContainerBase {
       this.measureMinHeight(containerWidth);
     }
 
-    if (!this._wrapRows || !this._wrapRows.length) {
+    if (this._wrapRows == null || this._wrapRows.length === 0) {
       return;
     }
 
@@ -795,7 +795,7 @@ export class WrapLayout extends LayoutContainerBase {
       this.measureMinHeight(containerWidth);
     }
 
-    if (!this._wrapColumns || !this._wrapColumns.length) {
+    if (this._wrapColumns == null || this._wrapColumns.length === 0) {
       return;
     }
 

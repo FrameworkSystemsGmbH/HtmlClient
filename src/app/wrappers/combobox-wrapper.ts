@@ -256,7 +256,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
 
     this.setValueJson(json.value);
 
-    if (json.entries && json.entries.length) {
+    if (json.entries != null && json.entries.length > 0) {
       this._dataList = DataList.getFromJson(json.entries);
     }
   }

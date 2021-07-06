@@ -110,7 +110,7 @@ export class ButtonImageComponent extends ButtonComponent {
     this.updateImageUrl();
 
     const badgeImageSrc: string | null = wrapper.getBadgeImageSrc();
-    this.badgeImageSrc = badgeImageSrc != null && badgeImageSrc.trim().length ? this._sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
+    this.badgeImageSrc = badgeImageSrc != null && badgeImageSrc.trim().length > 0 ? this._sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
   }
 
   protected updateStyles(wrapper: ButtonImageWrapper): void {

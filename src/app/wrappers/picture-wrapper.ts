@@ -25,7 +25,7 @@ export class PictureWrapper extends ControlWrapper {
   }
 
   public getImageSrc(): string | null {
-    if (this._imageData != null && this._imageData.trim().length) {
+    if (this._imageData != null && this._imageData.trim().length > 0) {
       if (this._dataSourceType === DataSourceType.ByteArray) {
         return `data:;base64,${this._imageData}`;
       } else {
@@ -33,7 +33,7 @@ export class PictureWrapper extends ControlWrapper {
       }
     } else {
       const imageUrl: string | undefined = this.getPropertyStore().getImage();
-      if (imageUrl != null && imageUrl.trim().length) {
+      if (imageUrl != null && imageUrl.trim().length > 0) {
         return this.getImageService().getImageUrl(imageUrl);
       }
     }

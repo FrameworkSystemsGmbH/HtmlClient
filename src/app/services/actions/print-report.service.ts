@@ -22,7 +22,7 @@ export class PrintReportService {
   }
 
   public printReport(id: string): void {
-    if (this._reportUrl != null && this._reportUrl.trim().length && id.trim().length) {
+    if (this._reportUrl != null && this._reportUrl.trim().length > 0 && id.trim().length > 0) {
       void Browser.open({ url: `${this._reportUrl}?id=${id}` });
     }
   }

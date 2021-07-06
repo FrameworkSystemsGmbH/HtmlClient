@@ -13,7 +13,7 @@ export class Queue<T> {
   }
 
   public isEmpty(): boolean {
-    return !this._queue.length;
+    return this._queue.length === 0;
   }
 
   public enqueue(item: T): void {

@@ -118,7 +118,7 @@ export class ListViewComponent extends ControlComponent implements OnInit {
 
     const itemWrappers: Array<ListViewItemWrapper> = wrapper.getItems();
 
-    if (!itemWrappers.length) {
+    if (itemWrappers.length === 0) {
       return;
     }
 

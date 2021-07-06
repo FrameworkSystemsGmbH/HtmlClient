@@ -282,7 +282,7 @@ export class BrokerService {
   }
 
   private doRequest(requestJson: any): Observable<any> {
-    if (this._activeBrokerRequestUrl == null || !this._activeBrokerRequestUrl.trim().length) {
+    if (this._activeBrokerRequestUrl == null || this._activeBrokerRequestUrl.trim().length === 0) {
       throw new Error('Broker request url is not set!');
     }
 
@@ -480,7 +480,7 @@ export class BrokerService {
   }
 
   private processControlStyles(controlStylesJson: any): Observable<void> {
-    if (controlStylesJson && controlStylesJson.length) {
+    if (controlStylesJson != null && controlStylesJson.length > 0) {
       return RxJsUtil.voidObs().pipe(
         tap(() => {
           for (const controlStyleJson of controlStylesJson) {
@@ -494,7 +494,7 @@ export class BrokerService {
   }
 
   private processTexts(textsJson: any): Observable<void> {
-    if (textsJson && textsJson.length) {
+    if (textsJson != null && textsJson.length > 0) {
       return RxJsUtil.voidObs().pipe(
         tap(() => {
           for (const textJson of textsJson) {
@@ -508,7 +508,7 @@ export class BrokerService {
   }
 
   private processForms(formsJson: any): Observable<void> {
-    if (formsJson && formsJson.length) {
+    if (formsJson != null && formsJson.length > 0) {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._formsService.setJson(formsJson))
       );
@@ -518,7 +518,7 @@ export class BrokerService {
   }
 
   private processActions(actionsJson: any): Observable<void> {
-    if (actionsJson && actionsJson.length) {
+    if (actionsJson != null && actionsJson.length > 0) {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._actionsService.processActions(actionsJson))
       );
@@ -528,7 +528,7 @@ export class BrokerService {
   }
 
   private processError(errorJson: any): Observable<void> {
-    if (errorJson && !JsonUtil.isEmptyObject(errorJson)) {
+    if (errorJson != null && !JsonUtil.isEmptyObject(errorJson)) {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
         mergeMap(() => this._dialogService.showErrorBox({
@@ -544,7 +544,7 @@ export class BrokerService {
   }
 
   private processMsgBox(msgBoxesJson: any): Observable<void> {
-    if (msgBoxesJson && msgBoxesJson.length) {
+    if (msgBoxesJson != null && msgBoxesJson.length > 0) {
       const msgBoxJson: any = msgBoxesJson[0];
       const formId: string = msgBoxJson.formId;
       const id: string = msgBoxJson.id;
@@ -572,7 +572,7 @@ export class BrokerService {
     const type: string = quitMessages.type;
     const parts: Array<string> | null = quitMessages.parts;
 
-    if (parts && parts.length) {
+    if (parts != null && parts.length > 0) {
       partsStr = parts.join('\n');
     }
 

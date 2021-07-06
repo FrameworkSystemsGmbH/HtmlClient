@@ -55,7 +55,7 @@ export class DataList extends Array<DataListEntry> {
   }
 
   public getNullEntry(): DataListEntry | null {
-    if (!this.length) {
+    if (this.length === 0) {
       return null;
     }
 

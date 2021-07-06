@@ -35,7 +35,7 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
   protected setValueJson(value: string | null): void {
     let val: Moment.Moment | null = null;
 
-    if (value != null && value.trim().length) {
+    if (value != null && value.trim().length > 0) {
       val = this.getDateTimeFormatService().momentFromJson(value);
 
       if (!val.isValid()) {

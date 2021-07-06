@@ -603,7 +603,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   protected setEventsJson(eventsJson: any): void {
-    if (!eventsJson || !eventsJson.length) {
+    if (eventsJson == null || eventsJson.length === 0) {
       return;
     }
 

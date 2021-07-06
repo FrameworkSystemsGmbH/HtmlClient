@@ -229,7 +229,7 @@ export class ListViewItemWrapper {
       });
     }
 
-    if (valuesJson.length) {
+    if (valuesJson.length > 0) {
       json.values = valuesJson;
     }
 
@@ -242,7 +242,7 @@ export class ListViewItemWrapper {
     this._selected = json.selected;
     this._selectedOrg = json.selectedOrg;
 
-    if (json.values && json.values.length) {
+    if (json.values != null && json.values.length > 0) {
       this._values = new Array<ListViewItemValueWrapper>();
       for (const valueJson of json.values) {
         this._values.push(new ListViewItemValueWrapper(valueJson.value, valueJson.format, valueJson.formatPattern));
