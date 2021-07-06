@@ -35,7 +35,7 @@ export class ListViewItemContentWebComp extends HTMLElement {
       if (isEditable) {
         itemDiv.removeAttribute('lvdisabled');
       } else {
-        itemDiv.setAttribute('lvdisabled', '');
+        itemDiv.setAttribute('lvdisabled', String.empty());
       }
     }
   }

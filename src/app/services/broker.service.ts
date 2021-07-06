@@ -567,7 +567,7 @@ export class BrokerService {
   }
 
   private processQuitMsg(restartRequested: boolean, quitMessages: any): Observable<void> {
-    let partsStr: string = '';
+    let partsStr: string = String.empty();
 
     const type: string = quitMessages.type;
     const parts: Array<string> | null = quitMessages.parts;
@@ -577,7 +577,7 @@ export class BrokerService {
     }
 
     if (type === 'Warning') {
-      let msg: string = '';
+      let msg: string = String.empty();
 
       if (restartRequested) {
         msg = 'Do you want to restart the session?';
@@ -611,7 +611,7 @@ export class BrokerService {
         tap(() => this._loaderService.fireLoadingChanged(true))
       );
     } else if (type === 'Cancel') {
-      let msg: string = '';
+      let msg: string = String.empty();
 
       if (restartRequested) {
         msg = 'The session cannot be restartet!';

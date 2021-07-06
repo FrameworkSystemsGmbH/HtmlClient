@@ -35,7 +35,7 @@ export class TemplateControlContentWebComp extends HTMLElement {
       if (isEditable) {
         tplDiv.removeAttribute('tpldisabled');
       } else {
-        tplDiv.setAttribute('tpldisabled', '');
+        tplDiv.setAttribute('tpldisabled', String.empty());
       }
     }
   }

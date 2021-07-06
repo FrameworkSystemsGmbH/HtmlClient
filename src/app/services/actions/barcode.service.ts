@@ -29,7 +29,7 @@ export class BarcodeService {
   public scan(format: BarcodeFormat): void {
     if (this._platformService.isNative() && format !== BarcodeFormat.NONE) {
       (window as any).cordova.plugins.barcodeScanner.scan(this.onSuccess.bind(this), this.onError.bind(this), {
-        prompt: '',
+        prompt: String.empty(),
         disableSuccessBeep: true,
         resultDisplayDuration: 0,
         formats: this.buildFormatString(format)

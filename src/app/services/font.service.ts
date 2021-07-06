@@ -177,7 +177,7 @@ export class FontService {
   }
 
   private addKey(key: string, value: any): string {
-    const valueStr: string = value == null ? '' : value.toString();
+    const valueStr: string = value == null ? String.empty() : value.toString();
     return key + this._separator + valueStr;
   }
 
