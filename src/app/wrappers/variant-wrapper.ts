@@ -58,7 +58,7 @@ export class VariantWrapper extends ContainerWrapper {
       return;
     }
 
-    if (dataJson.badgeImage && dataJson.badgeImage.type != null && !String.isNullOrWhiteSpace(dataJson.badgeImage.value)) {
+    if (dataJson.badgeImage && dataJson.badgeImage.type != null && dataJson.badgeImage.value != null && dataJson.badgeImage.value.trim().length > 0) {
       this._dataSourceType = dataJson.badgeImage.type;
       this._badgeImageData = dataJson.badgeImage.value;
     }

@@ -72,7 +72,7 @@ export class CameraService {
       this.reset();
       this._hasError = true;
 
-      if (!String.isNullOrWhiteSpace(message)) {
+      if (message.trim().length > 0) {
         if (message.match(/cancelled photos app/i) != null) {
           this._errorMessage = 'Process cancelled by user!';
         } else if (message.match(/denied permission request/i) != null) {
@@ -93,14 +93,14 @@ export class CameraService {
   }
 
   public processPendingResult(): void {
-    if (!String.isNullOrWhiteSpace(this._brokerName) && this._pendingResult != null) {
+    if (this._brokerName != null && this._brokerName.trim().length > 0 && this._pendingResult != null) {
       if (this._pendingResult.success) {
-        if (this._pendingResult.data != null && !String.isNullOrWhiteSpace(this._pendingResult.data.base64String)) {
+        if (this._pendingResult.data != null && this._pendingResult.data.base64String != null && this._pendingResult.data.base64String.trim().length > 0) {
           this.onSuccess(this._pendingResult.data.base64String);
         } else {
           this.onError('Pending image data is missing!');
         }
-      } else if (this._pendingResult.error != null && !String.isNullOrWhiteSpace(this._pendingResult.error.message)) {
+      } else if (this._pendingResult.error != null && this._pendingResult.error.message.trim().length > 0) {
         this.onError(this._pendingResult.error.message);
       } else {
         this.onError('Pending error message is missing!');

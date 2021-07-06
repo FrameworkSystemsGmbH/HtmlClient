@@ -158,7 +158,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
       term += char;
     }
 
-    if (!String.isNullOrWhiteSpace(term)) {
+    if (term.trim().length > 0) {
       this.selectEntryOnTerm(term);
     }
   }
@@ -170,7 +170,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   }
 
   protected selectEntryOnTerm(term: string): void {
-    if (String.isNullOrWhiteSpace(term)) {
+    if (term.trim().length === 0) {
       return;
     }
 

@@ -99,7 +99,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
       return;
     }
 
-    if (dataJson.badgeImage && dataJson.badgeImage.type != null && !String.isNullOrWhiteSpace(dataJson.badgeImage.value)) {
+    if (dataJson.badgeImage != null && dataJson.badgeImage.type != null && dataJson.badgeImage.value != null && dataJson.badgeImage.value.trim().length) {
       this._dataSourceType = dataJson.badgeImage.type;
       this._badgeImageData = dataJson.badgeImage.value;
     }

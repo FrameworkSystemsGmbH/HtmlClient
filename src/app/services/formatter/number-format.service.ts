@@ -123,7 +123,7 @@ export class NumberFormatService {
 
     let pattern: string = formatPattern;
 
-    if (String.isNullOrWhiteSpace(formatPattern)) {
+    if (formatPattern.trim().length === 0) {
       pattern = NumberFormatService._formatDefault;
     }
 
@@ -203,7 +203,7 @@ export class NumberFormatService {
         }
       }
 
-      if (!String.isNullOrWhiteSpace(valueDigitsStr)) {
+      if (valueDigitsStr.trim().length > 0) {
         digitsStr += valueDigitsStr;
       }
 
@@ -227,7 +227,7 @@ export class NumberFormatService {
     if (formatInfo.hasDecimalsPart() && valueDecimalPointPos >= 0 || formatInfo.lastDecimalZeroPos != null) {
       resultStr += this.getDecimalSeparator();
 
-      if (!String.isNullOrWhiteSpace(valueDecimalsStr)) {
+      if (valueDecimalsStr != null && valueDecimalsStr.trim().length > 0) {
         resultStr += valueDecimalsStr;
       }
 
@@ -282,9 +282,9 @@ export class NumberFormatService {
       valueNum = this.adjustNumberPositiveInteger(valueNum);
     } else if (textFormat === TextFormat.NegativeInteger) {
       valueNum = this.adjustNumberNegativeInteger(valueNum);
-    } else if (textFormat === TextFormat.Decimal && !String.isNullOrEmpty(formatPattern)) {
+    } else if (textFormat === TextFormat.Decimal && formatPattern.length > 0) {
       valueNum = this.adjustNumberPattern(valueNum, formatPattern);
-    } else if (textFormat === TextFormat.UserDefined && !String.isNullOrEmpty(formatPattern)) {
+    } else if (textFormat === TextFormat.UserDefined && formatPattern.length > 0) {
       valueNum = this.adjustNumberPattern(valueNum, formatPattern);
     }
 
@@ -326,7 +326,7 @@ export class NumberFormatService {
       return null;
     }
 
-    if (String.isNullOrWhiteSpace(formatPattern)) {
+    if (formatPattern.trim().length === 0) {
       return value;
     }
 
@@ -494,7 +494,7 @@ export class NumberFormatService {
   }
 
   private cleanNumberString(value: string, parseMethod: ParseMethod): string | null {
-    if (String.isNullOrWhiteSpace(value)) {
+    if (value.trim().length === 0) {
       return null;
     }
 

@@ -164,10 +164,7 @@ export class StateService {
     const stateJson: any = {};
 
     // App Title
-    const title: string = this._titleService.getTitle();
-    if (!String.isNullOrWhiteSpace(title)) {
-      stateJson.title = title;
-    }
+    stateJson.title = this._titleService.getTitle();
 
     // Meta
     const lastRequestTime: Moment.Moment | null = this._brokerService.getLastRequestTime();
@@ -230,7 +227,7 @@ export class StateService {
     const stateJson: any = lastSessionInfo.getStateJson();
 
     // Common Properties
-    if (!String.isNullOrWhiteSpace(stateJson.title)) {
+    if (stateJson.title != null && stateJson.title.trim().length > 0) {
       this._titleService.setTitle(stateJson.title);
     }
 

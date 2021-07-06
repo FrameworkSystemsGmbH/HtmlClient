@@ -7,7 +7,7 @@ const { Browser } = Plugins;
 export class ViewDocService {
 
   public viewDocument(url: string): void {
-    if (!String.isNullOrWhiteSpace(url)) {
+    if (url.trim().length > 0) {
       void Browser.open({ url });
     }
   }

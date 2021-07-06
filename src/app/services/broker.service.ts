@@ -196,7 +196,7 @@ export class BrokerService {
       const reportUrl: string = `${url.trimCharsRight('/')}/api/report`;
       const requestUrl: string = `${url.trimCharsRight('/')}/api/process`;
 
-      if (options != null && !String.isNullOrWhiteSpace(options.languages)) {
+      if (options != null && options.languages != null && options.languages.length > 0) {
         this._clientLanguages = options.languages;
       }
 
@@ -342,7 +342,7 @@ export class BrokerService {
           const os: string = this._platformService.getOS();
           const osversion: string = this._platformService.getOSVersion();
 
-          if (!String.isNullOrWhiteSpace(sessionData)) {
+          if (sessionData != null && sessionData.trim().length > 0) {
             metaJson.sessionData = sessionData;
           }
 
@@ -352,7 +352,7 @@ export class BrokerService {
             OSVersion: osversion
           };
 
-          if (!String.isNullOrWhiteSpace(clientId)) {
+          if (clientId.trim().length > 0) {
             clientInfos = {
               ...clientInfos,
               ClientID: clientId
@@ -440,9 +440,9 @@ export class BrokerService {
       }));
     }
 
-    const sessionData: string = metaJson.sessionData;
+    const sessionData: string | null = metaJson.sessionData;
 
-    if (!String.isNullOrWhiteSpace(sessionData)) {
+    if (sessionData != null && sessionData.trim().length > 0) {
       if (sessionData === BrokerService.SESSION_DATA_DISCARD) {
         return this._clientDataService.deleteSessionData().pipe(
           mergeMap(() => RxJsUtil.voidObs())
@@ -470,7 +470,7 @@ export class BrokerService {
   }
 
   private processApplication(applicationJson: any): Observable<void> {
-    if (applicationJson && !String.isNullOrWhiteSpace(applicationJson.title)) {
+    if (applicationJson && applicationJson.title != null && applicationJson.title.trim().length > 0) {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._titleService.setTitle(applicationJson.title))
       );
@@ -587,7 +587,7 @@ export class BrokerService {
 
       let msgBoxIcon: MsgBoxIcon = MsgBoxIcon.Question;
 
-      if (!String.isNullOrWhiteSpace(partsStr)) {
+      if (partsStr.trim().length > 0) {
         msg = `${partsStr}\n\n${msg}`;
         msgBoxIcon = MsgBoxIcon.Exclamation;
       }
@@ -619,7 +619,7 @@ export class BrokerService {
         msg = 'The session cannot be closed!';
       }
 
-      if (!String.isNullOrWhiteSpace(partsStr)) {
+      if (partsStr.trim().length > 0) {
         msg = `${partsStr}\n\n${msg}`;
       }
 
@@ -631,7 +631,7 @@ export class BrokerService {
         })),
         tap(() => this._loaderService.fireLoadingChanged(true))
       );
-    } else if (type === 'Close' && !String.isNullOrWhiteSpace(partsStr)) {
+    } else if (type === 'Close' && partsStr.trim().length > 0) {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
         mergeMap(() => this._dialogService.showMsgBoxBox({

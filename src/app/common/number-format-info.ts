@@ -13,19 +13,19 @@ export class NumberFormatInfo {
   public negativeFirst: boolean = false;
 
   public hasPrefixPart(): boolean {
-    return !String.isNullOrEmpty(this.prefixPart);
+    return this.prefixPart.length > 0;
   }
 
   public hasDigitsPart(): boolean {
-    return !String.isNullOrEmpty(this.digitsPart);
+    return this.digitsPart.length > 0;
   }
 
   public hasDecimalsPart(): boolean {
-    return !String.isNullOrEmpty(this.decimalsPart);
+    return this.decimalsPart.length > 0;
   }
 
   public hasSuffixPart(): boolean {
-    return !String.isNullOrEmpty(this.suffixPart);
+    return this.suffixPart.length > 0;
   }
 
   public getDigitsCount(): number {

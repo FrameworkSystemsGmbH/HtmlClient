@@ -23,7 +23,7 @@ export class ImageService {
   }
 
   public getImageUrl(image: string): string | null {
-    if (String.isNullOrWhiteSpace(image)) {
+    if (image.trim().length === 0) {
       return null;
     }
 

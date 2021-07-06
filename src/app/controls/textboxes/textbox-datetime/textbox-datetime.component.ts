@@ -39,11 +39,11 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
   public callCtrlLeave(event: any): void {
     if (this.isEditable && this.input != null) {
       if (this.input.nativeElement.classList.contains('ng-dirty')) {
-        if (String.isNullOrWhiteSpace(this.value)) {
+        if (this.value == null || this.value.trim().length === 0) {
           this.value = null;
           this.updateWrapper();
         } else {
-          const formattedValue: string | null = this.value != null ? this._dateTimeFormatService.formatString(this.value, this._format, this._formatPattern) : null;
+          const formattedValue: string | null = this._dateTimeFormatService.formatString(this.value, this._format, this._formatPattern);
           if (formattedValue == null) {
             this.updateComponent();
           } else {

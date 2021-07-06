@@ -47,7 +47,7 @@ export class DeepLinkService {
       });
 
       this._store.select(selectBrokerName).subscribe(name => {
-        this._active = !String.isNullOrWhiteSpace(name);
+        this._active = name != null && name.trim().length > 0;
       });
 
       App.addListener('appUrlOpen', openUrl => {

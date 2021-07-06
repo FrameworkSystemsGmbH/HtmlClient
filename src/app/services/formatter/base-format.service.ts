@@ -40,7 +40,7 @@ export class BaseFormatService {
       case TextFormat.TimeOnlyMedium:
       case TextFormat.TimeOnlyLong:
         let val: any = null;
-        if (!String.isNullOrWhiteSpace(value)) {
+        if (value.trim().length > 0) {
           val = this._dateTimeFormatService.momentFromJson(value);
 
           if (val === null || !val.isValid()) {

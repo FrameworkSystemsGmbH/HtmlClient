@@ -257,7 +257,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
     this._templateCss = this.getTemplateCss();
     this._templateHtml = this.parseViewTemplate();
 
-    if (String.isNullOrWhiteSpace(this._templateHtml)) {
+    if (this._templateHtml == null || this._templateHtml.trim().length === 0) {
       this.setErrorTemplate();
     }
   }
@@ -409,7 +409,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
       for (const part of parts) {
         const partTrimmed = part.trim();
 
-        if (String.isNullOrWhiteSpace(partTrimmed)) {
+        if (partTrimmed.length === 0) {
           continue;
         }
 

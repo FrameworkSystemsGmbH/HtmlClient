@@ -528,7 +528,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public providesControlLabelWrapper(): boolean {
-    return !String.isNullOrEmpty(this.getCaption());
+    return this.getCaption() != null;
   }
 
   public getControlLabelWrapper(fieldRowWrp: FieldRowWrapper): IControlLabelWrapper | null {
@@ -775,7 +775,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       json.parent = this._parent.getName();
     }
 
-    if (!String.isNullOrWhiteSpace(this._controlStyle)) {
+    if (this._controlStyle && this._controlStyle.trim().length > 0) {
       json.controlStyle = this._controlStyle;
     }
 

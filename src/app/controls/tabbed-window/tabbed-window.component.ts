@@ -282,8 +282,8 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     const inactiveImageWrapper: string | null = wrapper.getInactiveImage();
     const inactiveImageTabPage: string | null = tabPage.getInactiveImage();
 
-    const activeImage: string | null = !String.isNullOrWhiteSpace(activeImageTabPage) ? activeImageTabPage : activeImageWrapper;
-    const inactiveImage: string | null = !String.isNullOrWhiteSpace(inactiveImageTabPage) ? inactiveImageTabPage : inactiveImageWrapper;
+    const activeImage: string | null = activeImageTabPage != null && activeImageTabPage.trim().length > 0 ? activeImageTabPage : activeImageWrapper;
+    const inactiveImage: string | null = inactiveImageTabPage != null && inactiveImageTabPage.trim().length > 0 ? inactiveImageTabPage : inactiveImageWrapper;
 
     if (tabPage.isTabSelected() && activeImage != null && activeImage.trim().length) {
       const activeImageUrl: string | null = this._imageService.getImageUrl(activeImage);

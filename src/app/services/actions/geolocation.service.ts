@@ -56,7 +56,7 @@ export class GeoLocationService {
       this.reset();
       this._hasError = true;
 
-      if (error != null && !String.isNullOrWhiteSpace(error.message)) {
+      if (error != null && error.message != null && error.message.trim().length > 0) {
         const message: string = error.message;
 
         if (message.match(/denied location permission/i) != null) {

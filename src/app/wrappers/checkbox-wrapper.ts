@@ -82,7 +82,7 @@ export class CheckBoxWrapper extends FittedWrapper {
     return val;
   }
 
-  protected setValueJson(value: string): void {
+  protected setValueJson(value: string | null): void {
     let val: boolean = false;
 
     switch (this._dataSourceType) {
@@ -97,7 +97,7 @@ export class CheckBoxWrapper extends FittedWrapper {
       case DataSourceType.Long:
       case DataSourceType.Short:
       case DataSourceType.String:
-        val = !String.isNullOrWhiteSpace(value) && value !== '0';
+        val = value != null && value.trim().length > 0 && value !== '0';
         break;
 
       default:

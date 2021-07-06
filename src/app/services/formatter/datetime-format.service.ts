@@ -421,12 +421,12 @@ export class DateTimeFormatService {
     if (separatorPos != null) {
       if (separatorPos === 0) {
         const timePart: string = value.substring(1);
-        if (!String.isNullOrWhiteSpace(timePart)) {
+        if (timePart.trim().length > 0) {
           dateTime = this.getTimeFromShortcut(timePart, formatPattern);
         }
       } else if (separatorPos === value.length - 1) {
         const datePart: string = value.substring(0, value.length - 1);
-        if (!String.isNullOrWhiteSpace(datePart)) {
+        if (datePart.trim().length > 0) {
           dateTime = this.getDateFromShortcut(datePart, formatPattern);
         }
       } else {

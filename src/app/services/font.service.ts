@@ -380,7 +380,7 @@ export class FontService {
   }
 
   public measureTextWidth(text: string | null, font: string, size: number, isBold: boolean, isItalic: boolean): number {
-    if (text == null || String.isNullOrWhiteSpace(font) || size <= 0) {
+    if (text == null || font.trim().length === 0 || size <= 0) {
       return 0;
     }
 

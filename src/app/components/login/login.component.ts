@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.lastSessionInfo = lastSessionInfo;
     });
 
-    if (String.isNullOrWhiteSpace(this.activeBrokerName)) {
+    if (this.activeBrokerName == null || this.activeBrokerName.trim().length === 0) {
       this._titleService.setDefault();
     }
   }

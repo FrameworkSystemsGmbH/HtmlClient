@@ -232,11 +232,11 @@ export class FormWrapper extends ContainerWrapper {
   }
 
   public loadStateAfterControlsSet(json: any): void {
-    if (!String.isNullOrWhiteSpace(json.closeButton)) {
+    if (json.closeButton && json.closeButton.trim().length > 0) {
       this._closeButton = this.findControlRecursive(json.closeButton) as ButtonBaseWrapper;
     }
 
-    if (!String.isNullOrWhiteSpace(json.focusWrapper)) {
+    if (json.focusWrapper && json.focusWrapper.trim().length > 0) {
       this._focusWrapper = this.findControlRecursive(json.focusWrapper);
     }
   }

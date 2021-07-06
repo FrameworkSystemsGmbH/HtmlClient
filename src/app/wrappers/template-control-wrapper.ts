@@ -102,7 +102,7 @@ export class TemplateControlWrapper extends ControlWrapper {
     this._templateCss = this.getTemplateCss();
     this._templateHtml = this.parseViewTemplate();
 
-    if (String.isNullOrWhiteSpace(this._templateHtml)) {
+    if (this._templateHtml == null || this._templateHtml.trim().length === 0) {
       this.setErrorTemplate();
     }
   }
@@ -181,7 +181,7 @@ export class TemplateControlWrapper extends ControlWrapper {
       for (const part of parts) {
         const partTrimmed = part.trim();
 
-        if (String.isNullOrWhiteSpace(partTrimmed)) {
+        if (partTrimmed.length === 0) {
           continue;
         }
 
@@ -218,7 +218,7 @@ export class TemplateControlWrapper extends ControlWrapper {
       if (ds != null) {
         let options: ITemplateControlTemplateVariableWrapperOptions | undefined;
 
-        if (format || !String.isNullOrWhiteSpace(formatPattern)) {
+        if (format || formatPattern != null && formatPattern.trim().length > 0) {
           options = {
             format,
             formatPattern
@@ -306,13 +306,13 @@ export class TemplateControlWrapper extends ControlWrapper {
     if (json.templateVariables && json.templateVariables.length) {
       for (const varJson of json.templateVariables) {
         const ds: TemplateControlTemplateDataSourceWrapper | undefined = this._templateDataSources.find(d => d.getName() === varJson.dsName);
-        const format: TextFormat = varJson.format;
-        const formatPattern: string = varJson.formatPattern;
+        const format: TextFormat | undefined = varJson.format;
+        const formatPattern: string | undefined = varJson.formatPattern;
 
         if (ds != null) {
           let options: ITemplateControlTemplateVariableWrapperOptions | undefined;
 
-          if (format || !String.isNullOrWhiteSpace(formatPattern)) {
+          if (format || formatPattern != null && formatPattern.trim().length > 0) {
             options = {
               format,
               formatPattern

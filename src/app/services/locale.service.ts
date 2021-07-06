@@ -11,8 +11,8 @@ export class LocaleService {
     const browserTimeZone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const browserLocale: string = navigator.language;
 
-    this._locale = browserLocale ? browserLocale : 'de-DE';
-    this._timeZone = !String.isNullOrWhiteSpace(browserTimeZone) ? browserTimeZone : 'Europe/Berlin';
+    this._locale = browserLocale.trim().length > 0 ? browserLocale : 'de-DE';
+    this._timeZone = browserTimeZone.trim().length > 0 ? browserTimeZone : 'Europe/Berlin';
   }
 
   public setMomentLocaleGlobally(): void {

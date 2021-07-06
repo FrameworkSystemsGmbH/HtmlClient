@@ -76,7 +76,7 @@ export class PictureWrapper extends ControlWrapper {
       return;
     }
 
-    if (dataJson.text && dataJson.text.type != null && !String.isNullOrWhiteSpace(dataJson.text.value)) {
+    if (dataJson.text && dataJson.text.type != null && dataJson.text.value != null && dataJson.text.value.trim().length > 0) {
       this._dataSourceType = dataJson.text.type;
       this._imageData = dataJson.text.value;
     }
