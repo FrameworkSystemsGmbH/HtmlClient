@@ -11,6 +11,7 @@ import { ITabbedLayoutControl } from '@app/layout/tabbed-layout/tabbed-layout-co
 import { ContainerWrapper } from '@app/wrappers/container-wrapper';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
 import { TabPageTemplate } from '@app/wrappers/tabbed-window/tab-page-template';
 import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
 import { Subscription } from 'rxjs';
@@ -44,6 +45,17 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
   public getTabPages(): Array<TabPageWrapper> {
     return this.getVchContainer().getChildren() as Array<TabPageWrapper>;
+  }
+
+  public getSelectedTabPage(): TabPageWrapper | null {
+    const tabPages: Array<TabPageWrapper> = this.getTabPages();
+    const selectedIndex: number = this.getSelectedTabIndex();
+
+    if (selectedIndex < 0 || selectedIndex > tabPages.length - 1) {
+      return null;
+    }
+
+    return tabPages[selectedIndex];
   }
 
   public getTabAlignment(): TabAlignment {
@@ -385,6 +397,16 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     if (json.selectedTabIndex != null) {
       this.setSelectedTabIndexJson(json.selectedTabIndex);
     }
+  }
+
+  public findNextKeyboardFocusableControlRecursive(): ILayoutableControlWrapper | null {
+    const selectedTab: TabPageWrapper | null = this.getSelectedTabPage();
+
+    if (selectedTab != null) {
+      return selectedTab.findNextKeyboardFocusableControlRecursive();
+    }
+
+    return null;
   }
 
   protected scrollIntoView(): void {

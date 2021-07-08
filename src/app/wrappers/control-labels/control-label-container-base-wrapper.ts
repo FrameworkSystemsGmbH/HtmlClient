@@ -15,6 +15,7 @@ import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-
 import { IControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper.interface';
 import { FieldRowWrapper } from '@app/wrappers/field-row-wrapper';
 import { ILayoutableContainerWrapper } from '@app/wrappers/layout/layoutable-container-wrapper.interface';
+import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-control-wrapper.interface';
 import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';
 
 export interface IControlLabelContainerBaseWrapperOptions {
@@ -334,6 +335,21 @@ export abstract class ControlLabelContainerBaseWrapper implements IControlLabelW
 
   public setFocus(): void {
     // Cannot receive focus
+  }
+
+  public findFirstFocusableControlInContainerRecursive(): ILayoutableControlWrapper | null {
+    // Cannot receive focus
+    return null;
+  }
+
+  public findPreviousKeyboardFocusableControlRecursive(): ILayoutableControlWrapper | null {
+    // Cannot receive focus
+    return null;
+  }
+
+  public findNextKeyboardFocusableControlRecursive(): ILayoutableControlWrapper | null {
+    // Cannot receive focus
+    return null;
   }
 
   protected abstract createName(): string;
