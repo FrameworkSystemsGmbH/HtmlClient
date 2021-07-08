@@ -13,10 +13,4 @@ export interface ILayoutableContainerWrapper extends ILayoutableControlWrapper, 
 
   getInvertFlowDirection: () => boolean;
 
-  findFirstFocusableControlInContainerRecursive: () => ILayoutableControlWrapper | null;
-
-  findPreviousKeyboardFocusableControlRecursive: () => ILayoutableControlWrapper | null;
-
-  findNextKeyboardFocusableControlRecursive: () => ILayoutableControlWrapper | null;
-
 }

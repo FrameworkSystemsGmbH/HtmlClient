@@ -51,4 +51,12 @@ export class TabPageWrapper extends ContainerWrapper implements ILayoutableConta
     const factory: ComponentFactory<TabPageComponent> = this.getResolver().resolveComponentFactory(TabPageComponent);
     return factory.create(container.getViewContainerRef().injector);
   }
+
+  public canReceiveFocus(): boolean {
+    return super.canReceiveFocus() && this.isTabSelected();
+  }
+
+  public canReceiveKeyboardFocus(): boolean {
+    return super.canReceiveKeyboardFocus() && this.isTabSelected();
+  }
 }

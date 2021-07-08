@@ -5,7 +5,6 @@ import { ContainerLayout } from '@app/layout/container-layout/container-layout';
 import { LayoutBase } from '@app/layout/layout-base';
 import { LayoutContainerBase } from '@app/layout/layout-container-base';
 import { ILayoutableControl } from '@app/layout/layoutable-control.interface';
-import * as InterfaceUtil from '@app/util/interface-util';
 import * as JsonUtil from '@app/util/json-util';
 import { VchContainer } from '@app/vch/vch-container';
 import { VchControl } from '@app/vch/vch-control';
@@ -222,90 +221,68 @@ export abstract class ContainerWrapper extends ControlWrapper implements ILayout
     });
   }
 
+  public canReceiveFocus(): boolean {
+    const thisCheck: boolean = super.canReceiveFocus();
+
+    if (!thisCheck) {
+      return false;
+    }
+
+    const children: Array<ILayoutableControlWrapper> = this.getVchContainer().getChildren();
+
+    if (children.length === 0) {
+      return false;
+    }
+
+    for (const child of children) {
+      if (child.canReceiveFocus()) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   public canReceiveKeyboardFocus(): boolean {
+    const thisCheck: boolean = this.canReceiveFocus();
+
+    if (!thisCheck) {
+      return false;
+    }
+
+    const children: Array<ILayoutableControlWrapper> = this.getVchContainer().getChildren();
+
+    if (children.length === 0) {
+      return false;
+    }
+
+    for (const child of children) {
+      if (child.canReceiveKeyboardFocus()) {
+        return true;
+      }
+    }
+
     return false;
   }
 
   public setFocus(): void {
-    const focusableControl: ILayoutableControlWrapper | null = this.findFirstFocusableControlInContainerRecursive();
+    if (this.canReceiveFocus()) {
+      const child: ILayoutableControlWrapper | undefined = this.getVchContainer().getChildren().find(c => c.canReceiveFocus());
 
-    if (focusableControl) {
-      focusableControl.setFocus();
+      if (child != null) {
+        child.setFocus();
+      }
     }
   }
 
-  public findFirstFocusableControlInContainerRecursive(): ILayoutableControlWrapper | null {
-    if (!this.canReceiveFocus()) {
-      return null;
-    }
+  public setFocusLast(): void {
+    if (this.canReceiveFocus()) {
+      const child: ILayoutableControlWrapper | undefined = this.getVchContainer().getChildren().clone().reverse().find(c => c.canReceiveFocus());
 
-    const children: Array<ILayoutableControlWrapper> = this.getVchContainer().getChildren();
-
-    for (const child of children) {
-      if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
-        const containerChild: ILayoutableControlWrapper | null = child.findFirstFocusableControlInContainerRecursive();
-
-        if (containerChild) {
-          return containerChild;
-        }
-      }
-
-      if (child.canReceiveFocus()) {
-        return child;
+      if (child != null) {
+        child.setFocusLast();
       }
     }
-
-    return null;
-  }
-
-  public findPreviousKeyboardFocusableControlRecursive(): ILayoutableControlWrapper | null {
-    const children: Array<ILayoutableControlWrapper> = this.getVchContainer().getChildren();
-
-    for (let i = children.length - 1; i >= 0; i--) {
-      const child: ILayoutableControlWrapper = children[i];
-
-      if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
-        const containerChild: ILayoutableControlWrapper | null = child.findPreviousKeyboardFocusableControlRecursive();
-
-        if (containerChild) {
-          return containerChild;
-        }
-      }
-
-      if (child.canReceiveKeyboardFocus()) {
-        return child;
-      }
-    }
-
-    if (this.canReceiveKeyboardFocus()) {
-      return this;
-    }
-
-    return null;
-  }
-
-  public findNextKeyboardFocusableControlRecursive(): ILayoutableControlWrapper | null {
-    if (this.canReceiveKeyboardFocus()) {
-      return this;
-    }
-
-    const children: Array<ILayoutableControlWrapper> = this.getVchContainer().getChildren();
-
-    for (const child of children) {
-      if (child.canReceiveKeyboardFocus()) {
-        return child;
-      }
-
-      if (InterfaceUtil.isILayoutableContainerWrapper(child)) {
-        const containerChild: ILayoutableControlWrapper | null = child.findNextKeyboardFocusableControlRecursive();
-
-        if (containerChild) {
-          return containerChild;
-        }
-      }
-    }
-
-    return null;
   }
 
   public abstract getViewContainerRef(): ViewContainerRef;

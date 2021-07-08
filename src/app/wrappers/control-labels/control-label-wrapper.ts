@@ -410,4 +410,8 @@ export class ControlLabelWrapper implements IControlLabelWrapper, IFieldLayoutSy
   public setFocus(): void {
     // Cannot receive focus
   }
+
+  public setFocusLast(): void {
+    // Cannot receive focus
+  }
 }

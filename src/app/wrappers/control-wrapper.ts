@@ -812,19 +812,97 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public focusKeyboardPrevious(): void {
-    const previousControl: ILayoutableControlWrapper | null = this._focusService.findPreviousKeyboardFocusableControl(this);
+    // Find previous control in predecessor tree
+    const previousControl: ILayoutableControlWrapper | null = this.findPreviousKeyboardFocusableControlInSubTreeRecursive(this);
 
-    if (previousControl) {
-      previousControl.setFocus();
+    if (previousControl != null) {
+      previousControl.setFocusLast();
+    } else {
+      // Focus last focussable control starting at form level recursively
+      const form: FormWrapper | null = this.getForm();
+
+      if (form != null && form.canReceiveKeyboardFocus()) {
+        form.setFocusLast();
+      }
     }
   }
 
-  public focusKeyboardNext(): void {
-    const nextControl: ILayoutableControlWrapper | null = this._focusService.findNextKeyboardFocusableControl(this);
+  protected findPreviousKeyboardFocusableControlInSubTreeRecursive(current: ILayoutableControlWrapper): ILayoutableControlWrapper | null {
+    const parent: ILayoutableContainerWrapper | null = current.getVchControl().getParent();
 
-    if (nextControl) {
-      nextControl.setFocus();
+    if (parent == null) {
+      return null;
     }
+
+    const siblings: Array<ILayoutableControlWrapper> = parent.getVchContainer().getChildren().filter(child => child.canReceiveKeyboardFocus());
+
+    const vchIndex: number = siblings.findIndex(c => c === current);
+
+    if (vchIndex < 0) {
+      throw new Error('Parent of current control could not find the control in its children collection. That should not happen!');
+    }
+
+    // Check if current control is first in container
+    if (vchIndex === 0) {
+      return this.findPreviousKeyboardFocusableControlInSubTreeRecursive(parent);
+    }
+
+    for (let i = vchIndex - 1; i >= 0; i--) {
+      const sibling: ILayoutableControlWrapper = siblings[i];
+
+      if (sibling.canReceiveKeyboardFocus()) {
+        return sibling;
+      }
+    }
+
+    return this.findPreviousKeyboardFocusableControlInSubTreeRecursive(parent);
+  }
+
+  public focusKeyboardNext(): void {
+    // Find next control in successor tree
+    const nextControl: ILayoutableControlWrapper | null = this.findNextKeyboardFocusableControlInSubTreeRecursive(this);
+
+    if (nextControl != null) {
+      nextControl.setFocus();
+    } else {
+      // Focus first focussable control starting at form level recursively
+      const form: FormWrapper | null = this.getForm();
+
+      if (form != null && form.canReceiveKeyboardFocus()) {
+        form.setFocus();
+      }
+    }
+  }
+
+  protected findNextKeyboardFocusableControlInSubTreeRecursive(current: ILayoutableControlWrapper): ILayoutableControlWrapper | null {
+    const parent: ILayoutableContainerWrapper | null = current.getVchControl().getParent();
+
+    if (parent == null) {
+      return null;
+    }
+
+    const siblings: Array<ILayoutableControlWrapper> = parent.getVchContainer().getChildren().filter(child => child.canReceiveKeyboardFocus());
+
+    const vchIndex: number = siblings.findIndex(c => c === current);
+
+    if (vchIndex < 0) {
+      throw new Error('Parent of current control could not find the control in its children collection. That should not happen!');
+    }
+
+    // Check if current control is last in container
+    if (vchIndex === siblings.length - 1) {
+      return this.findNextKeyboardFocusableControlInSubTreeRecursive(parent);
+    }
+
+    for (let i = vchIndex + 1; i < siblings.length; i++) {
+      const sibling: ILayoutableControlWrapper = siblings[i];
+
+      if (sibling.canReceiveKeyboardFocus()) {
+        return sibling;
+      }
+    }
+
+    return this.findNextKeyboardFocusableControlInSubTreeRecursive(parent);
   }
 
   public setFocus(): void {
@@ -835,6 +913,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
         form.requestFocus(this);
       }
     }
+  }
+
+  public setFocusLast(): void {
+    this.setFocus();
   }
 
   public getFocusElement(): HTMLElement | null {

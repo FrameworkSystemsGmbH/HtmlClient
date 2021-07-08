@@ -16,4 +16,6 @@ export interface ILayoutableControlWrapper extends ILayoutableControl {
 
   setFocus: () => void;
 
+  setFocusLast: () => void;
+
 }
