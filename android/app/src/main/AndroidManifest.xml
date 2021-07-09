@@ -63,4 +63,10 @@
         android:resource="@xml/file_paths"></meta-data>
     </provider>
   </application>
+
+  <queries>
+    <intent>
+      <action android:name="android.media.action.IMAGE_CAPTURE" />
+    </intent>
+  </queries>
 </manifest>
