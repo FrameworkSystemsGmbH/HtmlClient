@@ -78,7 +78,6 @@ export class BrokerService {
   private _clientLanguages: string | null = null;
   private _lastRequestTime: Moment.Moment | null = null;
   private _requestCounter: number = 0;
-  private _lastRequest: string | null = null;
 
   public constructor(
     httpClient: HttpClient,
@@ -282,22 +281,11 @@ export class BrokerService {
     );
   }
 
-  public resendLastRequest(): Observable<any> {
-    if (this._lastRequest != null) {
-      return this.doRequest(this._lastRequest).pipe(
-        mergeMap(responseJson => this.processResponse(responseJson))
-      );
-    }
-
-    return obsOf(null);
-  }
-
   private doRequest(requestJson: any): Observable<any> {
     if (this._activeBrokerRequestUrl == null || this._activeBrokerRequestUrl.trim().length === 0) {
       throw new Error('Broker request url is not set!');
     }
 
-    this._lastRequest = requestJson;
     this._lastRequestTime = Moment.utc();
 
     return this._httpClient.post(this._activeBrokerRequestUrl, requestJson).pipe(
@@ -701,7 +689,6 @@ export class BrokerService {
     return {
       requestCounter: this._requestCounter,
       clientLanguages: this._clientLanguages,
-      lastRequest: this._lastRequest,
       lastRequestTime: this._lastRequestTime != null ? this._lastRequestTime.toJSON() : null,
       loginBroker: this._activeLoginBroker,
       loginOptions: this._activeLoginOptions,
@@ -716,7 +703,6 @@ export class BrokerService {
 
     this._requestCounter = json.requestCounter;
     this._clientLanguages = json.clientLanguages;
-    this._lastRequest = json.lastRequest;
     this._lastRequestTime = json.lastRequestTime != null ? Moment.utc(json.lastRequestTime) : null;
     this._activeLoginBroker = json.loginBroker;
     this._activeLoginOptions = json.loginOptions;

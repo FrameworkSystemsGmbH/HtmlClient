@@ -120,14 +120,11 @@ export class StateService {
       mergeMap(lastSessionInfo => this._storageService.delete(SESSION_STORAGE_KEY).pipe(
         map(() => lastSessionInfo)
       )),
-      mergeMap(lastSessionInfo => {
+      map(lastSessionInfo => {
         // Load state only if there is no active broker session
         if (lastSessionInfo != null && this._brokerState != null && this._brokerState.activeBrokerName == null) {
           this.loadState(lastSessionInfo);
-          return this._brokerService.resendLastRequest();
         }
-
-        return obsOf(null);
       }),
       map(() => {
         this._cameraService.processPendingResult();
