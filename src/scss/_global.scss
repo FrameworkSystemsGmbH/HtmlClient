@@ -19,8 +19,16 @@ body {
 
 html,
 body {
-  height: 100%;
   overflow: hidden;
+}
+
+html,
+body,
+hc-app {
+  width: 100vw;
+  height: 100vh;
+  margin: 0rem;
+  padding: 0rem;
 }
 
 .hc-load-wrapper {
