@@ -18,8 +18,8 @@ import * as JsonUtil from '@app/util/json-util';
 import { AppRestoredResult, AppState, Plugins } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 import * as Moment from 'moment-timezone';
-import { Observable, of as obsOf } from 'rxjs';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { EMPTY, Observable, of as obsOf } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
 const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
@@ -117,14 +117,17 @@ export class StateService {
 
   public resumeLastSession(): Observable<void> {
     return this.getLastSessionInfo().pipe(
-      tap(() => {
-        this._storageService.delete(SESSION_STORAGE_KEY).subscribe();
-      }),
-      map(lastSessionInfo => {
+      mergeMap(lastSessionInfo => this._storageService.delete(SESSION_STORAGE_KEY).pipe(
+        map(() => lastSessionInfo)
+      )),
+      mergeMap(lastSessionInfo => {
         // Load state only if there is no active broker session
         if (lastSessionInfo != null && this._brokerState != null && this._brokerState.activeBrokerName == null) {
           this.loadState(lastSessionInfo);
+          return this._brokerService.resendLastRequest();
         }
+
+        return EMPTY;
       }),
       map(() => {
         this._cameraService.processPendingResult();
@@ -154,7 +157,7 @@ export class StateService {
           }
         }
 
-        return obsOf(null);
+        return EMPTY;
       })
     );
   }
