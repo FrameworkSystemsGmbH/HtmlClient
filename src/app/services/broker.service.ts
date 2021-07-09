@@ -35,7 +35,7 @@ import * as RxJsUtil from '@app/util/rxjs-util';
 import { Plugins } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 import * as Moment from 'moment-timezone';
-import { forkJoin, Observable, of as obsOf, Subject, Subscription, EMPTY } from 'rxjs';
+import { forkJoin, Observable, of as obsOf, Subject, Subscription } from 'rxjs';
 import { concatMap, map, mergeMap, retryWhen, tap } from 'rxjs/operators';
 
 const { WebViewCache } = Plugins;
@@ -289,7 +289,7 @@ export class BrokerService {
       );
     }
 
-    return EMPTY;
+    return obsOf(null);
   }
 
   private doRequest(requestJson: any): Observable<any> {

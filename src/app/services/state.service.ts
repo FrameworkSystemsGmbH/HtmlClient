@@ -18,7 +18,7 @@ import * as JsonUtil from '@app/util/json-util';
 import { AppRestoredResult, AppState, Plugins } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 import * as Moment from 'moment-timezone';
-import { EMPTY, Observable, of as obsOf } from 'rxjs';
+import { Observable, of as obsOf } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
@@ -127,7 +127,7 @@ export class StateService {
           return this._brokerService.resendLastRequest();
         }
 
-        return EMPTY;
+        return obsOf(null);
       }),
       map(() => {
         this._cameraService.processPendingResult();
@@ -157,7 +157,7 @@ export class StateService {
           }
         }
 
-        return EMPTY;
+        return obsOf(null);
       })
     );
   }
