@@ -9,8 +9,10 @@ const config: CapacitorConfig = {
   webDir: 'dist/build/prod',
   plugins: {
     SplashScreen: {
+      'androidScaleType': 'FIT_CENTER',
       'launchAutoHide': false,
       'backgroundColor': '#ffffff',
+      'splashFullScreen': true,
       'splashImmersive': true
     }
   }
