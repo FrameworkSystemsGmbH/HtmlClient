@@ -3,10 +3,9 @@ import { BrokerCameraSource } from '@app/enums/broker-camera-source';
 import { EventsService } from '@app/services/events.service';
 import { IAppState } from '@app/store/app.state';
 import { selectBrokerName } from '@app/store/broker/broker.selectors';
-import { AppRestoredResult, CameraDirection, CameraResultType, CameraSource, Plugins } from '@capacitor/core';
+import { RestoredListenerEvent } from '@capacitor/app';
+import { Camera, CameraDirection, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Store } from '@ngrx/store';
-
-const { Camera } = Plugins;
 
 @Injectable({ providedIn: 'root' })
 export class CameraService {
@@ -19,7 +18,7 @@ export class CameraService {
   private _errorMessage?: string;
   private _imageData?: string;
   private _brokerName: string | null = null;
-  private _pendingResult: AppRestoredResult | null = null;
+  private _pendingResult: RestoredListenerEvent | null = null;
 
   public constructor(
     zone: NgZone,
@@ -88,7 +87,7 @@ export class CameraService {
     });
   }
 
-  public setPendingResult(result: AppRestoredResult): void {
+  public setPendingResult(result: RestoredListenerEvent): void {
     this._pendingResult = result;
   }
 

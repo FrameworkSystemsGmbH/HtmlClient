@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.fs.htmlclient.plugins.webviewcache.WebViewCache;
-import com.getcapacitor.BridgeActivity;
-import com.getcapacitor.Plugin;
+import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
+import com.fs.htmlclient.plugins.webviewcache.WebViewCachePlugin;
+import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
 
@@ -21,12 +20,19 @@ public class MainActivity extends BridgeActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
-      add(WebViewCache.class);
-    }});
+    registerPlugin(WebViewCachePlugin.class);
 
     this.hideSystemUI();
+  }
+
+  @Override
+  protected void onPostCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
     this.attachSizeObserver();
+  }
+
+  private void setCutoutMode() {
+
   }
 
   private void hideSystemUI() {

@@ -1,8 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { EventsService } from '@app/services/events.service';
-import { GeolocationPosition, Plugins } from '@capacitor/core';
-
-const { Geolocation } = Plugins;
+import { Geolocation, Position } from '@capacitor/geolocation';
 
 @Injectable({ providedIn: 'root' })
 export class GeoLocationService {
@@ -37,15 +35,15 @@ export class GeoLocationService {
       .catch(this.onError.bind(this));
   }
 
-  private onSuccess(position: GeolocationPosition): void {
+  private onSuccess(position: Position): void {
     this._zone.run(() => {
       this.reset();
       this._latitude = position.coords.latitude;
       this._longitude = position.coords.longitude;
-      this._altitude = position.coords.altitude;
       this._accuracy = position.coords.accuracy;
-      this._heading = position.coords.heading;
-      this._speed = position.coords.speed;
+      this._altitude = position.coords.altitude != null ? position.coords.altitude : undefined;
+      this._heading = position.coords.heading != null ? position.coords.heading : undefined;
+      this._speed = position.coords.speed != null ? position.coords.speed : undefined;
       this._timestamp = position.timestamp;
       this.fireGotGeoLocation();
     });

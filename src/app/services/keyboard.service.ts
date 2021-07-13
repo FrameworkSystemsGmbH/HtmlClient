@@ -1,22 +1,40 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { PlatformService } from '@app/services/platform.service';
 import * as DomUtil from '@app/util/dom-util';
-import { Plugins } from '@capacitor/core';
-
-const { Keyboard } = Plugins;
+import { PluginListenerHandle } from '@capacitor/core';
+import { Keyboard } from '@capacitor/keyboard';
 
 @Injectable({ providedIn: 'root' })
 export class KeyboardService {
 
+  private readonly _zone: NgZone;
   private readonly _platformService: PlatformService;
 
-  public constructor(platformService: PlatformService) {
+  private _listenerSub: PluginListenerHandle | null = null;
+
+  public constructor(
+    zone: NgZone,
+    platformService: PlatformService
+  ) {
+    this._zone = zone;
     this._platformService = platformService;
   }
 
-  public attachScrollHandler(): void {
-    if (this._platformService.isAndroid()) {
-      Keyboard.addListener('keyboardDidShow', this.scrollToFocusOnOpen.bind(this));
+  public attachHandlers(): void {
+    if (this._platformService.isAndroid() && this._listenerSub == null) {
+      this._listenerSub = Keyboard.addListener('keyboardDidShow', this.scrollToFocusOnOpen.bind(this));
+    }
+  }
+
+  public removeHandlers(): void {
+    if (this._platformService.isAndroid() && this._listenerSub != null) {
+      this._listenerSub.remove().catch(err => {
+        this._zone.run(() => {
+          throw Error.ensureError(err);
+        });
+      });
+
+      this._listenerSub = null;
     }
   }
 

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IAppState } from '@app/store/app.state';
 import { selectBrokerReportUrl } from '@app/store/broker/broker.selectors';
-import { Plugins } from '@capacitor/core';
+import { Browser } from '@capacitor/browser';
 import { Store } from '@ngrx/store';
-
-const { Browser } = Plugins;
 
 @Injectable({ providedIn: 'root' })
 export class PrintReportService {

@@ -15,7 +15,8 @@ import { setBrokerState } from '@app/store/broker/broker.actions';
 import { selectBrokerState } from '@app/store/broker/broker.selectors';
 import { IBrokerState } from '@app/store/broker/broker.state';
 import * as JsonUtil from '@app/util/json-util';
-import { AppRestoredResult, AppState, Plugins } from '@capacitor/core';
+import { App, AppState, RestoredListenerEvent } from '@capacitor/app';
+import { PluginListenerHandle } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 import * as Moment from 'moment-timezone';
 import { Observable, of as obsOf } from 'rxjs';
@@ -24,17 +25,15 @@ import { map, mergeMap } from 'rxjs/operators';
 const SESSION_STORAGE_KEY: string = 'clientSession';
 const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
 
-const { App } = Plugins;
-
 @Injectable({ providedIn: 'root' })
 export class StateService {
 
   private readonly _zone: NgZone;
   private readonly _backService: BackService;
   private readonly _brokerService: BrokerService;
+  private readonly _cameraService: CameraService;
   private readonly _controlStyleService: ControlStyleService;
   private readonly _formsService: FormsService;
-  private readonly _cameraService: CameraService;
   private readonly _platformService: PlatformService;
   private readonly _routingService: RoutingService;
   private readonly _storageService: StorageService;
@@ -43,14 +42,16 @@ export class StateService {
   private readonly _titleService: TitleService;
 
   private _brokerState: IBrokerState | null = null;
+  private _stateChangeListenerSub: PluginListenerHandle | null = null;
+  private _restoredResultListenerSub: PluginListenerHandle | null = null;
 
   public constructor(
     zone: NgZone,
     backService: BackService,
     brokerService: BrokerService,
+    cameraService: CameraService,
     controlStyleService: ControlStyleService,
     formsService: FormsService,
-    cameraService: CameraService,
     platformService: PlatformService,
     routingService: RoutingService,
     storageService: StorageService,
@@ -61,9 +62,9 @@ export class StateService {
     this._zone = zone;
     this._backService = backService;
     this._brokerService = brokerService;
+    this._cameraService = cameraService;
     this._controlStyleService = controlStyleService;
     this._formsService = formsService;
-    this._cameraService = cameraService;
     this._platformService = platformService;
     this._routingService = routingService;
     this._storageService = storageService;
@@ -82,8 +83,37 @@ export class StateService {
 
   public attachHandlers(): void {
     if (this._platformService.isAndroid()) {
-      App.addListener('appStateChange', this.onAppStateChange.bind(this));
-      App.addListener('appRestoredResult', this.onPendingResult.bind(this));
+      if (this._stateChangeListenerSub == null) {
+        this._stateChangeListenerSub = App.addListener('appStateChange', this.onAppStateChange.bind(this));
+      }
+
+      if (this._restoredResultListenerSub == null) {
+        this._restoredResultListenerSub = App.addListener('appRestoredResult', this.onPendingResult.bind(this));
+      }
+    }
+  }
+
+  public removeHandlers(): void {
+    if (this._platformService.isAndroid()) {
+      if (this._stateChangeListenerSub != null) {
+        this._stateChangeListenerSub.remove().catch(err => {
+          this._zone.run(() => {
+            throw Error.ensureError(err);
+          });
+        });
+
+        this._stateChangeListenerSub = null;
+      }
+
+      if (this._restoredResultListenerSub != null) {
+        this._restoredResultListenerSub.remove().catch(err => {
+          this._zone.run(() => {
+            throw Error.ensureError(err);
+          });
+        });
+
+        this._restoredResultListenerSub = null;
+      }
     }
   }
 
@@ -107,7 +137,7 @@ export class StateService {
     });
   }
 
-  private onPendingResult(result: AppRestoredResult | null): void {
+  private onPendingResult(result: RestoredListenerEvent | null): void {
     this._zone.run(() => {
       if (result != null && result.pluginId === 'Camera' && result.methodName === 'getPhoto') {
         this._cameraService.setPendingResult(result);

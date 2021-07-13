@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { LoginBroker } from '@app/common/login-broker';
 import { StorageService } from '@app/services/storage.service';
-import { Plugins } from '@capacitor/core';
+import { Device } from '@capacitor/device';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-
-const { Device } = Plugins;
 
 @Injectable({ providedIn: 'root' })
 export class ClientDataService {
@@ -64,6 +62,6 @@ export class ClientDataService {
   }
 
   public getDeviceUuid(): Observable<string> {
-    return from(Device.getInfo()).pipe(mergeMap(info => info.uuid));
+    return from(Device.getId()).pipe(mergeMap(info => info.uuid));
   }
 }

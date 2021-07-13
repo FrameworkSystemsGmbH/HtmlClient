@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { ClientEvent } from '@app/common/events/client-event';
 import { ClientMsgBoxEvent } from '@app/common/events/client-msgbox-event';
 import { InternalEvent } from '@app/common/events/internal/internal-event';
@@ -32,13 +32,11 @@ import { selectBrokerState } from '@app/store/broker/broker.selectors';
 import { IBrokerState } from '@app/store/broker/broker.state';
 import * as JsonUtil from '@app/util/json-util';
 import * as RxJsUtil from '@app/util/rxjs-util';
-import { Plugins } from '@capacitor/core';
 import { Store } from '@ngrx/store';
+import { WebViewCache } from 'capacitor-plugin-webview-cache';
 import * as Moment from 'moment-timezone';
 import { forkJoin, Observable, of as obsOf, Subject, Subscription } from 'rxjs';
 import { concatMap, map, mergeMap, retryWhen, tap } from 'rxjs/operators';
-
-const { WebViewCache } = Plugins;
 
 @Injectable({ providedIn: 'root' })
 export class BrokerService {
@@ -61,6 +59,7 @@ export class BrokerService {
   private readonly _textsService: TextsService;
   private readonly _titleService: TitleService;
   private readonly _store: Store<IAppState>;
+  private readonly _zone: NgZone;
 
   private readonly _onLoginComplete: Subject<any>;
   private readonly _onLoginComplete$: Observable<any>;
@@ -95,7 +94,8 @@ export class BrokerService {
     routingService: RoutingService,
     textsService: TextsService,
     titleService: TitleService,
-    store: Store<IAppState>
+    store: Store<IAppState>,
+    zone: NgZone
   ) {
     this._httpClient = httpClient;
     this._actionsService = actionsService;
@@ -113,6 +113,7 @@ export class BrokerService {
     this._textsService = textsService;
     this._titleService = titleService;
     this._store = store;
+    this._zone = zone;
 
     this._onLoginComplete = new Subject<any>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();
@@ -259,7 +260,11 @@ export class BrokerService {
     this._backService.addBackButtonListener(this._onBackButtonListener, BackButtonPriority.ActiveBroker);
 
     if (this._platformService.isAndroid()) {
-      WebViewCache.clearCache();
+      WebViewCache.clearCache().catch(err => {
+        this._zone.run(() => {
+          throw Error.ensureError(err);
+        });
+      });
     }
   }
 

@@ -1,9 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { PlatformService } from '@app/services/platform.service';
-import { PluginListenerHandle, Plugins } from '@capacitor/core';
-
-const { App } = Plugins;
+import { App } from '@capacitor/app';
+import { PluginListenerHandle } from '@capacitor/core';
 
 interface IListenerInfo {
   priority: BackButtonPriority;
@@ -33,18 +32,19 @@ export class BackService {
   }
 
   public attachHandlers(): void {
-    if (this._platformService.isAndroid()) {
-      if (this._listenerSub != null) {
-        this._listenerSub.remove();
-      }
-
+    if (this._platformService.isAndroid() && this._listenerSub == null) {
       this._listenerSub = App.addListener('backButton', this._listener);
     }
   }
 
   public removeHandlers(): void {
     if (this._platformService.isAndroid() && this._listenerSub != null) {
-      this._listenerSub.remove();
+      this._listenerSub.remove().catch(err => {
+        this._zone.run(() => {
+          throw Error.ensureError(err);
+        });
+      });
+
       this._listenerSub = null;
     }
   }
