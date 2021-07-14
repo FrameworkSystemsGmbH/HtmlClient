@@ -58,7 +58,7 @@ public class MainActivity extends BridgeActivity {
   }
 
   private void attachSizeObserver() {
-    FrameLayout content = (FrameLayout) this.findViewById(android.R.id.content);
+    FrameLayout content = this.findViewById(android.R.id.content);
     view = content.getChildAt(0);
     view.getViewTreeObserver().addOnGlobalLayoutListener(this::contentSizeChanged);
     frameLayoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
