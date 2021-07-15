@@ -45,6 +45,8 @@ public class MainActivity extends BridgeActivity {
       getWindow().addFlags(WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER);
     }
 
+    getWindow().getDecorView().setFitsSystemWindows(true);
+
     final int flags = (
       View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         | View.SYSTEM_UI_FLAG_FULLSCREEN

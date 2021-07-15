@@ -64,15 +64,17 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    if (this._platformService.isIos()) {
+      this.style = this.createIosStyle();
+    }
+
     this._store.select(selectReady).subscribe((ready: boolean) => {
       this.ready = ready;
     });
 
-    this._stateService.resumeLastSession().subscribe(() => this._store.dispatch(setReady({ ready: true })));
+    this._stateService.resumeLastSession();
 
-    if (this._platformService.isIos()) {
-      this.style = this.createIosStyle();
-    }
+    this._store.dispatch(setReady({ ready: true }));
   }
 
   public ngAfterViewInit(): void {

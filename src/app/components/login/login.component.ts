@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private _brokerValidator: any;
   private _activeBrokerNameSub: Subscription | null = null;
-  private _lastSessionInfoSub: Subscription | null = null;
 
   public constructor(
     titleService: TitleService,
@@ -70,9 +69,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.activeBrokerName = name;
     });
 
-    this._lastSessionInfoSub = this._stateService.getLastSessionInfo().subscribe(lastSessionInfo => {
-      this.lastSessionInfo = lastSessionInfo;
-    });
+    this.lastSessionInfo = this._stateService.getLastSessionInfo();
 
     if (this.activeBrokerName == null || this.activeBrokerName.trim().length === 0) {
       this._titleService.setDefault();
@@ -80,13 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this._activeBrokerNameSub) {
-      this._activeBrokerNameSub.unsubscribe();
-    }
-
-    if (this._lastSessionInfoSub) {
-      this._lastSessionInfoSub.unsubscribe();
-    }
+    this._activeBrokerNameSub?.unsubscribe();
   }
 
   public getLastRequestTimeLocalString(): string | null {

@@ -4,7 +4,7 @@ import { from, Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export abstract class StorageService {
+export class FileStorageService {
 
   public load(key: string): Observable<string | null> {
     return from(Storage.migrate()).pipe(

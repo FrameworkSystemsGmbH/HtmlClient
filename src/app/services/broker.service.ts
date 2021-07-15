@@ -35,7 +35,7 @@ import * as RxJsUtil from '@app/util/rxjs-util';
 import { Store } from '@ngrx/store';
 import { WebViewCache } from 'capacitor-plugin-webview-cache';
 import * as Moment from 'moment-timezone';
-import { forkJoin, Observable, of as obsOf, Subject, Subscription } from 'rxjs';
+import { Observable, of as obsOf, Subject, Subscription } from 'rxjs';
 import { concatMap, map, mergeMap, retryWhen, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
@@ -335,13 +335,10 @@ export class BrokerService {
     };
 
     if (initRequest) {
-      return forkJoin([
-        this._clientDataService.loadSessionData(),
-        this._clientDataService.getDeviceUuid()
-      ]).pipe(
-        map(res => {
-          const sessionData: string | null = res[0];
-          const clientId: string = res[1];
+      return this._clientDataService.getDeviceUuid().pipe(
+        map(id => {
+          const sessionData: string | null = this._clientDataService.loadSessionData();
+          const clientId: string = id;
 
           const platform: string = this._platformService.isNative() ? 'Mobile' : 'Web';
           const os: string = this._platformService.getOS();
@@ -449,17 +446,13 @@ export class BrokerService {
 
     if (sessionData != null && sessionData.trim().length > 0) {
       if (sessionData === BrokerService.SESSION_DATA_DISCARD) {
-        return this._clientDataService.deleteSessionData().pipe(
-          mergeMap(() => RxJsUtil.voidObs())
-        );
+        this._clientDataService.deleteSessionData();
       } else {
-        return this._clientDataService.saveSessionData(sessionData).pipe(
-          mergeMap(() => RxJsUtil.voidObs())
-        );
+        this._clientDataService.saveSessionData(sessionData);
       }
-    } else {
-      return RxJsUtil.voidObs();
     }
+
+    return RxJsUtil.voidObs();
   }
 
   private processStart(startJson: any): Observable<void> {

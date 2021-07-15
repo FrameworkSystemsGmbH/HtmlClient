@@ -7,7 +7,7 @@ import { ControlStyleService } from '@app/services/control-style.service';
 import { FormsService } from '@app/services/forms.service';
 import { PlatformService } from '@app/services/platform.service';
 import { RoutingService } from '@app/services/routing.service';
-import { StorageService } from '@app/services/storage.service';
+import { WebStorageService } from '@app/services/storage/web-storage.service';
 import { TextsService } from '@app/services/texts.service';
 import { TitleService } from '@app/services/title.service';
 import { IAppState } from '@app/store/app.state';
@@ -19,8 +19,7 @@ import { App, AppState, RestoredListenerEvent } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 import * as Moment from 'moment-timezone';
-import { Observable, of as obsOf } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
 const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
@@ -36,10 +35,10 @@ export class StateService {
   private readonly _formsService: FormsService;
   private readonly _platformService: PlatformService;
   private readonly _routingService: RoutingService;
-  private readonly _storageService: StorageService;
   private readonly _store: Store<IAppState>;
   private readonly _textsService: TextsService;
   private readonly _titleService: TitleService;
+  private readonly _webStorageService: WebStorageService;
 
   private _brokerState: IBrokerState | null = null;
   private _stateChangeListenerSub: PluginListenerHandle | null = null;
@@ -54,10 +53,10 @@ export class StateService {
     formsService: FormsService,
     platformService: PlatformService,
     routingService: RoutingService,
-    storageService: StorageService,
     store: Store<IAppState>,
     textsService: TextsService,
-    titleService: TitleService
+    titleService: TitleService,
+    webStorageService: WebStorageService
   ) {
     this._zone = zone;
     this._backService = backService;
@@ -67,13 +66,13 @@ export class StateService {
     this._formsService = formsService;
     this._platformService = platformService;
     this._routingService = routingService;
-    this._storageService = storageService;
     this._store = store;
     this._textsService = textsService;
     this._titleService = titleService;
+    this._webStorageService = webStorageService;
 
     this._brokerService.onLoginComplete.pipe(
-      mergeMap(() => this._storageService.delete(SESSION_STORAGE_KEY))
+      map(() => this._webStorageService.delete(SESSION_STORAGE_KEY))
     ).subscribe();
 
     this._store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
@@ -121,7 +120,7 @@ export class StateService {
     this._zone.run(() => {
       if (state.isActive) {
         // Delete unnecessary stored session
-        this._storageService.delete(SESSION_STORAGE_KEY).subscribe();
+        this._webStorageService.delete(SESSION_STORAGE_KEY);
 
         // Attach back button handler
         this._backService.attachHandlers();
@@ -145,48 +144,38 @@ export class StateService {
     });
   }
 
-  public resumeLastSession(): Observable<void> {
-    return this.getLastSessionInfo().pipe(
-      mergeMap(lastSessionInfo => this._storageService.delete(SESSION_STORAGE_KEY).pipe(
-        map(() => lastSessionInfo)
-      )),
-      map(lastSessionInfo => {
-        // Load state only if there is no active broker session
-        if (lastSessionInfo != null && this._brokerState != null && this._brokerState.activeBrokerName == null) {
-          this.loadState(lastSessionInfo);
-        }
-      }),
-      map(() => {
-        this._cameraService.processPendingResult();
-      })
-    );
+  public resumeLastSession(): void {
+    const lastSessionInfo: LastSessionInfo | null = this.getLastSessionInfo();
+
+    this._webStorageService.delete(SESSION_STORAGE_KEY);
+
+    if (lastSessionInfo != null && this._brokerState != null && this._brokerState.activeBrokerName == null) {
+      this.loadState(lastSessionInfo);
+    }
+
+    this._cameraService.processPendingResult();
   }
 
-  public getLastSessionInfo(): Observable<LastSessionInfo | null> {
-    return this._storageService.load(SESSION_STORAGE_KEY).pipe(
-      mergeMap(data => {
-        const stateJson: any = data != null ? JSON.parse(data) : null;
+  public getLastSessionInfo(): LastSessionInfo | null {
+    const data: string | null = this._webStorageService.load(SESSION_STORAGE_KEY);
+    const stateJson: any = data != null ? JSON.parse(data) : null;
 
-        if (!JsonUtil.isEmptyObject(stateJson)) {
-          const lastRequestTime: Moment.Moment = Moment.utc(stateJson.meta.lastRequestTime);
-          const isValid: boolean = lastRequestTime.isAfter(Moment.utc().subtract(Moment.duration(SESSION_TIMEOUT, 'minutes')));
+    if (!JsonUtil.isEmptyObject(stateJson)) {
+      const lastRequestTime: Moment.Moment = Moment.utc(stateJson.meta.lastRequestTime);
+      const isValid: boolean = lastRequestTime.isAfter(Moment.utc().subtract(Moment.duration(SESSION_TIMEOUT, 'minutes')));
 
-          if (isValid) {
-            return obsOf(new LastSessionInfo(
-              stateJson.meta.lastBroker,
-              lastRequestTime,
-              stateJson
-            ));
-          } else {
-            return this._storageService.delete(SESSION_STORAGE_KEY).pipe(
-              map(() => null)
-            );
-          }
-        }
+      if (isValid) {
+        return new LastSessionInfo(
+          stateJson.meta.lastBroker,
+          lastRequestTime,
+          stateJson
+        );
+      } else {
+        this._webStorageService.delete(SESSION_STORAGE_KEY);
+      }
+    }
 
-        return obsOf(null);
-      })
-    );
+    return null;
   }
 
   private saveState(): void {
@@ -247,12 +236,12 @@ export class StateService {
     }
 
     if (!JsonUtil.isEmptyObject(stateJson)) {
-      this._storageService.save(SESSION_STORAGE_KEY, JSON.stringify(stateJson)).subscribe();
+      this._webStorageService.save(SESSION_STORAGE_KEY, JSON.stringify(stateJson));
     }
   }
 
   public loadState(lastSessionInfo: LastSessionInfo): void {
-    this._storageService.delete(SESSION_STORAGE_KEY).subscribe();
+    this._webStorageService.delete(SESSION_STORAGE_KEY);
 
     const stateJson: any = lastSessionInfo.getStateJson();
 
