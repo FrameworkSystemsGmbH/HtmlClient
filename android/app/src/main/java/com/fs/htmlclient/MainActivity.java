@@ -4,8 +4,6 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
@@ -34,17 +32,6 @@ public class MainActivity extends BridgeActivity {
   }
 
   private void hideSystemUI() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-      getWindow().setDecorFitsSystemWindows(true);
-
-      final WindowInsetsController insetsCtrl = getWindow().getDecorView().getWindowInsetsController();
-
-      if (insetsCtrl != null) {
-        insetsCtrl.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-        insetsCtrl.hide(WindowInsets.Type.systemBars());
-      }
-    }
-
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
       final WindowManager.LayoutParams params = getWindow().getAttributes();
       params.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
