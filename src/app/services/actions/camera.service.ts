@@ -41,7 +41,7 @@ export class CameraService {
       correctOrientation: true,
       quality: 100,
       resultType: CameraResultType.Base64,
-      saveToGallery: true,
+      saveToGallery: false,
       source: source === BrokerCameraSource.CAMERA ? CameraSource.Camera : CameraSource.Photos
     }).then(img => {
       if (img.base64String != null) {
