@@ -26,6 +26,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   public entries: DataList;
   public selectedIndex: number;
   public inputValue: string;
+  public placeholder: string;
 
   private readonly _backService: BackService;
   private readonly _dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent>;
@@ -45,6 +46,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
     this.entries = data.entries;
     this.selectedIndex = data.selectedIndex;
     this.inputValue = data.value;
+    this.placeholder = data.placeholder != null && data.placeholder.trim().length > 0 ? data.placeholder : 'Value';
   }
 
   @HostListener('document:keydown', ['$event'])

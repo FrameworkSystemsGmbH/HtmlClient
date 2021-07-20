@@ -10,7 +10,13 @@ export abstract class ComboBoxComponent extends ControlComponent {
   public readonly selectionChanged: EventEmitter<void> = new EventEmitter<void>();
 
   public entries: DataList | null = null;
-  public selectedIndex: number | null = null;
+
+  private placeholder: string | null = null;
+  private selectedIndex: number | null = null;
+
+  public getPlaceholder(): string | null {
+    return this.placeholder;
+  }
 
   protected getSelectedIndex(): number | null {
     return this.selectedIndex;
@@ -49,6 +55,12 @@ export abstract class ComboBoxComponent extends ControlComponent {
   protected updateData(wrapper: ComboBoxWrapper): void {
     super.updateData(wrapper);
     this.entries = wrapper.getEntries();
+
+    const caption: string | null = wrapper.getCaption();
+
+    if (wrapper.getCaptionAsPlaceholder() && caption != null && caption.trim().length > 0) {
+      this.placeholder = caption;
+    }
   }
 
   public getFocusElement(): HTMLElement | null {
@@ -66,4 +78,6 @@ export abstract class ComboBoxComponent extends ControlComponent {
   public abstract getSelectedPk(): string | null;
 
   public abstract getArrowWidth(): number;
+
+  public abstract getPlaceholderShown(): boolean;
 }

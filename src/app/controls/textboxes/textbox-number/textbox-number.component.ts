@@ -51,6 +51,8 @@ export class TextBoxNumberComponent extends TextBoxComponent {
             this.updateWrapper();
           }
         }
+
+        this.getChangeDetectorRef().detectChanges();
       }
     }
 

@@ -97,16 +97,39 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
     const selectedIndex: number | null = this.getSelectedIndex();
     if (selectedIndex == null || selectedIndex < 0) {
       const wrpValue: string | null = this.getWrapper().getValue();
-      if (wrpValue != null) {
+      if (wrpValue != null && wrpValue.trim().length > 0) {
         return `## ${wrpValue} ##`;
       } else {
         return '## NULL ##';
       }
     } else if (this.entries != null) {
-      return this.entries[selectedIndex].getValue();
+      if (this.entries[selectedIndex].isNullEntry()) {
+        return this.getPlaceholder();
+      } else {
+        return this.entries[selectedIndex].getValue();
+      }
     } else {
-      return null;
+      return this.getPlaceholder();
     }
+  }
+
+  public getPlaceholderShown(): boolean {
+    const captionAsPlaceholder: boolean | null = this.getWrapper().getCaptionAsPlaceholder();
+    const selectedIndex: number | null = this.getSelectedIndex();
+
+    if (!captionAsPlaceholder) {
+      return false;
+    }
+
+    if (selectedIndex == null || selectedIndex < 0) {
+      return false;
+    }
+
+    if (this.entries != null && !this.entries[selectedIndex].isNullEntry()) {
+      return false;
+    }
+
+    return true;
   }
 
   protected getScroller(): ElementRef<HTMLDivElement> | null {

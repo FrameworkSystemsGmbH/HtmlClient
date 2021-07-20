@@ -14,9 +14,15 @@ export class DataList extends Array<DataListEntry> {
 
     const dataList: DataList = new DataList();
 
-    json.forEach(entryJson => {
-      dataList.push(new DataListEntry(entryJson.pk, entryJson.value));
-    });
+    for (let i = 0; i < json.length; i++) {
+      const entry = json[i];
+
+      if (i === 0 && entry.pk === String.empty()) {
+        dataList.push(new DataListEntry(entry.pk, entry.value, true));
+      } else {
+        dataList.push(new DataListEntry(entry.pk, entry.value, false));
+      }
+    }
 
     return dataList;
   }
@@ -52,15 +58,5 @@ export class DataList extends Array<DataListEntry> {
     });
 
     return index;
-  }
-
-  public getNullEntry(): DataListEntry | null {
-    if (this.length === 0) {
-      return null;
-    }
-
-    const firstEntry: DataListEntry = this[0];
-
-    return firstEntry.isNullEntry() ? firstEntry : null;
   }
 }

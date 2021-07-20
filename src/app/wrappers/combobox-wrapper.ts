@@ -171,10 +171,17 @@ export class ComboBoxWrapper extends FittedDataWrapper {
       this._dataList = null;
     } else if (listCount > 0) {
       const newDataList: DataList = new DataList();
-      for (const row of listJson.rows) {
+      for (let i = 0; i < listJson.rows.length; i++) {
+        const row = listJson.rows[i];
         const pk: string = row.pk != null ? row.pk : String.empty();
         const value: string = row.value != null ? row.value : String.empty();
-        newDataList.push(new DataListEntry(pk, value));
+
+        let isNUllEntry: boolean = false;
+
+        if (i === 0 && pk === String.empty()) {
+          isNUllEntry = true;
+        }
+        newDataList.push(new DataListEntry(pk, value, isNUllEntry));
       }
       this._dataList = newDataList;
     }

@@ -51,6 +51,8 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
             this.updateWrapper();
           }
         }
+
+        this.getChangeDetectorRef().detectChanges();
       }
 
       super.callCtrlLeave(event);

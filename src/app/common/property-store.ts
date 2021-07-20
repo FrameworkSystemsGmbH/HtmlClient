@@ -959,6 +959,21 @@ export class PropertyStore {
     });
   }
 
+  // Caption
+  public getCaptionAsPlaceholder(): boolean | undefined {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.captionAsPlaceholder);
+  }
+
+  public getCaptionAsPlaceholderForLayer(layer: PropertyLayer): boolean | undefined {
+    return this.getValueForLayer<boolean | undefined>(layer, (data: PropertyData) => data.captionAsPlaceholder);
+  }
+
+  public setCaptionAsPlaceholder(layer: PropertyLayer, value: boolean): void {
+    this.setValue(layer, (data: PropertyData) => {
+      data.captionAsPlaceholder = value;
+    });
+  }
+
   // CaptionAlign
   public getCaptionAlign(): ContentAlignment | undefined {
     return this.getValue<ContentAlignment | undefined>((data: PropertyData) => data.captionAlign);

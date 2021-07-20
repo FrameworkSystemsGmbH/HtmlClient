@@ -9,7 +9,7 @@
   </div>
   <div class="freetext">
     <mat-form-field>
-      <input #input matInput placeholder="Value" [(ngModel)]="inputValue" (keydown.enter)="onFreetextConfirm()" />
+      <input #input matInput [placeholder]="placeholder" [(ngModel)]="inputValue" (keydown.enter)="onFreetextConfirm()" />
     </mat-form-field>
   </div>
   <div class="footer">

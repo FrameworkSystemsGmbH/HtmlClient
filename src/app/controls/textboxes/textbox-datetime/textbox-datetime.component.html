@@ -1,1 +1,1 @@
-<input #input type="text" [(ngModel)]="value" [ngStyle]="inputStyle" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (keydown)="callKeyDown($event)" [attr.tabindex]="tabIndexAttr" [attr.readonly]="readOnlyAttr" />
+<input #input type="text" [(ngModel)]="value" [placeholder]="placeholder" [ngStyle]="inputStyle" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (keydown)="callKeyDown($event)" [attr.tabindex]="tabIndexAttr" [attr.readonly]="readOnlyAttr" />

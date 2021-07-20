@@ -111,6 +111,7 @@ export class PropertyData {
 
   public caption?: string;
   public captionAlign?: ContentAlignment;
+  public captionAsPlaceholder?: boolean;
   public datasourceOnValue?: string;
   public dataSourceTypeID?: DataSourceType;
   public dockPanel_ItemSize?: number;

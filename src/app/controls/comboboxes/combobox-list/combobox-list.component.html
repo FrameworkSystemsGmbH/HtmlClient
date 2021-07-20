@@ -1,7 +1,7 @@
 <div class="hc-cmb-list" [ngStyle]="containerStyle" (mousedown)="onContainerMouseDown($event)">
   <div #control class="hc-cmb-list-ctrl" [ngStyle]="controlStyle" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (click)="onControlClick()" [attr.tabindex]="tabIndexAttr">
     <div class="hc-cmb-list-value" [ngStyle]="valueStyle">
-      <span>{{ getSelectedValue() }}</span>
+      <span [ngStyle]="this.getPlaceholderShown() ? {'color': '#b4b4b4' } : null">{{ getSelectedValue() }}</span>
     </div>
     <div #arrow class="hc-cmb-list-arrow">
       <span>

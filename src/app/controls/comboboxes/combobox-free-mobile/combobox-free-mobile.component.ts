@@ -59,12 +59,42 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
   public getSelectedValue(): string | null {
     const selectedIndex: number | null = this.getSelectedIndex();
     if (selectedIndex == null || selectedIndex < 0) {
-      return this.getInputValue();
+      const inputValue: string | null = this.getInputValue();
+      if (inputValue != null && inputValue.length > 0) {
+        return this.getInputValue();
+      } else {
+        return this.getPlaceholder();
+      }
     } else if (this.entries != null) {
-      return this.entries[selectedIndex].getValue();
+      if (this.entries[selectedIndex].isNullEntry()) {
+        return this.getPlaceholder();
+      } else {
+        return this.entries[selectedIndex].getValue();
+      }
     } else {
-      return null;
+      return this.getPlaceholder();
     }
+  }
+
+  public getPlaceholderShown(): boolean {
+    const captionAsPlaceholder: boolean | null = this.getWrapper().getCaptionAsPlaceholder();
+    const selectedIndex: number | null = this.getSelectedIndex();
+
+    if (!captionAsPlaceholder) {
+      return false;
+    }
+
+    const selectedValue: string | null = this.getSelectedValue();
+
+    if ((selectedIndex == null || selectedIndex < 0) && selectedValue != null && selectedValue.length > 0) {
+      return false;
+    }
+
+    if (selectedIndex != null && this.entries != null && !this.entries[selectedIndex].isNullEntry()) {
+      return false;
+    }
+
+    return true;
   }
 
   public onContainerMouseDown(event: any): void {
@@ -85,7 +115,8 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
         data: {
           entries: this.entries,
           selectedIndex: this.getSelectedIndex(),
-          value: this.getInputValue()
+          value: this.getInputValue(),
+          placeholder: this.getPlaceholder()
         }
       });
 

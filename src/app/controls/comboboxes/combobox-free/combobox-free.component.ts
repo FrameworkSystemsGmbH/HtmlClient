@@ -94,6 +94,27 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
+  public getPlaceholderShown(): boolean {
+    const captionAsPlaceholder: boolean | null = this.getWrapper().getCaptionAsPlaceholder();
+    const selectedIndex: number | null = this.getSelectedIndex();
+
+    if (!captionAsPlaceholder) {
+      return false;
+    }
+
+    const selectedValue: string | null = this.getSelectedValue();
+
+    if ((selectedIndex == null || selectedIndex < 0) && selectedValue != null && selectedValue.length > 0) {
+      return false;
+    }
+
+    if (selectedIndex != null && this.entries != null && !this.entries[selectedIndex].isNullEntry()) {
+      return false;
+    }
+
+    return true;
+  }
+
   protected getScroller(): ElementRef<HTMLDivElement> | null {
     return this.scroller;
   }

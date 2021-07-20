@@ -2,18 +2,12 @@ export class DataListEntry {
 
   private readonly _pk: string | null;
   private readonly _value: string | null;
+  private readonly _isNullEntry: boolean = false;
 
-  public constructor(pk: string | null, value: string | null) {
+  public constructor(pk: string | null, value: string, isNullEntry: boolean) {
     this._pk = pk;
     this._value = value;
-  }
-
-  public static getFromJson(json: any): DataListEntry | null {
-    if (!json) {
-      return null;
-    }
-
-    return new DataListEntry(json.pk, json.value);
+    this._isNullEntry = isNullEntry;
   }
 
   public getJson(): any {
@@ -32,6 +26,6 @@ export class DataListEntry {
   }
 
   public isNullEntry(): boolean {
-    return this._pk == null || this._value == null;
+    return this._isNullEntry;
   }
 }

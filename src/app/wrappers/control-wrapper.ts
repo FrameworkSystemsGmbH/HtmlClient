@@ -272,6 +272,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return caption != null ? caption : null;
   }
 
+  public getCaptionAsPlaceholder(): boolean {
+    const captionAsPlaceholder: boolean | undefined = this.getPropertyStore().getCaptionAsPlaceholder();
+    return captionAsPlaceholder != null ? captionAsPlaceholder : false;
+  }
+
   public setCaptionAction(caption: string): void {
     this.getPropertyStore().setCaption(PropertyLayer.Action, caption);
     this.onWrapperCaptionChanged();
@@ -528,7 +533,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public providesControlLabelWrapper(): boolean {
-    return this.getCaption() != null;
+    return !this.getCaptionAsPlaceholder() && this.getCaption() != null;
   }
 
   public getControlLabelWrapper(fieldRowWrp: FieldRowWrapper): IControlLabelWrapper | null {

@@ -11,6 +11,7 @@ export abstract class TextBoxComponent extends ControlComponent {
 
   public readOnlyAttr: boolean | null = null;
   public tabIndexAttr: number | null = null;
+  public placeholder: string | null = null;
   public inputStyle: any;
 
   protected mapEnterToTab(): boolean {
@@ -55,6 +56,14 @@ export abstract class TextBoxComponent extends ControlComponent {
     super.updateData(wrapper);
     this.readOnlyAttr = Boolean.nullIfFalse(!this.isEditable);
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
+
+    const caption: string | null = wrapper.getCaption();
+
+    if (wrapper.getCaptionAsPlaceholder() && caption != null && caption.trim().length > 0) {
+      this.placeholder = caption;
+    } else {
+      this.placeholder = String.empty();
+    }
   }
 
   protected updateStyles(wrapper: TextBoxBaseWrapper): void {
