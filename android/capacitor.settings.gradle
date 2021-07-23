@@ -27,4 +27,4 @@ include ':capacitor-storage'
 project(':capacitor-storage').projectDir = new File('../node_modules/@capacitor/storage/android')
 
 include ':capacitor-plugin-webview-cache'
-project(':capacitor-plugin-webview-cache').projectDir = new File('../../HtmlClientPlugins/WebViewCache/android')
+project(':capacitor-plugin-webview-cache').projectDir = new File('../node_modules/capacitor-plugin-webview-cache/android')
