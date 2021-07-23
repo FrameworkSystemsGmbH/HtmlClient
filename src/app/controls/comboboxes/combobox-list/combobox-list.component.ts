@@ -93,7 +93,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
     }
   }
 
-  public getSelectedValue(): string | null {
+  public getDisplayValue(): string | null {
     const selectedIndex: number | null = this.getSelectedIndex();
     if (selectedIndex == null || selectedIndex < 0) {
       const wrpValue: string | null = this.getWrapper().getValue();

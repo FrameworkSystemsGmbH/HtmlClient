@@ -59,6 +59,17 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
   public getSelectedValue(): string | null {
     const selectedIndex: number | null = this.getSelectedIndex();
     if (selectedIndex == null || selectedIndex < 0) {
+      return this.getInputValue();
+    } else if (this.entries != null) {
+      return this.entries[selectedIndex].getValue();
+    } else {
+      return null;
+    }
+  }
+
+  public getDisplayValue(): string | null {
+    const selectedIndex: number | null = this.getSelectedIndex();
+    if (selectedIndex == null || selectedIndex < 0) {
       const inputValue: string | null = this.getInputValue();
       if (inputValue != null && inputValue.length > 0) {
         return this.getInputValue();

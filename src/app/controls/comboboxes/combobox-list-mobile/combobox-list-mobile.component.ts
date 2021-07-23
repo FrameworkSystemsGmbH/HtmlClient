@@ -54,7 +54,7 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
     }
   }
 
-  public getSelectedValue(): string | null {
+  public getDisplayValue(): string | null {
     const selectedIndex: number | null = this.getSelectedIndex();
     if (selectedIndex == null || selectedIndex < 0) {
       const wrpValue: string | null = this.getWrapper().getValue();
