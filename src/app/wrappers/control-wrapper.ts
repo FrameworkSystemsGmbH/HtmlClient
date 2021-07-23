@@ -839,7 +839,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       return null;
     }
 
-    const siblings: Array<ILayoutableControlWrapper> = parent.getVchContainer().getChildren().filter(child => child.canReceiveKeyboardFocus());
+    const siblings: Array<ILayoutableControlWrapper> = parent.getVchContainer().getChildren().filter(child => child === current || child.canReceiveKeyboardFocus());
 
     const vchIndex: number = siblings.findIndex(c => c === current);
 
@@ -886,7 +886,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
       return null;
     }
 
-    const siblings: Array<ILayoutableControlWrapper> = parent.getVchContainer().getChildren().filter(child => child.canReceiveKeyboardFocus());
+    const siblings: Array<ILayoutableControlWrapper> = parent.getVchContainer().getChildren().filter(child => child === current || child.canReceiveKeyboardFocus());
 
     const vchIndex: number = siblings.findIndex(c => c === current);
 
