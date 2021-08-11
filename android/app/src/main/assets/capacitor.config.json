@@ -7,7 +7,7 @@
 		"SplashScreen": {
 			"androidScaleType": "FIT_CENTER",
 			"launchAutoHide": false,
-			"backgroundColor": "#ffffff"
+			"showSpinner": false
 		}
 	}
 }
