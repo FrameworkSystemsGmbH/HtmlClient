@@ -17,6 +17,10 @@ export class LabelWrapper extends FittedWrapper {
     return textAlign != null ? textAlign : TextAlign.Center;
   }
 
+  public canReceiveFocus(): boolean {
+    return false;
+  }
+
   public providesControlLabelWrapper(): boolean {
     return false;
   }
