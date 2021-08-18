@@ -809,6 +809,10 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public canReceiveFocus(): boolean {
+    if (this.getMaxWidth() === 0 || this.getMaxHeight() === 0) {
+      return false;
+    }
+
     return this.getCurrentIsEditable() && this.getCurrentVisibility() === Visibility.Visible;
   }
 
