@@ -32,7 +32,6 @@ export class LayoutableControlWrapper {
   private _resultWdith: number = 0;
   private _resultHeight: number = 0;
 
-
   public constructor(control: ILayoutableControl) {
     this._control = control;
     this._name = control.getName();
