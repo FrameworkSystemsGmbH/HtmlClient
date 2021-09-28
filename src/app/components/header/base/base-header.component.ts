@@ -4,9 +4,9 @@ import { SafeUrl } from '@angular/platform-browser';
 import { EventsService } from '@app/services/events.service';
 import { FormsService } from '@app/services/forms.service';
 import { PlatformService } from '@app/services/platform.service';
-import { TitleService } from '@app/services/title.service';
 import { IAppState } from '@app/store/app.state';
 import { selectBrokerDirect } from '@app/store/broker/broker.selectors';
+import { selectDisableFormNavigation, selectTitle } from '@app/store/runtime/runtime.selectors';
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
@@ -77,6 +77,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   public forms: Array<FormWrapper> | null = null;
   public selectedForm: FormWrapper | null = null;
   public directMode: boolean = false;
+  public disableFormNav: boolean = false;
   public sidebarEnabled: boolean = false;
   public sidebarVisible: boolean = false;
 
@@ -90,7 +91,6 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   private readonly _eventsService: EventsService;
   private readonly _formsService: FormsService;
   private readonly _platformService: PlatformService;
-  private readonly _titleService: TitleService;
   private readonly _store: Store<IAppState>;
 
   private readonly _visibleClass: string = 'arrowVisible';
@@ -99,13 +99,16 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   private readonly _scrollAnimationTime: number = 250;
   private readonly _scrollAutoHideDelay: number = 500;
 
-  private _storeSub: Subscription | null = null;
+  private _titleSub: Subscription | null = null;
+  private _disableFormNavSub: Subscription | null = null;
+  private _directSub: Subscription | null = null;
   private _formsSub: Subscription | null = null;
   private _selectedFormSub: Subscription | null = null;
 
   private _scrollLeftInterval: any;
   private _scrollRightInterval: any;
 
+  private _title: string = String.empty();
 
   public constructor(
     zone: NgZone,
@@ -113,7 +116,6 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     eventsService: EventsService,
     formsService: FormsService,
     platformService: PlatformService,
-    titleService: TitleService,
     store: Store<IAppState>
   ) {
     this._zone = zone;
@@ -121,7 +123,6 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     this._eventsService = eventsService;
     this._formsService = formsService;
     this._platformService = platformService;
-    this._titleService = titleService;
     this._store = store;
 
     this.scrollerOptions = {
@@ -187,7 +188,15 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   public ngOnInit(): void {
-    this._storeSub = this._store.select(selectBrokerDirect).subscribe(direct => {
+    this._titleSub = this._store.select(selectTitle).subscribe(title => {
+      this._title = title;
+    });
+
+    this._disableFormNavSub = this._store.select(selectDisableFormNavigation).subscribe(disableFomNav => {
+      this.disableFormNav = disableFomNav;
+    })
+
+    this._directSub = this._store.select(selectBrokerDirect).subscribe(direct => {
       this.directMode = direct;
     });
 
@@ -208,7 +217,9 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   public ngOnDestroy(): void {
-    this._storeSub?.unsubscribe();
+    this._titleSub?.unsubscribe();
+    this._disableFormNavSub?.unsubscribe();
+    this._directSub?.unsubscribe();
     this._formsSub?.unsubscribe();
     this._selectedFormSub?.unsubscribe();
   }
@@ -271,15 +282,15 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   public getTitle(): string {
-    if (!this.sidebarEnabled || this.selectedForm == null) {
-      return this._titleService.getTitle();
-    } else {
+    if ((this._disableFormNavSub || this.sidebarEnabled) && this.selectedForm != null) {
       return this.selectedForm.getTitle();
+    } else {
+      return this._title;
     }
   }
 
   public getSidebarTitle(): string {
-    return this._titleService.getTitle();
+    return this._title;
   }
 
   public toggleSidebar(): void {

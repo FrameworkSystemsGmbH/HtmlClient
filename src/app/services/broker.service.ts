@@ -25,11 +25,12 @@ import { LocaleService } from '@app/services/locale.service';
 import { PlatformService } from '@app/services/platform.service';
 import { RoutingService } from '@app/services/routing.service';
 import { TextsService } from '@app/services/texts.service';
-import { TitleService } from '@app/services/title.service';
 import { IAppState } from '@app/store/app.state';
 import { resetBrokerState, setBrokerStateNoToken, setBrokerStateToken } from '@app/store/broker/broker.actions';
 import { selectBrokerState } from '@app/store/broker/broker.selectors';
 import { IBrokerState } from '@app/store/broker/broker.state';
+import { setDisableFormNavigation, setTitle } from '@app/store/runtime/runtime.actions';
+import { selectTitle } from '@app/store/runtime/runtime.selectors';
 import * as JsonUtil from '@app/util/json-util';
 import * as RxJsUtil from '@app/util/rxjs-util';
 import { Store } from '@ngrx/store';
@@ -57,17 +58,18 @@ export class BrokerService {
   private readonly _platformService: PlatformService;
   private readonly _routingService: RoutingService;
   private readonly _textsService: TextsService;
-  private readonly _titleService: TitleService;
   private readonly _store: Store<IAppState>;
   private readonly _zone: NgZone;
 
   private readonly _onLoginComplete: Subject<any>;
   private readonly _onLoginComplete$: Observable<any>;
 
-  private _storeSub: Subscription | null = null;
+  private _titleSub: Subscription | null = null;
+  private _brokerStateSub: Subscription | null = null;
   private _eventFiredSub: Subscription | null = null;
   private _onBackButtonListener: (() => boolean) | null = null;
 
+  private _title: string = String.empty();
   private _activeLoginBroker: LoginBroker | null = null;
   private _activeLoginOptions: LoginOptions | null = null;
   private _activeBrokerDirect: boolean = false;
@@ -93,7 +95,6 @@ export class BrokerService {
     platformService: PlatformService,
     routingService: RoutingService,
     textsService: TextsService,
-    titleService: TitleService,
     store: Store<IAppState>,
     zone: NgZone
   ) {
@@ -111,7 +112,6 @@ export class BrokerService {
     this._platformService = platformService;
     this._routingService = routingService;
     this._textsService = textsService;
-    this._titleService = titleService;
     this._store = store;
     this._zone = zone;
 
@@ -121,7 +121,13 @@ export class BrokerService {
     this.resetActiveBroker();
   }
 
-  private subscribeToStore(): Subscription {
+  private subscribeToTitle(): Subscription {
+    return this._store.select(selectTitle).subscribe((title: string) => {
+      this._title = title;
+    });
+  }
+
+  private subscribeToBrokerState(): Subscription {
     return this._store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
       this._activeBrokerName = brokerState.activeBrokerName;
       this._activeBrokerToken = brokerState.activeBrokerToken;
@@ -232,13 +238,9 @@ export class BrokerService {
   }
 
   private resetActiveBroker(): void {
-    if (this._storeSub) {
-      this._storeSub.unsubscribe();
-    }
-
-    if (this._eventFiredSub) {
-      this._eventFiredSub.unsubscribe();
-    }
+    this._titleSub?.unsubscribe();
+    this._brokerStateSub?.unsubscribe();
+    this._eventFiredSub?.unsubscribe();
 
     if (this._onBackButtonListener) {
       this._backService.removeBackButtonListener(this._onBackButtonListener);
@@ -253,7 +255,8 @@ export class BrokerService {
     this._activeLoginOptions = null;
     this._activeBrokerDirect = false;
 
-    this._storeSub = this.subscribeToStore();
+    this._titleSub = this.subscribeToTitle();
+    this._brokerStateSub = this.subscribeToBrokerState();
     this._eventFiredSub = this.subscribeToEventFired();
 
     this._onBackButtonListener = this.onBackButton.bind(this);
@@ -305,7 +308,7 @@ export class BrokerService {
   private createRequestRetryBox(error: any): Observable<void> {
     return new Observable<void>(sub => {
       try {
-        const title: string = this._titleService.getTitle();
+        const title: string = this._title;
         const message: string = error && error.status === 0 ? 'Request could not be sent because of a network error!' : error.message;
         const stackTrace = error && error.stack ? error.stack : null;
 
@@ -468,9 +471,17 @@ export class BrokerService {
   }
 
   private processApplication(applicationJson: any): Observable<void> {
-    if (applicationJson && applicationJson.title != null && applicationJson.title.trim().length > 0) {
+    if (applicationJson) {
       return RxJsUtil.voidObs().pipe(
-        tap(() => this._titleService.setTitle(applicationJson.title))
+        tap(() => {
+          if (applicationJson.title != null && applicationJson.title.trim().length > 0) {
+            this._store.dispatch(setTitle({ title: applicationJson.title }));
+          }
+
+          if (applicationJson.disableFormNavigation) {
+            this._store.dispatch(setDisableFormNavigation({ disableFormNavigation: true }));
+          }
+        })
       );
     } else {
       return RxJsUtil.voidObs();
@@ -530,7 +541,7 @@ export class BrokerService {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
         mergeMap(() => this._dialogService.showErrorBox({
-          title: this._titleService.getTitle(),
+          title: this._title,
           message: errorJson.message,
           stackTrace: errorJson.stackTrace
         })),
@@ -550,7 +561,7 @@ export class BrokerService {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
         mergeMap(() => this._dialogService.showMsgBoxBox({
-          title: this._titleService.getTitle(),
+          title: this._title,
           message: msgBoxJson.message,
           icon: msgBoxJson.icon,
           buttons: msgBoxJson.buttons
@@ -593,7 +604,7 @@ export class BrokerService {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
         mergeMap(() => this._dialogService.showMsgBoxBox({
-          title: this._titleService.getTitle(),
+          title: this._title,
           message: msg,
           icon: msgBoxIcon,
           buttons: MsgBoxButtons.YesNo
@@ -624,7 +635,7 @@ export class BrokerService {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
         mergeMap(() => this._dialogService.showErrorBox({
-          title: this._titleService.getTitle(),
+          title: this._title,
           message: msg
         })),
         tap(() => this._loaderService.fireLoadingChanged(true))
@@ -633,7 +644,7 @@ export class BrokerService {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
         mergeMap(() => this._dialogService.showMsgBoxBox({
-          title: this._titleService.getTitle(),
+          title: this._title,
           message: partsStr,
           icon: MsgBoxIcon.Exclamation,
           buttons: MsgBoxButtons.Ok

@@ -7,19 +7,20 @@ import { MsgBoxResult } from '@app/enums/msgbox-result';
 import { ControlsService, IWrapperCreationOptions } from '@app/services/controls.service';
 import { DialogService } from '@app/services/dialog.service';
 import { EventsService } from '@app/services/events.service';
-import { TitleService } from '@app/services/title.service';
+import { IAppState } from '@app/store/app.state';
+import { selectTitle } from '@app/store/runtime/runtime.selectors';
 import * as JsonUtil from '@app/util/json-util';
 import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
 import { ContainerWrapper } from '@app/wrappers/container-wrapper';
 import { ControlWrapper } from '@app/wrappers/control-wrapper';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class FormsService {
 
   private readonly _injector: Injector;
-  private readonly _titleService: TitleService;
   private readonly _dialogService: DialogService;
   private readonly _eventsService: EventsService;
   private readonly _controlsService: ControlsService;
@@ -34,15 +35,16 @@ export class FormsService {
 
   private _lastOpenedForm: FormWrapper | null = null;
 
+  private _title: string = String.empty();
+
   public constructor(
     injector: Injector,
-    titleService: TitleService,
     dialogService: DialogService,
     eventsService: EventsService,
-    controlsService: ControlsService
+    controlsService: ControlsService,
+    store: Store<IAppState>
   ) {
     this._injector = injector;
-    this._titleService = titleService;
     this._dialogService = dialogService;
     this._eventsService = eventsService;
     this._controlsService = controlsService;
@@ -52,6 +54,10 @@ export class FormsService {
 
     this._selectedForm$$ = new BehaviorSubject<FormWrapper | null>(null);
     this._selectedForm$ = this._selectedForm$$.asObservable();
+
+    store.select(selectTitle).subscribe(title => {
+      this._title = title;
+    });
   }
 
   public getForms(): Observable<Array<FormWrapper> | null> {
@@ -81,7 +87,7 @@ export class FormsService {
         buttons: MsgBoxButtons.YesNo,
         icon: MsgBoxIcon.Question,
         message: 'Do you want to close the session?',
-        title: this._titleService.getTitle()
+        title: this._title
       }).subscribe(result => {
         if (result === MsgBoxResult.Yes) {
           this.closeForm(form);

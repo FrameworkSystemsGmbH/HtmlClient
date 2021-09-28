@@ -19,6 +19,7 @@ import { ALL_DIRECTIVES } from '@app/directives/_all.direcives';
 import { ErrorService } from '@app/services/error.service';
 import { brokerReducer } from '@app/store/broker/broker.reducers';
 import { readyReducer } from '@app/store/ready/ready.reducers';
+import { runtimeReducer } from '@app/store/runtime/runtime.reducers';
 import { StoreModule } from '@ngrx/store';
 import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 
@@ -48,7 +49,8 @@ describe('AppComponent', () => {
         OverlayscrollbarsModule,
         StoreModule.forRoot({
           broker: brokerReducer,
-          ready: readyReducer
+          ready: readyReducer,
+          runtime: runtimeReducer
         })
       ],
       providers: [

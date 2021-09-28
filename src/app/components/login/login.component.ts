@@ -5,9 +5,9 @@ import { LoginBroker } from '@app/common/login-broker';
 import { BrokerService } from '@app/services/broker.service';
 import { LoginService } from '@app/services/login.service';
 import { StateService } from '@app/services/state.service';
-import { TitleService } from '@app/services/title.service';
 import { IAppState } from '@app/store/app.state';
 import { selectBrokerName } from '@app/store/broker/broker.selectors';
+import { setTitleDefault } from '@app/store/runtime/runtime.actions';
 import * as DomUtil from '@app/util/dom-util';
 import { faEdit, faPlus, faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     url: this.urlControl
   });
 
-  private readonly _titleService: TitleService;
   private readonly _loginService: LoginService;
   private readonly _brokerService: BrokerService;
   private readonly _stateService: StateService;
@@ -47,13 +46,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   private _activeBrokerNameSub: Subscription | null = null;
 
   public constructor(
-    titleService: TitleService,
     loginService: LoginService,
     brokerService: BrokerService,
     stateService: StateService,
     store: Store<IAppState>
   ) {
-    this._titleService = titleService;
     this._loginService = loginService;
     this._brokerService = brokerService;
     this._stateService = stateService;
@@ -72,7 +69,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.lastSessionInfo = this._stateService.getLastSessionInfo();
 
     if (this.activeBrokerName == null || this.activeBrokerName.trim().length === 0) {
-      this._titleService.setDefault();
+      this._store.dispatch(setTitleDefault());
     }
   }
 

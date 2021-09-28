@@ -9,11 +9,13 @@ import { PlatformService } from '@app/services/platform.service';
 import { RoutingService } from '@app/services/routing.service';
 import { WebStorageService } from '@app/services/storage/web-storage.service';
 import { TextsService } from '@app/services/texts.service';
-import { TitleService } from '@app/services/title.service';
 import { IAppState } from '@app/store/app.state';
 import { setBrokerState } from '@app/store/broker/broker.actions';
 import { selectBrokerState } from '@app/store/broker/broker.selectors';
 import { IBrokerState } from '@app/store/broker/broker.state';
+import { setRuntimeState } from '@app/store/runtime/runtime.actions';
+import { selectRuntimeState } from '@app/store/runtime/runtime.selectors';
+import { IRuntimeState } from '@app/store/runtime/runtime.state';
 import * as JsonUtil from '@app/util/json-util';
 import { App, AppState, RestoredListenerEvent } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
@@ -37,10 +39,10 @@ export class StateService {
   private readonly _routingService: RoutingService;
   private readonly _store: Store<IAppState>;
   private readonly _textsService: TextsService;
-  private readonly _titleService: TitleService;
   private readonly _webStorageService: WebStorageService;
 
   private _brokerState: IBrokerState | null = null;
+  private _runtimeState: IRuntimeState | null = null;
   private _stateChangeListenerSub: PluginListenerHandle | null = null;
   private _restoredResultListenerSub: PluginListenerHandle | null = null;
 
@@ -55,7 +57,6 @@ export class StateService {
     routingService: RoutingService,
     store: Store<IAppState>,
     textsService: TextsService,
-    titleService: TitleService,
     webStorageService: WebStorageService
   ) {
     this._zone = zone;
@@ -68,7 +69,6 @@ export class StateService {
     this._routingService = routingService;
     this._store = store;
     this._textsService = textsService;
-    this._titleService = titleService;
     this._webStorageService = webStorageService;
 
     this._brokerService.onLoginComplete.pipe(
@@ -77,6 +77,10 @@ export class StateService {
 
     this._store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
       this._brokerState = brokerState;
+    });
+
+    this._store.select(selectRuntimeState).subscribe((runtimeState: IRuntimeState) => {
+      this._runtimeState = runtimeState;
     });
   }
 
@@ -182,9 +186,6 @@ export class StateService {
     // App state object
     const stateJson: any = {};
 
-    // App Title
-    stateJson.title = this._titleService.getTitle();
-
     // Meta
     const lastRequestTime: Moment.Moment | null = this._brokerService.getLastRequestTime();
 
@@ -193,9 +194,25 @@ export class StateService {
       lastRequestTime: lastRequestTime != null ? lastRequestTime.toJSON() : null
     };
 
-    // Store
+    // Runtime State
+    if (this._runtimeState != null) {
+      if (stateJson.store == null) {
+        stateJson.store = {};
+      }
+
+      stateJson.store.runtime = {
+        title: this._runtimeState.title,
+        diableNavigation: this._runtimeState.disableFormNavigation
+      };
+    }
+
+    // Broker State
     if (this._brokerState != null) {
-      stateJson.store = {
+      if (stateJson.store == null) {
+        stateJson.store = {};
+      }
+
+      stateJson.store.broker = {
         activeBrokerName: this._brokerState.activeBrokerName,
         activeBrokerToken: this._brokerState.activeBrokerToken,
         activeBrokerUrl: this._brokerState.activeBrokerUrl,
@@ -245,25 +262,40 @@ export class StateService {
 
     const stateJson: any = lastSessionInfo.getStateJson();
 
-    // Common Properties
-    if (stateJson.title != null && stateJson.title.trim().length > 0) {
-      this._titleService.setTitle(stateJson.title);
-    }
-
     // Store
-    const store: any = stateJson.store;
-    this._store.dispatch(setBrokerState({
-      state: {
-        activeBrokerDirect: store.activeBrokerDirect,
-        activeBrokerFilesUrl: store.activeBrokerFilesUrl,
-        activeBrokerImageUrl: store.activeBrokerImageUrl,
-        activeBrokerName: store.activeBrokerName,
-        activeBrokerReportUrl: store.activeBrokerReportUrl,
-        activeBrokerRequestUrl: store.activeBrokerRequestUrl,
-        activeBrokerToken: store.activeBrokerToken,
-        activeBrokerUrl: store.activeBrokerUrl
+    const storeJson: any = stateJson.store;
+
+    if (storeJson != null) {
+      // Runtime State
+      if (storeJson.runtime != null) {
+        const runtimeStateJson: any = storeJson.runtime;
+
+        this._store.dispatch(setRuntimeState({
+          state: {
+            title: runtimeStateJson.title,
+            disableFormNavigation: runtimeStateJson.diableNavigation
+          }
+        }));
       }
-    }));
+
+      // Broker State
+      if (storeJson.broker != null) {
+        const brokerStateJson = storeJson.broker;
+
+        this._store.dispatch(setBrokerState({
+          state: {
+            activeBrokerDirect: brokerStateJson.activeBrokerDirect,
+            activeBrokerFilesUrl: brokerStateJson.activeBrokerFilesUrl,
+            activeBrokerImageUrl: brokerStateJson.activeBrokerImageUrl,
+            activeBrokerName: brokerStateJson.activeBrokerName,
+            activeBrokerReportUrl: brokerStateJson.activeBrokerReportUrl,
+            activeBrokerRequestUrl: brokerStateJson.activeBrokerRequestUrl,
+            activeBrokerToken: brokerStateJson.activeBrokerToken,
+            activeBrokerUrl: brokerStateJson.activeBrokerUrl
+          }
+        }));
+      }
+    }
 
     // Services
     if (stateJson.services) {
