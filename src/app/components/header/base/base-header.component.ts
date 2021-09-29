@@ -282,7 +282,7 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   public getTitle(): string {
-    if ((this._disableFormNavSub || this.sidebarEnabled) && this.selectedForm != null) {
+    if ((this.disableFormNav || this.sidebarEnabled) && this.selectedForm != null) {
       return this.selectedForm.getTitle();
     } else {
       return this._title;
