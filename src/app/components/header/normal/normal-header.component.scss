@@ -1,0 +1,248 @@
+@use 'sass:math';
+
+@import '../../../../scss/variables.scss';
+
+$header-border: 0.1rem solid $header-border-color;
+
+@mixin header-button {
+  button {
+    color: $header-color;
+    background-color: transparent;
+    padding: 0 0.75rem;
+    border: none;
+
+    &:active,
+    &:hover {
+      background-color: $header-background-highlight;
+    }
+
+    &:hover {
+      color: $header-highlight-hover;
+    }
+
+    &:active {
+      color: $header-highlight-active;
+    }
+
+    &[disabled] {
+      color: $header-color-disabled;
+      background-color: transparent;
+    }
+  }
+}
+
+.header {
+  display: flex;
+  height: $header-height;
+  color: $header-color;
+  background-color: $header-background;
+  user-select: none;
+  cursor: default;
+
+  .header-left {
+    flex: 0 0 auto;
+    display: flex;
+    border-bottom: $header-border;
+
+    @include respond-above(sm) {
+      flex: 0.5;
+    }
+
+    @include respond-above(md) {
+      flex: 0 0 auto;
+      padding-right: math.div($header-height, 4);
+    }
+
+    .header-left-label {
+      display: flex;
+      align-items: center;
+      margin-left: math.div($header-height, 4);
+      font-size: $header-brand-fontsize;
+      font-weight: bold;
+    }
+
+    @include header-button();
+  }
+
+  .header-center {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.3rem;
+    border-left: $header-border;
+    border-top: $header-border;
+    border-right: $header-border;
+
+    @include respond-above(md) {
+      flex: 0 1 auto;
+      align-items: normal;
+      justify-content: normal;
+      border-left: none;
+      border-top: none;
+      border-bottom: none;
+      border-right: none;
+      overflow: hidden;
+    }
+
+    .header-center-label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: $header-brand-fontsize;
+      font-weight: bold;
+
+      @include respond-above(md) {
+        margin-bottom: 0.3rem;
+      }
+
+      img {
+        position: absolute;
+        top: 0.1rem;
+        right: 0.1rem;
+      }
+    }
+
+    .header-center-tabs {
+      position: relative;
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+
+      .arrow {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0.2rem 0.4rem;
+        border: 0.1rem solid gray;
+        color: gray;
+        background-color: white;
+        border-radius: 0.2rem;
+        opacity: 0;
+        z-index: -100;
+        transition: all 0.25s;
+        cursor: pointer;
+
+        fa-icon {
+          display: flex;
+        }
+
+        &.arrowVisible {
+          opacity: 0.8;
+          z-index: 20;
+        }
+
+        &:hover {
+          opacity: 1;
+        }
+
+        &:active {
+          color: #333;
+          border-color: #333;
+        }
+      }
+
+      .arrowLeft {
+        left: 0.4rem;
+      }
+
+      .arrowRight {
+        right: 0.4rem;
+      }
+
+      .scroller {
+        flex: 1;
+        display: flex;
+
+        .header-tabs-list {
+          display: flex;
+          height: $header-height - 0.3rem;
+
+          div {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 1.2rem;
+            user-select: none;
+            white-space: nowrap;
+            cursor: pointer;
+            border-left: $header-border;
+            border-top: $header-border;
+            border-bottom: $header-border;
+
+            &:last-child {
+              border-right: $header-border;
+            }
+
+            &.active {
+              font-weight: bold;
+              border-bottom: none;
+            }
+
+            &.active,
+            &:hover {
+              color: $header-highlight-hover;
+            }
+
+            &:active {
+              color: $header-highlight-active;
+            }
+
+            &.hasBadge {
+              padding-right: 1.7rem;
+            }
+
+            .badgeImage {
+              position: absolute;
+              top: 0.1rem;
+              right: 0.1rem;
+            }
+
+            span {
+              margin-bottom: 0.3rem;
+            }
+
+            .header-form-close-btn {
+              color: $header-color;
+              background-color: transparent;
+              margin-left: 1rem;
+              margin-bottom: 0.3rem;
+              padding: 0rem;
+              border: none;
+
+              &:hover {
+                color: $header-close-hover;
+              }
+
+              &:active {
+                color: $header-close-active;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .header-right {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    border-bottom: $header-border;
+
+    @include respond-above(sm) {
+      flex: 0.5;
+    }
+
+    @include respond-above(md) {
+      flex: 1;
+    }
+
+    @include header-button();
+  }
+}

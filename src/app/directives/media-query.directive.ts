@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 
 @Directive({ selector: '[hcMediaQuery]' })
 export class MediaQueryDirective implements OnInit, OnDestroy {
@@ -9,9 +9,15 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
   @Output()
   public readonly mediaQueryChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  private readonly _zone: NgZone;
+
   private _mediaQueryList: MediaQueryList | null = null;
 
   private _mediaQueryListener: ((event: MediaQueryListEvent) => void) | null = null;
+
+  public constructor(zone: NgZone) {
+    this._zone = zone;
+  }
 
   public ngOnInit(): void {
     if (this.mediaQuery != null && this.mediaQuery.trim().length > 0) {
@@ -20,7 +26,11 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
       this._mediaQueryList = window.matchMedia(this.mediaQuery);
       this._mediaQueryList.addListener(this._mediaQueryListener);
 
-      this.mediaQueryChanged.emit(this._mediaQueryList.matches);
+      this._zone.run(() => {
+        if (this._mediaQueryList != null) {
+          this.mediaQueryChanged.emit(this._mediaQueryList.matches);
+        }
+      });
     }
   }
 
@@ -31,6 +41,8 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
   }
 
   private fireMediaQueryChanged(event: MediaQueryListEvent): void {
-    this.mediaQueryChanged.emit(event.matches);
+    this._zone.run(() => {
+      this.mediaQueryChanged.emit(event.matches);
+    });
   }
 }

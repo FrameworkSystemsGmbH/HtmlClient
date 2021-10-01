@@ -15,7 +15,7 @@ import { selectBrokerState } from '@app/store/broker/broker.selectors';
 import { IBrokerState } from '@app/store/broker/broker.state';
 import { setRuntimeState } from '@app/store/runtime/runtime.actions';
 import { selectRuntimeState } from '@app/store/runtime/runtime.selectors';
-import { IRuntimeState } from '@app/store/runtime/runtime.state';
+import { initialRuntimeState, IRuntimeState } from '@app/store/runtime/runtime.state';
 import * as JsonUtil from '@app/util/json-util';
 import { App, AppState, RestoredListenerEvent } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
@@ -272,6 +272,7 @@ export class StateService {
 
         this._store.dispatch(setRuntimeState({
           state: {
+            ...initialRuntimeState,
             title: runtimeStateJson.title,
             disableFormNavigation: runtimeStateJson.diableNavigation
           }

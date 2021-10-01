@@ -10,5 +10,6 @@ export const runtimeReducer: ActionReducer<IRuntimeState> = createReducer(
   initialRuntimeState,
   on(RuntimeActions.setTitle, (state: IRuntimeState, payload: { title: string | null }) => ({ ...state, title: checkTitle(payload.title) })),
   on(RuntimeActions.setTitleDefault, (state: IRuntimeState) => ({ ...state, title: initialRuntimeState.title })),
+  on(RuntimeActions.toggleSidebar, (state: IRuntimeState) => ({ ...state, sidebarVisible: !state.sidebarVisible })),
   on(RuntimeActions.setDisableFormNavigation, (state: IRuntimeState, payload: { disableFormNavigation: boolean }) => ({ ...state, disableFormNavigation: payload.disableFormNavigation }))
 );

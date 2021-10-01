@@ -1,9 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { SafeUrl } from '@angular/platform-browser';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BackService } from '@app/services/back-service';
 import { FormsService } from '@app/services/forms.service';
+import { IAppState } from '@app/store/app.state';
+import { selectDisableFormNavigation } from '@app/store/runtime/runtime.selectors';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -14,29 +18,42 @@ import { Subscription } from 'rxjs';
 export class ModalHeaderComponent implements OnInit, OnDestroy {
 
   public iconTimes: IconDefinition = faTimes;
+  public isCloseIconVisible: boolean = false;
 
   private readonly _backService: BackService;
   private readonly _formsService: FormsService;
+  private readonly _store: Store<IAppState>;
 
   private _form: FormWrapper | null = null;
-  private _selectedFormSub: Subscription | null = null;
+  private _formSub: Subscription | null = null;
+
+  private _disableFormNav: boolean = false;
+  private _disableFormNavSub: Subscription | null = null;
 
   private onBackButtonListener: (() => boolean) | null = null;
 
   public constructor(
     backService: BackService,
-    formsService: FormsService
+    formsService: FormsService,
+    store: Store<IAppState>
   ) {
     this._backService = backService;
     this._formsService = formsService;
+    this._store = store;
   }
 
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);
     this._backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ModalDialog);
 
-    this._selectedFormSub = this._formsService.getSelectedForm().subscribe(form => {
+    this._disableFormNavSub = this._store.select(selectDisableFormNavigation).subscribe(disableFormNav => {
+      this._disableFormNav = disableFormNav;
+      this.updateIsCloseIconVisible();
+    });
+
+    this._formSub = this._formsService.getSelectedForm().subscribe(form => {
       this._form = form;
+      this.updateIsCloseIconVisible();
     });
   }
 
@@ -45,8 +62,15 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
       this._backService.removeBackButtonListener(this.onBackButtonListener);
     }
 
-    if (this._selectedFormSub) {
-      this._selectedFormSub.unsubscribe();
+    this._disableFormNavSub?.unsubscribe();
+    this._formSub?.unsubscribe();
+  }
+
+  private updateIsCloseIconVisible(): void {
+    if (this._disableFormNav) {
+      this.isCloseIconVisible = false;
+    } else {
+      this.isCloseIconVisible = this._form != null ? this._form.isCloseIconVisible() : false;
     }
   }
 
@@ -58,12 +82,16 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  public getTitle(): string | null {
-    return this._form ? this._form.getTitle() : null;
+  public getFormTitle(): string | null {
+    return this._form != null ? this._form.getTitle() : null;
   }
 
-  public getIsCloseIconVisible(): boolean {
-    return this._form ? this._form.isCloseIconVisible() : false;
+  public getFormBgColor(): string | null {
+    return this._form != null ? this._form.getBackColor() : null;
+  }
+
+  public getBadgeImageSrc(): SafeUrl | null {
+    return this._form != null ? this._form.getBadgeImageSrc() : null;
   }
 
   public closeForm(): void {

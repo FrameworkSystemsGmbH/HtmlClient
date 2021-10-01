@@ -1,9 +1,12 @@
 <nav class="header">
-  <div class="header-left">
-    <span class="header-title">{{ getTitle() }}</span>
+  <div class="header-left" [style.background-color]="getFormBgColor()">
+    <div class="header-left-label">
+      <span>{{ getFormTitle() }}</span>
+      <img *ngIf="getBadgeImageSrc() != null" [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+    </div>
   </div>
-  <div class="header-right" *ngIf="getIsCloseIconVisible()">
-    <button id="closeButton" (click)="closeForm()">
+  <div class="header-right">
+    <button (click)="closeForm()" *ngIf="isCloseIconVisible">
       <fa-icon [icon]="iconTimes" [fixedWidth]="true" size="lg"></fa-icon>
     </button>
   </div>

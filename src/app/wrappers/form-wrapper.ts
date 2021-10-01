@@ -51,6 +51,10 @@ export class FormWrapper extends ContainerWrapper {
     this.getDefaultVariant().setTitle(title);
   }
 
+  public getBackColor(): string {
+    return this.getDefaultVariant().getBackColor();
+  }
+
   public getIsModal(): boolean {
     return this._isModal;
   }

@@ -20,13 +20,60 @@ $header-border: 0.1rem solid $header-border-color;
     padding: 0 math.div($header-height, 2);
     border-top: $header-border;
     border-right: $header-border;
+    border-bottom: none;
+
+    @include respond-above(md) {
+      flex: 1;
+      margin-top: 0rem;
+      padding: 0 math.div($header-height, 4);
+      border-top: none;
+      border-right: none;
+      border-bottom: $header-border;
+    }
 
     .header-left-label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.2rem;
+      font-size: $header-brand-fontsize;
+      font-weight: bold;
+
+      @include respond-above(md) {
+        margin-bottom: 0rem;
+      }
+
+      img {
+        position: absolute;
+        top: 0.1rem;
+        right: 0.1rem;
+      }
+    }
+  }
+
+  .header-center {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include respond-above(md) {
+      margin-top: 0.3rem;
+      border-left: $header-border;
+      border-top: $header-border;
+      border-right: $header-border;
+    }
+
+    .header-center-label {
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: $header-brand-fontsize;
       font-weight: bold;
+
+      @include respond-above(md) {
+        margin-bottom: 0.3rem;
+      }
 
       img {
         position: absolute;
@@ -40,6 +87,7 @@ $header-border: 0.1rem solid $header-border-color;
     flex: 1;
     display: flex;
     justify-content: flex-end;
+
     border-bottom: $header-border;
 
     button {
@@ -54,11 +102,16 @@ $header-border: 0.1rem solid $header-border-color;
       }
 
       &:hover {
-        color: $header-close-hover;
+        color: $header-highlight-hover;
       }
 
       &:active {
-        color: $header-close-active;
+        color: $header-highlight-active;
+      }
+
+      &[disabled] {
+        color: $header-color-disabled;
+        background-color: transparent;
       }
     }
   }

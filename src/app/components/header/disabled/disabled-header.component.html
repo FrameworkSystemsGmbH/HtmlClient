@@ -1,0 +1,19 @@
+<nav class="header" hcMediaQuery [mediaQuery]="'(min-width: 768px)'" (mediaQueryChanged)="mediaQueryChanged($event)">
+  <div class="header-left" [style.background-color]="showCompact ? getFormBgColor() : null">
+    <div class="header-left-label">
+      <span>{{ showCompact ? getFormTitle() : appTitle }}</span>
+      <img *ngIf="showCompact && getBadgeImageSrc() != null" [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+    </div>
+  </div>
+  <div class="header-center" *ngIf="!showCompact" [style.background-color]="getFormBgColor()">
+    <div class="header-center-label">
+      <span>{{ getFormTitle() }}</span>
+      <img *ngIf="getBadgeImageSrc() != null" [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+    </div>
+  </div>
+  <div class="header-right">
+    <button [attr.disabled]="disabledAttr" (click)="switchBroker()">
+      <fa-icon [icon]="iconSignOut" [fixedWidth]="true" size="lg"></fa-icon>
+    </button>
+  </div>
+</nav>

@@ -1,0 +1,18 @@
+<nav [@sidebar] class="sidebar" [ngStyle]="headerSideStyle" *ngIf="sidebarVisible">
+  <div class="sidebar-top">
+    <span>{{ appTitle }}</span>
+  </div>
+  <div class="sidebar-bottom">
+    <ul class="sidebar-tabs-list">
+      <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
+        <img *ngIf="form.getBadgeImageSrc() != null" [src]="form.getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+        <span>{{ form.getTitle() }}</span>
+        <button *ngIf="form.isCloseIconVisible()" (click)="closeForm(form)" class="sidebar-form-close-btn">
+          <fa-icon [icon]="iconTimes"></fa-icon>
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div [@overlay] class="sidebar-overlay" [ngStyle]="headerSideOverlayStyle" (click)="toggleSidebar()" *ngIf="sidebarVisible"></div>

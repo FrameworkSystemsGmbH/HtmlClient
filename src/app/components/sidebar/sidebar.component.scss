@@ -1,0 +1,111 @@
+@import '../../../scss/variables.scss';
+
+.sidebar {
+  z-index: 80;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: $header-height;
+  bottom: 0;
+  width: 30rem;
+  color: $header-color;
+  background-color: $header-background;
+  user-select: none;
+  cursor: default;
+
+  &:after {
+    box-shadow: 1rem 0rem 1rem -1rem black inset;
+    content: ' ';
+    height: 100%;
+    position: absolute;
+    right: -1rem;
+    width: 1rem;
+  }
+
+  .sidebar-top {
+    flex: 0 0 auto;
+    display: flex;
+    height: $header-height;
+    border-bottom: 0.1rem solid $header-border-color;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      font-size: $header-brand-fontsize;
+      font-weight: bold;
+    }
+  }
+
+  .sidebar-bottom {
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .sidebar-tabs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: $header-height;
+        padding: 0 0.5rem;
+        cursor: pointer;
+
+        &.active {
+          font-weight: bold;
+        }
+
+        &.active,
+        &:hover {
+          color: $header-highlight-hover;
+          background-color: $header-background-highlight;
+        }
+
+        &:active {
+          color: $header-highlight-active;
+        }
+
+        .badgeImage {
+          position: absolute;
+          top: 0.1rem;
+          right: 0.1rem;
+        }
+
+        span {
+          flex: 1;
+        }
+
+        .sidebar-form-close-btn {
+          flex: 0 0 auto;
+          display: flex;
+          color: $header-color;
+          background-color: transparent;
+          padding: 1rem 1.3rem;
+          border: none;
+
+          &:hover {
+            color: $header-close-hover;
+          }
+
+          &:active {
+            color: $header-close-active;
+          }
+        }
+      }
+    }
+  }
+}
+
+.sidebar-overlay {
+  z-index: 70;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: $header-height;
+  bottom: 0;
+  background-color: black;
+  opacity: 0.75;
+}

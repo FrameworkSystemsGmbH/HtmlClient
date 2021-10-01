@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { AfterViewChecked, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { EventsService } from '@app/services/events.service';
@@ -6,7 +5,8 @@ import { FormsService } from '@app/services/forms.service';
 import { PlatformService } from '@app/services/platform.service';
 import { IAppState } from '@app/store/app.state';
 import { selectBrokerDirect } from '@app/store/broker/broker.selectors';
-import { selectDisableFormNavigation, selectTitle } from '@app/store/runtime/runtime.selectors';
+import { toggleSidebar } from '@app/store/runtime/runtime.actions';
+import { selectSidebarVisible, selectTitle } from '@app/store/runtime/runtime.selectors';
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
@@ -16,56 +16,22 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'hc-base-header',
-  templateUrl: './base-header.component.html',
-  styleUrls: ['./base-header.component.scss'],
-  animations: [
-    trigger('sidebar', [
-      transition('void => *', [
-        style({
-          transform: 'translateX(-30rem)'
-        }),
-        animate(200, style({
-          transform: 'translateX(0)'
-        }))]),
-      transition('* => void', [
-        style({
-          transform: 'translateX(0)'
-        }),
-        animate(200, style({
-          transform: 'translateX(-30rem)'
-        }))])
-    ]),
-    trigger('overlay', [
-      transition('void => *', [
-        style({
-          opacity: 0
-        }),
-        animate(200, style({
-          opacity: 0.75
-        }))]),
-      transition('* => void', [
-        style({
-          opacity: 0.75
-        }),
-        animate(200, style({
-          opacity: 0
-        }))])
-    ])
-  ]
+  selector: 'hc-normal-header',
+  templateUrl: './normal-header.component.html',
+  styleUrls: ['./normal-header.component.scss']
 })
-export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecked {
 
-  @ViewChild('scroller', { static: true })
+  @ViewChild('scroller', { static: false })
   public scroller: OverlayScrollbarsComponent | null = null;
 
-  @ViewChild('arrowLeft', { static: true })
+  @ViewChild('arrowLeft', { static: false })
   public arrowLeft: ElementRef<HTMLDivElement> | null = null;
 
-  @ViewChild('arrowRight', { static: true })
+  @ViewChild('arrowRight', { static: false })
   public arrowRight: ElementRef<HTMLDivElement> | null = null;
 
-  @ViewChild('tabs', { static: true })
+  @ViewChild('tabs', { static: false })
   public tabs: ElementRef<HTMLDivElement> | null = null;
 
   public iconBars: IconDefinition = faBars;
@@ -76,10 +42,9 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public forms: Array<FormWrapper> | null = null;
   public selectedForm: FormWrapper | null = null;
-  public directMode: boolean = false;
-  public disableFormNav: boolean = false;
-  public sidebarEnabled: boolean = false;
-  public sidebarVisible: boolean = false;
+  public appTitle: string | null = null;
+  public disabledAttr: boolean | null = null;
+  public showCompact: boolean = false;
 
   public headerSideStyle: any;
   public headerSideOverlayStyle: any;
@@ -99,16 +64,16 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   private readonly _scrollAnimationTime: number = 250;
   private readonly _scrollAutoHideDelay: number = 500;
 
+  private _sidebarVisible: boolean = false;
+  private _sidebarVisibleSub: Subscription | null = null;
+
   private _titleSub: Subscription | null = null;
-  private _disableFormNavSub: Subscription | null = null;
   private _directSub: Subscription | null = null;
   private _formsSub: Subscription | null = null;
   private _selectedFormSub: Subscription | null = null;
 
   private _scrollLeftInterval: any;
   private _scrollRightInterval: any;
-
-  private _title: string = String.empty();
 
   public constructor(
     zone: NgZone,
@@ -189,15 +154,15 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public ngOnInit(): void {
     this._titleSub = this._store.select(selectTitle).subscribe(title => {
-      this._title = title;
+      this.appTitle = title;
     });
 
-    this._disableFormNavSub = this._store.select(selectDisableFormNavigation).subscribe(disableFomNav => {
-      this.disableFormNav = disableFomNav;
-    })
+    this._sidebarVisibleSub = this._store.select(selectSidebarVisible).subscribe(sidebarVisible => {
+      this._sidebarVisible = sidebarVisible;
+    });
 
     this._directSub = this._store.select(selectBrokerDirect).subscribe(direct => {
-      this.directMode = direct;
+      this.disabledAttr = Boolean.nullIfFalse(direct);
     });
 
     this._formsSub = this._formsService.getForms().subscribe(forms => {
@@ -218,16 +183,16 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   public ngOnDestroy(): void {
     this._titleSub?.unsubscribe();
-    this._disableFormNavSub?.unsubscribe();
+    this._sidebarVisibleSub?.unsubscribe();
     this._directSub?.unsubscribe();
     this._formsSub?.unsubscribe();
     this._selectedFormSub?.unsubscribe();
   }
 
   public mediaQueryChanged(matches: boolean): void {
-    this.sidebarEnabled = !matches;
+    this.showCompact = !matches;
 
-    if (!this.sidebarEnabled && this.sidebarVisible) {
+    if (!this.showCompact && this._sidebarVisible) {
       this.toggleSidebar();
     }
   }
@@ -273,28 +238,20 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
     };
   }
 
+  public getFormTitle(): string | null {
+    return this.selectedForm != null ? this.selectedForm.getTitle() : null;
+  }
+
+  public getFormBgColor(): string | null {
+    return this.selectedForm != null ? this.selectedForm.getBackColor() : null;
+  }
+
   public getBadgeImageSrc(): SafeUrl | null {
-    if (!this.sidebarEnabled || this.selectedForm == null) {
-      return null;
-    } else {
-      return this.selectedForm.getBadgeImageSrc();
-    }
-  }
-
-  public getTitle(): string {
-    if ((this.disableFormNav || this.sidebarEnabled) && this.selectedForm != null) {
-      return this.selectedForm.getTitle();
-    } else {
-      return this._title;
-    }
-  }
-
-  public getSidebarTitle(): string {
-    return this._title;
+    return this.selectedForm != null ? this.selectedForm.getBadgeImageSrc() : null;
   }
 
   public toggleSidebar(): void {
-    this.sidebarVisible = !this.sidebarVisible;
+    this._store.dispatch(toggleSidebar());
   }
 
   public switchBroker(): void {
@@ -304,13 +261,13 @@ export class BaseHeaderComponent implements OnInit, OnDestroy, AfterViewChecked 
   public selectForm(event: any, form: FormWrapper): void {
     const target: HTMLElement | null = event.target;
 
-    if (target && DomUtil.isInClass(target, 'hc-header-close-icon-event-span')) {
+    if (target && DomUtil.isInClass(target, 'header-form-close-btn')) {
       return;
     }
 
     this._formsService.selectForm(form);
 
-    if (this.sidebarVisible) {
+    if (this._sidebarVisible) {
       this.toggleSidebar();
     }
   }

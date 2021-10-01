@@ -11,9 +11,11 @@ $placeholder: #b4b4b4;
 $header-height: 4rem;
 $header-brand-fontsize: 1.8rem;
 $header-color: #555;
+$header-color-disabled: rgb(200, 200, 200);
 $header-close-hover: #d9534f;
 $header-close-active: #ff2721;
-$header-color-highlight: #337ab7;
+$header-highlight-hover: #337ab7;
+$header-highlight-active: #006ece;
 $header-background: #f8f8f8;
 $header-background-highlight: #e7e7e7;
 $header-border-color: #e7e7e7;
@@ -22,8 +24,14 @@ $header-border-color: #e7e7e7;
 $loading-bar-height: 0.2rem;
 $loading-bar-color: #337ab7;
 
-// Layout
-$breakpoint: 768px;
+// Responsive
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);
 
 // Mixins
 @mixin gradient-silver {
@@ -55,4 +63,15 @@ $breakpoint: 768px;
   outline-offset: -0.4rem !important;
   outline-style: dashed !important;
   outline-width: 0.1rem !important;
+}
+
+@mixin respond-above($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+    @media (min-width: $breakpoint-value) {
+      @content;
+    }
+  } @else {
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
 }
