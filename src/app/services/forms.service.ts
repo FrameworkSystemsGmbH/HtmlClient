@@ -189,15 +189,16 @@ export class FormsService {
     const formsJson: Array<any> = new Array<any>();
 
     this._forms.forEach((formWrp: FormWrapper) => {
+      const formJson: any = formWrp.getMetaJson();
       const controlsJson: Array<any> = new Array<any>();
 
       formWrp.getControlsJson(controlsJson);
 
       if (!JsonUtil.isEmptyObject(controlsJson)) {
-        const formJson: any = formWrp.getMetaJson();
         formJson.controls = controlsJson;
-        formsJson.push(formJson);
       }
+
+      formsJson.push(formJson);
     });
 
     return !JsonUtil.isEmptyObject(formsJson) ? formsJson : null;
