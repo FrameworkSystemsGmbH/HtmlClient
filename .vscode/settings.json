@@ -22,8 +22,6 @@
     "**/node_modules": true
   },
 
-  "telemetry.enableCrashReporter": false,
-
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.quoteStyle": "single",
   "typescript.tsdk": "node_modules\\typescript\\lib"
