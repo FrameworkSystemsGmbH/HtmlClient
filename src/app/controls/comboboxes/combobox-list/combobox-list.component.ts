@@ -115,17 +115,18 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
 
   public getPlaceholderShown(): boolean {
     const captionAsPlaceholder: boolean | null = this.getWrapper().getCaptionAsPlaceholder();
-    const selectedIndex: number | null = this.getSelectedIndex();
 
     if (!captionAsPlaceholder) {
       return false;
     }
 
+    const selectedIndex: number | null = this.getSelectedIndex();
+
     if (selectedIndex == null || selectedIndex < 0) {
       return false;
     }
 
-    if (this.entries != null && !this.entries[selectedIndex].isNullEntry()) {
+    if (this.entries != null && selectedIndex < this.entries.length && !this.entries[selectedIndex].isNullEntry()) {
       return false;
     }
 

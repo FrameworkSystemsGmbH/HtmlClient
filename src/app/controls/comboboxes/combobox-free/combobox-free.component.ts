@@ -104,11 +104,11 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
 
     const selectedValue: string | null = this.getSelectedValue();
 
-    if ((selectedIndex == null || selectedIndex < 0) && selectedValue != null && selectedValue.length > 0) {
+    if (selectedValue != null && selectedValue.length > 0) {
       return false;
     }
 
-    if (selectedIndex != null && this.entries != null && !this.entries[selectedIndex].isNullEntry()) {
+    if (selectedIndex != null && selectedIndex >= 0 && this.entries != null && selectedIndex < this.entries.length && !this.entries[selectedIndex].isNullEntry()) {
       return false;
     }
 
