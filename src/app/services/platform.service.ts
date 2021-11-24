@@ -18,7 +18,7 @@ export class PlatformService {
   }
 
   public isNative(): boolean {
-    return Capacitor.isNative === true;
+    return Capacitor.isNativePlatform();
   }
 
   public isAndroid(): boolean {

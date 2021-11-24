@@ -94,23 +94,18 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   }
 
   public getDisplayValue(): string | null {
+    const wrpValue: string | null = this.getWrapper().getValue();
     const selectedIndex: number | null = this.getSelectedIndex();
-    if (selectedIndex == null || selectedIndex < 0) {
-      const wrpValue: string | null = this.getWrapper().getValue();
-      if (wrpValue != null && wrpValue.trim().length > 0) {
-        return `## ${wrpValue} ##`;
-      } else {
-        return '## NULL ##';
-      }
-    } else if (this.entries != null) {
-      if (this.entries[selectedIndex].isNullEntry()) {
-        return this.getPlaceholder();
-      } else {
-        return this.entries[selectedIndex].getValue();
-      }
-    } else {
-      return this.getPlaceholder();
+
+    if ((selectedIndex == null || selectedIndex < 0) && wrpValue != null && wrpValue.trim().length > 0) {
+      return `## ${wrpValue} ##`;
     }
+
+    if (selectedIndex != null && selectedIndex >= 0 && this.entries != null && selectedIndex < this.entries.length && !this.entries[selectedIndex].isNullEntry()) {
+      return this.entries[selectedIndex].getValue();
+    }
+
+    return this.getPlaceholder();
   }
 
   public getPlaceholderShown(): boolean {
@@ -120,13 +115,14 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
       return false;
     }
 
+    const wrpValue: string | null = this.getWrapper().getValue();
     const selectedIndex: number | null = this.getSelectedIndex();
 
-    if (selectedIndex == null || selectedIndex < 0) {
+    if ((selectedIndex == null || selectedIndex < 0) && wrpValue != null && wrpValue.trim().length > 0) {
       return false;
     }
 
-    if (this.entries != null && selectedIndex < this.entries.length && !this.entries[selectedIndex].isNullEntry()) {
+    if (selectedIndex != null && selectedIndex >= 0 && this.entries != null && selectedIndex < this.entries.length && !this.entries[selectedIndex].isNullEntry()) {
       return false;
     }
 
@@ -204,7 +200,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
     for (const char of term) {
       currentTerm += char;
 
-      const indexForCurrentTerm: number = this.entries != null ? this.entries.findIndexOnTerm(currentTerm) : -1;
+      const indexForCurrentTerm: number = this.entries != null && this.entries.length > 0 ? this.entries.findIndexOnTerm(currentTerm) : -1;
 
       if (indexForCurrentTerm >= 0) {
         latestIndex = indexForCurrentTerm;
@@ -223,7 +219,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
     super.updateData(wrapper);
     this.tabIndexAttr = wrapper.getCurrentIsEditable() && wrapper.getTabStop() ? 0 : -1;
     const wrpValue: string | null = wrapper.getValue();
-    this.setSelectedIndex(this.entries != null && wrpValue != null ? this.entries.findIndexOnPk(wrpValue) : null);
+    this.setSelectedIndex(this.entries != null && this.entries.length > 0 && wrpValue != null ? this.entries.findIndexOnPk(wrpValue) : null);
   }
 
   protected updateStyles(wrapper: ComboBoxWrapper): void {

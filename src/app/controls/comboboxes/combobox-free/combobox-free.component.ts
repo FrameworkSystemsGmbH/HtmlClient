@@ -84,29 +84,35 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   }
 
   public getSelectedValue(): string | null {
-    const selectedIndex: number | null = this.getSelectedIndex();
-    if (selectedIndex == null || selectedIndex < 0) {
-      return this.getInputValue();
-    } else if (this.entries != null) {
-      return this.entries[selectedIndex].getValue();
-    } else {
-      return null;
+    const inputValue: string | null = this.getInputValue();
+
+    if (inputValue != null && inputValue.length > 0) {
+      return inputValue;
     }
+
+    const selectedIndex: number | null = this.getSelectedIndex();
+
+    if (selectedIndex != null && selectedIndex >= 0 && this.entries != null && selectedIndex < this.entries.length && !this.entries[selectedIndex].isNullEntry()) {
+      return this.entries[selectedIndex].getValue();
+    }
+
+    return null;
   }
 
   public getPlaceholderShown(): boolean {
     const captionAsPlaceholder: boolean | null = this.getWrapper().getCaptionAsPlaceholder();
-    const selectedIndex: number | null = this.getSelectedIndex();
 
     if (!captionAsPlaceholder) {
       return false;
     }
 
-    const selectedValue: string | null = this.getSelectedValue();
+    const inputValue: string | null = this.getInputValue();
 
-    if (selectedValue != null && selectedValue.length > 0) {
+    if (inputValue != null && inputValue.length > 0) {
       return false;
     }
+
+    const selectedIndex: number | null = this.getSelectedIndex();
 
     if (selectedIndex != null && selectedIndex >= 0 && this.entries != null && selectedIndex < this.entries.length && !this.entries[selectedIndex].isNullEntry()) {
       return false;
@@ -209,7 +215,7 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
     this.isReadOnlyAttr = Boolean.nullIfFalse(!this.isEditable);
     this.setInputValue(wrapper.getValue());
     const wrpValue: string | null = wrapper.getValue();
-    this.setSelectedIndex(this.entries != null && wrpValue != null ? this.entries.findIndexOnValue(wrpValue) : null);
+    this.setSelectedIndex(this.entries != null && this.entries.length > 0 && wrpValue != null ? this.entries.findIndexOnValue(wrpValue) : null);
   }
 
   protected updateStyles(wrapper: ComboBoxWrapper): void {

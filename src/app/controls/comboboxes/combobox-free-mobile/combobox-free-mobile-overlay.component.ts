@@ -23,9 +23,9 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   @ViewChild('input', { static: true })
   public input: ElementRef<HTMLInputElement> | null = null;
 
-  public entries: DataList;
-  public selectedIndex: number;
-  public inputValue: string;
+  public entries: DataList | null;
+  public selectedIndex: number | null;
+  public inputValue: string | null;
   public placeholder: string;
 
   private readonly _backService: BackService;
@@ -118,7 +118,7 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   }
 
   public onFreetextConfirm(): void {
-    const index: number = this.entries.findIndexOnValue(this.inputValue);
+    const index: number = this.entries != null && this.entries.length > 0 ? this.entries.findIndexOnValue(this.inputValue) : -1;
 
     if (index >= 0) {
       this._dialogRef.close({

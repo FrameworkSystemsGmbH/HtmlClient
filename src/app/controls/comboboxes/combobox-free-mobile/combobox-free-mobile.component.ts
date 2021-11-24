@@ -68,23 +68,19 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
   }
 
   public getDisplayValue(): string | null {
-    const selectedIndex: number | null = this.getSelectedIndex();
-    if (selectedIndex == null || selectedIndex < 0) {
-      const inputValue: string | null = this.getInputValue();
-      if (inputValue != null && inputValue.length > 0) {
-        return this.getInputValue();
-      } else {
-        return this.getPlaceholder();
-      }
-    } else if (this.entries != null) {
-      if (this.entries[selectedIndex].isNullEntry()) {
-        return this.getPlaceholder();
-      } else {
-        return this.entries[selectedIndex].getValue();
-      }
-    } else {
-      return this.getPlaceholder();
+    const inputValue: string | null = this.getInputValue();
+
+    if (inputValue != null && inputValue.length > 0) {
+      return inputValue;
     }
+
+    const selectedIndex: number | null = this.getSelectedIndex();
+
+    if (selectedIndex != null && selectedIndex >= 0 && this.entries != null && selectedIndex < this.entries.length && !this.entries[selectedIndex].isNullEntry()) {
+      return this.entries[selectedIndex].getValue();
+    }
+
+    return this.getPlaceholder();
   }
 
   public getPlaceholderShown(): boolean {
@@ -94,9 +90,9 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
       return false;
     }
 
-    const selectedValue: string | null = this.getSelectedValue();
+    const inputValue: string | null = this.getInputValue();
 
-    if (selectedValue != null && selectedValue.length > 0) {
+    if (inputValue != null && inputValue.length > 0) {
       return false;
     }
 
@@ -169,6 +165,6 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
     super.updateData(wrapper);
     this.setInputValue(wrapper.getValue());
     const wrpValue: string | null = wrapper.getValue();
-    this.setSelectedIndex(this.entries != null && wrpValue != null ? this.entries.findIndexOnValue(wrpValue) : null);
+    this.setSelectedIndex(this.entries != null && this.entries.length > 0 && wrpValue != null ? this.entries.findIndexOnValue(wrpValue) : null);
   }
 }

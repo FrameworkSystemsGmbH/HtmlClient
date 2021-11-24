@@ -32,15 +32,15 @@ export class DataList extends Array<DataListEntry> {
   }
 
   public findIndexOnPk(pk: string | null): number {
-    return this.findIndex(entry => entry.getPk() === pk);
+    return this.entries.length > 0 ? this.findIndex(entry => entry.getPk() === pk) : -1;
   }
 
   public findIndexOnValue(value: string | null): number {
-    return this.findIndex(entry => entry.getValue() === value);
+    return this.entries.length > 0 ? this.findIndex(entry => entry.getValue() === value) : -1;
   }
 
   public findIndexOnTerm(term: string | null): number {
-    if (term == null) {
+    if (term == null || this.entries.length === 0) {
       return -1;
     }
 
