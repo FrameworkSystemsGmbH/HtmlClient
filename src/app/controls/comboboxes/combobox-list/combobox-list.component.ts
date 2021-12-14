@@ -47,8 +47,6 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   private readonly _regEx: RegExp = /([a-z]|\d)/i;
 
   public ngAfterViewInit(): void {
-    this._regEx.compile();
-
     if (this.control != null) {
       const keyDownObs: Observable<any> = fromEvent(this.control.nativeElement, 'keydown').pipe(share());
       const inputIdleObs: Observable<any> = keyDownObs.pipe(debounceTime(250), share());

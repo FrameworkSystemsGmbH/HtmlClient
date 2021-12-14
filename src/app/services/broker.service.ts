@@ -61,8 +61,8 @@ export class BrokerService {
   private readonly _store: Store<IAppState>;
   private readonly _zone: NgZone;
 
-  private readonly _onLoginComplete: Subject<any>;
-  private readonly _onLoginComplete$: Observable<any>;
+  private readonly _onLoginComplete: Subject<void>;
+  private readonly _onLoginComplete$: Observable<void>;
 
   private _titleSub: Subscription | null = null;
   private _brokerStateSub: Subscription | null = null;
@@ -115,7 +115,7 @@ export class BrokerService {
     this._store = store;
     this._zone = zone;
 
-    this._onLoginComplete = new Subject<any>();
+    this._onLoginComplete = new Subject<void>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();
 
     this.resetActiveBroker();
@@ -176,7 +176,7 @@ export class BrokerService {
     );
   }
 
-  public get onLoginComplete(): Observable<any> {
+  public get onLoginComplete(): Observable<void> {
     return this._onLoginComplete$;
   }
 

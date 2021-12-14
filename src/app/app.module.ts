@@ -13,9 +13,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from '@app/app.component';
 import { APP_ROUTING } from '@app/app.routing';
 import { HammerConfig } from '@app/common/hammer/hammer-config';
-import { ErrorBoxComponent } from '@app/components/errorbox/errorbox.component';
-import { MsgBoxComponent } from '@app/components/msgbox/msgbox.component';
-import { RetryBoxComponent } from '@app/components/retrybox/retrybox.component';
 import { ALL_COMPONENTS } from '@app/components/_all.components';
 import { ALL_CONTROLS } from '@app/controls/_all.controls';
 import { ALL_DIRECTIVES } from '@app/directives/_all.direcives';
@@ -32,12 +29,6 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 @NgModule({
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
-  ],
-  entryComponents: [
-    ALL_CONTROLS,
-    ErrorBoxComponent,
-    MsgBoxComponent,
-    RetryBoxComponent
   ],
   declarations: [
     ALL_COMPONENTS,

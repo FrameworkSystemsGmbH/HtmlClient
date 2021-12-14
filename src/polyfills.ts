@@ -1,4 +1,3 @@
-import 'web-animations-js';
 import 'zone.js/dist/zone';
 
 import './ext/array/array';
