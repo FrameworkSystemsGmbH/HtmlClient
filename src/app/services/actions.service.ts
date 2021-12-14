@@ -4,6 +4,7 @@ import { CameraService } from '@app/services/actions/camera.service';
 import { GeoLocationService } from '@app/services/actions/geolocation.service';
 import { PrintReportService } from '@app/services/actions/print-report.service';
 import { ViewDocService } from '@app/services/actions/viewdoc.service';
+import { BeepService } from '@app/services/beep.service';
 import { FormsService } from '@app/services/forms.service';
 import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
 import { ControlWrapper } from '@app/wrappers/control-wrapper';
@@ -15,6 +16,7 @@ import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-w
 export class ActionsService {
 
   private readonly _barcodeService: BarcodeService;
+  private readonly _beepService: BeepService;
   private readonly _formsService: FormsService;
   private readonly _geoLocationService: GeoLocationService;
   private readonly _cameraService: CameraService;
@@ -25,6 +27,7 @@ export class ActionsService {
 
   public constructor(
     barcodeService: BarcodeService,
+    beepService: BeepService,
     formsService: FormsService,
     geoLocationService: GeoLocationService,
     cameraService: CameraService,
@@ -32,6 +35,7 @@ export class ActionsService {
     viewDocService: ViewDocService
   ) {
     this._barcodeService = barcodeService;
+    this._beepService = beepService;
     this._formsService = formsService;
     this._geoLocationService = geoLocationService;
     this._cameraService = cameraService;
@@ -105,6 +109,9 @@ export class ActionsService {
             break;
           case 'ViewDocument':
             viewDocumentUrl = actionJson.url;
+            break;
+          case 'Beep':
+            this._beepService.processBeep(actionJson);
             break;
         }
       }
