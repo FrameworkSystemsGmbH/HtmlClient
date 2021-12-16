@@ -45,8 +45,6 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
   private _keyDownSub: Subscription | null = null;
   private _arrowHover: boolean = false;
 
-  private readonly _regEx: RegExp = /([a-z]|\d)/i;
-
   public ngAfterViewInit(): void {
     if (this.input != null) {
       this._keyDownSub = fromEvent<KeyboardEvent>(this.input.nativeElement, 'keydown').subscribe(event => this.onKeyDown(event));
