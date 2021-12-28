@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BarcodeService } from '@app/services/actions/barcode.service';
+import { BeepService } from '@app/services/actions/beep.service';
 import { CameraService } from '@app/services/actions/camera.service';
 import { GeoLocationService } from '@app/services/actions/geolocation.service';
 import { PrintReportService } from '@app/services/actions/print-report.service';
 import { ViewDocService } from '@app/services/actions/viewdoc.service';
-import { BeepService } from '@app/services/beep.service';
 import { FormsService } from '@app/services/forms.service';
 import { ButtonBaseWrapper } from '@app/wrappers/button-base-wrapper';
 import { ControlWrapper } from '@app/wrappers/control-wrapper';
