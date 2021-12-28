@@ -25,7 +25,7 @@ export class BeepService {
     const ctx = new window.AudioContext();
     const osc = ctx.createOscillator();
 
-    osc.frequency.setValueAtTime(Math.roundDec(1000, 0), 0);
+    osc.frequency.setValueAtTime(Math.roundDec(frequency, 0), 0);
 
     osc.connect(ctx.destination);
     osc.start();
