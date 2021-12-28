@@ -76,9 +76,14 @@ export class PictureWrapper extends ControlWrapper {
       return;
     }
 
-    if (dataJson.text && dataJson.text.type != null && dataJson.text.value != null && dataJson.text.value.trim().length > 0) {
+    if (dataJson.text && dataJson.text.type != null) {
       this._dataSourceType = dataJson.text.type;
-      this._imageData = dataJson.text.value;
+
+      if (dataJson.text.value != null && dataJson.text.value.trim().length > 0) {
+        this._imageData = dataJson.text.value;
+      } else {
+        this._imageData = null;
+      }
     }
   }
 
