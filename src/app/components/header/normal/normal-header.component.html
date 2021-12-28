@@ -10,6 +10,9 @@
   <div class="header-center" [style.background-color]="showCompact ? getFormBgColor() : null">
     <div class="header-center-label" *ngIf="showCompact">
       <span>{{ getFormTitle() }}</span>
+      <button *ngIf="selectedForm?.isCloseIconVisible()" (click)="closeForm(selectedForm)" class="header-compact-form-close-btn">
+        <fa-icon [icon]="iconTimes"></fa-icon>
+      </button>
       <img *ngIf="getBadgeImageSrc() != null" [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
     </div>
     <div class="header-center-tabs" *ngIf="!showCompact">

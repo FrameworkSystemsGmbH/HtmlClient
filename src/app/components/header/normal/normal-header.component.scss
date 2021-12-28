@@ -98,6 +98,21 @@ $header-border: 0.1rem solid $header-border-color;
         margin-bottom: 0.3rem;
       }
 
+      .header-compact-form-close-btn {
+        color: $header-color;
+        background-color: transparent;
+        padding: 0.5rem 1rem;
+        border: none;
+
+        &:hover {
+          color: $header-close-hover;
+        }
+
+        &:active {
+          color: $header-close-active;
+        }
+      }
+
       img {
         position: absolute;
         top: 0.1rem;

@@ -272,8 +272,10 @@ export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecke
     }
   }
 
-  public closeForm(form: FormWrapper): void {
-    this._formsService.closeFormByButton(form);
+  public closeForm(form: FormWrapper | null): void {
+    if (form != null) {
+      this._formsService.closeFormByButton(form);
+    }
   }
 
   public scrollIntoView(): void {
