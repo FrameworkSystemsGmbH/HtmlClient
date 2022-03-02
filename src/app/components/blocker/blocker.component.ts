@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EMPTY, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { EMPTY } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Component({
@@ -16,13 +16,11 @@ import { delay } from 'rxjs/operators';
     ])
   ]
 })
-export class BlockerComponent implements OnInit, OnDestroy {
+export class BlockerComponent implements OnInit {
 
   private static readonly SHOW_DELAY: number = 0;
 
   public showIndicator: boolean = false;
-
-  private readonly _showIndicatorSub: Subscription | null = null;
 
   public ngOnInit(): void {
     EMPTY.pipe(delay(BlockerComponent.SHOW_DELAY)).subscribe(
@@ -31,12 +29,6 @@ export class BlockerComponent implements OnInit, OnDestroy {
           this.showIndicator = true;
         }
       });
-  }
-
-  public ngOnDestroy(): void {
-    if (this._showIndicatorSub) {
-      this._showIndicatorSub.unsubscribe();
-    }
   }
 
   public onMouseDown(event: MouseEvent): void {
