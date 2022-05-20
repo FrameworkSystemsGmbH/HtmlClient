@@ -78,6 +78,6 @@ export class GeoLocationService {
   }
 
   private fireGotGeoLocation(): void {
-    this._eventsService.fireGotGeoLocation(this._hasError, this._errorMessage, this._timestamp, this._latitude, this._longitude, this._accuracy, this._altitude, this._heading, this._speed);
+    this._eventsService.fireGotGeoLocation(this._hasError, this._errorMessage, this._latitude, this._longitude, this._accuracy, this._altitude, this._heading, this._speed, this._timestamp);
   }
 }
