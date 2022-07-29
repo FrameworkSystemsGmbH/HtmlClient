@@ -1,3 +1,4 @@
+import { BarcodeComponent } from '@app/components/barcode/barcode.component';
 import { BlockerComponent } from '@app/components/blocker/blocker.component';
 import { ErrorBoxComponent } from '@app/components/errorbox/errorbox.component';
 import { FrameComponent } from '@app/components/frame/frame.component';
@@ -13,6 +14,7 @@ import { SidebarComponent } from '@app/components/sidebar/sidebar.component';
 import { ViewerComponent } from '@app/components/viewer/viewer.component';
 
 export const ALL_COMPONENTS = [
+  BarcodeComponent,
   BlockerComponent,
   ErrorBoxComponent,
   FrameComponent,

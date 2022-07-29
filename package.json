@@ -9,12 +9,12 @@
   "scripts": {
     "lint": "ng lint",
     "test": "ng test",
-    "build": "ng build -c dev",
+    "buildDev": "ng build -c dev",
     "buildProd": "npm run lint && ng build -c prod",
     "publish": "npm run buildProd && del-cli \"dist/release\" && mkdirp \"dist/release\" && cd \"dist/build/prod\" && bestzip \"../../release/HtmlClient.zip\" *",
-    "serve": "ng serve -c dev",
+    "serveDev": "ng serve -c dev",
     "serveProd": "ng serve -c prod",
-    "servePublic": "ng serve -c dev --host=0.0.0.0 --disable-host-check",
+    "serveDevPublic": "ng serve -c dev --host=0.0.0.0 --disable-host-check",
     "serveProdPublic": "ng serve -c prod --host=0.0.0.0 --disable-host-check",
     "sync": "cap sync android"
   },

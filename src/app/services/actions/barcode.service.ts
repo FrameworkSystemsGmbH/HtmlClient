@@ -2,6 +2,8 @@ import { Injectable, NgZone } from '@angular/core';
 import { BarcodeFormat } from '@app/enums/barcode-format';
 import { EventsService } from '@app/services/events.service';
 import { PlatformService } from '@app/services/platform.service';
+import { Camera } from '@capacitor/camera';
+import { from, map, mergeMap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BarcodeService {
@@ -28,6 +30,16 @@ export class BarcodeService {
 
   public scan(format: BarcodeFormat): void {
     if (this._platformService.isNative() && format !== BarcodeFormat.NONE) {
+      from(Camera.checkPermissions()).pipe(
+        mergeMap(permissionStatus => {
+          console.log(`Checked Permission: ${permissionStatus.camera}`);
+          return from(Camera.requestPermissions({ permissions: ['camera'] }));
+        }),
+        map(permissionStatus => {
+          console.log(`Requested Permission: ${permissionStatus.camera}`);
+        })
+      ).subscribe();
+
       // (window as any).cordova.plugins.barcodeScanner.scan(this.onSuccess.bind(this), this.onError.bind(this), {
       //   prompt: String.empty(),
       //   disableSuccessBeep: true,
