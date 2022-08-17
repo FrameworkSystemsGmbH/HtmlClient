@@ -21,4 +21,10 @@ export class RoutingService {
       void this._router.navigate(['/viewer'], { skipLocationChange: true });
     }
   }
+
+  public showBarcodeScanner(): void {
+    if (this._router.routerState.snapshot.url !== '/barcode') {
+      void this._router.navigate(['/barcode'], { skipLocationChange: true });
+    }
+  }
 }

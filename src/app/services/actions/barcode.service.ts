@@ -1,74 +1,90 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BarcodeFormat } from '@app/enums/barcode-format';
 import { EventsService } from '@app/services/events.service';
 import { PlatformService } from '@app/services/platform.service';
+import { RoutingService } from '@app/services/routing.service';
 import { Camera } from '@capacitor/camera';
-import { from, map, mergeMap } from 'rxjs';
+import { from, map, mergeMap, of, take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BarcodeService {
 
-  private readonly _zone: NgZone;
   private readonly _eventsService: EventsService;
   private readonly _platformService: PlatformService;
+  private readonly _routingService: RoutingService;
+
+  private _wantedFormat: BarcodeFormat = BarcodeFormat.ALL;
 
   private _cancelled?: boolean;
   private _hasError?: boolean;
   private _errorMessage?: string;
   private _value?: string;
-  private _format?: BarcodeFormat;
+  private _scannedFormat?: BarcodeFormat;
 
   public constructor(
-    zone: NgZone,
     eventsService: EventsService,
-    platformService: PlatformService
+    platformService: PlatformService,
+    routingService: RoutingService
   ) {
-    this._zone = zone;
     this._eventsService = eventsService;
     this._platformService = platformService;
+    this._routingService = routingService;
   }
 
   public scan(format: BarcodeFormat): void {
     if (this._platformService.isNative() && format !== BarcodeFormat.NONE) {
       from(Camera.checkPermissions()).pipe(
-        mergeMap(permissionStatus => {
-          console.log(`Checked Permission: ${permissionStatus.camera}`);
-          return from(Camera.requestPermissions({ permissions: ['camera'] }));
+        map(permissionStatus => permissionStatus.camera),
+        mergeMap(permission => {
+          if (permission === 'prompt' || permission === 'prompt-with-rationale') {
+            return from(Camera.requestPermissions({ permissions: ['camera'] })).pipe(
+              map(permissionStatus => permissionStatus.camera)
+            );
+          } else {
+            return of(permission);
+          }
         }),
-        map(permissionStatus => {
-          console.log(`Requested Permission: ${permissionStatus.camera}`);
-        })
-      ).subscribe();
-
-      // (window as any).cordova.plugins.barcodeScanner.scan(this.onSuccess.bind(this), this.onError.bind(this), {
-      //   prompt: String.empty(),
-      //   disableSuccessBeep: true,
-      //   resultDisplayDuration: 0,
-      //   formats: this.buildFormatString(format)
-      // });
+        take(1)
+      ).subscribe({
+        next: permission => {
+          if (permission === 'granted') {
+            this._wantedFormat = format;
+            this._routingService.showBarcodeScanner();
+          } else {
+            this.onError(new Error('User denied required permissions!'));
+          }
+        },
+        error: err => this.onError(Error.ensureError(err))
+      });
     }
   }
 
-  private onSuccess(result: any): void {
-    this._zone.run(() => {
-      this.reset();
-      if (result.cancelled) {
-        this._cancelled = true;
-      } else {
-        this._value = result.text;
-        this._format = result.format;
-      }
-      this.fireBarcodeScanned();
-    });
+  public getWantedFormat(): BarcodeFormat {
+    return this._wantedFormat;
   }
 
-  private onError(error: string): void {
-    this._zone.run(() => {
-      this.reset();
-      this._hasError = true;
-      this._errorMessage = error;
-      this.fireBarcodeScanned();
-    });
+  public onSuccess(value: string | undefined, format: BarcodeFormat | undefined): void {
+    this.reset();
+
+    this._value = value;
+    this._scannedFormat = format;
+
+    this.fireBarcodeScanned();
+  }
+
+  public onCancelled(): void {
+    this.reset();
+    this._cancelled = true;
+    this.fireBarcodeScanned();
+  }
+
+  public onError(error: Error): void {
+    this.reset();
+
+    this._hasError = true;
+    this._errorMessage = error.message;
+
+    this.fireBarcodeScanned();
   }
 
   private reset(): void {
@@ -76,68 +92,12 @@ export class BarcodeService {
     this._hasError = undefined;
     this._errorMessage = undefined;
     this._value = undefined;
-    this._format = undefined;
+    this._scannedFormat = undefined;
+    this._wantedFormat = BarcodeFormat.ALL;
   }
 
   private fireBarcodeScanned(): void {
-    this._eventsService.fireBarcodeScanned(this._cancelled, this._hasError, this._errorMessage, this._value, this._format);
-  }
-
-  private buildFormatString(format: BarcodeFormat): string {
-    const formats: Array<string> = new Array<string>();
-
-    if ((format & BarcodeFormat.AZTEC) === BarcodeFormat.AZTEC) {
-      formats.push(BarcodeFormat[BarcodeFormat.AZTEC]);
-    }
-
-    if ((format & BarcodeFormat.CODABAR) === BarcodeFormat.CODABAR) {
-      formats.push(BarcodeFormat[BarcodeFormat.CODABAR]);
-    }
-
-    if ((format & BarcodeFormat.CODE_128) === BarcodeFormat.CODE_128) {
-      formats.push(BarcodeFormat[BarcodeFormat.CODE_128]);
-    }
-
-    if ((format & BarcodeFormat.CODE_39) === BarcodeFormat.CODE_39) {
-      formats.push(BarcodeFormat[BarcodeFormat.CODE_39]);
-    }
-
-    if ((format & BarcodeFormat.CODE_93) === BarcodeFormat.CODE_93) {
-      formats.push(BarcodeFormat[BarcodeFormat.CODE_93]);
-    }
-
-    if ((format & BarcodeFormat.DATA_MATRIX) === BarcodeFormat.DATA_MATRIX) {
-      formats.push(BarcodeFormat[BarcodeFormat.DATA_MATRIX]);
-    }
-
-    if ((format & BarcodeFormat.EAN_13) === BarcodeFormat.EAN_13) {
-      formats.push(BarcodeFormat[BarcodeFormat.EAN_13]);
-    }
-
-    if ((format & BarcodeFormat.EAN_8) === BarcodeFormat.EAN_8) {
-      formats.push(BarcodeFormat[BarcodeFormat.EAN_8]);
-    }
-
-    if ((format & BarcodeFormat.ITF) === BarcodeFormat.ITF) {
-      formats.push(BarcodeFormat[BarcodeFormat.ITF]);
-    }
-
-    if ((format & BarcodeFormat.PDF_417) === BarcodeFormat.PDF_417) {
-      formats.push(BarcodeFormat[BarcodeFormat.PDF_417]);
-    }
-
-    if ((format & BarcodeFormat.QR_CODE) === BarcodeFormat.QR_CODE) {
-      formats.push(BarcodeFormat[BarcodeFormat.QR_CODE]);
-    }
-
-    if ((format & BarcodeFormat.UPC_A) === BarcodeFormat.UPC_A) {
-      formats.push(BarcodeFormat[BarcodeFormat.UPC_A]);
-    }
-
-    if ((format & BarcodeFormat.UPC_E) === BarcodeFormat.UPC_E) {
-      formats.push(BarcodeFormat[BarcodeFormat.UPC_E]);
-    }
-
-    return formats.join(',');
+    this._routingService.showViewer();
+    this._eventsService.fireBarcodeScanned(this._cancelled, this._hasError, this._errorMessage, this._value, this._scannedFormat);
   }
 }
