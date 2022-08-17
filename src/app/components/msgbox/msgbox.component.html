@@ -14,12 +14,12 @@
     <span>{{ message }}</span>
   </div>
   <div #footer class="hc-msgbox-footer" tabindex="-1" cdkTrapFocus>
-    <button *ngIf="buttons == buttonsType.YesNo || buttons == buttonsType.YesNoCancel" mat-raised-button (click)="onYesClick()">Yes</button>
-    <button *ngIf="buttons == buttonsType.YesNo || buttons == buttonsType.YesNoCancel" mat-raised-button (click)="onNoClick()">No</button>
-    <button *ngIf="buttons == buttonsType.Ok || buttons == buttonsType.OkCancel" mat-raised-button (click)="onOkClick()">Ok</button>
-    <button *ngIf="buttons == buttonsType.AbortRetryIgnore" mat-raised-button (click)="onAbortClick()">Abort</button>
-    <button *ngIf="buttons == buttonsType.AbortRetryIgnore || buttons == buttonsType.RetryCancel" mat-raised-button (click)="onRetryClick()">Retry</button>
-    <button *ngIf="buttons == buttonsType.AbortRetryIgnore" mat-raised-button (click)="onIgnoreClick()">Ignore</button>
-    <button *ngIf="buttons == buttonsType.OkCancel || buttons == buttonsType.RetryCancel || buttons == buttonsType.YesNoCancel" mat-raised-button (click)="onCancelClick()">Cancel</button>
+    <button type="button" *ngIf="buttons == buttonsType.YesNo || buttons == buttonsType.YesNoCancel" mat-raised-button (click)="onYesClick()">Yes</button>
+    <button type="button" *ngIf="buttons == buttonsType.YesNo || buttons == buttonsType.YesNoCancel" mat-raised-button (click)="onNoClick()">No</button>
+    <button type="button" *ngIf="buttons == buttonsType.Ok || buttons == buttonsType.OkCancel" mat-raised-button (click)="onOkClick()">Ok</button>
+    <button type="button" *ngIf="buttons == buttonsType.AbortRetryIgnore" mat-raised-button (click)="onAbortClick()">Abort</button>
+    <button type="button" *ngIf="buttons == buttonsType.AbortRetryIgnore || buttons == buttonsType.RetryCancel" mat-raised-button (click)="onRetryClick()">Retry</button>
+    <button type="button" *ngIf="buttons == buttonsType.AbortRetryIgnore" mat-raised-button (click)="onIgnoreClick()">Ignore</button>
+    <button type="button" *ngIf="buttons == buttonsType.OkCancel || buttons == buttonsType.RetryCancel || buttons == buttonsType.YesNoCancel" mat-raised-button (click)="onCancelClick()">Cancel</button>
   </div>
 </div>

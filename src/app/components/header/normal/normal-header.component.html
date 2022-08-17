@@ -3,14 +3,14 @@
     <div class="header-left-label" *ngIf="!showCompact">
       <span>{{ appTitle }}</span>
     </div>
-    <button class="header-left-button" (click)="toggleSidebar()" *ngIf="showCompact">
+    <button type="button" class="header-left-button" (click)="toggleSidebar()" *ngIf="showCompact">
       <fa-icon [icon]="iconBars" [fixedWidth]="true" size="lg"></fa-icon>
     </button>
   </div>
   <div class="header-center" [style.background-color]="showCompact ? getFormBgColor() : null">
     <div class="header-center-label" *ngIf="showCompact">
       <span>{{ getFormTitle() }}</span>
-      <button *ngIf="selectedForm?.isCloseIconVisible()" (click)="closeForm(selectedForm)" class="header-compact-form-close-btn">
+      <button type="button" *ngIf="selectedForm?.isCloseIconVisible()" (click)="closeForm(selectedForm)" class="header-compact-form-close-btn">
         <fa-icon [icon]="iconTimes"></fa-icon>
       </button>
       <img *ngIf="getBadgeImageSrc() != null" [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
@@ -24,7 +24,7 @@
           <div *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId(), 'hasBadge': form.getBadgeImageSrc() != null}" [style.background-color]="form.getId() === selectedForm?.getId() ? getFormBgColor() : null" (click)="selectForm($event, form)">
             <img *ngIf="form.getBadgeImageSrc() != null" [src]="form.getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
             <span>{{ form.getTitle() }}</span>
-            <button *ngIf="form.isCloseIconVisible()" (click)="closeForm(form)" class="header-form-close-btn">
+            <button type="button" *ngIf="form.isCloseIconVisible()" (click)="closeForm(form)" class="header-form-close-btn">
               <fa-icon [icon]="iconTimes"></fa-icon>
             </button>
           </div>
@@ -36,7 +36,7 @@
     </div>
   </div>
   <div class="header-right">
-    <button [attr.disabled]="disabledAttr" (click)="switchBroker()">
+    <button type="button" [attr.disabled]="disabledAttr" (click)="switchBroker()">
       <fa-icon [icon]="iconSignOut" [fixedWidth]="true" size="lg"></fa-icon>
     </button>
   </div>

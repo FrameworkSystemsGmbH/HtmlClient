@@ -7,7 +7,7 @@
       <li *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId()}" (click)="selectForm($event, form)">
         <img *ngIf="form.getBadgeImageSrc() != null" [src]="form.getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
         <span>{{ form.getTitle() }}</span>
-        <button *ngIf="form.isCloseIconVisible()" (click)="closeForm(form)" class="sidebar-form-close-btn">
+        <button type="button" *ngIf="form.isCloseIconVisible()" (click)="closeForm(form)" class="sidebar-form-close-btn">
           <fa-icon [icon]="iconTimes"></fa-icon>
         </button>
       </li>

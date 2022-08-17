@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { LastSessionInfo } from '@app/common/last-session-info';
 import { LoginBroker } from '@app/common/login-broker';
 import { BrokerService } from '@app/services/broker.service';
@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   public editorShown: boolean = false;
   public editingExisting: boolean = false;
 
-  public nameControl: FormControl = new FormControl(null);
-  public urlControl: FormControl = new FormControl(null, Validators.required.bind(this));
+  public nameControl: FormControl<string | null> = new FormControl<string | null>(null);
+  public urlControl: FormControl<string | null> = new FormControl<string | null>(null, Validators.required.bind(this));
   public addForm: FormGroup = new FormGroup({
     name: this.nameControl,
     url: this.urlControl
@@ -114,12 +114,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public saveBroker(): void {
-    const broker: LoginBroker = new LoginBroker(this.nameControl.value, this.urlControl.value);
-
-    this._loginService.addOrUpdateBroker(broker);
-
-    this.addForm.reset();
-    this.exitEditor();
+    if (this.nameControl.value != null && this.urlControl.value != null) {
+      this._loginService.addOrUpdateBroker(new LoginBroker(this.nameControl.value, this.urlControl.value));
+      this.addForm.reset();
+      this.exitEditor();
+    }
   }
 
   public deleteBroker(broker: LoginBroker): void {
@@ -137,7 +136,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private createBrokerValidator(ls: LoginService): any {
-    return (c: FormControl): Observable<any> => new Observable<any>(subscriber => {
+    return (c: UntypedFormControl): Observable<any> => new Observable<any>(subscriber => {
       ls.getBrokers().subscribe(brokers => {
         if (brokers.length > 0 && brokers.find(b => String.equals(b.name, c.value, true))) {
           subscriber.next({ broker: true });
