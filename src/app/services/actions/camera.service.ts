@@ -6,6 +6,7 @@ import { selectBrokerName } from '@app/store/broker/broker.selectors';
 import { RestoredListenerEvent } from '@capacitor/app';
 import { Camera, CameraDirection, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Store } from '@ngrx/store';
+import { from, map, mergeMap, of, take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CameraService {
@@ -35,26 +36,42 @@ export class CameraService {
   }
 
   public takePhoto(source: BrokerCameraSource): void {
-    Camera.getPhoto({
-      allowEditing: false,
-      direction: CameraDirection.Rear,
-      correctOrientation: true,
-      quality: 100,
-      resultType: CameraResultType.Base64,
-      saveToGallery: false,
-      source: source === BrokerCameraSource.CAMERA ? CameraSource.Camera : CameraSource.Photos
-    }).then(img => {
-      if (img.base64String != null) {
-        this.onSuccess(img.base64String);
-      } else {
-        this.onError('Could not retrieve image data!');
-      }
-    }).catch(err => {
-      if (typeof err === 'string') {
-        this.onError(err);
-      } else {
-        this.onError(err.message);
-      }
+    from(Camera.checkPermissions()).pipe(
+      map(permissionStatus => permissionStatus.camera),
+      mergeMap(permission => {
+        if (permission === 'prompt' || permission === 'prompt-with-rationale') {
+          return from(Camera.requestPermissions({ permissions: ['camera'] })).pipe(
+            map(permissionStatus => permissionStatus.camera)
+          );
+        } else {
+          return of(permission);
+        }
+      }),
+      mergeMap(permission => {
+        if (permission === 'granted') {
+          return from(Camera.getPhoto({
+            allowEditing: false,
+            direction: CameraDirection.Rear,
+            correctOrientation: true,
+            quality: 100,
+            resultType: CameraResultType.Base64,
+            saveToGallery: false,
+            source: source === BrokerCameraSource.CAMERA ? CameraSource.Camera : CameraSource.Photos
+          }));
+        } else {
+          throw new Error('User denied required permissions!');
+        }
+      }),
+      take(1)
+    ).subscribe({
+      next: img => {
+        if (img.base64String != null) {
+          this.onSuccess(img.base64String);
+        } else {
+          this.onError(new Error('Could not retrieve image data!'));
+        }
+      },
+      error: err => this.onError(Error.ensureError(err))
     });
   }
 
@@ -66,10 +83,12 @@ export class CameraService {
     });
   }
 
-  private onError(message: string): void {
+  private onError(error: Error): void {
     this._zone.run(() => {
       this.reset();
       this._hasError = true;
+
+      const message: string = error.message;
 
       if (message.trim().length > 0) {
         if (message.match(/cancelled photos app/i) != null) {
@@ -97,12 +116,12 @@ export class CameraService {
         if (this._pendingResult.data != null && this._pendingResult.data.base64String != null && this._pendingResult.data.base64String.trim().length > 0) {
           this.onSuccess(this._pendingResult.data.base64String);
         } else {
-          this.onError('Pending image data is missing!');
+          this.onError(new Error('Pending image data is missing!'));
         }
       } else if (this._pendingResult.error != null && this._pendingResult.error.message.trim().length > 0) {
-        this.onError(this._pendingResult.error.message);
+        this.onError(new Error(this._pendingResult.error.message));
       } else {
-        this.onError('Pending error message is missing!');
+        this.onError(new Error('Pending error message is missing!'));
       }
     }
 

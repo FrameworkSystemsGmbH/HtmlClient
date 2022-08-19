@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { EventsService } from '@app/services/events.service';
 import { Geolocation, Position } from '@capacitor/geolocation';
+import { from, map, mergeMap, of, take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class GeoLocationService {
@@ -27,12 +28,33 @@ export class GeoLocationService {
   }
 
   public getGeoLocation(): void {
-    Geolocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      maximumAge: 3000,
-      timeout: 5000
-    }).then(this.onSuccess.bind(this))
-      .catch(this.onError.bind(this));
+    from(Geolocation.checkPermissions()).pipe(
+      map(permissionStatus => permissionStatus.location),
+      mergeMap(permission => {
+        if (permission === 'prompt' || permission === 'prompt-with-rationale') {
+          return from(Geolocation.requestPermissions({ permissions: ['location'] })).pipe(
+            map(permissionStatus => permissionStatus.location)
+          );
+        } else {
+          return of(permission);
+        }
+      }),
+      mergeMap(permission => {
+        if (permission === 'granted') {
+          return from(Geolocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            maximumAge: 3000,
+            timeout: 5000
+          }));
+        } else {
+          throw new Error('User denied required permissions!');
+        }
+      }),
+      take(1)
+    ).subscribe({
+      next: position => this.onSuccess(position),
+      error: err => this.onError(Error.ensureError(err))
+    });
   }
 
   private onSuccess(position: Position): void {
@@ -49,14 +71,14 @@ export class GeoLocationService {
     });
   }
 
-  private onError(error: any): void {
+  private onError(error: Error): void {
     this._zone.run(() => {
       this.reset();
       this._hasError = true;
 
-      if (error != null && error.message != null && error.message.trim().length > 0) {
-        const message: string = error.message;
+      const message: string = error.message;
 
+      if (message.trim().length > 0) {
         if (message.match(/denied location permission/i) != null) {
           this._errorMessage = 'User denied required permissions!';
         } else if (message.match(/location unavailable/i) != null) {
