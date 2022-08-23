@@ -41,8 +41,16 @@ export class BarcodeComponent implements OnInit, OnDestroy {
       cameraDirection: CameraDirection.BACK,
       targetedFormats: this.getSupportedFormats(format)
     })).subscribe({
-      next: result => this._barcodeService.onSuccess(result.content, this.getScannedFormat(result.format)),
-      error: err => this._barcodeService.onError(Error.ensureError(err))
+      next: result => {
+        this._zone.run(() => {
+          this._barcodeService.onSuccess(result.content, this.getScannedFormat(result.format));
+        });
+      },
+      error: err => {
+        this._zone.run(() => {
+          this._barcodeService.onError(Error.ensureError(err));
+        });
+      }
     });
   }
 
