@@ -1,7 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
+
+    namespace 'com.fs.htmlclient'
+    compileSdkVersion rootProject.ext.compileSdkVersion
   defaultConfig {
         applicationId "com.fs.htmlclient"
         minSdkVersion rootProject.ext.minSdkVersion
