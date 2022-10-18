@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BrokerCameraSource } from '@app/enums/broker-camera-source';
 import { EventsService } from '@app/services/events.service';
+import { PlatformService } from '@app/services/platform.service';
 import { IAppState } from '@app/store/app.state';
 import { selectBrokerName } from '@app/store/broker/broker.selectors';
 import { RestoredListenerEvent } from '@capacitor/app';
@@ -14,6 +15,7 @@ export class CameraService {
   private readonly _zone: NgZone;
   private readonly _store: Store<IAppState>;
   private readonly _eventsService: EventsService;
+  private readonly _platformService: PlatformService;
 
   private _hasError?: boolean;
   private _errorMessage?: string;
@@ -24,11 +26,13 @@ export class CameraService {
   public constructor(
     zone: NgZone,
     store: Store<IAppState>,
-    eventsService: EventsService
+    eventsService: EventsService,
+    platformService: PlatformService
   ) {
     this._zone = zone;
     this._store = store;
     this._eventsService = eventsService;
+    this._platformService = platformService;
 
     this._store.select(selectBrokerName).subscribe(brokerName => {
       this._brokerName = brokerName != null ? brokerName : null;
@@ -39,7 +43,11 @@ export class CameraService {
     from(Camera.checkPermissions()).pipe(
       map(permissionStatus => permissionStatus.camera),
       mergeMap(permission => {
-        if (permission === 'prompt' || permission === 'prompt-with-rationale') {
+        if (!this._platformService.isNative()) {
+          // Permissions cannot be checked in the browser
+          // Just return 'granted' and let the browser do the rest
+          return of('granted');
+        } else if (permission === 'prompt' || permission === 'prompt-with-rationale') {
           return from(Camera.requestPermissions({ permissions: ['camera'] })).pipe(
             map(permissionStatus => permissionStatus.camera)
           );

@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { EventsService } from '@app/services/events.service';
+import { PlatformService } from '@app/services/platform.service';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { from, map, mergeMap, of, take } from 'rxjs';
 
@@ -8,6 +9,7 @@ export class GeoLocationService {
 
   private readonly _zone: NgZone;
   private readonly _eventsService: EventsService;
+  private readonly _platformService: PlatformService;
 
   private _hasError?: boolean;
   private _errorMessage?: string;
@@ -21,17 +23,23 @@ export class GeoLocationService {
 
   public constructor(
     zone: NgZone,
-    eventsService: EventsService
+    eventsService: EventsService,
+    platformService: PlatformService
   ) {
     this._zone = zone;
     this._eventsService = eventsService;
+    this._platformService = platformService;
   }
 
   public getGeoLocation(): void {
     from(Geolocation.checkPermissions()).pipe(
       map(permissionStatus => permissionStatus.location),
       mergeMap(permission => {
-        if (permission === 'prompt' || permission === 'prompt-with-rationale') {
+        if (!this._platformService.isNative()) {
+          // Permissions cannot be checked in the browser
+          // Just return 'granted' and let the browser do the rest
+          return of('granted');
+        } else if (permission === 'prompt' || permission === 'prompt-with-rationale') {
           return from(Geolocation.requestPermissions({ permissions: ['location'] })).pipe(
             map(permissionStatus => permissionStatus.location)
           );
