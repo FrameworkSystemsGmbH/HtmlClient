@@ -16,7 +16,7 @@ Array.prototype.pushAll = function (items: Array<unknown>): void {
   }
 };
 
-Array.prototype.remove = function (item: unknown): unknown {
+Array.prototype.remove = function (item: Array<unknown>): unknown {
   const index = this.indexOf(item);
   if (index >= 0) {
     return this.splice(index, 1)[0] as unknown;

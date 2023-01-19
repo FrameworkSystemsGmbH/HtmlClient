@@ -12,12 +12,22 @@ Error.ensureError = function (input: unknown): Error {
   }
 
   if (error.message.trim().length === 0) {
-    error.message = '<No error message provided>';
+    error.message = '<no error message provided>';
   }
 
   if (error.stack == null || error.stack.trim().length === 0) {
-    error.stack = '<Original stack missing>';
+    error.stack = '<original stack missing>';
   }
 
   return error;
+};
+
+Error.stringify = function (error: Error): string {
+  const errorObj: object = {
+    message: error.message,
+    name: error.name,
+    stack: error.stack != null ? error.stack : null
+  };
+
+  return JSON.stringify(errorObj);
 };

@@ -3,12 +3,12 @@
   opacity: 0.8 !important;
 }
 
-.mat-button,
-.mat-fab,
-.mat-icon-button,
-.mat-mini-fab,
-.mat-raised-button {
-  min-width: 7rem !important;
+.mat-mdc-button,
+.mat-mdc-fab,
+.mat-mdc-icon-button,
+.mat-mdc-mini-fab,
+.mat-mdc-raised-button {
+  min-width: 8rem !important;
   padding: 0 !important;
 
   &[disabled] {
@@ -16,7 +16,7 @@
   }
 }
 
-.mat-card {
+.mat-mdc-card {
   padding: 1.5rem !important;
 }
 
@@ -28,7 +28,7 @@
   max-width: 100% !important;
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   overflow: hidden !important;
   padding: 0 !important;
   border-radius: 0.5rem !important;

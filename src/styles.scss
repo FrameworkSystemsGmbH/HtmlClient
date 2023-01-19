@@ -4,13 +4,11 @@
 // OverlayScrollbars
 @import '~overlayscrollbars/css/OverlayScrollbars.css';
 
-// Angulat Material
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
 // Custom
-@import './scss/variables.scss';
-@import './scss/global.scss';
-@import './scss/scrollbars.scss';
-@import './scss/controls.scss';
-@import './scss/typography.scss';
-@import './scss/material.scss';
+@import 'scss/variables';
+@import 'scss/global';
+@import 'scss/scrollbars';
+@import 'scss/controls';
+@import 'scss/typography';
+@import 'scss/theme';
+@import 'scss/material';

@@ -1,8 +1,5 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "karma.conf.js"
-  ],
   "overrides": [
     {
       "files": [
@@ -118,34 +115,42 @@
         "@typescript-eslint/member-ordering": [
           "error",
           {
-            "default": {
-              "memberTypes": [
-                "signature",
-                "public-static-field",
-                "protected-static-field",
-                "private-static-field",
-                "public-decorated-field",
-                "protected-decorated-field",
-                "private-decorated-field",
-                "public-instance-field",
-                "protected-instance-field",
-                "private-instance-field",
-                "public-abstract-field",
-                "protected-abstract-field",
-                "private-abstract-field",
-                "public-field",
-                "protected-field",
-                "private-field",
-                "public-constructor",
-                "protected-constructor",
-                "private-constructor",
-                "static-method",
-                "decorated-method",
-                "instance-method",
-                "abstract-method",
-                "method"
-              ]
-            }
+            "default": [
+              "signature",
+              "call-signature",
+              "public-static-field",
+              "protected-static-field",
+              "private-static-field",
+              "#private-static-field",
+              "public-decorated-field",
+              "protected-decorated-field",
+              "private-decorated-field",
+              "public-instance-field",
+              "protected-instance-field",
+              "private-instance-field",
+              "#private-instance-field",
+              "public-abstract-field",
+              "protected-abstract-field",
+              "public-field",
+              "protected-field",
+              "private-field",
+              "#private-field",
+              "static-field",
+              "instance-field",
+              "abstract-field",
+              "decorated-field",
+              "field",
+              "static-initialization",
+              "public-constructor",
+              "protected-constructor",
+              "private-constructor",
+              "constructor",
+              "static-method",
+              "decorated-method",
+              "instance-method",
+              "abstract-method",
+              "method"
+            ]
           }
         ],
         "@typescript-eslint/naming-convention": "off",
@@ -214,12 +219,15 @@
         "plugin:@angular-eslint/template/all"
       ],
       "rules": {
+        "@angular-eslint/template/accessibility-interactive-supports-focus": "off",
+        "@angular-eslint/template/attributes-order": "off",
         "@angular-eslint/template/click-events-have-key-events": "off",
         "@angular-eslint/template/cyclomatic-complexity": "off",
         "@angular-eslint/template/eqeqeq": "off",
         "@angular-eslint/template/i18n": "off",
         "@angular-eslint/template/mouse-events-have-key-events": "off",
         "@angular-eslint/template/no-call-expression": "off",
+        "@angular-eslint/template/no-inline-styles": "off",
         "@angular-eslint/template/use-track-by-function": "off"
       }
     }

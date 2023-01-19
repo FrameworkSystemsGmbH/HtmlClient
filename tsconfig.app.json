@@ -5,9 +5,10 @@
   },
   "files": [
     "src/main.ts",
-    "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "src/init.ts",
+    "src/**/*.d.ts",
+    "src/ext/**/*.ts"
   ]
 }

@@ -576,7 +576,7 @@ export class WrapLayout extends LayoutContainerBase {
             minWidth = Math.max(minWidth, wrapper.getMinLayoutWidth());
             maxWidth = Math.max(maxWidth, wrapper.getMaxLayoutWidth());
             sumMinHeight = neededHeight;
-            horizontalStretchable = horizontalStretchable || wrapper.getHorizontalAlignment() === HorizontalAlignment.Stretch;
+            horizontalStretchable ||= wrapper.getHorizontalAlignment() === HorizontalAlignment.Stretch;
             const pendingWrp: LayoutableControlWrapper | null = pendingWrappers.poll();
             if (pendingWrp != null) {
               columnWrappers.push(pendingWrp);

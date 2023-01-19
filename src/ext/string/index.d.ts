@@ -24,8 +24,6 @@ interface String {
 
   equals: (other: string, ignoreCase: boolean) => boolean;
 
-  replaceAll: (search: string, replacement: string) => string;
-
   trimCharsLeft: (chars: string) => string;
 
   trimCharsRight: (chars: string) => string;

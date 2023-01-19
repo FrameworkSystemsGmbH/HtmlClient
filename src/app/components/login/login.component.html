@@ -12,7 +12,7 @@
         <h3>Continue Session</h3>
       </div>
 
-      <mat-card class="last-session" *ngIf="!editorShown && lastSessionInfo != null" (click)="continueSession()">
+      <mat-card appearance="outlined" class="last-session" *ngIf="!editorShown && lastSessionInfo != null" (click)="continueSession()">
         <h3 class="session-name">{{ lastSessionInfo.getLastBroker() }}</h3>
         <div class="session-date">{{ getLastRequestTimeLocalString() }}</div>
       </mat-card>
@@ -52,11 +52,11 @@
       </div>
 
       <div class="broker-list" *ngIf="!editorShown">
-        <mat-card *ngIf="(brokers$ | async) == null || !(brokers$ | async)?.length">
+        <mat-card appearance="outlined" *ngIf="(brokers$ | async) == null || !(brokers$ | async)?.length">
           <span>No brokers defined...</span>
         </mat-card>
         <div class="broker-list-wrapper" *ngIf="(brokers$ | async) != null && (brokers$ | async)?.length">
-          <mat-card *ngFor="let broker of (brokers$ | async)" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
+          <mat-card appearance="outlined" *ngFor="let broker of (brokers$ | async)" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
             <div class="broker">
               <h3 class="broker-name">{{ broker.name }}</h3>
               <div class="broker-actions">
