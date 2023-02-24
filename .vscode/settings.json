@@ -4,7 +4,6 @@
   "css.format.newlineBetweenSelectors": true,
   "css.format.spaceAroundSelectorSeparator": true,
 
-  "editor.smoothScrolling": true,
   "editor.tabSize": 2,
   "editor.wordWrap": "off",
   "editor.wrappingIndent": "indent",
