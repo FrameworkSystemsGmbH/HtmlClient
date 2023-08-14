@@ -269,12 +269,12 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public getCaption(): string | null {
     const caption: string | undefined = this.getPropertyStore().getCaption();
-    return caption != null ? caption : null;
+    return caption ?? null;
   }
 
   public getCaptionAsPlaceholder(): boolean {
     const captionAsPlaceholder: boolean | undefined = this.getPropertyStore().getCaptionAsPlaceholder();
-    return captionAsPlaceholder != null ? captionAsPlaceholder : false;
+    return captionAsPlaceholder ?? false;
   }
 
   public setCaptionAction(caption: string): void {
@@ -290,7 +290,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public getVisibility(): Visibility {
     const visibility: Visibility | undefined = this.getPropertyStore().getVisibility();
-    return visibility != null ? visibility : Visibility.Visible;
+    return visibility ?? Visibility.Visible;
   }
 
   public getCurrentVisibility(): Visibility {
@@ -358,12 +358,12 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public getForeColor(): string {
     const foreColor: string | undefined = this.getPropertyStore().getForeColor();
-    return foreColor != null ? foreColor : '#000000';
+    return foreColor ?? '#000000';
   }
 
   public getBackColor(): string {
     const backColor: string | undefined = this.getPropertyStore().getBackColor();
-    return backColor != null ? backColor : '#FFFFFF';
+    return backColor ?? '#FFFFFF';
   }
 
   public getMinLayoutWidth(): number {
@@ -424,7 +424,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public getBorderColor(): string {
     const borderColor: string | undefined = this.getPropertyStore().getBorderColor();
-    return borderColor != null ? borderColor : '#808080';
+    return borderColor ?? '#808080';
   }
 
   public getBorderRadiusTopLeft(): number {
@@ -493,27 +493,27 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   public getDockItemSize(): number | null {
     const dockItemSize: number | undefined = this.getPropertyStore().getDockItemSize();
-    return dockItemSize != null ? dockItemSize : null;
+    return dockItemSize ?? null;
   }
 
   public getHorizontalAlignment(): HorizontalAlignment {
     const hAlign: HorizontalAlignment | undefined = this.getPropertyStore().getHorizontalAlignment();
-    return hAlign != null ? hAlign : HorizontalAlignment.Stretch;
+    return hAlign ?? HorizontalAlignment.Stretch;
   }
 
   public getVerticalAlignment(): VerticalAlignment {
     const vAlign: VerticalAlignment | undefined = this.getPropertyStore().getVerticalAlignment();
-    return vAlign != null ? vAlign : VerticalAlignment.Stretch;
+    return vAlign ?? VerticalAlignment.Stretch;
   }
 
   public getFontFamily(): string {
     const fontFamily: string | undefined = this.getPropertyStore().getFontFamily();
-    return fontFamily != null ? fontFamily : 'Arial';
+    return fontFamily ?? 'Arial';
   }
 
   public getFontSize(): number {
     const fontSize: number | undefined = this.getPropertyStore().getFontSize();
-    return fontSize != null ? fontSize : 14;
+    return fontSize ?? 14;
   }
 
   public getFontBold(): boolean {
@@ -701,7 +701,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public hasOnEnterEvent(): boolean {
-    return (this._events & ClientEventType.OnEnter) === ClientEventType.OnEnter;
+    return (this._events & ClientEventType.OnEnter) === ClientEventType.OnEnter.valueOf();
   }
 
   protected getCtrlEnterSubscription(): () => void {
@@ -734,7 +734,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
   }
 
   public hasOnLeaveEvent(): boolean {
-    return (this._events & ClientEventType.OnLeave) === ClientEventType.OnLeave;
+    return (this._events & ClientEventType.OnLeave) === ClientEventType.OnLeave.valueOf();
   }
 
   protected getCtrlLeaveSubscription(): () => void {

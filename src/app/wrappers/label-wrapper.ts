@@ -14,7 +14,7 @@ export class LabelWrapper extends FittedWrapper {
 
   public getTextAlign(): TextAlign {
     const textAlign: TextAlign | undefined = this.getPropertyStore().getTextAlign();
-    return textAlign != null ? textAlign : TextAlign.Center;
+    return textAlign ?? TextAlign.Center;
   }
 
   public canReceiveFocus(): boolean {
@@ -33,7 +33,7 @@ export class LabelWrapper extends FittedWrapper {
     }
 
     if (dataJson.text && dataJson.text.value !== undefined) {
-      this.getPropertyStore().setCaption(PropertyLayer.Control, dataJson.text.value != null ? dataJson.text.value : String.empty());
+      this.getPropertyStore().setCaption(PropertyLayer.Control, dataJson.text.value ?? String.empty());
     }
   }
 

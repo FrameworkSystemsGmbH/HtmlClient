@@ -15,6 +15,7 @@ import { Store } from '@ngrx/store';
 
 @Component({
   standalone: true,
+  standalone: true,
   selector: 'hc-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

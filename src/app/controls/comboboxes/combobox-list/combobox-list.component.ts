@@ -10,6 +10,7 @@ import { fromEvent, Observable, Subscription } from 'rxjs';
 import { buffer, debounceTime, map, share } from 'rxjs/operators';
 
 @Component({
+  standalone: true,
   selector: 'hc-cmb-list',
   templateUrl: './combobox-list.component.html',
   styleUrls: ['./combobox-list.component.scss'],

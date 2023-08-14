@@ -9,6 +9,7 @@ import { TemplateControlContentWebComp } from '@app/webcomponents/template-contr
 import { TemplateControlWrapper } from '@app/wrappers/template-control-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-template-control',
   templateUrl: './template-control.component.html',
   styleUrls: ['./template-control.component.scss']

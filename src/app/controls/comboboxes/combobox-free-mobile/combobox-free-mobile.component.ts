@@ -8,6 +8,7 @@ import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 import { faCaretDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
+  standalone: true,
   selector: 'hc-cmb-free-mobile',
   templateUrl: './combobox-free-mobile.component.html',
   styleUrls: ['./combobox-free-mobile.component.scss']

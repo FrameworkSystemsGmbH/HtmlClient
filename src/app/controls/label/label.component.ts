@@ -5,6 +5,7 @@ import * as StyleUtil from '@app/util/style-util';
 import { LabelWrapper } from '@app/wrappers/label-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-lbl',
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss']

@@ -13,6 +13,7 @@ import { IHeaderOptions, ListViewWrapper } from '@app/wrappers/listview-wrapper'
 import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
+  standalone: true,
   selector: 'hc-listview',
   templateUrl: './listview.component.html',
   styleUrls: ['./listview.component.scss'],

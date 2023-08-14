@@ -39,11 +39,11 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   protected getValueJson(): string {
-    return this._value == null ? String.empty() : this._value;
+    return this._value ?? String.empty();
   }
 
   protected setValueJson(value: string | null): void {
-    const val: string = value != null ? value : String.empty();
+    const val: string = value ?? String.empty();
     this._orgValue = val;
     this.setValue(val);
   }
@@ -54,17 +54,17 @@ export class ComboBoxWrapper extends FittedDataWrapper {
 
   public getCaption(): string | null {
     const caption: string | undefined = this.getPropertyStore().getCaption();
-    return caption != null ? caption : null;
+    return caption ?? null;
   }
 
   public getEditStyle(): EditStyle {
     const editStyle: EditStyle | undefined = this.getPropertyStore().getEditStyle();
-    return editStyle != null ? editStyle : EditStyle.ListValuesInput;
+    return editStyle ?? EditStyle.ListValuesInput;
   }
 
   public getListType(): DataSourceType {
     const listType: DataSourceType | undefined = this.getPropertyStore().getListType();
-    return listType != null ? listType : DataSourceType.None;
+    return listType ?? DataSourceType.None;
   }
 
   public getListDisplayMinLength(): number {
@@ -173,8 +173,8 @@ export class ComboBoxWrapper extends FittedDataWrapper {
       const newDataList: DataList = new DataList();
       for (let i = 0; i < listJson.rows.length; i++) {
         const row = listJson.rows[i];
-        const pk: string = row.pk != null ? row.pk : String.empty();
-        const value: string = row.value != null ? row.value : String.empty();
+        const pk: string = row.pk ?? String.empty();
+        const value: string = row.value ?? String.empty();
 
         let isNUllEntry: boolean = false;
 
@@ -215,7 +215,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   public hasOnSelectionChangedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnSelectionChanged) === ClientEventType.OnSelectionChanged;
+    return (this.getEvents() & ClientEventType.OnSelectionChanged) === ClientEventType.OnSelectionChanged.valueOf();
   }
 
   protected getOnSelectionChangedSubscription(): () => void {

@@ -1,6 +1,7 @@
 import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 
-@Directive({ selector: '[hcMouseWheel]' })
+@Directive({ standalone: true,
+  selector: '[hcMouseWheel]' })
 export class MouseWheelDirective {
 
   @Output()

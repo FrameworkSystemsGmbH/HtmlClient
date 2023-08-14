@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss']

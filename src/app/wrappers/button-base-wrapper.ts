@@ -62,7 +62,7 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
   }
 
   public hasOnClickEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick;
+    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick.valueOf();
   }
 
   protected getBtnClickSubscription(): () => void {

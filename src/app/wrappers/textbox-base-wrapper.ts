@@ -21,32 +21,32 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
 
   public getDisabledBackColor(): string {
     const disabledBackColor: string | undefined = this.getPropertyStore().getDisabledBackColor();
-    return disabledBackColor != null ? disabledBackColor : '#CCCCCC';
+    return disabledBackColor ?? '#CCCCCC';
   }
 
   public getCaption(): string | null {
     const caption: string | undefined = this.getPropertyStore().getCaption();
-    return caption != null ? caption : null;
+    return caption ?? null;
   }
 
   public getTextAlign(): TextAlign {
     const textAlign: TextAlign | undefined = this.getPropertyStore().getTextAlign();
-    return textAlign != null ? textAlign : TextAlign.Left;
+    return textAlign ?? TextAlign.Left;
   }
 
   public getMaxScale(): number {
     const maxScale: number | undefined = this.getPropertyStore().getMaxScale();
-    return maxScale != null ? maxScale : 2;
+    return maxScale ?? 2;
   }
 
   public getMaxPrec(): number {
     const maxPrec: number | undefined = this.getPropertyStore().getMaxPrec();
-    return maxPrec != null ? maxPrec : 18;
+    return maxPrec ?? 18;
   }
 
   public getFormat(): TextFormat {
     const textFormat: TextFormat | undefined = this.getPropertyStore().getFormat();
-    return textFormat != null ? textFormat : TextFormat.None;
+    return textFormat ?? TextFormat.None;
   }
 
   public getFormatPattern(): string | null {
@@ -115,7 +115,7 @@ export abstract class TextBoxBaseWrapper extends FittedDataWrapper {
   }
 
   public hasOnValidatedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnValidated) === ClientEventType.OnValidated;
+    return (this.getEvents() & ClientEventType.OnValidated) === ClientEventType.OnValidated.valueOf();
   }
 
   protected canExecuteValidated(payload: any): boolean {

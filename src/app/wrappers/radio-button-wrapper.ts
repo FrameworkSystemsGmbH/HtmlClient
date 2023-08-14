@@ -55,7 +55,7 @@ export class RadioButtonWrapper extends FittedWrapper {
 
   public getCheckedValue(): string | null {
     const checkedValue: string | undefined = this.getPropertyStore().getDatasourceOnValue();
-    return checkedValue != null ? checkedValue : null;
+    return checkedValue ?? null;
   }
 
   public getButtonGroupName(): string | null {
@@ -125,7 +125,7 @@ export class RadioButtonWrapper extends FittedWrapper {
   }
 
   public hasOnClickEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick;
+    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick.valueOf();
   }
 
   protected getRadioClickSubscription(): () => void {

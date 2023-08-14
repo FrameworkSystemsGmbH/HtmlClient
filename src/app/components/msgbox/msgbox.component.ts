@@ -9,6 +9,7 @@ import { BackService } from '@app/services/back-service';
 import { faExclamationCircle, faExclamationTriangle, faInfoCircle, faQuestionCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
+  standalone: true,
   selector: 'hc-msgbox',
   templateUrl: './msgbox.component.html',
   styleUrls: ['./msgbox.component.scss']

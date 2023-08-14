@@ -5,6 +5,7 @@ import * as StyleUtil from '@app/util/style-util';
 import { FieldPanelWrapper } from '@app/wrappers/field-panel-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-field-panel',
   templateUrl: './field-panel.component.html',
   styleUrls: ['./field-panel.component.scss']

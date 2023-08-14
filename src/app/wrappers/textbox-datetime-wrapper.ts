@@ -29,7 +29,7 @@ export class TextBoxDateTimeWrapper extends TextBoxBaseWrapper {
 
     const jsonStr: string | null = this.getDateTimeFormatService().momentToJson(this.value);
 
-    return jsonStr != null ? jsonStr : String.empty();
+    return jsonStr ?? String.empty();
   }
 
   protected setValueJson(value: string | null): void {

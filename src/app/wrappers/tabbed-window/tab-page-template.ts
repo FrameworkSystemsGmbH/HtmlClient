@@ -13,22 +13,22 @@ export class TabPageTemplate {
 
   public getForeColor(): string {
     const foreColor: string | undefined = this._propertyStore.getForeColor();
-    return foreColor != null ? foreColor : '#000000';
+    return foreColor ?? '#000000';
   }
 
   public getBackColor(): string {
     const backColor: string | undefined = this._propertyStore.getBackColor();
-    return backColor != null ? backColor : '#FFFFFF';
+    return backColor ?? '#FFFFFF';
   }
 
   public getFontFamily(): string {
     const fontFamily: string | undefined = this._propertyStore.getFontFamily();
-    return fontFamily != null ? fontFamily : 'Arial';
+    return fontFamily ?? 'Arial';
   }
 
   public getFontSize(): number {
     const fontSize: number | undefined = this._propertyStore.getFontSize();
-    return fontSize != null ? fontSize : 14;
+    return fontSize ?? 14;
   }
 
   public getFontBold(): boolean {
@@ -49,7 +49,7 @@ export class TabPageTemplate {
 
   public getBorderColor(): string {
     const borderColor: string | undefined = this._propertyStore.getBorderColor();
-    return borderColor != null ? borderColor : '#808080';
+    return borderColor ?? '#808080';
   }
 
   public getBorderRadiusTopLeft(): number {

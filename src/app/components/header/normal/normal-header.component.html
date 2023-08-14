@@ -4,20 +4,20 @@
       <span>{{ appTitle }}</span>
     </div>
     <button type="button" class="header-left-button" (click)="toggleSidebar()" *ngIf="showCompact">
-      <fa-icon [icon]="iconBars" [fixedWidth]="true" size="lg"></fa-icon>
+      <fa-icon [icon]="iconBars" [fixedWidth]="true" size="lg" />
     </button>
   </div>
   <div class="header-center" [style.background-color]="showCompact ? getFormBgColor() : null">
     <div class="header-center-label" *ngIf="showCompact">
       <span>{{ getFormTitle() }}</span>
       <button type="button" *ngIf="selectedForm?.isCloseIconVisible()" (click)="closeForm(selectedForm)" class="header-compact-form-close-btn">
-        <fa-icon [icon]="iconTimes"></fa-icon>
+        <fa-icon [icon]="iconTimes" />
       </button>
       <img *ngIf="getBadgeImageSrc() != null" [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
     </div>
     <div class="header-center-tabs" *ngIf="!showCompact">
       <div #arrowLeft class="arrow arrowLeft" (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft()" (mouseleave)="stopScrollingLeft()">
-        <fa-icon [icon]="iconAngleLeft"></fa-icon>
+        <fa-icon [icon]="iconAngleLeft" />
       </div>
       <overlay-scrollbars #scroller class="scroller os-host-flexbox" [options]="scrollerOptions">
         <div #tabs class="header-tabs-list">
@@ -25,19 +25,19 @@
             <img *ngIf="form.getBadgeImageSrc() != null" [src]="form.getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
             <span>{{ form.getTitle() }}</span>
             <button type="button" *ngIf="form.isCloseIconVisible()" (click)="closeForm(form)" class="header-form-close-btn">
-              <fa-icon [icon]="iconTimes"></fa-icon>
+              <fa-icon [icon]="iconTimes" />
             </button>
           </div>
         </div>
       </overlay-scrollbars>
       <div #arrowRight class="arrow arrowRight" (mousedown)="startScrollingRight($event)" (mouseup)="stopScrollingRight()" (mouseleave)="stopScrollingRight()">
-        <fa-icon [icon]="iconAngleRight"></fa-icon>
+        <fa-icon [icon]="iconAngleRight" />
       </div>
     </div>
   </div>
   <div class="header-right">
     <button type="button" [attr.disabled]="disabledAttr" (click)="switchBroker()">
-      <fa-icon [icon]="iconSignOut" [fixedWidth]="true" size="lg"></fa-icon>
+      <fa-icon [icon]="iconSignOut" [fixedWidth]="true" size="lg" />
     </button>
   </div>
 </nav>

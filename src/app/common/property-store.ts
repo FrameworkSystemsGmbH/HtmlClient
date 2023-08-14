@@ -60,10 +60,10 @@ export class PropertyStore {
     const propertyLayerCSC: PropertyData | undefined = getFromPropertyFunc(this.getLayer(PropertyLayer.CSC));
 
     const propertyStore: PropertyStore = new PropertyStore();
-    propertyStore.setLayer(PropertyLayer.ControlStyle, propertyLayerControlStyle != null ? propertyLayerControlStyle : new PropertyData());
-    propertyStore.setLayer(PropertyLayer.Control, propertyLayerControl != null ? propertyLayerControl : new PropertyData());
-    propertyStore.setLayer(PropertyLayer.Action, propertyLayerAction != null ? propertyLayerAction : new PropertyData());
-    propertyStore.setLayer(PropertyLayer.CSC, propertyLayerCSC != null ? propertyLayerCSC : new PropertyData());
+    propertyStore.setLayer(PropertyLayer.ControlStyle, propertyLayerControlStyle ?? new PropertyData());
+    propertyStore.setLayer(PropertyLayer.Control, propertyLayerControl ?? new PropertyData());
+    propertyStore.setLayer(PropertyLayer.Action, propertyLayerAction ?? new PropertyData());
+    propertyStore.setLayer(PropertyLayer.CSC, propertyLayerCSC ?? new PropertyData());
 
     return propertyStore;
   }

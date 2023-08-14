@@ -43,12 +43,12 @@ export class DockPanelWrapper extends ContainerWrapperSpaceable implements IDock
 
   public getDockOrientation(): DockOrientation {
     const dockOrientation: DockOrientation | undefined = this.getPropertyStore().getDockOrientation();
-    return dockOrientation != null ? dockOrientation : DockOrientation.Vertical;
+    return dockOrientation ?? DockOrientation.Vertical;
   }
 
   public getDockPanelScrolling(): DockPanelScrolling {
     const dockPanelScrolling: DockPanelScrolling | undefined = this.getPropertyStore().getDockPanelScrolling();
-    return dockPanelScrolling != null ? dockPanelScrolling : DockPanelScrolling.None;
+    return dockPanelScrolling ?? DockPanelScrolling.None;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<DockPanelComponent> {

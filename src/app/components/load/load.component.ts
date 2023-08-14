@@ -6,6 +6,7 @@ import { BrokerService } from '@app/services/broker.service';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-load',
   templateUrl: './load.component.html',
   styleUrls: ['./load.component.scss']

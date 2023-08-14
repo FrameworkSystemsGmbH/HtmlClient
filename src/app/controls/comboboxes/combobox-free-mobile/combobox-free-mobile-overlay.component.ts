@@ -8,6 +8,7 @@ import * as KeyUtil from '@app/util/key-util';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-cmb-free-mobile-overlay',
   templateUrl: './combobox-free-mobile-overlay.component.html',
   styleUrls: ['./combobox-free-mobile-overlay.component.scss']

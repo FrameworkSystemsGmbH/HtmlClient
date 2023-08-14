@@ -26,12 +26,12 @@ export class FieldRowWrapper extends ContainerWrapper implements IFieldRowContro
 
   public getFieldRowSize(): number | null {
     const fieldRowSize: number | undefined = this.getPropertyStore().getFieldRowSize();
-    return fieldRowSize != null ? fieldRowSize : null;
+    return fieldRowSize ?? null;
   }
 
   public getFieldRowLabelMode(): FieldRowLabelMode {
     const labelMode: FieldRowLabelMode | undefined = this.getPropertyStore().getLabelMode();
-    return labelMode != null ? labelMode : FieldRowLabelMode.Generated;
+    return labelMode ?? FieldRowLabelMode.Generated;
   }
 
   public getOptimizeGeneratedLabels(): boolean {

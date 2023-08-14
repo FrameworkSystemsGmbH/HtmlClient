@@ -169,7 +169,7 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   public hasOnClickEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick;
+    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick.valueOf();
   }
 
   protected getBoxClickSubscription(): () => void {

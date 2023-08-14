@@ -26,7 +26,7 @@ export abstract class FittedDataWrapper extends FittedWrapper {
 
   public getDataSourceType(): DataSourceType {
     const dataSourceType: DataSourceType | undefined = this.getPropertyStore().getDataSourceType();
-    return dataSourceType != null ? dataSourceType : DataSourceType.None;
+    return dataSourceType ?? DataSourceType.None;
   }
 
   public getIsMultiline(): boolean {

@@ -193,7 +193,7 @@ export class BrokerService {
       }
 
       this._activeLoginBroker = broker;
-      this._activeLoginOptions = options != null ? options : null;
+      this._activeLoginOptions = options ?? null;
       this._activeBrokerDirect = direct;
 
       const name = broker.name;
@@ -661,7 +661,7 @@ export class BrokerService {
   private restartApplication(): void {
     if (this._activeLoginBroker != null) {
       const broker: LoginBroker = this._activeLoginBroker;
-      const options: LoginOptions | undefined = this._activeLoginOptions != null ? this._activeLoginOptions : undefined;
+      const options: LoginOptions | undefined = this._activeLoginOptions ?? undefined;
       const direct: boolean = this._activeBrokerDirect;
       const token: string = this._activeBrokerToken;
 

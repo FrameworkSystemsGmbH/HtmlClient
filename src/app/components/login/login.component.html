@@ -21,7 +21,7 @@
         <h3>{{ editorShown ? (editingExisting ? 'Edit Broker' : 'Add Broker') : 'Login' }}</h3>
         <div class="actions" *ngIf="!editorShown">
           <button type="button" mat-button color="primary" (click)="openEditorNew()">
-            <fa-icon [icon]="iconPlus" [fixedWidth]="true"></fa-icon>
+            <fa-icon [icon]="iconPlus" [fixedWidth]="true" />
             <span> New</span>
           </button>
         </div>
@@ -61,10 +61,10 @@
               <h3 class="broker-name">{{ broker.name }}</h3>
               <div class="broker-actions">
                 <button type="button" mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(broker)">
-                  <fa-icon [icon]="iconEdit" [fixedWidth]="true"></fa-icon>
+                  <fa-icon [icon]="iconEdit" [fixedWidth]="true" />
                 </button>
                 <button type="button" mat-raised-button [disabled]="broker.name === activeBrokerName" color="warn" (click)="deleteBroker(broker)">
-                  <fa-icon [icon]="iconTrash" [fixedWidth]="true"></fa-icon>
+                  <fa-icon [icon]="iconTrash" [fixedWidth]="true" />
                 </button>
               </div>
             </div>

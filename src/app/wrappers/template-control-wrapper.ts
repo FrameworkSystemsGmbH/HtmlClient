@@ -57,17 +57,17 @@ export class TemplateControlWrapper extends ControlWrapper {
 
   public getTemplateControlCssGlobal(): string | null {
     const globalCss: string | undefined = this.baseControlStyle.getTemplateControlCssGlobal();
-    return globalCss != null ? globalCss : null;
+    return globalCss ?? null;
   }
 
   public getTemplateCss(): string | null {
     const templateCss: string | undefined = this.getPropertyStore().getTemplateCss();
-    return templateCss != null ? templateCss : null;
+    return templateCss ?? null;
   }
 
   public getTemplateHtml(): string | null {
     const templateHtml: string | undefined = this.getPropertyStore().getTemplateHtml();
-    return templateHtml != null ? templateHtml : null;
+    return templateHtml ?? null;
   }
 
   public getViewTemplateCss(): string | null {
@@ -96,7 +96,7 @@ export class TemplateControlWrapper extends ControlWrapper {
 
     if (propertiesJson.templateDataSourceList != null && propertiesJson.templateDataSourceList.length > 0) {
       const parsedDataSources: Array<TemplateControlTemplateDataSourceWrapper> | null = this.parseTemplateDataSourceList(propertiesJson.templateDataSourceList);
-      this._templateDataSources = parsedDataSources != null ? parsedDataSources : new Array<TemplateControlTemplateDataSourceWrapper>();
+      this._templateDataSources = parsedDataSources ?? new Array<TemplateControlTemplateDataSourceWrapper>();
     }
 
     this._templateCss = this.getTemplateCss();
@@ -128,7 +128,7 @@ export class TemplateControlWrapper extends ControlWrapper {
 
     for (const templateVar of this._templateVariables) {
       const valueStr: string | undefined = valueMap.get(templateVar.getDataSource().getName());
-      templateValues.push(new TemplateControlValueWrapper(valueStr != null ? valueStr : null, templateVar.getFormat(), templateVar.getFormatPattern()));
+      templateValues.push(new TemplateControlValueWrapper(valueStr ?? null, templateVar.getFormat(), templateVar.getFormatPattern()));
     }
 
     return templateValues;

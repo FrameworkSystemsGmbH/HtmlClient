@@ -4,6 +4,7 @@ import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';
 
 @Component({
+  standalone: true,
   selector: 'hc-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']

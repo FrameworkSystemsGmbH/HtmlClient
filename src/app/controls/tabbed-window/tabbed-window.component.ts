@@ -16,6 +16,7 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 @Component({
   standalone: true,
+  standalone: true,
   selector: 'hc-tabbed-window',
   templateUrl: './tabbed-window.component.html',
   styleUrls: ['./tabbed-window.component.scss']

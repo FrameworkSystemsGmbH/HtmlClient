@@ -5,6 +5,7 @@ import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-frame',
   templateUrl: './frame.component.html',
   styleUrls: ['./frame.component.scss']

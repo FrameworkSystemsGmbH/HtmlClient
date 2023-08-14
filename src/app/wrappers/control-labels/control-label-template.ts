@@ -16,22 +16,22 @@ export class ControlLabelTemplate implements ILayoutableControlLabelTemplate {
 
   public getForeColor(): string {
     const foreColor: string | undefined = this._propertyStore.getForeColor();
-    return foreColor != null ? foreColor : '#000000';
+    return foreColor ?? '#000000';
   }
 
   public getBackColor(): string {
     const backColor: string | undefined = this._propertyStore.getBackColor();
-    return backColor != null ? backColor : '#FFFFFF';
+    return backColor ?? '#FFFFFF';
   }
 
   public getFontFamily(): string {
     const fontFamily: string | undefined = this._propertyStore.getFontFamily();
-    return fontFamily != null ? fontFamily : 'Arial';
+    return fontFamily ?? 'Arial';
   }
 
   public getFontSize(): number {
     const fontSize: number | undefined = this._propertyStore.getFontSize();
-    return fontSize != null ? fontSize : 14;
+    return fontSize ?? 14;
   }
 
   public getFontBold(): boolean {
@@ -48,7 +48,7 @@ export class ControlLabelTemplate implements ILayoutableControlLabelTemplate {
 
   public getTextAlign(): TextAlign {
     const textAlign: TextAlign | undefined = this._propertyStore.getTextAlign();
-    return textAlign != null ? textAlign : TextAlign.Left;
+    return textAlign ?? TextAlign.Left;
   }
 
   public getMarginLeft(): number {

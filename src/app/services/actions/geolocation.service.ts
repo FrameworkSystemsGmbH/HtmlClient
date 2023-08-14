@@ -71,9 +71,9 @@ export class GeoLocationService {
       this._latitude = position.coords.latitude;
       this._longitude = position.coords.longitude;
       this._accuracy = position.coords.accuracy;
-      this._altitude = position.coords.altitude != null ? position.coords.altitude : undefined;
-      this._heading = position.coords.heading != null ? position.coords.heading : undefined;
-      this._speed = position.coords.speed != null ? position.coords.speed : undefined;
+      this._altitude = position.coords.altitude ?? undefined;
+      this._heading = position.coords.heading ?? undefined;
+      this._speed = position.coords.speed ?? undefined;
       this._timestamp = position.timestamp;
       this.fireGotGeoLocation();
     });

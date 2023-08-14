@@ -3,6 +3,7 @@ import { PlatformService } from '@app/services/platform.service';
 import * as StyleUtil from '@app/util/style-util';
 
 @Component({
+  standalone: true,
   selector: 'hc-selector',
   templateUrl: './selector.component.html',
   styleUrls: ['./selector.component.scss']

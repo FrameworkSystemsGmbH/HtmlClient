@@ -5,6 +5,7 @@ import * as StyleUtil from '@app/util/style-util';
 import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-tab-page',
   templateUrl: './tab-page.component.html',
   styleUrls: ['./tab-page.component.scss']

@@ -10,6 +10,7 @@ import * as StyleUtil from '@app/util/style-util';
 import { PictureWrapper } from '@app/wrappers/picture-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-pic',
   templateUrl: './picture.component.html',
   styleUrls: ['./picture.component.scss']

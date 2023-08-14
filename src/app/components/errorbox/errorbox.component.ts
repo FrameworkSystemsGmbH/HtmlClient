@@ -6,6 +6,7 @@ import { BackService } from '@app/services/back-service';
 import { faExclamationCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
+  standalone: true,
   selector: 'hc-errorbox',
   templateUrl: './errorbox.component.html',
   styleUrls: ['./errorbox.component.scss']

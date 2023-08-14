@@ -4,6 +4,7 @@ import { EMPTY } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Component({
+  standalone: true,
   selector: 'hc-blocker',
   templateUrl: './blocker.component.html',
   styleUrls: ['./blocker.component.scss'],

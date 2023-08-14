@@ -10,7 +10,7 @@ export class ControlLabelSeparatorWrapper extends ControlLabelWrapper {
   }
 
   public getCurrentVisibility(): Visibility {
-    return this._visibility != null ? this._visibility : this.getLabelProvider().getCurrentVisibility();
+    return this._visibility ?? this.getLabelProvider().getCurrentVisibility();
   }
 
   public setVisibility(visibility: Visibility): void {

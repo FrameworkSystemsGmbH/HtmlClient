@@ -6,6 +6,7 @@ import * as StyleUtil from '@app/util/style-util';
 import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-ctrl-lbl',
   templateUrl: './control-label.component.html',
   styleUrls: ['./control-label.component.scss']

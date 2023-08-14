@@ -1,7 +1,7 @@
 Number.zeroIfNull = function (value: number | null | undefined): number {
-  return value == null ? 0 : value;
+  return value ?? 0;
 };
 
 Number.maxIfNull = function (value: number | null | undefined): number {
-  return value == null ? Number.MAX_SAFE_INTEGER : value;
+  return value ?? Number.MAX_SAFE_INTEGER;
 };

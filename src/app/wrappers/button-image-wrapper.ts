@@ -17,12 +17,12 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
 
   public getCaptionAlign(): ContentAlignment {
     const captionAlign: ContentAlignment | undefined = this.getPropertyStore().getCaptionAlign();
-    return captionAlign != null ? captionAlign : ContentAlignment.MiddleCenter;
+    return captionAlign ?? ContentAlignment.MiddleCenter;
   }
 
   public getImage(): string | null {
     const image: string | undefined = this.getPropertyStore().getImage();
-    return image != null ? image : null;
+    return image ?? null;
   }
 
   public getImageUrl(): string | null {
@@ -37,7 +37,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
 
   public getPressedImage(): string | null {
     const pressedImage: string | undefined = this.getPropertyStore().getPressedImage();
-    return pressedImage != null ? pressedImage : null;
+    return pressedImage ?? null;
   }
 
   public getPressedImageUrl(): string | null {
@@ -52,7 +52,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
 
   public getMouseOverImage(): string | null {
     const mouseOverImage: string | undefined = this.getPropertyStore().getMouseOverImage();
-    return mouseOverImage != null ? mouseOverImage : null;
+    return mouseOverImage ?? null;
   }
 
   public getMouseOverImageUrl(): string | null {
@@ -67,7 +67,7 @@ export class ButtonImageWrapper extends ButtonBaseWrapper {
 
   public getDisabledImage(): string | null {
     const disabledImage: string | undefined = this.getPropertyStore().getDisabledImage();
-    return disabledImage != null ? disabledImage : null;
+    return disabledImage ?? null;
   }
 
   public getDisabledImageUrl(): string | null {

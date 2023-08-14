@@ -8,6 +8,7 @@ import { faCaretDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { fromEvent, Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-cmb-free',
   templateUrl: './combobox-free.component.html',
   styleUrls: ['./combobox-free.component.scss'],

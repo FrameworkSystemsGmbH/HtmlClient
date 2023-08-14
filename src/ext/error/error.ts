@@ -26,7 +26,7 @@ Error.stringify = function (error: Error): string {
   const errorObj: object = {
     message: error.message,
     name: error.name,
-    stack: error.stack != null ? error.stack : null
+    stack: error.stack ?? null
   };
 
   return JSON.stringify(errorObj);

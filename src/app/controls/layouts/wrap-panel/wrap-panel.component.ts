@@ -5,6 +5,7 @@ import * as StyleUtil from '@app/util/style-util';
 import { WrapPanelWrapper } from '@app/wrappers/wrap-panel-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-wrp-panel',
   templateUrl: './wrap-panel.component.html',
   styleUrls: ['./wrap-panel.component.scss']

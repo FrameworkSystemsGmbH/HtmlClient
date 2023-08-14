@@ -12,6 +12,7 @@ import { ListViewItemWrapper } from '@app/wrappers/listview-item-wrapper';
 import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-listview-item',
   templateUrl: './listview-item.component.html',
   styleUrls: ['./listview-item.component.scss']
