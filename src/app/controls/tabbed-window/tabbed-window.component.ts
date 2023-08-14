@@ -10,11 +10,12 @@ import * as StyleUtil from '@app/util/style-util';
 import { TabPageTemplate } from '@app/wrappers/tabbed-window/tab-page-template';
 import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
 import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
-import { faAngleDown, faAngleLeft, faAngleRight, faAngleUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import OverlayScrollbars from 'overlayscrollbars';
+import { IconDefinition, faAngleDown, faAngleLeft, faAngleRight, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { OverlayScrollbars } from 'overlayscrollbars';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
 
 @Component({
+  standalone: true,
   selector: 'hc-tabbed-window',
   templateUrl: './tabbed-window.component.html',
   styleUrls: ['./tabbed-window.component.scss']
@@ -131,10 +132,10 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
         this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
         this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
 
-        const overflow: number = osInstance.getState().overflowAmount.x;
+        const overflow: number = osInstance.state().overflowAmount.x;
 
         if (overflow > 0) {
-          const scrollPos: number = osInstance.getElements().viewport.scrollLeft;
+          const scrollPos: number = osInstance.elements().viewport.scrollLeft;
 
           if (scrollPos === 0) {
             this.stopScrollingUpOrLeft();
@@ -158,10 +159,10 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
         this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
         this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
 
-        const overflow: number = osInstance.getState().overflowAmount.y;
+        const overflow: number = osInstance.state().overflowAmount.y;
 
         if (overflow > 0) {
-          const scrollPos: number = osInstance.getElements().viewport.scrollTop;
+          const scrollPos: number = osInstance.elements().viewport.scrollTop;
 
           if (scrollPos === 0) {
             this.stopScrollingUpOrLeft();

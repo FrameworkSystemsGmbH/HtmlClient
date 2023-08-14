@@ -14,6 +14,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { Store } from '@ngrx/store';
 
 @Component({
+  standalone: true,
   selector: 'hc-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

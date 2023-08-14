@@ -10,15 +10,20 @@ import { selectSidebarVisible, selectTitle } from '@app/store/runtime/runtime.se
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
-import { faAngleLeft, faAngleRight, faBars, faSignOutAlt, faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faAngleLeft, faAngleRight, faBars, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
+import { OverlayScrollbars } from 'overlayscrollbars';
+import { OverlayScrollbarsComponent, OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-normal-header',
   templateUrl: './normal-header.component.html',
-  styleUrls: ['./normal-header.component.scss']
+  styleUrls: ['./normal-header.component.scss'],
+  imports: [
+    OverlayscrollbarsModule
+  ]
 })
 export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecked {
 
@@ -126,10 +131,10 @@ export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecke
         return;
       }
 
-      const overflow: number = osInstance.getState().overflowAmount.x;
+      const overflow: number = osInstance.state().overflowAmount.x;
 
       if (overflow > 0) {
-        const scrollPos: number = osInstance.getElements().viewport.scrollLeft;
+        const scrollPos: number = osInstance.elements().viewport.scrollLeft;
 
         if (scrollPos === 0) {
           this.stopScrollingLeft();

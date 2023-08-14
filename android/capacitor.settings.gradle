@@ -30,4 +30,4 @@ include ':capacitor-splash-screen'
 project(':capacitor-splash-screen').projectDir = new File('../node_modules/@capacitor/splash-screen/android')
 
 include ':capacitor-plugin-webview-cache'
-project(':capacitor-plugin-webview-cache').projectDir = new File('../node_modules/capacitor-plugin-webview-cache/android')
+project(':capacitor-plugin-webview-cache').projectDir = new File('../../WebViewCache/android')

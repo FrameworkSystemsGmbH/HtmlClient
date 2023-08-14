@@ -4,7 +4,7 @@ android {
 
     namespace 'com.fs.htmlclient'
     compileSdkVersion rootProject.ext.compileSdkVersion
-  defaultConfig {
+    defaultConfig {
         applicationId "com.fs.htmlclient"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion

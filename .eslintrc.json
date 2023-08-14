@@ -103,6 +103,7 @@
             "readonly": "generic"
           }
         ],
+        "@typescript-eslint/class-methods-use-this": "off",
         "@typescript-eslint/consistent-type-imports": "off",
         "@typescript-eslint/dot-notation": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -219,12 +220,12 @@
         "plugin:@angular-eslint/template/all"
       ],
       "rules": {
-        "@angular-eslint/template/accessibility-interactive-supports-focus": "off",
         "@angular-eslint/template/attributes-order": "off",
         "@angular-eslint/template/click-events-have-key-events": "off",
         "@angular-eslint/template/cyclomatic-complexity": "off",
         "@angular-eslint/template/eqeqeq": "off",
         "@angular-eslint/template/i18n": "off",
+        "@angular-eslint/template/interactive-supports-focus": "off",
         "@angular-eslint/template/mouse-events-have-key-events": "off",
         "@angular-eslint/template/no-call-expression": "off",
         "@angular-eslint/template/no-inline-styles": "off",
