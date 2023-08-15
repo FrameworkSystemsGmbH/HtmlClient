@@ -1,4 +1,3 @@
-import { A11yModule } from '@angular/cdk/a11y';
 import { provideHttpClient } from '@angular/common/http';
 import { EnvironmentProviders, ErrorHandler, Provider, importProvidersFrom } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -28,7 +27,6 @@ export const APP_PROVIDERS: Array<EnvironmentProviders | Provider> = [
     logOnly: environment.production
   }),
   importProvidersFrom(
-    A11yModule,
     BrowserAnimationsModule,
     HammerModule,
     MatDialogModule

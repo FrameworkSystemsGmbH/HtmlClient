@@ -1,3 +1,4 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -15,6 +16,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './combobox-list-mobile-overlay.component.html',
   styleUrls: ['./combobox-list-mobile-overlay.component.scss'],
   imports: [
+    A11yModule,
     CommonModule,
     DialogResizeDirective
   ]

@@ -1,3 +1,4 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +17,7 @@ import { IconDefinition, faExclamationCircle } from '@fortawesome/free-solid-svg
   templateUrl: './retrybox.component.html',
   styleUrls: ['./retrybox.component.scss'],
   imports: [
+    A11yModule,
     CommonModule,
     DialogResizeDirective,
     FontAwesomeModule,

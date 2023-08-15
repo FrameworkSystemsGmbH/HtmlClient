@@ -1,3 +1,4 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +20,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './combobox-free-mobile-overlay.component.html',
   styleUrls: ['./combobox-free-mobile-overlay.component.scss'],
   imports: [
+    A11yModule,
     CommonModule,
     DialogResizeDirective,
     FormsModule,
