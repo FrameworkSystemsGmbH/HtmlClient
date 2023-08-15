@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, NgZone, OnInit, Output, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone, OnInit, Output, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { TabAlignment } from '@app/enums/tab-alignment';
 import { Visibility } from '@app/enums/visibility';
@@ -12,9 +12,7 @@ import { TabPageTemplate } from '@app/wrappers/tabbed-window/tab-page-template';
 import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
 import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition, faAngleDown, faAngleLeft, faAngleRight, faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { OverlayScrollbars } from 'overlayscrollbars';
-import { OverlayScrollbarsComponent, OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
+import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 
 @Component({
   standalone: true,
@@ -35,28 +33,8 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef | null = null;
 
-  @ViewChild('scroller', { static: true })
-  public scroller: OverlayScrollbarsComponent | null = null;
-
-  @ViewChild('arrowLeft', { static: true })
-  public arrowLeft: ElementRef<HTMLDivElement> | null = null;
-
-  @ViewChild('arrowRight', { static: true })
-  public arrowRight: ElementRef<HTMLDivElement> | null = null;
-
-  @ViewChild('arrowUp', { static: true })
-  public arrowUp: ElementRef<HTMLDivElement> | null = null;
-
-  @ViewChild('arrowDown', { static: true })
-  public arrowDown: ElementRef<HTMLDivElement> | null = null;
-
   @ViewChild('tabs', { static: true })
   public tabs: ElementRef<HTMLDivElement> | null = null;
-
-  public iconAngleLeft: IconDefinition = faAngleLeft;
-  public iconAngleRight: IconDefinition = faAngleRight;
-  public iconAngleUp: IconDefinition = faAngleUp;
-  public iconAngleDown: IconDefinition = faAngleDown;
 
   public tabPages: Array<TabPageWrapper> = new Array<TabPageWrapper>();
   public tabAlignment: TabAlignment = TabAlignment.Top;
@@ -70,37 +48,23 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   public scrollerOptions: any;
 
-  private readonly _zone: NgZone;
-  private readonly _renderer: Renderer2;
   private readonly _imageService: ImageService;
   private readonly _platformService: PlatformService;
 
-  private _scrollLeftInterval: any;
-  private _scrollRightInterval: any;
-
-  private readonly _visibleClass: string = 'arrowVisible';
-
-  private readonly _scrollDelta: number = 100;
-  private readonly _scrollAnimationTime: number = 250;
   private readonly _scrollAutoHideDelay: number = 500;
 
   public constructor(
     cdr: ChangeDetectorRef,
-    zone: NgZone,
-    renderer: Renderer2,
     focusService: FocusService,
     imageService: ImageService,
     platformService: PlatformService
   ) {
     super(cdr, focusService);
 
-    this._zone = zone;
-    this._renderer = renderer;
     this._imageService = imageService;
     this._platformService = platformService;
 
     this.scrollerOptions = {
-      className: 'os-thin',
       paddingAbsolute: true,
       overflowBehavior: {
         x: 'scroll',
@@ -109,93 +73,12 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
       scrollbars: {
         autoHide: 'scroll',
         autoHideDelay: this._scrollAutoHideDelay
-      },
-      callbacks: {
-        onScroll: this.refreshScroller.bind(this),
-        onOverflowChanged: this.refreshScroller.bind(this),
-        onOverflowAmountChanged: this.refreshScroller.bind(this)
       }
     };
   }
 
-  @HostListener('window:resize')
-  public refreshScroller(): void {
-    this._zone.runOutsideAngular(() => {
-      if (this.scroller == null) {
-        return;
-      }
-
-      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
-
-      if (osInstance == null) {
-        return;
-      }
-
-      if (!this.arrowUp || !this.arrowDown || !this.arrowLeft || !this.arrowRight) {
-        return;
-      }
-
-      if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
-        this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
-        this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
-
-        const overflow: number = osInstance.state().overflowAmount.x;
-
-        if (overflow > 0) {
-          const scrollPos: number = osInstance.elements().viewport.scrollLeft;
-
-          if (scrollPos === 0) {
-            this.stopScrollingUpOrLeft();
-            this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
-            this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
-          } else if (scrollPos >= overflow) {
-            this.stopScrollingDownOrRight();
-            this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
-            this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
-          } else {
-            this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
-            this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
-          }
-        } else {
-          this.stopScrollingUpOrLeft();
-          this.stopScrollingDownOrRight();
-          this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
-          this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
-        }
-      } else {
-        this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
-        this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
-
-        const overflow: number = osInstance.state().overflowAmount.y;
-
-        if (overflow > 0) {
-          const scrollPos: number = osInstance.elements().viewport.scrollTop;
-
-          if (scrollPos === 0) {
-            this.stopScrollingUpOrLeft();
-            this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
-            this._renderer.addClass(this.arrowDown.nativeElement, this._visibleClass);
-          } else if (scrollPos >= overflow) {
-            this.stopScrollingDownOrRight();
-            this._renderer.addClass(this.arrowUp.nativeElement, this._visibleClass);
-            this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
-          } else {
-            this._renderer.addClass(this.arrowUp.nativeElement, this._visibleClass);
-            this._renderer.addClass(this.arrowDown.nativeElement, this._visibleClass);
-          }
-        } else {
-          this.stopScrollingUpOrLeft();
-          this.stopScrollingDownOrRight();
-          this._renderer.removeClass(this.arrowUp.nativeElement, this._visibleClass);
-          this._renderer.removeClass(this.arrowDown.nativeElement, this._visibleClass);
-        }
-      }
-    });
-  }
-
   public ngAfterViewInit(): void {
     this.getWrapper().validateSelectedTabIndex();
-    this.refreshScroller();
   }
 
   public callTabClicked(tabPage: TabPageWrapper): void {
@@ -235,11 +118,14 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   public scrollIntoView(): void {
     setTimeout(() => {
-      if (this.scroller != null && this.tabs != null) {
-        const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
+      if (this.tabs != null) {
         const selectedTab: HTMLLIElement | null = this.tabs.nativeElement.querySelector('div.selected');
-        if (osInstance && selectedTab) {
-          // osInstance.scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
+        if (selectedTab) {
+          selectedTab.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center'
+          });
         }
       }
     });
@@ -499,65 +385,5 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     }
 
     return newOptions;
-  }
-
-  public startScrollingUpOrLeft(event: any): void {
-    if (event.button === 0) {
-      const value: string = `-= ${this._scrollDelta}px`;
-      if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
-        this.scrollHorizontal(value);
-        this._scrollLeftInterval = setInterval(() => {
-          this.scrollHorizontal(value);
-        }, this._scrollAnimationTime);
-      } else {
-        this.scrollVertical(value);
-        this._scrollLeftInterval = setInterval(() => {
-          this.scrollVertical(value);
-        }, this._scrollAnimationTime);
-      }
-    }
-  }
-
-  public stopScrollingUpOrLeft(): void {
-    clearInterval(this._scrollLeftInterval);
-  }
-
-  public startScrollingDownOrRight(event: any): void {
-    if (event.button === 0) {
-      const value: string = `+= ${this._scrollDelta}px`;
-      if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
-        this.scrollHorizontal(value);
-        this._scrollRightInterval = setInterval(() => {
-          this.scrollHorizontal(value);
-        }, this._scrollAnimationTime);
-      } else {
-        this.scrollVertical(value);
-        this._scrollRightInterval = setInterval(() => {
-          this.scrollVertical(value);
-        }, this._scrollAnimationTime);
-      }
-    }
-  }
-
-  public stopScrollingDownOrRight(): void {
-    clearInterval(this._scrollRightInterval);
-  }
-
-  protected scrollHorizontal(value: string): void {
-    if (this.scroller != null) {
-      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
-      if (osInstance != null) {
-        // osInstance.scroll({ x: value }, this._scrollAnimationTime);
-      }
-    }
-  }
-
-  protected scrollVertical(value: string): void {
-    if (this.scroller != null) {
-      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
-      if (osInstance != null) {
-        // osInstance.scroll({ y: value }, this._scrollAnimationTime);
-      }
-    }
   }
 }

@@ -10,52 +10,7 @@
 
   .header {
     display: flex;
-    position: relative;
-
-    .arrow {
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 0.1rem solid gray;
-      color: gray;
-      background-color: white;
-      border-radius: 0.2rem;
-      opacity: 0;
-      z-index: -100;
-      transition: all 0.25s;
-      cursor: pointer;
-
-      &.arrowVisible {
-        opacity: 0.8;
-        z-index: 20;
-      }
-
-      &:hover {
-        opacity: 1;
-      }
-
-      &:active {
-        color: #333;
-        border-color: #333;
-      }
-    }
-
-    .arrowLeft {
-      left: 0.4rem;
-    }
-
-    .arrowRight {
-      right: 0.4rem;
-    }
-
-    .arrowUp {
-      top: 0.4rem;
-    }
-
-    .arrowDown {
-      bottom: 0.4rem;
-    }
+    overflow: hidden;
 
     .scroller {
       flex: 1;

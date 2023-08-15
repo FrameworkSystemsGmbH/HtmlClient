@@ -1,24 +1,12 @@
 <div class="wrapper" [ngStyle]="wrapperStyle">
   <div class="header" [ngStyle]="headerStyle">
-    <div #arrowLeft class="arrow arrowLeft" [ngStyle]="arrowHorizontalStyle" (mousedown)="startScrollingUpOrLeft($event)" (mouseup)="stopScrollingUpOrLeft()" (mouseleave)="stopScrollingUpOrLeft()">
-      <fa-icon [icon]="iconAngleLeft" [fixedWidth]="true" />
-    </div>
-    <div #arrowUp class="arrow arrowUp" [ngStyle]="arrowVerticalStyle" (mousedown)="startScrollingUpOrLeft($event)" (mouseup)="stopScrollingUpOrLeft()" (mouseleave)="stopScrollingUpOrLeft()">
-      <fa-icon [icon]="iconAngleUp" [fixedWidth]="true" />
-    </div>
-    <overlay-scrollbars #scroller class="scroller os-host-flexbox" [options]="scrollerOptions">
+    <overlay-scrollbars class="scroller" [options]="scrollerOptions">
       <div #tabs class="tabs" [ngStyle]="tabsStyle">
         <div *ngFor="let tabPage of tabPages" class="tab" [ngClass]="getTabClasses(tabPage)" [ngStyle]="getTabStyle(tabPage)" (click)="callTabClicked(tabPage)">
           <span>{{ tabPage.getCaption() }}</span>
         </div>
       </div>
     </overlay-scrollbars>
-    <div #arrowRight class="arrow arrowRight" [ngStyle]="arrowHorizontalStyle" (mousedown)="startScrollingDownOrRight($event)" (mouseup)="stopScrollingDownOrRight()" (mouseleave)="stopScrollingDownOrRight()">
-      <fa-icon [icon]="iconAngleRight" [fixedWidth]="true" />
-    </div>
-    <div #arrowDown class="arrow arrowDown" [ngStyle]="arrowVerticalStyle" (mousedown)="startScrollingDownOrRight($event)" (mouseup)="stopScrollingDownOrRight()" (mouseleave)="stopScrollingDownOrRight()">
-      <fa-icon [icon]="iconAngleDown" [fixedWidth]="true" />
-    </div>
   </div>
   <div class="content" [ngStyle]="contentStyle">
     <ng-template #anchor></ng-template>

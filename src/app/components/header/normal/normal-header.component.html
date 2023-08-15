@@ -16,10 +16,7 @@
       <img *ngIf="getBadgeImageSrc() != null" [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
     </div>
     <div class="header-center-tabs" *ngIf="!showCompact">
-      <div #arrowLeft class="arrow arrowLeft" (mousedown)="startScrollingLeft($event)" (mouseup)="stopScrollingLeft()" (mouseleave)="stopScrollingLeft()">
-        <fa-icon [icon]="iconAngleLeft" />
-      </div>
-      <overlay-scrollbars #scroller class="scroller os-host-flexbox" [options]="scrollerOptions">
+      <overlay-scrollbars class="scroller" [options]="scrollerOptions">
         <div #tabs class="header-tabs-list">
           <div *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId(), 'hasBadge': form.getBadgeImageSrc() != null}" [style.background-color]="form.getId() === selectedForm?.getId() ? getFormBgColor() : null" (click)="selectForm($event, form)">
             <img *ngIf="form.getBadgeImageSrc() != null" [src]="form.getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
@@ -30,9 +27,6 @@
           </div>
         </div>
       </overlay-scrollbars>
-      <div #arrowRight class="arrow arrowRight" (mousedown)="startScrollingRight($event)" (mouseup)="stopScrollingRight()" (mouseleave)="stopScrollingRight()">
-        <fa-icon [icon]="iconAngleRight" />
-      </div>
     </div>
   </div>
   <div class="header-right">
