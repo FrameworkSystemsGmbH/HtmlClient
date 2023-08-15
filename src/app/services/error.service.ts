@@ -1,43 +1,25 @@
-import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ErrorBoxComponent } from '@app/components/errorbox/errorbox.component';
+import { ErrorHandler, Injectable, NgZone } from '@angular/core';
+import { DialogService } from '@app/services/dialog.service';
 
 @Injectable({ providedIn: 'root' })
 export class ErrorService extends ErrorHandler {
 
-  private readonly _injector: Injector;
+  private readonly _zone: NgZone;
+  private readonly _dialogService: DialogService;
 
-  private _zone: NgZone | null = null;
-  private _errorDialog: MatDialog | null = null;
-
-  public constructor(injector: Injector) {
+  public constructor(
+    zone: NgZone,
+    dialogService: DialogService
+  ) {
     super();
 
-    this._injector = injector;
+    this._zone = zone;
+    this._dialogService = dialogService;
   }
 
-  public handleError(error: any): void {
-    if (!this._zone) {
-      this._zone = this._injector.get(NgZone);
-    }
-
-    if (!this._errorDialog) {
-      this._errorDialog = this._injector.get(MatDialog);
-    }
-
+  public override handleError(error: unknown): void {
     this._zone.run(() => {
-      if (this._errorDialog != null) {
-        this._errorDialog.open(ErrorBoxComponent, {
-          backdropClass: 'hc-backdrop',
-          minWidth: 300,
-          maxWidth: '90%',
-          maxHeight: '90%',
-          data: {
-            message: error && error.message ? error.message : 'An unknown error occured!',
-            stackTrace: error && error.stack ? error.stack : null
-          }
-        });
-      }
+      this._dialogService.showErrorBoxForError(Error.ensureError(error));
     });
 
     super.handleError(error);

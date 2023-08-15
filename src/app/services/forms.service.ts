@@ -83,7 +83,7 @@ export class FormsService {
     if (closeButton) {
       closeButton.fireClick();
     } else if (this.isLastOpenForm(form)) {
-      this._dialogService.showMsgBoxBox({
+      this._dialogService.showMsgBox({
         buttons: MsgBoxButtons.YesNo,
         icon: MsgBoxIcon.Question,
         message: 'Do you want to close the session?',
