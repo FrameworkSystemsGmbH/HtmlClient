@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { SelectorComponent } from '@app/components/selector/selector.component';
 import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
 import { ListViewSelectorPosition } from '@app/enums/listview-selector-position';
 import { ParseMethod } from '@app/enums/parse-method';
@@ -18,7 +19,8 @@ import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
   templateUrl: './listview-item.component.html',
   styleUrls: ['./listview-item.component.scss'],
   imports: [
-    CommonModule
+    CommonModule,
+    SelectorComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
