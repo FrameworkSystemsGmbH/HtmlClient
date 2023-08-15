@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { LayoutableComponent } from '@app/controls/layoutable.component';
 import { Visibility } from '@app/enums/visibility';
@@ -9,7 +10,10 @@ import { ControlLabelWrapper } from '@app/wrappers/control-labels/control-label-
   standalone: true,
   selector: 'hc-ctrl-lbl',
   templateUrl: './control-label.component.html',
-  styleUrls: ['./control-label.component.scss']
+  styleUrls: ['./control-label.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class ControlLabelComponent extends LayoutableComponent {
 

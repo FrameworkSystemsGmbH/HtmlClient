@@ -1,5 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DataList } from '@app/common/data-list';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BackService } from '@app/services/back-service';
@@ -11,7 +12,10 @@ import { Subscription } from 'rxjs';
   standalone: true,
   selector: 'hc-cmb-list-mobile-overlay',
   templateUrl: './combobox-list-mobile-overlay.component.html',
-  styleUrls: ['./combobox-list-mobile-overlay.component.scss']
+  styleUrls: ['./combobox-list-mobile-overlay.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
 

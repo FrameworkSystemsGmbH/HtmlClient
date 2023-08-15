@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ButtonComponent } from '@app/controls/buttons/button.component';
 
@@ -5,7 +6,10 @@ import { ButtonComponent } from '@app/controls/buttons/button.component';
   standalone: true,
   selector: 'hc-btn-plain',
   templateUrl: './button-plain.component.html',
-  styleUrls: ['./button-plain.component.scss']
+  styleUrls: ['./button-plain.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class ButtonPlainComponent extends ButtonComponent {
 

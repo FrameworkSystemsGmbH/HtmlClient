@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ClientPictureClickEventArgs } from '@app/common/events/eventargs/client-picture-click-eventargs';
@@ -13,7 +14,10 @@ import { PictureWrapper } from '@app/wrappers/picture-wrapper';
   standalone: true,
   selector: 'hc-pic',
   templateUrl: './picture.component.html',
-  styleUrls: ['./picture.component.scss']
+  styleUrls: ['./picture.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class PictureComponent extends ControlComponent {
 

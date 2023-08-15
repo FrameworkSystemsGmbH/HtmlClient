@@ -1,7 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, UntypedFormControl, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { LastSessionInfo } from '@app/common/last-session-info';
 import { LoginBroker } from '@app/common/login-broker';
+import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BrokerService } from '@app/services/broker.service';
 import { LoginService } from '@app/services/login.service';
 import { StateService } from '@app/services/state.service';
@@ -9,7 +14,8 @@ import { IAppState } from '@app/store/app.state';
 import { selectBrokerName } from '@app/store/broker/broker.selectors';
 import { setTitleDefault } from '@app/store/runtime/runtime.actions';
 import * as DomUtil from '@app/util/dom-util';
-import { faEdit, faPlus, faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
@@ -17,7 +23,16 @@ import { Observable, Subscription } from 'rxjs';
   standalone: true,
   selector: 'hc-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  imports: [
+    CommonModule,
+    DialogResizeDirective,
+    FontAwesomeModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    ReactiveFormsModule
+  ]
 })
 export class LoginComponent implements OnInit, OnDestroy {
 

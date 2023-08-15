@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { BackService } from '@app/services/back-service';
 import { DeepLinkService } from '@app/services/deep-link.service';
 import { FocusService } from '@app/services/focus.service';
@@ -15,10 +17,13 @@ import { Store } from '@ngrx/store';
 
 @Component({
   standalone: true,
-  standalone: true,
   selector: 'hc-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  imports: [
+    CommonModule,
+    RouterModule
+  ]
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 

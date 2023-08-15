@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
 import { ListViewSelectorPosition } from '@app/enums/listview-selector-position';
 import { ParseMethod } from '@app/enums/parse-method';
@@ -15,7 +16,13 @@ import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
   standalone: true,
   selector: 'hc-listview-item',
   templateUrl: './listview-item.component.html',
-  styleUrls: ['./listview-item.component.scss']
+  styleUrls: ['./listview-item.component.scss'],
+  imports: [
+    CommonModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class ListViewItemComponent implements OnInit, OnDestroy {
 

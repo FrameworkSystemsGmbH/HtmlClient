@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { TextFormat } from '@app/enums/text-format';
 import { FocusService } from '@app/services/focus.service';
@@ -10,7 +12,11 @@ import * as Moment from 'moment-timezone';
   standalone: true,
   selector: 'hc-txt-datetime',
   templateUrl: './textbox-datetime.component.html',
-  styleUrls: ['./textbox-datetime.component.scss']
+  styleUrls: ['./textbox-datetime.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class TextBoxDateTimeComponent extends TextBoxComponent {
 

@@ -12,7 +12,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from '@app/app.component';
-import { APP_ROUTING } from '@app/app.routing';
+import { APP_ROUTING } from '@app/app.routes';
 import { ALL_COMPONENTS } from '@app/components/_all.components';
 import { ALL_CONTROLS } from '@app/controls/_all.controls';
 import { ALL_DIRECTIVES } from '@app/directives/_all.direcives';

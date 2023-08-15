@@ -1,12 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ComboBoxDesktopComponent } from '@app/controls/comboboxes/combobox-desktop.component';
 import * as DomUtil from '@app/util/dom-util';
 import * as KeyUtil from '@app/util/key-util';
 import * as StyleUtil from '@app/util/style-util';
 import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
-import { faCaretDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { fromEvent, Observable, Subscription } from 'rxjs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { Observable, Subscription, fromEvent } from 'rxjs';
 import { buffer, debounceTime, map, share } from 'rxjs/operators';
 
 @Component({
@@ -14,6 +16,10 @@ import { buffer, debounceTime, map, share } from 'rxjs/operators';
   selector: 'hc-cmb-list',
   templateUrl: './combobox-list.component.html',
   styleUrls: ['./combobox-list.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule
+  ],
   animations: [
     trigger('listState', [
       state('void', style({ opacity: 0 })),

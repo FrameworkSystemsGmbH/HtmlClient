@@ -1,7 +1,9 @@
 import { Directive, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 
-@Directive({ standalone: true,
-  selector: '[hcMediaQuery]' })
+@Directive({
+  standalone: true,
+  selector: '[hcMediaQuery]'
+})
 export class MediaQueryDirective implements OnInit, OnDestroy {
 
   @Input()

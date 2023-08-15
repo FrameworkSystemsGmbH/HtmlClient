@@ -1,5 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewChecked, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
+import { MediaQueryDirective } from '@app/directives/media-query.directive';
 import { EventsService } from '@app/services/events.service';
 import { FormsService } from '@app/services/forms.service';
 import { PlatformService } from '@app/services/platform.service';
@@ -10,6 +12,7 @@ import { selectSidebarVisible, selectTitle } from '@app/store/runtime/runtime.se
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faAngleLeft, faAngleRight, faBars, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { OverlayScrollbars } from 'overlayscrollbars';
@@ -18,11 +21,13 @@ import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
-  standalone: true,
   selector: 'hc-normal-header',
   templateUrl: './normal-header.component.html',
   styleUrls: ['./normal-header.component.scss'],
   imports: [
+    CommonModule,
+    FontAwesomeModule,
+    MediaQueryDirective,
     OverlayscrollbarsModule
   ]
 })
@@ -290,7 +295,7 @@ export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecke
         const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
         const selectedTab: HTMLLIElement | null = this.tabs.nativeElement.querySelector('div.active');
         if (osInstance && selectedTab) {
-          osInstance.scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
+          // osInstance.scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
         }
       }
     });
@@ -328,7 +333,7 @@ export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecke
     if (this.scroller != null) {
       const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
       if (osInstance != null) {
-        osInstance.scroll({ x: value }, this._scrollAnimationTime);
+        // osInstance.scroll({ x: value }, this._scrollAnimationTime);
       }
     }
   }
@@ -337,7 +342,7 @@ export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecke
     if (this.scroller != null) {
       const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
       if (osInstance != null) {
-        osInstance.scroll({ y: value }, this._scrollAnimationTime);
+        // osInstance.scroll({ y: value }, this._scrollAnimationTime);
       }
     }
   }

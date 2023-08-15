@@ -1,5 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { DataList } from '@app/common/data-list';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BackService } from '@app/services/back-service';
@@ -11,7 +15,13 @@ import { Subscription } from 'rxjs';
   standalone: true,
   selector: 'hc-cmb-free-mobile-overlay',
   templateUrl: './combobox-free-mobile-overlay.component.html',
-  styleUrls: ['./combobox-free-mobile-overlay.component.scss']
+  styleUrls: ['./combobox-free-mobile-overlay.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule
+  ]
 })
 export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
 

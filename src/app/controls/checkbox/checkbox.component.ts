@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ControlComponent } from '@app/controls/control.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as DomUtil from '@app/util/dom-util';
@@ -10,7 +12,11 @@ import { CheckBoxWrapper } from '@app/wrappers/checkbox-wrapper';
   standalone: true,
   selector: 'hc-chkbox',
   templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss']
+  styleUrls: ['./checkbox.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class CheckBoxComponent extends ControlComponent {
 

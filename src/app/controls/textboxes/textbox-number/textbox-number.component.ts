@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { ParseMethod } from '@app/enums/parse-method';
 import { TextFormat } from '@app/enums/text-format';
@@ -10,7 +12,11 @@ import { TextBoxNumberWrapper } from '@app/wrappers/textbox-number-wrapper';
   standalone: true,
   selector: 'hc-txt-number',
   templateUrl: './textbox-number.component.html',
-  styleUrls: ['./textbox-number.component.scss']
+  styleUrls: ['./textbox-number.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class TextBoxNumberComponent extends TextBoxComponent {
 

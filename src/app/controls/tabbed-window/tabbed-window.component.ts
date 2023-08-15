@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, NgZone, OnInit, Output, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { TabAlignment } from '@app/enums/tab-alignment';
@@ -10,16 +11,21 @@ import * as StyleUtil from '@app/util/style-util';
 import { TabPageTemplate } from '@app/wrappers/tabbed-window/tab-page-template';
 import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
 import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faAngleDown, faAngleLeft, faAngleRight, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { OverlayScrollbars } from 'overlayscrollbars';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
+import { OverlayScrollbarsComponent, OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 
 @Component({
   standalone: true,
-  standalone: true,
   selector: 'hc-tabbed-window',
   templateUrl: './tabbed-window.component.html',
-  styleUrls: ['./tabbed-window.component.scss']
+  styleUrls: ['./tabbed-window.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    OverlayscrollbarsModule
+  ]
 })
 export class TabbedWindowComponent extends ContainerComponent implements OnInit, AfterViewInit {
 
@@ -233,7 +239,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
         const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
         const selectedTab: HTMLLIElement | null = this.tabs.nativeElement.querySelector('div.selected');
         if (osInstance && selectedTab) {
-          osInstance.scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
+          // osInstance.scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
         }
       }
     });
@@ -541,7 +547,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     if (this.scroller != null) {
       const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
       if (osInstance != null) {
-        osInstance.scroll({ x: value }, this._scrollAnimationTime);
+        // osInstance.scroll({ x: value }, this._scrollAnimationTime);
       }
     }
   }
@@ -550,7 +556,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
     if (this.scroller != null) {
       const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
       if (osInstance != null) {
-        osInstance.scroll({ y: value }, this._scrollAnimationTime);
+        // osInstance.scroll({ y: value }, this._scrollAnimationTime);
       }
     }
   }

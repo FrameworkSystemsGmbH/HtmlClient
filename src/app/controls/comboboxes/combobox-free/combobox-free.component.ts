@@ -1,17 +1,25 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ComboBoxDesktopComponent } from '@app/controls/comboboxes/combobox-desktop.component';
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
-import { faCaretDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { fromEvent, Subscription } from 'rxjs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { Subscription, fromEvent } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'hc-cmb-free',
   templateUrl: './combobox-free.component.html',
   styleUrls: ['./combobox-free.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    FormsModule
+  ],
   animations: [
     trigger('listState', [
       state('void', style({ opacity: 0 })),

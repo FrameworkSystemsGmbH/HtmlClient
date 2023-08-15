@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
@@ -6,7 +7,8 @@ import { FormsService } from '@app/services/forms.service';
 import { IAppState } from '@app/store/app.state';
 import { selectDisableFormNavigation } from '@app/store/runtime/runtime.selectors';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
-import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -14,7 +16,11 @@ import { Subscription } from 'rxjs';
   standalone: true,
   selector: 'hc-modal-header',
   templateUrl: './modal-header.component.html',
-  styleUrls: ['./modal-header.component.scss']
+  styleUrls: ['./modal-header.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule
+  ]
 })
 export class ModalHeaderComponent implements OnInit, OnDestroy {
 

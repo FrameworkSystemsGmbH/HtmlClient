@@ -2,8 +2,10 @@ import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 
-@Directive({ standalone: true,
-  selector: '[hcDialogResize]' })
+@Directive({
+  standalone: true,
+  selector: '[hcDialogResize]'
+})
 export class DialogResizeDirective implements OnInit {
 
   @Input()

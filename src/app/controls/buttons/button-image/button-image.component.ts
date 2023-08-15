@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ButtonComponent } from '@app/controls/buttons/button.component';
@@ -9,7 +10,10 @@ import { ButtonImageWrapper } from '@app/wrappers/button-image-wrapper';
   standalone: true,
   selector: 'hc-btn-image',
   templateUrl: './button-image.component.html',
-  styleUrls: ['./button-image.component.scss']
+  styleUrls: ['./button-image.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class ButtonImageComponent extends ButtonComponent {
 

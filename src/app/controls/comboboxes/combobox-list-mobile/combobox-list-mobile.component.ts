@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComboBoxListMobileOverlayComponent } from '@app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile-overlay.component';
@@ -5,13 +6,18 @@ import { ComboBoxMobileComponent } from '@app/controls/comboboxes/combobox-mobil
 import { FocusService } from '@app/services/focus.service';
 import * as DomUtil from '@app/util/dom-util';
 import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
-import { faCaretDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,
   selector: 'hc-cmb-list-mobile',
   templateUrl: './combobox-list-mobile.component.html',
-  styleUrls: ['./combobox-list-mobile.component.scss']
+  styleUrls: ['./combobox-list-mobile.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule
+  ]
 })
 export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 

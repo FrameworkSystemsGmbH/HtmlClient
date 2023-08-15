@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ControlComponent } from '@app/controls/control.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as DomUtil from '@app/util/dom-util';
@@ -11,7 +13,11 @@ import { RadioButtonWrapper } from '@app/wrappers/radio-button-wrapper';
   standalone: true,
   selector: 'hc-radio',
   templateUrl: './radio-button.component.html',
-  styleUrls: ['./radio-button.component.scss']
+  styleUrls: ['./radio-button.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class RadioButtonComponent extends ControlComponent {
 

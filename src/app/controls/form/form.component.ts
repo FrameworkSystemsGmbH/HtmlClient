@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewChecked, Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
@@ -7,7 +8,10 @@ import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties
   standalone: true,
   selector: 'hc-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  styleUrls: ['./form.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class FormComponent extends ContainerComponent implements AfterViewChecked {
 
