@@ -3,6 +3,7 @@ import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewCh
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IErrorBoxData } from '@app/components/errorbox/errorbox-data.interface';
+import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BackService } from '@app/services/back-service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -15,6 +16,7 @@ import { IconDefinition, faExclamationCircle } from '@fortawesome/free-solid-svg
   styleUrls: ['./errorbox.component.scss'],
   imports: [
     CommonModule,
+    DialogResizeDirective,
     FontAwesomeModule,
     MatButtonModule
   ]

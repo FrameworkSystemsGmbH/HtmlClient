@@ -3,6 +3,7 @@ import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewCh
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IMsgBoxData } from '@app/components/msgbox/msgbox-data.interface';
+import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
 import { MsgBoxIcon } from '@app/enums/msgbox-icon';
@@ -18,6 +19,7 @@ import { IconDefinition, faExclamationCircle, faExclamationTriangle, faInfoCircl
   styleUrls: ['./msgbox.component.scss'],
   imports: [
     CommonModule,
+    DialogResizeDirective,
     FontAwesomeModule,
     MatButtonModule
   ]

@@ -4,7 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { DataList } from '@app/common/data-list';
+import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BackService } from '@app/services/back-service';
 import * as DomUtil from '@app/util/dom-util';
@@ -18,9 +20,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./combobox-free-mobile-overlay.component.scss'],
   imports: [
     CommonModule,
+    DialogResizeDirective,
     FormsModule,
     MatButtonModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {

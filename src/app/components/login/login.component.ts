@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, UntypedFormControl, Valida
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { LastSessionInfo } from '@app/common/last-session-info';
 import { LoginBroker } from '@app/common/login-broker';
 import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
@@ -31,6 +32,7 @@ import { Observable, Subscription } from 'rxjs';
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
+    MatInputModule,
     ReactiveFormsModule
   ]
 })

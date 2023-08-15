@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DataList } from '@app/common/data-list';
+import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BackService } from '@app/services/back-service';
 import * as DomUtil from '@app/util/dom-util';
@@ -14,7 +15,8 @@ import { Subscription } from 'rxjs';
   templateUrl: './combobox-list-mobile-overlay.component.html',
   styleUrls: ['./combobox-list-mobile-overlay.component.scss'],
   imports: [
-    CommonModule
+    CommonModule,
+    DialogResizeDirective
   ]
 })
 export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {

@@ -3,6 +3,7 @@ import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewCh
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IRetryBoxData } from '@app/components/retrybox/retrybox-data.interface';
+import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { RetryBoxResult } from '@app/enums/retrybox-result';
 import { BackService } from '@app/services/back-service';
@@ -16,6 +17,7 @@ import { IconDefinition, faExclamationCircle } from '@fortawesome/free-solid-svg
   styleUrls: ['./retrybox.component.scss'],
   imports: [
     CommonModule,
+    DialogResizeDirective,
     FontAwesomeModule,
     MatButtonModule
   ]
