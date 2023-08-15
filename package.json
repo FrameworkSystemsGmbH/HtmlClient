@@ -1,6 +1,6 @@
 {
   "name": "htmlclient",
-  "version": "1.0.48",
+  "version": "1.0.49",
   "description": "Framework Studio HTML Client",
   "repository": "npm/npm",
   "private": true,
@@ -78,7 +78,7 @@
     "@typescript-eslint/eslint-plugin": "6.4.0",
     "@typescript-eslint/parser": "6.4.0",
     "bestzip": "2.2.1",
-    "capacitor-plugin-webview-cache": "file:../WebViewCache",
+    "capacitor-plugin-webview-cache": "2.0.0",
     "del-cli": "5.0.0",
     "eslint": "8.47.0",
     "jasmine-core": "5.1.0",
