@@ -18,7 +18,7 @@ export class VariantWrapper extends ContainerWrapper {
 
   public getTitle(): string | null {
     const title: string | undefined = this.getPropertyStore().getTitle();
-    return title != null ? title : null;
+    return title ?? null;
   }
 
   public setTitle(title: string): void {
@@ -27,16 +27,16 @@ export class VariantWrapper extends ContainerWrapper {
 
   public getIsCloseIconVisible(): boolean {
     const isCloseIconVisible: boolean | undefined = this.getPropertyStore().getIsCloseIconVisible();
-    return isCloseIconVisible != null ? isCloseIconVisible : false;
+    return isCloseIconVisible ?? false;
   }
 
   public getHideModalHeader(): boolean {
     const hideModalHeader: boolean | undefined = this.getPropertyStore().getHideModalHeader();
-    return hideModalHeader != null ? hideModalHeader : false;
+    return hideModalHeader ?? false;
   }
 
   public isCloseEventAttached(): boolean {
-    return (this.getEvents() & ClientEventType.OnClose) === ClientEventType.OnClose;
+    return (this.getEvents() & ClientEventType.OnClose) === ClientEventType.OnClose.valueOf();
   }
 
   public getBadgeImageSrc(): string | null {

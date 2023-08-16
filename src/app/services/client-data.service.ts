@@ -75,6 +75,6 @@ export class ClientDataService {
   }
 
   public getDeviceUuid(): Observable<string> {
-    return from(Device.getId()).pipe(map(info => info.uuid));
+    return from(Device.getId()).pipe(map(info => info.identifier));
   }
 }

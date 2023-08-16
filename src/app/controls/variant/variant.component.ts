@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
@@ -5,9 +6,13 @@ import * as StyleUtil from '@app/util/style-util';
 import { VariantWrapper } from '@app/wrappers/variant-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-variant',
   templateUrl: './variant.component.html',
-  styleUrls: ['./variant.component.scss']
+  styleUrls: ['./variant.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class VariantComponent extends ContainerComponent {
 

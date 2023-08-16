@@ -36,7 +36,7 @@ import * as RxJsUtil from '@app/util/rxjs-util';
 import { Store } from '@ngrx/store';
 import { WebViewCache } from 'capacitor-plugin-webview-cache';
 import * as Moment from 'moment-timezone';
-import { Observable, of as obsOf, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, of as obsOf } from 'rxjs';
 import { concatMap, map, mergeMap, retryWhen, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
@@ -193,7 +193,7 @@ export class BrokerService {
       }
 
       this._activeLoginBroker = broker;
-      this._activeLoginOptions = options != null ? options : null;
+      this._activeLoginOptions = options ?? null;
       this._activeBrokerDirect = direct;
 
       const name = broker.name;
@@ -312,7 +312,7 @@ export class BrokerService {
         const message: string = error && error.status === 0 ? 'Request could not be sent because of a network error!' : error.message;
         const stackTrace = error && error.stack ? error.stack : null;
 
-        this._dialogService.showRetryBoxBox({
+        this._dialogService.showRetryBox({
           title,
           message,
           stackTrace
@@ -560,7 +560,7 @@ export class BrokerService {
 
       return RxJsUtil.voidObs().pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
-        mergeMap(() => this._dialogService.showMsgBoxBox({
+        mergeMap(() => this._dialogService.showMsgBox({
           title: this._title,
           message: msgBoxJson.message,
           icon: msgBoxJson.icon,
@@ -603,7 +603,7 @@ export class BrokerService {
 
       return RxJsUtil.voidObs().pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
-        mergeMap(() => this._dialogService.showMsgBoxBox({
+        mergeMap(() => this._dialogService.showMsgBox({
           title: this._title,
           message: msg,
           icon: msgBoxIcon,
@@ -643,7 +643,7 @@ export class BrokerService {
     } else if (type === 'Close' && partsStr.trim().length > 0) {
       return RxJsUtil.voidObs().pipe(
         tap(() => this._loaderService.fireLoadingChanged(false)),
-        mergeMap(() => this._dialogService.showMsgBoxBox({
+        mergeMap(() => this._dialogService.showMsgBox({
           title: this._title,
           message: partsStr,
           icon: MsgBoxIcon.Exclamation,
@@ -661,7 +661,7 @@ export class BrokerService {
   private restartApplication(): void {
     if (this._activeLoginBroker != null) {
       const broker: LoginBroker = this._activeLoginBroker;
-      const options: LoginOptions | undefined = this._activeLoginOptions != null ? this._activeLoginOptions : undefined;
+      const options: LoginOptions | undefined = this._activeLoginOptions ?? undefined;
       const direct: boolean = this._activeBrokerDirect;
       const token: string = this._activeBrokerToken;
 

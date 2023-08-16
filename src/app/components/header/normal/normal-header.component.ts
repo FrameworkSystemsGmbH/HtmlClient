@@ -1,5 +1,7 @@
-import { AfterViewChecked, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
+import { MediaQueryDirective } from '@app/directives/media-query.directive';
 import { EventsService } from '@app/services/events.service';
 import { FormsService } from '@app/services/forms.service';
 import { PlatformService } from '@app/services/platform.service';
@@ -10,34 +12,31 @@ import { selectSidebarVisible, selectTitle } from '@app/store/runtime/runtime.se
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
-import { faAngleLeft, faAngleRight, faBars, faSignOutAlt, faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faBars, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-ngx';
+import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-normal-header',
   templateUrl: './normal-header.component.html',
-  styleUrls: ['./normal-header.component.scss']
+  styleUrls: ['./normal-header.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    MediaQueryDirective,
+    OverlayscrollbarsModule
+  ]
 })
-export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecked {
-
-  @ViewChild('scroller', { static: false })
-  public scroller: OverlayScrollbarsComponent | null = null;
-
-  @ViewChild('arrowLeft', { static: false })
-  public arrowLeft: ElementRef<HTMLDivElement> | null = null;
-
-  @ViewChild('arrowRight', { static: false })
-  public arrowRight: ElementRef<HTMLDivElement> | null = null;
+export class NormalHeaderComponent implements OnInit, OnDestroy {
 
   @ViewChild('tabs', { static: false })
   public tabs: ElementRef<HTMLDivElement> | null = null;
 
   public iconBars: IconDefinition = faBars;
   public iconTimes: IconDefinition = faTimes;
-  public iconAngleLeft: IconDefinition = faAngleLeft;
-  public iconAngleRight: IconDefinition = faAngleRight;
   public iconSignOut: IconDefinition = faSignOutAlt;
 
   public forms: Array<FormWrapper> | null = null;
@@ -51,17 +50,11 @@ export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecke
 
   public scrollerOptions: any;
 
-  private readonly _zone: NgZone;
-  private readonly _renderer: Renderer2;
   private readonly _eventsService: EventsService;
   private readonly _formsService: FormsService;
   private readonly _platformService: PlatformService;
   private readonly _store: Store<IAppState>;
 
-  private readonly _visibleClass: string = 'arrowVisible';
-
-  private readonly _scrollDelta: number = 100;
-  private readonly _scrollAnimationTime: number = 250;
   private readonly _scrollAutoHideDelay: number = 500;
 
   private _sidebarVisible: boolean = false;
@@ -72,26 +65,18 @@ export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecke
   private _formsSub: Subscription | null = null;
   private _selectedFormSub: Subscription | null = null;
 
-  private _scrollLeftInterval: any;
-  private _scrollRightInterval: any;
-
   public constructor(
-    zone: NgZone,
-    renderer: Renderer2,
     eventsService: EventsService,
     formsService: FormsService,
     platformService: PlatformService,
     store: Store<IAppState>
   ) {
-    this._zone = zone;
-    this._renderer = renderer;
     this._eventsService = eventsService;
     this._formsService = formsService;
     this._platformService = platformService;
     this._store = store;
 
     this.scrollerOptions = {
-      className: 'os-thin',
       paddingAbsolute: true,
       overflowBehavior: {
         x: 'scroll',
@@ -100,56 +85,8 @@ export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecke
       scrollbars: {
         autoHide: 'scroll',
         autoHideDelay: this._scrollAutoHideDelay
-      },
-      callbacks: {
-        onScroll: this.refreshScroller.bind(this),
-        onOverflowChanged: this.refreshScroller.bind(this),
-        onOverflowAmountChanged: this.refreshScroller.bind(this)
       }
     };
-  }
-
-  @HostListener('window:resize')
-  public refreshScroller(): void {
-    this._zone.runOutsideAngular(() => {
-      if (this.scroller == null) {
-        return;
-      }
-
-      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
-
-      if (osInstance == null) {
-        return;
-      }
-
-      if (!this.arrowLeft || !this.arrowRight) {
-        return;
-      }
-
-      const overflow: number = osInstance.getState().overflowAmount.x;
-
-      if (overflow > 0) {
-        const scrollPos: number = osInstance.getElements().viewport.scrollLeft;
-
-        if (scrollPos === 0) {
-          this.stopScrollingLeft();
-          this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
-          this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
-        } else if (scrollPos >= overflow) {
-          this.stopScrollingRight();
-          this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
-          this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
-        } else {
-          this._renderer.addClass(this.arrowLeft.nativeElement, this._visibleClass);
-          this._renderer.addClass(this.arrowRight.nativeElement, this._visibleClass);
-        }
-      } else {
-        this.stopScrollingLeft();
-        this.stopScrollingRight();
-        this._renderer.removeClass(this.arrowLeft.nativeElement, this._visibleClass);
-        this._renderer.removeClass(this.arrowRight.nativeElement, this._visibleClass);
-      }
-    });
   }
 
   public ngOnInit(): void {
@@ -175,10 +112,6 @@ export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecke
     this.headerSideOverlayStyle = this.createheaderSideOverlayStyle();
 
     this.scrollerOptions = this.createScrollOptions();
-  }
-
-  public ngAfterViewChecked(): void {
-    this.refreshScroller();
   }
 
   public ngOnDestroy(): void {
@@ -280,59 +213,16 @@ export class NormalHeaderComponent implements OnInit, OnDestroy, AfterViewChecke
 
   public scrollIntoView(): void {
     setTimeout(() => {
-      if (this.scroller != null && this.tabs != null) {
-        const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
+      if (this.tabs != null) {
         const selectedTab: HTMLLIElement | null = this.tabs.nativeElement.querySelector('div.active');
-        if (osInstance && selectedTab) {
-          osInstance.scroll({ el: selectedTab, scroll: 'ifneeded', block: 'center' }, this._scrollAnimationTime);
+        if (selectedTab) {
+          selectedTab.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center'
+          });
         }
       }
     });
-  }
-
-  public startScrollingLeft(event: any): void {
-    if (event.button === 0) {
-      const value: string = `-= ${this._scrollDelta}px`;
-      this.scrollHorizontal(value);
-      this._scrollLeftInterval = setInterval(() => {
-        this.scrollHorizontal(value);
-      }, this._scrollAnimationTime);
-    }
-  }
-
-  public stopScrollingLeft(): void {
-    clearInterval(this._scrollLeftInterval);
-  }
-
-  public startScrollingRight(event: any): void {
-    if (event.button === 0) {
-      const value: string = `+= ${this._scrollDelta}px`;
-      this.scrollHorizontal(value);
-      this._scrollRightInterval = setInterval(() => {
-        this.scrollHorizontal(value);
-      }, this._scrollAnimationTime);
-    }
-  }
-
-  public stopScrollingRight(): void {
-    clearInterval(this._scrollRightInterval);
-  }
-
-  protected scrollHorizontal(value: string): void {
-    if (this.scroller != null) {
-      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
-      if (osInstance != null) {
-        osInstance.scroll({ x: value }, this._scrollAnimationTime);
-      }
-    }
-  }
-
-  protected scrollVertical(value: string): void {
-    if (this.scroller != null) {
-      const osInstance: OverlayScrollbars | null = this.scroller.osInstance();
-      if (osInstance != null) {
-        osInstance.scroll({ y: value }, this._scrollAnimationTime);
-      }
-    }
   }
 }

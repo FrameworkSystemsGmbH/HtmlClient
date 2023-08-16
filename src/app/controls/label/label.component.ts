@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
@@ -5,9 +6,13 @@ import * as StyleUtil from '@app/util/style-util';
 import { LabelWrapper } from '@app/wrappers/label-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-lbl',
   templateUrl: './label.component.html',
-  styleUrls: ['./label.component.scss']
+  styleUrls: ['./label.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class LabelComponent extends ControlComponent {
 

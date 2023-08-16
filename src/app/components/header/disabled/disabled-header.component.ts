@@ -1,19 +1,28 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
+import { MediaQueryDirective } from '@app/directives/media-query.directive';
 import { EventsService } from '@app/services/events.service';
 import { FormsService } from '@app/services/forms.service';
 import { IAppState } from '@app/store/app.state';
 import { selectBrokerDirect } from '@app/store/broker/broker.selectors';
 import { selectTitle } from '@app/store/runtime/runtime.selectors';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
-import { faSignOutAlt, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-disabled-header',
   templateUrl: './disabled-header.component.html',
-  styleUrls: ['./disabled-header.component.scss']
+  styleUrls: ['./disabled-header.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    MediaQueryDirective
+  ]
 })
 export class DisabledHeaderComponent implements OnInit, OnDestroy {
 

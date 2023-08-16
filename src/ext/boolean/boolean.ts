@@ -1,9 +1,9 @@
 Boolean.trueIfNull = function (value: boolean | null | undefined): boolean {
-  return value == null ? true : value;
+  return value ?? true;
 };
 
 Boolean.falseIfNull = function (value: boolean | null | undefined): boolean {
-  return value == null ? false : value;
+  return value ?? false;
 };
 
 Boolean.nullIfTrue = function (value: boolean): boolean | null {

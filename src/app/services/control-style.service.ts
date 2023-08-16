@@ -12,12 +12,12 @@ export class ControlStyleService {
 
   public getControlStyle(key: string): PropertyData | null {
     const data: PropertyData | undefined = this._controlStyles.get(key);
-    return data != null ? data : null;
+    return data ?? null;
   }
 
   public getBaseControlStyle(): PropertyData | null {
     const data: PropertyData | undefined = this._controlStyles.get('BaseControl');
-    return data != null ? data : null;
+    return data ?? null;
   }
 
   public saveState(): Array<any> {

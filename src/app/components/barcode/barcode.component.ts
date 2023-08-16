@@ -7,6 +7,7 @@ import { BarcodeScanner, CameraDirection, SupportedFormat } from '@capacitor-com
 import { from, Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-barcode',
   templateUrl: './barcode.component.html',
   styleUrls: ['./barcode.component.scss']
@@ -71,55 +72,55 @@ export class BarcodeComponent implements OnInit, OnDestroy {
   private getSupportedFormats(format: BarcodeFormat): Array<SupportedFormat> {
     const formats: Array<SupportedFormat> = new Array<SupportedFormat>();
 
-    if ((format & BarcodeFormat.AZTEC) === BarcodeFormat.AZTEC) {
+    if ((format & BarcodeFormat.AZTEC) === BarcodeFormat.AZTEC.valueOf()) {
       formats.push(SupportedFormat.AZTEC);
     }
 
-    if ((format & BarcodeFormat.CODABAR) === BarcodeFormat.CODABAR) {
+    if ((format & BarcodeFormat.CODABAR) === BarcodeFormat.CODABAR.valueOf()) {
       formats.push(SupportedFormat.CODABAR);
     }
 
-    if ((format & BarcodeFormat.CODE_128) === BarcodeFormat.CODE_128) {
+    if ((format & BarcodeFormat.CODE_128) === BarcodeFormat.CODE_128.valueOf()) {
       formats.push(SupportedFormat.CODE_128);
     }
 
-    if ((format & BarcodeFormat.CODE_39) === BarcodeFormat.CODE_39) {
+    if ((format & BarcodeFormat.CODE_39) === BarcodeFormat.CODE_39.valueOf()) {
       formats.push(SupportedFormat.CODE_39);
     }
 
-    if ((format & BarcodeFormat.CODE_93) === BarcodeFormat.CODE_93) {
+    if ((format & BarcodeFormat.CODE_93) === BarcodeFormat.CODE_93.valueOf()) {
       formats.push(SupportedFormat.CODE_93);
     }
 
-    if ((format & BarcodeFormat.DATA_MATRIX) === BarcodeFormat.DATA_MATRIX) {
+    if ((format & BarcodeFormat.DATA_MATRIX) === BarcodeFormat.DATA_MATRIX.valueOf()) {
       formats.push(SupportedFormat.DATA_MATRIX);
     }
 
-    if ((format & BarcodeFormat.EAN_13) === BarcodeFormat.EAN_13) {
+    if ((format & BarcodeFormat.EAN_13) === BarcodeFormat.EAN_13.valueOf()) {
       formats.push(SupportedFormat.EAN_13);
     }
 
-    if ((format & BarcodeFormat.EAN_8) === BarcodeFormat.EAN_8) {
+    if ((format & BarcodeFormat.EAN_8) === BarcodeFormat.EAN_8.valueOf()) {
       formats.push(SupportedFormat.EAN_8);
     }
 
-    if ((format & BarcodeFormat.ITF) === BarcodeFormat.ITF) {
+    if ((format & BarcodeFormat.ITF) === BarcodeFormat.ITF.valueOf()) {
       formats.push(SupportedFormat.ITF);
     }
 
-    if ((format & BarcodeFormat.PDF_417) === BarcodeFormat.PDF_417) {
+    if ((format & BarcodeFormat.PDF_417) === BarcodeFormat.PDF_417.valueOf()) {
       formats.push(SupportedFormat.PDF_417);
     }
 
-    if ((format & BarcodeFormat.QR_CODE) === BarcodeFormat.QR_CODE) {
+    if ((format & BarcodeFormat.QR_CODE) === BarcodeFormat.QR_CODE.valueOf()) {
       formats.push(SupportedFormat.QR_CODE);
     }
 
-    if ((format & BarcodeFormat.UPC_A) === BarcodeFormat.UPC_A) {
+    if ((format & BarcodeFormat.UPC_A) === BarcodeFormat.UPC_A.valueOf()) {
       formats.push(SupportedFormat.UPC_A);
     }
 
-    if ((format & BarcodeFormat.UPC_E) === BarcodeFormat.UPC_E) {
+    if ((format & BarcodeFormat.UPC_E) === BarcodeFormat.UPC_E.valueOf()) {
       formats.push(SupportedFormat.UPC_E);
     }
 

@@ -1,6 +1,9 @@
+import { A11yModule } from '@angular/cdk/a11y';
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DataList } from '@app/common/data-list';
+import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BackService } from '@app/services/back-service';
 import * as DomUtil from '@app/util/dom-util';
@@ -8,9 +11,15 @@ import * as KeyUtil from '@app/util/key-util';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-cmb-list-mobile-overlay',
   templateUrl: './combobox-list-mobile-overlay.component.html',
-  styleUrls: ['./combobox-list-mobile-overlay.component.scss']
+  styleUrls: ['./combobox-list-mobile-overlay.component.scss'],
+  imports: [
+    A11yModule,
+    CommonModule,
+    DialogResizeDirective
+  ]
 })
 export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
 

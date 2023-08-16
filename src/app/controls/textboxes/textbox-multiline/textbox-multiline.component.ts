@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { ScrollBars } from '@app/enums/scrollbars';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
@@ -6,9 +8,14 @@ import * as StyleUtil from '@app/util/style-util';
 import { TextBoxMultilineWrapper } from '@app/wrappers/textbox-multiline-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-txt-multiline',
   templateUrl: './textbox-multiline.component.html',
-  styleUrls: ['./textbox-multiline.component.scss']
+  styleUrls: ['./textbox-multiline.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class TextBoxMultilineComponent extends TextBoxComponent {
 

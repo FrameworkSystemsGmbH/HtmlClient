@@ -1,14 +1,27 @@
+import { A11yModule } from '@angular/cdk/a11y';
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IErrorBoxData } from '@app/components/errorbox/errorbox-data.interface';
+import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BackService } from '@app/services/back-service';
-import { faExclamationCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
+  standalone: true,
   selector: 'hc-errorbox',
   templateUrl: './errorbox.component.html',
-  styleUrls: ['./errorbox.component.scss']
+  styleUrls: ['./errorbox.component.scss'],
+  imports: [
+    A11yModule,
+    CommonModule,
+    DialogResizeDirective,
+    FontAwesomeModule,
+    MatButtonModule
+  ]
 })
 export class ErrorBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 

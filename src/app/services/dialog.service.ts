@@ -20,8 +20,16 @@ export class DialogService {
     this._dialog = dialog;
   }
 
+  public showErrorBoxForError(error: Error): Observable<void> {
+    return this.showErrorBox({
+      title: error.name,
+      message: error.message,
+      stackTrace: error.stack
+    });
+  }
+
   public showErrorBox(data: IErrorBoxData): Observable<void> {
-    const dialogRef: MatDialogRef<ErrorBoxComponent> = this._dialog.open(ErrorBoxComponent, {
+    const dialogRef: MatDialogRef<ErrorBoxComponent, void> = this._dialog.open(ErrorBoxComponent, {
       backdropClass: 'hc-backdrop',
       minWidth: 300,
       maxWidth: '90%',
@@ -33,8 +41,8 @@ export class DialogService {
     return dialogRef.afterClosed();
   }
 
-  public showMsgBoxBox(data: IMsgBoxData): Observable<MsgBoxResult> {
-    const msgBoxRef: MatDialogRef<MsgBoxComponent> = this._dialog.open(MsgBoxComponent, {
+  public showMsgBox(data: IMsgBoxData): Observable<MsgBoxResult> {
+    const msgBoxRef: MatDialogRef<MsgBoxComponent, MsgBoxResult> = this._dialog.open(MsgBoxComponent, {
       backdropClass: 'hc-backdrop',
       minWidth: 300,
       maxWidth: '90%',
@@ -48,8 +56,8 @@ export class DialogService {
     );
   }
 
-  public showRetryBoxBox(data: IRetryBoxData): Observable<RetryBoxResult> {
-    const retryBoxRef: MatDialogRef<RetryBoxComponent> = this._dialog.open(RetryBoxComponent, {
+  public showRetryBox(data: IRetryBoxData): Observable<RetryBoxResult> {
+    const retryBoxRef: MatDialogRef<RetryBoxComponent, RetryBoxResult> = this._dialog.open(RetryBoxComponent, {
       backdropClass: 'hc-backdrop',
       minWidth: 300,
       maxWidth: '90%',

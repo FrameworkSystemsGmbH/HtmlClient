@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
@@ -5,9 +6,13 @@ import * as StyleUtil from '@app/util/style-util';
 import { DockPanelWrapper } from '@app/wrappers/dock-panel-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-dock-panel',
   templateUrl: './dock-panel.component.html',
-  styleUrls: ['./dock-panel.component.scss']
+  styleUrls: ['./dock-panel.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class DockPanelComponent extends ContainerComponent {
 

@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ControlComponent } from '@app/controls/control.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
 import * as DomUtil from '@app/util/dom-util';
@@ -8,9 +10,14 @@ import { CheckBoxWrapper } from '@app/wrappers/checkbox-wrapper';
 import { RadioButtonWrapper } from '@app/wrappers/radio-button-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-radio',
   templateUrl: './radio-button.component.html',
-  styleUrls: ['./radio-button.component.scss']
+  styleUrls: ['./radio-button.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class RadioButtonComponent extends ControlComponent {
 
@@ -80,7 +87,7 @@ export class RadioButtonComponent extends ControlComponent {
     this.tabIndexAttr = this.isEditable && wrapper.getTabStop() ? null : -1;
 
     const groupNameVal: string | null = wrapper.getButtonGroupName();
-    this.groupName = groupNameVal != null ? groupNameVal : String.empty();
+    this.groupName = groupNameVal ?? String.empty();
   }
 
   protected updateStyles(wrapper: CheckBoxWrapper): void {

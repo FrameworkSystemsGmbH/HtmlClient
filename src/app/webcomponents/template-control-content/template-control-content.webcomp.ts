@@ -23,7 +23,7 @@ export class TemplateControlContentWebComp extends HTMLElement {
 
     if (values.length > 0) {
       values.forEach((value, index) => {
-        newContent = newContent.replaceAll(`{{${index}}}`, value != null ? value : String.empty());
+        newContent = newContent.replaceAll(`{{${index}}}`, value ?? String.empty());
       });
     }
 

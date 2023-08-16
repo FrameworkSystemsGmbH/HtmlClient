@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
@@ -5,9 +6,13 @@ import * as StyleUtil from '@app/util/style-util';
 import { WrapPanelWrapper } from '@app/wrappers/wrap-panel-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-wrp-panel',
   templateUrl: './wrap-panel.component.html',
-  styleUrls: ['./wrap-panel.component.scss']
+  styleUrls: ['./wrap-panel.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class WrapPanelComponent extends ContainerComponent {
 

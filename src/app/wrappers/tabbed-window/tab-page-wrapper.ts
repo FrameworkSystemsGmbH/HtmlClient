@@ -13,12 +13,12 @@ export class TabPageWrapper extends ContainerWrapper implements ILayoutableConta
 
   public getActiveImage(): string | null {
     const activeImage: string | undefined = this.getPropertyStore().getActiveImage();
-    return activeImage != null ? activeImage : null;
+    return activeImage ?? null;
   }
 
   public getInactiveImage(): string | null {
     const inactiveImage: string | undefined = this.getPropertyStore().getInactiveImage();
-    return inactiveImage != null ? inactiveImage : null;
+    return inactiveImage ?? null;
   }
 
   public isTabSelected(): boolean {

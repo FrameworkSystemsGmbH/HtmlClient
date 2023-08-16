@@ -1,11 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { PlatformService } from '@app/services/platform.service';
 import * as StyleUtil from '@app/util/style-util';
 
 @Component({
+  standalone: true,
   selector: 'hc-selector',
   templateUrl: './selector.component.html',
-  styleUrls: ['./selector.component.scss']
+  styleUrls: ['./selector.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class SelectorComponent implements OnInit {
 

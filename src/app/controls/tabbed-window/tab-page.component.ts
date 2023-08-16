@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
@@ -5,9 +6,13 @@ import * as StyleUtil from '@app/util/style-util';
 import { TabPageWrapper } from '@app/wrappers/tabbed-window/tab-page-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-tab-page',
   templateUrl: './tab-page.component.html',
-  styleUrls: ['./tab-page.component.scss']
+  styleUrls: ['./tab-page.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class TabPageComponent extends ContainerComponent implements OnInit {
 

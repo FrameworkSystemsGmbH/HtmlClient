@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
 import { ParseMethod } from '@app/enums/parse-method';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
@@ -9,9 +10,16 @@ import { TemplateControlContentWebComp } from '@app/webcomponents/template-contr
 import { TemplateControlWrapper } from '@app/wrappers/template-control-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-template-control',
   templateUrl: './template-control.component.html',
-  styleUrls: ['./template-control.component.scss']
+  styleUrls: ['./template-control.component.scss'],
+  imports: [
+    CommonModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class TemplateControlComponent extends ControlComponent {
 

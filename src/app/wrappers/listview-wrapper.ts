@@ -79,17 +79,17 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
   public getListViewItemCssGlobal(): string | null {
     const globalCss: string | undefined = this.baseControlStyle.getListViewItemCssGlobal();
-    return globalCss != null ? globalCss : null;
+    return globalCss ?? null;
   }
 
   public getSelectionMode(): ListViewSelectionMode {
     const selectionMode: ListViewSelectionMode | undefined = this.getPropertyStore().getSelectionMode();
-    return selectionMode != null ? selectionMode : ListViewSelectionMode.None;
+    return selectionMode ?? ListViewSelectionMode.None;
   }
 
   public getSelectorPosition(): ListViewSelectorPosition {
     const selectorPosition: ListViewSelectorPosition | undefined = this.getPropertyStore().getSelectorPosition();
-    return selectorPosition != null ? selectorPosition : ListViewSelectorPosition.TopRight;
+    return selectorPosition ?? ListViewSelectorPosition.TopRight;
   }
 
   public getHeaderOptions(): IHeaderOptions {
@@ -110,7 +110,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
   public getItemArrangement(): ListViewItemArrangement {
     const itemArrangement: ListViewItemArrangement | undefined = this.getPropertyStore().getItemArrangement();
-    return itemArrangement != null ? itemArrangement : ListViewItemArrangement.List;
+    return itemArrangement ?? ListViewItemArrangement.List;
   }
 
   public getSpacingHorizontal(): number {
@@ -131,12 +131,12 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
   public getTemplateCss(): string | null {
     const templateCss: string | undefined = this.getPropertyStore().getTemplateCss();
-    return templateCss != null ? templateCss : null;
+    return templateCss ?? null;
   }
 
   public getTemplateHtml(): string | null {
     const templateHtml: string | undefined = this.getPropertyStore().getTemplateHtml();
-    return templateHtml != null ? templateHtml : null;
+    return templateHtml ?? null;
   }
 
   public getViewTemplateCss(): string | null {
@@ -251,7 +251,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
     if (propertiesJson.templateDataSourceList != null && propertiesJson.templateDataSourceList.length > 0) {
       const parsedDataSources: Array<ListViewTemplateDataSourceWrapper> | null = this.parseTemplateDataSourceList(propertiesJson.templateDataSourceList);
-      this._templateDataSources = parsedDataSources != null ? parsedDataSources : new Array<ListViewTemplateDataSourceWrapper>();
+      this._templateDataSources = parsedDataSources ?? new Array<ListViewTemplateDataSourceWrapper>();
     }
 
     this._templateCss = this.getTemplateCss();
@@ -340,7 +340,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
 
     for (const templateVar of this._templateVariables) {
       const valueStr: string | undefined = valueMap.get(templateVar.getDataSource().getName());
-      templateValues.push(new ListViewItemValueWrapper(valueStr != null ? valueStr : null, templateVar.getFormat(), templateVar.getFormatPattern()));
+      templateValues.push(new ListViewItemValueWrapper(valueStr ?? null, templateVar.getFormat(), templateVar.getFormatPattern()));
     }
 
     return templateValues;
@@ -478,7 +478,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   public hasOnItemSelectionChangedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnItemSelectionChanged) === ClientEventType.OnItemSelectionChanged;
+    return (this.getEvents() & ClientEventType.OnItemSelectionChanged) === ClientEventType.OnItemSelectionChanged.valueOf();
   }
 
   public callOnItemSelectionChanged(): void {
@@ -511,7 +511,7 @@ export class ListViewWrapper extends ControlWrapper implements IListViewLayoutCo
   }
 
   public hasOnItemActivatedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnItemActivated) === ClientEventType.OnItemActivated;
+    return (this.getEvents() & ClientEventType.OnItemActivated) === ClientEventType.OnItemActivated.valueOf();
   }
 
   public callOnItemActivated(itemId: string): void {

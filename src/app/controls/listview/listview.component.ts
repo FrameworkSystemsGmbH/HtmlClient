@@ -1,4 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
 import { ListViewItemArrangement } from '@app/enums/listview-item-arrangement';
@@ -10,12 +11,18 @@ import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 import { ListViewItemWrapper } from '@app/wrappers/listview-item-wrapper';
 import { IHeaderOptions, ListViewWrapper } from '@app/wrappers/listview-wrapper';
-import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
+  standalone: true,
   selector: 'hc-listview',
   templateUrl: './listview.component.html',
   styleUrls: ['./listview.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule
+  ],
   animations: [
     trigger('listwrapper', [
       transition(':enter', [])

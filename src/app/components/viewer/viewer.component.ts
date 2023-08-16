@@ -1,4 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BlockerComponent } from '@app/components/blocker/blocker.component';
+import { FrameComponent } from '@app/components/frame/frame.component';
+import { DisabledHeaderComponent } from '@app/components/header/disabled/disabled-header.component';
+import { ModalHeaderComponent } from '@app/components/header/modal/modal-header.component';
+import { NormalHeaderComponent } from '@app/components/header/normal/normal-header.component';
+import { SidebarComponent } from '@app/components/sidebar/sidebar.component';
 import { ViewerHeader } from '@app/components/viewer/viewer.header';
 import { FormsService } from '@app/services/forms.service';
 import { LoaderService } from '@app/services/loader.service';
@@ -8,9 +15,19 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-viewer',
   templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss']
+  styleUrls: ['./viewer.component.scss'],
+  imports: [
+    BlockerComponent,
+    CommonModule,
+    DisabledHeaderComponent,
+    FrameComponent,
+    ModalHeaderComponent,
+    NormalHeaderComponent,
+    SidebarComponent
+  ]
 })
 export class ViewerComponent implements OnInit, OnDestroy {
 

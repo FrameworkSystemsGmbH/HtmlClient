@@ -44,17 +44,17 @@ export class WrapPanelWrapper extends ContainerWrapperSpaceable implements IWrap
 
   public getWrapArrangement(): WrapArrangement {
     const wrapArrangement: WrapArrangement | undefined = this.getPropertyStore().getWrapArrangement();
-    return wrapArrangement != null ? wrapArrangement : WrapArrangement.Horizontal;
+    return wrapArrangement ?? WrapArrangement.Horizontal;
   }
 
   public getHorizontalContentAlignment(): HorizontalContentAlignment {
     const horizontalContentAlignment: HorizontalContentAlignment | undefined = this.getPropertyStore().getHorizontalContentAlignment();
-    return horizontalContentAlignment != null ? horizontalContentAlignment : HorizontalContentAlignment.Left;
+    return horizontalContentAlignment ?? HorizontalContentAlignment.Left;
   }
 
   public getVerticalContentAlignment(): VerticalContentAlignment {
     const verticalContentAlignment: VerticalContentAlignment | undefined = this.getPropertyStore().getVerticalContentAlignment();
-    return verticalContentAlignment != null ? verticalContentAlignment : VerticalContentAlignment.Top;
+    return verticalContentAlignment ?? VerticalContentAlignment.Top;
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<WrapPanelComponent> {

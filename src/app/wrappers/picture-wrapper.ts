@@ -43,7 +43,7 @@ export class PictureWrapper extends ControlWrapper {
 
   public getScaleMode(): PictureScaleMode {
     const scaleMode: PictureScaleMode | undefined = this.getPropertyStore().getScaleMode();
-    return scaleMode != null ? scaleMode : PictureScaleMode.Stretch;
+    return scaleMode ?? PictureScaleMode.Stretch;
   }
 
   public showCaption(): boolean {
@@ -52,7 +52,7 @@ export class PictureWrapper extends ControlWrapper {
 
   public getCaptionAlign(): ContentAlignment {
     const captionAlign: ContentAlignment | undefined = this.getPropertyStore().getCaptionAlign();
-    return captionAlign != null ? captionAlign : ContentAlignment.MiddleCenter;
+    return captionAlign ?? ContentAlignment.MiddleCenter;
   }
 
   public providesControlLabelWrapper(): boolean {
@@ -118,7 +118,7 @@ export class PictureWrapper extends ControlWrapper {
   }
 
   public hasOnClickEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick;
+    return (this.getEvents() & ClientEventType.OnClick) === ClientEventType.OnClick.valueOf();
   }
 
   protected getPicClickSubscription(args: ClientPictureClickEventArgs): () => void {

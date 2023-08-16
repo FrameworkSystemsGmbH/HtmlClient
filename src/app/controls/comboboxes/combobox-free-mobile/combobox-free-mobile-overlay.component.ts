@@ -1,6 +1,13 @@
+import { A11yModule } from '@angular/cdk/a11y';
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { DataList } from '@app/common/data-list';
+import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BackService } from '@app/services/back-service';
 import * as DomUtil from '@app/util/dom-util';
@@ -8,9 +15,19 @@ import * as KeyUtil from '@app/util/key-util';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-cmb-free-mobile-overlay',
   templateUrl: './combobox-free-mobile-overlay.component.html',
-  styleUrls: ['./combobox-free-mobile-overlay.component.scss']
+  styleUrls: ['./combobox-free-mobile-overlay.component.scss'],
+  imports: [
+    A11yModule,
+    CommonModule,
+    DialogResizeDirective,
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
+  ]
 })
 export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
 

@@ -1,4 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsService } from '@app/services/forms.service';
 import { PlatformService } from '@app/services/platform.service';
@@ -8,14 +9,20 @@ import { selectSidebarVisible, selectTitle } from '@app/store/runtime/runtime.se
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
-import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'hc-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule
+  ],
   animations: [
     trigger('sidebar', [
       transition('void => *', [

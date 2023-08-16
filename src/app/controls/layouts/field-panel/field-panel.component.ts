@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
@@ -5,9 +6,13 @@ import * as StyleUtil from '@app/util/style-util';
 import { FieldPanelWrapper } from '@app/wrappers/field-panel-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-field-panel',
   templateUrl: './field-panel.component.html',
-  styleUrls: ['./field-panel.component.scss']
+  styleUrls: ['./field-panel.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class FieldPanelComponent extends ContainerComponent {
 

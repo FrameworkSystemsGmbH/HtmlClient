@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { TextFormat } from '@app/enums/text-format';
 import { FocusService } from '@app/services/focus.service';
@@ -6,9 +8,14 @@ import { StringFormatService } from '@app/services/formatter/string-format.servi
 import { TextBoxPlainWrapper } from '@app/wrappers/textbox-plain-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-txt-plain',
   templateUrl: './textbox-plain.component.html',
-  styleUrls: ['./textbox-plain.component.scss']
+  styleUrls: ['./textbox-plain.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class TextBoxPlainComponent extends TextBoxComponent {
 

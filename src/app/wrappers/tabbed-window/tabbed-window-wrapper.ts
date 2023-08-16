@@ -48,17 +48,17 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
 
   public getTabAlignment(): TabAlignment {
     const alignment: TabAlignment | undefined = this.getPropertyStore().getTabAlignment();
-    return alignment != null ? alignment : TabAlignment.Top;
+    return alignment ?? TabAlignment.Top;
   }
 
   public getActiveImage(): string | null {
     const activeImage: string | undefined = this.getPropertyStore().getActiveImage();
-    return activeImage != null ? activeImage : null;
+    return activeImage ?? null;
   }
 
   public getInactiveImage(): string | null {
     const inactiveImage: string | undefined = this.getPropertyStore().getInactiveImage();
-    return inactiveImage != null ? inactiveImage : null;
+    return inactiveImage ?? null;
   }
 
   public isTabSelected(tabPage: TabPageWrapper): boolean {
@@ -218,7 +218,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public hasOnSelectedTabPageChangeEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnSelectedTabPageChange) === ClientEventType.OnSelectedTabPageChange;
+    return (this.getEvents() & ClientEventType.OnSelectedTabPageChange) === ClientEventType.OnSelectedTabPageChange.valueOf();
   }
 
   protected getOnSelectedTabPageChangeSubscription(tabPage: TabPageWrapper): () => void {
@@ -256,7 +256,7 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
   }
 
   public hasOnSelectedTabPageChangedEvent(): boolean {
-    return (this.getEvents() & ClientEventType.OnSelectedTabPageChanged) === ClientEventType.OnSelectedTabPageChanged;
+    return (this.getEvents() & ClientEventType.OnSelectedTabPageChanged) === ClientEventType.OnSelectedTabPageChanged.valueOf();
   }
 
   protected getOnSelectedTabPageChangedSubscription(tabPage: TabPageWrapper): () => void {

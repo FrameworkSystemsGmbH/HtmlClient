@@ -20,7 +20,7 @@ export class TextBoxMultilineWrapper extends TextBoxBaseWrapper {
 
   public getScrollBars(): ScrollBars {
     const scrollBars: ScrollBars | undefined = this.getPropertyStore().getScrollBars();
-    return scrollBars != null ? scrollBars : ScrollBars.None;
+    return scrollBars ?? ScrollBars.None;
   }
 
   public getWordWrap(): boolean {
@@ -40,11 +40,11 @@ export class TextBoxMultilineWrapper extends TextBoxBaseWrapper {
   }
 
   protected getValueJson(): string {
-    return this.value == null ? String.empty() : this.value;
+    return this.value ?? String.empty();
   }
 
   protected setValueJson(value: string | null): void {
-    const val: string = value != null ? value : String.empty();
+    const val: string = value ?? String.empty();
     this.orgValue = val;
     this.setValue(val);
   }

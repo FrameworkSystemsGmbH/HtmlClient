@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { LayoutableComponent } from '@app/controls/layoutable.component';
 import { Visibility } from '@app/enums/visibility';
@@ -6,9 +7,13 @@ import * as StyleUtil from '@app/util/style-util';
 import { ControlLabelContainerBaseWrapper } from '@app/wrappers/control-labels/control-label-container-base-wrapper';
 
 @Component({
+  standalone: true,
   selector: 'hc-ctrl-lbl-cont',
   templateUrl: './control-label-container.component.html',
-  styleUrls: ['./control-label-container.component.scss']
+  styleUrls: ['./control-label-container.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class ControlLabelContainerComponent extends LayoutableComponent {
 
