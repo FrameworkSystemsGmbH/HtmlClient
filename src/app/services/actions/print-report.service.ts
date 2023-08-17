@@ -14,8 +14,10 @@ export class PrintReportService {
   public constructor(store: Store<IAppState>) {
     this._store = store;
 
-    this._store.select(selectBrokerReportUrl).subscribe(reportUrl => {
-      this._reportUrl = reportUrl;
+    this._store.select(selectBrokerReportUrl).subscribe({
+      next: reportUrl => {
+        this._reportUrl = reportUrl;
+      }
     });
   }
 

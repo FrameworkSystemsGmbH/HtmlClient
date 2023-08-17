@@ -682,22 +682,21 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
 
   protected attachEvents(instance: ControlComponent): void {
     if (this.hasOnEnterEvent()) {
-      this._ctrlEnterSub = instance.ctrlEnter.subscribe(() => this.getCtrlEnterSubscription()());
+      this._ctrlEnterSub = instance.ctrlEnter.subscribe({
+        next: () => this.getCtrlEnterSubscription()()
+      });
     }
 
     if (this.hasOnLeaveEvent()) {
-      this._ctrlLeaveSub = instance.ctrlLeave.subscribe(() => this.getCtrlLeaveSubscription()());
+      this._ctrlLeaveSub = instance.ctrlLeave.subscribe({
+        next: () => this.getCtrlLeaveSubscription()()
+      });
     }
   }
 
   protected detachEvents(): void {
-    if (this._ctrlEnterSub) {
-      this._ctrlEnterSub.unsubscribe();
-    }
-
-    if (this._ctrlLeaveSub) {
-      this._ctrlLeaveSub.unsubscribe();
-    }
+    this._ctrlEnterSub?.unsubscribe();
+    this._ctrlLeaveSub?.unsubscribe();
   }
 
   public hasOnEnterEvent(): boolean {

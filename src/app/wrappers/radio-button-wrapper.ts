@@ -102,26 +102,25 @@ export class RadioButtonWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnClickEvent()) {
-      this._radioClickSub = instance.radioClick.subscribe(() => this.getRadioClickSubscription()());
+      this._radioClickSub = instance.radioClick.subscribe({
+        next: () => this.getRadioClickSubscription()()
+      });
     }
 
     const buttonGroup: ButtonGroup | null = this.getButtonGroup();
 
     if (buttonGroup != null) {
-      this._onValueChangedSub = buttonGroup.onValueChanged().subscribe(value => this.onButtonGroupValueChanged(value));
+      this._onValueChangedSub = buttonGroup.onValueChanged().subscribe({
+        next: value => this.onButtonGroupValueChanged(value)
+      });
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this._radioClickSub) {
-      this._radioClickSub.unsubscribe();
-    }
-
-    if (this._onValueChangedSub) {
-      this._onValueChangedSub.unsubscribe();
-    }
+    this._radioClickSub?.unsubscribe();
+    this._onValueChangedSub?.unsubscribe();
   }
 
   public hasOnClickEvent(): boolean {

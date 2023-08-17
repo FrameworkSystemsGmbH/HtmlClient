@@ -34,8 +34,10 @@ export class CameraService {
     this._eventsService = eventsService;
     this._platformService = platformService;
 
-    this._store.select(selectBrokerName).subscribe(brokerName => {
-      this._brokerName = brokerName ?? null;
+    this._store.select(selectBrokerName).subscribe({
+      next: brokerName => {
+        this._brokerName = brokerName ?? null;
+      }
     });
   }
 

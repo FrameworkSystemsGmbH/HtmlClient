@@ -122,16 +122,20 @@ export class BrokerService {
   }
 
   private subscribeToTitle(): Subscription {
-    return this._store.select(selectTitle).subscribe((title: string) => {
-      this._title = title;
+    return this._store.select(selectTitle).subscribe({
+      next: (title: string) => {
+        this._title = title;
+      }
     });
   }
 
   private subscribeToBrokerState(): Subscription {
-    return this._store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
-      this._activeBrokerName = brokerState.activeBrokerName;
-      this._activeBrokerToken = brokerState.activeBrokerToken;
-      this._activeBrokerRequestUrl = brokerState.activeBrokerRequestUrl;
+    return this._store.select(selectBrokerState).subscribe({
+      next: (brokerState: IBrokerState) => {
+        this._activeBrokerName = brokerState.activeBrokerName;
+        this._activeBrokerToken = brokerState.activeBrokerToken;
+        this._activeBrokerRequestUrl = brokerState.activeBrokerRequestUrl;
+      }
     });
   }
 
@@ -316,13 +320,17 @@ export class BrokerService {
           title,
           message,
           stackTrace
-        }).subscribe(result => {
-          if (result === RetryBoxResult.Retry) {
-            sub.next();
-          } else {
-            this.closeApplication();
-          }
-        }, err => sub.error(err), () => sub.complete());
+        }).subscribe({
+          next: result => {
+            if (result === RetryBoxResult.Retry) {
+              sub.next();
+            } else {
+              this.closeApplication();
+            }
+          },
+          error: err => sub.error(err),
+          complete: () => sub.complete()
+        });
       } catch (err: unknown) {
         sub.error(err);
       }

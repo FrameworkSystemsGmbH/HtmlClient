@@ -56,16 +56,16 @@ export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements A
 
   public ngAfterViewInit(): void {
     if (this.input != null) {
-      this._keyDownSub = fromEvent<KeyboardEvent>(this.input.nativeElement, 'keydown').subscribe(event => this.onKeyDown(event));
+      this._keyDownSub = fromEvent<KeyboardEvent>(this.input.nativeElement, 'keydown').subscribe({
+        next: event => this.onKeyDown(event)
+      });
     }
   }
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
 
-    if (this._keyDownSub) {
-      this._keyDownSub.unsubscribe();
-    }
+    this._keyDownSub?.unsubscribe();
   }
 
   protected getInputValue(): string | null {

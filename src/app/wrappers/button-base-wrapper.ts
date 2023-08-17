@@ -49,16 +49,16 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnClickEvent()) {
-      this._btnClickSub = instance.btnClick.subscribe(() => this.getBtnClickSubscription()());
+      this._btnClickSub = instance.btnClick.subscribe({
+        next: () => this.getBtnClickSubscription()()
+      });
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this._btnClickSub) {
-      this._btnClickSub.unsubscribe();
-    }
+    this._btnClickSub?.unsubscribe();
   }
 
   public hasOnClickEvent(): boolean {

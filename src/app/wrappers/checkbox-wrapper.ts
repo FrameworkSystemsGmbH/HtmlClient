@@ -156,16 +156,16 @@ export class CheckBoxWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnClickEvent()) {
-      this._boxClickSub = instance.boxClick.subscribe(() => this.getBoxClickSubscription()());
+      this._boxClickSub = instance.boxClick.subscribe({
+        next: () => this.getBoxClickSubscription()()
+      });
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this._boxClickSub) {
-      this._boxClickSub.unsubscribe();
-    }
+    this._boxClickSub?.unsubscribe();
   }
 
   public hasOnClickEvent(): boolean {

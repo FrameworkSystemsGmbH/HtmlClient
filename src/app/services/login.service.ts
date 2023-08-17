@@ -17,8 +17,10 @@ export class LoginService {
     this._brokers$$ = new BehaviorSubject<Array<LoginBroker>>(new Array<LoginBroker>());
     this._brokers$ = this._brokers$$.asObservable();
 
-    this._clientDataService.loadBrokerList().subscribe(brokerList => {
-      this._brokers$$.next(brokerList);
+    this._clientDataService.loadBrokerList().subscribe({
+      next: brokerList => {
+        this._brokers$$.next(brokerList);
+      }
     });
   }
 
@@ -37,12 +39,16 @@ export class LoginService {
       brokers.push(broker);
     }
 
-    this._clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
+    this._clientDataService.saveBrokerList(brokers).subscribe({
+      next: () => this._brokers$$.next(brokers)
+    });
   }
 
   public deleteBroker(broker: LoginBroker): void {
     const brokers: Array<LoginBroker> = this._brokers$$.getValue();
     brokers.remove(broker);
-    this._clientDataService.saveBrokerList(brokers).subscribe(() => this._brokers$$.next(brokers));
+    this._clientDataService.saveBrokerList(brokers).subscribe({
+      next: () => this._brokers$$.next(brokers)
+    });
   }
 }

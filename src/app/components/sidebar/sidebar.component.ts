@@ -93,20 +93,28 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this._titleSub = this._store.select(selectTitle).subscribe(title => {
-      this.appTitle = title;
+    this._titleSub = this._store.select(selectTitle).subscribe({
+      next: title => {
+        this.appTitle = title;
+      }
     });
 
-    this._formsSub = this._formsService.getForms().subscribe(forms => {
-      this.forms = forms;
+    this._formsSub = this._formsService.getForms().subscribe({
+      next: forms => {
+        this.forms = forms;
+      }
     });
 
-    this._selectedFormSub = this._formsService.getSelectedForm().subscribe(form => {
-      this.selectedForm = form;
+    this._selectedFormSub = this._formsService.getSelectedForm().subscribe({
+      next: form => {
+        this.selectedForm = form;
+      }
     });
 
-    this._sidebarVisibleSub = this._store.select(selectSidebarVisible).subscribe(sidebarVisible => {
-      this.sidebarVisible = sidebarVisible;
+    this._sidebarVisibleSub = this._store.select(selectSidebarVisible).subscribe({
+      next: sidebarVisible => {
+        this.sidebarVisible = sidebarVisible;
+      }
     });
 
     this.headerSideStyle = this.createheaderSideStyle();

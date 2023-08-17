@@ -80,8 +80,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.brokers$ = this._loginService.getBrokers();
 
-    this._activeBrokerNameSub = this._store.select(selectBrokerName).subscribe(name => {
-      this.activeBrokerName = name;
+    this._activeBrokerNameSub = this._store.select(selectBrokerName).subscribe({
+      next: name => {
+        this.activeBrokerName = name;
+      }
     });
 
     this.lastSessionInfo = this._stateService.getLastSessionInfo();
@@ -155,13 +157,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private createBrokerValidator(ls: LoginService): any {
     return (c: UntypedFormControl): Observable<any> => new Observable<any>(subscriber => {
-      ls.getBrokers().subscribe(brokers => {
-        if (brokers.length > 0 && brokers.find(b => String.equals(b.name, c.value, true))) {
-          subscriber.next({ broker: true });
-        } else {
-          subscriber.next(null);
+      ls.getBrokers().subscribe({
+        next: brokers => {
+          if (brokers.length > 0 && brokers.find(b => String.equals(b.name, c.value, true))) {
+            subscriber.next({ broker: true });
+          } else {
+            subscriber.next(null);
+          }
+          subscriber.complete();
         }
-        subscriber.complete();
       });
     });
   }

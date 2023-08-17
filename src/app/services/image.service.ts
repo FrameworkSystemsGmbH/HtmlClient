@@ -13,8 +13,10 @@ export class ImageService {
   public constructor(store: Store<IAppState>) {
     this._store = store;
 
-    this._store.select(selectBrokerFilesUrl).subscribe(filesUrl => {
-      this._filesUrl = filesUrl;
+    this._store.select(selectBrokerFilesUrl).subscribe({
+      next: filesUrl => {
+        this._filesUrl = filesUrl;
+      }
     });
   }
 

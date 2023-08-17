@@ -115,16 +115,18 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
         }
       });
 
-      dialogRef.afterClosed().subscribe(data => {
-        if (this.control != null) {
-          this.control.nativeElement.focus();
-        }
+      dialogRef.afterClosed().subscribe({
+        next: data => {
+          if (this.control != null) {
+            this.control.nativeElement.focus();
+          }
 
-        this._overlayShown = false;
+          this._overlayShown = false;
 
-        if (data.selected) {
-          this.setSelectedIndex(data.index);
-          this.callSelectionChanged();
+          if (data.selected) {
+            this.setSelectedIndex(data.index);
+            this.callSelectionChanged();
+          }
         }
       });
     }

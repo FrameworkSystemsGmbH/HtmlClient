@@ -58,25 +58,24 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
       const keyDownObs: Observable<any> = fromEvent(this.control.nativeElement, 'keydown').pipe(share());
       const inputIdleObs: Observable<any> = keyDownObs.pipe(debounceTime(250), share());
 
-      this._keyDownSub = keyDownObs.subscribe(event => this.onKeyDown(event));
+      this._keyDownSub = keyDownObs.subscribe({
+        next: event => this.onKeyDown(event)
+      });
 
       this._inputSub = keyDownObs.pipe(
         map(event => KeyUtil.getKeyString(event)),
         buffer(inputIdleObs)
-      ).subscribe(events => this.onInput(events));
+      ).subscribe({
+        next: events => this.onInput(events)
+      });
     }
   }
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
 
-    if (this._keyDownSub) {
-      this._keyDownSub.unsubscribe();
-    }
-
-    if (this._inputSub) {
-      this._inputSub.unsubscribe();
-    }
+    this._keyDownSub?.unsubscribe();
+    this._inputSub?.unsubscribe();
   }
 
   public getControl(): ElementRef<HTMLElement> | null {

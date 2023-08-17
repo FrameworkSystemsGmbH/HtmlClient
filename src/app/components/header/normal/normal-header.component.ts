@@ -90,23 +90,33 @@ export class NormalHeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this._titleSub = this._store.select(selectTitle).subscribe(title => {
-      this.appTitle = title;
+    this._titleSub = this._store.select(selectTitle).subscribe({
+      next: title => {
+        this.appTitle = title;
+      }
     });
 
-    this._sidebarVisibleSub = this._store.select(selectSidebarVisible).subscribe(sidebarVisible => {
-      this._sidebarVisible = sidebarVisible;
+    this._sidebarVisibleSub = this._store.select(selectSidebarVisible).subscribe({
+      next: sidebarVisible => {
+        this._sidebarVisible = sidebarVisible;
+      }
     });
 
-    this._directSub = this._store.select(selectBrokerDirect).subscribe(direct => {
-      this.disabledAttr = Boolean.nullIfFalse(direct);
+    this._directSub = this._store.select(selectBrokerDirect).subscribe({
+      next: direct => {
+        this.disabledAttr = Boolean.nullIfFalse(direct);
+      }
     });
 
-    this._formsSub = this._formsService.getForms().subscribe(forms => {
-      this.forms = forms;
+    this._formsSub = this._formsService.getForms().subscribe({
+      next: forms => {
+        this.forms = forms;
+      }
     });
 
-    this._selectedFormSub = this._formsService.getSelectedForm().subscribe(this.onSelectedFormChanged.bind(this));
+    this._selectedFormSub = this._formsService.getSelectedForm().subscribe({
+      next: this.onSelectedFormChanged.bind(this)
+    });
 
     this.headerSideStyle = this.createheaderSideStyle();
     this.headerSideOverlayStyle = this.createheaderSideOverlayStyle();

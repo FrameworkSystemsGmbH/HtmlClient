@@ -58,19 +58,25 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this._disableFormNavSub = this._store.select(selectDisableFormNavigation).subscribe(disableFormNav => {
-      this._disableFormNav = disableFormNav;
-      this.updateHeader();
+    this._disableFormNavSub = this._store.select(selectDisableFormNavigation).subscribe({
+      next: disableFormNav => {
+        this._disableFormNav = disableFormNav;
+        this.updateHeader();
+      }
     });
 
-    this._selectedFormSub = this._formsService.getSelectedForm().subscribe(form => {
-      this._isModal = form != null ? form.getIsModal() : false;
-      this._hideModalHeader = form != null ? form.hideModalHeader() : false;
-      this.updateHeader();
+    this._selectedFormSub = this._formsService.getSelectedForm().subscribe({
+      next: form => {
+        this._isModal = form != null ? form.getIsModal() : false;
+        this._hideModalHeader = form != null ? form.hideModalHeader() : false;
+        this.updateHeader();
+      }
     });
 
-    this._loadingChangedSub = this._loaderService.onLoadingChangedDelayed.subscribe(loading => {
-      this.isLoading = loading;
+    this._loadingChangedSub = this._loaderService.onLoadingChangedDelayed.subscribe({
+      next: loading => {
+        this.isLoading = loading;
+      }
     });
   }
 

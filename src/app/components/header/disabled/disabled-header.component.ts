@@ -52,16 +52,22 @@ export class DisabledHeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this._directSub = this._store.select(selectBrokerDirect).subscribe(direct => {
-      this.disabledAttr = Boolean.nullIfFalse(direct);
+    this._directSub = this._store.select(selectBrokerDirect).subscribe({
+      next: direct => {
+        this.disabledAttr = Boolean.nullIfFalse(direct);
+      }
     });
 
-    this._titleSub = this._store.select(selectTitle).subscribe(title => {
-      this.appTitle = title;
+    this._titleSub = this._store.select(selectTitle).subscribe({
+      next: title => {
+        this.appTitle = title;
+      }
     });
 
-    this._formSub = this._formsService.getSelectedForm().subscribe(form => {
-      this._form = form;
+    this._formSub = this._formsService.getSelectedForm().subscribe({
+      next: form => {
+        this._form = form;
+      }
     });
   }
 

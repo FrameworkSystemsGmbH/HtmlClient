@@ -75,12 +75,16 @@ export class StateService {
       map(() => this._webStorageService.delete(SESSION_STORAGE_KEY))
     ).subscribe();
 
-    this._store.select(selectBrokerState).subscribe((brokerState: IBrokerState) => {
-      this._brokerState = brokerState;
+    this._store.select(selectBrokerState).subscribe({
+      next: (brokerState: IBrokerState) => {
+        this._brokerState = brokerState;
+      }
     });
 
-    this._store.select(selectRuntimeState).subscribe((runtimeState: IRuntimeState) => {
-      this._runtimeState = runtimeState;
+    this._store.select(selectRuntimeState).subscribe({
+      next: (runtimeState: IRuntimeState) => {
+        this._runtimeState = runtimeState;
+      }
     });
   }
 

@@ -195,16 +195,16 @@ export class ComboBoxWrapper extends FittedDataWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnSelectionChangedEvent()) {
-      this._selectionChangedSub = instance.selectionChanged.subscribe(() => this.getOnSelectionChangedSubscription()());
+      this._selectionChangedSub = instance.selectionChanged.subscribe({
+        next: () => this.getOnSelectionChangedSubscription()()
+      });
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this._selectionChangedSub) {
-      this._selectionChangedSub.unsubscribe();
-    }
+    this._selectionChangedSub?.unsubscribe();
   }
 
   protected ctrlEnterCompleted(payload: any, processedEvent: any): void {

@@ -135,22 +135,24 @@ export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
         }
       });
 
-      dialogRef.afterClosed().subscribe(data => {
-        if (this.control != null) {
-          this.control.nativeElement.focus();
-        }
-
-        this._overlayShown = false;
-
-        if (data.selected) {
-          if (data.index != null) {
-            this.setSelectedIndex(data.index);
-            this.setInputValue(null);
-          } else if (data.value != null) {
-            this.setInputValue(data.value);
-            this.setSelectedIndex(null);
+      dialogRef.afterClosed().subscribe({
+        next: data => {
+          if (this.control != null) {
+            this.control.nativeElement.focus();
           }
-          this.callSelectionChanged();
+
+          this._overlayShown = false;
+
+          if (data.selected) {
+            if (data.index != null) {
+              this.setSelectedIndex(data.index);
+              this.setInputValue(null);
+            } else if (data.value != null) {
+              this.setInputValue(data.value);
+              this.setSelectedIndex(null);
+            }
+            this.callSelectionChanged();
+          }
         }
       });
     }

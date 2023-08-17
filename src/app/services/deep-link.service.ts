@@ -45,15 +45,19 @@ export class DeepLinkService {
   public attachHandlers(): void {
     if (this._platformService.isAndroid()) {
       if (this._readySub == null) {
-        this._readySub = this._store.select(selectReady).subscribe(ready => {
-          this._ready = ready;
-          this.processStartInfo();
+        this._readySub = this._store.select(selectReady).subscribe({
+          next: ready => {
+            this._ready = ready;
+            this.processStartInfo();
+          }
         });
       }
 
       if (this._brokerNameSub == null) {
-        this._brokerNameSub = this._store.select(selectBrokerName).subscribe(name => {
-          this._active = name != null && name.trim().length > 0;
+        this._brokerNameSub = this._store.select(selectBrokerName).subscribe({
+          next: name => {
+            this._active = name != null && name.trim().length > 0;
+          }
         });
       }
 

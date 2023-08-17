@@ -53,24 +53,28 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
     this.onBackButtonListener = this.onBackButton.bind(this);
     this._backService.addBackButtonListener(this.onBackButtonListener, BackButtonPriority.ModalDialog);
 
-    this._disableFormNavSub = this._store.select(selectDisableFormNavigation).subscribe(disableFormNav => {
-      this._disableFormNav = disableFormNav;
-      this.updateIsCloseIconVisible();
+    this._disableFormNavSub = this._store.select(selectDisableFormNavigation).subscribe({
+      next: disableFormNav => {
+        this._disableFormNav = disableFormNav;
+        this.updateIsCloseIconVisible();
+      }
     });
 
-    this._formSub = this._formsService.getSelectedForm().subscribe(form => {
-      this._form = form;
-      this.updateIsCloseIconVisible();
+    this._formSub = this._formsService.getSelectedForm().subscribe({
+      next: form => {
+        this._form = form;
+        this.updateIsCloseIconVisible();
+      }
     });
   }
 
   public ngOnDestroy(): void {
+    this._disableFormNavSub?.unsubscribe();
+    this._formSub?.unsubscribe();
+
     if (this.onBackButtonListener) {
       this._backService.removeBackButtonListener(this.onBackButtonListener);
     }
-
-    this._disableFormNavSub?.unsubscribe();
-    this._formSub?.unsubscribe();
   }
 
   private updateIsCloseIconVisible(): void {

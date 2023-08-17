@@ -27,25 +27,25 @@ export class LoadComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this._queryParamsSub = this._route.queryParams.subscribe(params => {
-      const url = window.location.origin + window.location.pathname.trimStringRight('/html/');
+    this._queryParamsSub = this._route.queryParams.subscribe({
+      next: params => {
+        const url = window.location.origin + window.location.pathname.trimStringRight('/html/');
 
-      const loginBroker: LoginBroker = new LoginBroker('External', url);
+        const loginBroker: LoginBroker = new LoginBroker('External', url);
 
-      let loginOptions: LoginOptions | undefined;
+        let loginOptions: LoginOptions | undefined;
 
-      if (params.lang != null) {
-        loginOptions = new LoginOptions();
-        loginOptions.languages = params.lang;
+        if (params.lang != null) {
+          loginOptions = new LoginOptions();
+          loginOptions.languages = params.lang;
+        }
+
+        this._brokerService.login(loginBroker, true, loginOptions);
       }
-
-      this._brokerService.login(loginBroker, true, loginOptions);
     });
   }
 
   public ngOnDestroy(): void {
-    if (this._queryParamsSub) {
-      this._queryParamsSub.unsubscribe();
-    }
+    this._queryParamsSub?.unsubscribe();
   }
 }

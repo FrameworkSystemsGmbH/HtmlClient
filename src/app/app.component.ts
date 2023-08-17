@@ -14,6 +14,7 @@ import { selectReady } from '@app/store/ready/ready.selectors';
 import * as StyleUtil from '@app/util/style-util';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -38,6 +39,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly _platformService: PlatformService;
   private readonly _stateService: StateService;
   private readonly _store: Store<IAppState>;
+
+  private _readySub: Subscription | null = null;
 
   public constructor(
     backService: BackService,
@@ -75,8 +78,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       this.style = this.createIosStyle();
     }
 
-    this._store.select(selectReady).subscribe((ready: boolean) => {
-      this.ready = ready;
+    this._readySub = this._store.select(selectReady).subscribe({
+      next: (ready: boolean) => {
+        this.ready = ready;
+      }
     });
 
     this._stateService.resumeLastSession();
@@ -93,6 +98,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this._deepLinkService.removeHandlers();
     this._keyboardService.removeHandlers();
     this._stateService.removeHandlers();
+
+    this._readySub?.unsubscribe();
   }
 
   private createIosStyle(): any {

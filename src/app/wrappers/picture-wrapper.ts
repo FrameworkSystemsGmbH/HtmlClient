@@ -105,16 +105,16 @@ export class PictureWrapper extends ControlWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnClickEvent()) {
-      this._picClickSub = instance.picClick.subscribe((args: ClientPictureClickEventArgs) => this.getPicClickSubscription(args)());
+      this._picClickSub = instance.picClick.subscribe({
+        next: (args: ClientPictureClickEventArgs) => this.getPicClickSubscription(args)()
+      });
     }
   }
 
   protected detachEvents(): void {
     super.detachEvents();
 
-    if (this._picClickSub) {
-      this._picClickSub.unsubscribe();
-    }
+    this._picClickSub?.unsubscribe();
   }
 
   public hasOnClickEvent(): boolean {

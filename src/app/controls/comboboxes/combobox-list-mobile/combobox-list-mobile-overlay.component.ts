@@ -67,17 +67,21 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
     this._onBackButtonListener = this.onBackButton.bind(this);
     this._backService.addBackButtonListener(this._onBackButtonListener, BackButtonPriority.Overlay);
 
-    this._backdropClickSub = this._dialogRef.backdropClick().subscribe(() => {
-      this._dialogRef.close({ selected: false });
+    this._backdropClickSub = this._dialogRef.backdropClick().subscribe({
+      next: () => {
+        this._dialogRef.close({ selected: false });
+      }
     });
 
-    this._afterOpenSub = this._dialogRef.afterOpened().subscribe(() => {
-      setTimeout(() => {
-        this.scrollSelectedEntryIntoView();
-        if (this.wrapper != null) {
-          this.wrapper.nativeElement.focus();
-        }
-      });
+    this._afterOpenSub = this._dialogRef.afterOpened().subscribe({
+      next: () => {
+        setTimeout(() => {
+          this.scrollSelectedEntryIntoView();
+          if (this.wrapper != null) {
+            this.wrapper.nativeElement.focus();
+          }
+        });
+      }
     });
   }
 
@@ -86,13 +90,8 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
       this._backService.removeBackButtonListener(this._onBackButtonListener);
     }
 
-    if (this._backdropClickSub) {
-      this._backdropClickSub.unsubscribe();
-    }
-
-    if (this._afterOpenSub) {
-      this._afterOpenSub.unsubscribe();
-    }
+    this._backdropClickSub?.unsubscribe();
+    this._afterOpenSub?.unsubscribe();
   }
 
   private onBackButton(): boolean {

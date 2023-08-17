@@ -12,8 +12,10 @@ export class ViewDocService {
   private _brokerUrl: string | null = null;
 
   public constructor(store: Store<IAppState>) {
-    store.select(selectBrokerFilesUrl).subscribe(filesUrl => {
-      this._brokerUrl = filesUrl;
+    store.select(selectBrokerFilesUrl).subscribe({
+      next: filesUrl => {
+        this._brokerUrl = filesUrl;
+      }
     });
   }
 

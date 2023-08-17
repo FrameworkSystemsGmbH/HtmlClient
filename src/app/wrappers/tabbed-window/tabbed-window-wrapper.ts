@@ -192,18 +192,22 @@ export class TabbedWindowWrapper extends ContainerWrapper implements ITabbedLayo
     super.attachEvents(instance);
 
     if (this.hasOnSelectedTabPageChangeEvent()) {
-      this._tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangeSubscription(tabPage)());
+      this._tabClickedSub = instance.tabClicked.subscribe({
+        next: (tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangeSubscription(tabPage)()
+      });
     } else if (this.hasOnSelectedTabPageChangedEvent()) {
-      this._tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangedSubscription(tabPage)());
+      this._tabClickedSub = instance.tabClicked.subscribe({
+        next: (tabPage: TabPageWrapper) => this.getOnSelectedTabPageChangedSubscription(tabPage)()
+      });
     } else {
-      this._tabClickedSub = instance.tabClicked.subscribe((tabPage: TabPageWrapper) => this.getNonEventTabPageChangedSubscription(tabPage)());
+      this._tabClickedSub = instance.tabClicked.subscribe({
+        next: (tabPage: TabPageWrapper) => this.getNonEventTabPageChangedSubscription(tabPage)()
+      });
     }
   }
 
   protected detachEvents(): void {
-    if (this._tabClickedSub) {
-      this._tabClickedSub.unsubscribe();
-    }
+    this._tabClickedSub?.unsubscribe();
   }
 
   protected hasChanges(): boolean {

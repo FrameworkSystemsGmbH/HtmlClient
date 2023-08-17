@@ -55,8 +55,10 @@ export class FormsService {
     this._selectedForm$$ = new BehaviorSubject<FormWrapper | null>(null);
     this._selectedForm$ = this._selectedForm$$.asObservable();
 
-    store.select(selectTitle).subscribe(title => {
-      this._title = title;
+    store.select(selectTitle).subscribe({
+      next: title => {
+        this._title = title;
+      }
     });
   }
 
@@ -88,9 +90,11 @@ export class FormsService {
         icon: MsgBoxIcon.Question,
         message: 'Do you want to close the session?',
         title: this._title
-      }).subscribe(result => {
-        if (result === MsgBoxResult.Yes) {
-          this.closeForm(form);
+      }).subscribe({
+        next: result => {
+          if (result === MsgBoxResult.Yes) {
+            this.closeForm(form);
+          }
         }
       });
     } else {
