@@ -1,10 +1,15 @@
 <div #wrapper class="wrapper" tabindex="-1" hcDialogResize cdkTrapFocus>
   <div #scroller class="scroller">
     <ul #list class="list">
-      <li *ngFor="let entry of entries; index as i" [ngClass]="{ selected: i === selectedIndex }" (click)="onEntrySelected(i)">
-        <span *ngIf="entry.getValue()">{{ entry.getValue() }}</span>
-        <span *ngIf="!entry.getValue()" class="empty">Empty</span>
+      @for (entry of entries; track $index) {
+      <li [ngClass]="{ selected: $index === selectedIndex }" (click)="onEntrySelected($index)">
+        @if (entry.getValue()) {
+        <span>{{ entry.getValue() }}</span>
+        } @else {
+        <span class="empty">Empty</span>
+        }
       </li>
+      }
     </ul>
   </div>
 </div>

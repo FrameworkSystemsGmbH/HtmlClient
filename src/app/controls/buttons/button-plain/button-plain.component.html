@@ -1,3 +1,5 @@
 <button #button type="button" [ngStyle]="buttonStyle" [class.outline]="isOutlined" (click)="callBtnClick()" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)" (keydown)="callKeyDown($event)" [attr.tabindex]="tabIndexAttr" [attr.disabled]="disabledAttr">
-    <span *ngIf="showCaption">{{ caption }}</span>
+  @if (showCaption) {
+  <span>{{ caption }}</span>
+  }
 </button>

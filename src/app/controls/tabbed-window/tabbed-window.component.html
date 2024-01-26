@@ -2,13 +2,15 @@
   <div class="header" [ngStyle]="headerStyle">
     <overlay-scrollbars class="scroller" [options]="scrollerOptions">
       <div #tabs class="tabs" [ngStyle]="tabsStyle">
-        <div *ngFor="let tabPage of tabPages" class="tab" [ngClass]="getTabClasses(tabPage)" [ngStyle]="getTabStyle(tabPage)" (click)="callTabClicked(tabPage)">
+        @for (tabPage of tabPages; track $index) {
+        <div class="tab" [ngClass]="getTabClasses(tabPage)" [ngStyle]="getTabStyle(tabPage)" (click)="callTabClicked(tabPage)">
           <span>{{ tabPage.getCaption() }}</span>
         </div>
+        }
       </div>
     </overlay-scrollbars>
   </div>
   <div class="content" [ngStyle]="contentStyle">
-    <ng-template #anchor></ng-template>
+    <ng-template #anchor />
   </div>
 </div>

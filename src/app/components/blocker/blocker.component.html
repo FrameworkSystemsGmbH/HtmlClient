@@ -1,8 +1,10 @@
 <div class="wrapper" (mousedown)="onMouseDown($event)">
-  <div @indicatorState *ngIf="showIndicator" class="background">
+  @if (showIndicator) {
+  <div @indicatorState class="background">
     <div class="content">
       <div class="title">Loading</div>
       <div class="loader"></div>
     </div>
   </div>
+  }
 </div>

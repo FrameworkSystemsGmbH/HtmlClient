@@ -33,7 +33,10 @@
         "id-length": "off",
         "indent": [
           "error",
-          2
+          2,
+          {
+            "SwitchCase": 1
+          }
         ],
         "line-comment-position": "off",
         "linebreak-style": [
@@ -53,6 +56,7 @@
         "newline-per-chained-call": "off",
         "no-bitwise": "off",
         "no-case-declarations": "off",
+        "no-cond-assign": "off",
         "no-confusing-arrow": "off",
         "no-console": "off",
         "no-continue": "off",
@@ -67,6 +71,7 @@
         "no-ternary": "off",
         "no-underscore-dangle": "off",
         "no-undefined": "off",
+        "no-useless-escape": "off",
         "no-void": "off",
         "object-property-newline": "off",
         "one-var": "off",
@@ -77,7 +82,8 @@
         "quote-props": "off",
         "require-unicode-regexp": "off",
         "sort-imports": "off",
-        "sort-keys": "off"
+        "sort-keys": "off",
+        "spaced-comment": "off"
       }
     },
     {
@@ -113,6 +119,7 @@
         ],
         "@typescript-eslint/init-declarations": "off",
         "@typescript-eslint/lines-between-class-members": "off",
+        "@typescript-eslint/max-params": "off",
         "@typescript-eslint/member-ordering": [
           "error",
           {
@@ -171,6 +178,7 @@
           }
         ],
         "@typescript-eslint/non-nullable-type-assertion-style": "off",
+        "@typescript-eslint/prefer-destructuring": "off",
         "@typescript-eslint/prefer-literal-enum-member": "off",
         "@typescript-eslint/prefer-optional-chain": "off",
         "@typescript-eslint/prefer-readonly-parameter-types": "off",
@@ -192,6 +200,7 @@
           }
         ],
         "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/triple-slash-reference": "off",
         "@angular-eslint/component-max-inline-declarations": "off",
         "@angular-eslint/component-selector": [
           "error",
@@ -229,6 +238,7 @@
         "@angular-eslint/template/mouse-events-have-key-events": "off",
         "@angular-eslint/template/no-call-expression": "off",
         "@angular-eslint/template/no-inline-styles": "off",
+        "@angular-eslint/template/prefer-ngsrc": "off",
         "@angular-eslint/template/use-track-by-function": "off"
       }
     }

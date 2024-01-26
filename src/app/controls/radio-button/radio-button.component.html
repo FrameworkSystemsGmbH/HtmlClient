@@ -2,8 +2,10 @@
   <input #input class="input visually-hidden" [attr.id]="id" type="radio" [name]="groupName" [value]="checkedValue" [(ngModel)]="value" (change)="callRadioClick()" [attr.tabindex]="tabIndexAttr" [attr.disabled]="disabledAttr">
   <label class="label" tabindex="-1" [attr.for]="id" [ngStyle]="labelStyle" (mousedown)="onLabelMouseDown()">
     <span class="button"></span>
-    <div *ngIf="caption" [ngStyle]="captionStyle">
+    @if (caption) {
+    <div [ngStyle]="captionStyle">
       <span [class.outline]="isOutlined">{{ caption }}</span>
     </div>
+    }
   </label>
 </div>

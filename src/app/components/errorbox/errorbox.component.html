@@ -7,16 +7,22 @@
       <fa-icon [icon]="iconExclamation" size="2x" />
     </div>
   </div>
-  <div class="hc-errorbox-message" *ngIf="!showStackTrace">
+  @if (!showStackTrace) {
+  <div class="hc-errorbox-message">
     <span>{{ message }}</span>
   </div>
-  <div class="hc-errorbox-stacktrace" *ngIf="showStackTrace && stackTrace">
+  }
+  @if (showStackTrace && stackTrace) {
+  <div class="hc-errorbox-stacktrace">
     <div class="hc-errorbox-stacktrace-scroller">
       <span>{{ stackTrace }}</span>
     </div>
   </div>
+  }
   <div #footer class="hc-errorbox-footer" tabindex="-1" cdkTrapFocus>
-    <button type="button" mat-raised-button (click)="onDetailsClick()" *ngIf="stackTrace">Details</button>
+    @if (stackTrace) {
+    <button type="button" mat-raised-button (click)="onDetailsClick()">Details</button>
+    }
     <button type="button" mat-raised-button (click)="onOkClick()">Ok</button>
   </div>
 </div>

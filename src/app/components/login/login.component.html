@@ -8,41 +8,52 @@
 
   <div class="content">
     <div class="contentWrapper">
-      <div class="headline" *ngIf="!editorShown && lastSessionInfo != null">
+      @if (!editorShown && lastSessionInfo != null) {
+      <div class="headline">
         <h3>Continue Session</h3>
       </div>
 
-      <mat-card appearance="outlined" class="last-session" *ngIf="!editorShown && lastSessionInfo != null" (click)="continueSession()">
+      <mat-card appearance="outlined" class="last-session" (click)="continueSession()">
         <h3 class="session-name">{{ lastSessionInfo.getLastBroker() }}</h3>
         <div class="session-date">{{ getLastRequestTimeLocalString() }}</div>
       </mat-card>
+      }
 
       <div class="headline">
         <h3>{{ editorShown ? (editingExisting ? 'Edit Broker' : 'Add Broker') : 'Login' }}</h3>
-        <div class="actions" *ngIf="!editorShown">
+        @if (!editorShown) {
+        <div class="actions">
           <button type="button" mat-button color="primary" (click)="openEditorNew()">
             <fa-icon [icon]="iconPlus" [fixedWidth]="true" />
             <span> New</span>
           </button>
         </div>
+        }
       </div>
 
-      <div class="editor" *ngIf="editorShown">
+      @if (editorShown) {
+      <div class="editor">
         <form [formGroup]="addForm" (ngSubmit)="saveBroker()">
           <mat-form-field>
             <input matInput [readonly]="editingExisting" placeholder="Name" formControlName="name" />
-            <mat-error *ngIf="nameControl.hasError('broker') && !nameControl.hasError('required')">
+            @if (nameControl.hasError('broker') && !nameControl.hasError('required')) {
+            <mat-error>
               Name already in use
             </mat-error>
-            <mat-error *ngIf="nameControl.hasError('required')">
+            }
+            @if (nameControl.hasError('required')) {
+            <mat-error>
               Name is required
             </mat-error>
+            }
           </mat-form-field>
           <mat-form-field>
             <input matInput placeholder="Url" formControlName="url" />
-            <mat-error *ngIf="urlControl.hasError('required')">
+            @if (urlControl.hasError('required')) {
+            <mat-error>
               Url is required
             </mat-error>
+            }
           </mat-form-field>
           <div class="form-actions">
             <button type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingExisting ? 'Save' : 'Add' }}</button>
@@ -50,13 +61,17 @@
           </div>
         </form>
       </div>
-
-      <div class="broker-list" *ngIf="!editorShown">
-        <mat-card appearance="outlined" *ngIf="(brokers$ | async) == null || !(brokers$ | async)?.length">
+      } @else {
+      <div class="broker-list">
+        @if ((brokers$ | async) == null || !(brokers$ | async)?.length) {
+        <mat-card appearance="outlined">
           <span>No brokers defined...</span>
         </mat-card>
-        <div class="broker-list-wrapper" *ngIf="(brokers$ | async) != null && (brokers$ | async)?.length">
-          <mat-card appearance="outlined" *ngFor="let broker of (brokers$ | async)" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
+        }
+        @if ((brokers$ | async) != null && (brokers$ | async)?.length) {
+        <div class="broker-list-wrapper">
+          @for (broker of (brokers$ | async); track $index) {
+          <mat-card appearance="outlined" [ngClass]="{ active: broker.name === activeBrokerName }" (click)="loadBroker($event, broker)">
             <div class="broker">
               <h3 class="broker-name">{{ broker.name }}</h3>
               <div class="broker-actions">
@@ -69,8 +84,11 @@
               </div>
             </div>
           </mat-card>
+          }
         </div>
+        }
       </div>
+      }
     </div>
   </div>
 </div>

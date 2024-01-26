@@ -2,12 +2,16 @@
   <div class="header-left" [style.background-color]="getFormBgColor()">
     <div class="header-left-label">
       <span>{{ getFormTitle() }}</span>
-      <img *ngIf="getBadgeImageSrc() != null" [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+      @if (getBadgeImageSrc() != null) {
+      <img [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+      }
     </div>
   </div>
   <div class="header-right">
-    <button type="button" (click)="closeForm()" *ngIf="isCloseIconVisible">
+    @if (isCloseIconVisible) {
+    <button type="button" (click)="closeForm()">
       <fa-icon [icon]="iconTimes" [fixedWidth]="true" size="lg" />
     </button>
+    }
   </div>
 </nav>

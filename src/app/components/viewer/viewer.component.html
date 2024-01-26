@@ -1,8 +1,18 @@
-<ng-container [ngSwitch]="header">
+<ng-container>
+  @switch (header) {
+  @case (headerType.Normal) {
   <hc-normal-header *ngSwitchCase="headerType.Normal" />
+  }
+  @case (headerType.Disabled) {
   <hc-disabled-header *ngSwitchCase="headerType.Disabled" />
+  }
+  @case (headerType.Modal) {
   <hc-modal-header *ngSwitchCase="headerType.Modal" />
+  }
+  }
 </ng-container>
 <hc-frame />
 <hc-sidebar />
-<hc-blocker *ngIf="isLoading" />
+@if (isLoading) {
+<hc-blocker />
+}

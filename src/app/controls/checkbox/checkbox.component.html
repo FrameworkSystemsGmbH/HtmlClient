@@ -9,8 +9,10 @@
         </svg>
       </div>
     </div>
-    <div *ngIf="caption" [ngStyle]="captionStyle">
+    @if (caption) {
+    <div [ngStyle]="captionStyle">
       <span [class.outline]="isOutlined">{{ caption }}</span>
     </div>
+    }
   </label>
 </div>

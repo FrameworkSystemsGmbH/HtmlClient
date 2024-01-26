@@ -3,23 +3,47 @@
     <div class="hc-msgbox-header-title">
       <span>{{ title }}</span>
     </div>
-    <div class="hc-msgbox-header-icon" *ngIf="icon !== iconType.None" [ngSwitch]="icon">
-      <fa-icon *ngSwitchCase="iconType.Error" class="fa-exclamation-circle" [icon]="iconExclamationCircle" size="2x" />
-      <fa-icon *ngSwitchCase="iconType.Exclamation" class="fa-exclamation-triangle" [icon]="iconExclamationTriangle" size="2x" />
-      <fa-icon *ngSwitchCase="iconType.Information" class="fa-info-circle" [icon]="iconInfoCircle" size="2x" />
-      <fa-icon *ngSwitchCase="iconType.Question" class="fa-question-circle" [icon]="iconQuestionCircle" size="2x" />
+    @if (icon !== iconType.None) {
+    <div class="hc-msgbox-header-icon">
+      @switch (icon) {
+      @case (iconType.Error) {
+      <fa-icon class="fa-exclamation-circle" [icon]="iconExclamationCircle" size="2x" />
+      }
+      @case (iconType.Exclamation) {
+      <fa-icon class="fa-exclamation-triangle" [icon]="iconExclamationTriangle" size="2x" />
+      }
+      @case (iconType.Question) {
+      <fa-icon class="fa-question-circle" [icon]="iconQuestionCircle" size="2x" />
+      }
+      @default {
+      <fa-icon class="fa-info-circle" [icon]="iconInfoCircle" size="2x" />
+      }
+      }
     </div>
+    }
   </div>
   <div class="hc-msgbox-message">
     <span>{{ message }}</span>
   </div>
   <div #footer class="hc-msgbox-footer" tabindex="-1" cdkTrapFocus>
-    <button type="button" *ngIf="buttons == buttonsType.YesNo || buttons == buttonsType.YesNoCancel" mat-raised-button (click)="onYesClick()">Yes</button>
-    <button type="button" *ngIf="buttons == buttonsType.YesNo || buttons == buttonsType.YesNoCancel" mat-raised-button (click)="onNoClick()">No</button>
-    <button type="button" *ngIf="buttons == buttonsType.Ok || buttons == buttonsType.OkCancel" mat-raised-button (click)="onOkClick()">Ok</button>
-    <button type="button" *ngIf="buttons == buttonsType.AbortRetryIgnore" mat-raised-button (click)="onAbortClick()">Abort</button>
-    <button type="button" *ngIf="buttons == buttonsType.AbortRetryIgnore || buttons == buttonsType.RetryCancel" mat-raised-button (click)="onRetryClick()">Retry</button>
-    <button type="button" *ngIf="buttons == buttonsType.AbortRetryIgnore" mat-raised-button (click)="onIgnoreClick()">Ignore</button>
-    <button type="button" *ngIf="buttons == buttonsType.OkCancel || buttons == buttonsType.RetryCancel || buttons == buttonsType.YesNoCancel" mat-raised-button (click)="onCancelClick()">Cancel</button>
+    @if (buttons == buttonsType.YesNo || buttons == buttonsType.YesNoCancel) {
+    <button type="button" mat-raised-button (click)="onYesClick()">Yes</button>
+    <button type="button" mat-raised-button (click)="onNoClick()">No</button>
+    }
+    @if (buttons == buttonsType.Ok || buttons == buttonsType.OkCancel) {
+    <button type="button" mat-raised-button (click)="onOkClick()">Ok</button>
+    }
+    @if (buttons == buttonsType.AbortRetryIgnore) {
+    <button type="button" mat-raised-button (click)="onAbortClick()">Abort</button>
+    }
+    @if (buttons == buttonsType.AbortRetryIgnore || buttons == buttonsType.RetryCancel) {
+    <button type="button" mat-raised-button (click)="onRetryClick()">Retry</button>
+    }
+    @if (buttons == buttonsType.AbortRetryIgnore) {
+    <button type="button" mat-raised-button (click)="onIgnoreClick()">Ignore</button>
+    }
+    @if (buttons == buttonsType.OkCancel || buttons == buttonsType.RetryCancel || buttons == buttonsType.YesNoCancel) {
+    <button type="button" mat-raised-button (click)="onCancelClick()">Cancel</button>
+    }
   </div>
 </div>

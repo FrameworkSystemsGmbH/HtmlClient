@@ -1,33 +1,49 @@
 <nav class="header" hcMediaQuery [mediaQuery]="'(min-width: 768px)'" (mediaQueryChanged)="mediaQueryChanged($event)">
   <div class="header-left">
-    <div class="header-left-label" *ngIf="!showCompact">
-      <span>{{ appTitle }}</span>
-    </div>
-    <button type="button" class="header-left-button" (click)="toggleSidebar()" *ngIf="showCompact">
+    @if (showCompact) {
+    <button type="button" class="header-left-button" (click)="toggleSidebar()">
       <fa-icon [icon]="iconBars" [fixedWidth]="true" size="lg" />
     </button>
+    } @else {
+    <div class="header-left-label">
+      <span>{{ appTitle }}</span>
+    </div>
+    }
   </div>
   <div class="header-center" [style.background-color]="showCompact ? getFormBgColor() : null">
-    <div class="header-center-label" *ngIf="showCompact">
+    @if (showCompact) {
+    <div class="header-center-label">
       <span>{{ getFormTitle() }}</span>
-      <button type="button" *ngIf="selectedForm?.isCloseIconVisible()" (click)="closeForm(selectedForm)" class="header-compact-form-close-btn">
+      @if (selectedForm?.isCloseIconVisible()) {
+      <button type="button" (click)="closeForm(selectedForm)" class="header-compact-form-close-btn">
         <fa-icon [icon]="iconTimes" />
       </button>
-      <img *ngIf="getBadgeImageSrc() != null" [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+      }
+      @if (getBadgeImageSrc() != null) {
+      <img [src]="getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+      }
     </div>
-    <div class="header-center-tabs" *ngIf="!showCompact">
+    } @else {
+    <div class="header-center-tabs">
       <overlay-scrollbars class="scroller" [options]="scrollerOptions">
         <div #tabs class="header-tabs-list">
-          <div *ngFor="let form of forms" [ngClass]="{'active': form.getId() === selectedForm?.getId(), 'hasBadge': form.getBadgeImageSrc() != null}" [style.background-color]="form.getId() === selectedForm?.getId() ? getFormBgColor() : null" (click)="selectForm($event, form)">
-            <img *ngIf="form.getBadgeImageSrc() != null" [src]="form.getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+          @for (form of forms; track $index) {
+          <div [ngClass]="{'active': form.getId() === selectedForm?.getId(), 'hasBadge': form.getBadgeImageSrc() != null}" [style.background-color]="form.getId() === selectedForm?.getId() ? getFormBgColor() : null" (click)="selectForm($event, form)">
+            @if (form.getBadgeImageSrc() != null) {
+            <img [src]="form.getBadgeImageSrc()" class="badgeImage" draggable="false" alt="img">
+            }
             <span>{{ form.getTitle() }}</span>
-            <button type="button" *ngIf="form.isCloseIconVisible()" (click)="closeForm(form)" class="header-form-close-btn">
+            @if (form.isCloseIconVisible()) {
+            <button type="button" (click)="closeForm(form)" class="header-form-close-btn">
               <fa-icon [icon]="iconTimes" />
             </button>
+            }
           </div>
+          }
         </div>
       </overlay-scrollbars>
     </div>
+    }
   </div>
   <div class="header-right">
     <button type="button" [attr.disabled]="disabledAttr" (click)="switchBroker()">
