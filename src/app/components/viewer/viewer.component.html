@@ -1,13 +1,13 @@
 <ng-container>
   @switch (header) {
   @case (headerType.Normal) {
-  <hc-normal-header *ngSwitchCase="headerType.Normal" />
+  <hc-normal-header />
   }
   @case (headerType.Disabled) {
-  <hc-disabled-header *ngSwitchCase="headerType.Disabled" />
+  <hc-disabled-header />
   }
   @case (headerType.Modal) {
-  <hc-modal-header *ngSwitchCase="headerType.Modal" />
+  <hc-modal-header />
   }
   }
 </ng-container>
