@@ -27,7 +27,8 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
       this._mediaQueryListener = this.fireMediaQueryChanged.bind(this);
 
       this._mediaQueryList = window.matchMedia(this.mediaQuery);
-      this._mediaQueryList.addListener(this._mediaQueryListener);
+
+      this._mediaQueryList.addEventListener('change', this._mediaQueryListener);
 
       this._zone.run(() => {
         if (this._mediaQueryList != null) {
@@ -39,7 +40,7 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     if (this._mediaQueryList && this._mediaQueryListener) {
-      this._mediaQueryList.removeListener(this._mediaQueryListener);
+      this._mediaQueryList.removeEventListener('change', this._mediaQueryListener);
     }
   }
 

@@ -8,9 +8,8 @@ import { IAppState } from '@app/store/app.state';
 import { selectBrokerName } from '@app/store/broker/broker.selectors';
 import { selectReady } from '@app/store/ready/ready.selectors';
 import { App } from '@capacitor/app';
-import { PluginListenerHandle } from '@capacitor/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, from } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DeepLinkService {
@@ -26,7 +25,7 @@ export class DeepLinkService {
   private _pendingStartInfo: StartBrokerInfo | null = null;
   private _readySub: Subscription | null = null;
   private _brokerNameSub: Subscription | null = null;
-  private _appUrlListenerSub: PluginListenerHandle | null = null;
+  private _appUrlListenerSub: Subscription | null = null;
 
   public constructor(
     brokerService: BrokerService,
@@ -62,7 +61,7 @@ export class DeepLinkService {
       }
 
       if (this._appUrlListenerSub == null) {
-        this._appUrlListenerSub = App.addListener('appUrlOpen', openUrl => {
+        this._appUrlListenerSub = from(App.addListener('appUrlOpen', openUrl => {
           if (openUrl.url.trim().length > 0) {
             try {
               const urlInst: URL = new URL(openUrl.url);
@@ -113,6 +112,12 @@ export class DeepLinkService {
               // malformed url => do nothing
             }
           }
+        })).subscribe({
+          error: (err) => {
+            this._zone.run(() => {
+              throw Error.ensureError(err);
+            });
+          }
         });
       }
     }
@@ -126,15 +131,9 @@ export class DeepLinkService {
       this._brokerNameSub?.unsubscribe();
       this._brokerNameSub = null;
 
-      if (this._appUrlListenerSub != null) {
-        this._appUrlListenerSub.remove().catch(err => {
-          this._zone.run(() => {
-            throw Error.ensureError(err);
-          });
-        });
+      this._appUrlListenerSub?.unsubscribe();
+      this._appUrlListenerSub = null;
 
-        this._appUrlListenerSub = null;
-      }
     }
   }
 
