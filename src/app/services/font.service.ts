@@ -14,6 +14,9 @@ import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
 import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
 import * as Moment from 'moment-timezone';
 
+/** Im HTML kann Text nicht einfach so measured werden, wie im Java.
+ * In der Höhe ist es einfach, in der Breite nicht.
+ */
 @Injectable({ providedIn: 'root' })
 export class FontService {
 

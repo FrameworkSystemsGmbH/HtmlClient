@@ -669,7 +669,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     // Unsubscribe RxJS event subscriptions
     this.detachEvents();
 
-    // Detach wrapper from VCH
+    // Detach wrapper from VCH (Visual Control Hierarchy = wie im JavaClient)
     const vchParent: ILayoutableContainerWrapper | null = this.getVchControl().getParent();
 
     if (vchParent) {

@@ -25,7 +25,12 @@ import { map } from 'rxjs/operators';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
 const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
-
+/**
+ * StateService bekommt mit, wenn Android die App killt.
+ * Android kann pausierte Apps, wenn RAM Bedarf vorliegt, killen.
+ * StateService serialisiert den State. Bekommt mit, wenn in gekillte App
+ * zurückgesprungen wird, dann lädt der StateService das jsonfile.
+ */
 @Injectable({ providedIn: 'root' })
 export class StateService {
 

@@ -3,6 +3,9 @@ import { Preferences } from '@capacitor/preferences';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
+/** Nur im Native Fall werden Json Dateien auf der Platte geschrieben werden.
+ * Ansonsten wird der @type {WebStorageService} verwendet.
+ */
 @Injectable({ providedIn: 'root' })
 export class FileStorageService {
 

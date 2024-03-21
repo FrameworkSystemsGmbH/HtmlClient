@@ -17,6 +17,7 @@ import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+/** Kümmert sich um die Forms und deren Orchestrierung. */
 @Injectable({ providedIn: 'root' })
 export class FormsService {
 

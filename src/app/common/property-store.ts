@@ -24,7 +24,10 @@ import * as JsonUtil from '@app/util/json-util';
 
 
 const DEFAULT_FONT: string | undefined = 'Roboto, Arial, Helvetica, Verdana';
-
+/**
+ * Jeder ControlWrapper bzw. Wrapper (UIITem) hat einen PropertyStore. Dort können die Properties
+ * verwaltet werden. Der PropertyStore hat eine Map über die PropertyLayer.
+ */
 export class PropertyStore {
 
   private readonly _store: Map<PropertyLayer, PropertyData>;
@@ -68,7 +71,10 @@ export class PropertyStore {
     return propertyStore;
   }
 
-  // Get|Set Value
+  /** Get|Set Value
+   * Liefert Value aus oberstem @type {PropertyLayer}, wo Property gesetzt ist.
+   * CSC/Action/Control/ControlStyle
+  */
   private getValue<T>(getValueFunc: (data: PropertyData) => T): T {
     let value: T = getValueFunc(this.getLayer(PropertyLayer.CSC));
 
@@ -85,10 +91,12 @@ export class PropertyStore {
     return value;
   }
 
+  /** Get property value für bestimmte @type {PropertyLayer} */
   private getValueForLayer<T>(layer: PropertyLayer, getValueFunc: (data: PropertyData) => T): T {
     return getValueFunc(this.getLayer(layer));
   }
 
+  /** Set property value für bestimmte @type {PropertyLayer} */
   public setValue(layer: PropertyLayer, setValueFunc: (data: PropertyData) => void): void {
     setValueFunc(this.getLayer(layer));
   }

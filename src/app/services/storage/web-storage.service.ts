@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-
+/**
+ * Setzt am LocalStoreage ein Item im Browser.
+ * Wenn Cookies gelöscht werden, werden die gelöscht.
+ * Tokens und SessionData
+ */
 @Injectable({ providedIn: 'root' })
 export class WebStorageService {
 

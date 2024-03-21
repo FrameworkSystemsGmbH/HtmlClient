@@ -6,6 +6,7 @@ import { Device } from '@capacitor/device';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+/** Speichert die BrokerList vom Login. */
 @Injectable({ providedIn: 'root' })
 export class ClientDataService {
 
