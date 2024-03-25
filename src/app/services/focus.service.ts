@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { LastInput } from '@app/enums/last-input';
 import * as KeyUtil from '@app/util/key-util';
 
-/** Speichert sich die letzten Mouse/Keyboard Tätigkeiten, um getLeaveActivator() korrekt zu befüllen.*/
+/** Speichert sich die letzten Mouse/Keyboard Tätigkeiten, um getLeaveActivator()
+ * korrekt zu befüllen.*/
 @Injectable({ providedIn: 'root' })
 export class FocusService {
 

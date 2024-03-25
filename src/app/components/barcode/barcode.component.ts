@@ -6,7 +6,7 @@ import { BackService } from '@app/services/back-service';
 import { BarcodeScanner, CameraDirection, SupportedFormat } from '@capacitor-community/barcode-scanner';
 import { from, Subscription } from 'rxjs';
 
-/**
+/** Die Component ist einfach nur ein Overlay. Hinter das Template wird das Video gesetzt.
 Der Barcode läuft anders als die Kamera ab, dort wird ein Barcode-Scanner in eine
 Angular-Component reingehängt.
 Das Viereck, wo den Scannbereich anzeigt, wird gemalt.

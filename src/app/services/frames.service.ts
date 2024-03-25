@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FrameComponent } from '@app/components/frame/frame.component';
 
+/** In der Theorie können mehrere Frames unterstützt werden.
+ * Es gibt aber derzeit nur eine FrameComponent, deshalb gibt es nur einen Frame.
+ * Es könnten zwei Frames angezeigt werden, das Layout würde funktionieren.*/
 @Injectable({ providedIn: 'root' })
 export class FramesService {
 

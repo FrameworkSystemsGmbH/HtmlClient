@@ -4,9 +4,9 @@ import * as DomUtil from '@app/util/dom-util';
 import { PluginListenerHandle } from '@capacitor/core';
 import { Keyboard } from '@capacitor/keyboard';
 
-/**
- * Sobald Keyboard am Phone angezeigt wird, wird Resize und ScrollToFocus
- * über KeyboardService gemanaged.
+/** Sobald Keyboard am Phone angezeigt wird, wird Resize und ScrollToFocus
+ * über KeyboardService gemanaged. Alles rutscht nach oben, die WebView wird kleiner
+ * und zur Textbox muss evtl. hingescrolled werden, automatisch.
  */
 @Injectable({ providedIn: 'root' })
 export class KeyboardService {

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as Moment from 'moment-timezone';
 
-/**
- * Zuständig für die Timezone
+/** Zuständig für die Timezone. Verwendet Browser als Fallback, um die TimeZone auszulesen.
+ * Am Moment wird dann Locale und TimeZone gesetzt.
+ * Wenn am Browser nichts ausgelesen werden kann -> Fallback auf de-DE und Europe/Berlin
  */
 @Injectable({ providedIn: 'root' })
 export class LocaleService {
