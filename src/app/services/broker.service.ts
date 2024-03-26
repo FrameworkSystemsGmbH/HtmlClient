@@ -139,6 +139,9 @@ export class BrokerService {
     });
   }
 
+  /** Hier werden alle internale Events verarbeitet.
+   * ConcatMap kümmert sich um die richtige Abarbeitung der Events.
+   */
   private subscribeToEventFired(): Subscription {
     return this._eventsService.eventFired.pipe(
       concatMap(event => this.handleEvent(event))

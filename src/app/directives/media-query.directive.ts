@@ -1,5 +1,11 @@
 import { Directive, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 
+/**
+ * Schwierig im Angular auf Resizing zu reagieren im TypeScript Code.
+ * (Im CSS ist das möglich.) Standard Browser-Stuff mit mediaQuery-Event, welches dann bspw.
+ * im Header-Component verwendet.
+ * Sidebar wird bspw. eingefahren, wenn Window zu klein wird.
+ */
 @Directive({
   standalone: true,
   selector: '[hcMediaQuery]'

@@ -1,5 +1,8 @@
 import * as Moment from 'moment-timezone';
-
+/**
+ * Info über die letzte Session, wenn die App aufgemacht wird und man davor
+ * schon angemeldet war.
+ */
 export class LastSessionInfo {
 
   private readonly _lastBroker: string;

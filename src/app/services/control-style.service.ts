@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { PropertyData } from '@app/common/property-data';
 
+/** Speichert sich die ControlStyles, welche beim ersten Response übertragen werden beim InitialRequest.
+ * Hier geht der @type {PropertyStore} drauf.
+*/
 @Injectable({ providedIn: 'root' })
 export class ControlStyleService {
 

@@ -12,6 +12,7 @@ import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { PictureWrapper } from '@app/wrappers/picture-wrapper';
 import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-wrapper';
 
+/** Wenn vom Broker eine Action kommt. */
 @Injectable({ providedIn: 'root' })
 export class ActionsService {
 

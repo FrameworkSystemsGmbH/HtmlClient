@@ -1,4 +1,5 @@
 export interface IBrokerStateNoToken {
+  /** Wird auch als Flag verwendet, ob ich an einem Broker angemeldet bin, oder nicht. */
   activeBrokerName: string | null;
   activeBrokerUrl: string | null;
   activeBrokerDirect: boolean;

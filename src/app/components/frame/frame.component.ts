@@ -4,6 +4,11 @@ import { FramesService } from '@app/services/frames.service';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { Subscription } from 'rxjs';
 
+/**Es gibt am HTMLClient nur einen Frame. In Java gibts den MainFrame und HelpFrame,
+ * das gibts nicht im HTMLClient. Jede Form wird in den HauptFrame geladen.
+ * Deshalb gibt es eine FrameComponent.
+ * In den #anchor der frame component, wird über das json vom Broker manuell die FormComponent
+ * reingehängt. Wenn dann die Form gewechselt wird, wird der komplette #anchor in der frame-component ausgetauscht. */
 @Component({
   standalone: true,
   selector: 'hc-frame',
@@ -39,6 +44,7 @@ export class FrameComponent implements OnInit, OnDestroy {
   public layout(): void {
     this._zone.run(() => {
       if (this._selectedForm && this.frame) {
+        //Displaygröße vom Frame wird mitgegeben und dann wird wie im Java das Layout aufgebaut
         this._selectedForm.doLayout(this.frame.nativeElement.clientWidth, this.frame.nativeElement.clientHeight);
       }
     });
@@ -60,12 +66,18 @@ export class FrameComponent implements OnInit, OnDestroy {
     this._selectedFormSub?.unsubscribe();
   }
 
+  /** Dem Frame eine Form übergeben zum anschauen. */
   private showForm(form: FormWrapper | null): void {
     if (this.anchor != null) {
+      // Der komplette ComponenTree wird gekillt (ngDestroy).
       this.anchor.clear();
       if (form) {
         this._selectedForm = form;
+        // Bau NGComponents auf, mach alles
+        // Müsste ein Obs zurückgeben, um keine zwei CDC.
         this._selectedForm.attachComponentToFrame(this.anchor);
+        // wenn NGComponents im DOM angezeigt sind und der ChangeDetectionCycle durch ist,
+        // dann mach nochmal ein layout ChangeDetectionCycle
         setTimeout(() => this.layout());
       } else {
         this._selectedForm = null;

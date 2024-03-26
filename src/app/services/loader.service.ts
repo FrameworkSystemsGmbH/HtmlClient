@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { merge, Observable, Subject } from 'rxjs';
 import { auditTime, distinctUntilChanged, filter, repeat, takeUntil } from 'rxjs/operators';
 
+/** Kümmert sich um fortlaufenden Loading-Balken.
+ * Hat nichts mit dem Loading am Anfang der App zu tun.
+ * Status des LoaderServices wird in ViewerComponent für das Anzeigen der <hc-blocker> verwendet.
+ */
 @Injectable({ providedIn: 'root' })
 export class LoaderService {
 

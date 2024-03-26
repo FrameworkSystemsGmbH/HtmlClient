@@ -1,3 +1,12 @@
+/**
+ * WebComponent, welche eigenes HTML enthält. Die werden vom Browser aufgerufen
+ * nicht von Angular. Die machen sich ein ShadowDOM auf. Und so Hat jedes Item sein HTML,
+ * dadurch das jedes
+ * HTML seinen ShadowDOM hat, so funktioniert auch das ContextMenü im Monaco.
+ * Diese werden in der main.ts registriert.!
+ * Init und Update sind WebComponentHooks
+ *
+ */
 export class ListViewItemContentWebComp extends HTMLElement {
 
   private _templateContent: string = String.empty();

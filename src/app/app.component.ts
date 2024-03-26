@@ -67,7 +67,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this._keyboardService.attachHandlers();
     this._stateService.attachHandlers();
   }
-
+  //** Globaler MouseHandler, welche alle MouseDown events erhält und speichert*/
   @HostListener('window:mousedown', ['$event'])
   public globalMouseDown(event: MouseEvent): void {
     this._focusService.setLastMouseEvent(event);
@@ -77,7 +77,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this._platformService.isIos()) {
       this.style = this.createIosStyle();
     }
-
+    /* Ready-State wird aktualisiert*/
     this._readySub = this._store.select(selectReady).subscribe({
       next: (ready: boolean) => {
         this.ready = ready;
@@ -90,6 +90,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
+    /* Sobald Component komplett geladen ist, wird SplashScreen entfernt. Dann flackert nichts beim Aufbau des HTMLs. */
     void SplashScreen.hide({ fadeOutDuration: 500 });
   }
 

@@ -14,6 +14,9 @@ import { selectDisableFormNavigation } from '@app/store/runtime/runtime.selector
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
+/**
+ * Clientteil, welcher Header, Menu, Client-Applikation anzeigt.
+ */
 @Component({
   standalone: true,
   selector: 'hc-viewer',

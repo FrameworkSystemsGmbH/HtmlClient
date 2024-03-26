@@ -1,5 +1,8 @@
 import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 
+/** Werden nicht mehr verwendet. Früher gab es Unterschiede zw. Chrome und IE,
+ * wie die Events abgefangen werden.
+*/
 @Directive({
   standalone: true,
   selector: '[hcMouseWheel]'

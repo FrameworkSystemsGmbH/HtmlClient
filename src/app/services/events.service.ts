@@ -23,6 +23,9 @@ import { InternalEventCallbacks } from '@app/common/events/internal/internal-eve
 import { BarcodeFormat } from '@app/enums/barcode-format';
 import { Observable, Subject } from 'rxjs';
 
+/** Hat für jedes Event eine Fire Methode.
+ * Vermutlich das pendant zum HandleEvent im Java.
+ */
 @Injectable({ providedIn: 'root' })
 export class EventsService {
 

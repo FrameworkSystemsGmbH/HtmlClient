@@ -19,6 +19,9 @@ import { DockOrientation } from '@app/layout/dock-layout/dock-orientation';
 import { FieldRowLabelMode } from '@app/layout/field-layout/field-row-label-mode';
 import { WrapArrangement } from '@app/layout/wrap-layout/wrap-arrangement';
 
+/** UniversalPropertyData:
+ * Hier kann jedes einzelne Property für jedes Control gespeichert werden.
+ */
 export class PropertyData {
 
   public listViewItemCssGlobal?: string;

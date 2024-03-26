@@ -71,6 +71,9 @@ export abstract class TextBoxComponent extends ControlComponent {
     this.inputStyle = this.createInputStyle(wrapper);
   }
 
+  /** Holt sich für beim Wrapper die layoutable Properties und updated diese.
+   * Wird bei jedem ChangeDetectionCycle aufgerufen.
+   */
   protected createInputStyle(wrapper: TextBoxBaseWrapper): any {
     const layoutableProperties: ILayoutableProperties = wrapper.getLayoutableProperties();
     const layoutWidth: number = layoutableProperties.getClientWidth();

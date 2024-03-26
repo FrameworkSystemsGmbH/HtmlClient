@@ -2,6 +2,10 @@ import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 
+/**
+ * Wenn ein Dialog offen ist, und das Window resized wird, durch bspw. das Keyboard,
+ * dann resizen sich die Dialoge nicht automatisch und die button verschwinden hinter der Tastatur.
+*/
 @Directive({
   standalone: true,
   selector: '[hcDialogResize]'
@@ -28,11 +32,13 @@ export class DialogResizeDirective implements OnInit {
     this._renderer = renderer;
   }
 
+  // Android Event
   @HostListener('window:keyboardDidShow')
   public onKeyboardShown(): void {
     this.setStyles();
   }
 
+  // Andorid Event
   @HostListener('window:keyboardDidHide')
   public onKeyboardHidden(): void {
     this.setStyles();
