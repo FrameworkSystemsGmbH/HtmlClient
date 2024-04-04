@@ -22,7 +22,8 @@ export class InternalEvent<T extends ClientEvent> {
   public get payload(): any {
     return this._payload;
   }
-  /**DRE: wird derzeit nur im fireSelectedTabPageChange verwendet?! Der Zusammenhang mit Callbacks fehlt mir im Moment */
+  /**DRE: wird derzeit nur im fireSelectedTabPageChange verwendet?!
+   * Der Zusammenhang mit Callbacks fehlt mir im Moment */
   public set payload(value: any) {
     this._payload = value;
   }

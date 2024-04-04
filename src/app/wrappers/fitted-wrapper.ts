@@ -1,5 +1,7 @@
 import { ControlWrapper } from '@app/wrappers/control-wrapper';
 
+/** Der ist in der lage anhand des kontents seine größe zu berechnen.
+*/
 export abstract class FittedWrapper extends ControlWrapper {
 
   private _fittedWidth: number | null = null;

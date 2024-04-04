@@ -18,6 +18,9 @@ export class RoutingService {
 
   public showViewer(): void {
     if (this._router.routerState.snapshot.url !== '/viewer') {
+      // Das navigate ist ein Promise von Angular
+      // Durch das "void" ist es ein FireAndForget Promise, welches jedoch synchron(!) ausgeführt wird.
+      // Ansonsten würde der Focus setzen evtl vor Viewer-Navigation stattfinden, das darf nicht passieren.
       void this._router.navigate(['/viewer'], { skipLocationChange: true });
     }
   }

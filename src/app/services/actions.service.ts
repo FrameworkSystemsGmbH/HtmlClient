@@ -60,6 +60,7 @@ export class ActionsService {
         if (form != null) {
           const control: ControlWrapper | null = form.findControlRecursive(actionJson.control);
           if (control) {
+            // Actions am Control mit Form
             switch (actionJson.name) {
               case 'SetCaption':
                 control.setCaptionAction(actionJson.value);
@@ -87,6 +88,7 @@ export class ActionsService {
                 break;
             }
           } else {
+            // Action nur auf Form möglich
             switch (actionJson.name) {
               case 'SetTitle':
                 form.setTitleAction(actionJson.value);
@@ -95,6 +97,7 @@ export class ActionsService {
           }
         }
       } else {
+        // Kein Form Kontext
         switch (actionJson.name) {
           case 'ScanBarcode':
             this._barcodeService.scan(actionJson.format);

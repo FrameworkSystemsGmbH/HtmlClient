@@ -147,6 +147,7 @@ export class FormWrapper extends ContainerWrapper {
     throw new Error('A form creates its component directly on the frame\'s ViewContainerRef in \'attachComponentToFrame()\'');
   }
 
+  // Angular Component wird gebaut und mit dem Wrapper verbunden.
   public attachComponentToFrame(vc: ViewContainerRef): void {
     // Die Factory baut die Angular FormComponent auf und hängt sie anschließend in den Anchor, also das DOM
     // Hierfür wird der injector benötigt.

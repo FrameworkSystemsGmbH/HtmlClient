@@ -52,7 +52,7 @@ export class FrameComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this._framesService.registerFrame(this);
-
+    // Behaviour Subject -> wird auf alle Fälle gefeuert
     this._selectedFormSub = this._formsService.getSelectedForm().subscribe({
       next: form => {
         this.showForm(form);

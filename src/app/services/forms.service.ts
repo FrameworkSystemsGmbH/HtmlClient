@@ -217,7 +217,9 @@ export class FormsService {
   public setJson(fromsJson: any): void {
     for (const formJson of fromsJson) {
       if (formJson.meta.new) {
+        //Wenn Form neu, dann muss ein "UIItem", also ein Wrapper erstellt werden.
         const form: FormWrapper = new FormWrapper(this._injector, { init: true });
+        // Am Form wird das formJson gesetzt.
         form.setJson(formJson, true);
 
         if (formJson.controls != null && formJson.controls.length > 0) {
