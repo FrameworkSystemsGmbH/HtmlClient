@@ -39,6 +39,7 @@ import { ILayoutableControlWrapper } from '@app/wrappers/layout/layoutable-contr
 import { LayoutableProperties } from '@app/wrappers/layout/layoutable-properties-default';
 import { Subscription } from 'rxjs';
 
+/** BasisWrapper für alle Wrapper */
 export abstract class ControlWrapper implements ILayoutableControlWrapper, IControlLabelProvider {
 
   private readonly _injector: Injector;
@@ -244,6 +245,11 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     return compRef ? compRef.instance : null;
   }
 
+  /** Beim InitRequest gibt es keine Components. Hier passiert also nichts.
+   * Wenn die Component gerendert wird, dann macht es die Angular Component selbst und zieht sich die
+   * Daten aus dem Wrapper.
+   * Wenn es schon eine Component geben würde, würden hier die Daten in Angular Component gepumpt werden.
+  */
   public updateComponent(): void {
     const comp: ControlComponent | null = this.getComponent();
 
@@ -669,7 +675,7 @@ export abstract class ControlWrapper implements ILayoutableControlWrapper, ICont
     // Unsubscribe RxJS event subscriptions
     this.detachEvents();
 
-    // Detach wrapper from VCH
+    // Detach wrapper from VCH (Visual Control Hierarchy = wie im JavaClient)
     const vchParent: ILayoutableContainerWrapper | null = this.getVchControl().getParent();
 
     if (vchParent) {

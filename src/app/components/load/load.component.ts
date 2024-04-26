@@ -5,6 +5,9 @@ import { LoginOptions } from '@app/common/login-options';
 import { BrokerService } from '@app/services/broker.service';
 import { Subscription } from 'rxjs';
 
+/**
+ * Für StartPage-Aufruf mit direkter Broker-Url. Umgeht Broker-Anmeldung(Login)
+ */
 @Component({
   standalone: true,
   selector: 'hc-load',

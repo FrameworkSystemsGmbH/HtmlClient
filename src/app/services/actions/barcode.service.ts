@@ -6,6 +6,7 @@ import { RoutingService } from '@app/services/routing.service';
 import { Camera } from '@capacitor/camera';
 import { from, map, mergeMap, of, take } from 'rxjs';
 
+/** Wird nur im Android unterstützt, aber nicht im Browser. */
 @Injectable({ providedIn: 'root' })
 export class BarcodeService {
 
@@ -31,6 +32,7 @@ export class BarcodeService {
     this._routingService = routingService;
   }
 
+  //Funktioniert nur im Android.
   public scan(format: BarcodeFormat): void {
     if (this._platformService.isNative() && format !== BarcodeFormat.NONE) {
       from(Camera.checkPermissions()).pipe(

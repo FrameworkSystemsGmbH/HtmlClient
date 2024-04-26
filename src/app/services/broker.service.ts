@@ -139,6 +139,9 @@ export class BrokerService {
     });
   }
 
+  /** Hier werden alle internal Events verarbeitet.
+   * ConcatMap kümmert sich um die richtige Abarbeitung der Events.
+   */
   private subscribeToEventFired(): Subscription {
     return this._eventsService.eventFired.pipe(
       concatMap(event => this.handleEvent(event))
@@ -547,6 +550,7 @@ export class BrokerService {
   private processError(errorJson: any): Observable<void> {
     if (errorJson != null && !JsonUtil.isEmptyObject(errorJson)) {
       return RxJsUtil.voidObs().pipe(
+        // Loading Balken ausschalten, damit mit ErrorBox interagiert werden kann
         tap(() => this._loaderService.fireLoadingChanged(false)),
         mergeMap(() => this._dialogService.showErrorBox({
           title: this._title,
@@ -686,13 +690,16 @@ export class BrokerService {
     this._routingService.showLogin();
   }
 
+  /** JSON wurde komplett verarbeitet. Jetzt muss Viewer, Layout und Angular Components gezeichnet werden. */
   private onAfterResponse(): Observable<void> {
     return RxJsUtil.voidObs().pipe(
       tap(() => {
         this._formsService.checkEmptyApp();
         this._formsService.updateAllComponents();
         this._framesService.layout();
+        // Es wird zur Viewer Component navigiert
         this._routingService.showViewer();
+        // die können erst ausgeführt werden, wenn die Angular Components gezeichnet sind (im DOM sind)
         this._actionsService.processFocusActions();
       })
     );

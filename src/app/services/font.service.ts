@@ -14,6 +14,9 @@ import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
 import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
 import * as Moment from 'moment-timezone';
 
+/** Im HTML kann Text nicht einfach so measured werden, wie im Java.
+ * In der Höhe ist es einfach, in der Breite nicht.
+ */
 @Injectable({ providedIn: 'root' })
 export class FontService {
 
@@ -69,7 +72,7 @@ export class FontService {
     this._span = span;
 
     this._canvas = document.createElement('canvas');
-
+    // Anders als beim Span muss das canvas nicht im DOM hängen, um es verwenden zu können.
     const context: CanvasRenderingContext2D | null = this._canvas.getContext('2d');
 
     if (context == null) {
@@ -379,6 +382,7 @@ export class FontService {
     return this.getMeasuredWidth(wrapper, wrapper.getListType(), wrapper.getListDisplayMaxLength(), 0, TextFormat.None, null, this.getMaxWidthRaster());
   }
 
+  /** Über ein erstelltes Canvas-HTML Element wird die Breite des Textes gemessen. */
   public measureTextWidth(text: string | null, font: string, size: number, isBold: boolean, isItalic: boolean): number {
     if (text == null || font.trim().length === 0 || size <= 0) {
       return 0;
@@ -389,6 +393,9 @@ export class FontService {
     return Math.ceilDec(this._context.measureText(text).width, 0);
   }
 
+  /** Misst anhand des <span id="measureHeightSpan" ...> in der index.html die Höhe
+   * des Textes.
+   * Die FontFamily und Size wird gesetzt und anhand des gesetzten Wertes wird die Höhe gemessen.*/
   public measureTextHeight(font: string, size: number): number {
     if (font.trim().length === 0 || size <= 0) {
       return 0;

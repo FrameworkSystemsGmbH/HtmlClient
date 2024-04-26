@@ -38,6 +38,9 @@ export interface IWrapperCreationOptions {
   textBoxStyle?: TextBoxType;
 }
 
+/** Kann aus einem ControlType einen Wrapper bauen. Bekommt über json
+ * mit, welches control es gibt und erstellt dafür den Wrapper.
+ */
 @Injectable({ providedIn: 'root' })
 export class ControlsService {
 

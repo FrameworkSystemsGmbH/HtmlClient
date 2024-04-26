@@ -147,12 +147,17 @@ export class FormWrapper extends ContainerWrapper {
     throw new Error('A form creates its component directly on the frame\'s ViewContainerRef in \'attachComponentToFrame()\'');
   }
 
+  // Angular Component wird gebaut und mit dem Wrapper verbunden.
   public attachComponentToFrame(vc: ViewContainerRef): void {
+    // Die Factory baut die Angular FormComponent auf und hängt sie anschließend in den Anchor, also das DOM
+    // Hierfür wird der injector benötigt.
     const compFactory: ComponentFactory<FormComponent> = this.getResolver().resolveComponentFactory(FormComponent);
+    //vc ist der #anchor Factory kann das in einen DOM reinhängen mit dem injector des anchors
     const compRef: ComponentRef<FormComponent> = compFactory.create(vc.injector);
     const compInstance: FormComponent = compRef.instance;
 
     this.setComponentRef(compRef);
+    // An der FormComponent-Instance wird dann die NGComponent mit dem Wrapper verknüpft.
     compInstance.setWrapper(this);
 
     this.attachEvents(compInstance);
@@ -164,8 +169,9 @@ export class FormWrapper extends ContainerWrapper {
     vc.insert(compRef.hostView);
   }
 
+  /** 1:1 Java Copy */
   public doLayout(availableWidth: number, availableHeight: number): void {
-    // Get the absolute minimum width of the form
+    // Get the absolute minimum width of the form -rekursiv über alle forms
     const minWidth: number = this.getMinLayoutWidth();
 
     // Get the minimum height depending on the available width but don't deceed the minimum width
@@ -189,7 +195,7 @@ export class FormWrapper extends ContainerWrapper {
     } else {
       resultHeight = minHeight;
     }
-
+    // an den LayoutableProperties die Properties setzen
     const layoutableProperties: LayoutableProperties = this.getLayoutableProperties();
     layoutableProperties.setLayoutWidth(resultWidth);
     layoutableProperties.setLayoutHeight(resultHeight);

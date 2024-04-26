@@ -26,6 +26,12 @@ import { map } from 'rxjs/operators';
 const SESSION_STORAGE_KEY: string = 'clientSession';
 const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
 
+/**
+ * StateService bekommt mit, wenn Android die App killt.
+ * Android kann pausierte Apps, wenn RAM Bedarf vorliegt, killen.
+ * StateService serialisiert den State. Bekommt mit, wenn in gekillte App
+ * zurückgesprungen wird, dann lädt der StateService das jsonfile.
+ */
 @Injectable({ providedIn: 'root' })
 export class StateService {
 
@@ -88,6 +94,10 @@ export class StateService {
     });
   }
 
+  /** Wenn man eine App in Android verlässt, kann es sein, dass die App vom Android-System
+   * weggeschmissen wird.
+   * Capacitor hat hierfür zwei Events (appStateChange/appResoredResult). Hierauf wird sich registriert.
+    */
   public attachHandlers(): void {
     if (this._platformService.isAndroid()) {
       if (this._stateChangeListenerSub == null) {
@@ -134,6 +144,8 @@ export class StateService {
         this._backService.attachHandlers();
       } else {
         // Detach back button handler
+        // Wenn Applikation verlassen wurde, in einer anderen App der Backbutton gedrückt wird,
+        // reagiert der BackButton im MobileClient, deshalb abmelden vom Event, wenn State nicht aktiv ist.
         this._backService.removeHandlers();
 
         // Save state only if there is an active broker session
@@ -152,6 +164,10 @@ export class StateService {
     });
   }
 
+  /** Holt sich die letzte Session aus dem WebStorage und lädt diesen.
+   * Wenn in die Kamera gewechselt bin und die App im Hintergrund gekillt wurde, dann
+   * wird aus der Kamera trotzdem das Bild ausgelesen, obwohl App weg war.
+  */
   public resumeLastSession(): void {
     const lastSessionInfo: LastSessionInfo | null = this.getLastSessionInfo();
 
@@ -186,6 +202,9 @@ export class StateService {
     return null;
   }
 
+  /** Serialisiert die komplette Oberfläche: Wrapper (aus welchen wieder AngularComponents aufgebaut werden können)
+   * Services, Daten in Services, ...
+   * und speichert das JSON im WebStorage. */
   private saveState(): void {
     // App state object
     const stateJson: any = {};

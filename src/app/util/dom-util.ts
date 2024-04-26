@@ -16,6 +16,11 @@ const DEFAULT_SCROLL_OPTIONS: IScrollOptions = {
   offset: 5
 };
 
+/**
+ * Normalerweise funktioniert das recht gut an DOM-Objekten selbst (der Browser kann das selbst),
+ *  aber nicht, wenn eine Keyboard in Android angezeigt wird. Dann stimmen die Values nicht.
+ * DOM Element wird in die View gescrolled.
+ */
 export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrollOptions?: IScrollOptions): void {
   const options: IScrollOptions = { ...DEFAULT_SCROLL_OPTIONS, ...scrollOptions };
 
@@ -52,6 +57,7 @@ export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrol
   }
 }
 
+/** Für InputFelder, weil dort selektiert wird. */
 export function setSelection(input: any, start?: any, end?: any): void {
   let selStart = start;
   let selEnd = end;

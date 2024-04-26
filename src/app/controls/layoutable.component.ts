@@ -7,6 +7,7 @@ export abstract class LayoutableComponent implements OnInit, DoCheck, OnDestroy 
   private _wrapper: ILayoutableControlWrapper | null = null;
 
   public ngOnInit(): void {
+    // Neu gerenderte Angular Components ziehen sich die Daten aus dem Wrapper
     this.updateComponent();
   }
 
@@ -38,10 +39,14 @@ export abstract class LayoutableComponent implements OnInit, DoCheck, OnDestroy 
     this.updateStyles(wrapper);
   }
 
+  // Überschrieben von allen Controls. Hier wird dann spezifisch bestimmt, welche
+  // Daten upgedated werden müssen.
   protected updateData(wrapper: ILayoutableControlWrapper): void {
     // Updates component properties
   }
 
+  // Überschrieben von allen Controls. Hier wird dann spezifisch bestimmt, welche
+  // Styles upgedated werden müssen.
   protected updateStyles(wrapper: ILayoutableControlWrapper): void {
     // Updates component styles
   }

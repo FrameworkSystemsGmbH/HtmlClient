@@ -49,6 +49,8 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
     super.attachEvents(instance);
 
     if (this.hasOnClickEvent()) {
+      // Nur wenn der Broker auch ein ClickEvent mitgeliefert hatte und dieses am Wrapper
+      // registriert ist, wird auf den Click reagiert.
       this._btnClickSub = instance.btnClick.subscribe({
         next: () => this.getBtnClickSubscription()()
       });
@@ -72,6 +74,17 @@ export abstract class ButtonBaseWrapper extends FittedWrapper {
         this.getEventsService().fireClick(
           form.getId(),
           this.getName(),
+          /** Beeinflussen Request Response Ablauf
+          * Wenn auf Button geklickt wird und das nächste Textfeld, wo reingesprungen werden soll,
+          * ist disabled, dann muss ich zum nächsten springen.
+          * Beispiel: Erstes Textfeld hat ein Leave Event
+          * Zweites Textfeld hat ein Enter Event
+          * Das Leave wird vor dem Enter gefeuert.
+          * Jetzt kann es sein, dass das Leave Event das andere Textfeld disabled.
+          * Das Enter Event ist aber in der Event-Queue.
+          * Deshalb wird hier nochmal geprüft, darf ich das überhaupt noch ausführen.
+          * Und wenn nicht, dann wird auch hier das Enter-Event nicht ausgeführt.
+          */
           new InternalEventCallbacks(
             this.canExecuteBtnClick.bind(this),
             this.btnClickExecuted.bind(this),

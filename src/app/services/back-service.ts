@@ -8,7 +8,9 @@ interface IListenerInfo {
   priority: BackButtonPriority;
   listener: () => boolean;
 }
-
+/** Nur für Android für den BackButton (zurück). Reagiert auf den BackButton
+ * und schließt die Session.
+*/
 @Injectable({ providedIn: 'root' })
 export class BackService {
 

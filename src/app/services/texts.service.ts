@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 
+/** Wird nicht verwendet...
+ * Map von allen TextCollections. Im ersten Response kommen die ganzen Texte mit Übersetzungen/Sprachen an.
+ * Das steht hier im Service. */
 @Injectable({ providedIn: 'root' })
 export class TextsService {
 

@@ -17,6 +17,9 @@ import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+/** Kümmert sich um die Forms (bzw. speichert sich die FormsWrapper) und deren Orchestrierung.
+ * Es ist immer nur ein Form aktiv.
+ * Sieht man in der FrameComponent, dort wird  */
 @Injectable({ providedIn: 'root' })
 export class FormsService {
 
@@ -79,6 +82,7 @@ export class FormsService {
     return this._selectedForm$;
   }
 
+  /** Beim Schließen der letzten Form wird die Session in der Android-App abgemeldet. */
   public closeFormByButton(form: FormWrapper): void {
     const closeButton: ButtonBaseWrapper | null = form.getCloseButton();
 
@@ -167,6 +171,8 @@ export class FormsService {
     };
   }
 
+  /** Wenn Response vom Broker fertig ist, dann sollen alle Forms durchlaufen und
+   * upgedated werden. UpdateData/UpdateWrapper/UpdateStyles/...*/
   public updateAllComponents(): void {
     this._forms.forEach(formWrp => {
       formWrp.updateComponentRecursively();
@@ -211,7 +217,9 @@ export class FormsService {
   public setJson(fromsJson: any): void {
     for (const formJson of fromsJson) {
       if (formJson.meta.new) {
+        //Wenn Form neu, dann muss ein "UIItem", also ein Wrapper erstellt werden.
         const form: FormWrapper = new FormWrapper(this._injector, { init: true });
+        // Am Form wird das formJson gesetzt.
         form.setJson(formJson, true);
 
         if (formJson.controls != null && formJson.controls.length > 0) {

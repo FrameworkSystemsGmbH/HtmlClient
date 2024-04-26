@@ -4,6 +4,7 @@ import { Visibility } from '@app/enums/visibility';
 import { FocusService } from '@app/services/focus.service';
 import { ControlWrapper } from '@app/wrappers/control-wrapper';
 
+/** Basis Component für alle Angular Component für FS Controls. */
 @Directive()
 export abstract class ControlComponent extends LayoutableComponent {
 
@@ -80,8 +81,15 @@ export abstract class ControlComponent extends LayoutableComponent {
     return super.getWrapper() as ControlWrapper;
   }
 
+  /**
+   * BrokerRequest vorbei und der hat an irgendeinem Control neue Properties gegeben,
+   * dann wird updateData rekursiv aufgerufen die Änderungen hatte. Un ddann kann die Component über den
+   * Wrapper die Properties holen.
+   */
   protected updateData(wrapper: ControlWrapper): void {
     super.updateData(wrapper);
+    //Component holt sich über den Wrapper die Flags, die dann ins Template
+    // (Default ChangeDetection) geht.
     this.isEditable = wrapper.getCurrentIsEditable();
     this.isVisible = wrapper.getCurrentVisibility() === Visibility.Visible;
   }

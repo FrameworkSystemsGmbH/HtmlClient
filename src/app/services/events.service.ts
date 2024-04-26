@@ -23,6 +23,9 @@ import { InternalEventCallbacks } from '@app/common/events/internal/internal-eve
 import { BarcodeFormat } from '@app/enums/barcode-format';
 import { Observable, Subject } from 'rxjs';
 
+/** Hat für jedes Event eine Fire Methode.
+ * Vermutlich das pendant zum HandleEvent im Java.
+ */
 @Injectable({ providedIn: 'root' })
 export class EventsService {
 
@@ -41,6 +44,10 @@ export class EventsService {
   public fireClick(
     formId: string,
     controlName: string,
+    // Callbacks sind dafür da, um abzuprüfen, ob das Event überhaupt noch ausgeführt werden darf.
+    // Es kann ja sein, das nach dem einhängen des Events in die Event-Abarbeitungs-Queue der Status
+    // sich geändert hat. Und dann darf ggf. ein Event nicht mehr abgearbeitet werden.
+    // Aus diesem Grund gibt es die Callbacks.
     callbacks: InternalEventCallbacks
   ): void {
     const event: InternalEvent<ClientClickEvent> = new InternalEvent<ClientClickEvent>(new ClientClickEvent(controlName, formId));

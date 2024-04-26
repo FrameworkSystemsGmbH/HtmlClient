@@ -1,6 +1,9 @@
 import { ClientEvent } from '@app/common/events/client-event';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 
+/**
+ * Wrapper für ClientEvent mit Payload und InternalEventCallbacks
+ */
 export class InternalEvent<T extends ClientEvent> {
 
   private readonly _clientEvent: T;
@@ -19,7 +22,8 @@ export class InternalEvent<T extends ClientEvent> {
   public get payload(): any {
     return this._payload;
   }
-
+  /**DRE: wird derzeit nur im fireSelectedTabPageChange verwendet?!
+   * Der Zusammenhang mit Callbacks fehlt mir im Moment */
   public set payload(value: any) {
     this._payload = value;
   }

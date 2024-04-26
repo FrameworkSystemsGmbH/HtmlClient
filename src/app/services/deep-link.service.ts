@@ -12,6 +12,7 @@ import { PluginListenerHandle } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
+/** DeepLinks für Android.  */
 @Injectable({ providedIn: 'root' })
 export class DeepLinkService {
 
@@ -60,7 +61,7 @@ export class DeepLinkService {
           }
         });
       }
-
+      // reagiert auf die fsBroker Links im a href siehe HTML OnlineDoku
       if (this._appUrlListenerSub == null) {
         this._appUrlListenerSub = App.addListener('appUrlOpen', openUrl => {
           if (openUrl.url.trim().length > 0) {

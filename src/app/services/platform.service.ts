@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 
+/** Nutzt Capacitor um herauszufinden, ob IOS oder Android.
+ * isNative = App
+ * Ansonsten halt Browser
+ */
 @Injectable({ providedIn: 'root' })
 export class PlatformService {
 
@@ -45,6 +49,8 @@ export class PlatformService {
         return 'iOS';
       }
     } else {
+      // wird über ClientInfos werden diese Infos an den Broker geschickt.
+      // Wird beim ersten initalen Request an den Browser geschickt
       const agent: string = navigator.userAgent.toLowerCase();
 
       if (agent.match(/iris/) !== null) {
