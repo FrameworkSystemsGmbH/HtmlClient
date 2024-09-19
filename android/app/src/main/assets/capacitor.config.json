@@ -9,5 +9,8 @@
 			"launchAutoHide": false,
 			"showSpinner": false
 		}
+	},
+	"server": {
+		"androidScheme": "http"
 	}
 }
