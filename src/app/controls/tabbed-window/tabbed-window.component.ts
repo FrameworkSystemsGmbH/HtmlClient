@@ -346,9 +346,11 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
   }
 
   protected createScrollerOptions(): any {
+    // eslint-disable-next-line no-useless-assignment
     let newOptions: any = this.scrollerOptions;
 
     if (this.tabAlignment === TabAlignment.Top || this.tabAlignment === TabAlignment.Bottom) {
+      // eslint-disable-next-line no-useless-assignment
       newOptions = {
         ...this.scrollerOptions,
         overflowBehavior: {
@@ -357,6 +359,7 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
         }
       };
     } else {
+      // eslint-disable-next-line no-useless-assignment
       newOptions = {
         ...this.scrollerOptions,
         overflowBehavior: {

@@ -1,4 +1,3 @@
-/* eslint-disable no-multi-spaces */
 export enum ClientEventType {
   None                     = 0,
   OnEnter                  = 1 << 0,

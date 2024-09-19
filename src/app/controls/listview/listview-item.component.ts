@@ -196,6 +196,7 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
       'min-width.rem': StyleUtil.pixToRem(this._width),
       'min-height.rem': StyleUtil.pixToRem(this._height),
       'max-height.rem': StyleUtil.pixToRem(this._height),
+      // eslint-disable-next-line no-nested-ternary
       'cursor': this.isEditable ? listViewWrapper.hasOnItemActivatedEvent() ? 'pointer' : 'default' : 'not-allowed'
     };
   }

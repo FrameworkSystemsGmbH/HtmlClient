@@ -81,7 +81,6 @@ export class LinkedListOneWay<T> {
   public forEach(fn: (data: T) => void): void {
     let node: LinkedListNode<T> | null = this._head;
 
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < this._length; i++) {
       if (node != null) {
         fn.call(this, node.data);
@@ -116,7 +115,6 @@ export class LinkedListOneWay<T> {
 
     let node: LinkedListNode<T> | null = this._head;
 
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < this._length; i++) {
       if (node) {
         if (node.data === data) {
