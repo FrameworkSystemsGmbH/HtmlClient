@@ -18,9 +18,9 @@ import { selectRuntimeState } from '@app/store/runtime/runtime.selectors';
 import { initialRuntimeState, IRuntimeState } from '@app/store/runtime/runtime.state';
 import * as JsonUtil from '@app/util/json-util';
 import { App, AppState, RestoredListenerEvent } from '@capacitor/app';
-import { PluginListenerHandle } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 import * as Moment from 'moment-timezone';
+import { from, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 const SESSION_STORAGE_KEY: string = 'clientSession';
@@ -49,8 +49,8 @@ export class StateService {
 
   private _brokerState: IBrokerState | null = null;
   private _runtimeState: IRuntimeState | null = null;
-  private _stateChangeListenerSub: PluginListenerHandle | null = null;
-  private _restoredResultListenerSub: PluginListenerHandle | null = null;
+  private _stateChangeListenerSub: Subscription | null = null;
+  private _restoredResultListenerSub: Subscription | null = null;
 
   public constructor(
     zone: NgZone,
@@ -101,36 +101,37 @@ export class StateService {
   public attachHandlers(): void {
     if (this._platformService.isAndroid()) {
       if (this._stateChangeListenerSub == null) {
-        this._stateChangeListenerSub = App.addListener('appStateChange', this.onAppStateChange.bind(this));
+        this._stateChangeListenerSub = from(App.addListener('appStateChange', this.onAppStateChange.bind(this))).subscribe({
+          error: (err) => {
+            this._zone.run(() => {
+              throw Error.ensureError(err);
+            });
+          }
+        });
       }
 
       if (this._restoredResultListenerSub == null) {
-        this._restoredResultListenerSub = App.addListener('appRestoredResult', this.onPendingResult.bind(this));
+        this._restoredResultListenerSub = from(App.addListener('appRestoredResult', this.onPendingResult.bind(this))).subscribe(
+          {
+            error: (err) => {
+              this._zone.run(() => {
+                throw Error.ensureError(err);
+              });
+            }
+          })
       }
     }
   }
 
   public removeHandlers(): void {
     if (this._platformService.isAndroid()) {
-      if (this._stateChangeListenerSub != null) {
-        this._stateChangeListenerSub.remove().catch(err => {
-          this._zone.run(() => {
-            throw Error.ensureError(err);
-          });
-        });
 
-        this._stateChangeListenerSub = null;
-      }
+      this._stateChangeListenerSub?.unsubscribe();
+      this._stateChangeListenerSub = null;
 
-      if (this._restoredResultListenerSub != null) {
-        this._restoredResultListenerSub.remove().catch(err => {
-          this._zone.run(() => {
-            throw Error.ensureError(err);
-          });
-        });
+      this._restoredResultListenerSub?.unsubscribe();
+      this._restoredResultListenerSub = null;
 
-        this._restoredResultListenerSub = null;
-      }
     }
   }
 

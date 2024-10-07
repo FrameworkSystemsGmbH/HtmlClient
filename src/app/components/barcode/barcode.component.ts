@@ -1,9 +1,9 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
-import { BarcodeFormat } from '@app/enums/barcode-format';
+import { BarcodeFormat as FSBarcodeFormat } from '@app/enums/barcode-format';
 import { BarcodeService } from '@app/services/actions/barcode.service';
 import { BackService } from '@app/services/back-service';
-import { BarcodeScanner, CameraDirection, SupportedFormat } from '@capacitor-community/barcode-scanner';
+import { BarcodeScanner, LensFacing, BarcodeFormat, BarcodeScannedEvent } from '@capacitor-mlkit/barcode-scanning';
 import { from, Subscription } from 'rxjs';
 
 /** Die Component ist einfach nur ein Overlay. Hinter das Template wird das Video gesetzt.
@@ -44,28 +44,30 @@ export class BarcodeComponent implements OnInit, OnDestroy {
     this._onBackButtonListener = this.onBackButton.bind(this);
     this._backService.addBackButtonListener(this._onBackButtonListener, BackButtonPriority.Overlay);
 
-    const format: BarcodeFormat = this._barcodeService.getWantedFormat();
-
-    this._scanSub = from(BarcodeScanner.startScan({
-      cameraDirection: CameraDirection.BACK,
-      targetedFormats: this.getSupportedFormats(format)
-    })).subscribe({
-      next: result => {
-        this._zone.run(() => {
-          this._barcodeService.onSuccess(result.content, this.getScannedFormat(result.format));
-        });
-      },
+    const format: FSBarcodeFormat = this._barcodeService.getWantedFormat();
+    this._scanSub = from(BarcodeScanner.addListener("barcodeScanned", this.barcodeScanned.bind(this))).subscribe({
       error: err => {
         this._zone.run(() => {
           this._barcodeService.onError(Error.ensureError(err));
-        });
+        })
       }
     });
+
+    BarcodeScanner.startScan({
+      lensFacing: LensFacing.Back,
+      formats: this.getSupportedFormats(format)
+    });
+  }
+
+  private barcodeScanned(event: BarcodeScannedEvent): void {
+    if (event != null) {
+      this._barcodeService.onSuccess(event.barcode.rawValue, this.getScannedFormat(event.barcode.format));
+      void BarcodeScanner.stopScan();
+    }
   }
 
   public ngOnDestroy(): void {
     this._scanSub?.unsubscribe();
-
     if (this._onBackButtonListener) {
       this._backService.removeBackButtonListener(this._onBackButtonListener);
     }
@@ -77,119 +79,119 @@ export class BarcodeComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  private getSupportedFormats(format: BarcodeFormat): Array<SupportedFormat> {
-    const formats: Array<SupportedFormat> = new Array<SupportedFormat>();
+  private getSupportedFormats(format: FSBarcodeFormat): Array<BarcodeFormat> {
+    const formats: Array<BarcodeFormat> = new Array<BarcodeFormat>();
 
-    if ((format & BarcodeFormat.AZTEC) === BarcodeFormat.AZTEC.valueOf()) {
-      formats.push(SupportedFormat.AZTEC);
+    if ((format & FSBarcodeFormat.AZTEC) === FSBarcodeFormat.AZTEC.valueOf()) {
+      formats.push(BarcodeFormat.Aztec);
     }
 
-    if ((format & BarcodeFormat.CODABAR) === BarcodeFormat.CODABAR.valueOf()) {
-      formats.push(SupportedFormat.CODABAR);
+    if ((format & FSBarcodeFormat.CODABAR) === FSBarcodeFormat.CODABAR.valueOf()) {
+      formats.push(BarcodeFormat.Codabar);
     }
 
-    if ((format & BarcodeFormat.CODE_128) === BarcodeFormat.CODE_128.valueOf()) {
-      formats.push(SupportedFormat.CODE_128);
+    if ((format & FSBarcodeFormat.CODE_128) === FSBarcodeFormat.CODE_128.valueOf()) {
+      formats.push(BarcodeFormat.Code128);
     }
 
-    if ((format & BarcodeFormat.CODE_39) === BarcodeFormat.CODE_39.valueOf()) {
-      formats.push(SupportedFormat.CODE_39);
+    if ((format & FSBarcodeFormat.CODE_39) === FSBarcodeFormat.CODE_39.valueOf()) {
+      formats.push(BarcodeFormat.Code39);
     }
 
-    if ((format & BarcodeFormat.CODE_93) === BarcodeFormat.CODE_93.valueOf()) {
-      formats.push(SupportedFormat.CODE_93);
+    if ((format & FSBarcodeFormat.CODE_93) === FSBarcodeFormat.CODE_93.valueOf()) {
+      formats.push(BarcodeFormat.Code93);
     }
 
-    if ((format & BarcodeFormat.DATA_MATRIX) === BarcodeFormat.DATA_MATRIX.valueOf()) {
-      formats.push(SupportedFormat.DATA_MATRIX);
+    if ((format & FSBarcodeFormat.DATA_MATRIX) === FSBarcodeFormat.DATA_MATRIX.valueOf()) {
+      formats.push(BarcodeFormat.DataMatrix);
     }
 
-    if ((format & BarcodeFormat.EAN_13) === BarcodeFormat.EAN_13.valueOf()) {
-      formats.push(SupportedFormat.EAN_13);
+    if ((format & FSBarcodeFormat.EAN_13) === FSBarcodeFormat.EAN_13.valueOf()) {
+      formats.push(BarcodeFormat.Ean13);
     }
 
-    if ((format & BarcodeFormat.EAN_8) === BarcodeFormat.EAN_8.valueOf()) {
-      formats.push(SupportedFormat.EAN_8);
+    if ((format & FSBarcodeFormat.EAN_8) === FSBarcodeFormat.EAN_8.valueOf()) {
+      formats.push(BarcodeFormat.Ean8);
     }
 
-    if ((format & BarcodeFormat.ITF) === BarcodeFormat.ITF.valueOf()) {
-      formats.push(SupportedFormat.ITF);
+    if ((format & FSBarcodeFormat.ITF) === FSBarcodeFormat.ITF.valueOf()) {
+      formats.push(BarcodeFormat.Itf);
     }
 
-    if ((format & BarcodeFormat.PDF_417) === BarcodeFormat.PDF_417.valueOf()) {
-      formats.push(SupportedFormat.PDF_417);
+    if ((format & FSBarcodeFormat.PDF_417) === FSBarcodeFormat.PDF_417.valueOf()) {
+      formats.push(BarcodeFormat.Pdf417);
     }
 
-    if ((format & BarcodeFormat.QR_CODE) === BarcodeFormat.QR_CODE.valueOf()) {
-      formats.push(SupportedFormat.QR_CODE);
+    if ((format & FSBarcodeFormat.QR_CODE) === FSBarcodeFormat.QR_CODE.valueOf()) {
+      formats.push(BarcodeFormat.QrCode);
     }
 
-    if ((format & BarcodeFormat.UPC_A) === BarcodeFormat.UPC_A.valueOf()) {
-      formats.push(SupportedFormat.UPC_A);
+    if ((format & FSBarcodeFormat.UPC_A) === FSBarcodeFormat.UPC_A.valueOf()) {
+      formats.push(BarcodeFormat.UpcA);
     }
 
-    if ((format & BarcodeFormat.UPC_E) === BarcodeFormat.UPC_E.valueOf()) {
-      formats.push(SupportedFormat.UPC_E);
+    if ((format & FSBarcodeFormat.UPC_E) === FSBarcodeFormat.UPC_E.valueOf()) {
+      formats.push(BarcodeFormat.UpcE);
     }
 
     return formats;
   }
 
-  private getScannedFormat(format: string | undefined): BarcodeFormat | undefined {
+  private getScannedFormat(format: string | undefined): FSBarcodeFormat | undefined {
     if (format == null) {
       return undefined;
     }
 
-    if (format === SupportedFormat.AZTEC) {
-      return BarcodeFormat.AZTEC;
+    if (format === BarcodeFormat.Aztec) {
+      return FSBarcodeFormat.AZTEC;
     }
 
-    if (format === SupportedFormat.CODABAR) {
-      return BarcodeFormat.CODABAR;
+    if (format === BarcodeFormat.Codabar) {
+      return FSBarcodeFormat.CODABAR;
     }
 
-    if (format === SupportedFormat.CODE_128) {
-      return BarcodeFormat.CODE_128;
+    if (format === BarcodeFormat.Code128) {
+      return FSBarcodeFormat.CODE_128;
     }
 
-    if (format === SupportedFormat.CODE_39) {
-      return BarcodeFormat.CODE_39;
+    if (format === BarcodeFormat.Code39) {
+      return FSBarcodeFormat.CODE_39;
     }
 
-    if (format === SupportedFormat.CODE_93) {
-      return BarcodeFormat.CODE_93;
+    if (format === BarcodeFormat.Code93) {
+      return FSBarcodeFormat.CODE_93;
     }
 
-    if (format === SupportedFormat.DATA_MATRIX) {
-      return BarcodeFormat.DATA_MATRIX;
+    if (format === BarcodeFormat.DataMatrix) {
+      return FSBarcodeFormat.DATA_MATRIX;
     }
 
-    if (format === SupportedFormat.EAN_13) {
-      return BarcodeFormat.EAN_13;
+    if (format === BarcodeFormat.Ean13) {
+      return FSBarcodeFormat.EAN_13;
     }
 
-    if (format === SupportedFormat.EAN_8) {
-      return BarcodeFormat.EAN_8;
+    if (format === BarcodeFormat.Ean8) {
+      return FSBarcodeFormat.EAN_8;
     }
 
-    if (format === SupportedFormat.ITF) {
-      return BarcodeFormat.ITF;
+    if (format === BarcodeFormat.Itf) {
+      return FSBarcodeFormat.ITF;
     }
 
-    if (format === SupportedFormat.PDF_417) {
-      return BarcodeFormat.PDF_417;
+    if (format === BarcodeFormat.Pdf417) {
+      return FSBarcodeFormat.PDF_417;
     }
 
-    if (format === SupportedFormat.QR_CODE) {
-      return BarcodeFormat.QR_CODE;
+    if (format === BarcodeFormat.QrCode) {
+      return FSBarcodeFormat.QR_CODE;
     }
 
-    if (format === SupportedFormat.UPC_A) {
-      return BarcodeFormat.UPC_A;
+    if (format === BarcodeFormat.UpcA) {
+      return FSBarcodeFormat.UPC_A;
     }
 
-    if (format === SupportedFormat.UPC_E) {
-      return BarcodeFormat.UPC_E;
+    if (format === BarcodeFormat.UpcE) {
+      return FSBarcodeFormat.UPC_E;
     }
 
     return undefined;

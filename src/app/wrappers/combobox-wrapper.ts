@@ -114,6 +114,7 @@ export class ComboBoxWrapper extends FittedDataWrapper {
   }
 
   public createComponent(container: ILayoutableContainerWrapper): ComponentRef<ComboBoxComponent> {
+    // eslint-disable-next-line no-nested-ternary
     const compType: any = this.getEditStyle() === EditStyle.ListValuesInput
       ? this.getPlatformService().isNative() ? ComboBoxListMobileComponent : ComboBoxListComponent
       : this.getPlatformService().isNative() ? ComboBoxFreeMobileComponent : ComboBoxFreeComponent;

@@ -1,8 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { PlatformService } from '@app/services/platform.service';
 import * as DomUtil from '@app/util/dom-util';
-import { PluginListenerHandle } from '@capacitor/core';
 import { Keyboard } from '@capacitor/keyboard';
+import { from, Subscription } from 'rxjs';
 
 /** Sobald Keyboard am Phone angezeigt wird, wird Resize und ScrollToFocus
  * über KeyboardService gemanaged. Alles rutscht nach oben, die WebView wird kleiner
@@ -14,7 +14,7 @@ export class KeyboardService {
   private readonly _zone: NgZone;
   private readonly _platformService: PlatformService;
 
-  private _listenerSub: PluginListenerHandle | null = null;
+  private _listenerSub: Subscription | null = null;
 
   public constructor(
     zone: NgZone,
@@ -26,18 +26,18 @@ export class KeyboardService {
 
   public attachHandlers(): void {
     if (this._platformService.isAndroid() && this._listenerSub == null) {
-      this._listenerSub = Keyboard.addListener('keyboardDidShow', this.scrollToFocusOnOpen.bind(this));
+      this._listenerSub = from(Keyboard.addListener('keyboardDidShow', this.scrollToFocusOnOpen.bind(this))).subscribe({
+        error: (err) => {
+        this._zone.run(() => {
+          throw Error.ensureError(err);
+        });
+      }});
     }
   }
 
   public removeHandlers(): void {
-    if (this._platformService.isAndroid() && this._listenerSub != null) {
-      this._listenerSub.remove().catch(err => {
-        this._zone.run(() => {
-          throw Error.ensureError(err);
-        });
-      });
-
+    if (this._platformService.isAndroid()) {
+      this._listenerSub?.unsubscribe();
       this._listenerSub = null;
     }
   }

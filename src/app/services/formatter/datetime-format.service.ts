@@ -94,7 +94,7 @@ export class DateTimeFormatService {
       return null;
     }
 
-    let dateTime: Moment.Moment | null = null;
+    let dateTime: Moment.Moment | null;
 
     dateTime = this.parseMomentFromFormatPattern(value, formatPattern);
     if (dateTime == null) {

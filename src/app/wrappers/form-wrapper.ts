@@ -180,7 +180,7 @@ export class FormWrapper extends ContainerWrapper {
     let resultWidth: number;
     let resultHeight: number;
 
-    let hBarNeeded: boolean = false;
+    let hBarNeeded: boolean;
 
     if (minWidth < availableWidth) {
       hBarNeeded = false;

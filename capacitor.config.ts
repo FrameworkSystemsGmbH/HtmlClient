@@ -11,6 +11,9 @@ const config: CapacitorConfig = {
       'launchAutoHide': false,
       'showSpinner': false
     }
+  },
+  server: {
+    androidScheme: "http"
   }
 };
 

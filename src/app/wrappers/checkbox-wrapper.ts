@@ -83,7 +83,7 @@ export class CheckBoxWrapper extends FittedWrapper {
   }
 
   protected setValueJson(value: string | null): void {
-    let val: boolean = false;
+    let val: boolean;
 
     switch (this._dataSourceType) {
       case DataSourceType.Bool:

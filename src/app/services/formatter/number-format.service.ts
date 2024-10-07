@@ -25,7 +25,7 @@ export class NumberFormatService {
     this._numberFormat = Intl.NumberFormat(localeService.getLocale());
   }
 
-  private getGroupingCount(): number {
+  private getGroupingCount(): number | undefined {
     return this._numberFormat.resolvedOptions().maximumFractionDigits;
   }
 
@@ -164,8 +164,8 @@ export class NumberFormatService {
     const valueAbsStr: string = valueAbs.toString();
     const valueDecimalPointPos: number = valueAbsStr.indexOf('.');
 
-    let valueDigitsStr: string | null = null;
-    let valueDigitsCount: number = 0;
+    let valueDigitsStr: string | null;
+    let valueDigitsCount: number;
     let valueDecimalsStr: string | null = null;
     let valueDecimalsCount: number = 0;
 
@@ -210,14 +210,16 @@ export class NumberFormatService {
       // Add grouping separators if grouping is active
       if (formatInfo.hasGrouping) {
         const groupSep: string = this.getGroupingSeparator();
-        const groupingCount: number = this.getGroupingCount();
+        const groupingCount: number | undefined = this.getGroupingCount();
 
         for (let i = 0; i < digitsStr.length; i++) {
-          if (i > 0 && (digitsStr.length - i) % groupingCount === 0) {
-            resultStr += groupSep;
-          }
+          if (groupingCount != null) {
+            if (i > 0 && (digitsStr.length - i) % groupingCount === 0) {
+              resultStr += groupSep;
+            }
 
-          resultStr += digitsStr.charAt(i);
+            resultStr += digitsStr.charAt(i);
+          }
         }
       } else {
         resultStr += digitsStr;
@@ -352,7 +354,6 @@ export class NumberFormatService {
     }
 
     let isInString: boolean = false;
-    let hasGrouping: boolean = false;
     let isPercent: boolean = false;
     let isPermille: boolean = false;
 
@@ -472,7 +473,7 @@ export class NumberFormatService {
     const firstDigitZeroPos: number | undefined = digitsPart ? digitsPart.indexOf(NumberFormatService._formatZero) : undefined;
     const lastDecimalZeroPos: number | undefined = decimalsPart ? decimalsPart.lastIndexOf(NumberFormatService._formatZero) : undefined;
 
-    hasGrouping = firstDigitPos != null &&
+    const hasGrouping = firstDigitPos != null &&
       lastDigitPos != null &&
       groupingSeparatorPos != null &&
       firstDigitPos < groupingSeparatorPos &&
