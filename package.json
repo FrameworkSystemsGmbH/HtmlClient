@@ -1,6 +1,6 @@
 {
   "name": "htmlclient",
-  "version": "1.0.52",
+  "version": "1.0.53",
   "description": "Framework Studio HTML Client",
   "repository": "npm/npm",
   "private": true,
