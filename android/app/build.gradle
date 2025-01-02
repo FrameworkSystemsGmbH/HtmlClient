@@ -8,8 +8,8 @@ android {
         applicationId "com.fs.htmlclient"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10052
-        versionName "1.0.52"
+        versionCode 10053
+        versionName "1.0.53"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -22,6 +22,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    buildFeatures {
+      dataBinding true
+    }
+    dataBinding {
+      enabled = true
     }
 }
 
