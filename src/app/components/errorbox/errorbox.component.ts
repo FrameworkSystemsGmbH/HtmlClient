@@ -11,17 +11,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  standalone: true,
-  selector: 'hc-errorbox',
-  templateUrl: './errorbox.component.html',
-  styleUrls: ['./errorbox.component.scss'],
-  imports: [
-    A11yModule,
-    CommonModule,
-    DialogResizeDirective,
-    FontAwesomeModule,
-    MatButtonModule
-  ]
+    selector: 'hc-errorbox',
+    templateUrl: './errorbox.component.html',
+    styleUrls: ['./errorbox.component.scss'],
+    imports: [
+        A11yModule,
+        CommonModule,
+        DialogResizeDirective,
+        FontAwesomeModule,
+        MatButtonModule
+    ]
 })
 export class ErrorBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 

@@ -10,14 +10,13 @@ import { CheckBoxWrapper } from '@app/wrappers/checkbox-wrapper';
 import { RadioButtonWrapper } from '@app/wrappers/radio-button-wrapper';
 
 @Component({
-  standalone: true,
-  selector: 'hc-radio',
-  templateUrl: './radio-button.component.html',
-  styleUrls: ['./radio-button.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule
-  ]
+    selector: 'hc-radio',
+    templateUrl: './radio-button.component.html',
+    styleUrls: ['./radio-button.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule
+    ]
 })
 export class RadioButtonComponent extends ControlComponent {
 

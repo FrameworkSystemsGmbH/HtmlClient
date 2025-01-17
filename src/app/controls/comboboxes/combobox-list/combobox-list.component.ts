@@ -12,22 +12,21 @@ import { Observable, Subscription, fromEvent } from 'rxjs';
 import { buffer, debounceTime, map, share } from 'rxjs/operators';
 
 @Component({
-  standalone: true,
-  selector: 'hc-cmb-list',
-  templateUrl: './combobox-list.component.html',
-  styleUrls: ['./combobox-list.component.scss'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule
-  ],
-  animations: [
-    trigger('listState', [
-      state('void', style({ opacity: 0 })),
-      state('*', style({ opacity: 1 })),
-      transition('void => *', animate('200ms ease-in')),
-      transition('* => void', animate('150ms ease-out'))
-    ])
-  ]
+    selector: 'hc-cmb-list',
+    templateUrl: './combobox-list.component.html',
+    styleUrls: ['./combobox-list.component.scss'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule
+    ],
+    animations: [
+        trigger('listState', [
+            state('void', style({ opacity: 0 })),
+            state('*', style({ opacity: 1 })),
+            transition('void => *', animate('200ms ease-in')),
+            transition('* => void', animate('150ms ease-out'))
+        ])
+    ]
 })
 export class ComboBoxListComponent extends ComboBoxDesktopComponent implements AfterViewInit, OnDestroy {
 

@@ -8,14 +8,13 @@ import * as StyleUtil from '@app/util/style-util';
 import { TextBoxMultilineWrapper } from '@app/wrappers/textbox-multiline-wrapper';
 
 @Component({
-  standalone: true,
-  selector: 'hc-txt-multiline',
-  templateUrl: './textbox-multiline.component.html',
-  styleUrls: ['./textbox-multiline.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule
-  ]
+    selector: 'hc-txt-multiline',
+    templateUrl: './textbox-multiline.component.html',
+    styleUrls: ['./textbox-multiline.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule
+    ]
 })
 export class TextBoxMultilineComponent extends TextBoxComponent {
 

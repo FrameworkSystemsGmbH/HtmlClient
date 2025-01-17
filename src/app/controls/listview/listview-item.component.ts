@@ -14,17 +14,16 @@ import { ListViewItemWrapper } from '@app/wrappers/listview-item-wrapper';
 import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
 
 @Component({
-  standalone: true,
-  selector: 'hc-listview-item',
-  templateUrl: './listview-item.component.html',
-  styleUrls: ['./listview-item.component.scss'],
-  imports: [
-    CommonModule,
-    SelectorComponent
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ]
+    selector: 'hc-listview-item',
+    templateUrl: './listview-item.component.html',
+    styleUrls: ['./listview-item.component.scss'],
+    imports: [
+        CommonModule,
+        SelectorComponent
+    ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+    ]
 })
 export class ListViewItemComponent implements OnInit, OnDestroy {
 

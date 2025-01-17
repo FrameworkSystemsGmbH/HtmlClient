@@ -17,14 +17,13 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'hc-app',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  imports: [
-    CommonModule,
-    RouterModule
-  ]
+    selector: 'hc-app',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [
+        CommonModule,
+        RouterModule
+    ]
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 

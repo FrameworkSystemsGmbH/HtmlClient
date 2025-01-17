@@ -9,14 +9,13 @@ import { NumberFormatService } from '@app/services/formatter/number-format.servi
 import { TextBoxNumberWrapper } from '@app/wrappers/textbox-number-wrapper';
 
 @Component({
-  standalone: true,
-  selector: 'hc-txt-number',
-  templateUrl: './textbox-number.component.html',
-  styleUrls: ['./textbox-number.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule
-  ]
+    selector: 'hc-txt-number',
+    templateUrl: './textbox-number.component.html',
+    styleUrls: ['./textbox-number.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule
+    ]
 })
 export class TextBoxNumberComponent extends TextBoxComponent {
 

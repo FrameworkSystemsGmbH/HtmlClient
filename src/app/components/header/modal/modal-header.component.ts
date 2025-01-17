@@ -13,14 +13,13 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'hc-modal-header',
-  templateUrl: './modal-header.component.html',
-  styleUrls: ['./modal-header.component.scss'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule
-  ]
+    selector: 'hc-modal-header',
+    templateUrl: './modal-header.component.html',
+    styleUrls: ['./modal-header.component.scss'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule
+    ]
 })
 export class ModalHeaderComponent implements OnInit, OnDestroy {
 

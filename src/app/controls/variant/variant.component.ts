@@ -6,13 +6,12 @@ import * as StyleUtil from '@app/util/style-util';
 import { VariantWrapper } from '@app/wrappers/variant-wrapper';
 
 @Component({
-  standalone: true,
-  selector: 'hc-variant',
-  templateUrl: './variant.component.html',
-  styleUrls: ['./variant.component.scss'],
-  imports: [
-    CommonModule
-  ]
+    selector: 'hc-variant',
+    templateUrl: './variant.component.html',
+    styleUrls: ['./variant.component.scss'],
+    imports: [
+        CommonModule
+    ]
 })
 export class VariantComponent extends ContainerComponent {
 

@@ -9,14 +9,13 @@ import { TextBoxDateTimeWrapper } from '@app/wrappers/textbox-datetime-wrapper';
 import * as Moment from 'moment-timezone';
 
 @Component({
-  standalone: true,
-  selector: 'hc-txt-datetime',
-  templateUrl: './textbox-datetime.component.html',
-  styleUrls: ['./textbox-datetime.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule
-  ]
+    selector: 'hc-txt-datetime',
+    templateUrl: './textbox-datetime.component.html',
+    styleUrls: ['./textbox-datetime.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule
+    ]
 })
 export class TextBoxDateTimeComponent extends TextBoxComponent {
 

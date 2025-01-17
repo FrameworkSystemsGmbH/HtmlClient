@@ -21,20 +21,19 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'hc-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  imports: [
-    CommonModule,
-    DialogResizeDirective,
-    FontAwesomeModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule
-  ]
+    selector: 'hc-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    imports: [
+        CommonModule,
+        DialogResizeDirective,
+        FontAwesomeModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule
+    ]
 })
 export class LoginComponent implements OnInit, OnDestroy {
 

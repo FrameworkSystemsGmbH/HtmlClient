@@ -11,15 +11,14 @@ import * as KeyUtil from '@app/util/key-util';
 import { Subscription } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'hc-cmb-list-mobile-overlay',
-  templateUrl: './combobox-list-mobile-overlay.component.html',
-  styleUrls: ['./combobox-list-mobile-overlay.component.scss'],
-  imports: [
-    A11yModule,
-    CommonModule,
-    DialogResizeDirective
-  ]
+    selector: 'hc-cmb-list-mobile-overlay',
+    templateUrl: './combobox-list-mobile-overlay.component.html',
+    styleUrls: ['./combobox-list-mobile-overlay.component.scss'],
+    imports: [
+        A11yModule,
+        CommonModule,
+        DialogResizeDirective
+    ]
 })
 export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
 

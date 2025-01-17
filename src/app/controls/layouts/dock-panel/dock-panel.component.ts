@@ -6,13 +6,12 @@ import * as StyleUtil from '@app/util/style-util';
 import { DockPanelWrapper } from '@app/wrappers/dock-panel-wrapper';
 
 @Component({
-  standalone: true,
-  selector: 'hc-dock-panel',
-  templateUrl: './dock-panel.component.html',
-  styleUrls: ['./dock-panel.component.scss'],
-  imports: [
-    CommonModule
-  ]
+    selector: 'hc-dock-panel',
+    templateUrl: './dock-panel.component.html',
+    styleUrls: ['./dock-panel.component.scss'],
+    imports: [
+        CommonModule
+    ]
 })
 export class DockPanelComponent extends ContainerComponent {
 

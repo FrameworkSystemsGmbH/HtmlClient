@@ -14,17 +14,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faExclamationCircle, faExclamationTriangle, faInfoCircle, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  standalone: true,
-  selector: 'hc-msgbox',
-  templateUrl: './msgbox.component.html',
-  styleUrls: ['./msgbox.component.scss'],
-  imports: [
-    A11yModule,
-    CommonModule,
-    DialogResizeDirective,
-    FontAwesomeModule,
-    MatButtonModule
-  ]
+    selector: 'hc-msgbox',
+    templateUrl: './msgbox.component.html',
+    styleUrls: ['./msgbox.component.scss'],
+    imports: [
+        A11yModule,
+        CommonModule,
+        DialogResizeDirective,
+        FontAwesomeModule,
+        MatButtonModule
+    ]
 })
 export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 

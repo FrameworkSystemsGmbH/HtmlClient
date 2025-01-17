@@ -14,15 +14,14 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'hc-disabled-header',
-  templateUrl: './disabled-header.component.html',
-  styleUrls: ['./disabled-header.component.scss'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    MediaQueryDirective
-  ]
+    selector: 'hc-disabled-header',
+    templateUrl: './disabled-header.component.html',
+    styleUrls: ['./disabled-header.component.scss'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        MediaQueryDirective
+    ]
 })
 export class DisabledHeaderComponent implements OnInit, OnDestroy {
 

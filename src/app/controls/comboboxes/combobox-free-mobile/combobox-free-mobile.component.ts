@@ -10,14 +10,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  standalone: true,
-  selector: 'hc-cmb-free-mobile',
-  templateUrl: './combobox-free-mobile.component.html',
-  styleUrls: ['./combobox-free-mobile.component.scss'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule
-  ]
+    selector: 'hc-cmb-free-mobile',
+    templateUrl: './combobox-free-mobile.component.html',
+    styleUrls: ['./combobox-free-mobile.component.scss'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule
+    ]
 })
 export class ComboBoxFreeMobileComponent extends ComboBoxMobileComponent {
 

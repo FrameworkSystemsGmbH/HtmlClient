@@ -8,14 +8,13 @@ import { StringFormatService } from '@app/services/formatter/string-format.servi
 import { TextBoxPlainWrapper } from '@app/wrappers/textbox-plain-wrapper';
 
 @Component({
-  standalone: true,
-  selector: 'hc-txt-plain',
-  templateUrl: './textbox-plain.component.html',
-  styleUrls: ['./textbox-plain.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule
-  ]
+    selector: 'hc-txt-plain',
+    templateUrl: './textbox-plain.component.html',
+    styleUrls: ['./textbox-plain.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule
+    ]
 })
 export class TextBoxPlainComponent extends TextBoxComponent {
 

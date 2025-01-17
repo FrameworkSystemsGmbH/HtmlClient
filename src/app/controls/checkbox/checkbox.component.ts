@@ -9,14 +9,13 @@ import * as StyleUtil from '@app/util/style-util';
 import { CheckBoxWrapper } from '@app/wrappers/checkbox-wrapper';
 
 @Component({
-  standalone: true,
-  selector: 'hc-chkbox',
-  templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule
-  ]
+    selector: 'hc-chkbox',
+    templateUrl: './checkbox.component.html',
+    styleUrls: ['./checkbox.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule
+    ]
 })
 export class CheckBoxComponent extends ControlComponent {
 

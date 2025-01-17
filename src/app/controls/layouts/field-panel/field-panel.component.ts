@@ -6,13 +6,12 @@ import * as StyleUtil from '@app/util/style-util';
 import { FieldPanelWrapper } from '@app/wrappers/field-panel-wrapper';
 
 @Component({
-  standalone: true,
-  selector: 'hc-field-panel',
-  templateUrl: './field-panel.component.html',
-  styleUrls: ['./field-panel.component.scss'],
-  imports: [
-    CommonModule
-  ]
+    selector: 'hc-field-panel',
+    templateUrl: './field-panel.component.html',
+    styleUrls: ['./field-panel.component.scss'],
+    imports: [
+        CommonModule
+    ]
 })
 export class FieldPanelComponent extends ContainerComponent {
 

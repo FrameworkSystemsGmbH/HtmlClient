@@ -12,17 +12,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  standalone: true,
-  selector: 'hc-retrybox',
-  templateUrl: './retrybox.component.html',
-  styleUrls: ['./retrybox.component.scss'],
-  imports: [
-    A11yModule,
-    CommonModule,
-    DialogResizeDirective,
-    FontAwesomeModule,
-    MatButtonModule
-  ]
+    selector: 'hc-retrybox',
+    templateUrl: './retrybox.component.html',
+    styleUrls: ['./retrybox.component.scss'],
+    imports: [
+        A11yModule,
+        CommonModule,
+        DialogResizeDirective,
+        FontAwesomeModule,
+        MatButtonModule
+    ]
 })
 export class RetryBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 

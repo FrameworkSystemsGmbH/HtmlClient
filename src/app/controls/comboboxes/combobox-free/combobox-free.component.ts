@@ -11,23 +11,22 @@ import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { Subscription, fromEvent } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'hc-cmb-free',
-  templateUrl: './combobox-free.component.html',
-  styleUrls: ['./combobox-free.component.scss'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    FormsModule
-  ],
-  animations: [
-    trigger('listState', [
-      state('void', style({ opacity: 0 })),
-      state('*', style({ opacity: 1 })),
-      transition('void => *', animate('200ms ease-in')),
-      transition('* => void', animate('150ms ease-out'))
-    ])
-  ]
+    selector: 'hc-cmb-free',
+    templateUrl: './combobox-free.component.html',
+    styleUrls: ['./combobox-free.component.scss'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        FormsModule
+    ],
+    animations: [
+        trigger('listState', [
+            state('void', style({ opacity: 0 })),
+            state('*', style({ opacity: 1 })),
+            transition('void => *', animate('200ms ease-in')),
+            transition('* => void', animate('150ms ease-out'))
+        ])
+    ]
 })
 export class ComboBoxFreeComponent extends ComboBoxDesktopComponent implements AfterViewInit, OnDestroy {
 

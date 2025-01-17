@@ -7,13 +7,12 @@ import * as StyleUtil from '@app/util/style-util';
 import { ButtonImageWrapper } from '@app/wrappers/button-image-wrapper';
 
 @Component({
-  standalone: true,
-  selector: 'hc-btn-image',
-  templateUrl: './button-image.component.html',
-  styleUrls: ['./button-image.component.scss'],
-  imports: [
-    CommonModule
-  ]
+    selector: 'hc-btn-image',
+    templateUrl: './button-image.component.html',
+    styleUrls: ['./button-image.component.scss'],
+    imports: [
+        CommonModule
+    ]
 })
 export class ButtonImageComponent extends ButtonComponent {
 

@@ -19,16 +19,15 @@ import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 import { Subscription } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'hc-normal-header',
-  templateUrl: './normal-header.component.html',
-  styleUrls: ['./normal-header.component.scss'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    MediaQueryDirective,
-    OverlayscrollbarsModule
-  ]
+    selector: 'hc-normal-header',
+    templateUrl: './normal-header.component.html',
+    styleUrls: ['./normal-header.component.scss'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        MediaQueryDirective,
+        OverlayscrollbarsModule
+    ]
 })
 export class NormalHeaderComponent implements OnInit, OnDestroy {
 

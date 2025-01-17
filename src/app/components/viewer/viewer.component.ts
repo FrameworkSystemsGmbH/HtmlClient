@@ -18,19 +18,18 @@ import { Subscription } from 'rxjs';
  * Clientteil, welcher Header, Menu, Client-Applikation anzeigt.
  */
 @Component({
-  standalone: true,
-  selector: 'hc-viewer',
-  templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss'],
-  imports: [
-    BlockerComponent,
-    CommonModule,
-    DisabledHeaderComponent,
-    FrameComponent,
-    ModalHeaderComponent,
-    NormalHeaderComponent,
-    SidebarComponent
-  ]
+    selector: 'hc-viewer',
+    templateUrl: './viewer.component.html',
+    styleUrls: ['./viewer.component.scss'],
+    imports: [
+        BlockerComponent,
+        CommonModule,
+        DisabledHeaderComponent,
+        FrameComponent,
+        ModalHeaderComponent,
+        NormalHeaderComponent,
+        SidebarComponent
+    ]
 })
 export class ViewerComponent implements OnInit, OnDestroy {
 

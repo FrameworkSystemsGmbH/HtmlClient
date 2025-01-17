@@ -15,35 +15,36 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  standalone: true,
-  selector: 'hc-listview',
-  templateUrl: './listview.component.html',
-  styleUrls: ['./listview.component.scss'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule
-  ],
-  animations: [
-    trigger('listwrapper', [
-      transition(':enter', [])
-    ]),
-    trigger('listheader', [
-      transition('void => *', [
-        style({
-          transform: 'translateY(-100%)'
-        }),
-        animate(100, style({
-          transform: 'translateY(0)'
-        }))]),
-      transition('* => void', [
-        style({
-          transform: 'translateY(0)'
-        }),
-        animate(100, style({
-          transform: 'translateY(-100%)'
-        }))])
-    ])
-  ]
+    selector: 'hc-listview',
+    templateUrl: './listview.component.html',
+    styleUrls: ['./listview.component.scss'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule
+    ],
+    animations: [
+        trigger('listwrapper', [
+            transition(':enter', [])
+        ]),
+        trigger('listheader', [
+            transition('void => *', [
+                style({
+                    transform: 'translateY(-100%)'
+                }),
+                animate(100, style({
+                    transform: 'translateY(0)'
+                }))
+            ]),
+            transition('* => void', [
+                style({
+                    transform: 'translateY(0)'
+                }),
+                animate(100, style({
+                    transform: 'translateY(-100%)'
+                }))
+            ])
+        ])
+    ]
 })
 export class ListViewComponent extends ControlComponent implements OnInit {
 

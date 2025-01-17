@@ -3,13 +3,12 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ButtonComponent } from '@app/controls/buttons/button.component';
 
 @Component({
-  standalone: true,
-  selector: 'hc-btn-plain',
-  templateUrl: './button-plain.component.html',
-  styleUrls: ['./button-plain.component.scss'],
-  imports: [
-    CommonModule
-  ]
+    selector: 'hc-btn-plain',
+    templateUrl: './button-plain.component.html',
+    styleUrls: ['./button-plain.component.scss'],
+    imports: [
+        CommonModule
+    ]
 })
 export class ButtonPlainComponent extends ButtonComponent {
 

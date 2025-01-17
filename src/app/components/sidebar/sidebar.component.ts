@@ -15,48 +15,51 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'hc-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
-  imports: [
-    CommonModule,
-    FontAwesomeModule
-  ],
-  animations: [
-    trigger('sidebar', [
-      transition('void => *', [
-        style({
-          transform: 'translateX(-30rem)'
-        }),
-        animate(200, style({
-          transform: 'translateX(0)'
-        }))]),
-      transition('* => void', [
-        style({
-          transform: 'translateX(0)'
-        }),
-        animate(200, style({
-          transform: 'translateX(-30rem)'
-        }))])
-    ]),
-    trigger('overlay', [
-      transition('void => *', [
-        style({
-          opacity: 0
-        }),
-        animate(200, style({
-          opacity: 0.75
-        }))]),
-      transition('* => void', [
-        style({
-          opacity: 0.75
-        }),
-        animate(200, style({
-          opacity: 0
-        }))])
-    ])
-  ]
+    selector: 'hc-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss'],
+    imports: [
+        CommonModule,
+        FontAwesomeModule
+    ],
+    animations: [
+        trigger('sidebar', [
+            transition('void => *', [
+                style({
+                    transform: 'translateX(-30rem)'
+                }),
+                animate(200, style({
+                    transform: 'translateX(0)'
+                }))
+            ]),
+            transition('* => void', [
+                style({
+                    transform: 'translateX(0)'
+                }),
+                animate(200, style({
+                    transform: 'translateX(-30rem)'
+                }))
+            ])
+        ]),
+        trigger('overlay', [
+            transition('void => *', [
+                style({
+                    opacity: 0
+                }),
+                animate(200, style({
+                    opacity: 0.75
+                }))
+            ]),
+            transition('* => void', [
+                style({
+                    opacity: 0.75
+                }),
+                animate(200, style({
+                    opacity: 0
+                }))
+            ])
+        ])
+    ]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
