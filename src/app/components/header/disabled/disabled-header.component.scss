@@ -1,6 +1,6 @@
 @use 'sass:math';
 
-@import '../../../../scss/variables.scss';
+@use '../../../../scss/variables.scss' as *;
 
 $header-border: 0.1rem solid $header-border-color;
 

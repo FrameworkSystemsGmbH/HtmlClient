@@ -1,3 +1,5 @@
+@use "sass:map";
+
 // Font
 $global-font-family: Arial, Helvetica, sans-serif;
 $global-font-size: 1.4rem;
@@ -66,8 +68,8 @@ $breakpoints: (
 }
 
 @mixin respond-above($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    $breakpoint-value: map-get($breakpoints, $breakpoint);
+  @if map.has-key($breakpoints, $breakpoint) {
+    $breakpoint-value: map.get($breakpoints, $breakpoint);
     @media (min-width: $breakpoint-value) {
       @content;
     }

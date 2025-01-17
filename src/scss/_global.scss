@@ -1,3 +1,5 @@
+@use 'variables' as var;
+
 * {
   box-sizing: border-box;
 }
@@ -9,12 +11,12 @@
 
 html {
   font-size: 62.5%;
-  font-family: $global-font-family;
+  font-family: var.$global-font-family;
 }
 
 body {
   position: relative;
-  font-size: $global-font-size;
+  font-size: var.$global-font-size;
 }
 
 html,
