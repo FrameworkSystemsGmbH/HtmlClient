@@ -9,3 +9,8 @@
 
 # Build directories
 /dist
+
+/android/.gradle
+/android/.idea
+
+/.vscode
