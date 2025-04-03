@@ -3,7 +3,7 @@ import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BarcodeFormat as FSBarcodeFormat } from '@app/enums/barcode-format';
 import { BarcodeService } from '@app/services/actions/barcode.service';
 import { BackService } from '@app/services/back-service';
-import { BarcodeScanner, LensFacing, BarcodeFormat, BarcodeScannedEvent } from '@capacitor-mlkit/barcode-scanning';
+import { BarcodeScanner, LensFacing, BarcodeFormat, BarcodesScannedEvent } from '@capacitor-mlkit/barcode-scanning';
 import { from, Subscription } from 'rxjs';
 
 /** Die Component ist einfach nur ein Overlay. Hinter das Template wird das Video gesetzt.
@@ -45,7 +45,7 @@ export class BarcodeComponent implements OnInit, OnDestroy {
     this._backService.addBackButtonListener(this._onBackButtonListener, BackButtonPriority.Overlay);
 
     const format: FSBarcodeFormat = this._barcodeService.getWantedFormat();
-    this._scanSub = from(BarcodeScanner.addListener("barcodeScanned", this.barcodeScanned.bind(this))).subscribe({
+    this._scanSub = from(BarcodeScanner.addListener('barcodesScanned', this.barcodeScanned.bind(this))).subscribe({
       error: err => {
         this._zone.run(() => {
           this._barcodeService.onError(Error.ensureError(err));
@@ -59,9 +59,9 @@ export class BarcodeComponent implements OnInit, OnDestroy {
     });
   }
 
-  private barcodeScanned(event: BarcodeScannedEvent): void {
-    if (event != null) {
-      this._barcodeService.onSuccess(event.barcode.rawValue, this.getScannedFormat(event.barcode.format));
+  private barcodeScanned(event: BarcodesScannedEvent): void {
+    if (event != null && event.barcodes.length > 0) {
+      this._barcodeService.onSuccess(event.barcodes[0].rawValue, this.getScannedFormat(event.barcodes[0].format));
       void BarcodeScanner.stopScan();
     }
   }
