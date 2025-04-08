@@ -96,8 +96,12 @@
               justify-content: flex-end;
               margin-top: 1rem;
 
+              .spacer {
+                flex: 1 1 auto;
+              }
+
               button:not(:last-child) {
-                margin-right: 0.5rem;
+                margin-right: 1.5rem;
               }
             }
           }

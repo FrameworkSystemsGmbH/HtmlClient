@@ -8,7 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { LastSessionInfo } from '@app/common/last-session-info';
 import { LoginBroker } from '@app/common/login-broker';
 import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
+import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
+import { MsgBoxIcon } from '@app/enums/msgbox-icon';
+import { MsgBoxResult } from '@app/enums/msgbox-result';
 import { BrokerService } from '@app/services/broker.service';
+import { DialogService } from '@app/services/dialog.service';
 import { LoginService } from '@app/services/login.service';
 import { StateService } from '@app/services/state.service';
 import { IAppState } from '@app/store/app.state';
@@ -18,22 +22,22 @@ import * as DomUtil from '@app/util/dom-util';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, take } from 'rxjs';
 
 @Component({
-    selector: 'hc-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    imports: [
-        CommonModule,
-        DialogResizeDirective,
-        FontAwesomeModule,
-        MatButtonModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule
-    ]
+  selector: 'hc-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  imports: [
+    CommonModule,
+    DialogResizeDirective,
+    FontAwesomeModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule
+  ]
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
@@ -65,11 +69,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   public constructor(
     loginService: LoginService,
     brokerService: BrokerService,
+    private readonly _dialogService: DialogService,
     stateService: StateService,
     store: Store<IAppState>
   ) {
     this._loginService = loginService;
     this._brokerService = brokerService;
+    this._dialogService = _dialogService;
     this._stateService = stateService;
     this._store = store;
   }
@@ -113,7 +119,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.editorShown = true;
   }
 
-  public openEditorUpdate(broker: LoginBroker): void {
+  public openEditorUpdate(event: any, broker: LoginBroker): void {
+    event.stopPropagation();
     if (broker.name === this.activeBrokerName) {
       return;
     }
@@ -140,10 +147,32 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  public deleteBroker(broker: LoginBroker): void {
-    if (broker.name !== this.activeBrokerName) {
-      this._loginService.deleteBroker(broker);
+  public deleteBroker(brokerName?: string | null): void {
+    if (!brokerName || brokerName === this.activeBrokerName) {
+      return;
     }
+    this._dialogService.showMsgBox({
+      title: `Delete broker '${brokerName}'?`,
+      message: `Broker '${brokerName}' will be deleted.`,
+      icon: MsgBoxIcon.Question,
+      buttons: MsgBoxButtons.OkCancel
+    }).subscribe((value: MsgBoxResult) => {
+      if (value === MsgBoxResult.Ok) {
+        this.doDeleteBroker(brokerName);
+      }
+    });
+  }
+
+  private doDeleteBroker(brokerName: string) {
+    this.brokers$?.pipe(
+      take(1)  // Only take the first value emitted
+    ).subscribe((brokers: Array<LoginBroker>) => {
+      const brokerToDelete = brokers.find(broker => broker.name === brokerName);
+      if (brokerToDelete) {
+        this._loginService.deleteBroker(brokerToDelete);
+        this.exitEditor();
+      }
+    });
   }
 
   public loadBroker(event: any, broker: LoginBroker): void {
