@@ -57,10 +57,9 @@
           </mat-form-field>
           <div class="form-actions">
             @if (editingExisting) {
-            <button class="delete" type="button" mat-raised-button [disabled]="this.nameControl.value === activeBrokerName" color="warn" (click)="deleteBroker(this.nameControl.value)">
+            <button type="button" mat-raised-button [disabled]="this.nameControl.value === activeBrokerName" color="warn" (click)="deleteBroker(this.nameControl.value)">
               <fa-icon [icon]="iconTrash" [fixedWidth]="true" />
             </button>
-            <span class="spacer"></span>
             }
             <button type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingExisting ? 'Save' : 'Add' }}</button>
             <button type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
@@ -81,7 +80,7 @@
             <div class="broker">
               <h3 class="broker-name">{{ broker.name }}</h3>
               <div class="broker-actions">
-                <button type="button" mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate($event, broker)">
+                <button type="button" mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(broker)">
                   <fa-icon [icon]="iconEdit" [fixedWidth]="true" />
                 </button>
               </div>

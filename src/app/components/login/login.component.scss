@@ -96,11 +96,11 @@
               justify-content: flex-end;
               margin-top: 1rem;
 
-              .spacer {
-                flex: 1 1 auto;
+              button:is(:first-child) {
+                margin-right: auto;
               }
 
-              button:not(:last-child) {
+              button:not(:last-child, :first-child) {
                 margin-right: 1.5rem;
               }
             }

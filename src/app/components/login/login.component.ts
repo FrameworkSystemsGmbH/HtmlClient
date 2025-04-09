@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private readonly _loginService: LoginService;
   private readonly _brokerService: BrokerService;
   private readonly _stateService: StateService;
+  private readonly _dialogService: DialogService;
   private readonly _store: Store<IAppState>;
 
   private _brokerValidator: any;
@@ -69,13 +70,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   public constructor(
     loginService: LoginService,
     brokerService: BrokerService,
-    private readonly _dialogService: DialogService,
+    dialogService: DialogService,
     stateService: StateService,
     store: Store<IAppState>
   ) {
     this._loginService = loginService;
     this._brokerService = brokerService;
-    this._dialogService = _dialogService;
+    this._dialogService = dialogService;
     this._stateService = stateService;
     this._store = store;
   }
@@ -119,8 +120,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.editorShown = true;
   }
 
-  public openEditorUpdate(event: any, broker: LoginBroker): void {
-    event.stopPropagation();
+  public openEditorUpdate(broker: LoginBroker): void {
     if (broker.name === this.activeBrokerName) {
       return;
     }
