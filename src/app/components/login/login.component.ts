@@ -20,9 +20,9 @@ import { selectBrokerName } from '@app/store/broker/broker.selectors';
 import { setTitleDefault } from '@app/store/runtime/runtime.actions';
 import * as DomUtil from '@app/util/dom-util';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition, faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faPlus, faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, take } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'hc-login',
@@ -65,7 +65,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   private readonly _store: Store<IAppState>;
 
   private _brokerValidator: any;
+  private _deleteBrokerSub: Subscription | null = null;
   private _activeBrokerNameSub: Subscription | null = null;
+  private _editLoginBroker: LoginBroker | null = null;
 
   public constructor(
     loginService: LoginService,
@@ -101,6 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this._activeBrokerNameSub?.unsubscribe();
+    this._deleteBrokerSub?.unsubscribe();
   }
 
   public getLastRequestTimeLocalString(): string | null {
@@ -131,12 +134,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.urlControl.setValue(broker.url);
     this.editingExisting = true;
     this.editorShown = true;
+    this._editLoginBroker = broker;
   }
 
   public exitEditor(): void {
     this.addForm.reset();
     this.editorShown = false;
     this.editingExisting = false;
+    this._editLoginBroker = null;
   }
 
   public saveBroker(): void {
@@ -151,28 +156,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (!brokerName || brokerName === this.activeBrokerName) {
       return;
     }
-    this._dialogService.showMsgBox({
+
+    this._deleteBrokerSub?.unsubscribe();
+
+    this._deleteBrokerSub = this._dialogService.showMsgBox({
       title: `Delete broker '${brokerName}'?`,
       message: `Broker '${brokerName}' will be deleted.`,
       icon: MsgBoxIcon.Question,
       buttons: MsgBoxButtons.OkCancel
-    }).subscribe((value: MsgBoxResult) => {
-      if (value === MsgBoxResult.Ok) {
-        this.doDeleteBroker(brokerName);
-      }
-    });
-  }
-
-  private doDeleteBroker(brokerName: string) {
-    this.brokers$?.pipe(
-      take(1)  // Only take the first value emitted
-    ).subscribe((brokers: Array<LoginBroker>) => {
-      const brokerToDelete = brokers.find(broker => broker.name === brokerName);
-      if (brokerToDelete) {
-        this._loginService.deleteBroker(brokerToDelete);
-        this.exitEditor();
-      }
-    });
+    }).pipe(
+      map((result: MsgBoxResult) => {
+        if (this._editLoginBroker && result === MsgBoxResult.Ok) {
+          this._loginService.deleteBroker(this._editLoginBroker);
+          this.exitEditor();
+        }
+      })).subscribe();
   }
 
   public loadBroker(event: any, broker: LoginBroker): void {
