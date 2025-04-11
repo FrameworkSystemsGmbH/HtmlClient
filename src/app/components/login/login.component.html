@@ -56,8 +56,13 @@
             }
           </mat-form-field>
           <div class="form-actions">
-            <button type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingExisting ? 'Save' : 'Add' }}</button>
-            <button type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
+            @if (editingExisting) {
+            <button class="delete-action" type="button" mat-raised-button [disabled]="this.nameControl.value === activeBrokerName" color="warn" (click)="deleteBroker(this.nameControl.value)">
+              <fa-icon [icon]="iconTrash" [fixedWidth]="true" />
+            </button>
+            }
+            <button class="edit-action" type="submit" [disabled]="!addForm.valid" mat-raised-button color="primary">{{ editingExisting ? 'Save' : 'Add' }}</button>
+            <button class="edit-action" type="reset" mat-raised-button color="primary" (click)="exitEditor()">Cancel</button>
           </div>
         </form>
       </div>
@@ -77,9 +82,6 @@
               <div class="broker-actions">
                 <button type="button" mat-raised-button [disabled]="broker.name === activeBrokerName" color="primary" (click)="openEditorUpdate(broker)">
                   <fa-icon [icon]="iconEdit" [fixedWidth]="true" />
-                </button>
-                <button type="button" mat-raised-button [disabled]="broker.name === activeBrokerName" color="warn" (click)="deleteBroker(broker)">
-                  <fa-icon [icon]="iconTrash" [fixedWidth]="true" />
                 </button>
               </div>
             </div>

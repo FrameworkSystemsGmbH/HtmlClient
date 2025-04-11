@@ -8,7 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { LastSessionInfo } from '@app/common/last-session-info';
 import { LoginBroker } from '@app/common/login-broker';
 import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
+import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
+import { MsgBoxIcon } from '@app/enums/msgbox-icon';
+import { MsgBoxResult } from '@app/enums/msgbox-result';
 import { BrokerService } from '@app/services/broker.service';
+import { DialogService } from '@app/services/dialog.service';
 import { LoginService } from '@app/services/login.service';
 import { StateService } from '@app/services/state.service';
 import { IAppState } from '@app/store/app.state';
@@ -16,24 +20,24 @@ import { selectBrokerName } from '@app/store/broker/broker.selectors';
 import { setTitleDefault } from '@app/store/runtime/runtime.actions';
 import * as DomUtil from '@app/util/dom-util';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition, faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faPlus, faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 
 @Component({
-    selector: 'hc-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    imports: [
-        CommonModule,
-        DialogResizeDirective,
-        FontAwesomeModule,
-        MatButtonModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule
-    ]
+  selector: 'hc-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  imports: [
+    CommonModule,
+    DialogResizeDirective,
+    FontAwesomeModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule
+  ]
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
@@ -57,19 +61,24 @@ export class LoginComponent implements OnInit, OnDestroy {
   private readonly _loginService: LoginService;
   private readonly _brokerService: BrokerService;
   private readonly _stateService: StateService;
+  private readonly _dialogService: DialogService;
   private readonly _store: Store<IAppState>;
 
   private _brokerValidator: any;
+  private _deleteBrokerSub: Subscription | null = null;
   private _activeBrokerNameSub: Subscription | null = null;
+  private _editLoginBroker: LoginBroker | null = null;
 
   public constructor(
     loginService: LoginService,
     brokerService: BrokerService,
+    dialogService: DialogService,
     stateService: StateService,
     store: Store<IAppState>
   ) {
     this._loginService = loginService;
     this._brokerService = brokerService;
+    this._dialogService = dialogService;
     this._stateService = stateService;
     this._store = store;
   }
@@ -94,6 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this._activeBrokerNameSub?.unsubscribe();
+    this._deleteBrokerSub?.unsubscribe();
   }
 
   public getLastRequestTimeLocalString(): string | null {
@@ -124,12 +134,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.urlControl.setValue(broker.url);
     this.editingExisting = true;
     this.editorShown = true;
+    this._editLoginBroker = broker;
   }
 
   public exitEditor(): void {
     this.addForm.reset();
     this.editorShown = false;
     this.editingExisting = false;
+    this._editLoginBroker = null;
   }
 
   public saveBroker(): void {
@@ -140,10 +152,25 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  public deleteBroker(broker: LoginBroker): void {
-    if (broker.name !== this.activeBrokerName) {
-      this._loginService.deleteBroker(broker);
+  public deleteBroker(brokerName?: string | null): void {
+    if (!brokerName || brokerName === this.activeBrokerName) {
+      return;
     }
+
+    this._deleteBrokerSub?.unsubscribe();
+
+    this._deleteBrokerSub = this._dialogService.showMsgBox({
+      title: `Delete broker '${brokerName}'?`,
+      message: `Broker '${brokerName}' will be deleted.`,
+      icon: MsgBoxIcon.Question,
+      buttons: MsgBoxButtons.OkCancel
+    }).pipe(
+      map((result: MsgBoxResult) => {
+        if (this._editLoginBroker && result === MsgBoxResult.Ok) {
+          this._loginService.deleteBroker(this._editLoginBroker);
+          this.exitEditor();
+        }
+      })).subscribe();
   }
 
   public loadBroker(event: any, broker: LoginBroker): void {

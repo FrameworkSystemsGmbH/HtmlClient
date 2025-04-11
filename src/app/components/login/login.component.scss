@@ -96,8 +96,12 @@
               justify-content: flex-end;
               margin-top: 1rem;
 
-              button:not(:last-child) {
-                margin-right: 0.5rem;
+              .delete-action {
+                margin-right: auto;
+              }
+
+              .edit-action:not(:last-child){
+                margin-right: 1.5rem;
               }
             }
           }
