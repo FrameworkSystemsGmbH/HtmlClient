@@ -1,4 +1,4 @@
-<nav class="header" hcMediaQuery [mediaQuery]="'(min-width: 768px)'" (mediaQueryChanged)="mediaQueryChanged($event)">
+<nav class="header" hcMediaQuery mediaQuery="(min-width: 768px)" (mediaQueryChanged)="mediaQueryChanged($event)">
   <div class="header-left" [style.background-color]="showCompact ? getFormBgColor() : null">
     <div class="header-left-label">
       <span>{{ showCompact ? getFormTitle() : appTitle }}</span>
