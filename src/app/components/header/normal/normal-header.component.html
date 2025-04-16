@@ -1,4 +1,4 @@
-<nav class="header" hcMediaQuery [mediaQuery]="'(min-width: 768px)'" (mediaQueryChanged)="mediaQueryChanged($event)">
+<nav class="header" hcMediaQuery mediaQuery="(min-width: 768px)" (mediaQueryChanged)="mediaQueryChanged($event)">
   <div class="header-left">
     @if (showCompact) {
     <button type="button" class="header-left-button" (click)="toggleSidebar()">
