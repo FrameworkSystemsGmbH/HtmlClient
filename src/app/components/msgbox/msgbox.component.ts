@@ -68,8 +68,6 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.defaultButtonFocus === MsgBoxDefaultButton.Last && (this.buttons === MsgBoxButtons.OkCancel || this.buttons === MsgBoxButtons.RetryCancel || this.buttons === MsgBoxButtons.YesNo)) {
       this.defaultButtonFocus = MsgBoxDefaultButton.First;
     }
-
-    console.log(this.defaultButtonFocus);
   }
 
   public ngOnInit(): void {
