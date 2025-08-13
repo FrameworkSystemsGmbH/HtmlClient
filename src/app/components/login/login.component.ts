@@ -9,6 +9,7 @@ import { LastSessionInfo } from '@app/common/last-session-info';
 import { LoginBroker } from '@app/common/login-broker';
 import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
+import { MsgBoxDefaultButton } from '@app/enums/msgbox-defaultbutton';
 import { MsgBoxIcon } from '@app/enums/msgbox-icon';
 import { MsgBoxResult } from '@app/enums/msgbox-result';
 import { BrokerService } from '@app/services/broker.service';
@@ -163,7 +164,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       title: `Delete broker '${brokerName}'?`,
       message: `Broker '${brokerName}' will be deleted.`,
       icon: MsgBoxIcon.Question,
-      buttons: MsgBoxButtons.OkCancel
+      buttons: MsgBoxButtons.OkCancel,
+      defaultButton: MsgBoxDefaultButton.Last
     }).pipe(
       map((result: MsgBoxResult) => {
         if (this._editLoginBroker && result === MsgBoxResult.Ok) {

@@ -27,17 +27,37 @@
   </div>
   <div #footer class="hc-msgbox-footer" tabindex="-1" cdkTrapFocus>
     @if (buttons == buttonsType.YesNo || buttons == buttonsType.YesNoCancel) {
+    @if (defaultButtonFocus === defaultButtonFocusType.First) {
+    <button type="button" mat-raised-button (click)="onYesClick()" cdkFocusInitial>Yes</button>
+    } @else {
     <button type="button" mat-raised-button (click)="onYesClick()">Yes</button>
+    }
+    @if (defaultButtonFocus === defaultButtonFocusType.Second) {
+    <button type="button" mat-raised-button (click)="onNoClick()" cdkFocusInitial>No</button>
+    } @else {
     <button type="button" mat-raised-button (click)="onNoClick()">No</button>
     }
+    }
     @if (buttons == buttonsType.Ok || buttons == buttonsType.OkCancel) {
+    @if (defaultButtonFocus === defaultButtonFocusType.First) {
+    <button type="button" mat-raised-button (click)="onOkClick()" cdkFocusInitial>Ok</button>
+    } @else {
     <button type="button" mat-raised-button (click)="onOkClick()">Ok</button>
     }
+    }
     @if (buttons == buttonsType.AbortRetryIgnore) {
+    @if (defaultButtonFocus === defaultButtonFocusType.First) {
+    <button type="button" mat-raised-button (click)="onAbortClick()" cdkFocusInitial>Abort</button>
+    } @else {
     <button type="button" mat-raised-button (click)="onAbortClick()">Abort</button>
     }
+    }
     @if (buttons == buttonsType.AbortRetryIgnore || buttons == buttonsType.RetryCancel) {
+    @if (defaultButtonFocus === defaultButtonFocusType.First || (defaultButtonFocus === defaultButtonFocusType.Second && buttons == buttonsType.AbortRetryIgnore)) {
+    <button type="button" mat-raised-button (click)="onRetryClick()" cdkFocusInitial>Retry</button>
+    } @else {
     <button type="button" mat-raised-button (click)="onRetryClick()">Retry</button>
+    }
     }
     @if (buttons == buttonsType.AbortRetryIgnore) {
     <button type="button" mat-raised-button (click)="onIgnoreClick()">Ignore</button>
