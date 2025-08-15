@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { createAllButtons } from '@app/components/msgbox/msgbox-buttons';
 import { IMsgBoxData } from '@app/components/msgbox/msgbox-data.interface';
 import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
@@ -49,6 +50,8 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly _dialogRef: MatDialogRef<MsgBoxComponent>;
 
   private _onBackButtonListener: (() => boolean) | null = null;
+
+  private allButtons = createAllButtons(this.defaultButtonFocusType);
 
   public constructor(
     backService: BackService,
@@ -101,6 +104,16 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     return true;
+  }
+
+  getButtons() {
+    return this.allButtons
+      .filter(btn => btn.showFor.includes(this.buttons))
+      .map(btn => ({
+        label: btn.label,
+        click: () => (this as any)[btn.clickHandler](),
+        focus: btn.focusWhen(this.defaultButtonFocus, this.buttons)
+      }));
   }
 
   public onYesClick(): void {
