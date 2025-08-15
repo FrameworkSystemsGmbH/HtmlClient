@@ -2,6 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { ControlType } from '@app/enums/control-type';
 import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
+import { MsgBoxDefaultButton } from '@app/enums/msgbox-defaultbutton';
 import { MsgBoxIcon } from '@app/enums/msgbox-icon';
 import { MsgBoxResult } from '@app/enums/msgbox-result';
 import { ControlsService, IWrapperCreationOptions } from '@app/services/controls.service';
@@ -93,7 +94,8 @@ export class FormsService {
         buttons: MsgBoxButtons.YesNo,
         icon: MsgBoxIcon.Question,
         message: 'Do you want to close the session?',
-        title: this._title
+        title: this._title,
+        defaultButton: MsgBoxDefaultButton.Last
       }).subscribe({
         next: result => {
           if (result === MsgBoxResult.Yes) {
