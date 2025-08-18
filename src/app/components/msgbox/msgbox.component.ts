@@ -42,16 +42,14 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   public icon: MsgBoxIcon;
   public iconType: typeof MsgBoxIcon = MsgBoxIcon;
   public buttons: MsgBoxButtons;
-  public buttonsType: typeof MsgBoxButtons = MsgBoxButtons;
   public defaultButtonFocus: MsgBoxDefaultButton;
-  public defaultButtonFocusType: typeof MsgBoxDefaultButton = MsgBoxDefaultButton;
 
   private readonly _backService: BackService;
   private readonly _dialogRef: MatDialogRef<MsgBoxComponent>;
 
   private _onBackButtonListener: (() => boolean) | null = null;
 
-  private allButtons = createAllButtons(this.defaultButtonFocusType);
+  private allButtons = createAllButtons();
 
   public constructor(
     backService: BackService,
@@ -111,36 +109,12 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
       .filter(btn => btn.showFor.includes(this.buttons))
       .map(btn => ({
         label: btn.label,
-        click: () => (this as any)[btn.clickHandler](),
+        click: () => this.onBtnClick(btn.result),
         focus: btn.focusWhen(this.defaultButtonFocus, this.buttons)
       }));
   }
 
-  public onYesClick(): void {
-    this._dialogRef.close(MsgBoxResult.Yes);
-  }
-
-  public onNoClick(): void {
-    this._dialogRef.close(MsgBoxResult.No);
-  }
-
-  public onOkClick(): void {
-    this._dialogRef.close(MsgBoxResult.Ok);
-  }
-
-  public onAbortClick(): void {
-    this._dialogRef.close(MsgBoxResult.Abort);
-  }
-
-  public onRetryClick(): void {
-    this._dialogRef.close(MsgBoxResult.Retry);
-  }
-
-  public onIgnoreClick(): void {
-    this._dialogRef.close(MsgBoxResult.Ignore);
-  }
-
-  public onCancelClick(): void {
-    this._dialogRef.close(MsgBoxResult.Cancel);
+  public onBtnClick(result: MsgBoxResult): void {
+    this._dialogRef.close(result);
   }
 }
