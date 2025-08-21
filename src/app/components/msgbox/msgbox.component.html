@@ -26,24 +26,13 @@
     <span>{{ message }}</span>
   </div>
   <div #footer class="hc-msgbox-footer" tabindex="-1" cdkTrapFocus>
-    @if (buttons == buttonsType.YesNo || buttons == buttonsType.YesNoCancel) {
-    <button type="button" mat-raised-button (click)="onYesClick()">Yes</button>
-    <button type="button" mat-raised-button (click)="onNoClick()">No</button>
-    }
-    @if (buttons == buttonsType.Ok || buttons == buttonsType.OkCancel) {
-    <button type="button" mat-raised-button (click)="onOkClick()">Ok</button>
-    }
-    @if (buttons == buttonsType.AbortRetryIgnore) {
-    <button type="button" mat-raised-button (click)="onAbortClick()">Abort</button>
-    }
-    @if (buttons == buttonsType.AbortRetryIgnore || buttons == buttonsType.RetryCancel) {
-    <button type="button" mat-raised-button (click)="onRetryClick()">Retry</button>
-    }
-    @if (buttons == buttonsType.AbortRetryIgnore) {
-    <button type="button" mat-raised-button (click)="onIgnoreClick()">Ignore</button>
-    }
-    @if (buttons == buttonsType.OkCancel || buttons == buttonsType.RetryCancel || buttons == buttonsType.YesNoCancel) {
-    <button type="button" mat-raised-button (click)="onCancelClick()">Cancel</button>
-    }
+    @for (btn of getButtons(); track btn.label) {
+    <button type="button"
+            mat-raised-button
+            (click)="btn.click()"
+            [attr.cdkFocusInitial]="btn.focus ? '' : null">
+      {{ btn.label }}
+    </button>
+  }
   </div>
 </div>

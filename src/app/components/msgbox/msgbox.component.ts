@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { createAllButtons } from '@app/components/msgbox/msgbox-buttons';
 import { IMsgBoxData } from '@app/components/msgbox/msgbox-data.interface';
 import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
+import { MsgBoxDefaultButton } from '@app/enums/msgbox-defaultbutton';
 import { MsgBoxIcon } from '@app/enums/msgbox-icon';
 import { MsgBoxResult } from '@app/enums/msgbox-result';
 import { BackService } from '@app/services/back-service';
@@ -14,16 +16,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faExclamationCircle, faExclamationTriangle, faInfoCircle, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-    selector: 'hc-msgbox',
-    templateUrl: './msgbox.component.html',
-    styleUrls: ['./msgbox.component.scss'],
-    imports: [
-        A11yModule,
-        CommonModule,
-        DialogResizeDirective,
-        FontAwesomeModule,
-        MatButtonModule
-    ]
+  selector: 'hc-msgbox',
+  templateUrl: './msgbox.component.html',
+  styleUrls: ['./msgbox.component.scss'],
+  imports: [
+    A11yModule,
+    CommonModule,
+    DialogResizeDirective,
+    FontAwesomeModule,
+    MatButtonModule
+  ]
 })
 export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -40,12 +42,14 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   public icon: MsgBoxIcon;
   public iconType: typeof MsgBoxIcon = MsgBoxIcon;
   public buttons: MsgBoxButtons;
-  public buttonsType: typeof MsgBoxButtons = MsgBoxButtons;
+  public defaultButtonFocus: MsgBoxDefaultButton;
 
   private readonly _backService: BackService;
   private readonly _dialogRef: MatDialogRef<MsgBoxComponent>;
 
   private _onBackButtonListener: (() => boolean) | null = null;
+
+  private allButtons = createAllButtons();
 
   public constructor(
     backService: BackService,
@@ -59,6 +63,12 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     this.message = data.message;
     this.icon = data.icon;
     this.buttons = data.buttons;
+    this.defaultButtonFocus = data.defaultButton;
+
+    // Ist der DefaultButton größer als die Anzahl der angezeigten Buttons -> Fallback auf ersten Button
+    if (this.defaultButtonFocus === MsgBoxDefaultButton.Last && (this.buttons === MsgBoxButtons.OkCancel || this.buttons === MsgBoxButtons.RetryCancel || this.buttons === MsgBoxButtons.YesNo)) {
+      this.defaultButtonFocus = MsgBoxDefaultButton.First;
+    }
   }
 
   public ngOnInit(): void {
@@ -94,31 +104,17 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     return true;
   }
 
-  public onYesClick(): void {
-    this._dialogRef.close(MsgBoxResult.Yes);
+  getButtons() {
+    return this.allButtons
+      .filter(btn => btn.showFor.includes(this.buttons))
+      .map(btn => ({
+        label: btn.label,
+        click: () => this.onBtnClick(btn.result),
+        focus: btn.focusWhen(this.defaultButtonFocus, this.buttons)
+      }));
   }
 
-  public onNoClick(): void {
-    this._dialogRef.close(MsgBoxResult.No);
-  }
-
-  public onOkClick(): void {
-    this._dialogRef.close(MsgBoxResult.Ok);
-  }
-
-  public onAbortClick(): void {
-    this._dialogRef.close(MsgBoxResult.Abort);
-  }
-
-  public onRetryClick(): void {
-    this._dialogRef.close(MsgBoxResult.Retry);
-  }
-
-  public onIgnoreClick(): void {
-    this._dialogRef.close(MsgBoxResult.Ignore);
-  }
-
-  public onCancelClick(): void {
-    this._dialogRef.close(MsgBoxResult.Cancel);
+  public onBtnClick(result: MsgBoxResult): void {
+    this._dialogRef.close(result);
   }
 }

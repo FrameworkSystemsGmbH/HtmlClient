@@ -7,6 +7,7 @@ import { LoginBroker } from '@app/common/login-broker';
 import { LoginOptions } from '@app/common/login-options';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
+import { MsgBoxDefaultButton } from '@app/enums/msgbox-defaultbutton';
 import { MsgBoxIcon } from '@app/enums/msgbox-icon';
 import { MsgBoxResult } from '@app/enums/msgbox-result';
 import { RequestType } from '@app/enums/request-type';
@@ -576,7 +577,8 @@ export class BrokerService {
           title: this._title,
           message: msgBoxJson.message,
           icon: msgBoxJson.icon,
-          buttons: msgBoxJson.buttons
+          buttons: msgBoxJson.buttons,
+          defaultButton: msgBoxJson.defaultButton
         }).pipe(
           mergeMap(result => this.handleEvent(new InternalEvent<ClientMsgBoxEvent>(new ClientMsgBoxEvent(formId, id, result))))
         )),
@@ -619,7 +621,8 @@ export class BrokerService {
           title: this._title,
           message: msg,
           icon: msgBoxIcon,
-          buttons: MsgBoxButtons.YesNo
+          buttons: MsgBoxButtons.YesNo,
+          defaultButton: MsgBoxDefaultButton.Last
         }).pipe(
           mergeMap(msgBoxResult => {
             if (msgBoxResult === MsgBoxResult.Yes) {
@@ -659,7 +662,8 @@ export class BrokerService {
           title: this._title,
           message: partsStr,
           icon: MsgBoxIcon.Exclamation,
-          buttons: MsgBoxButtons.Ok
+          buttons: MsgBoxButtons.Ok,
+          defaultButton: MsgBoxDefaultButton.Last
         }).pipe(
           mergeMap(() => RxJsUtil.voidObs())
         )),
