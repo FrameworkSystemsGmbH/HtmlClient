@@ -8,8 +8,8 @@ android {
         applicationId "com.fs.htmlclient"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10057
-        versionName "1.0.57"
+        versionCode 10058
+        versionName "1.0.58"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
