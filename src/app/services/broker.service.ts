@@ -37,8 +37,8 @@ import * as RxJsUtil from '@app/util/rxjs-util';
 import { Store } from '@ngrx/store';
 import { WebViewCache } from 'capacitor-plugin-webview-cache';
 import * as Moment from 'moment-timezone';
-import { Observable, of as obsOf, Subject, Subscription } from 'rxjs';
-import { concatMap, map, mergeMap, retry, tap } from 'rxjs/operators';
+import { defer, Observable, of as obsOf, Subject, Subscription, throwError, timer } from 'rxjs';
+import { concatMap, map, mergeMap, retry, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class BrokerService {
@@ -271,19 +271,33 @@ export class BrokerService {
 
     this._lastRequestTime = Moment.utc();
 
-    return this._httpClient.post(this._activeBrokerRequestUrl, requestJson).pipe(
+    const requestUrl: string = this._activeBrokerRequestUrl;
+    const maxRetries: number = 3;
+
+    return defer(() => this._httpClient.post(requestUrl, requestJson)).pipe(
+      tap(() => this._loaderService.fireLoadingChanged(true)),
       retry({
-        delay: attempts => attempts.pipe(
-          tap(() => this._loaderService.fireLoadingChanged(false)),
-          mergeMap(error => this.createRequestRetryBox(error)),
-          tap(() => this._loaderService.fireLoadingChanged(true))
-        )
+        count: maxRetries,
+        delay: (error, _) => {
+          this._loaderService.fireLoadingChanged(false);
+
+          return this.createRequestRetryBox(error).pipe(
+            switchMap(retryAllowed => {
+              if (retryAllowed) {
+                return timer(1000);
+              } else {
+                return throwError(() => error);
+              }
+            }),
+            tap(() => this._loaderService.fireLoadingChanged(true))
+          );
+        }
       })
     );
   }
 
-  private createRequestRetryBox(error: any): Observable<void> {
-    return new Observable<void>(sub => {
+  private createRequestRetryBox(error: any): Observable<boolean> {
+    return new Observable<boolean>(sub => {
       try {
         const title: string = this._title;
         const message: string = error && error.status === 0 ? 'Request could not be sent because of a network error!' : error.message;
@@ -296,9 +310,10 @@ export class BrokerService {
         }).subscribe({
           next: result => {
             if (result === RetryBoxResult.Retry) {
-              sub.next();
+              sub.next(true);
             } else {
               this.closeApplication();
+              sub.next(false);
             }
           },
           error: err => sub.error(err),

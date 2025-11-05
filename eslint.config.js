@@ -1,9 +1,10 @@
 import eslint from "@eslint/js";
+import { defineConfig } from 'eslint/config';
 import tseslint from "typescript-eslint";
 import angular from "angular-eslint";
 
 // Export our config array, which is composed together thanks to the typed utility function from typescript-eslint
-export default tseslint.config(
+export default defineConfig(
   {
     // Everything in this config object targets our TypeScript files (Components, Directives, Pipes etc)
     files: ["**/*.js", "**/*.ts"],
