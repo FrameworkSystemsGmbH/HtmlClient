@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, UntypedFormControl, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -59,30 +59,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     url: this.urlControl
   });
 
-  private readonly _loginService: LoginService;
-  private readonly _brokerService: BrokerService;
-  private readonly _stateService: StateService;
-  private readonly _dialogService: DialogService;
-  private readonly _store: Store<IAppState>;
+  private readonly _loginService = inject(LoginService);
+  private readonly _brokerService = inject(BrokerService);
+  private readonly _stateService = inject(StateService);
+  private readonly _dialogService = inject(DialogService);
+  private readonly _store = inject(Store<IAppState>);
 
   private _brokerValidator: any;
   private _deleteBrokerSub: Subscription | null = null;
   private _activeBrokerNameSub: Subscription | null = null;
   private _editLoginBroker: LoginBroker | null = null;
-
-  public constructor(
-    loginService: LoginService,
-    brokerService: BrokerService,
-    dialogService: DialogService,
-    stateService: StateService,
-    store: Store<IAppState>
-  ) {
-    this._loginService = loginService;
-    this._brokerService = brokerService;
-    this._dialogService = dialogService;
-    this._stateService = stateService;
-    this._store = store;
-  }
 
   public ngOnInit(): void {
     this._brokerValidator = this.createBrokerValidator(this._loginService);

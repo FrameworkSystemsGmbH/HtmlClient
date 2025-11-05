@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { NumberFormatInfo } from '@app/common/number-format-info';
 import { ParseMethod } from '@app/enums/parse-method';
 import { TextFormat } from '@app/enums/text-format';
@@ -21,8 +21,8 @@ export class NumberFormatService {
 
   private readonly _numberFormat: Intl.NumberFormat;
 
-  public constructor(localeService: LocaleService) {
-    this._numberFormat = Intl.NumberFormat(localeService.getLocale());
+  public constructor() {
+    this._numberFormat = Intl.NumberFormat(inject(LocaleService).getLocale());
   }
 
   private getGroupingCount(): number | undefined {

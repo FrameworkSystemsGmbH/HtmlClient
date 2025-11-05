@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { inject, Injectable, Injector } from '@angular/core';
 import { PropertyData } from '@app/common/property-data';
 import { PropertyLayer } from '@app/common/property-layer';
 import { PropertyStore } from '@app/common/property-store';
@@ -44,16 +44,8 @@ export interface IWrapperCreationOptions {
 @Injectable({ providedIn: 'root' })
 export class ControlsService {
 
-  private readonly _injector: Injector;
-  private readonly _controlStyleService: ControlStyleService;
-
-  public constructor(
-    injector: Injector,
-    controlStyleService: ControlStyleService
-  ) {
-    this._injector = injector;
-    this._controlStyleService = controlStyleService;
-  }
+  private readonly _injector = inject(Injector);
+  private readonly _controlStyleService = inject(ControlStyleService);
 
   public createWrapperFromType(controlType: ControlType, options: IWrapperCreationOptions): ControlWrapper | null {
     switch (controlType) {

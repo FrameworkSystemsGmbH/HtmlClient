@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import { Directive, EventEmitter, inject, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 
 /**
  * Schwierig im Angular auf Resizing zu reagieren im TypeScript Code.
@@ -18,22 +18,18 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
   @Output()
   public readonly mediaQueryChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  private readonly _zone: NgZone;
+  private readonly _zone = inject(NgZone);
 
   private _mediaQueryList: MediaQueryList | null = null;
 
   private _mediaQueryListener: ((event: MediaQueryListEvent) => void) | null = null;
-
-  public constructor(zone: NgZone) {
-    this._zone = zone;
-  }
 
   public ngOnInit(): void {
     if (this.mediaQuery != null && this.mediaQuery.trim().length > 0) {
       this._mediaQueryListener = this.fireMediaQueryChanged.bind(this);
 
       this._mediaQueryList = window.matchMedia(this.mediaQuery);
-      this._mediaQueryList.addListener(this._mediaQueryListener);
+      this._mediaQueryList.addEventListener('change', this._mediaQueryListener);
 
       this._zone.run(() => {
         if (this._mediaQueryList != null) {
@@ -45,7 +41,7 @@ export class MediaQueryDirective implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     if (this._mediaQueryList && this._mediaQueryListener) {
-      this._mediaQueryList.removeListener(this._mediaQueryListener);
+      this._mediaQueryList.removeEventListener('change', this._mediaQueryListener);
     }
   }
 

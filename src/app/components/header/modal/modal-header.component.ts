@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BackService } from '@app/services/back-service';
@@ -8,27 +7,24 @@ import { IAppState } from '@app/store/app.state';
 import { selectDisableFormNavigation } from '@app/store/runtime/runtime.selectors';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'hc-modal-header',
-    templateUrl: './modal-header.component.html',
-    styleUrls: ['./modal-header.component.scss'],
-    imports: [
-        CommonModule,
-        FontAwesomeModule
-    ]
+  selector: 'hc-modal-header',
+  templateUrl: './modal-header.component.html',
+  styleUrls: ['./modal-header.component.scss'],
+  imports: [FontAwesomeModule]
 })
 export class ModalHeaderComponent implements OnInit, OnDestroy {
 
   public iconTimes: IconDefinition = faTimes;
   public isCloseIconVisible: boolean = false;
 
-  private readonly _backService: BackService;
-  private readonly _formsService: FormsService;
-  private readonly _store: Store<IAppState>;
+  private readonly _backService = inject(BackService);
+  private readonly _formsService = inject(FormsService);
+  private readonly _store = inject(Store<IAppState>);
 
   private _form: FormWrapper | null = null;
   private _formSub: Subscription | null = null;
@@ -37,16 +33,6 @@ export class ModalHeaderComponent implements OnInit, OnDestroy {
   private _disableFormNavSub: Subscription | null = null;
 
   private onBackButtonListener: (() => boolean) | null = null;
-
-  public constructor(
-    backService: BackService,
-    formsService: FormsService,
-    store: Store<IAppState>
-  ) {
-    this._backService = backService;
-    this._formsService = formsService;
-    this._store = store;
-  }
 
   public ngOnInit(): void {
     this.onBackButtonListener = this.onBackButton.bind(this);

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BackService } from '@app/services/back-service';
 import { DeepLinkService } from '@app/services/deep-link.service';
@@ -17,49 +17,31 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'hc-app',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    imports: [
-        CommonModule,
-        RouterModule
-    ]
+  selector: 'hc-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  imports: [
+    CommonModule,
+    RouterModule
+  ]
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public style: any;
   public ready: boolean = false;
 
-  private readonly _backService: BackService;
-  private readonly _deepLinkService: DeepLinkService;
-  private readonly _focusService: FocusService;
-  private readonly _localeService: LocaleService;
-  private readonly _keyboardService: KeyboardService;
-  private readonly _platformService: PlatformService;
-  private readonly _stateService: StateService;
-  private readonly _store: Store<IAppState>;
+  private readonly _backService = inject(BackService);
+  private readonly _deepLinkService = inject(DeepLinkService);
+  private readonly _focusService = inject(FocusService);
+  private readonly _localeService = inject(LocaleService);
+  private readonly _keyboardService = inject(KeyboardService);
+  private readonly _platformService = inject(PlatformService);
+  private readonly _stateService = inject(StateService);
+  private readonly _store = inject(Store<IAppState>);
 
   private _readySub: Subscription | null = null;
 
-  public constructor(
-    backService: BackService,
-    deepLinkService: DeepLinkService,
-    focusService: FocusService,
-    localeService: LocaleService,
-    keyboardService: KeyboardService,
-    platformService: PlatformService,
-    stateService: StateService,
-    store: Store<IAppState>
-  ) {
-    this._backService = backService;
-    this._deepLinkService = deepLinkService;
-    this._focusService = focusService;
-    this._localeService = localeService;
-    this._keyboardService = keyboardService;
-    this._platformService = platformService;
-    this._stateService = stateService;
-    this._store = store;
-
+  public constructor() {
     this._backService.attachHandlers();
     this._deepLinkService.attachHandlers();
     this._localeService.setMomentLocaleGlobally();

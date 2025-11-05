@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { SelectorComponent } from '@app/components/selector/selector.component';
 import { ListViewSelectionMode } from '@app/enums/listview-selection-mode';
 import { ListViewSelectorPosition } from '@app/enums/listview-selector-position';
@@ -14,16 +14,16 @@ import { ListViewItemWrapper } from '@app/wrappers/listview-item-wrapper';
 import { ListViewWrapper } from '@app/wrappers/listview-wrapper';
 
 @Component({
-    selector: 'hc-listview-item',
-    templateUrl: './listview-item.component.html',
-    styleUrls: ['./listview-item.component.scss'],
-    imports: [
-        CommonModule,
-        SelectorComponent
-    ],
-    schemas: [
-        CUSTOM_ELEMENTS_SCHEMA
-    ]
+  selector: 'hc-listview-item',
+  templateUrl: './listview-item.component.html',
+  styleUrls: ['./listview-item.component.scss'],
+  imports: [
+    CommonModule,
+    SelectorComponent
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class ListViewItemComponent implements OnInit, OnDestroy {
 
@@ -42,9 +42,9 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   public containerStyle: any;
   public selectorStyle: any;
 
-  private readonly _baseFormatService: BaseFormatService;
-  private readonly _platformService: PlatformService;
-  private readonly _framesService: FramesService;
+  private readonly _baseFormatService = inject(BaseFormatService);
+  private readonly _platformService = inject(PlatformService);
+  private readonly _framesService = inject(FramesService);
 
   private _id: string = String.empty();
   private _width: number = 0;
@@ -55,16 +55,6 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   private _selectorPosition: ListViewSelectorPosition = ListViewSelectorPosition.MiddleRight;
   private _itemWrapper: ListViewItemWrapper | null = null;
   private _listViewWrapper: ListViewWrapper | null = null;
-
-  public constructor(
-    baseFormatService: BaseFormatService,
-    platformService: PlatformService,
-    framesService: FramesService
-  ) {
-    this._baseFormatService = baseFormatService;
-    this._platformService = platformService;
-    this._framesService = framesService;
-  }
 
   public get selected(): boolean {
     return this._selectedVal;
@@ -108,7 +98,7 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
   }
 
   public onMouseDown(event: any): void {
-    if (this.selector != null && (event.buttons === 1 && event.target && !DomUtil.isDescentantOrSelf(this.selector.nativeElement, event.target))) {
+    if (this.selector != null && (event.buttons === 1 && event.target && !DomUtil.isDescendantOrSelf(this.selector.nativeElement, event.target))) {
       this.isMouseDown = true;
     }
   }
@@ -303,7 +293,7 @@ export class ListViewItemComponent implements OnInit, OnDestroy {
       if (this._listViewWrapper.getSelectedItems().length === 0) {
         this._listViewWrapper.setMobileSelectionModeEnabled(false);
       }
-    } else if (this.selector != null && (event.target && !DomUtil.isDescentantOrSelf(this.selector.nativeElement, event.target))) {
+    } else if (this.selector != null && (event.target && !DomUtil.isDescendantOrSelf(this.selector.nativeElement, event.target))) {
       if (this._listViewWrapper != null) {
         this._listViewWrapper.callOnItemActivated(this.getId());
       }

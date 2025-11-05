@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { LastSessionInfo } from '@app/common/last-session-info';
 import { CameraService } from '@app/services/actions/camera.service';
 import { BackService } from '@app/services/back-service';
@@ -35,48 +35,24 @@ const SESSION_TIMEOUT: number = 720; // Minutes -> 12 hours
 @Injectable({ providedIn: 'root' })
 export class StateService {
 
-  private readonly _zone: NgZone;
-  private readonly _backService: BackService;
-  private readonly _brokerService: BrokerService;
-  private readonly _cameraService: CameraService;
-  private readonly _controlStyleService: ControlStyleService;
-  private readonly _formsService: FormsService;
-  private readonly _platformService: PlatformService;
-  private readonly _routingService: RoutingService;
-  private readonly _store: Store<IAppState>;
-  private readonly _textsService: TextsService;
-  private readonly _webStorageService: WebStorageService;
+  private readonly _zone = inject(NgZone);
+  private readonly _backService = inject(BackService);
+  private readonly _brokerService = inject(BrokerService);
+  private readonly _cameraService = inject(CameraService);
+  private readonly _controlStyleService = inject(ControlStyleService);
+  private readonly _formsService = inject(FormsService);
+  private readonly _platformService = inject(PlatformService);
+  private readonly _routingService = inject(RoutingService);
+  private readonly _store = inject(Store<IAppState>);
+  private readonly _textsService = inject(TextsService);
+  private readonly _webStorageService = inject(WebStorageService);
 
   private _brokerState: IBrokerState | null = null;
   private _runtimeState: IRuntimeState | null = null;
   private _stateChangeListenerSub: Subscription | null = null;
   private _restoredResultListenerSub: Subscription | null = null;
 
-  public constructor(
-    zone: NgZone,
-    backService: BackService,
-    brokerService: BrokerService,
-    cameraService: CameraService,
-    controlStyleService: ControlStyleService,
-    formsService: FormsService,
-    platformService: PlatformService,
-    routingService: RoutingService,
-    store: Store<IAppState>,
-    textsService: TextsService,
-    webStorageService: WebStorageService
-  ) {
-    this._zone = zone;
-    this._backService = backService;
-    this._brokerService = brokerService;
-    this._cameraService = cameraService;
-    this._controlStyleService = controlStyleService;
-    this._formsService = formsService;
-    this._platformService = platformService;
-    this._routingService = routingService;
-    this._store = store;
-    this._textsService = textsService;
-    this._webStorageService = webStorageService;
-
+  public constructor() {
     this._brokerService.onLoginComplete.pipe(
       map(() => this._webStorageService.delete(SESSION_STORAGE_KEY))
     ).subscribe();

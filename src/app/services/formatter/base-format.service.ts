@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ParseMethod } from '@app/enums/parse-method';
 import { TextFormat } from '@app/enums/text-format';
 import { DateTimeFormatService } from '@app/services/formatter/datetime-format.service';
@@ -8,19 +8,9 @@ import { StringFormatService } from '@app/services/formatter/string-format.servi
 @Injectable({ providedIn: 'root' })
 export class BaseFormatService {
 
-  private readonly _dateTimeFormatService: DateTimeFormatService;
-  private readonly _numberFormatService: NumberFormatService;
-  private readonly _stringFormatService: StringFormatService;
-
-  public constructor(
-    dateTimeFormatService: DateTimeFormatService,
-    numberFormatService: NumberFormatService,
-    stringFormatService: StringFormatService
-  ) {
-    this._dateTimeFormatService = dateTimeFormatService;
-    this._numberFormatService = numberFormatService;
-    this._stringFormatService = stringFormatService;
-  }
+  private readonly _dateTimeFormatService = inject(DateTimeFormatService);
+  private readonly _numberFormatService = inject(NumberFormatService);
+  private readonly _stringFormatService = inject(StringFormatService);
 
   public formatString(value: string, parseMethod: ParseMethod, format: TextFormat, formatPattern: string | null): string | null {
     switch (format) {

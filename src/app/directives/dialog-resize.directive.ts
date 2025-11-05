@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, Input, OnInit, Renderer2 } from '@angular/core';
 import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 
@@ -21,16 +21,8 @@ export class DialogResizeDirective implements OnInit {
   @Input()
   public ignoreHeight: boolean = false;
 
-  private readonly _elRef: ElementRef;
-  private readonly _renderer: Renderer2;
-
-  public constructor(
-    elRef: ElementRef,
-    renderer: Renderer2
-  ) {
-    this._elRef = elRef;
-    this._renderer = renderer;
-  }
+  private readonly _elRef = inject(ElementRef);
+  private readonly _renderer = inject(Renderer2);
 
   // Android Event
   @HostListener('window:keyboardDidShow')

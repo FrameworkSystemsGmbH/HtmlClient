@@ -1,7 +1,6 @@
-import { AfterViewChecked, ChangeDetectorRef, Directive, ElementRef, NgZone } from '@angular/core';
+import { AfterViewChecked, Directive, ElementRef, inject, NgZone } from '@angular/core';
 import { ComboBoxComponent } from '@app/controls/comboboxes/combobox.component';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-import { FocusService } from '@app/services/focus.service';
 import * as DomUtil from '@app/util/dom-util';
 import * as KeyUtil from '@app/util/key-util';
 import * as StyleUtil from '@app/util/style-util';
@@ -18,18 +17,9 @@ export abstract class ComboBoxDesktopComponent extends ComboBoxComponent impleme
   public dropDownStyle: any;
   public dropDownScrollerStyle: any;
 
-  protected readonly _zone: NgZone;
+  protected readonly _zone = inject(NgZone);
 
   private _lastScrolledIndex: number | null = null;
-
-  public constructor(
-    cdr: ChangeDetectorRef,
-    focusService: FocusService,
-    zone: NgZone
-  ) {
-    super(cdr, focusService);
-    this._zone = zone;
-  }
 
   public ngAfterViewChecked(): void {
     if (this.dropDownVisible) {

@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from '@app/controls/container.component';
 import { TabAlignment } from '@app/enums/tab-alignment';
 import { Visibility } from '@app/enums/visibility';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-import { FocusService } from '@app/services/focus.service';
 import { ImageService } from '@app/services/image.service';
 import { PlatformService } from '@app/services/platform.service';
 import * as StyleUtil from '@app/util/style-util';
@@ -15,14 +14,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 
 @Component({
-    selector: 'hc-tabbed-window',
-    templateUrl: './tabbed-window.component.html',
-    styleUrls: ['./tabbed-window.component.scss'],
-    imports: [
-        CommonModule,
-        FontAwesomeModule,
-        OverlayscrollbarsModule
-    ]
+  selector: 'hc-tabbed-window',
+  templateUrl: './tabbed-window.component.html',
+  styleUrls: ['./tabbed-window.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    OverlayscrollbarsModule
+  ]
 })
 export class TabbedWindowComponent extends ContainerComponent implements OnInit, AfterViewInit {
 
@@ -47,21 +46,14 @@ export class TabbedWindowComponent extends ContainerComponent implements OnInit,
 
   public scrollerOptions: any;
 
-  private readonly _imageService: ImageService;
-  private readonly _platformService: PlatformService;
+  private readonly _imageService = inject(ImageService);
+  private readonly _platformService = inject(PlatformService);
 
   private readonly _scrollAutoHideDelay: number = 500;
 
-  public constructor(
-    cdr: ChangeDetectorRef,
-    focusService: FocusService,
-    imageService: ImageService,
-    platformService: PlatformService
-  ) {
-    super(cdr, focusService);
 
-    this._imageService = imageService;
-    this._platformService = platformService;
+  public constructor() {
+    super();
 
     this.scrollerOptions = {
       paddingAbsolute: true,

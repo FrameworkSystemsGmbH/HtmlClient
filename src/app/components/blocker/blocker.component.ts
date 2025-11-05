@@ -1,5 +1,4 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EMPTY, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -8,9 +7,6 @@ import { delay } from 'rxjs/operators';
     selector: 'hc-blocker',
     templateUrl: './blocker.component.html',
     styleUrls: ['./blocker.component.scss'],
-    imports: [
-        CommonModule
-    ],
     animations: [
         trigger('indicatorState', [
             transition(':enter', [

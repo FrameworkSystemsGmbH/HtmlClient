@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { PropertyData } from '@app/common/property-data';
 import { PropertyLayer } from '@app/common/property-layer';
 import { PropertyStore } from '@app/common/property-store';
@@ -12,7 +12,7 @@ import * as StyleUtil from '@app/util/style-util';
 import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 import { FittedDataWrapper } from '@app/wrappers/fitted-data-wrapper';
 import { TextBoxBaseWrapper } from '@app/wrappers/textbox-base-wrapper';
-import * as Moment from 'moment-timezone';
+import Moment from 'moment-timezone';
 
 /** Im HTML kann Text nicht einfach so measured werden, wie im Java.
  * In der Höhe ist es einfach, in der Breite nicht.
@@ -20,9 +20,9 @@ import * as Moment from 'moment-timezone';
 @Injectable({ providedIn: 'root' })
 export class FontService {
 
-  private readonly _controlStyleService: ControlStyleService;
-  private readonly _numberFormatService: NumberFormatService;
-  private readonly _dateTimeFormatService: DateTimeFormatService;
+  private readonly _controlStyleService = inject(ControlStyleService);
+  private readonly _numberFormatService = inject(NumberFormatService);
+  private readonly _dateTimeFormatService = inject(DateTimeFormatService);
 
   // Common constants
   private readonly _separator: string = '|';
@@ -54,15 +54,7 @@ export class FontService {
 
   private _baseControlStyle: PropertyStore | null = null;
 
-  public constructor(
-    controlStyleService: ControlStyleService,
-    numberFormatService: NumberFormatService,
-    dateTimeFormatService: DateTimeFormatService
-  ) {
-    this._controlStyleService = controlStyleService;
-    this._numberFormatService = numberFormatService;
-    this._dateTimeFormatService = dateTimeFormatService;
-
+  public constructor() {
     const span: HTMLSpanElement | null = document.getElementById('measureHeightSpan');
 
     if (span == null) {

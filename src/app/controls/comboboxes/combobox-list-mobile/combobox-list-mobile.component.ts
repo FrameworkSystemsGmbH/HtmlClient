@@ -1,22 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComboBoxListMobileOverlayComponent } from '@app/controls/comboboxes/combobox-list-mobile/combobox-list-mobile-overlay.component';
 import { ComboBoxMobileComponent } from '@app/controls/comboboxes/combobox-mobile.component';
-import { FocusService } from '@app/services/focus.service';
 import * as DomUtil from '@app/util/dom-util';
 import { ComboBoxWrapper } from '@app/wrappers/combobox-wrapper';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-    selector: 'hc-cmb-list-mobile',
-    templateUrl: './combobox-list-mobile.component.html',
-    styleUrls: ['./combobox-list-mobile.component.scss'],
-    imports: [
-        CommonModule,
-        FontAwesomeModule
-    ]
+  selector: 'hc-cmb-list-mobile',
+  templateUrl: './combobox-list-mobile.component.html',
+  styleUrls: ['./combobox-list-mobile.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule
+  ]
 })
 export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
@@ -28,18 +27,9 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
 
   public iconCaretDown: IconDefinition = faCaretDown;
 
-  private readonly _dialog: MatDialog;
+  private readonly _dialog = inject(MatDialog);
 
   private _overlayShown: boolean = false;
-
-  public constructor(
-    cdr: ChangeDetectorRef,
-    focusService: FocusService,
-    dialog: MatDialog
-  ) {
-    super(cdr, focusService);
-    this._dialog = dialog;
-  }
 
   public getControl(): ElementRef<HTMLElement> | null {
     return this.control;
@@ -97,7 +87,7 @@ export class ComboBoxListMobileComponent extends ComboBoxMobileComponent {
   }
 
   public onContainerMouseDown(event: any): void {
-    if (this.control != null && (!event.target || !DomUtil.isDescentantOrSelf(this.control.nativeElement, event.target))) {
+    if (this.control != null && (!event.target || !DomUtil.isDescendantOrSelf(this.control.nativeElement, event.target))) {
       event.preventDefault();
     }
   }

@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PlatformService } from '@app/services/platform.service';
 import * as StyleUtil from '@app/util/style-util';
 
 @Component({
-    selector: 'hc-selector',
-    templateUrl: './selector.component.html',
-    styleUrls: ['./selector.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule
-    ]
+  selector: 'hc-selector',
+  templateUrl: './selector.component.html',
+  styleUrls: ['./selector.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class SelectorComponent implements OnInit {
 
@@ -65,16 +65,12 @@ export class SelectorComponent implements OnInit {
   public wrapperStyle: any;
   public isDisabledAttr: boolean | null = null;
 
-  private readonly _platformService: PlatformService;
+  private readonly _platformService = inject(PlatformService);
 
   private _sizeValue: number | null = null;
   private _enabledValue: boolean = false;
   private _visibleValue: boolean = false;
   private _checkedValue: boolean = false;
-
-  public constructor(platformService: PlatformService) {
-    this._platformService = platformService;
-  }
 
   public ngOnInit(): void {
     this.setWrapperStyle();

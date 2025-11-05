@@ -194,6 +194,7 @@ export default tseslint.config(
       "@angular-eslint/template/attributes-order": "off",
       "@angular-eslint/template/click-events-have-key-events": "off",
       "@angular-eslint/template/cyclomatic-complexity": "off",
+      "@angular-eslint/template/conditional-complexity": "off", // eslint bug mit control flow syntax @if @else usw. -> https://github.com/angular-eslint/angular-eslint/issues/2627
       "@angular-eslint/template/eqeqeq": "off",
       "@angular-eslint/template/i18n": "off",
       "@angular-eslint/template/interactive-supports-focus": "off",

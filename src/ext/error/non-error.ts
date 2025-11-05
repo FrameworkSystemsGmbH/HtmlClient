@@ -1,4 +1,4 @@
-import * as inspect from 'object-inspect';
+import inspect from 'object-inspect';
 
 export class NonError extends Error {
   public constructor(input: unknown) {

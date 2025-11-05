@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { IErrorBoxData } from '@app/components/errorbox/errorbox-data.interface';
 import { ErrorBoxComponent } from '@app/components/errorbox/errorbox.component';
@@ -14,11 +14,7 @@ import { map } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class DialogService {
 
-  private readonly _dialog: MatDialog;
-
-  public constructor(dialog: MatDialog) {
-    this._dialog = dialog;
-  }
+  private readonly _dialog = inject(MatDialog);
 
   public showErrorBoxForError(error: Error): Observable<void> {
     return this.showErrorBox({

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { MediaQueryDirective } from '@app/directives/media-query.directive';
 import { EventsService } from '@app/services/events.service';
@@ -13,21 +13,21 @@ import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition, faBars, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSignOutAlt, faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { OverlayscrollbarsModule } from 'overlayscrollbars-ngx';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'hc-normal-header',
-    templateUrl: './normal-header.component.html',
-    styleUrls: ['./normal-header.component.scss'],
-    imports: [
-        CommonModule,
-        FontAwesomeModule,
-        MediaQueryDirective,
-        OverlayscrollbarsModule
-    ]
+  selector: 'hc-normal-header',
+  templateUrl: './normal-header.component.html',
+  styleUrls: ['./normal-header.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    MediaQueryDirective,
+    OverlayscrollbarsModule
+  ]
 })
 export class NormalHeaderComponent implements OnInit, OnDestroy {
 
@@ -49,10 +49,10 @@ export class NormalHeaderComponent implements OnInit, OnDestroy {
 
   public scrollerOptions: any;
 
-  private readonly _eventsService: EventsService;
-  private readonly _formsService: FormsService;
-  private readonly _platformService: PlatformService;
-  private readonly _store: Store<IAppState>;
+  private readonly _eventsService = inject(EventsService);
+  private readonly _formsService = inject(FormsService);
+  private readonly _platformService = inject(PlatformService);
+  private readonly _store = inject(Store<IAppState>);
 
   private readonly _scrollAutoHideDelay: number = 500;
 
@@ -64,17 +64,7 @@ export class NormalHeaderComponent implements OnInit, OnDestroy {
   private _formsSub: Subscription | null = null;
   private _selectedFormSub: Subscription | null = null;
 
-  public constructor(
-    eventsService: EventsService,
-    formsService: FormsService,
-    platformService: PlatformService,
-    store: Store<IAppState>
-  ) {
-    this._eventsService = eventsService;
-    this._formsService = formsService;
-    this._platformService = platformService;
-    this._store = store;
-
+  public constructor() {
     this.scrollerOptions = {
       paddingAbsolute: true,
       overflowBehavior: {

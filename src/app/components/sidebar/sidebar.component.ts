@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsService } from '@app/services/forms.service';
 import { PlatformService } from '@app/services/platform.service';
 import { IAppState } from '@app/store/app.state';
@@ -10,56 +10,56 @@ import * as DomUtil from '@app/util/dom-util';
 import * as StyleUtil from '@app/util/style-util';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'hc-sidebar',
-    templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.scss'],
-    imports: [
-        CommonModule,
-        FontAwesomeModule
-    ],
-    animations: [
-        trigger('sidebar', [
-            transition('void => *', [
-                style({
-                    transform: 'translateX(-30rem)'
-                }),
-                animate(200, style({
-                    transform: 'translateX(0)'
-                }))
-            ]),
-            transition('* => void', [
-                style({
-                    transform: 'translateX(0)'
-                }),
-                animate(200, style({
-                    transform: 'translateX(-30rem)'
-                }))
-            ])
-        ]),
-        trigger('overlay', [
-            transition('void => *', [
-                style({
-                    opacity: 0
-                }),
-                animate(200, style({
-                    opacity: 0.75
-                }))
-            ]),
-            transition('* => void', [
-                style({
-                    opacity: 0.75
-                }),
-                animate(200, style({
-                    opacity: 0
-                }))
-            ])
-        ])
-    ]
+  selector: 'hc-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
+  imports: [
+    CommonModule,
+    FontAwesomeModule
+  ],
+  animations: [
+    trigger('sidebar', [
+      transition('void => *', [
+        style({
+          transform: 'translateX(-30rem)'
+        }),
+        animate(200, style({
+          transform: 'translateX(0)'
+        }))
+      ]),
+      transition('* => void', [
+        style({
+          transform: 'translateX(0)'
+        }),
+        animate(200, style({
+          transform: 'translateX(-30rem)'
+        }))
+      ])
+    ]),
+    trigger('overlay', [
+      transition('void => *', [
+        style({
+          opacity: 0
+        }),
+        animate(200, style({
+          opacity: 0.75
+        }))
+      ]),
+      transition('* => void', [
+        style({
+          opacity: 0.75
+        }),
+        animate(200, style({
+          opacity: 0
+        }))
+      ])
+    ])
+  ]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
@@ -74,9 +74,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public headerSideStyle: any;
   public headerSideOverlayStyle: any;
 
-  private readonly _formsService: FormsService;
-  private readonly _platformService: PlatformService;
-  private readonly _store: Store<IAppState>;
+  private readonly _formsService = inject(FormsService);
+  private readonly _platformService = inject(PlatformService);
+  private readonly _store = inject(Store<IAppState>);
 
   private _titleSub: Subscription | null = null;
 
@@ -84,16 +84,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private _selectedFormSub: Subscription | null = null;
 
   private _sidebarVisibleSub: Subscription | null = null;
-
-  public constructor(
-    formsService: FormsService,
-    platformService: PlatformService,
-    store: Store<IAppState>
-  ) {
-    this._formsService = formsService;
-    this._platformService = platformService;
-    this._store = store;
-  }
 
   public ngOnInit(): void {
     this._titleSub = this._store.select(selectTitle).subscribe({

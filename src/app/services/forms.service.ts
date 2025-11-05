@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { inject, Injectable, Injector } from '@angular/core';
 import { InternalEventCallbacks } from '@app/common/events/internal/internal-event-callbacks';
 import { ControlType } from '@app/enums/control-type';
 import { MsgBoxButtons } from '@app/enums/msgbox-buttons';
@@ -24,10 +24,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class FormsService {
 
-  private readonly _injector: Injector;
-  private readonly _dialogService: DialogService;
-  private readonly _eventsService: EventsService;
-  private readonly _controlsService: ControlsService;
+  private readonly _injector = inject(Injector);
+  private readonly _dialogService = inject(DialogService);
+  private readonly _eventsService = inject(EventsService);
+  private readonly _controlsService = inject(ControlsService);
 
   private readonly _forms$$: BehaviorSubject<Array<FormWrapper> | null>;
   private readonly _forms$: Observable<Array<FormWrapper> | null>;
@@ -41,17 +41,7 @@ export class FormsService {
 
   private _title: string = String.empty();
 
-  public constructor(
-    injector: Injector,
-    dialogService: DialogService,
-    eventsService: EventsService,
-    controlsService: ControlsService,
-    store: Store<IAppState>
-  ) {
-    this._injector = injector;
-    this._dialogService = dialogService;
-    this._eventsService = eventsService;
-    this._controlsService = controlsService;
+  public constructor() {
 
     this._forms$$ = new BehaviorSubject<Array<FormWrapper> | null>(null);
     this._forms$ = this._forms$$.asObservable();
@@ -59,7 +49,7 @@ export class FormsService {
     this._selectedForm$$ = new BehaviorSubject<FormWrapper | null>(null);
     this._selectedForm$ = this._selectedForm$$.asObservable();
 
-    store.select(selectTitle).subscribe({
+    inject(Store<IAppState>).select(selectTitle).subscribe({
       next: title => {
         this._title = title;
       }

@@ -1,18 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ButtonComponent } from '@app/controls/buttons/button.component';
-import { FocusService } from '@app/services/focus.service';
 import * as StyleUtil from '@app/util/style-util';
 import { ButtonImageWrapper } from '@app/wrappers/button-image-wrapper';
 
 @Component({
-    selector: 'hc-btn-image',
-    templateUrl: './button-image.component.html',
-    styleUrls: ['./button-image.component.scss'],
-    imports: [
-        CommonModule
-    ]
+  selector: 'hc-btn-image',
+  templateUrl: './button-image.component.html',
+  styleUrls: ['./button-image.component.scss'],
+  imports: [CommonModule]
 })
 export class ButtonImageComponent extends ButtonComponent {
 
@@ -26,21 +23,12 @@ export class ButtonImageComponent extends ButtonComponent {
   public textStyle: any;
   public badgeImageSrc: SafeUrl | null = null;
 
-  private readonly _sanatizer: DomSanitizer;
+  private readonly _sanitizer = inject(DomSanitizer);
 
   private _normaleImageUrl: string | null = null;
   private _disabledImageUrl: string | null = null;
   private _mouseOverImageUrl: string | null = null;
   private _pressedImageUrl: string | null = null;
-
-  public constructor(
-    cdr: ChangeDetectorRef,
-    focusService: FocusService,
-    sanitizer: DomSanitizer
-  ) {
-    super(cdr, focusService);
-    this._sanatizer = sanitizer;
-  }
 
   protected getButton(): ElementRef<HTMLButtonElement> | null {
     return this.button;
@@ -114,7 +102,7 @@ export class ButtonImageComponent extends ButtonComponent {
     this.updateImageUrl();
 
     const badgeImageSrc: string | null = wrapper.getBadgeImageSrc();
-    this.badgeImageSrc = badgeImageSrc != null && badgeImageSrc.trim().length > 0 ? this._sanatizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
+    this.badgeImageSrc = badgeImageSrc != null && badgeImageSrc.trim().length > 0 ? this._sanitizer.bypassSecurityTrustUrl(badgeImageSrc) : null;
   }
 
   protected updateStyles(wrapper: ButtonImageWrapper): void {

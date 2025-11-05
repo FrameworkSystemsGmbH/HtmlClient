@@ -1,21 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { ParseMethod } from '@app/enums/parse-method';
 import { TextFormat } from '@app/enums/text-format';
-import { FocusService } from '@app/services/focus.service';
 import { NumberFormatService } from '@app/services/formatter/number-format.service';
 import { TextBoxNumberWrapper } from '@app/wrappers/textbox-number-wrapper';
 
 @Component({
-    selector: 'hc-txt-number',
-    templateUrl: './textbox-number.component.html',
-    styleUrls: ['./textbox-number.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule
-    ]
+  selector: 'hc-txt-number',
+  templateUrl: './textbox-number.component.html',
+  styleUrls: ['./textbox-number.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class TextBoxNumberComponent extends TextBoxComponent {
 
@@ -27,16 +26,7 @@ export class TextBoxNumberComponent extends TextBoxComponent {
   private _format: TextFormat = TextFormat.None;
   private _formatPattern: string | null = null;
 
-  private readonly _numberFormatService: NumberFormatService;
-
-  public constructor(
-    cdr: ChangeDetectorRef,
-    focusService: FocusService,
-    numberFormatService: NumberFormatService
-  ) {
-    super(cdr, focusService);
-    this._numberFormatService = numberFormatService;
-  }
+  private readonly _numberFormatService = inject(NumberFormatService);
 
   public getInput(): ElementRef<HTMLElement> | null {
     return this.input;

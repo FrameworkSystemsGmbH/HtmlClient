@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IAppState } from '@app/store/app.state';
 import { selectBrokerFilesUrl } from '@app/store/broker/broker.selectors';
 import { Store } from '@ngrx/store';
@@ -6,14 +6,11 @@ import { Store } from '@ngrx/store';
 @Injectable({ providedIn: 'root' })
 export class ImageService {
 
-  private readonly _store: Store<IAppState>;
-
   private _filesUrl: string | null = null;
 
-  public constructor(store: Store<IAppState>) {
-    this._store = store;
+  public constructor() {
 
-    this._store.select(selectBrokerFilesUrl).subscribe({
+    inject(Store<IAppState>).select(selectBrokerFilesUrl).subscribe({
       next: filesUrl => {
         this._filesUrl = filesUrl;
       }

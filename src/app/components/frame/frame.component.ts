@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, NgZone, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormsService } from '@app/services/forms.service';
 import { FramesService } from '@app/services/frames.service';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
@@ -23,22 +23,12 @@ export class FrameComponent implements OnInit, OnDestroy {
   @ViewChild('anchor', { read: ViewContainerRef, static: true })
   public anchor: ViewContainerRef | null = null;
 
-  private readonly _zone: NgZone;
-  private readonly _formsService: FormsService;
-  private readonly _framesService: FramesService;
+  private readonly _zone = inject(NgZone);
+  private readonly _formsService = inject(FormsService);
+  private readonly _framesService = inject(FramesService);
 
   private _selectedForm: FormWrapper | null = null;
   private _selectedFormSub: Subscription | null = null;
-
-  public constructor(
-    zone: NgZone,
-    formsService: FormsService,
-    framesService: FramesService
-  ) {
-    this._zone = zone;
-    this._formsService = formsService;
-    this._framesService = framesService;
-  }
 
   @HostListener('window:resize')
   public layout(): void {

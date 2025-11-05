@@ -1,24 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { ControlComponent } from '@app/controls/control.component';
 import { ParseMethod } from '@app/enums/parse-method';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-import { FocusService } from '@app/services/focus.service';
 import { BaseFormatService } from '@app/services/formatter/base-format.service';
 import * as StyleUtil from '@app/util/style-util';
 import { TemplateControlContentWebComp } from '@app/webcomponents/template-control-content/template-control-content.webcomp';
 import { TemplateControlWrapper } from '@app/wrappers/template-control-wrapper';
 
 @Component({
-    selector: 'hc-template-control',
-    templateUrl: './template-control.component.html',
-    styleUrls: ['./template-control.component.scss'],
-    imports: [
-        CommonModule
-    ],
-    schemas: [
-        CUSTOM_ELEMENTS_SCHEMA
-    ]
+  selector: 'hc-template-control',
+  templateUrl: './template-control.component.html',
+  styleUrls: ['./template-control.component.scss'],
+  imports: [CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TemplateControlComponent extends ControlComponent {
 
@@ -30,16 +25,7 @@ export class TemplateControlComponent extends ControlComponent {
 
   public wrapperStyle: any;
 
-  private readonly _baseFormatService: BaseFormatService;
-
-  public constructor(
-    cdr: ChangeDetectorRef,
-    focusService: FocusService,
-    baseFormatService: BaseFormatService
-  ) {
-    super(cdr, focusService);
-    this._baseFormatService = baseFormatService;
-  }
+  private readonly _baseFormatService = inject(BaseFormatService);
 
   public getWrapper(): TemplateControlWrapper {
     return super.getWrapper() as TemplateControlWrapper;

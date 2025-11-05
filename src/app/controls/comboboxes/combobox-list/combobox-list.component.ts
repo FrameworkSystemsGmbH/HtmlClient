@@ -141,7 +141,7 @@ export class ComboBoxListComponent extends ComboBoxDesktopComponent implements A
   }
 
   public onContainerMouseDown(event: any): void {
-    if (this.control != null && (!event.target || !DomUtil.isDescentantOrSelf(this.control.nativeElement, event.target))) {
+    if (this.control != null && (!event.target || !DomUtil.isDescendantOrSelf(this.control.nativeElement, event.target))) {
       event.preventDefault();
     }
   }

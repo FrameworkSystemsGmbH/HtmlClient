@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IAppState } from '@app/store/app.state';
 import { selectBrokerFilesUrl } from '@app/store/broker/broker.selectors';
 import { Browser } from '@capacitor/browser';
@@ -11,8 +11,8 @@ export class ViewDocService {
 
   private _brokerUrl: string | null = null;
 
-  public constructor(store: Store<IAppState>) {
-    store.select(selectBrokerFilesUrl).subscribe({
+  public constructor() {
+    inject(Store<IAppState>).select(selectBrokerFilesUrl).subscribe({
       next: filesUrl => {
         this._brokerUrl = filesUrl;
       }

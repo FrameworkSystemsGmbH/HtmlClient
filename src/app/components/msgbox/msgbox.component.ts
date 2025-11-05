@@ -1,6 +1,5 @@
 import { A11yModule } from '@angular/cdk/a11y';
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { createAllButtons } from '@app/components/msgbox/msgbox-buttons';
@@ -13,7 +12,7 @@ import { MsgBoxIcon } from '@app/enums/msgbox-icon';
 import { MsgBoxResult } from '@app/enums/msgbox-result';
 import { BackService } from '@app/services/back-service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition, faExclamationCircle, faExclamationTriangle, faInfoCircle, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faExclamationTriangle, faInfoCircle, faQuestionCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'hc-msgbox',
@@ -21,7 +20,6 @@ import { IconDefinition, faExclamationCircle, faExclamationTriangle, faInfoCircl
   styleUrls: ['./msgbox.component.scss'],
   imports: [
     A11yModule,
-    CommonModule,
     DialogResizeDirective,
     FontAwesomeModule,
     MatButtonModule
@@ -44,21 +42,15 @@ export class MsgBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   public buttons: MsgBoxButtons;
   public defaultButtonFocus: MsgBoxDefaultButton;
 
-  private readonly _backService: BackService;
-  private readonly _dialogRef: MatDialogRef<MsgBoxComponent>;
+  private readonly _backService = inject(BackService);
+  private readonly _dialogRef = inject(MatDialogRef<MsgBoxComponent>);
 
   private _onBackButtonListener: (() => boolean) | null = null;
 
   private allButtons = createAllButtons();
 
-  public constructor(
-    backService: BackService,
-    dialogRef: MatDialogRef<MsgBoxComponent>,
-    @Inject(MAT_DIALOG_DATA) data: IMsgBoxData
-  ) {
-    this._backService = backService;
-    this._dialogRef = dialogRef;
-
+  public constructor() {
+    const data = inject(MAT_DIALOG_DATA) as IMsgBoxData;
     this.title = data.title;
     this.message = data.message;
     this.icon = data.icon;
