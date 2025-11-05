@@ -58,7 +58,7 @@ export class CheckBoxComponent extends ControlComponent {
   }
 
   public onWrapperMouseDown(event: any): void {
-    if (this.input != null && (!event.target || !DomUtil.isDescentantOrSelf(this.input.nativeElement, event.target))) {
+    if (this.input != null && (!event.target || !DomUtil.isDescendantOrSelf(this.input.nativeElement, event.target))) {
       event.preventDefault();
     }
   }
@@ -141,7 +141,7 @@ export class CheckBoxComponent extends ControlComponent {
     };
   }
 
-  protected createLabelStyle(wrapper: CheckBoxWrapper): any {
+  protected createLabelStyle(_: CheckBoxWrapper): any {
     return {
       'cursor': !this.isEditable ? 'not-allowed' : 'pointer'
     };

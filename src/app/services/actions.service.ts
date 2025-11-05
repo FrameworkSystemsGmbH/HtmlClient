@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BarcodeService } from '@app/services/actions/barcode.service';
 import { BeepService } from '@app/services/actions/beep.service';
 import { CameraService } from '@app/services/actions/camera.service';
@@ -16,33 +16,15 @@ import { TabbedWindowWrapper } from '@app/wrappers/tabbed-window/tabbed-window-w
 @Injectable({ providedIn: 'root' })
 export class ActionsService {
 
-  private readonly _barcodeService: BarcodeService;
-  private readonly _beepService: BeepService;
-  private readonly _formsService: FormsService;
-  private readonly _geoLocationService: GeoLocationService;
-  private readonly _cameraService: CameraService;
-  private readonly _printReportService: PrintReportService;
-  private readonly _viewDocService: ViewDocService;
+  private readonly _barcodeService = inject(BarcodeService);
+  private readonly _beepService = inject(BeepService);
+  private readonly _formsService = inject(FormsService);
+  private readonly _geoLocationService = inject(GeoLocationService);
+  private readonly _cameraService = inject(CameraService);
+  private readonly _printReportService = inject(PrintReportService);
+  private readonly _viewDocService = inject(ViewDocService);
 
   private _focusActions: Array<() => void> = new Array<() => void>();
-
-  public constructor(
-    barcodeService: BarcodeService,
-    beepService: BeepService,
-    formsService: FormsService,
-    geoLocationService: GeoLocationService,
-    cameraService: CameraService,
-    printReportService: PrintReportService,
-    viewDocService: ViewDocService
-  ) {
-    this._barcodeService = barcodeService;
-    this._beepService = beepService;
-    this._formsService = formsService;
-    this._geoLocationService = geoLocationService;
-    this._cameraService = cameraService;
-    this._printReportService = printReportService;
-    this._viewDocService = viewDocService;
-  }
 
   public processActions(actionsJson: any): void {
     if (actionsJson == null || actionsJson.length === 0) {

@@ -1,21 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { TextFormat } from '@app/enums/text-format';
-import { FocusService } from '@app/services/focus.service';
 import { DateTimeFormatService } from '@app/services/formatter/datetime-format.service';
 import { TextBoxDateTimeWrapper } from '@app/wrappers/textbox-datetime-wrapper';
 import * as Moment from 'moment-timezone';
 
 @Component({
-    selector: 'hc-txt-datetime',
-    templateUrl: './textbox-datetime.component.html',
-    styleUrls: ['./textbox-datetime.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule
-    ]
+  selector: 'hc-txt-datetime',
+  templateUrl: './textbox-datetime.component.html',
+  styleUrls: ['./textbox-datetime.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class TextBoxDateTimeComponent extends TextBoxComponent {
 
@@ -27,16 +26,7 @@ export class TextBoxDateTimeComponent extends TextBoxComponent {
   private _format: TextFormat = TextFormat.None;
   private _formatPattern: string | null = null;
 
-  private readonly _dateTimeFormatService: DateTimeFormatService;
-
-  public constructor(
-    cdr: ChangeDetectorRef,
-    focusService: FocusService,
-    dateTimeFormatService: DateTimeFormatService
-  ) {
-    super(cdr, focusService);
-    this._dateTimeFormatService = dateTimeFormatService;
-  }
+  private readonly _dateTimeFormatService = inject(DateTimeFormatService);
 
   public getInput(): ElementRef<HTMLInputElement> | null {
     return this.input;

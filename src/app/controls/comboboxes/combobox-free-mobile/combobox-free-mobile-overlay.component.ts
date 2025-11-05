@@ -1,6 +1,6 @@
 import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -15,18 +15,18 @@ import * as KeyUtil from '@app/util/key-util';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'hc-cmb-free-mobile-overlay',
-    templateUrl: './combobox-free-mobile-overlay.component.html',
-    styleUrls: ['./combobox-free-mobile-overlay.component.scss'],
-    imports: [
-        A11yModule,
-        CommonModule,
-        DialogResizeDirective,
-        FormsModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule
-    ]
+  selector: 'hc-cmb-free-mobile-overlay',
+  templateUrl: './combobox-free-mobile-overlay.component.html',
+  styleUrls: ['./combobox-free-mobile-overlay.component.scss'],
+  imports: [
+    A11yModule,
+    CommonModule,
+    DialogResizeDirective,
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
+  ]
 })
 export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
 
@@ -44,20 +44,15 @@ export class ComboBoxFreeMobileOverlayComponent implements OnInit, OnDestroy {
   public inputValue: string | null;
   public placeholder: string;
 
-  private readonly _backService: BackService;
-  private readonly _dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent>;
+  private readonly _backService = inject(BackService);
+  private readonly _dialogRef = inject(MatDialogRef<ComboBoxFreeMobileOverlayComponent>);
 
   private _afterOpenSub: Subscription | null = null;
   private _backdropClickSub: Subscription | null = null;
   private _onBackButtonListener: (() => boolean) | null = null;
 
-  public constructor(
-    backService: BackService,
-    dialogRef: MatDialogRef<ComboBoxFreeMobileOverlayComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any
-  ) {
-    this._backService = backService;
-    this._dialogRef = dialogRef;
+  public constructor() {
+    const data = inject(MAT_DIALOG_DATA);
 
     this.entries = data.entries;
     this.selectedIndex = data.selectedIndex;

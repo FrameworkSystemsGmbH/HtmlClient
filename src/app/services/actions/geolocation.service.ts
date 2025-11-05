@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { EventsService } from '@app/services/events.service';
 import { PlatformService } from '@app/services/platform.service';
 import { Geolocation, Position } from '@capacitor/geolocation';
@@ -7,9 +7,9 @@ import { from, map, mergeMap, of, take } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class GeoLocationService {
 
-  private readonly _zone: NgZone;
-  private readonly _eventsService: EventsService;
-  private readonly _platformService: PlatformService;
+  private readonly _zone = inject(NgZone);
+  private readonly _eventsService = inject(EventsService);
+  private readonly _platformService = inject(PlatformService);
 
   private _hasError?: boolean;
   private _errorMessage?: string;
@@ -20,16 +20,6 @@ export class GeoLocationService {
   private _altitude?: number;
   private _heading?: number;
   private _speed?: number;
-
-  public constructor(
-    zone: NgZone,
-    eventsService: EventsService,
-    platformService: PlatformService
-  ) {
-    this._zone = zone;
-    this._eventsService = eventsService;
-    this._platformService = platformService;
-  }
 
   public getGeoLocation(): void {
     from(Geolocation.checkPermissions()).pipe(
@@ -95,7 +85,7 @@ export class GeoLocationService {
           this._errorMessage = error.message;
         }
       } else {
-        this._errorMessage = 'An unknown error occured!';
+        this._errorMessage = 'An unknown error occurred!';
       }
 
       this.fireGotGeoLocation();

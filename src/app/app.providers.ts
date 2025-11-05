@@ -1,12 +1,11 @@
 import { provideHttpClient } from '@angular/common/http';
-import { EnvironmentProviders, ErrorHandler, NgZone, Provider, importProvidersFrom } from '@angular/core';
+import { EnvironmentProviders, ErrorHandler, Provider, importProvidersFrom } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { APP_ROUTES } from '@app/app.routes';
 import { HammerConfig } from '@app/common/hammer/hammer-config';
-import { DialogService } from '@app/services/dialog.service';
 import { ErrorService } from '@app/services/error.service';
 import { brokerReducer } from '@app/store/broker/broker.reducers';
 import { readyReducer } from '@app/store/ready/ready.reducers';
@@ -17,11 +16,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 const errorProvider: Provider = {
   provide: ErrorHandler,
-  useFactory: (zone: NgZone, dialogService: DialogService): ErrorService => new ErrorService(zone, dialogService),
-  deps: [
-    NgZone,
-    DialogService
-  ]
+  useClass: ErrorService
 };
 
 export const APP_PROVIDERS: Array<EnvironmentProviders | Provider> = [

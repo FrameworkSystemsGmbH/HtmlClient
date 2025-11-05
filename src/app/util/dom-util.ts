@@ -27,13 +27,13 @@ export function scrollIntoView(container: HTMLElement, child: HTMLElement, scrol
   const contStyles: CSSStyleDeclaration = getComputedStyle(container);
   const childStyles: CSSStyleDeclaration = getComputedStyle(child);
 
-  const contRect: ClientRect = container.getBoundingClientRect();
+  const contRect: DOMRect = container.getBoundingClientRect();
   const contBorderTopValue: string = contStyles.borderTopWidth;
   const contBorderTop: number = contBorderTopValue ? parseFloat(contBorderTopValue) : 0;
   const contHeight: number = container.clientHeight;
   const contTop: number = contRect.top + contBorderTop;
 
-  const childRect: ClientRect = child.getBoundingClientRect();
+  const childRect: DOMRect = child.getBoundingClientRect();
   const childMarginTopValue: string = childStyles.marginTop;
   const childMarginTop: number = childMarginTopValue ? parseFloat(childMarginTopValue) : 0;
   const childMarginBottomValue: string = childStyles.marginBottom;
@@ -88,7 +88,7 @@ export function isDescendant(container: HTMLElement, element: HTMLElement): bool
   return container.contains(element);
 }
 
-export function isDescentantOrSelf(container: HTMLElement, element: HTMLElement): boolean {
+export function isDescendantOrSelf(container: HTMLElement, element: HTMLElement): boolean {
   return container === element || isDescendant(container, element);
 }
 

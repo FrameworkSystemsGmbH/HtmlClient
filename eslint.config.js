@@ -1,9 +1,10 @@
 import eslint from "@eslint/js";
+import { defineConfig } from 'eslint/config';
 import tseslint from "typescript-eslint";
 import angular from "angular-eslint";
 
 // Export our config array, which is composed together thanks to the typed utility function from typescript-eslint
-export default tseslint.config(
+export default defineConfig(
   {
     // Everything in this config object targets our TypeScript files (Components, Directives, Pipes etc)
     files: ["**/*.js", "**/*.ts"],
@@ -194,6 +195,7 @@ export default tseslint.config(
       "@angular-eslint/template/attributes-order": "off",
       "@angular-eslint/template/click-events-have-key-events": "off",
       "@angular-eslint/template/cyclomatic-complexity": "off",
+      "@angular-eslint/template/conditional-complexity": "off", // eslint bug mit control flow syntax @if @else usw. -> https://github.com/angular-eslint/angular-eslint/issues/2627
       "@angular-eslint/template/eqeqeq": "off",
       "@angular-eslint/template/i18n": "off",
       "@angular-eslint/template/interactive-supports-focus": "off",

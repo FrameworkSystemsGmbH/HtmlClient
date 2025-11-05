@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { BlockerComponent } from '@app/components/blocker/blocker.component';
 import { FrameComponent } from '@app/components/frame/frame.component';
 import { DisabledHeaderComponent } from '@app/components/header/disabled/disabled-header.component';
@@ -18,18 +17,17 @@ import { Subscription } from 'rxjs';
  * Clientteil, welcher Header, Menu, Client-Applikation anzeigt.
  */
 @Component({
-    selector: 'hc-viewer',
-    templateUrl: './viewer.component.html',
-    styleUrls: ['./viewer.component.scss'],
-    imports: [
-        BlockerComponent,
-        CommonModule,
-        DisabledHeaderComponent,
-        FrameComponent,
-        ModalHeaderComponent,
-        NormalHeaderComponent,
-        SidebarComponent
-    ]
+  selector: 'hc-viewer',
+  templateUrl: './viewer.component.html',
+  styleUrls: ['./viewer.component.scss'],
+  imports: [
+    BlockerComponent,
+    DisabledHeaderComponent,
+    FrameComponent,
+    ModalHeaderComponent,
+    NormalHeaderComponent,
+    SidebarComponent
+  ]
 })
 export class ViewerComponent implements OnInit, OnDestroy {
 
@@ -37,9 +35,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public header: ViewerHeader = ViewerHeader.Normal;
   public headerType = ViewerHeader;
 
-  private readonly _formsService: FormsService;
-  private readonly _loaderService: LoaderService;
-  private readonly _store: Store<IAppState>;
+  private readonly _formsService = inject(FormsService);
+  private readonly _loaderService = inject(LoaderService);
+  private readonly _store = inject(Store<IAppState>);
 
   private _isModal: boolean = false;
   private _hideModalHeader: boolean = false;
@@ -48,16 +46,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private _disableFormNavSub: Subscription | null = null;
   private _selectedFormSub: Subscription | null = null;
   private _loadingChangedSub: Subscription | null = null;
-
-  public constructor(
-    formsService: FormsService,
-    loaderService: LoaderService,
-    store: Store<IAppState>
-  ) {
-    this._formsService = formsService;
-    this._loaderService = loaderService;
-    this._store = store;
-  }
 
   public ngOnInit(): void {
     this._disableFormNavSub = this._store.select(selectDisableFormNavigation).subscribe({

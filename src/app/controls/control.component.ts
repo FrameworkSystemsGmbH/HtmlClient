@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectorRef, Directive, EventEmitter, inject, Output } from '@angular/core';
 import { LayoutableComponent } from '@app/controls/layoutable.component';
 import { Visibility } from '@app/enums/visibility';
 import { FocusService } from '@app/services/focus.service';
@@ -19,17 +19,8 @@ export abstract class ControlComponent extends LayoutableComponent {
   public isFocused: boolean = false;
   public isOutlined: boolean = false;
 
-  private readonly _cdr: ChangeDetectorRef;
-  private readonly _focusService: FocusService;
-
-  public constructor(
-    cdr: ChangeDetectorRef,
-    focusService: FocusService
-  ) {
-    super();
-    this._cdr = cdr;
-    this._focusService = focusService;
-  }
+  private readonly _cdr = inject(ChangeDetectorRef);
+  private readonly _focusService = inject(FocusService);
 
   protected getChangeDetectorRef(): ChangeDetectorRef {
     return this._cdr;

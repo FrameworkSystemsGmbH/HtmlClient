@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BarcodeFormat } from '@app/enums/barcode-format';
 import { EventsService } from '@app/services/events.service';
 import { PlatformService } from '@app/services/platform.service';
@@ -10,9 +10,9 @@ import { from, map, mergeMap, of, take } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class BarcodeService {
 
-  private readonly _eventsService: EventsService;
-  private readonly _platformService: PlatformService;
-  private readonly _routingService: RoutingService;
+  private readonly _eventsService = inject(EventsService);
+  private readonly _platformService = inject(PlatformService);
+  private readonly _routingService = inject(RoutingService);
 
   private _wantedFormat: BarcodeFormat = BarcodeFormat.ALL;
 
@@ -21,16 +21,6 @@ export class BarcodeService {
   private _errorMessage?: string;
   private _value?: string;
   private _scannedFormat?: BarcodeFormat;
-
-  public constructor(
-    eventsService: EventsService,
-    platformService: PlatformService,
-    routingService: RoutingService
-  ) {
-    this._eventsService = eventsService;
-    this._platformService = platformService;
-    this._routingService = routingService;
-  }
 
   //Funktioniert nur im Android.
   public scan(format: BarcodeFormat): void {

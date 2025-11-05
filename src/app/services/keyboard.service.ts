@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { PlatformService } from '@app/services/platform.service';
 import * as DomUtil from '@app/util/dom-util';
 import { Keyboard } from '@capacitor/keyboard';
@@ -11,18 +11,10 @@ import { from, Subscription } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class KeyboardService {
 
-  private readonly _zone: NgZone;
-  private readonly _platformService: PlatformService;
+  private readonly _zone = inject(NgZone);
+  private readonly _platformService = inject(PlatformService);
 
   private _listenerSub: Subscription | null = null;
-
-  public constructor(
-    zone: NgZone,
-    platformService: PlatformService
-  ) {
-    this._zone = zone;
-    this._platformService = platformService;
-  }
 
   public attachHandlers(): void {
     if (this._platformService.isAndroid() && this._listenerSub == null) {

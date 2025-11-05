@@ -1,14 +1,10 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingService {
 
-  private readonly _router: Router;
-
-  public constructor(router: Router) {
-    this._router = router;
-  }
+  private readonly _router = inject(Router);
 
   public showLogin(): void {
     if (this._router.routerState.snapshot.url !== '/') {

@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { LoginBroker } from '@app/common/login-broker';
 import { StartBrokerInfo } from '@app/common/start-broker-info';
 import { BrokerService } from '@app/services/broker.service';
@@ -15,11 +15,11 @@ import { from, Subscription } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class DeepLinkService {
 
-  private readonly _brokerService: BrokerService;
-  private readonly _loginService: LoginService;
-  private readonly _platformService: PlatformService;
-  private readonly _store: Store<IAppState>;
-  private readonly _zone: NgZone;
+  private readonly _brokerService = inject(BrokerService);
+  private readonly _loginService = inject(LoginService);
+  private readonly _platformService = inject(PlatformService);
+  private readonly _store = inject(Store<IAppState>);
+  private readonly _zone = inject(NgZone);
 
   private _ready: boolean = false;
   private _active: boolean = false;
@@ -27,20 +27,6 @@ export class DeepLinkService {
   private _readySub: Subscription | null = null;
   private _brokerNameSub: Subscription | null = null;
   private _appUrlListenerSub: Subscription | null = null;
-
-  public constructor(
-    brokerService: BrokerService,
-    loginService: LoginService,
-    platformService: PlatformService,
-    store: Store<IAppState>,
-    zone: NgZone
-  ) {
-    this._brokerService = brokerService;
-    this._loginService = loginService;
-    this._platformService = platformService;
-    this._store = store;
-    this._zone = zone;
-  }
 
   public attachHandlers(): void {
     if (this._platformService.isAndroid()) {

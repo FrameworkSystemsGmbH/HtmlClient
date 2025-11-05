@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { MediaQueryDirective } from '@app/directives/media-query.directive';
 import { EventsService } from '@app/services/events.service';
@@ -9,19 +8,18 @@ import { selectBrokerDirect } from '@app/store/broker/broker.selectors';
 import { selectTitle } from '@app/store/runtime/runtime.selectors';
 import { FormWrapper } from '@app/wrappers/form-wrapper';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'hc-disabled-header',
-    templateUrl: './disabled-header.component.html',
-    styleUrls: ['./disabled-header.component.scss'],
-    imports: [
-        CommonModule,
-        FontAwesomeModule,
-        MediaQueryDirective
-    ]
+  selector: 'hc-disabled-header',
+  templateUrl: './disabled-header.component.html',
+  styleUrls: ['./disabled-header.component.scss'],
+  imports: [
+    FontAwesomeModule,
+    MediaQueryDirective
+  ]
 })
 export class DisabledHeaderComponent implements OnInit, OnDestroy {
 
@@ -30,25 +28,15 @@ export class DisabledHeaderComponent implements OnInit, OnDestroy {
   public showCompact: boolean = false;
   public disabledAttr: boolean | null = null;
 
-  private readonly _eventsService: EventsService;
-  private readonly _formsService: FormsService;
-  private readonly _store: Store<IAppState>;
+  private readonly _eventsService = inject(EventsService);
+  private readonly _formsService = inject(FormsService);
+  private readonly _store = inject(Store<IAppState>);
 
   private _form: FormWrapper | null = null;
 
   private _directSub: Subscription | null = null;
   private _titleSub: Subscription | null = null;
   private _formSub: Subscription | null = null;
-
-  public constructor(
-    eventsService: EventsService,
-    formsService: FormsService,
-    store: Store<IAppState>
-  ) {
-    this._eventsService = eventsService;
-    this._formsService = formsService;
-    this._store = store;
-  }
 
   public ngOnInit(): void {
     this._directSub = this._store.select(selectBrokerDirect).subscribe({

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { LoginBroker } from '@app/common/login-broker';
 import { ClientDataService } from '@app/services/client-data.service';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -6,14 +6,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class LoginService {
 
-  private readonly _clientDataService: ClientDataService;
+  private readonly _clientDataService = inject(ClientDataService);
 
   private readonly _brokers$$: BehaviorSubject<Array<LoginBroker>>;
   private readonly _brokers$: Observable<Array<LoginBroker>>;
 
-  public constructor(clientDataService: ClientDataService) {
-    this._clientDataService = clientDataService;
-
+  public constructor() {
     this._brokers$$ = new BehaviorSubject<Array<LoginBroker>>(new Array<LoginBroker>());
     this._brokers$ = this._brokers$$.asObservable();
 

@@ -1,9 +1,9 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { BarcodeFormat as FSBarcodeFormat } from '@app/enums/barcode-format';
 import { BarcodeService } from '@app/services/actions/barcode.service';
 import { BackService } from '@app/services/back-service';
-import { BarcodeScanner, LensFacing, BarcodeFormat, BarcodesScannedEvent } from '@capacitor-mlkit/barcode-scanning';
+import { BarcodeFormat, BarcodeScanner, BarcodesScannedEvent, LensFacing } from '@capacitor-mlkit/barcode-scanning';
 import { from, Subscription } from 'rxjs';
 
 /** Die Component ist einfach nur ein Overlay. Hinter das Template wird das Video gesetzt.
@@ -22,23 +22,13 @@ und dann wieder zurück in die viewer-component.
 })
 export class BarcodeComponent implements OnInit, OnDestroy {
 
-  private readonly _zone: NgZone;
-  private readonly _backService: BackService;
-  private readonly _barcodeService: BarcodeService;
+  private readonly _zone = inject(NgZone);
+  private readonly _backService = inject(BackService);
+  private readonly _barcodeService = inject(BarcodeService);
 
   private _scanSub: Subscription | null = null;
 
   private _onBackButtonListener: (() => boolean) | null = null;
-
-  public constructor(
-    zone: NgZone,
-    backService: BackService,
-    barcodeService: BarcodeService
-  ) {
-    this._zone = zone;
-    this._backService = backService;
-    this._barcodeService = barcodeService;
-  }
 
   public ngOnInit(): void {
     this._onBackButtonListener = this.onBackButton.bind(this);

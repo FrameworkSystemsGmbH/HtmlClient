@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoginBroker } from '@app/common/login-broker';
 import { LoginOptions } from '@app/common/login-options';
@@ -16,18 +16,10 @@ import { Subscription } from 'rxjs';
 })
 export class LoadComponent implements OnInit, OnDestroy {
 
-  private readonly _route: ActivatedRoute;
-  private readonly _brokerService: BrokerService;
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _brokerService = inject(BrokerService);
 
   private _queryParamsSub: Subscription | null = null;
-
-  public constructor(
-    route: ActivatedRoute,
-    brokerService: BrokerService
-  ) {
-    this._route = route;
-    this._brokerService = brokerService;
-  }
 
   public ngOnInit(): void {
     this._queryParamsSub = this._route.queryParams.subscribe({

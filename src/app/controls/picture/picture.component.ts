@@ -1,22 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Output, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ClientPictureClickEventArgs } from '@app/common/events/eventargs/client-picture-click-eventargs';
 import { ControlComponent } from '@app/controls/control.component';
 import { ContentAlignment } from '@app/enums/content-alignment';
 import { PictureScaleMode } from '@app/enums/picture-scale-mode';
 import { ILayoutableProperties } from '@app/layout/layoutable-properties.interface';
-import { FocusService } from '@app/services/focus.service';
 import * as StyleUtil from '@app/util/style-util';
 import { PictureWrapper } from '@app/wrappers/picture-wrapper';
 
 @Component({
-    selector: 'hc-pic',
-    templateUrl: './picture.component.html',
-    styleUrls: ['./picture.component.scss'],
-    imports: [
-        CommonModule
-    ]
+  selector: 'hc-pic',
+  templateUrl: './picture.component.html',
+  styleUrls: ['./picture.component.scss'],
+  imports: [
+    CommonModule
+  ]
 })
 export class PictureComponent extends ControlComponent {
 
@@ -38,16 +37,7 @@ export class PictureComponent extends ControlComponent {
   public labelStyle: any;
   public imageClass: any;
 
-  private readonly _sanatizer: DomSanitizer;
-
-  public constructor(
-    cdr: ChangeDetectorRef,
-    focusService: FocusService,
-    sanitizer: DomSanitizer
-  ) {
-    super(cdr, focusService);
-    this._sanatizer = sanitizer;
-  }
+  private readonly _sanitizer = inject(DomSanitizer);
 
   public callPicClick(event: MouseEvent, double: boolean): void {
     if (this.getWrapper().hasOnClickEvent()) {
@@ -70,13 +60,13 @@ export class PictureComponent extends ControlComponent {
       pictureWidth = this.wrapperEl.nativeElement.clientWidth;
       pictureHeight = this.wrapperEl.nativeElement.clientHeight;
 
-      const wrapperRect: ClientRect = this.wrapperEl.nativeElement.getBoundingClientRect();
+      const wrapperRect: DOMRect = this.wrapperEl.nativeElement.getBoundingClientRect();
 
       controlPointX = event.pageX - wrapperRect.left;
       controlPointY = event.pageY - wrapperRect.top;
 
       if (this.imageEl != null) {
-        const imageRect: ClientRect = this.imageEl.nativeElement.getBoundingClientRect();
+        const imageRect: DOMRect = this.imageEl.nativeElement.getBoundingClientRect();
         picturePointX = event.pageX - imageRect.left;
         picturePointY = event.pageY - imageRect.top;
       }
@@ -96,7 +86,7 @@ export class PictureComponent extends ControlComponent {
 
     this.id = wrapper.getName();
     this.label = wrapper.getCaption();
-    this.imageSrc = imageSrc != null && imageSrc.trim().length > 0 ? this._sanatizer.bypassSecurityTrustUrl(imageSrc) : null;
+    this.imageSrc = imageSrc != null && imageSrc.trim().length > 0 ? this._sanitizer.bypassSecurityTrustUrl(imageSrc) : null;
     this.showCaption = wrapper.showCaption();
   }
 

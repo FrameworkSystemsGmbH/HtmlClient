@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { LoginBroker } from '@app/common/login-broker';
 import { FileStorageService } from '@app/services/storage/file-storage.service';
 import { WebStorageService } from '@app/services/storage/web-storage.service';
@@ -13,16 +13,8 @@ export class ClientDataService {
   private static readonly BROKER_LIST: string = 'BrokerList';
   private static readonly SESSION_DATA: string = 'SessionData';
 
-  private readonly _fileStorageService: FileStorageService;
-  private readonly _webStorageService: WebStorageService;
-
-  public constructor(
-    fileStorageService: FileStorageService,
-    webStorageService: WebStorageService
-  ) {
-    this._fileStorageService = fileStorageService;
-    this._webStorageService = webStorageService;
-  }
+  private readonly _fileStorageService = inject(FileStorageService);
+  private readonly _webStorageService = inject(WebStorageService);
 
   public loadBrokerList(): Observable<Array<LoginBroker>> {
     return this._fileStorageService.load(ClientDataService.BROKER_LIST).pipe(

@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { BackButtonPriority } from '@app/enums/backbutton-priority';
 import { PlatformService } from '@app/services/platform.service';
 import { App } from '@capacitor/app';
@@ -14,8 +14,8 @@ interface IListenerInfo {
 @Injectable({ providedIn: 'root' })
 export class BackService {
 
-  private readonly _zone: NgZone;
-  private readonly _platformService: PlatformService;
+  private readonly _zone = inject(NgZone);
+  private readonly _platformService = inject(PlatformService);
 
   private readonly _listener: () => any;
 
@@ -23,13 +23,7 @@ export class BackService {
   private _listeners: Array<IListenerInfo> = new Array<IListenerInfo>();
 
 
-  public constructor(
-    zone: NgZone,
-    platformService: PlatformService
-  ) {
-    this._zone = zone;
-    this._platformService = platformService;
-
+  public constructor() {
     this._listener = this.onBackButton.bind(this);
   }
 
@@ -39,7 +33,8 @@ export class BackService {
         error: (err) => {
           this._zone.run(() => {
             throw Error.ensureError(err);
-          });}
+          });
+        }
       });
     }
   }

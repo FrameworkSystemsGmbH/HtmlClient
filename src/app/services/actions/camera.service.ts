@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { BrokerCameraSource } from '@app/enums/broker-camera-source';
 import { EventsService } from '@app/services/events.service';
 import { PlatformService } from '@app/services/platform.service';
@@ -12,10 +12,9 @@ import { from, map, mergeMap, of, take } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class CameraService {
 
-  private readonly _zone: NgZone;
-  private readonly _store: Store<IAppState>;
-  private readonly _eventsService: EventsService;
-  private readonly _platformService: PlatformService;
+  private readonly _zone = inject(NgZone);
+  private readonly _eventsService = inject(EventsService);
+  private readonly _platformService = inject(PlatformService);
 
   private _hasError?: boolean;
   private _errorMessage?: string;
@@ -23,18 +22,8 @@ export class CameraService {
   private _brokerName: string | null = null;
   private _pendingResult: RestoredListenerEvent | null = null;
 
-  public constructor(
-    zone: NgZone,
-    store: Store<IAppState>,
-    eventsService: EventsService,
-    platformService: PlatformService
-  ) {
-    this._zone = zone;
-    this._store = store;
-    this._eventsService = eventsService;
-    this._platformService = platformService;
-
-    this._store.select(selectBrokerName).subscribe({
+  public constructor() {
+    inject(Store<IAppState>).select(selectBrokerName).subscribe({
       next: brokerName => {
         this._brokerName = brokerName ?? null;
       }
@@ -109,7 +98,7 @@ export class CameraService {
           this._errorMessage = message;
         }
       } else {
-        this._errorMessage = 'An unknown error occured!';
+        this._errorMessage = 'An unknown error occurred!';
       }
 
       this.firePhotoTaken();

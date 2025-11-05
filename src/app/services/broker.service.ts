@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { ClientEvent } from '@app/common/events/client-event';
 import { ClientMsgBoxEvent } from '@app/common/events/client-msgbox-event';
 import { InternalEvent } from '@app/common/events/internal/internal-event';
@@ -37,30 +37,30 @@ import * as RxJsUtil from '@app/util/rxjs-util';
 import { Store } from '@ngrx/store';
 import { WebViewCache } from 'capacitor-plugin-webview-cache';
 import * as Moment from 'moment-timezone';
-import { Observable, Subject, Subscription, of as obsOf } from 'rxjs';
-import { concatMap, map, mergeMap, retryWhen, tap } from 'rxjs/operators';
+import { defer, Observable, of as obsOf, Subject, Subscription, throwError, timer } from 'rxjs';
+import { concatMap, map, mergeMap, retry, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class BrokerService {
 
   private static readonly SESSION_DATA_DISCARD: string = 'DISCARD';
 
-  private readonly _httpClient: HttpClient;
-  private readonly _actionsService: ActionsService;
-  private readonly _clientDataService: ClientDataService;
-  private readonly _controlStyleSerivce: ControlStyleService;
-  private readonly _backService: BackService;
-  private readonly _dialogService: DialogService;
-  private readonly _eventsService: EventsService;
-  private readonly _formsService: FormsService;
-  private readonly _framesService: FramesService;
-  private readonly _loaderService: LoaderService;
-  private readonly _localeService: LocaleService;
-  private readonly _platformService: PlatformService;
-  private readonly _routingService: RoutingService;
-  private readonly _textsService: TextsService;
-  private readonly _store: Store<IAppState>;
-  private readonly _zone: NgZone;
+  private readonly _httpClient = inject(HttpClient);
+  private readonly _actionsService = inject(ActionsService);
+  private readonly _clientDataService = inject(ClientDataService);
+  private readonly _controlStyleService = inject(ControlStyleService);
+  private readonly _backService = inject(BackService);
+  private readonly _dialogService = inject(DialogService);
+  private readonly _eventsService = inject(EventsService);
+  private readonly _formsService = inject(FormsService);
+  private readonly _framesService = inject(FramesService);
+  private readonly _loaderService = inject(LoaderService);
+  private readonly _localeService = inject(LocaleService);
+  private readonly _platformService = inject(PlatformService);
+  private readonly _routingService = inject(RoutingService);
+  private readonly _textsService = inject(TextsService);
+  private readonly _store = inject(Store<IAppState>);
+  private readonly _zone = inject(NgZone);
 
   private readonly _onLoginComplete: Subject<void>;
   private readonly _onLoginComplete$: Observable<void>;
@@ -81,40 +81,7 @@ export class BrokerService {
   private _lastRequestTime: Moment.Moment | null = null;
   private _requestCounter: number = 0;
 
-  public constructor(
-    httpClient: HttpClient,
-    actionsService: ActionsService,
-    clientDataService: ClientDataService,
-    controlStyleSerivce: ControlStyleService,
-    backService: BackService,
-    dialogService: DialogService,
-    eventsService: EventsService,
-    formsService: FormsService,
-    framesService: FramesService,
-    loaderService: LoaderService,
-    localeService: LocaleService,
-    platformService: PlatformService,
-    routingService: RoutingService,
-    textsService: TextsService,
-    store: Store<IAppState>,
-    zone: NgZone
-  ) {
-    this._httpClient = httpClient;
-    this._actionsService = actionsService;
-    this._clientDataService = clientDataService;
-    this._controlStyleSerivce = controlStyleSerivce;
-    this._backService = backService;
-    this._dialogService = dialogService;
-    this._eventsService = eventsService;
-    this._formsService = formsService;
-    this._framesService = framesService;
-    this._loaderService = loaderService;
-    this._localeService = localeService;
-    this._platformService = platformService;
-    this._routingService = routingService;
-    this._textsService = textsService;
-    this._store = store;
-    this._zone = zone;
+  public constructor() {
 
     this._onLoginComplete = new Subject<void>();
     this._onLoginComplete$ = this._onLoginComplete.asObservable();
@@ -304,17 +271,33 @@ export class BrokerService {
 
     this._lastRequestTime = Moment.utc();
 
-    return this._httpClient.post(this._activeBrokerRequestUrl, requestJson).pipe(
-      retryWhen(attempts => attempts.pipe(
-        tap(() => this._loaderService.fireLoadingChanged(false)),
-        mergeMap(error => this.createRequestRetryBox(error)),
-        tap(() => this._loaderService.fireLoadingChanged(true))
-      ))
+    const requestUrl: string = this._activeBrokerRequestUrl;
+    const maxRetries: number = 3;
+
+    return defer(() => this._httpClient.post(requestUrl, requestJson)).pipe(
+      tap(() => this._loaderService.fireLoadingChanged(true)),
+      retry({
+        count: maxRetries,
+        delay: (error, _) => {
+          this._loaderService.fireLoadingChanged(false);
+
+          return this.createRequestRetryBox(error).pipe(
+            switchMap(retryAllowed => {
+              if (retryAllowed) {
+                return timer(1000);
+              } else {
+                return throwError(() => error);
+              }
+            }),
+            tap(() => this._loaderService.fireLoadingChanged(true))
+          );
+        }
+      })
     );
   }
 
-  private createRequestRetryBox(error: any): Observable<void> {
-    return new Observable<void>(sub => {
+  private createRequestRetryBox(error: any): Observable<boolean> {
+    return new Observable<boolean>(sub => {
       try {
         const title: string = this._title;
         const message: string = error && error.status === 0 ? 'Request could not be sent because of a network error!' : error.message;
@@ -327,9 +310,10 @@ export class BrokerService {
         }).subscribe({
           next: result => {
             if (result === RetryBoxResult.Retry) {
-              sub.next();
+              sub.next(true);
             } else {
               this.closeApplication();
+              sub.next(false);
             }
           },
           error: err => sub.error(err),
@@ -505,7 +489,7 @@ export class BrokerService {
       return RxJsUtil.voidObs().pipe(
         tap(() => {
           for (const controlStyleJson of controlStylesJson) {
-            this._controlStyleSerivce.addControlStyle(controlStyleJson.name, controlStyleJson.properties);
+            this._controlStyleService.addControlStyle(controlStyleJson.name, controlStyleJson.properties);
           }
         })
       );

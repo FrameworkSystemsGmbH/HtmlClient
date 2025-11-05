@@ -1,20 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TextBoxComponent } from '@app/controls/textboxes/textbox.component';
 import { TextFormat } from '@app/enums/text-format';
-import { FocusService } from '@app/services/focus.service';
 import { StringFormatService } from '@app/services/formatter/string-format.service';
 import { TextBoxPlainWrapper } from '@app/wrappers/textbox-plain-wrapper';
 
 @Component({
-    selector: 'hc-txt-plain',
-    templateUrl: './textbox-plain.component.html',
-    styleUrls: ['./textbox-plain.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule
-    ]
+  selector: 'hc-txt-plain',
+  templateUrl: './textbox-plain.component.html',
+  styleUrls: ['./textbox-plain.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class TextBoxPlainComponent extends TextBoxComponent {
 
@@ -26,16 +25,7 @@ export class TextBoxPlainComponent extends TextBoxComponent {
 
   private _format: TextFormat = TextFormat.None;
 
-  private readonly _stringFormatService: StringFormatService;
-
-  public constructor(
-    cdr: ChangeDetectorRef,
-    focusService: FocusService,
-    stringFormatService: StringFormatService
-  ) {
-    super(cdr, focusService);
-    this._stringFormatService = stringFormatService;
-  }
+  private readonly _stringFormatService = inject(StringFormatService);
 
   public getInput(): ElementRef<HTMLElement> | null {
     return this.input;

@@ -1,6 +1,6 @@
 import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DataList } from '@app/common/data-list';
 import { DialogResizeDirective } from '@app/directives/dialog-resize.directive';
@@ -11,14 +11,14 @@ import * as KeyUtil from '@app/util/key-util';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'hc-cmb-list-mobile-overlay',
-    templateUrl: './combobox-list-mobile-overlay.component.html',
-    styleUrls: ['./combobox-list-mobile-overlay.component.scss'],
-    imports: [
-        A11yModule,
-        CommonModule,
-        DialogResizeDirective
-    ]
+  selector: 'hc-cmb-list-mobile-overlay',
+  templateUrl: './combobox-list-mobile-overlay.component.html',
+  styleUrls: ['./combobox-list-mobile-overlay.component.scss'],
+  imports: [
+    A11yModule,
+    CommonModule,
+    DialogResizeDirective
+  ]
 })
 export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
 
@@ -34,21 +34,15 @@ export class ComboBoxListMobileOverlayComponent implements OnInit, OnDestroy {
   public entries: DataList | null = null;
   public selectedIndex: number | null = null;
 
-  private readonly _backService: BackService;
-  private readonly _dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent>;
+  private readonly _backService = inject(BackService);
+  private readonly _dialogRef = inject(MatDialogRef<ComboBoxListMobileOverlayComponent>);
 
   private _afterOpenSub: Subscription | null = null;
   private _backdropClickSub: Subscription | null = null;
   private _onBackButtonListener: (() => boolean) | null = null;
 
-  public constructor(
-    backService: BackService,
-    dialogRef: MatDialogRef<ComboBoxListMobileOverlayComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any
-  ) {
-    this._backService = backService;
-    this._dialogRef = dialogRef;
-
+  public constructor() {
+    const data = inject(MAT_DIALOG_DATA);
     this.entries = data.entries;
     this.selectedIndex = data.selectedIndex;
   }
