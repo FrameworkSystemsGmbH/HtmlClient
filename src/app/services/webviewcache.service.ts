@@ -11,10 +11,10 @@ export class WebViewCacheService {
           window.WebViewCache.clearCache();
           resolve();
         } else {
-          reject(new Error('WebViewCache interface not available'));
+          reject(new Error('WebViewCache interface not available: Native Android bridge is missing or the app is not running in the expected environment.'));
         }
-      } catch (err) {
-        reject(err);
+      } catch (error) {
+        reject(error);
       }
     });
   }

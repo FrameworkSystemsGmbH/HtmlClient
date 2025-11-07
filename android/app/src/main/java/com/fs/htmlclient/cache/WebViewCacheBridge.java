@@ -15,6 +15,8 @@ public record WebViewCacheBridge(Context context, WebView webView) {
   /// Wird im WebViewCacheService (webviewcache.service.ts) aufgerufen.
   @JavascriptInterface
   public void clearCache() {
-    ((Activity) context).runOnUiThread(() -> webView.clearCache(true));
+    if (context instanceof Activity activity) {
+      activity.runOnUiThread(() -> webView.clearCache(true));
+    }
   }
 }
