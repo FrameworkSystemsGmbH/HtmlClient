@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
+import android.webkit.WebView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
@@ -16,7 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.fs.htmlclient.plugins.webviewcache.WebViewCachePlugin;
+import com.fs.htmlclient.cache.WebViewCacheBridge;
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
@@ -30,7 +31,6 @@ public class MainActivity extends BridgeActivity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    registerPlugin(WebViewCachePlugin.class);
     super.onCreate(savedInstanceState);
 
     EdgeToEdge.enable(this);
@@ -38,9 +38,22 @@ public class MainActivity extends BridgeActivity {
 
     rootView = getWindow().getDecorView().getRootView();
 
+    setupWebViewCacheBridge();
+
     setWindowInsetsListener();
 
-    this.hideSystemUI();
+    hideSystemUI();
+  }
+
+  /// Setup-Funktion, um die WebviewBridge mit der aktuellen WebView zu verknüpfen.
+  /// Die {@link WebViewCacheBridge} kümmert sich um die Bereinigung des Caches der WebView.
+  ///
+  /// Das ist Teil der Integration des [webview-cache-plugins](https://github.com/FrameworkSystemsGmbH/capacitor-plugin-webview-cache).
+  private void setupWebViewCacheBridge() {
+    WebView webView = this.bridge.getWebView();
+    if (webView != null) {
+      webView.addJavascriptInterface(new WebViewCacheBridge(this, webView), "WebViewCache");
+    }
   }
 
   /// Wichtig für Android 10- / API 29-

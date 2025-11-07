@@ -34,9 +34,5 @@
 	{
 		"pkg": "@capacitor/splash-screen",
 		"classpath": "com.capacitorjs.plugins.splashscreen.SplashScreenPlugin"
-	},
-	{
-		"pkg": "capacitor-plugin-webview-cache",
-		"classpath": "com.fs.htmlclient.plugins.webviewcache.WebViewCachePlugin"
 	}
 ]
