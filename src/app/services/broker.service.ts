@@ -26,6 +26,7 @@ import { LocaleService } from '@app/services/locale.service';
 import { PlatformService } from '@app/services/platform.service';
 import { RoutingService } from '@app/services/routing.service';
 import { TextsService } from '@app/services/texts.service';
+import { WebViewCacheService } from '@app/services/webviewcache.service';
 import { IAppState } from '@app/store/app.state';
 import { resetBrokerState, setBrokerStateNoToken, setBrokerStateToken } from '@app/store/broker/broker.actions';
 import { selectBrokerState } from '@app/store/broker/broker.selectors';
@@ -35,7 +36,6 @@ import { selectTitle } from '@app/store/runtime/runtime.selectors';
 import * as JsonUtil from '@app/util/json-util';
 import * as RxJsUtil from '@app/util/rxjs-util';
 import { Store } from '@ngrx/store';
-import { WebViewCache } from 'capacitor-plugin-webview-cache';
 import * as Moment from 'moment-timezone';
 import { defer, Observable, of as obsOf, Subject, Subscription, throwError, timer } from 'rxjs';
 import { concatMap, map, mergeMap, retry, switchMap, tap } from 'rxjs/operators';
@@ -61,6 +61,7 @@ export class BrokerService {
   private readonly _textsService = inject(TextsService);
   private readonly _store = inject(Store<IAppState>);
   private readonly _zone = inject(NgZone);
+  private readonly _webviewcacheService = inject(WebViewCacheService);
 
   private readonly _onLoginComplete: Subject<void>;
   private readonly _onLoginComplete$: Observable<void>;
@@ -238,7 +239,7 @@ export class BrokerService {
     this._backService.addBackButtonListener(this._onBackButtonListener, BackButtonPriority.ActiveBroker);
 
     if (this._platformService.isAndroid()) {
-      WebViewCache.clearCache().catch(err => {
+      this._webviewcacheService.clearCache().catch(err => {
         this._zone.run(() => {
           throw Error.ensureError(err);
         });

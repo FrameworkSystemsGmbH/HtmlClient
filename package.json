@@ -76,7 +76,6 @@
     "@typescript-eslint/parser": "8.46.3",
     "angular-eslint": "20.5.1",
     "bestzip": "2.2.1",
-    "capacitor-plugin-webview-cache": "4.0.0",
     "del-cli": "7.0.0",
     "eslint": "9.39.1",
     "mkdirp": "3.0.1",
