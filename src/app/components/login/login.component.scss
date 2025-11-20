@@ -167,5 +167,15 @@
         }
       }
     }
+
+    .footer {
+      flex: 0 0 auto;
+      margin-bottom: 1.25rem;
+
+      .version {
+        font-size: 1.25rem;
+        color: silver;
+      }
+    }
   }
 }

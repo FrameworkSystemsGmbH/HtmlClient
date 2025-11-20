@@ -285,7 +285,7 @@ export class BrokerService {
           return this.createRequestRetryBox(error).pipe(
             switchMap(retryAllowed => {
               if (retryAllowed) {
-                return timer(1000);
+                return timer(300);
               } else {
                 return throwError(() => error);
               }
