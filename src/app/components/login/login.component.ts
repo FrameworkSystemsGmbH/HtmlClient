@@ -24,6 +24,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEdit, faPlus, faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subscription } from 'rxjs';
+import { version } from '../../../../package.json';
 
 @Component({
   selector: 'hc-login',
@@ -41,6 +42,8 @@ import { map, Observable, Subscription } from 'rxjs';
   ]
 })
 export class LoginComponent implements OnInit, OnDestroy {
+
+  public readonly appVersion: string = `v${version}`;
 
   public iconPlus: IconDefinition = faPlus;
   public iconEdit: IconDefinition = faEdit;
