@@ -75,14 +75,14 @@ public class LaunchActivity extends Activity {
         .setMessage(messageSpan)
         .setCancelable(false)
         .setNeutralButton("Help", (d, which) -> {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://frameworksystemsgmbh.github.io/fsdocs/v4.5/doc/html-client/android-app.html?q=webview#systemvoraussetzungen"));
-        startActivity(intent);
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse("https://frameworksystemsgmbh.github.io/fsdocs/v4.5/doc/html-client/android-app.html?q=webview#systemvoraussetzungen"));
+          startActivity(intent);
         })
         .setNegativeButton(requiredAction + " WebView", (d, which) -> {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("market://details?id=com.google.android.webview"));
-        startActivity(intent);
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse("market://details?id=com.google.android.webview"));
+          startActivity(intent);
         })
         .setPositiveButton("Continue", (d, which) -> startMain())
         .create();
