@@ -38,7 +38,7 @@ import * as RxJsUtil from '@app/util/rxjs-util';
 import { Store } from '@ngrx/store';
 import * as Moment from 'moment-timezone';
 import { defer, Observable, of as obsOf, Subject, Subscription, throwError, timer } from 'rxjs';
-import { concatMap, map, mergeMap, retry, switchMap, tap } from 'rxjs/operators';
+import { concatMap, finalize, map, mergeMap, retry, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class BrokerService {
@@ -205,7 +205,8 @@ export class BrokerService {
       };
 
       this.sendInitRequest().pipe(
-        mergeMap(responseJson => this.processResponse(responseJson))
+        mergeMap(responseJson => this.processResponse(responseJson)),
+        finalize(() => this._loaderService.fireLoadingChanged(false))
       ).subscribe({
         error: onError,
         complete: onComplete
