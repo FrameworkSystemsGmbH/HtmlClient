@@ -12,13 +12,17 @@ export class BaseFormatService {
   private readonly _numberFormatService = inject(NumberFormatService);
   private readonly _stringFormatService = inject(StringFormatService);
 
-  public formatString(value: string, parseMethod: ParseMethod, format: TextFormat, formatPattern: string | null): string | null {
+  public formatString(value: string, parseMethod: ParseMethod, format: TextFormat, formatPattern: string | null, isFormatPatternRegex: boolean = false): string | null {
     switch (format) {
       case TextFormat.Decimal:
       case TextFormat.Integer:
       case TextFormat.PositiveInteger:
       case TextFormat.NegativeInteger:
+        return this._numberFormatService.formatString(value, parseMethod, format, formatPattern);
       case TextFormat.UserDefined:
+        if (isFormatPatternRegex) {
+          return this._stringFormatService.formatString(value, format);
+        }
         return this._numberFormatService.formatString(value, parseMethod, format, formatPattern);
       case TextFormat.DateTimeShort:
       case TextFormat.DateTimeMedium:

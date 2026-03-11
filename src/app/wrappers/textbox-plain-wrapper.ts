@@ -18,6 +18,14 @@ export class TextBoxPlainWrapper extends TextBoxBaseWrapper {
     return pwChar != null && pwChar.trim().length > 0;
   }
 
+  public getRegexPattern(): string | null {
+    if (!this.getPropertyStore().getIsFormatPatternRegex()) {
+      return null;
+    }
+    const formatPattern: string | undefined = this.getPropertyStore().getFormatPattern();
+    return formatPattern != null && formatPattern.trim().length > 0 ? formatPattern : null;
+  }
+
   public getValue(): string | null {
     return this.value;
   }

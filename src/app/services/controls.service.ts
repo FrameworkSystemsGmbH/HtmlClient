@@ -111,8 +111,9 @@ export class ControlsService {
       case TextFormat.Integer:
       case TextFormat.PositiveInteger:
       case TextFormat.NegativeInteger:
-      case TextFormat.UserDefined:
         return TextBoxType.Number;
+      case TextFormat.UserDefined:
+        return propertyStore.getIsFormatPatternRegex() ? TextBoxType.Plain : TextBoxType.Number;
       case TextFormat.DateTimeShort:
       case TextFormat.DateTimeMedium:
       case TextFormat.DateTimeLong:
