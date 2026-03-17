@@ -125,6 +125,7 @@ export class PropertyData {
   public fieldRowSize?: number;
   public format?: TextFormat;
   public formatPattern?: string;
+  public isFormatPatternRegex?: boolean;
   public hideModalHeader?: boolean;
   public invertFlowDirection?: boolean;
   public isCloseIconVisible?: boolean;

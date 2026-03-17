@@ -1132,6 +1132,11 @@ export class PropertyStore {
     });
   }
 
+  // IsFormatPatternRegex
+  public getIsFormatPatternRegex(): boolean {
+    return this.getValue<boolean | undefined>((data: PropertyData) => data.isFormatPatternRegex) === true;
+  }
+
   // InvertFlowDirection
   public getInvertFlowDirection(): boolean | undefined {
     return this.getValue<boolean | undefined>((data: PropertyData) => data.invertFlowDirection);
